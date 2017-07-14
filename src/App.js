@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
+import reducers from './reducers';
 import LoginScreen from './LoginScreen';
 import Drawer from './Drawer';
 
+const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 class App extends Component {
   render() {
     const AppNavigator = StackNavigator({
@@ -11,7 +16,9 @@ class App extends Component {
       Drawer: { screen: Drawer }
     });
     return (
-      <AppNavigator />
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
     );
   }
 }

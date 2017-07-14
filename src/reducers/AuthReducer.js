@@ -33,6 +33,7 @@ export default (state = INITIAL_STATE, action) => {
         error: 'Authentication Failed.' 
       };
     case LOGIN_USER:
+      console.log('update activity indicator');
       return { ...state,
         loading: true,
         error: ''

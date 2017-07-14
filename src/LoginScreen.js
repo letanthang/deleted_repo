@@ -6,7 +6,7 @@ import {
   Container, Content, Button, Text, 
   Body, Input, Form, Item, CheckBox, ListItem 
 } from 'native-base';
-import { NavigationActions } from 'react-navigation';
+// import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import ChkBox from 'react-native-check-box';
 import { connect } from 'react-redux';
@@ -30,13 +30,13 @@ class LoginScreen extends Component {
   }
 
   render() {
-    const { dispatch } = this.props.navigation;
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Drawer' })
-      ]
-    });
+    // const { dispatch } = this.props.navigation;
+    // const resetAction = NavigationActions.reset({
+    //   index: 0,
+    //   actions: [
+    //     NavigationActions.navigate({ routeName: 'Drawer' })
+    //   ]
+    // });
     
     return ( 
       <Container>
@@ -82,7 +82,7 @@ class LoginScreen extends Component {
             <Button 
               block
               success
-              onPress={() => loginUser({ userID: this.props.userID, password: this.props.password })}
+              onPress={() => this.props.loginUser({ userID: this.props.userID, password: this.props.password })}
             >
               <Text>ĐĂNG NHẬP</Text>
             </Button>

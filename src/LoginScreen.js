@@ -1,12 +1,13 @@
 
 //import libs
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { 
   Container, Content, Button, Text, 
-  Body, Input, Form, Item, CheckBox, ListItem 
+  Body, Input, Form, Item, CheckBox, ListItem,
+  Footer 
 } from 'native-base';
-// import { NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import ChkBox from 'react-native-check-box';
 import { connect } from 'react-redux';
@@ -24,20 +25,49 @@ class LoginScreen extends Component {
   componentWillMount() {
     console.log('MPDS_new : componentWillMount');
   }
-  componentWillReceiveProps(nextProps) {
-    // this.props still here -> the old set of props
-    console.log('MPDS_new : componentWillReceiveProps');
+  // componentWillReceiveProps(nextProps) {
+  //   // this.props still here -> the old set of props
+  //   console.log('MPDS_new : componentWillReceiveProps');
+  // }
+  componentWillUpdate() {
+    const { dispatch } = this.props.navigation;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Drawer' })
+      ]
+    });
+
+    if (this.props.user) {
+      dispatch(resetAction);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { dispatch } = this.props.navigation;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Drawer' })
+      ]
+    });
+
+    if (this.props.user) {
+      dispatch(resetAction);
+    }
+  }
+
+  renderSpinner() {
+    if (this.props.loading) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator size='large' />
+        </View>
+      );
+    }
   }
 
   render() {
-    // const { dispatch } = this.props.navigation;
-    // const resetAction = NavigationActions.reset({
-    //   index: 0,
-    //   actions: [
-    //     NavigationActions.navigate({ routeName: 'Drawer' })
-    //   ]
-    // });
-    
     return ( 
       <Container>
         <Content 
@@ -86,7 +116,11 @@ class LoginScreen extends Component {
             >
               <Text>ĐĂNG NHẬP</Text>
             </Button>
+            {this.renderSpinner()}
         </Content>
+        <View style={styles.footer}>
+          <Text>2017 @ by giaohangnhanh</Text>
+        </View>
       </Container>
     );
   }
@@ -102,6 +136,26 @@ const styles = StyleSheet.create({
   },
   headerStyle: {
     color: '#FF4CAF50'
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F5FCFF88'
+  },
+  footer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent'
   }
 });
 

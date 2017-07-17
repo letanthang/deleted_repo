@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { 
   Container, Content, Button, Text, 
-  Body, Input, Form, Item, CheckBox, ListItem,
-  Footer 
+  Body, Input, Form, Item, CheckBox, ListItem 
 } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';

@@ -40,6 +40,7 @@ export const loginUser = ({ userID, password }) => {
     //       })
     //     }); 
     //   })
+    console.log('begin fetching......');
     fetch('https://test.ghn.vn/api/mpds/Authenticate', {
       method: 'POST',
       headers: {

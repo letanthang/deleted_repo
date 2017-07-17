@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Left, Body, Right, Content, Text, Button, Icon } from 'native-base';
+import { View, Image } from 'react-native';
+import { 
+  Container, Header, Title, Left, Body, 
+  Right, Content, Text, Button, Icon,
+  Card, CardItem, Item, Thumbnail 
+} from 'native-base';
+import { connect } from 'react-redux';
+import { pdListFetch } from './actions';
+
+const efficiencyIcon = require('../resources/ic_summary.png');
 
 class HomeScreen extends Component {
   componentWillMount() {
-    console.log('hehe');
+    console.log(this.props.user);
+    if (!this.props.user) return;
+    const sessionToken = this.props.user.SessionToken;
+    this.props.pdListFetch(sessionToken);
   }
   render() {
     const { navigate } = this.props.navigation;
@@ -21,17 +33,111 @@ class HomeScreen extends Component {
           <Body>
             <Title>MPDS</Title>
           </Body>
-          <Right />
+          <Right>
+        
+            <Button
+              transparent
+            >
+              <Icon name="notifications" />
+            </Button>
+            
+          </Right>
         </Header>
-        <Content>
-          <Text>Chuyen di lay </Text>
-          <Text>Chuyen di giao </Text>
-          <Text>Chuyen di tra </Text>
-        </Content>
+        <Content style={{ padding: 10 }}>
+          <Card>
+            <CardItem>
+              <View style={styles.cardItemLeft}>
+                <View>
+                  <Text style={{ fontWeight: 'bold', color: '#12cd72' }}>
+                    Lấy hàng
+                  </Text>
+                  <Text>
+                    Hoàn thành
+                  </Text>
+                  <Text>
+                    Tổng số
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.cardItemRight}>
+                <Item rounded style={{ height: 55, width: 55 }}>
+                  <View style={{ marginTop: -10, marginLeft: 5 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold' }}>0</Text>
+                  </View>
+                  <View style={{ marginTop: 10 }}>
+                    <Text style={{ fontSize: 12 }}>/{this.props.pickTotal}</Text>
+                  </View>
+                </Item>
+              </View>
+            </CardItem>
+          </Card>
 
+
+          <Card>
+            <CardItem>
+              <View style={styles.cardItemLeft}>
+                <View>
+                  <Text style={{ fontWeight: 'bold', color: '#ff6e40' }}>
+                    Giao hàng
+                  </Text>
+                  <Text>
+                    Hoàn thành
+                  </Text>
+                  <Text>
+                    Tổng số
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.cardItemRight}>
+                <Item rounded style={{ height: 55, width: 55 }}>
+                  <View style={{ marginTop: -10, marginLeft: 5 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold' }}>0</Text>
+                  </View>
+                  <View style={{ marginTop: 10 }}>
+                    <Text style={{ fontSize: 12 }}>/{this.props.deliveryTotal}</Text>
+                  </View>
+                </Item>
+              </View>
+            </CardItem>
+          </Card>
+
+
+          <Card>
+            <CardItem>
+              <View style={styles.cardItemLeft}>
+                <View>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
+                    Năng suất làm việc
+                  </Text>
+                  
+                </View>
+              </View>
+              <View style={styles.cardItemRight}>
+                <Image source={efficiencyIcon} />
+              </View>
+            </CardItem>
+          </Card>
+        </Content>
       </Container>
     );
   }
 }
 
-export default HomeScreen;
+const styles = {
+  cardItemLeft: {
+
+  },
+  cardItemRight: { 
+    flex: 1, 
+    flexDirection: 'row', 
+    justifyContent: 'flex-end'
+  }
+};
+
+const mapStateToProps = ({ auth, pd }) => {
+  const { pdList, loading, error, pickTotal, deliveryTotal } = pd;
+  const { user } = auth;
+  return { pdList, loading, error, user, pickTotal, deliveryTotal };
+};
+
+export default connect(mapStateToProps, { pdListFetch })(HomeScreen);

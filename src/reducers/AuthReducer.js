@@ -30,7 +30,7 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_USER_FAIL:
       return { ...state,
         loading: false, 
-        error: 'Authentication Failed.' 
+        error: action.payload 
       };
     case LOGIN_USER:
       console.log('update activity indicator');

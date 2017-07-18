@@ -62,7 +62,7 @@ export const loginUser = ({ userID, password }) => {
         if (responseJson.code === 1) {
           loginUserSucess(dispatch, responseJson.data);
         } else {
-          loginUserFail(dispatch);
+          loginUserFail(dispatch, responseJson.data.ErrorMessage);
         }
       })
       .catch((error) => {
@@ -79,8 +79,9 @@ export const loginUserSucess = (dispatch, user) => {
   });
 };
 
-export const loginUserFail = (dispatch) => {
+export const loginUserFail = (dispatch, errorMsg) => {
   dispatch({
-    type: LOGIN_USER_FAIL
+    type: LOGIN_USER_FAIL,
+    payload: errorMsg
   });
 };

@@ -5,12 +5,14 @@ import SideBar from './components/SideBar';
 import HomeScreen from './HomeScreen';
 import MapScreen from './MapScreen';
 import HelpScreen from './HelpScreen';
+import PickListScreen from './PickListScreen';
 
 const AppDrawer = DrawerNavigator(
   {
     Home: { screen: HomeScreen },
     Map: { screen: MapScreen },
-    Help: { screen: HelpScreen }
+    Help: { screen: HelpScreen },
+    PickList: { screen: PickListScreen }
   },
   {
     initialRouteName: 'Home',

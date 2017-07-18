@@ -1,7 +1,7 @@
 
 //import libs
 import React, { Component } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native';
 import { 
   Container, Content, Button, Text, 
   Body, Input, Form, Item, CheckBox, ListItem 
@@ -43,6 +43,7 @@ class LoginScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('cdu called!');
     const { dispatch } = this.props.navigation;
     const resetAction = NavigationActions.reset({
       index: 0,
@@ -53,6 +54,19 @@ class LoginScreen extends Component {
 
     if (this.props.user) {
       dispatch(resetAction);
+    }
+
+    //show login error
+    if (!prevProps.error && this.props.error) {
+      Alert.alert(
+        'Lỗi đăng nhập',
+        this.props.error,
+        [
+          { text: 'Báo lỗi', onPress: () => console.log('Bao loi pressed!') },
+          { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        ],
+        { cancelable: false }
+      );
     }
   }
 
@@ -69,8 +83,9 @@ class LoginScreen extends Component {
   render() {
     return ( 
       <Container>
-        <Content 
-        style={{ paddingTop: 50, paddingLeft: 20, paddingRight: 20, backgroundColor: '#ffffff' }}
+        <Content
+          keyboardShouldPersistTaps='handled' 
+          style={{ paddingTop: 50, paddingLeft: 20, paddingRight: 20, backgroundColor: '#ffffff' }}
         > 
             <Body>
               <Text style={{ color: '#4CAF50', fontSize: 24, fontWeight: 'bold' }}>

@@ -1,4 +1,4 @@
-import { PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL } from './types';
+import { PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST } from './types';
 
 export const pdListFetch = (sessionToken) => {
   console.log('Action: pdListFetch start');
@@ -42,4 +42,10 @@ export const pdListFetchSuccess = (dispatch, data) => {
 
 export const pdListFetchFail = (dispatch) => {
   dispatch({ type: PDLIST_FETCH_FAIL });
+};
+
+export const pdPickList = () => {
+  return {
+    type: PDPICK_LIST
+  };
 };

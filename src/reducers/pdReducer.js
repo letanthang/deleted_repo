@@ -1,4 +1,4 @@
-import { PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL } from '../actions/types';
+import { PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST } from '../actions/types';
 
 const nameInitialState = {
   pds: {},
@@ -19,11 +19,14 @@ export default (state = nameInitialState, action) => {
       return { ...state, 
         pds: action.payload, 
         loading: false,
-        pickTotal: action.payload.DeliveryItems.length,
-        deliveryTotal: action.payload.PickReturnItems.length
+        pickTotal: action.payload.PickReturnItems.length,
+        deliveryTotal: action.payload.DeliveryItems.length
       };
     case PDLIST_FETCH_FAIL:
       return { ...state, loading: false };
+    
+    case PDPICK_LIST:
+      return { ...state, pickList: state.pds.PickReturnItems };
     
     default:
       return state;

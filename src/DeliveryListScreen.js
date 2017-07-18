@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { 
   Container, Content, Right, Left, Body, 
   Icon, Button, Title, Card, CardItem,
-  Text, Header 
+  Text, Header, Tab, Tabs 
 } from 'native-base';
 import { connect } from 'react-redux';
+import DeliveryGroupList from './components/DeliveryGroupList';
+import DeliveryGroupCreate from './components/DeliveryGroupCreate';
 
 class DeliveryListScreen extends Component {
   componentWillMount() {
     console.log('====================================');
     console.log('DeliveryListScreen: CWM called!');
     console.log('====================================');
-    this.props.pdPickList();
   }
   componentWillUpdate() {
     
@@ -26,7 +27,7 @@ class DeliveryListScreen extends Component {
     const { navigate } = this.props.navigation;
     return (
       <Container>
-        <Header>
+        <Header hasTabs>
           <Left>
             <Button
               transparent
@@ -36,40 +37,19 @@ class DeliveryListScreen extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Chuyến đi giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
+            <Title>C đi giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
           </Body>
           <Right />
         </Header>
-        <Content>
-          <Card>
-            <CardItem header>
-              <Text>
-                Thuong QC24
-              </Text>
-            </CardItem>
-            
-            <CardItem>
-              <Text>
-                Address - 1 Thanh Thai, HCM, VietNam, abc street
-              </Text>              
-            </CardItem>
-            <CardItem>
-              <Text>
-                Tong thu: 0 d
-              </Text>
-            </CardItem>
-            <CardItem footer>
-              <Text>
-                Don hang: {this.props.deliveryComplete}/{this.props.deliveryTotal}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Right>
-                <Text style={{ color: '#00b0ff' }}>GHNGHNGHNGHNGHNGHN</Text>
-              </Right>
-            </CardItem>
-          </Card>
-        </Content>
+        <Tabs initialPage={0}>
+          <Tab heading="DS NHOM">
+            <DeliveryGroupList deliveryList={this.props.deliveryList} />
+          </Tab>
+          <Tab heading="TAO NHOM">
+            <DeliveryGroupCreate deliveryList={this.props.deliveryList} />
+          </Tab>
+        </Tabs>
+        
       </Container>
     );
   }

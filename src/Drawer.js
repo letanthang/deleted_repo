@@ -6,13 +6,15 @@ import HomeScreen from './HomeScreen';
 import MapScreen from './MapScreen';
 import HelpScreen from './HelpScreen';
 import PickListScreen from './PickListScreen';
+import DeliveryListScreen from './DeliveryListScreen';
 
 const AppDrawer = DrawerNavigator(
   {
     Home: { screen: HomeScreen },
     Map: { screen: MapScreen },
     Help: { screen: HelpScreen },
-    PickList: { screen: PickListScreen }
+    PickList: { screen: PickListScreen },
+    DeliveryList: { screen: DeliveryListScreen }
   },
   {
     initialRouteName: 'Home',

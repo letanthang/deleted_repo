@@ -6,6 +6,8 @@ const nameInitialState = {
   pickComplete: 0,
   deliveryTotal: 0,
   deliveryComplete: 0,
+  pickList: {},
+  deliveryList: {},
   loading: false,
   error: ''
 };
@@ -20,7 +22,8 @@ export default (state = nameInitialState, action) => {
         pds: action.payload, 
         loading: false,
         pickTotal: action.payload.PickReturnItems.length,
-        deliveryTotal: action.payload.DeliveryItems.length
+        deliveryTotal: action.payload.DeliveryItems.length,
+        deliveryList: action.payload.DeliveryItems
       };
     case PDLIST_FETCH_FAIL:
       return { ...state, loading: false };

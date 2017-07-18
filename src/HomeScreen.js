@@ -22,6 +22,11 @@ class HomeScreen extends Component {
     const { navigate } = this.props.navigation;
     navigate('PickList');
   }
+  onDeliveryPress() {
+    console.log('DeliveryList pressed!');
+    const { navigate } = this.props.navigation;
+    navigate('DeliveryList');
+  }
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -49,6 +54,7 @@ class HomeScreen extends Component {
           </Right>
         </Header>
         <Content style={{ padding: 10 }}>
+
           <TouchableOpacity 
             onPress={this.onPickPress.bind(this)}
           >
@@ -82,35 +88,39 @@ class HomeScreen extends Component {
           </TouchableOpacity>
           
 
-          <Card>
-            <CardItem>
-              <View style={styles.cardItemLeft}>
-                <View>
-                  <Text style={{ fontWeight: 'bold', color: '#ff6e40' }}>
-                    Giao hàng
-                  </Text>
-                  <Text>
-                    Hoàn thành
-                  </Text>
-                  <Text>
-                    Tổng số
-                  </Text>
+          <TouchableOpacity
+            onPress={this.onDeliveryPress.bind(this)}
+          >
+            <Card>
+              <CardItem>
+                <View style={styles.cardItemLeft}>
+                  <View>
+                    <Text style={{ fontWeight: 'bold', color: '#ff6e40' }}>
+                      Giao hàng
+                    </Text>
+                    <Text>
+                      Hoàn thành
+                    </Text>
+                    <Text>
+                      Tổng số
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.cardItemRight}>
-                <Item rounded style={{ height: 55, width: 55 }}>
-                  <View style={{ marginTop: -10, marginLeft: 5 }}>
-                    <Text style={{ fontSize: 14, fontWeight: 'bold' }}>0</Text>
-                  </View>
-                  <View style={{ marginTop: 10 }}>
-                    <Text style={{ fontSize: 12 }}>/{this.props.deliveryTotal}</Text>
-                  </View>
-                </Item>
-              </View>
-            </CardItem>
-          </Card>
+                <View style={styles.cardItemRight}>
+                  <Item rounded style={{ height: 55, width: 55 }}>
+                    <View style={{ marginTop: -10, marginLeft: 5 }}>
+                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>0</Text>
+                    </View>
+                    <View style={{ marginTop: 10 }}>
+                      <Text style={{ fontSize: 12 }}>/{this.props.deliveryTotal}</Text>
+                    </View>
+                  </Item>
+                </View>
+              </CardItem>
+            </Card>
+          </TouchableOpacity>
 
-
+          
           <Card>
             <CardItem>
               <View style={styles.cardItemLeft}>
@@ -126,6 +136,7 @@ class HomeScreen extends Component {
               </View>
             </CardItem>
           </Card>
+          
         </Content>
       </Container>
     );

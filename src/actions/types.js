@@ -9,3 +9,4 @@ export const PDLIST_FETCH = 'pdlist_fetch';
 export const PDLIST_FETCH_SUCCESS = 'pdlist_fetch_success';
 export const PDLIST_FETCH_FAIL = 'pdlist_fetch_fail';
 export const PDPICK_LIST = 'pdpick_list';
+export const UPDATE_ORDER_STATUS = 'pdpick_list';

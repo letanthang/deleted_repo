@@ -43,7 +43,7 @@ class DeliveryListScreen extends Component {
         </Header>
         <Tabs initialPage={0}>
           <Tab heading="DS NHOM">
-            <DeliveryGroupList deliveryList={this.props.deliveryList} />
+            <DeliveryGroupList {...this.props} />
           </Tab>
           <Tab heading="TAO NHOM">
             <DeliveryGroupCreate deliveryList={this.props.deliveryList} />

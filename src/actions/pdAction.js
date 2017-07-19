@@ -1,4 +1,6 @@
-import { PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST } from './types';
+import { 
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST, UPDATE_ORDER_STATUS 
+} from './types';
 
 export const pdListFetch = (sessionToken) => {
   console.log('Action: pdListFetch start');
@@ -47,5 +49,11 @@ export const pdListFetchFail = (dispatch) => {
 export const pdPickList = () => {
   return {
     type: PDPICK_LIST
+  };
+};
+
+export const updateOrderStatus = ({ orderId, status }) => {
+  return {
+    type: UPDATE_ORDER_STATUS
   };
 };

@@ -1,57 +1,96 @@
 //import lib
 import React, { Component } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { connect } from 'react-redux'
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
-import { Container, Content, Button, List, ListItem, Text, Icon } from 'native-base';
+import { 
+  Container, Content, Button, List, ListItem, 
+  Text, Icon, Left, Body 
+} from 'native-base';
 
 //create cmp
 class SideBar extends Component {
   render() {
     const { navigate } = this.props.navigation;
+    console.log('Sidebar render!');
+    console.log(this.props.user);
+    const { UserID, FullName } = this.props.user;
     return (
       <Container style={{ marginTop: 20 }}>
         <Content>
-          <View style={{ padding: 3, borderColor: 'green', borderWidth: 3 }}>
-            <Image 
-              source={{ uri: 'https://giaohangnhanh.vn/wp-content/uploads/2017/06/2711dd32-72dd-47ba-ba70-ae81941d0f2b1.png' }} 
-              style={{ height: 150, width: null, flex: 1 }}
-            />
+          <View style={{ padding: 3, height: 170, backgroundColor: '#56B85A', borderColor: 'green', borderWidth: 3 }}>
+            <IconFA name="user-circle" size={50} />
+            <Text style={{ color: 'white', marginTop: 50 }}>{FullName}</Text>
           </View>
-          
+
           <List>
-            <ListItem>
-              <Button
-                transparent
-                iconLeft
-
-                onPress={() => navigate('Home')}
-              >
-                <Icon name='home' />
-                <Text>Home</Text>
-              </Button>
-              
+            <ListItem icon>
+                <Left>
+                  <IconFA name="user-circle" size={15} />
+                </Left>
+                <Body>
+                  <Text>ĐP:{UserID} - {FullName}</Text>
+                </Body>
             </ListItem>
-            <ListItem>
-              <Button
-                transparent
-                iconLeft
-                onPress={() => this.props.navigation.navigate('Map')}
-              >
-                <Icon name='map' />
-                <Text>Map</Text>
-              </Button>
+            <ListItem icon>
+              <Left>
+                <IconFA name="mobile" size={15} />
+              </Left>
+              <Body>
+                <Text>SĐT:0908</Text>
+              </Body>
             </ListItem>
-            <ListItem>
-              <Button
-                transparent
-                iconLeft
-
-                onPress={() => navigate('Help')}
-              >
-                <IconFA name='bar-chart' />
-                <Text>Huong dan</Text>
-              </Button>
-              
+            <ListItem icon>
+              <Left>
+                <IconFA name="download" size={15} />
+              </Left>
+              <Body>
+                <Text>Cập nhật dữ liệu</Text>
+              </Body>
+            </ListItem>
+            
+            <ListItem 
+              onPress={() => this.props.navigation.navigate('Home')}
+              icon
+            >
+              <Left>
+                <IconFA name="home" size={15} />
+              </Left>
+              <Body>
+                <Text>Màn hình chính</Text>
+              </Body>
+            </ListItem>
+            <ListItem icon>
+              <Left>
+                <IconFA name="map" size={15} />
+              </Left>
+              <Body>
+                <Text>Bản đồ</Text>
+              </Body>
+            </ListItem>
+            <ListItem icon>
+              <Left>
+                <IconFA name="info-circle" size={15} />
+              </Left>
+              <Body>
+                <Text>Thông tin ứng dụng</Text>
+              </Body>
+            </ListItem>
+            <ListItem icon>
+              <Left>
+                <IconFA name="map" size={15} />
+              </Left>
+              <Body>
+                <Text>Góp ý</Text>
+              </Body>
+            </ListItem>
+            <ListItem icon>
+              <Left>
+                <IconFA name="map" size={15} />
+              </Left>
+              <Body>
+                <Text>Hướng dẫn</Text>
+              </Body>
             </ListItem>
           </List>
         </Content>
@@ -69,5 +108,9 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return { user };
+};
 //make avai
-export default SideBar;
+export default connect(mapStateToProps)(SideBar);

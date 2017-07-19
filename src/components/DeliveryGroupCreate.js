@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, InputGroup } from 'react-native';
+import { View } from 'react-native';
 import { 
   Content, Card, CardItem, Text, 
-  Input, Button, Item, Badge,
+  Input, Button, Item,
   Body, Left, Right, List, ListItem 
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -41,7 +41,7 @@ class DeliveryGroupCreate extends Component {
 
   render() {
     return (
-      <Content>
+      <Content style={{ backgroundColor: '#eee' }}>
         <Grid>
           <Row>
             <Col>

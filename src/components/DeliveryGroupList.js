@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { 
   Content, Card, CardItem, Text,
@@ -17,40 +18,50 @@ class DeliveryGroupList extends Component {
     console.log('DeliveryGroupList cdu');
     console.log(this.props.deliveryList);
   }
+  onDeliveryOrderPress(OrderID) {
+    console.log('onDeliveryOrderPress called with OrderID =');
+    console.log(OrderID);
+    this.props.navigation.navigate('DeliveryOrder', { OrderID });
+  }
   
   renderOrder(order) {
     console.log(order);
     const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount } = order;
     return (
-      <Card>
-        <CardItem header>
-          <Text>
-            {OrderCode}
-          </Text>
-          <Right>
-            <Badge>
-              <Text>6h</Text>
-            </Badge>
-          </Right>
-        </CardItem>
-        <CardItem>
-          <View style={{ flex: 1 }}>          
-          <Text>
-            {Address}
-          </Text>
-          <Item style={{ }} />
-          <Text>
-            {CurrentStatus}
-          </Text>
-          </View>
-        </CardItem>
-      </Card>
+      <TouchableOpacity
+        onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
+      >
+        <Card>
+          <CardItem header>
+            <Text>
+              {OrderCode}
+            </Text>
+            <Right>
+              <Badge>
+                <Text>6h</Text>
+              </Badge>
+            </Right>
+          </CardItem>
+          <CardItem>
+            <View style={{ flex: 1 }}>          
+            <Text>
+              {Address}
+            </Text>
+            <Item style={{ }} />
+            <Text style={{ color: '#65BD68' }}>
+              {CurrentStatus}
+            </Text>
+            </View>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
+      
     );
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
     return (
-      <Content>
+      <Content style={{ backgroundColor: '#eee' }}>
       <List
         dataArray={this.props.deliveryList}
         renderRow={this.renderOrder.bind(this)}

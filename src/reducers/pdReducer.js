@@ -1,7 +1,12 @@
-import { PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST } from '../actions/types';
+import { 
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST,
+  SET_CURRENT_DELIVERY_ORDER
+ } from '../actions/types';
 
 const nameInitialState = {
   pds: {},
+  pdsId: null,
+  currentDeliveryOrder: null,
   pickTotal: 0,
   pickComplete: 0,
   deliveryTotal: 0,
@@ -19,7 +24,8 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_SUCCESS:
       console.log('update home screen with numbers');
       return { ...state, 
-        pds: action.payload, 
+        pds: action.payload,
+        pdsId: action.payload.PickDeliverySessionID, 
         loading: false,
         pickTotal: action.payload.PickReturnItems.length,
         deliveryTotal: action.payload.DeliveryItems.length,
@@ -30,7 +36,16 @@ export default (state = nameInitialState, action) => {
     
     case PDPICK_LIST:
       return { ...state, pickList: state.pds.PickReturnItems };
-    
+
+    case SET_CURRENT_DELIVERY_ORDER: {
+      console.log('pdReducer: SET_CURRENT_DELIVERY_ORDER');
+      const orders = state.deliveryList.filter(order => order.OrderID === action.payload);
+      console.log(orders[0]);
+      return { 
+        ...state, 
+        currentDeliveryOrder: orders[0] 
+      };
+    }
     default:
       return state;
   }

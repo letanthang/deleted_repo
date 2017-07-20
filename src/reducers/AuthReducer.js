@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   password: '',
   loading: false,
   error: '',
-  user: null
+  user: null,
+  sessionToken: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,6 +27,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,
         loading: false,
         error: '', 
+        sessionToken: action.payload.SessionToken,
         user: action.payload };
     case LOGIN_USER_FAIL:
       return { ...state,

@@ -9,32 +9,78 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { updateOrderStatus } from './actions';
 
-
-
 class DeliveryOrderScreen extends Component {
+
+  state = { currentOrder: {} }
+  
   componentWillMount() {
+    const OrderID = this.props.navigation.state.params.OrderID;
     console.log(`DeliveryOrderScreen: cwm called with
-     OrderID = ${this.props.navigation.state.params.OrderID}`);
+     OrderID = ${OrderID}`);
     console.log(this.props.deliveryList);
+    const orders = this.props.deliveryList.filter(order => order.OrderID === OrderID);
+    this.setState({ currentOrder: orders[0] });
   }
 
   componentDidUpdate(prevProps, prevState) {
     console.log('cdu called');
   }
+  
+  order = {};
 
+  renderButtons(currentStatus) {
+    const order = this.order;
+    const { sessionToken, pdsId } = this.props;
+    const status = 'Delivered';
+
+    if (currentStatus === 'Delivering') {
+      return (
+        <Grid>
+          <Col style={{ margin: 2 }}>
+            <Button block style={{ backgroundColor: '#06B2F5' }}>
+            <Text>GIAO LỖI</Text>
+            </Button>
+          </Col>
+          <Col style={{ margin: 2 }}>
+          <Button 
+            block style={{ backgroundColor: '#06B2F5' }}
+            onPress={() => this.props.updateOrderStatus({ sessionToken, pdsId, order, status })}
+          >
+            <Text>ĐÃ GIAO</Text>
+            </Button>
+          </Col>
+        </Grid>
+      );
+    }
+
+    return this.renderDisabledButtons();
+  }
+
+  renderDisabledButtons() {
+    return (
+      <Grid>
+        <Col style={{ margin: 2 }}>
+          <Button block disabled style={{ backgroundColor: '#aaa' }}>
+          <Text>GIAO LỖI</Text>
+          </Button>
+        </Col>
+        <Col style={{ margin: 2 }}>
+        <Button block disabled style={{ backgroundColor: '#aaa' }}>
+          <Text>ĐÃ GIAO</Text>
+          </Button>
+        </Col>
+      </Grid>
+    );
+  }
+
+  
   render() {
     const { navigate } = this.props.navigation;
-    const OrderID = this.props.navigation.state.params.OrderID;
-    console.log(`hhhhhhhhhhhhhhhhhhhh render orderid = ${OrderID}`);
-    const orders = this.props.deliveryList.filter(order => order.OrderID === OrderID);
-
-    if (orders.length === 0) return <View><Text>Not found</Text></View>;
-
     const { 
       RecipientName, RecipientPhone, Address, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,
-      DisplayOrder, Note, Log
-    } = orders[0];
+      DisplayOrder, Note, Log, CurrentStatus, NextStatus
+    } = this.state.currentOrder;
 
     return (
       <Container>
@@ -120,18 +166,7 @@ class DeliveryOrderScreen extends Component {
             </ListItem>
           </List>
 
-          <Grid>
-            <Col style={{ margin: 2 }}>
-              <Button block style={{ backgroundColor: '#06B2F5' }}>
-              <Text>GIAO LỖI</Text>
-              </Button>
-            </Col>
-            <Col style={{ margin: 2 }}>
-            <Button block style={{ backgroundColor: '#06B2F5' }}>
-              <Text>ĐÃ GIAO</Text>
-              </Button>
-            </Col>
-          </Grid>
+          {this.renderButtons(CurrentStatus)}
         </Content>
       </Container>
       
@@ -139,11 +174,15 @@ class DeliveryOrderScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ pd }, ownProps) => {
-  const OrderID = ownProps.navigation.state.params.OrderID;
-  const { deliveryList } = pd;
-  return { deliveryList, order: deliveryList[OrderID] };
+const mapStateToProps = ({ pd, auth }, ownProps) => {
+  //const OrderID = ownProps.navigation.state.params.OrderID;
+  const { sessionToken } = auth;
+  const { deliveryList, pdsId } = pd;
+  return { deliveryList, pdsId, sessionToken };
 };
 
 
-export default connect(mapStateToProps, { updateOrderStatus })(DeliveryOrderScreen);
+export default connect(
+  mapStateToProps, 
+  { updateOrderStatus }
+)(DeliveryOrderScreen);

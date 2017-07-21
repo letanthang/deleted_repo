@@ -29,7 +29,8 @@ export default (state = nameInitialState, action) => {
         loading: false,
         pickTotal: action.payload.PickReturnItems.length,
         deliveryTotal: action.payload.DeliveryItems.length,
-        deliveryList: action.payload.DeliveryItems
+        deliveryList: action.payload.DeliveryItems,
+        pickList: action.payload.PickReturnItems
       };
     case PDLIST_FETCH_FAIL:
       return { ...state, loading: false };

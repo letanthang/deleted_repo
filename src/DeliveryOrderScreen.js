@@ -33,7 +33,7 @@ class DeliveryOrderScreen extends Component {
     const { sessionToken, pdsId } = this.props;
     const status = 'Delivered';
 
-    if (currentStatus === 'Delivering') {
+    if (currentStatus !== 'Delivered') {
       return (
         <Grid>
           <Col style={{ margin: 2 }}>

@@ -36,7 +36,7 @@ class PickListScreen extends Component {
           </Body>
           <Right />
         </Header>
-        <PickGroupList pickList={this.props.pickList} />
+        <PickGroupList {...this.props} />
       </Container>
     );
   }

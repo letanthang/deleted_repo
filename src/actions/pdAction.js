@@ -1,5 +1,6 @@
 import { 
-  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST, UPDATE_ORDER_STATUS,
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST,
+  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL, 
   SET_CURRENT_DELIVERY_ORDER
 } from './types';
 
@@ -61,13 +62,20 @@ export const setCurrentDeliveryOrder = (orderID) => {
 };
 
 export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
-  const orderId = order.OrderID;
+  const OrderID = order.OrderID;
   //const { PickDeliverySessionID } = pds;
-  const { PickDeliverySessionDetailID, PickDeliveryType } = order;
+  const { PickDeliverySessionDetailID } = order;
+  const PickDeliveryType = order.PickDeliveryType !== undefined ? order.PickDeliveryType : 1;
   // NextStatus: "Delivered"
-  console.log('pdAction: updateOrderStatus is called');
-  console.log({ sessionToken, pdsId, order, status });
+  console.log('pdAction: updateOrderStatus is called with type: ');
+  console.log(PickDeliveryType);
+
+  //console.log({ sessionToken, pdsId, order, status });
+  
+
   return ((dispatch) => {
+    dispatch({ type: UPDATE_ORDER_STATUS });
+
     fetch('https://test.ghn.vn/api/mpds/UpdatePickDeliverySession', {
       method: 'POST',
       headers: {
@@ -78,17 +86,17 @@ export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
         ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
         ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
         SessionToken: sessionToken,
-        VersionCode: 60,
+        VersionCode: 63,
         PDSID: pdsId,
         OrderInfos: [  
             {  
               PDSDetailID: PickDeliverySessionDetailID,
-              OrderID: orderId,
+              OrderID,
               PDSType: PickDeliveryType,
-              //StoringCode: "",
-              //ReturnCode: "",
-              //Note: "",
-              //Log: "",
+              // StoringCode: "",
+              // ReturnCode: "",
+              // Note: "",
+              // Log: "",
               NextStatus: status
             }
         ],
@@ -100,15 +108,27 @@ export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
         console.log(responseJson);
         if (responseJson.code === 1) {
           //pdListFetchSuccess(dispatch, responseJson.data);
-          dispatch({ type: PDLIST_FETCH });
+          updateOrderStatusSuccess(dispatch, { OrderID, CurrentStatus: status });
         } else {
-          //pdListFetchFail(dispatch);
+          updateOrderStatusFail(dispatch);
         }
       })
       .catch((error) => {
         console.log(error);
+        updateOrderStatusFail(dispatch);
       });
+  });
+};
 
-    dispatch({ type: UPDATE_ORDER_STATUS });
+const updateOrderStatusSuccess = (dispatch, data) => {
+  dispatch({
+    type: UPDATE_ORDER_STATUS_SUCCESS,
+    payload: data
+  });
+};
+
+const updateOrderStatusFail = (dispatch) => {
+  dispatch({
+    type: UPDATE_ORDER_STATUS_FAIL
   });
 };

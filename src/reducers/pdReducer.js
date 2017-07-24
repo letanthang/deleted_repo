@@ -1,5 +1,6 @@
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST,
+  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   SET_CURRENT_DELIVERY_ORDER
  } from '../actions/types';
 
@@ -47,6 +48,31 @@ export default (state = nameInitialState, action) => {
         currentDeliveryOrder: orders[0] 
       };
     }
+
+    case UPDATE_ORDER_STATUS: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+
+    case UPDATE_ORDER_STATUS_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: 'update status fail'
+      };
+    }
+
+    case UPDATE_ORDER_STATUS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        pds: { ...state.pds }
+      };
+    }
+
     default:
       return state;
   }

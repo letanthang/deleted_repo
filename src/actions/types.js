@@ -10,5 +10,8 @@ export const PDLIST_FETCH_SUCCESS = 'pdlist_fetch_success';
 export const PDLIST_FETCH_FAIL = 'pdlist_fetch_fail';
 export const PDPICK_LIST = 'pdpick_list';
 export const UPDATE_ORDER_STATUS = 'pdpick_list';
+export const UPDATE_ORDER_STATUS_SUCCESS = 'pdpick_list_success';
+export const UPDATE_ORDER_STATUS_FAIL = 'pdpick_list_fail';
+
 export const SET_CURRENT_DELIVERY_ORDER = 'SET_CURRENT_DELIVERY_ORDER';
 

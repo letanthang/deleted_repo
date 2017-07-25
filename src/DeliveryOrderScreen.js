@@ -75,7 +75,7 @@ class DeliveryOrderScreen extends Component {
 
   
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     const { 
       RecipientName, RecipientPhone, Address, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,
@@ -91,8 +91,14 @@ class DeliveryOrderScreen extends Component {
               onPress={() => navigate('DrawerOpen')}
             >
               <Icon name="menu" />
-          </Button>
+            </Button>
           </Left>
+          <Button
+            transparent
+            onPress={() => goBack()}
+          >
+            <Icon name="arrow-back" />
+          </Button>
           <Body>
             <Title>[{DisplayOrder}] {OrderCode}</Title>
           </Body>

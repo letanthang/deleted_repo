@@ -24,7 +24,7 @@ class DeliveryListScreen extends Component {
     console.log('====================================');
   }
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
         <Header hasTabs>
@@ -36,6 +36,12 @@ class DeliveryListScreen extends Component {
               <Icon name="menu" />
             </Button>
           </Left>
+          <Button
+            transparent
+            onPress={() => goBack()}
+          >
+            <Icon name="arrow-back" />
+          </Button>
           <Body>
             <Title>C đi giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
           </Body>

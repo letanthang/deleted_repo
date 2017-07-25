@@ -19,7 +19,7 @@ class PickListScreen extends Component {
     console.log(this.props.pickList);
   }
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
         <Header>
@@ -31,6 +31,12 @@ class PickListScreen extends Component {
               <Icon name="menu" />
             </Button>
           </Left>
+          <Button
+            transparent
+            onPress={() => goBack()}
+          >
+            <Icon name="arrow-back" />
+          </Button>
           <Body>
             <Title>C đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
           </Body>

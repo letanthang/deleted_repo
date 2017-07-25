@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL, 
@@ -10,31 +11,24 @@ export const pdListFetch = (sessionToken) => {
   return (dispatch) => {
     dispatch({ type: PDLIST_FETCH });
     console.log(' prepare to fetch pd list');
-    fetch('https://test.ghn.vn/api/mpds/GetUserActivePds', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
-        ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
-        SessionToken: sessionToken,
-        VersionCode: 60
-      })
+
+    axios.post('https://test.ghn.vn/api/mpds/GetUserActivePds', {
+      ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
+      ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
+      SessionToken: sessionToken,
+      VersionCode: 60
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('GetUserActivePds finish with response');
-        console.log(responseJson);
-        if (responseJson.code === 1) {
-          pdListFetchSuccess(dispatch, responseJson.data);
+      .then(response => {
+        const json = response.data;
+        if (json.code === 1) {
+          pdListFetchSuccess(dispatch, json.data);
         } else {
           pdListFetchFail(dispatch);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
+        pdListFetchFail(dispatch);
       });
   };
 };
@@ -71,49 +65,35 @@ export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
   console.log(PickDeliveryType);
 
   //console.log({ sessionToken, pdsId, order, status });
-  
 
   return ((dispatch) => {
     dispatch({ type: UPDATE_ORDER_STATUS });
 
-    fetch('https://test.ghn.vn/api/mpds/UpdatePickDeliverySession', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
-        ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
-        SessionToken: sessionToken,
-        VersionCode: 63,
-        PDSID: pdsId,
-        OrderInfos: [  
-            {  
-              PDSDetailID: PickDeliverySessionDetailID,
-              OrderID,
-              PDSType: PickDeliveryType,
-              // StoringCode: "",
-              // ReturnCode: "",
-              // Note: "",
-              // Log: "",
-              NextStatus: status
-            }
-        ],
-      })
+    axios.post('https://test.ghn.vn/api/mpds/UpdatePickDeliverySession', {
+      ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
+      ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
+      SessionToken: sessionToken,
+      VersionCode: 63,
+      PDSID: pdsId,
+      OrderInfos: [  
+          {  
+            PDSDetailID: PickDeliverySessionDetailID,
+            OrderID,
+            PDSType: PickDeliveryType,
+            NextStatus: status
+          }
+      ]
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('updatePickDeliverySession finish with response');
-        console.log(responseJson);
-        if (responseJson.code === 1) {
+      .then(response => {
+        const json = response.data;
+        if (json.code === 1) {
           //pdListFetchSuccess(dispatch, responseJson.data);
           updateOrderStatusSuccess(dispatch, { OrderID, CurrentStatus: status });
         } else {
           updateOrderStatusFail(dispatch);
         }
       })
-      .catch((error) => {
+      .then(error => {
         console.log(error);
         updateOrderStatusFail(dispatch);
       });

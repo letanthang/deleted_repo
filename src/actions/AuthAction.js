@@ -1,7 +1,9 @@
+import axios from 'axios';
 import { 
   USERID_CHANGED, PASSWORD_CHANGED, LOGIN_USER, LOGIN_USER_FAIL, 
   LOGIN_USER_SUCCESS 
 } from './types.js';
+
 
 export const userIDChanged = (text) => {
   return {
@@ -41,32 +43,25 @@ export const loginUser = ({ userID, password }) => {
     //     }); 
     //   })
     console.log('begin fetching......');
-    fetch('https://test.ghn.vn/api/mpds/Authenticate', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        UserID: userID,
-        Password: password,
-        ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
-        ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
-        VersionCode: 60
-      })
+    axios.post('https://test.ghn.vn/api/mpds/Authenticate', {
+      UserID: userID,
+      Password: password,
+      ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
+      ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
+      VersionCode: 60
     })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('API login response!');
-        console.log(responseJson);
-        if (responseJson.code === 1) {
-          loginUserSucess(dispatch, responseJson.data);
+      .then(response => {
+        const json = response.data;
+        console.log(json);
+        if (json.code === 1) {
+          loginUserSucess(dispatch, json.data);
         } else {
-          loginUserFail(dispatch, responseJson.data.ErrorMessage);
+          loginUserFail(dispatch, json.data.ErrorMessage);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
+        loginUserFail(dispatch, error);
       });
   };
 };

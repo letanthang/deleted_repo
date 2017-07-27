@@ -1,7 +1,7 @@
+import _ from 'lodash';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST,
-  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
-  SET_CURRENT_DELIVERY_ORDER
+  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL
  } from '../actions/types';
 
 const nameInitialState = {
@@ -36,17 +36,6 @@ export default (state = nameInitialState, action) => {
     
     case PDPICK_LIST:
       return { ...state, pickList: state.pds.PickReturnItems };
-
-    case SET_CURRENT_DELIVERY_ORDER: {
-      console.log('pdReducer: SET_CURRENT_DELIVERY_ORDER');
-      const orders = state.deliveryList.filter(order => order.OrderID === action.payload);
-      console.log(orders[0]);
-      return { 
-        ...state, 
-        currentDeliveryOrder: orders[0] 
-      };
-    }
-
     case UPDATE_ORDER_STATUS: {
       return {
         ...state,
@@ -55,6 +44,7 @@ export default (state = nameInitialState, action) => {
     }
 
     case UPDATE_ORDER_STATUS_FAIL: {
+      console.log('pdReducer: UPDATE_ORDER_STATUS_FAIL');
       return {
         ...state,
         loading: false,
@@ -63,11 +53,21 @@ export default (state = nameInitialState, action) => {
     }
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
+      const { OrderID, PickDeliveryType, CurrentStatus } = action.payload;
+      let order = {};
+      const pds = _.cloneDeep(state.pds);
+      if (PickDeliveryType === 2) {
+        order = pds.DeliveryItems.find(o => o.OrderID === OrderID);
+        order.CurrentStatus = 'WaitingToFinish';
+      }
+      console.log('pdReducer: UPDATE_ORDER_STATUS_SUCCESS');
+      console.log(state.pds.DeliveryItems);
+      
       return {
         ...state,
         loading: false,
         error: '',
-        pds: { ...state.pds }
+        pds
       };
     }
 

@@ -12,8 +12,10 @@ const efficiencyIcon = require('../resources/ic_summary.png');
 
 class HomeScreen extends Component {
   componentWillMount() {
-    console.log(this.props.user);
     if (!this.props.user) return;
+    console.log('====================================');
+    console.log('HomeScreen : CWM');
+    console.log('====================================');
     const sessionToken = this.props.user.SessionToken;
     this.props.pdListFetch(sessionToken);
   }

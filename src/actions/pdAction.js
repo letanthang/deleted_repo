@@ -61,10 +61,8 @@ export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
   const { PickDeliverySessionDetailID } = order;
   const PickDeliveryType = order.PickDeliveryType !== undefined ? order.PickDeliveryType : 1;
   // NextStatus: "Delivered"
-  console.log('pdAction: updateOrderStatus is called with type: ');
-  console.log(PickDeliveryType);
-
-  //console.log({ sessionToken, pdsId, order, status });
+  console.log(`pdAction: updateOrderStatus is called with type: ${PickDeliveryType}`);
+  console.log({ sessionToken, pdsId, order, status });
 
   return ((dispatch) => {
     dispatch({ type: UPDATE_ORDER_STATUS });
@@ -88,12 +86,13 @@ export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
         const json = response.data;
         if (json.code === 1) {
           //pdListFetchSuccess(dispatch, responseJson.data);
-          updateOrderStatusSuccess(dispatch, { OrderID, CurrentStatus: status });
+          updateOrderStatusSuccess(dispatch, { OrderID, CurrentStatus: status, PickDeliveryType });
         } else {
           updateOrderStatusFail(dispatch);
         }
       })
-      .then(error => {
+      .catch(error => {
+        console.log('update status failed');
         console.log(error);
         updateOrderStatusFail(dispatch);
       });

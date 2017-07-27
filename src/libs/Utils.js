@@ -1,6 +1,5 @@
 class Utils {
   static getDisplayStatus(status) {
-    console.log(status);
     switch (status) {
       case 'Delivering':
         return 'Đang giao';

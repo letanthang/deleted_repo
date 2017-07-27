@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { 
   Content, Card, CardItem, Text,
   List, ListItem, Item, Right, Badge 
 } from 'native-base';
+import { connect } from 'react-redux';
 import Utils from '../libs/Utils';
 
 class DeliveryGroupList extends Component {
   componentWillMount() {
-    
+    console.log('====================================');
+    console.log('DeliveryGroupList CWM');
+    console.log('====================================');
   }
   componentWillUpdate() {
     
@@ -24,19 +26,20 @@ class DeliveryGroupList extends Component {
   }
 
   renderStatusText(status) {
+    const displayStatus = Utils.getDisplayStatus(status);
     let textColor = '#65BD68';
-    if (status === 'WaitingToFinish') {
+    if (displayStatus !== 'Đang giao') {
       textColor = 'grey';
     }
     return (
       <Text style={{ color: textColor }}>
-        {Utils.getDisplayStatus(status)}
+        {displayStatus}
       </Text>
     );
   }
 
   renderOrder(order) {
-    const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount } = order;
+    const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder } = order;
     return (
       <TouchableOpacity
         onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
@@ -44,7 +47,7 @@ class DeliveryGroupList extends Component {
         <Card>
           <CardItem header>
             <Text>
-              {OrderCode}
+              [{DisplayOrder}] {OrderCode}
             </Text>
             <Right>
               <Badge>
@@ -68,10 +71,12 @@ class DeliveryGroupList extends Component {
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
+    const deliveryList = this.props.pds.DeliveryItems;
+    console.log(deliveryList);
     return (
       <Content style={{ backgroundColor: '#eee' }}>
       <List
-        dataArray={this.props.deliveryList}
+        dataArray={deliveryList}
         renderRow={this.renderOrder.bind(this)}
       />
       </Content>
@@ -79,4 +84,9 @@ class DeliveryGroupList extends Component {
   }
 }
 
-export default DeliveryGroupList;
+const mapStateToProps = ({ pd }) => {
+  const { pds } = pd;
+  return { pds };
+};
+
+export default connect(mapStateToProps)(DeliveryGroupList);

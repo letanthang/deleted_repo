@@ -8,32 +8,34 @@ import {
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { updateOrderStatus } from './actions';
+import Utils from './libs/Utils';
 
 class DeliveryOrderScreen extends Component {
 
-  state = { currentOrder: {} }
-  
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
+    console.log('====================================');
     console.log(`DeliveryOrderScreen: cwm called with
-     OrderID = ${OrderID}`);
-    console.log(this.props.deliveryList);
-    const orders = this.props.deliveryList.filter(order => order.OrderID === OrderID);
-    this.setState({ currentOrder: orders[0] });
+    OrderID = ${OrderID}`);
+    console.log('====================================');
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('cdu called');
+  componentDidUpdate() {
+    const deliveryList = this.props.pds.DeliveryItems;
+    const OrderID = this.props.navigation.state.params.OrderID;
+    const order = deliveryList.find(o => o.OrderID === OrderID);
+    console.log('====================================');
+    console.log('DeliveryOrderScreen cdu');
+    console.log(order);
+    console.log('====================================');
   }
   
-  order = {};
-
-  renderButtons(currentStatus) {
-    const order = this.order;
+  renderButtons(order, currentStatus) {
     const { sessionToken, pdsId } = this.props;
     const status = 'Delivered';
+    const displayStatus = Utils.getDisplayStatus(currentStatus);
 
-    if (currentStatus !== 'Delivered') {
+    if (displayStatus === 'Đang giao') {
       return (
         <Grid>
           <Col style={{ margin: 2 }}>
@@ -75,12 +77,16 @@ class DeliveryOrderScreen extends Component {
 
   
   render() {
+    const deliveryList = this.props.pds.DeliveryItems;
+    const OrderID = this.props.navigation.state.params.OrderID;
+    const order = deliveryList.find(o => o.OrderID === OrderID);
+
     const { navigate, goBack } = this.props.navigation;
     const { 
       RecipientName, RecipientPhone, Address, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,
       DisplayOrder, Note, Log, CurrentStatus, NextStatus
-    } = this.state.currentOrder;
+    } = order;
 
     return (
       <Container>
@@ -172,7 +178,7 @@ class DeliveryOrderScreen extends Component {
             </ListItem>
           </List>
 
-          {this.renderButtons(CurrentStatus)}
+          {this.renderButtons(order, CurrentStatus)}
         </Content>
       </Container>
       
@@ -183,8 +189,8 @@ class DeliveryOrderScreen extends Component {
 const mapStateToProps = ({ pd, auth }) => {
   //const OrderID = ownProps.navigation.state.params.OrderID;
   const { sessionToken } = auth;
-  const { deliveryList, pdsId } = pd;
-  return { deliveryList, pdsId, sessionToken };
+  const { pds, pdsId } = pd;
+  return { pds, pdsId, sessionToken };
 };
 
 

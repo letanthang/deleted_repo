@@ -11,9 +11,6 @@ import {
 //create cmp
 class SideBar extends Component {
   render() {
-    const { navigate } = this.props.navigation;
-    console.log('Sidebar render!');
-    console.log(this.props.user);
     const { UserID, FullName } = this.props.user;
     return (
       <Container style={{ marginTop: 20 }}>

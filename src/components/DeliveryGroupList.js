@@ -5,27 +5,37 @@ import {
   Content, Card, CardItem, Text,
   List, ListItem, Item, Right, Badge 
 } from 'native-base';
+import Utils from '../libs/Utils';
 
 class DeliveryGroupList extends Component {
   componentWillMount() {
-    console.log('DeliveryGroupList cwm');
-    console.log(this.props.deliveryList);
+    
   }
   componentWillUpdate() {
     
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('DeliveryGroupList cdu');
-    console.log(this.props.deliveryList);
+
   }
   onDeliveryOrderPress(OrderID) {
     console.log('onDeliveryOrderPress called with OrderID =');
     console.log(OrderID);
     this.props.navigation.navigate('DeliveryOrder', { OrderID });
   }
-  
+
+  renderStatusText(status) {
+    let textColor = '#65BD68';
+    if (status === 'WaitingToFinish') {
+      textColor = 'grey';
+    }
+    return (
+      <Text style={{ color: textColor }}>
+        {Utils.getDisplayStatus(status)}
+      </Text>
+    );
+  }
+
   renderOrder(order) {
-    console.log(order);
     const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount } = order;
     return (
       <TouchableOpacity
@@ -48,9 +58,7 @@ class DeliveryGroupList extends Component {
               {Address}
             </Text>
             <Item style={{ }} />
-            <Text style={{ color: '#65BD68' }}>
-              {CurrentStatus}
-            </Text>
+            {this.renderStatusText(CurrentStatus)}
             </View>
           </CardItem>
         </Card>

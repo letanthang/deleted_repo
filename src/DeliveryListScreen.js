@@ -10,21 +10,17 @@ import DeliveryGroupCreate from './components/DeliveryGroupCreate';
 
 class DeliveryListScreen extends Component {
   componentWillMount() {
-    console.log('====================================');
-    console.log('DeliveryListScreen: CWM called!');
-    console.log('====================================');
+    
   }
   componentWillUpdate() {
     
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('====================================');
-    console.log('DeliveryListScreen: CDU called');
-    console.log(this.props.pickList);
-    console.log('====================================');
+    
   }
   render() {
     const { navigate, goBack } = this.props.navigation;
+    const deliveryList = this.props.pds.DeliveryItems;
     return (
       <Container>
         <Header hasTabs>
@@ -49,10 +45,10 @@ class DeliveryListScreen extends Component {
         </Header>
         <Tabs initialPage={0}>
           <Tab heading="DS NHOM">
-            <DeliveryGroupList {...this.props} />
+            <DeliveryGroupList deliveryList={deliveryList} navigation={this.props.navigation} />
           </Tab>
           <Tab heading="TAO NHOM">
-            <DeliveryGroupCreate deliveryList={this.props.deliveryList} />
+            <DeliveryGroupCreate deliveryList={deliveryList} />
           </Tab>
         </Tabs>
         
@@ -63,8 +59,8 @@ class DeliveryListScreen extends Component {
 }
 
 const mapStateToProps = ({ pd }) => {
-  const { deliveryList, deliveryTotal, deliveryComplete } = pd;
-  return { deliveryList, deliveryTotal, deliveryComplete };
+  const { pds, deliveryTotal, deliveryComplete } = pd;
+  return { pds, deliveryTotal, deliveryComplete };
 };
 
 export default connect(mapStateToProps, {})(DeliveryListScreen);

@@ -15,8 +15,7 @@ class PickListScreen extends Component {
     
   }
   componentDidUpdate() {
-    console.log('PickListScreen: CDU called');
-    console.log(this.props.pickList);
+    
   }
   render() {
     const { navigate, goBack } = this.props.navigation;
@@ -50,8 +49,8 @@ class PickListScreen extends Component {
 }
 
 const mapStateToProps = ({ pd }) => {
-  const { pickList, pickTotal, pickComplete } = pd;
-  return { pickList, pickTotal, pickComplete };
+  const { pds, pickTotal, pickComplete } = pd;
+  return { pds, pickTotal, pickComplete };
 };
 
 export default connect(mapStateToProps, { })(PickListScreen);

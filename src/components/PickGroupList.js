@@ -7,15 +7,13 @@ import {
 
 class PickGroupList extends Component {
   componentWillMount() {
-    console.log('PickGroupList cwm');
-    console.log(this.props.pickList);
+  
   }
   componentWillUpdate() {
     
   }
   componentDidUpdate() {
-    console.log('PickGroupList cdu');
-    console.log(this.props.pickList);
+    
   }
   onPickGroupPress(pickGroup) {
     console.log('PickGroupPress called ');
@@ -65,10 +63,11 @@ class PickGroupList extends Component {
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
+    const pickList = this.props.pds.PickReturnItems;
     return (
       <Content style={{ backgroundColor: '#eee' }}>
       <List
-        dataArray={this.props.pickList}
+        dataArray={pickList}
         renderRow={this.renderPickGroup.bind(this)}
       />
       </Content>

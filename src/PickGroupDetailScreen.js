@@ -14,8 +14,7 @@ class PickGroupDetailScreen extends Component {
   state = { pickGroup: this.props.navigation.state.params.pickGroup };
 
   componentWillMount() {
-    console.log('PickGroupDetailScreen mount');
-    console.log(this.state.pickGroup);
+    
   }
   updateOrder(order, status) {
     const { sessionToken, pdsId } = this.props;

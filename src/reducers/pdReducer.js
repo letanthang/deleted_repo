@@ -29,9 +29,7 @@ export default (state = nameInitialState, action) => {
         pdsId: action.payload.PickDeliverySessionID, 
         loading: false,
         pickTotal: action.payload.PickReturnItems.length,
-        deliveryTotal: action.payload.DeliveryItems.length,
-        deliveryList: action.payload.DeliveryItems,
-        pickList: action.payload.PickReturnItems
+        deliveryTotal: action.payload.DeliveryItems.length
       };
     case PDLIST_FETCH_FAIL:
       return { ...state, loading: false };

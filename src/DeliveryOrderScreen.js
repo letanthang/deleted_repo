@@ -180,7 +180,7 @@ class DeliveryOrderScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ pd, auth }, ownProps) => {
+const mapStateToProps = ({ pd, auth }) => {
   //const OrderID = ownProps.navigation.state.params.OrderID;
   const { sessionToken } = auth;
   const { deliveryList, pdsId } = pd;

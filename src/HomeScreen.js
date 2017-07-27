@@ -7,6 +7,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import { pdListFetch } from './actions';
+import PDCard from './components/home/PDCard';
 
 const efficiencyIcon = require('../resources/ic_summary.png');
 
@@ -57,71 +58,26 @@ class HomeScreen extends Component {
         </Header>
         <Content style={{ padding: 10 }}>
 
-          <TouchableOpacity 
+          <PDCard
+            type='pick'
             onPress={this.onPickPress.bind(this)}
-          >
-            <Card>
-              <CardItem>
-                <View style={styles.cardItemLeft}>
-                  <View>
-                    <Text style={{ fontWeight: 'bold', color: '#12cd72' }}>
-                      Lấy hàng
-                    </Text>
-                    <Text>
-                      Hoàn thành
-                    </Text>
-                    <Text>
-                      Tổng số
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.cardItemRight}>
-                  <Item rounded style={{ height: 55, width: 55 }}>
-                    <View style={{ marginTop: -10, marginLeft: 5 }}>
-                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>0</Text>
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                      <Text style={{ fontSize: 12 }}>/{this.props.pickTotal}</Text>
-                    </View>
-                  </Item>
-                </View>
-              </CardItem>
-            </Card>
-          </TouchableOpacity>
-          
+            upNumber={0}
+            downNumber={this.props.pickTotal}
+          />
 
-          <TouchableOpacity
+          <PDCard
+            type='delivery'
+            onPress={this.onPickPress.bind(this)}
+            upNumber={0}
+            downNumber={this.props.deliveryTotal}
+          />
+
+          <PDCard
+            type='return'
             onPress={this.onDeliveryPress.bind(this)}
-          >
-            <Card>
-              <CardItem>
-                <View style={styles.cardItemLeft}>
-                  <View>
-                    <Text style={{ fontWeight: 'bold', color: '#ff6e40' }}>
-                      Giao hàng
-                    </Text>
-                    <Text>
-                      Hoàn thành
-                    </Text>
-                    <Text>
-                      Tổng số
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.cardItemRight}>
-                  <Item rounded style={{ height: 55, width: 55 }}>
-                    <View style={{ marginTop: -10, marginLeft: 5 }}>
-                      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>0</Text>
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                      <Text style={{ fontSize: 12 }}>/{this.props.deliveryTotal}</Text>
-                    </View>
-                  </Item>
-                </View>
-              </CardItem>
-            </Card>
-          </TouchableOpacity>
-
+            upNumber={0}
+            downNumber={this.props.deliveryTotal}
+          />
           
           <Card>
             <CardItem>
@@ -130,7 +86,6 @@ class HomeScreen extends Component {
                   <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
                     Năng suất làm việc
                   </Text>
-                  
                 </View>
               </View>
               <View style={styles.cardItemRight}>

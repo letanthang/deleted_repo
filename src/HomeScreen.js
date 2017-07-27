@@ -76,7 +76,7 @@ class HomeScreen extends Component {
             type='return'
             onPress={this.onDeliveryPress.bind(this)}
             upNumber={0}
-            downNumber={this.props.deliveryTotal}
+            downNumber={this.props.returnTotal}
           />
           
           <Card>
@@ -112,9 +112,9 @@ const styles = {
 };
 
 const mapStateToProps = ({ auth, pd }) => {
-  const { pdList, loading, error, pickTotal, deliveryTotal } = pd;
+  const { pdList, loading, error, pickTotal, deliveryTotal, returnTotal } = pd;
   const { user } = auth;
-  return { pdList, loading, error, user, pickTotal, deliveryTotal };
+  return { pdList, loading, error, user, pickTotal, deliveryTotal, returnTotal };
 };
 
 export default connect(mapStateToProps, { pdListFetch })(HomeScreen);

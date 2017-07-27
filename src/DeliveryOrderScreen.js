@@ -32,6 +32,7 @@ class DeliveryOrderScreen extends Component {
   
   renderButtons(order, currentStatus) {
     const { sessionToken, pdsId } = this.props;
+    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Delivered';
     const displayStatus = Utils.getDisplayStatus(currentStatus);
 
@@ -46,7 +47,7 @@ class DeliveryOrderScreen extends Component {
           <Col style={{ margin: 2 }}>
           <Button 
             block style={{ backgroundColor: '#06B2F5' }}
-            onPress={() => this.props.updateOrderStatus({ sessionToken, pdsId, order, status })}
+            onPress={() => this.props.updateOrderStatus({ sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status })}
           >
             <Text>ĐÃ GIAO</Text>
             </Button>

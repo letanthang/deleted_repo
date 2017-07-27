@@ -11,6 +11,7 @@ const nameInitialState = {
   pickTotal: 0,
   pickComplete: 0,
   deliveryTotal: 0,
+  returnTotal: 0,
   deliveryComplete: 0,
   pickList: {},
   deliveryList: {},
@@ -28,7 +29,8 @@ export default (state = nameInitialState, action) => {
         pds: action.payload,
         pdsId: action.payload.PickDeliverySessionID, 
         loading: false,
-        pickTotal: action.payload.PickReturnItems.length,
+        pickTotal: action.payload.PickReturnItems.filter(p => p.PickDeliveryType === 1).length,
+        returnTotal: action.payload.PickReturnItems.filter(p => p.PickDeliveryType === 3).length,
         deliveryTotal: action.payload.DeliveryItems.length
       };
     case PDLIST_FETCH_FAIL:
@@ -53,12 +55,18 @@ export default (state = nameInitialState, action) => {
     }
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
-      const { OrderID, PickDeliveryType, CurrentStatus } = action.payload;
+      const { OrderID, PickDeliveryType, CurrentStatus, ClientHubID } = action.payload;
       let order = {};
       const pds = _.cloneDeep(state.pds);
       if (PickDeliveryType === 2) {
         order = pds.DeliveryItems.find(o => o.OrderID === OrderID);
         order.CurrentStatus = 'WaitingToFinish';
+      }
+      if (PickDeliveryType === 1) {
+        const pickGroup = pds.PickReturnItems.find(pg => pg.ClientHubID === ClientHubID);
+        console.log(pickGroup);
+        order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
+        order.CurrentStatus = CurrentStatus;
       }
       console.log('pdReducer: UPDATE_ORDER_STATUS_SUCCESS');
       console.log(state.pds.DeliveryItems);

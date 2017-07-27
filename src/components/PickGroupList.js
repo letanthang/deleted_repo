@@ -63,7 +63,7 @@ class PickGroupList extends Component {
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
-    const pickList = this.props.pds.PickReturnItems;
+    const pickList = this.props.pds.PickReturnItems.filter(pg => pg.PickDeliveryType === 1);
     return (
       <Content style={{ backgroundColor: '#eee' }}>
       <List

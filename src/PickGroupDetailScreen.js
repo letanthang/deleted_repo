@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { 
-  Container, Content, List, ListItem,
-  Input, Header, Body, Left, Right,
+  Container, Content, List,
+  Header, Body, Left, Right,
   Button, Icon, Item,
   Title, Text
 } from 'native-base';
@@ -11,16 +11,36 @@ import ChkBox from 'react-native-check-box';
 import { updateOrderStatus } from './actions';
 
 class PickGroupDetailScreen extends Component {
-  state = { pickGroup: this.props.navigation.state.params.pickGroup };
+  
 
   componentWillMount() {
-    
+    //state = { pickGroup: this.props.navigation.state.params.pickGroup };
+    this.pickGroup = this.props.navigation.state.params.pickGroup;
+    this.ClienHubID = this.pickGroup.ClienHubID;
   }
+  componentDidUpdate() {
+    this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID);
+  }
+
+  pickGroup = null;
+  ClientHubID = null;
+  
   updateOrder(order, status) {
+    const { pickGroup, ClientHubID } = this;
     const { sessionToken, pdsId } = this.props;
-    console.log(`updateOrder to status : ${status} ${pdsId}`);
+    const { PickDeliverySessionDetailID, OrderID } = order;
+    const { PickDeliveryType } = pickGroup;
+    console.log(`updateOrder to status : ${status} | pdsId ${pdsId} | ClientHubID ${ClientHubID}`);
     console.log(order);
-    this.props.updateOrderStatus({ sessionToken, pdsId, order, status });
+    this.props.updateOrderStatus({ 
+      sessionToken, 
+      pdsId, 
+      PickDeliverySessionDetailID, 
+      OrderID, 
+      PickDeliveryType, 
+      status,
+      ClientHubID 
+    });
   }
   renderOrder(order) {
     const { 
@@ -53,8 +73,12 @@ class PickGroupDetailScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { pickGroup } = this.state;
-    
+    const { pickGroup } = this;
+    console.log('====================================');
+    console.log('PickGroupDetail render!');
+    console.log(pickGroup);
+    console.log('====================================');
+
     return (
       
       <Container>
@@ -101,8 +125,8 @@ class PickGroupDetailScreen extends Component {
 
 const mapStateToProps = ({ auth, pd }) => {
   const { sessionToken } = auth;
-  const { pdsId } = pd;
-  return { sessionToken, pdsId };
+  const { pdsId, pds } = pd;
+  return { sessionToken, pdsId, pds };
 };
 
 

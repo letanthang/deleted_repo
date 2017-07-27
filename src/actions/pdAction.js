@@ -55,14 +55,10 @@ export const setCurrentDeliveryOrder = (orderID) => {
   };
 };
 
-export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
-  const OrderID = order.OrderID;
-  //const { PickDeliverySessionID } = pds;
-  const { PickDeliverySessionDetailID } = order;
-  const PickDeliveryType = order.PickDeliveryType !== undefined ? order.PickDeliveryType : 1;
+export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status, ClienHubID }) => {
   // NextStatus: "Delivered"
   console.log(`pdAction: updateOrderStatus is called with type: ${PickDeliveryType}`);
-  console.log({ sessionToken, pdsId, order, status });
+  console.log({ sessionToken, pdsId, OrderID, PickDeliveryType, status });
 
   return ((dispatch) => {
     dispatch({ type: UPDATE_ORDER_STATUS });
@@ -78,15 +74,17 @@ export const updateOrderStatus = ({ sessionToken, pdsId, order, status }) => {
             PDSDetailID: PickDeliverySessionDetailID,
             OrderID,
             PDSType: PickDeliveryType,
-            NextStatus: status
+            NextStatus: status,
+            ClienHubID
           }
       ]
     })
       .then(response => {
         const json = response.data;
+        console.log(json);
         if (json.code === 1) {
           //pdListFetchSuccess(dispatch, responseJson.data);
-          updateOrderStatusSuccess(dispatch, { OrderID, CurrentStatus: status, PickDeliveryType });
+          updateOrderStatusSuccess(dispatch, { OrderID, CurrentStatus: status, PickDeliveryType, ClienHubID });
         } else {
           updateOrderStatusFail(dispatch);
         }

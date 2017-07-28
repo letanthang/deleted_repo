@@ -191,8 +191,8 @@ class DeliveryOrderScreen extends Component {
 const mapStateToProps = ({ pd, auth }) => {
   //const OrderID = ownProps.navigation.state.params.OrderID;
   const { sessionToken } = auth;
-  const { pds, pdsId } = pd;
-  return { pds, pdsId, sessionToken };
+  const { pds, pdsId, loading } = pd;
+  return { pds, pdsId, sessionToken, loading };
 };
 
 

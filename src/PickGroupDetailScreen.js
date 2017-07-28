@@ -125,8 +125,8 @@ class PickGroupDetailScreen extends Component {
 
 const mapStateToProps = ({ auth, pd }) => {
   const { sessionToken } = auth;
-  const { pdsId, pds } = pd;
-  return { sessionToken, pdsId, pds };
+  const { pdsId, pds, loading } = pd;
+  return { sessionToken, pdsId, pds, loading };
 };
 
 

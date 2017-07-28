@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { 
-  Container, Content, Right, Left, Body, 
-  Icon, Button, Title, Card, CardItem,
-  Text, Header, Tab, Tabs 
+  Container, Right, Left, Body, 
+  Icon, Button, Title, 
+  Header, Tab, Tabs 
 } from 'native-base';
 import { connect } from 'react-redux';
 import DeliveryGroupList from './components/DeliveryGroupList';
@@ -15,7 +15,7 @@ class DeliveryListScreen extends Component {
   componentWillUpdate() {
     
   }
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     
   }
   render() {

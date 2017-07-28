@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { 
-  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDPICK_LIST,
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL, 
   SET_CURRENT_DELIVERY_ORDER
 } from './types';
@@ -42,12 +42,6 @@ export const pdListFetchFail = (dispatch) => {
   dispatch({ type: PDLIST_FETCH_FAIL });
 };
 
-export const pdPickList = () => {
-  return {
-    type: PDPICK_LIST
-  };
-};
-
 export const setCurrentDeliveryOrder = (orderID) => {
   return {
     type: SET_CURRENT_DELIVERY_ORDER,
@@ -55,7 +49,15 @@ export const setCurrentDeliveryOrder = (orderID) => {
   };
 };
 
-export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status, ClienHubID }) => {
+export const updateOrderStatus = ({ 
+  sessionToken, 
+  pdsId, 
+  PickDeliverySessionDetailID,
+  OrderID,
+  PickDeliveryType,
+  status,
+  ClientHubID 
+}) => {
   // NextStatus: "Delivered"
   console.log(`pdAction: updateOrderStatus is called with type: ${PickDeliveryType}`);
   console.log({ sessionToken, pdsId, OrderID, PickDeliveryType, status });
@@ -75,7 +77,7 @@ export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDeta
             OrderID,
             PDSType: PickDeliveryType,
             NextStatus: status,
-            ClienHubID
+            ClientHubID
           }
       ]
     })
@@ -84,7 +86,8 @@ export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDeta
         console.log(json);
         if (json.code === 1) {
           //pdListFetchSuccess(dispatch, responseJson.data);
-          updateOrderStatusSuccess(dispatch, { OrderID, CurrentStatus: status, PickDeliveryType, ClienHubID });
+          updateOrderStatusSuccess(dispatch, 
+            { OrderID, CurrentStatus: status, PickDeliveryType, ClientHubID });
         } else {
           updateOrderStatusFail(dispatch);
         }

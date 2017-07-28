@@ -9,6 +9,7 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
+import LoadingSpinner from './components/LoadingSpinner';
 
 class DeliveryOrderScreen extends Component {
 
@@ -181,8 +182,8 @@ class DeliveryOrderScreen extends Component {
 
           {this.renderButtons(order, CurrentStatus)}
         </Content>
+        <LoadingSpinner loading={this.props.loading} />
       </Container>
-      
     );
   }
 }

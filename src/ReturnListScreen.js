@@ -37,7 +37,7 @@ class PickListScreen extends Component {
             <Icon name="arrow-back" />
           </Button>
           <Body>
-            <Title>C đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
+            <Title>C đi trả ({this.props.returnComplete}/{this.props.returnTotal})</Title>
           </Body>
           <Right />
         </Header>
@@ -45,6 +45,7 @@ class PickListScreen extends Component {
       </Container>
     );
   }
+
 }
 
 const mapStateToProps = ({ pd }) => {

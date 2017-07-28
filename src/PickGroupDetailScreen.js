@@ -9,6 +9,7 @@ import {
 } from 'native-base';
 import ChkBox from 'react-native-check-box';
 import { updateOrderStatus } from './actions';
+import LoadingSpinner from './components/LoadingSpinner';
 
 class PickGroupDetailScreen extends Component {
   
@@ -16,7 +17,7 @@ class PickGroupDetailScreen extends Component {
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-    this.ClienHubID = this.pickGroup.ClienHubID;
+    this.ClientHubID = this.pickGroup.ClientHubID;
   }
   componentDidUpdate() {
     this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID);
@@ -115,8 +116,7 @@ class PickGroupDetailScreen extends Component {
             renderRow={this.renderOrder.bind(this)}
           />
         </Content>
-      
-        
+        <LoadingSpinner loading={this.props.loading} />
       </Container>
       
     );

@@ -11,6 +11,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import ChkBox from 'react-native-check-box';
 import { connect } from 'react-redux';
 import { userIDChanged, passwordChanged, loginUser, logoutUser } from './actions';
+import LoadingSpinner from './components/LoadingSpinner';
 
 //create comp
 class LoginScreen extends Component {
@@ -130,11 +131,8 @@ class LoginScreen extends Component {
             >
               <Text>ĐĂNG NHẬP</Text>
             </Button>
-            {this.renderSpinner()}
         </Content>
-        <View style={styles.footer}>
-          <Text>2017 @ by giaohangnhanh</Text>
-        </View>
+        <LoadingSpinner loading={this.props.loading} />
       </Container>
     );
   }

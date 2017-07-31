@@ -7,6 +7,7 @@ import {
   List, ListItem 
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -163,7 +164,16 @@ class DeliveryOrderScreen extends Component {
             <ListItem>
               <Text>Số điện thoại</Text>
               <Right>
-                <Text>{RecipientPhone}</Text>
+                <Button
+                  transparent
+                  iconRight
+                  onPress={() => phonecall(RecipientPhone, true)}
+                >
+                  <Text>{RecipientPhone}</Text>
+                  <Icon name='call' />
+                </Button>
+                
+                
               </Right>
             </ListItem>
             <ListItem>
@@ -186,7 +196,13 @@ class DeliveryOrderScreen extends Component {
             <ListItem>
               <Text>SĐT NCC</Text>
               <Right>
-                <Text>{ContactPhone}</Text>
+                <Button
+                  transparent
+                  iconRight
+                >
+                  <Text>{ContactPhone}</Text>
+                  <Icon name='call' />
+                </Button>
               </Right>
             </ListItem>
             <ListItem>

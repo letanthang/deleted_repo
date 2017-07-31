@@ -18,15 +18,45 @@ class PickGroupDetailScreen extends Component {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.ClientHubID = this.pickGroup.ClientHubID;
+    this.PickDeliveryType = this.pickGroup.PickDeliveryType;
   }
   componentDidUpdate() {
-    this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID);
+    this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID 
+      && pg.PickDeliveryType === this.PickDeliveryType);
   }
 
   pickGroup = null;
   ClientHubID = null;
+  PickDeliveryType = null;
   
-  updateOrder(order, status) {
+  updateOrderToDone(order) {
+    let status = null;
+    if (this.pickGroup.PickDeliveryType === 3) status = 'WaitingToFinish';
+    if (this.pickGroup.PickDeliveryType === 1) status = 'Storing';
+    this.updateOrder(order, status);
+  }
+
+  updateOrderToFail(order) {
+    let status = null;
+    let infos = {};
+    if (this.pickGroup.PickDeliveryType === 3) {
+      status = 'Storing';
+      const StoringCode = 'GHN-SC9649';
+      const NewDate = 0;
+      const Log = 'GHN-SC9649|KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG';
+      infos = { StoringCode, NewDate, Log };
+    } 
+    if (this.pickGroup.PickDeliveryType === 1) {
+      status = 'ReadyToPick';
+      const StoringCode = 'GHN-PC952A';
+      const NewDate = 0;
+      const Log = 'GHN-PC952A|NGƯỜI GỬI HẸN LẠI NGÀY LẤY(5/8/2017)';
+      infos = { StoringCode, NewDate, Log };
+    } 
+    this.updateOrder(order, status, infos);
+  }
+
+  updateOrder(order, status, infos = {}) {
     const { pickGroup, ClientHubID } = this;
     const { sessionToken, pdsId } = this.props;
     const { PickDeliverySessionDetailID, OrderID } = order;
@@ -40,7 +70,8 @@ class PickGroupDetailScreen extends Component {
       OrderID, 
       PickDeliveryType, 
       status,
-      ClientHubID 
+      ClientHubID,
+      ...infos 
     });
   }
   renderOrder(order) {
@@ -48,8 +79,28 @@ class PickGroupDetailScreen extends Component {
       OrderCode, RecipientName, RecipientPhone, ServiceCost, 
       Height, Width, Weight, Length, CurrentStatus
     } = order;
+
+    let rightText;
+    let doneStatus;
+    let failStatus;
+    let disabled;
+    let backgroundColor = '#fff';
+    if (this.pickGroup.PickDeliveryType === 1) {
+      rightText = 'ĐÃ LẤY';
+      doneStatus = 'Storing';
+      failStatus = 'ReadyToPick';
+      disabled = CurrentStatus !== 'Picking';
+    } else if (this.pickGroup.PickDeliveryType === 3) {
+      rightText = 'ĐÃ TRẢ';
+      doneStatus = 'Returned';
+      failStatus = 'Storing';
+      disabled = CurrentStatus !== 'Returning';
+    }
+
+    if (disabled) backgroundColor = '#bbb';
+    
     return (
-      <View style={{ padding: 5 }}>
+      <View style={{ padding: 5, backgroundColor }}>
         <Text>{OrderCode}</Text>
         <Text>{RecipientName} - {RecipientPhone}</Text>
         <Text>{Weight} g|{Length}-{Width}-{Height} (cm3)</Text>
@@ -57,15 +108,15 @@ class PickGroupDetailScreen extends Component {
         <Item>
           <ChkBox
             style={{ flex: 1, padding: 10 }}
-            onClick={() => console.log('loi pressed')}
-            isChecked={false}
-            rightText="LOI" 
+            onClick={this.updateOrderToFail.bind(this, order)}
+            isChecked={CurrentStatus === failStatus}
+            rightText="LỖI" 
           /> 
           <ChkBox
             style={{ flex: 1, padding: 10 }}
-            onClick={this.updateOrder.bind(this, order, 'Storing')}
-            isChecked={CurrentStatus === 'Storing'}
-            rightText="DA LAY" 
+            onClick={this.updateOrderToDone.bind(this, order)}
+            isChecked={CurrentStatus === doneStatus}
+            rightText={rightText} 
           /> 
         </Item>
       </View>

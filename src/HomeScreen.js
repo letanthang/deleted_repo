@@ -35,9 +35,9 @@ class HomeScreen extends Component {
     navigate('PickList');
   }
   onReturnPress() {
-    console.log('PickList pressed!');
+    console.log('ReturnList pressed!');
     const { navigate } = this.props.navigation;
-    navigate('PickList');
+    navigate('ReturnList');
   }
   onDeliveryPress() {
     console.log('DeliveryList pressed!');
@@ -86,7 +86,7 @@ class HomeScreen extends Component {
 
           <PDCard
             type='return'
-            onPress={this.onPickPress.bind(this)}
+            onPress={this.onReturnPress.bind(this)}
             upNumber={this.props.returnComplete}
             downNumber={this.props.returnTotal}
           />

@@ -30,25 +30,55 @@ class DeliveryOrderScreen extends Component {
     console.log(order);
     console.log('====================================');
   }
-  
-  renderButtons(order, currentStatus) {
+
+  updateOrderToDone(order) {
     const { sessionToken, pdsId } = this.props;
     const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Delivered';
+    this.props.updateOrderStatus({ 
+      sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status 
+    });
+  }
+
+  updateOrderToFail(order) {
+    console.log('giao loi pressed');
+    const { sessionToken, pdsId } = this.props;
+    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
+    const status = 'Storing';
+    const StoringCode = 'GHN-SC9649';
+    const NewDate = 0;
+    const Log = 'GHN-SC9649|KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG';
+    this.props.updateOrderStatus({ 
+      sessionToken, 
+      pdsId, 
+      PickDeliverySessionDetailID, 
+      OrderID, 
+      PickDeliveryType, 
+      status,
+      StoringCode,
+      NewDate,
+      Log 
+    });
+  }
+  
+  renderButtons(order, currentStatus) {
     const displayStatus = Utils.getDisplayStatus(currentStatus);
 
     if (displayStatus === 'Đang giao') {
       return (
         <Grid>
           <Col style={{ margin: 2 }}>
-            <Button block style={{ backgroundColor: '#06B2F5' }}>
-            <Text>GIAO LỖI</Text>
+            <Button 
+              block style={{ backgroundColor: '#06B2F5' }}
+              onPress={this.updateOrderToFail.bind(this, order)}
+            >
+              <Text>GIAO LỖI</Text>
             </Button>
           </Col>
           <Col style={{ margin: 2 }}>
           <Button 
             block style={{ backgroundColor: '#06B2F5' }}
-            onPress={() => this.props.updateOrderStatus({ sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status })}
+            onPress={this.updateOrderToDone.bind(this, order)}
           >
             <Text>ĐÃ GIAO</Text>
             </Button>

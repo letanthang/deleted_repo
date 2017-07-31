@@ -9,7 +9,7 @@ import PickGroupList from './components/PickGroupList';
 
 class PickListScreen extends Component {
   componentWillMount() {
-    console.log('PickListScreen: CWM called!');
+    console.log('ReturnListScreen: CWM called!');
   }
   componentWillUpdate() {
     
@@ -41,7 +41,7 @@ class PickListScreen extends Component {
           </Body>
           <Right />
         </Header>
-        <PickGroupList {...this.props} />
+        <PickGroupList {...this.props} pdType={3} />
       </Container>
     );
   }
@@ -49,8 +49,8 @@ class PickListScreen extends Component {
 }
 
 const mapStateToProps = ({ pd }) => {
-  const { pds, pickTotal, pickComplete } = pd;
-  return { pds, pickTotal, pickComplete };
+  const { pds, returnTotal, returnComplete } = pd;
+  return { pds, returnTotal, returnComplete };
 };
 
 export default connect(mapStateToProps, { })(PickListScreen);

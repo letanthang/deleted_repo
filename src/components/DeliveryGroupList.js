@@ -28,8 +28,10 @@ class DeliveryGroupList extends Component {
   renderStatusText(status) {
     const displayStatus = Utils.getDisplayStatus(status);
     let textColor = '#65BD68';
-    if (displayStatus !== 'Đang giao') {
+    if (displayStatus === 'Đã giao') {
       textColor = 'grey';
+    } else if (displayStatus === 'Giao lỗi') {
+      textColor = '#E82027';
     }
     return (
       <Text style={{ color: textColor }}>

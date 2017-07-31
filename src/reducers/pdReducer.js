@@ -90,10 +90,12 @@ export default (state = nameInitialState, action) => {
       const pds = _.cloneDeep(state.pds);
       if (PickDeliveryType === 2) {
         order = pds.DeliveryItems.find(o => o.OrderID === OrderID);
-        order.CurrentStatus = 'WaitingToFinish';
+        //order.CurrentStatus = 'WaitingToFinish';
+        order.CurrentStatus = CurrentStatus;
       }
       if (PickDeliveryType === 1 || PickDeliveryType === 3) {
-        const pickGroup = pds.PickReturnItems.find(pg => pg.ClientHubID === ClientHubID);
+        const pickGroup = pds.PickReturnItems.find(pg => pg.ClientHubID === ClientHubID 
+          && pg.PickDeliveryType === PickDeliveryType);
         console.log(pickGroup);
         order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
         order.CurrentStatus = CurrentStatus;

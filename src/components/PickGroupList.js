@@ -63,7 +63,12 @@ class PickGroupList extends Component {
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
-    const pickList = this.props.pds.PickReturnItems.filter(pg => pg.PickDeliveryType === 1);
+    let pdType = this.props.pdType;
+    pdType = pdType === undefined ? 1 : pdType;
+    console.log('====================================');
+    console.log(`PickGroupList render! pdType = ${pdType}`);
+    console.log('====================================');
+    const pickList = this.props.pds.PickReturnItems.filter(pg => pg.PickDeliveryType === pdType);
     return (
       <Content style={{ backgroundColor: '#eee' }}>
       <List

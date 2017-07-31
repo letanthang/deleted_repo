@@ -24,7 +24,7 @@ class Utils {
   }
 
   static checkPickComplete(status) {
-    const completeList = ['', 'Storing'];
+    const completeList = ['ReadyToPick', 'Storing'];
     if (completeList.includes(status)) {
       return true;
     }
@@ -32,7 +32,7 @@ class Utils {
   }
 
   static checkReturnComplete(status) {
-    const completeList = ['', 'Returned'];
+    const completeList = ['WaitingToFinish', 'Returned'];
     if (completeList.includes(status)) {
       return true;
     }

@@ -20,10 +20,6 @@ class PickGroupDetailScreen extends Component {
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
   }
-  componentDidUpdate() {
-    this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID 
-      && pg.PickDeliveryType === this.PickDeliveryType);
-  }
 
   pickGroup = null;
   ClientHubID = null;
@@ -94,7 +90,7 @@ class PickGroupDetailScreen extends Component {
       rightText = 'ĐÃ TRẢ';
       doneStatus = 'Returned';
       failStatus = 'Storing';
-      disabled = CurrentStatus !== 'Returning';
+      disabled = CurrentStatus !== 'Return';
     }
 
     if (disabled) backgroundColor = '#bbb';
@@ -124,8 +120,13 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
+    this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID 
+      && pg.PickDeliveryType === this.PickDeliveryType);
+      
     const { navigation } = this.props;
     const { pickGroup } = this;
+    
+
     console.log('====================================');
     console.log('PickGroupDetail render!');
     console.log(pickGroup);

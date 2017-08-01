@@ -85,6 +85,11 @@ export default (state = nameInitialState, action) => {
     }
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
+      console.log('================================================');
+      console.log('pdReducer: UPDATE_ORDER_STATUS_SUCCESS is called');
+      console.log('state before:');
+      console.log(state.pds);
+
       const { OrderID, PickDeliveryType, CurrentStatus, ClientHubID } = action.payload;
       let order = {};
       const pds = _.cloneDeep(state.pds);
@@ -100,10 +105,9 @@ export default (state = nameInitialState, action) => {
         order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
         order.CurrentStatus = CurrentStatus;
       }
-      console.log('pdReducer: UPDATE_ORDER_STATUS_SUCCESS');
-      console.log(state.pds.DeliveryItems);
 
-
+      console.log('state after:');
+      console.log(pds);
       //update statistic number
       // pick
       const pickGroupList = pds.PickReturnItems.filter(p => p.PickDeliveryType === 1);
@@ -115,7 +119,7 @@ export default (state = nameInitialState, action) => {
         });
         return isComplete;
       }).length;
-      console.log(`fetch succes with pickComplete = ${pickComplete}`);
+      console.log(`update status success with pickComplete = ${pickComplete}`);
 
       // delivery
       const deliveryTotal = pds.DeliveryItems.length;
@@ -132,6 +136,7 @@ export default (state = nameInitialState, action) => {
         return isComplete;
       }).length;
 
+      console.log('================================================');
       return {
         ...state,
         loading: false,

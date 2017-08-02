@@ -62,53 +62,6 @@ class ReturnOrderScreen extends Component {
     });
   }
   
-  renderButtons(order, currentStatus) {
-    const displayStatus = Utils.getDisplayStatus(currentStatus);
-
-    if (displayStatus === 'Đang giao') {
-      return (
-        <Grid>
-          <Col style={{ margin: 2 }}>
-            <Button 
-              block style={{ backgroundColor: '#06B2F5' }}
-              onPress={this.updateOrderToFail.bind(this, order)}
-            >
-              <Text>GIAO LỖI</Text>
-            </Button>
-          </Col>
-          <Col style={{ margin: 2 }}>
-          <Button 
-            block style={{ backgroundColor: '#06B2F5' }}
-            onPress={this.updateOrderToDone.bind(this, order)}
-          >
-            <Text>ĐÃ GIAO</Text>
-            </Button>
-          </Col>
-        </Grid>
-      );
-    }
-
-    return this.renderDisabledButtons();
-  }
-
-  renderDisabledButtons() {
-    return (
-      <Grid>
-        <Col style={{ margin: 2 }}>
-          <Button block disabled style={{ backgroundColor: '#aaa' }}>
-          <Text>GIAO LỖI</Text>
-          </Button>
-        </Col>
-        <Col style={{ margin: 2 }}>
-        <Button block disabled style={{ backgroundColor: '#aaa' }}>
-          <Text>ĐÃ GIAO</Text>
-          </Button>
-        </Col>
-      </Grid>
-    );
-  }
-
-  
   render() {
     const OrderID = this.props.navigation.state.params.OrderID;
     const order = this.props.navigation.state.params.order;
@@ -117,7 +70,7 @@ class ReturnOrderScreen extends Component {
     const { 
       RecipientName, RecipientPhone, Address, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,
-      DisplayOrder, Note, Log, CurrentStatus, NextStatus
+      Note, Log, CurrentStatus
     } = order;
 
     return (
@@ -137,8 +90,8 @@ class ReturnOrderScreen extends Component {
           >
             <Icon name="arrow-back" />
           </Button>
-          <Body>
-            <Title>[{DisplayOrder}] {OrderCode}</Title>
+          <Body style={{ flex: 3 }}>
+            <Title>{OrderCode}</Title>
           </Body>
           <Right>
             <Button
@@ -181,29 +134,6 @@ class ReturnOrderScreen extends Component {
                 <Text>{Address}</Text>
               </Right>
             </ListItem>
-            <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
-              <Text style={{ color: 'white' }}>Thông tin đơn hàng</Text>
-            </ListItem>
-            <ListItem>
-              <Text>Tổng thu</Text>
-              <Right><Text>{CODAmount}</Text></Right>
-            </ListItem>
-            <ListItem>
-              <Text>Nhà cung cấp</Text>
-              <Right><Text>{ClientName}</Text></Right>
-            </ListItem>
-            <ListItem>
-              <Text>SĐT NCC</Text>
-              <Right>
-                <Button
-                  transparent
-                  iconRight
-                >
-                  <Text>{ContactPhone}</Text>
-                  <Icon name='call' />
-                </Button>
-              </Right>
-            </ListItem>
             <ListItem>
               <Text>Ghi chú đơn hàng</Text>
               <Right>
@@ -215,17 +145,8 @@ class ReturnOrderScreen extends Component {
               <Text>Lịch sử đơn hàng</Text>
               <Text>{Log}</Text>
               </Body>
-              
-            </ListItem>
-            <ListItem>
-              <Text>Ghi chú xem hàng</Text>
-              <Right>
-                <Text>{RequiredNote}</Text>
-              </Right>
             </ListItem>
           </List>
-
-          {this.renderButtons(order, CurrentStatus)}
         </Content>
         <LoadingSpinner loading={this.props.loading} />
       </Container>

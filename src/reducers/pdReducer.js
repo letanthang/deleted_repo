@@ -99,11 +99,17 @@ export default (state = nameInitialState, action) => {
         order.CurrentStatus = CurrentStatus;
       }
       if (PickDeliveryType === 1 || PickDeliveryType === 3) {
-        const pickGroup = pds.PickReturnItems.find(pg => pg.ClientHubID === ClientHubID 
+        const pickGroups = pds.PickReturnItems.filter(pg => pg.ClientHubID === ClientHubID 
           && pg.PickDeliveryType === PickDeliveryType);
-        console.log(pickGroup);
-        order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
-        order.CurrentStatus = CurrentStatus;
+        console.log(pickGroups);
+        pickGroups.forEach(pickGroup => {
+          const ord = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
+          if (ord !== undefined) {
+            ord.CurrentStatus = CurrentStatus;
+            ord.NextStatus = CurrentStatus;
+            console.log(`Found order - id = ${ord.OrderID}`);
+          } 
+        });
       }
 
       console.log('state after:');

@@ -11,11 +11,18 @@ import ChkBox from 'react-native-check-box';
 import { CheckBox } from 'react-native-elements';
 import { updateOrderStatus } from './actions';
 import LoadingSpinner from './components/LoadingSpinner';
+import Utils from './libs/Utils';
 
 class PickGroupDetailScreen extends Component {
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
+    console.log('====================================');
+    console.log('PickGroupDetailScreen: cwm is called. pickgroup = ');
+    console.log(this.props.navigation.state.params.pickGroup);
+    console.log('====================================');
+    
+    
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
   }
@@ -39,10 +46,10 @@ class PickGroupDetailScreen extends Component {
     let status = null;
     let infos = {};
     if (this.pickGroup.PickDeliveryType === 3) {
-      status = 'Storing';
-      const StoringCode = 'GHN-SC9649';
+      status = 'Return';
+      const StoringCode = 'GHN-RCD0D6';
       const NewDate = 0;
-      const Log = 'GHN-SC9649|KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG';
+      const Log = 'GHN-RCD0D6|NGƯỜI GỬI KHÔNG NHẬN HÀNG TRẢ';
       infos = { StoringCode, NewDate, Log };
     } 
     if (this.pickGroup.PickDeliveryType === 1) {
@@ -85,30 +92,46 @@ class PickGroupDetailScreen extends Component {
       navigate('ReturnOrder', { OrderID, order });
     }
   }
+  renderInfosForPick({ Weight, Length, Width, Height, ServiceCost }) {
+    if (this.pickGroup.PickDeliveryType === 3) return null;
+    return (
+      <View>
+        <Text>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
+        <Text>Tiền thu: {ServiceCost} đ</Text>
+      </View>
+    );
+  }
   renderOrder(order) {
     const { 
       OrderCode, RecipientName, RecipientPhone, ServiceCost, 
-      Height, Width, Weight, Length, CurrentStatus
+      Height, Width, Weight, Length, CurrentStatus, NextStatus
     } = order;
 
     let rightText;
     let doneStatus;
     let failStatus;
+    let done;
+    let fail;
     let disabled;
     let backgroundColor = '#fff';
     if (this.pickGroup.PickDeliveryType === 1) {
       rightText = 'ĐÃ LẤY';
       doneStatus = 'Storing';
       failStatus = 'ReadyToPick';
+      fail = CurrentStatus === failStatus;
+      done = Utils.checkPickDone(CurrentStatus);
       disabled = CurrentStatus !== 'Picking';
     } else if (this.pickGroup.PickDeliveryType === 3) {
       rightText = 'ĐÃ TRẢ';
       doneStatus = 'Returned';
       failStatus = 'Storing';
+      fail = Utils.checkReturnFail(CurrentStatus, NextStatus);
+      done = Utils.checkReturnDone(CurrentStatus);
       disabled = CurrentStatus !== 'Return';
     }
 
     if (disabled) backgroundColor = '#ddd';
+    console.log(`OrderCode: ${OrderCode} | CurrentStatus: ${CurrentStatus} | doneStatus ${doneStatus}`);
     
     return (
       <TouchableOpacity
@@ -117,19 +140,19 @@ class PickGroupDetailScreen extends Component {
         <View style={{ padding: 5, backgroundColor }}>
           <Text>{OrderCode}</Text>
           <Text>{RecipientName} - {RecipientPhone}</Text>
-          <Text>{Weight} g|{Length}-{Width}-{Height} (cm3)</Text>
-          <Text>Tiền thu: {ServiceCost} đ</Text>
+          {this.renderInfosForPick({ Weight, Length, Width, Height, ServiceCost })}
+          
           <Item>
             <CheckBox
               title='LỖI'
               onPress={this.updateOrderToFail.bind(this, order)}
-              checked={CurrentStatus === failStatus}
+              checked={fail}
               style={{ backgroundColor }}
             />
             <CheckBox
               title={rightText}
               onPress={this.updateOrderToDone.bind(this, order)}
-              checked={CurrentStatus === doneStatus}
+              checked={done}
               style={{ backgroundColor }}
             />
           </Item>
@@ -139,8 +162,10 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
+    const { DisplayOrder } = this.pickGroup;
+
     this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID 
-      && pg.PickDeliveryType === this.PickDeliveryType);
+      && pg.PickDeliveryType === this.PickDeliveryType && pg.DisplayOrder === DisplayOrder);
       
     const { navigation } = this.props;
     const { pickGroup } = this;

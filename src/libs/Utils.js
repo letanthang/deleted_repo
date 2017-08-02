@@ -31,12 +31,32 @@ class Utils {
     return false;
   }
 
+  static checkPickDone(status) {
+    const completeList = ['Storing'];
+    if (completeList.includes(status)) {
+      return true;
+    }
+    return false;
+  }
+
   static checkReturnComplete(status) {
     const completeList = ['WaitingToFinish', 'Returned'];
     if (completeList.includes(status)) {
       return true;
     }
     return false;
+  }
+
+  static checkReturnDone(status) {
+    const completeList = ['WaitingToFinish', 'Returned'];
+    if (completeList.includes(status)) {
+      return true;
+    }
+    return false;
+  }
+
+  static checkReturnFail(CurrentStatus, NextStatus) {
+    return CurrentStatus === 'Return' && NextStatus === 'Return';
   }
 }
 

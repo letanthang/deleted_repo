@@ -12,12 +12,12 @@ import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
 
-class DeliveryOrderScreen extends Component {
+class ReturnOrderScreen extends Component {
 
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
-    console.log(`DeliveryOrderScreen: cwm called with
+    console.log(`ReturnOrderScreen: cwm called with
     OrderID = ${OrderID}`);
     console.log('====================================');
   }
@@ -27,7 +27,7 @@ class DeliveryOrderScreen extends Component {
     const OrderID = this.props.navigation.state.params.OrderID;
     const order = deliveryList.find(o => o.OrderID === OrderID);
     console.log('====================================');
-    console.log('DeliveryOrderScreen cdu');
+    console.log('ReturnOrderScreen: cdu');
     console.log(order);
     console.log('====================================');
   }
@@ -110,9 +110,8 @@ class DeliveryOrderScreen extends Component {
 
   
   render() {
-    const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
-    const order = deliveryList.find(o => o.OrderID === OrderID);
+    const order = this.props.navigation.state.params.order;
 
     const { navigate, goBack } = this.props.navigation;
     const { 
@@ -245,4 +244,4 @@ const mapStateToProps = ({ pd, auth }) => {
 export default connect(
   mapStateToProps, 
   { updateOrderStatus }
-)(DeliveryOrderScreen);
+)(ReturnOrderScreen);

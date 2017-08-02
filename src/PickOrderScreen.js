@@ -12,12 +12,12 @@ import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
 
-class DeliveryOrderScreen extends Component {
+class PickOrderScreen extends Component {
 
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
-    console.log(`DeliveryOrderScreen: cwm called with
+    console.log(`PickOrderScreen: cwm called with
     OrderID = ${OrderID}`);
     console.log('====================================');
   }
@@ -27,7 +27,7 @@ class DeliveryOrderScreen extends Component {
     const OrderID = this.props.navigation.state.params.OrderID;
     const order = deliveryList.find(o => o.OrderID === OrderID);
     console.log('====================================');
-    console.log('DeliveryOrderScreen cdu');
+    console.log('PickOrderScreen: cdu');
     console.log(order);
     console.log('====================================');
   }
@@ -62,63 +62,17 @@ class DeliveryOrderScreen extends Component {
     });
   }
   
-  renderButtons(order, currentStatus) {
-    const displayStatus = Utils.getDisplayStatus(currentStatus);
-
-    if (displayStatus === 'Đang giao') {
-      return (
-        <Grid>
-          <Col style={{ margin: 2 }}>
-            <Button 
-              block style={{ backgroundColor: '#06B2F5' }}
-              onPress={this.updateOrderToFail.bind(this, order)}
-            >
-              <Text>GIAO LỖI</Text>
-            </Button>
-          </Col>
-          <Col style={{ margin: 2 }}>
-          <Button 
-            block style={{ backgroundColor: '#06B2F5' }}
-            onPress={this.updateOrderToDone.bind(this, order)}
-          >
-            <Text>ĐÃ GIAO</Text>
-            </Button>
-          </Col>
-        </Grid>
-      );
-    }
-
-    return this.renderDisabledButtons();
-  }
-
-  renderDisabledButtons() {
-    return (
-      <Grid>
-        <Col style={{ margin: 2 }}>
-          <Button block disabled style={{ backgroundColor: '#aaa' }}>
-          <Text>GIAO LỖI</Text>
-          </Button>
-        </Col>
-        <Col style={{ margin: 2 }}>
-        <Button block disabled style={{ backgroundColor: '#aaa' }}>
-          <Text>ĐÃ GIAO</Text>
-          </Button>
-        </Col>
-      </Grid>
-    );
-  }
-
-  
   render() {
-    const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
-    const order = deliveryList.find(o => o.OrderID === OrderID);
+    const order = this.props.navigation.state.params.order;
 
     const { navigate, goBack } = this.props.navigation;
     const { 
-      RecipientName, RecipientPhone, Address, CODAmount,
+      RecipientName, RecipientPhone, Address, ExternalCode,
+      ServiceName, TotalCollectedAmount, Width, Height,
+      CODAmount, Weight, Length, ServiceCost,
       ClientName, ContactPhone, RequiredNote, OrderCode,
-      DisplayOrder, Note, Log, CurrentStatus, NextStatus
+      Note, Log, CurrentStatus
     } = order;
 
     return (
@@ -138,8 +92,8 @@ class DeliveryOrderScreen extends Component {
           >
             <Icon name="arrow-back" />
           </Button>
-          <Body>
-            <Title>[{DisplayOrder}] {OrderCode}</Title>
+          <Body style={{ flex: 3 }}>
+            <Title>{OrderCode}</Title>
           </Body>
           <Right>
             <Button
@@ -152,6 +106,62 @@ class DeliveryOrderScreen extends Component {
         </Header>
         <Content>
           <List>
+            <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
+              <Text style={{ color: 'white' }}>Tổng quan</Text>
+            </ListItem>
+            <ListItem>
+              <Text>Mã nhận hàng</Text>
+              <Right>
+                <Text>{ExternalCode || 'Không có'}</Text>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Text>Mã đơn hàng shop</Text>
+              <Right>
+                <Text>{ExternalCode || 'Không có'}</Text>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Text>Gói dịch vụ</Text>
+              <Right>
+                <Text>{ServiceName}</Text>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Text>Tổng thu người gởi</Text>
+              <Right>
+                <Text>{ServiceCost} đ</Text>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Text>Phí vận chuyển</Text>
+              <Right>
+                <Text>{ServiceCost} đ</Text>
+              </Right>
+            </ListItem>
+
+            <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
+              <Text style={{ color: 'white' }}>Khối lượng và kích thước</Text>
+            </ListItem>
+            <ListItem>
+              <Text>Khối lượng</Text>
+              <Right>
+                <Text>{Weight} g</Text>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Text>Kích thước</Text>
+              <Right>
+                <Text>{Length}cm x {Width}cm x {Height}cm</Text>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Text>Khối lượng qui đổi</Text>
+              <Right>
+                <Text>{Length * Width * Height * 0.2} g</Text>
+              </Right>
+            </ListItem>
+
             <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
             </ListItem>
@@ -172,8 +182,6 @@ class DeliveryOrderScreen extends Component {
                   <Text>{RecipientPhone}</Text>
                   <Icon name='call' />
                 </Button>
-                
-                
               </Right>
             </ListItem>
             <ListItem>
@@ -182,28 +190,10 @@ class DeliveryOrderScreen extends Component {
                 <Text>{Address}</Text>
               </Right>
             </ListItem>
+
+
             <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
-              <Text style={{ color: 'white' }}>Thông tin đơn hàng</Text>
-            </ListItem>
-            <ListItem>
-              <Text>Tổng thu</Text>
-              <Right><Text>{CODAmount}</Text></Right>
-            </ListItem>
-            <ListItem>
-              <Text>Nhà cung cấp</Text>
-              <Right><Text>{ClientName}</Text></Right>
-            </ListItem>
-            <ListItem>
-              <Text>SĐT NCC</Text>
-              <Right>
-                <Button
-                  transparent
-                  iconRight
-                >
-                  <Text>{ContactPhone}</Text>
-                  <Icon name='call' />
-                </Button>
-              </Right>
+              <Text style={{ color: 'white' }}>Ghi chú</Text>
             </ListItem>
             <ListItem>
               <Text>Ghi chú đơn hàng</Text>
@@ -216,17 +206,8 @@ class DeliveryOrderScreen extends Component {
               <Text>Lịch sử đơn hàng</Text>
               <Text>{Log}</Text>
               </Body>
-              
-            </ListItem>
-            <ListItem>
-              <Text>Ghi chú xem hàng</Text>
-              <Right>
-                <Text>{RequiredNote}</Text>
-              </Right>
             </ListItem>
           </List>
-
-          {this.renderButtons(order, CurrentStatus)}
         </Content>
         <LoadingSpinner loading={this.props.loading} />
       </Container>
@@ -245,4 +226,4 @@ const mapStateToProps = ({ pd, auth }) => {
 export default connect(
   mapStateToProps, 
   { updateOrderStatus }
-)(DeliveryOrderScreen);
+)(PickOrderScreen);

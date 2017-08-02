@@ -73,6 +73,18 @@ class PickGroupDetailScreen extends Component {
       ...infos 
     });
   }
+  onOrderPress(order) {
+    console.log('onOrderPress called with type = ');
+    console.log(this.pickGroup.PickDeliveryType);
+    const { navigate } = this.props.navigation;
+    const { OrderID } = order;
+
+    if (this.pickGroup.PickDeliveryType === 1) {
+      navigate('PickOrder', { OrderID, order });
+    } else if (this.pickGroup.PickDeliveryType === 3) {
+      navigate('ReturnOrder', { OrderID, order });
+    }
+  }
   renderOrder(order) {
     const { 
       OrderCode, RecipientName, RecipientPhone, ServiceCost, 
@@ -100,7 +112,7 @@ class PickGroupDetailScreen extends Component {
     
     return (
       <TouchableOpacity
-        onPress={() => console.log('PickReturnOrder Press')}
+        onPress={this.onOrderPress.bind(this, order)}
       >
         <View style={{ padding: 5, backgroundColor }}>
           <Text>{OrderCode}</Text>

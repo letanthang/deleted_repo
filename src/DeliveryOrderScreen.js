@@ -138,7 +138,7 @@ class DeliveryOrderScreen extends Component {
           >
             <Icon name="arrow-back" />
           </Button>
-          <Body>
+          <Body style={{ flex: 3 }}>
             <Title>[{DisplayOrder}] {OrderCode}</Title>
           </Body>
           <Right>

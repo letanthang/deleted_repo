@@ -38,7 +38,7 @@ class DeliveryListScreen extends Component {
           >
             <Icon name="arrow-back" />
           </Button>
-          <Body>
+          <Body style={{ flex: 3 }}>
             <Title>C đi giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
           </Body>
           <Right />

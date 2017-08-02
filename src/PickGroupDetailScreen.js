@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, List,
@@ -8,12 +8,11 @@ import {
   Title, Text
 } from 'native-base';
 import ChkBox from 'react-native-check-box';
+import { CheckBox } from 'react-native-elements';
 import { updateOrderStatus } from './actions';
 import LoadingSpinner from './components/LoadingSpinner';
 
 class PickGroupDetailScreen extends Component {
-  
-
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
@@ -26,6 +25,8 @@ class PickGroupDetailScreen extends Component {
   PickDeliveryType = null;
   
   updateOrderToDone(order) {
+    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Return') return;
+
     let status = null;
     if (this.pickGroup.PickDeliveryType === 3) status = 'WaitingToFinish';
     if (this.pickGroup.PickDeliveryType === 1) status = 'Storing';
@@ -33,6 +34,8 @@ class PickGroupDetailScreen extends Component {
   }
 
   updateOrderToFail(order) {
+    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Return') return;
+
     let status = null;
     let infos = {};
     if (this.pickGroup.PickDeliveryType === 3) {
@@ -93,29 +96,33 @@ class PickGroupDetailScreen extends Component {
       disabled = CurrentStatus !== 'Return';
     }
 
-    if (disabled) backgroundColor = '#bbb';
+    if (disabled) backgroundColor = '#ddd';
     
     return (
-      <View style={{ padding: 5, backgroundColor }}>
-        <Text>{OrderCode}</Text>
-        <Text>{RecipientName} - {RecipientPhone}</Text>
-        <Text>{Weight} g|{Length}-{Width}-{Height} (cm3)</Text>
-        <Text>Tiền thu: {ServiceCost} đ</Text>
-        <Item>
-          <ChkBox
-            style={{ flex: 1, padding: 10 }}
-            onClick={this.updateOrderToFail.bind(this, order)}
-            isChecked={CurrentStatus === failStatus}
-            rightText="LỖI" 
-          /> 
-          <ChkBox
-            style={{ flex: 1, padding: 10 }}
-            onClick={this.updateOrderToDone.bind(this, order)}
-            isChecked={CurrentStatus === doneStatus}
-            rightText={rightText} 
-          /> 
-        </Item>
-      </View>
+      <TouchableOpacity
+        onPress={() => console.log('PickReturnOrder Press')}
+      >
+        <View style={{ padding: 5, backgroundColor }}>
+          <Text>{OrderCode}</Text>
+          <Text>{RecipientName} - {RecipientPhone}</Text>
+          <Text>{Weight} g|{Length}-{Width}-{Height} (cm3)</Text>
+          <Text>Tiền thu: {ServiceCost} đ</Text>
+          <Item>
+            <CheckBox
+              title='LỖI'
+              onPress={this.updateOrderToFail.bind(this, order)}
+              checked={CurrentStatus === failStatus}
+              style={{ backgroundColor }}
+            />
+            <CheckBox
+              title={rightText}
+              onPress={this.updateOrderToDone.bind(this, order)}
+              checked={CurrentStatus === doneStatus}
+              style={{ backgroundColor }}
+            />
+          </Item>
+        </View>
+      </TouchableOpacity>
     );
   }
 
@@ -150,7 +157,7 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="arrow-back" />
           </Button>
-          <Body>
+          <Body style={{ flex: 3 }}>
             <Title>[{pickGroup.DisplayOrder}] {pickGroup.ClientName}</Title>
           </Body>
           <Right>
@@ -174,6 +181,14 @@ class PickGroupDetailScreen extends Component {
     );
   }
 }
+const styles = StyleSheet.create({
+  CheckBoxStyle: {
+    backgroundColor: '#fff'
+  },
+  CheckBoxStyleDisable: {
+    backgroundColor: '#ddd'
+  }
+});
 
 const mapStateToProps = ({ auth, pd }) => {
   const { sessionToken } = auth;

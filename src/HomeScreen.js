@@ -30,16 +30,19 @@ class HomeScreen extends Component {
     console.log('====================================');
   }
   onPickPress() {
+    if (this.props.pickTotal === 0) return;
     console.log('PickList pressed!');
     const { navigate } = this.props.navigation;
     navigate('PickList');
   }
   onReturnPress() {
+    if (this.props.returnTotal === 0) return;
     console.log('ReturnList pressed!');
     const { navigate } = this.props.navigation;
     navigate('ReturnList');
   }
   onDeliveryPress() {
+    if (this.props.deliveryTotal === 0) return;
     console.log('DeliveryList pressed!');
     const { navigate } = this.props.navigation;
     navigate('DeliveryList');

@@ -4,13 +4,13 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native';
 import { 
   Container, Content, Button, Text, 
-  Body, Input, Form, Item, CheckBox, ListItem 
+  Body, Input, Form, Item, ListItem 
 } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
-import ChkBox from 'react-native-check-box';
+import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { userIDChanged, passwordChanged, loginUser, logoutUser } from './actions';
+import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loginUser, logoutUser } from './actions';
 import LoadingSpinner from './components/LoadingSpinner';
 
 //create comp
@@ -24,6 +24,7 @@ class LoginScreen extends Component {
 
   componentWillMount() {
     console.log('MPDS_new : componentWillMount');
+    this.props.loadSavedUserPass();
   }
   // componentWillReceiveProps(nextProps) {
   //   // this.props still here -> the old set of props
@@ -82,6 +83,7 @@ class LoginScreen extends Component {
   }
 
   render() {
+    const { userID, password, rememberMe } = this.props;
     return ( 
       <Container>
         <Content
@@ -98,7 +100,7 @@ class LoginScreen extends Component {
                 <IconFA name="user-o" size={20} />
                 <Input 
                   placeholder="Mã số" 
-                  value={this.props.userID}
+                  value={userID}
                   onChangeText={(text) => this.props.userIDChanged(text)}
                 />
               </Item>
@@ -107,27 +109,27 @@ class LoginScreen extends Component {
                 <Input 
                   placeholder="Mật khẩu" 
                   secureTextEntry={!this.state.showPassword}
-                  value={this.props.password}
+                  value={password}
                   onChangeText={(text) => this.props.passwordChanged(text)}
                 />
               </Item>
             </Form>
-            <ListItem onPress={() => this.setState({ showPassword: !this.state.showPassword })}>
-              <CheckBox checked={this.state.showPassword} />
-              <Body>
-                <Text>Hiển thị mật khẩu</Text>
-              </Body>
-            </ListItem>
-            <ChkBox
+            <CheckBox
+              style={{ flex: 1, padding: 10 }} 
+              checked={this.state.showPassword} 
+              title='Hiển thị mật khẩu'
+              onPress={() => this.setState({ showPassword: !this.state.showPassword })}
+            />
+            <CheckBox
                 style={{ flex: 1, padding: 10 }}
-                onClick={() => this.setState({ rememberMe: !this.state.rememberMe })}
-                isChecked={this.state.rememberMe}
-                rightText="Lưu tài khoản"
+                onPress={() => this.props.rememberMeChanged()}
+                checked={rememberMe}
+                title="Lưu tài khoản"
             />
             <Button 
               block
               success
-              onPress={() => this.props.loginUser({ userID: this.props.userID, password: this.props.password })}
+              onPress={() => this.props.loginUser({ userID, password, rememberMe })}
             >
               <Text>ĐĂNG NHẬP</Text>
             </Button>
@@ -172,12 +174,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth }) => {
-  const { userID, password, user, error, loading } = auth;
-  return { userID, password, user, error, loading };
+  const { userID, password, rememberMe, user, error, loading } = auth;
+  return { userID, password, rememberMe, user, error, loading };
 };
 
 //make it available
 export default connect(
   mapStateToProps, 
-  { userIDChanged, passwordChanged, loginUser, logoutUser }
+  { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loginUser, logoutUser }
 )(LoginScreen);

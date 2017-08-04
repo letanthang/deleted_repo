@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { 
-  USERID_CHANGED, PASSWORD_CHANGED, REMEMBER_ME_CHANGED, LOAD_SAVED_USER_PASS, LOGIN_USER, LOGIN_USER_FAIL, 
-  LOGIN_USER_SUCCESS 
+  USERID_CHANGED, PASSWORD_CHANGED, REMEMBER_ME_CHANGED, LOAD_SAVED_USER_PASS, LOGIN_USER,  
+  LOGOUT_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS 
 } from './types.js';
 
 
@@ -102,6 +102,12 @@ const loginUserFail = (dispatch, errorMsg) => {
     payload: errorMsg
   });
 };
+
+export const logoutUser = () => {
+  return({
+    type: LOGOUT_USER
+  });
+}
 
 // fetch('https://test.ghn.vn/api/mpds/GetApiKey')
     //   .then((response) => {

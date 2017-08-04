@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Root } from 'native-base';
-import { DrawerNavigator } from 'react-navigation';
+import { DrawerNavigator, NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
 import SideBar from './components/SideBar';
 import HomeScreen from './HomeScreen';
 import MapScreen from './MapScreen';
@@ -37,6 +38,27 @@ class Drawer extends Component {
     title: '',
     header: null
   }
+
+  
+  shouldComponentUpdate({ navigation, user }) {
+    console.log('Drawer : componentShouldUpdate: ');
+    console.log(user);
+    const { dispatch } = navigation;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Login' })
+      ]
+    });
+
+    if (!user) {
+      console.log('user is null and navigate to Login');
+      dispatch(resetAction);
+      return false;
+    }
+    return true;
+  }
+  
   render() {
     return (
       <Root>
@@ -45,5 +67,8 @@ class Drawer extends Component {
     );
   }
 }
-
-export default Drawer;
+const mapStateToProps = ({ auth }) => {
+  const { user } = auth;
+  return { user };
+};
+export default connect(mapStateToProps)(Drawer);

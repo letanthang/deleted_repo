@@ -1,16 +1,29 @@
 //import lib
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import { 
   Container, Content, Button, List, ListItem, 
   Text, Icon, Left, Body 
 } from 'native-base';
+import { logoutUser } from '../actions';
 
 //create cmp
-class SideBar extends Component {
+class SideBar extends Component {  
+  shouldComponentUpdate({ user }) {
+    if (!user) {
+      return false;
+    }
+    return true;
+  }
+  onLogoutPress() {
+    console.log('onLogoutPress called');
+    this.props.logoutUser();
+  }
+
   render() {
+    console.log('SideBar: render called');
     const { UserID, FullName } = this.props.user;
     return (
       <Container style={{ marginTop: 20 }}>
@@ -31,7 +44,7 @@ class SideBar extends Component {
             </ListItem>
             <ListItem icon>
               <Left>
-                <IconFA name="mobile" size={15} />
+                <IconFA name="mobile" size={18} />
               </Left>
               <Body>
                 <Text>SĐT:0908</Text>
@@ -89,6 +102,17 @@ class SideBar extends Component {
                 <Text>Hướng dẫn</Text>
               </Body>
             </ListItem>
+            <ListItem 
+              icon
+              onPress={this.onLogoutPress.bind(this)}
+            >
+              <Left>
+                <Icon name="log-out" size={15} />
+              </Left>
+              <Body>
+                <Text>Logout</Text>
+              </Body>
+            </ListItem>
           </List>
         </Content>
       </Container>
@@ -110,4 +134,4 @@ const mapStateToProps = ({ auth }) => {
   return { user };
 };
 //make avai
-export default connect(mapStateToProps)(SideBar);
+export default connect(mapStateToProps, { logoutUser })(SideBar);

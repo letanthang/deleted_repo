@@ -1,4 +1,3 @@
-
 //import libs
 import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native';

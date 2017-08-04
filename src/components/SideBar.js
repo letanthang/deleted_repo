@@ -22,6 +22,11 @@ class SideBar extends Component {
     this.props.logoutUser();
   }
 
+  onUpdateDataPress() {
+    console.log('onUpdateDataPress pressed');
+    this.props.navigation.navigate('Home', { needUpdateData: true });
+  }
+
   render() {
     console.log('SideBar: render called');
     const { UserID, FullName } = this.props.user;
@@ -50,7 +55,10 @@ class SideBar extends Component {
                 <Text>SĐT:0908</Text>
               </Body>
             </ListItem>
-            <ListItem icon>
+            <ListItem 
+              onPress={this.onUpdateDataPress.bind(this)}
+              icon
+            >
               <Left>
                 <IconFA name="download" size={15} />
               </Left>

@@ -14,13 +14,22 @@ const efficiencyIcon = require('../resources/ic_summary.png');
 
 class HomeScreen extends Component {
   componentWillMount() {
-    if (!this.props.user) return;
     console.log('====================================');
     console.log('HomeScreen : CWM');
+    const params = this.props.navigation.state.params;
+    const needUpdateData = (params === undefined) ? false : params.needUpdateData;
     const sessionToken = this.props.user.SessionToken;
-    console.log(this.props.pds);
-    console.log('====================================');
-    if (!this.props.pds) this.props.pdListFetch(sessionToken);
+    if (needUpdateData || !this.props.pds) {
+      if (needUpdateData) params.needUpdateData = false;
+      console.log('update pds data:');
+      console.log(needUpdateData);
+      console.log(this.props.pds);
+      this.props.pdListFetch(sessionToken);
+    }
+    console.log('===================================='); 
+  }
+  shouldComponentUpdate({ user }) {
+    return user !== null;
   }
   componentDidUpdate() {
     console.log('====================================');

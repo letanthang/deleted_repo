@@ -108,14 +108,14 @@ class ReturnOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
             </ListItem>
             <ListItem>
-              <Text>Tên khách hàng</Text>
-              <Right>
+              <Left><Text>Tên khách hàng</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Text>{RecipientName}</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Số điện thoại</Text>
-              <Right>
+              <Left><Text>Số điện thoại</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Button
                   transparent
                   iconRight
@@ -129,14 +129,14 @@ class ReturnOrderScreen extends Component {
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Địa chỉ</Text>
-              <Right>
+              <Left><Text>Địa chỉ</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Text>{Address}</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Ghi chú đơn hàng</Text>
-              <Right>
+              <Left><Text>Ghi chú đơn hàng</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Text>{Note}</Text>
               </Right>
             </ListItem>

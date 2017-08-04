@@ -110,31 +110,31 @@ class PickOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Tổng quan</Text>
             </ListItem>
             <ListItem>
-              <Text>Mã nhận hàng</Text>
-              <Right>
+              <Left><Text>Mã nhận hàng</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Text>{ExternalCode || 'Không có'}</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Mã đơn hàng shop</Text>
-              <Right>
+              <Left><Text>Mã đơn hàng shop</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Text>{ExternalCode || 'Không có'}</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Gói dịch vụ</Text>
+              <Left><Text>Gói dịch vụ</Text></Left>
               <Right>
                 <Text>{ServiceName}</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Tổng thu người gởi</Text>
+              <Left><Text>Tổng thu người gởi</Text></Left>
               <Right>
                 <Text>{ServiceCost} đ</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Phí vận chuyển</Text>
+              <Left><Text>Phí vận chuyển</Text></Left>
               <Right>
                 <Text>{ServiceCost} đ</Text>
               </Right>
@@ -144,19 +144,19 @@ class PickOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Khối lượng và kích thước</Text>
             </ListItem>
             <ListItem>
-              <Text>Khối lượng</Text>
+              <Left><Text>Khối lượng</Text></Left>
               <Right>
                 <Text>{Weight} g</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Kích thước</Text>
-              <Right>
+              <Left><Text>Kích thước</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Text>{Length}cm x {Width}cm x {Height}cm</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Khối lượng qui đổi</Text>
+              <Left><Text>Khối lượng qui đổi</Text></Left>
               <Right>
                 <Text>{Length * Width * Height * 0.2} g</Text>
               </Right>
@@ -166,14 +166,14 @@ class PickOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
             </ListItem>
             <ListItem>
-              <Text>Tên khách hàng</Text>
+              <Left><Text>Tên khách hàng</Text></Left>
               <Right>
                 <Text>{RecipientName}</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Số điện thoại</Text>
-              <Right>
+              <Left><Text>Số điện thoại</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Button
                   transparent
                   iconRight
@@ -185,7 +185,7 @@ class PickOrderScreen extends Component {
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Địa chỉ</Text>
+              <Left><Text>Địa chỉ</Text></Left>
               <Right>
                 <Text>{Address}</Text>
               </Right>
@@ -196,7 +196,7 @@ class PickOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Ghi chú</Text>
             </ListItem>
             <ListItem>
-              <Text>Ghi chú đơn hàng</Text>
+              <Left><Text>Ghi chú đơn hàng</Text></Left>
               <Right>
                 <Text>{Note}</Text>
               </Right>

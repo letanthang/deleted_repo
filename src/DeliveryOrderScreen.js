@@ -169,7 +169,6 @@ class DeliveryOrderScreen extends Component {
               <Icon name="notifications" />
             </Button>
           </Right>
-          
         </Header>
         <Content>
           <List>
@@ -177,14 +176,18 @@ class DeliveryOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
             </ListItem>
             <ListItem>
-              <Text>Tên khách hàng</Text>
+              <Left>
+                <Text>Tên khách hàng</Text>
+              </Left>
               <Right>
                 <Text>{RecipientName}</Text>
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Số điện thoại</Text>
-              <Right>
+              <Left>
+                <Text>Số điện thoại</Text>
+              </Left>
+              <Right style={{ flex: 2 }}>
                 <Button
                   transparent
                   iconRight
@@ -193,13 +196,13 @@ class DeliveryOrderScreen extends Component {
                   <Text>{RecipientPhone}</Text>
                   <Icon name='call' />
                 </Button>
-                
-                
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Địa chỉ</Text>
-              <Right>
+              <Left>
+                <Text>Địa chỉ</Text>
+              </Left>
+              <Right style={{ flex: 2 }}>
                 <Text>{Address}</Text>
               </Right>
             </ListItem>
@@ -207,16 +210,16 @@ class DeliveryOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Thông tin đơn hàng</Text>
             </ListItem>
             <ListItem>
-              <Text>Tổng thu</Text>
+              <Left><Text>Tổng thu</Text></Left>
               <Right><Text>{CODAmount}</Text></Right>
             </ListItem>
             <ListItem>
-              <Text>Nhà cung cấp</Text>
-              <Right><Text>{ClientName}</Text></Right>
+              <Left><Text>Nhà cung cấp</Text></Left>
+              <Right style={{ flex: 2 }}><Text>{ClientName}</Text></Right>
             </ListItem>
             <ListItem>
-              <Text>SĐT NCC</Text>
-              <Right>
+              <Left><Text>SĐT NCC</Text></Left>
+              <Right style={{ flex: 2 }}>
                 <Button
                   transparent
                   iconRight
@@ -227,8 +230,8 @@ class DeliveryOrderScreen extends Component {
               </Right>
             </ListItem>
             <ListItem>
-              <Text>Ghi chú đơn hàng</Text>
-              <Right>
+              <Left><Text>Ghi chú đơn hàng</Text></Left>
+              <Right style={{ flex: 1 }}>
                 <Text>{Note}</Text>
               </Right>
             </ListItem>
@@ -237,10 +240,9 @@ class DeliveryOrderScreen extends Component {
               <Text>Lịch sử đơn hàng</Text>
               <Text>{Log}</Text>
               </Body>
-              
             </ListItem>
             <ListItem>
-              <Text>Ghi chú xem hàng</Text>
+              <Left><Text>Ghi chú xem hàng</Text></Left>
               <Right>
                 <Text>{RequiredNote}</Text>
               </Right>

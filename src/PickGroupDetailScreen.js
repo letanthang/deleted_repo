@@ -5,13 +5,17 @@ import {
   Container, Content, List,
   Header, Body, Left, Right,
   Button, Icon, Item,
-  Title, Text
+  Title, Text, ActionSheet
 } from 'native-base';
 import ChkBox from 'react-native-check-box';
 import { CheckBox } from 'react-native-elements';
 import { updateOrderStatus } from './actions';
 import LoadingSpinner from './components/LoadingSpinner';
 import Utils from './libs/Utils';
+
+const BUTTONS = ['KHÁCH khong lien lac duoc', 'KHÁCH Khong nghe may', 'Khach huy don', 'Cancel'];
+const DESTRUCTIVE_INDEX = -1;
+const CANCEL_INDEX = 3;
 
 class PickGroupDetailScreen extends Component {
   componentWillMount() {
@@ -38,6 +42,23 @@ class PickGroupDetailScreen extends Component {
     if (this.pickGroup.PickDeliveryType === 3) status = 'WaitingToFinish';
     if (this.pickGroup.PickDeliveryType === 1) status = 'Storing';
     this.updateOrder(order, status);
+  }
+
+  updateOrderToFailWithReason(order) {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: 'Chọn lý do giao lỗi'
+      },
+      buttonIndex => {
+        console.log(`updateOrderToFailWithReason : ${buttonIndex}`);
+        if (buttonIndex !== CANCEL_INDEX && buttonIndex !== DESTRUCTIVE_INDEX) {
+          this.updateOrderToFail(order, BUTTONS[buttonIndex]);
+        }
+      }
+    );
   }
 
   updateOrderToFail(order) {
@@ -145,7 +166,7 @@ class PickGroupDetailScreen extends Component {
           <Item>
             <CheckBox
               title='LỖI'
-              onPress={this.updateOrderToFail.bind(this, order)}
+              onPress={this.updateOrderToFailWithReason.bind(this, order)}
               checked={fail}
               style={{ backgroundColor }}
             />

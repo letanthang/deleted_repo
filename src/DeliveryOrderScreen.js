@@ -4,13 +4,17 @@ import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List, ListItem 
+  List, ListItem, ActionSheet 
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
+
+const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Cancel'];
+const DESTRUCTIVE_INDEX = -1;
+const CANCEL_INDEX = 3;
 
 class DeliveryOrderScreen extends Component {
 
@@ -41,8 +45,25 @@ class DeliveryOrderScreen extends Component {
     });
   }
 
-  updateOrderToFail(order) {
-    console.log('giao loi pressed');
+  updateOrderToFailWithReason(order) {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: 'Chọn lý do giao lỗi'
+      },
+      buttonIndex => {
+        console.log(`updateOrderToFailWithReason : ${buttonIndex}`);
+        if (buttonIndex !== CANCEL_INDEX && buttonIndex !== DESTRUCTIVE_INDEX) {
+          this.updateOrderToFail(order, BUTTONS[buttonIndex]);
+        }
+      }
+    );
+  }
+
+  updateOrderToFail(order, reason) {
+    console.log(`giao loi pressed with reason ${reason}`);
     const { sessionToken, pdsId } = this.props;
     const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Storing';
@@ -71,7 +92,7 @@ class DeliveryOrderScreen extends Component {
           <Col style={{ margin: 2 }}>
             <Button 
               block style={{ backgroundColor: '#06B2F5' }}
-              onPress={this.updateOrderToFail.bind(this, order)}
+              onPress={this.updateOrderToFailWithReason.bind(this, order)}
             >
               <Text>GIAO LỖI</Text>
             </Button>

@@ -204,17 +204,11 @@ class PickGroupDetailScreen extends Component {
           <Left>
             <Button
               transparent
-              onPress={() => navigation.navigate('DrawerOpen')}
+              onPress={() => navigation.goBack()}
             >
-              <Icon name="menu" />
+              <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Button
-            transparent
-            onPress={() => navigation.goBack()}
-          >
-            <Icon name="arrow-back" />
-          </Button>
           <Body style={{ flex: 3 }}>
             <Title>[{pickGroup.DisplayOrder}] {pickGroup.ClientName}</Title>
           </Body>

@@ -25,17 +25,11 @@ class PickListScreen extends Component {
           <Left>
             <Button
               transparent
-              onPress={() => navigate('DrawerOpen')}
+              onPress={() => goBack()}
             >
-              <Icon name="menu" />
+              <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Button
-            transparent
-            onPress={() => goBack()}
-          >
-            <Icon name="arrow-back" />
-          </Button>
           <Body>
             <Title>C đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
           </Body>

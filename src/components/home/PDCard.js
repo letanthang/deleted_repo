@@ -31,20 +31,20 @@ const PDCard = ({ type, upNumber, downNumber, onPress }) => {
                 {cardTitle}
               </Text>
               <Text>
-                Hoàn thành
+                Hoàn thành: {upNumber}
               </Text>
               <Text>
-                Tổng số
+                Tổng số: {downNumber}
               </Text>
             </View>
           </View>
           <View style={styles.cardItemRight}>
             <Item rounded style={{ height: 55, width: 55 }}>
-              <View style={{ marginTop: -10, marginLeft: 5 }}>
+              <View style={{ marginTop: -2, marginLeft: 15 }}>
                 <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{upNumber}</Text>
               </View>
-              <View style={{ marginTop: 10 }}>
-                <Text style={{ fontSize: 12 }}>/{downNumber}</Text>
+              <View style={{ marginTop: 18 }}>
+                <Text style={{ fontSize: 12, fontWeight: '200', color: '#ADADAD' }}>/{downNumber}</Text>
               </View>
             </Item>
           </View>

@@ -123,9 +123,7 @@ class ReturnOrderScreen extends Component {
                 >
                   <Text>{RecipientPhone}</Text>
                   <Icon name='call' />
-                </Button>
-                
-                
+                </Button>  
               </Right>
             </ListItem>
             <ListItem>

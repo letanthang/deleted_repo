@@ -23,11 +23,10 @@ class PickOrderScreen extends Component {
   }
 
   componentDidUpdate() {
-    const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
-    const order = deliveryList.find(o => o.OrderID === OrderID);
+    const order = Utils.getOrder(this.props.pds, OrderID);
     console.log('====================================');
-    console.log('PickOrderScreen: cdu');
+    console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
     console.log(order);
     console.log('====================================');
   }
@@ -64,7 +63,8 @@ class PickOrderScreen extends Component {
   
   render() {
     const OrderID = this.props.navigation.state.params.OrderID;
-    const order = this.props.navigation.state.params.order;
+    const order = Utils.getOrder(this.props.pds, OrderID);
+    //const order = this.props.navigation.state.params.order;
 
     const { navigate, goBack } = this.props.navigation;
     const { 
@@ -98,8 +98,9 @@ class PickOrderScreen extends Component {
           <Right>
             <Button
               transparent
+              onPress={() => navigate('POUpdateWeightSize', { OrderID })}
             >
-              <Icon name="notifications" />
+              <Icon name="create" />
             </Button>
           </Right>
           

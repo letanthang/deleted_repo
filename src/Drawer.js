@@ -9,6 +9,7 @@ import HelpScreen from './HelpScreen';
 import PickListScreen from './PickListScreen';
 import PickGroupDetailScreen from './PickGroupDetailScreen';
 import PickOrderScreen from './PickOrderScreen';
+import POUpdateWeightSizeScreen from './POUpdateWeightSizeScreen';
 import ReturnListScreen from './ReturnListScreen';
 import ReturnOrderScreen from './ReturnOrderScreen';
 import DeliveryListScreen from './DeliveryListScreen';
@@ -22,6 +23,7 @@ const AppDrawer = DrawerNavigator(
     PickList: { screen: PickListScreen },
     PickGroupDetail: { screen: PickGroupDetailScreen },
     PickOrder: { screen: PickOrderScreen },
+    POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },
     ReturnOrder: { screen: ReturnOrderScreen },
     DeliveryList: { screen: DeliveryListScreen },
     DeliveryOrder: { screen: DeliveryOrderScreen },

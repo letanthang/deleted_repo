@@ -58,6 +58,29 @@ class Utils {
   static checkReturnFail(CurrentStatus, NextStatus) {
     return CurrentStatus === 'Return' && NextStatus === 'Return';
   }
+
+  static getOrder(pds, OrderID, ClientHubID = null, PickDeliveryType = null) {
+    let order = null;
+    let pickGroups = null;
+    if (ClientHubID !== null) {
+      pickGroups = pds.PickReturnItems.filter(pg => pg.ClientHubID === ClientHubID 
+          && pg.PickDeliveryType === PickDeliveryType);
+    } else {
+      pickGroups = pds.PickReturnItems;
+    }
+    
+    console.log(pickGroups);
+    pickGroups.every(pickGroup => {
+      const ord = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
+      if (ord !== undefined) {
+        order = ord;
+        return false;
+      }
+      return true; 
+    });
+    return order;
+  }
+
 }
 
 export default Utils;

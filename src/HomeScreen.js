@@ -87,6 +87,7 @@ class HomeScreen extends Component {
             onPress={this.onPickPress.bind(this)}
             upNumber={this.props.pickComplete}
             downNumber={this.props.pickTotal}
+            color='#12cd72'
           />
 
           <PDCard
@@ -94,6 +95,7 @@ class HomeScreen extends Component {
             onPress={this.onDeliveryPress.bind(this)}
             upNumber={this.props.deliveryComplete}
             downNumber={this.props.deliveryTotal}
+            color='#ff6e40'
           />
 
           <PDCard
@@ -101,6 +103,7 @@ class HomeScreen extends Component {
             onPress={this.onReturnPress.bind(this)}
             upNumber={this.props.returnComplete}
             downNumber={this.props.returnTotal}
+            color='#606060'
           />
           
           <Card>
@@ -116,6 +119,7 @@ class HomeScreen extends Component {
                 <Image source={efficiencyIcon} />
               </View>
             </CardItem>
+            
           </Card>
           
         </Content>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { Root } from 'native-base';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -8,6 +9,11 @@ import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import LoginScreen from './LoginScreen';
 import Drawer from './Drawer';
+import PickGroupDetailScreen from './PickGroupDetailScreen';
+import PickOrderScreen from './PickOrderScreen';
+import POUpdateWeightSizeScreen from './POUpdateWeightSizeScreen';
+import ReturnOrderScreen from './ReturnOrderScreen';
+import DeliveryOrderScreen from './DeliveryOrderScreen';
 
 const store = createStore(reducers, /* preloadedState, */ composeWithDevTools(
   applyMiddleware(ReduxThunk),
@@ -39,7 +45,12 @@ class App extends Component {
     const AppNavigator = StackNavigator(
       {
         Login: { screen: LoginScreen },
-        Drawer: { screen: Drawer }        
+        Drawer: { screen: Drawer },
+        PickGroupDetail: { screen: PickGroupDetailScreen },
+        PickOrder: { screen: PickOrderScreen },
+        POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },
+        ReturnOrder: { screen: ReturnOrderScreen },
+        DeliveryOrder: { screen: DeliveryOrderScreen },        
       },
       {
         initialRouteName: 'Login',
@@ -48,7 +59,9 @@ class App extends Component {
     );
     return (
       <Provider store={store}>
-        <AppNavigator />
+        <Root>
+          <AppNavigator />
+        </Root>
       </Provider>
     );
   }

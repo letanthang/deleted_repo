@@ -79,17 +79,12 @@ class ReturnOrderScreen extends Component {
           <Left>
             <Button
               transparent
-              onPress={() => navigate('DrawerOpen')}
+              onPress={() => goBack()}
             >
-              <Icon name="menu" />
+              <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Button
-            transparent
-            onPress={() => goBack()}
-          >
-            <Icon name="arrow-back" />
-          </Button>
+          
           <Body style={{ flex: 3 }}>
             <Title>{OrderCode}</Title>
           </Body>

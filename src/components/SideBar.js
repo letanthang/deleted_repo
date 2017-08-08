@@ -1,6 +1,7 @@
 //import lib
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import { 
@@ -10,13 +11,26 @@ import {
 import { logoutUser } from '../actions';
 
 //create cmp
-class SideBar extends Component {  
-  shouldComponentUpdate({ user }) {
+class SideBar extends Component {
+  shouldComponentUpdate({ navigation, user }) {
+    console.log('Drawer : componentShouldUpdate: ');
+    console.log(user);
+    const { dispatch } = navigation;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Login' })
+      ]
+    });
+
     if (!user) {
+      console.log('user is null and navigate to Login');
+      dispatch(resetAction);
       return false;
     }
     return true;
-  }
+  }  
+  
   onLogoutPress() {
     console.log('onLogoutPress called');
     this.props.logoutUser();

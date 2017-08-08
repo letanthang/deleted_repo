@@ -27,17 +27,11 @@ class DeliveryListScreen extends Component {
           <Left>
             <Button
               transparent
-              onPress={() => navigate('DrawerOpen')}
+              onPress={() => goBack()}
             >
-              <Icon name="menu" />
+              <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Button
-            transparent
-            onPress={() => goBack()}
-          >
-            <Icon name="arrow-back" />
-          </Button>
           <Body style={{ flex: 3 }}>
             <Title>C đi giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
           </Body>

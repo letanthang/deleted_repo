@@ -36,10 +36,10 @@ const AppDrawer = DrawerNavigator(
 );
 
 class Drawer extends Component {
-  static navigationOptions = {
-    title: '',
-    header: null
-  }
+  // static navigationOptions = {
+  //   title: '',
+  //   header: null
+  // }
 
   
   shouldComponentUpdate({ navigation, user }) {

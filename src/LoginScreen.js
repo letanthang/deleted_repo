@@ -14,10 +14,10 @@ import LoadingSpinner from './components/LoadingSpinner';
 
 //create comp
 class LoginScreen extends Component {
-  static navigationOptions = {
-    title: '',
-    header: null
-  };
+  // static navigationOptions = {
+  //   title: '',
+  //   header: null
+  // };
 
   state = { showPassword: false, rememberMe: false }
 

@@ -36,10 +36,16 @@ const store = createStore(reducers, /* preloadedState, */ composeWithDevTools(
 //const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 class App extends Component {
   render() {
-    const AppNavigator = StackNavigator({
-      Login: { screen: LoginScreen },
-      Drawer: { screen: Drawer }
-    });
+    const AppNavigator = StackNavigator(
+      {
+        Login: { screen: LoginScreen },
+        Drawer: { screen: Drawer }        
+      },
+      {
+        initialRouteName: 'Login',
+        headerMode: 'none',
+      }
+    );
     return (
       <Provider store={store}>
         <AppNavigator />

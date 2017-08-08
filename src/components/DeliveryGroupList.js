@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import { 
   Content, Card, CardItem, Text,
   List, ListItem, Item, Right, Badge 
@@ -77,6 +78,12 @@ class DeliveryGroupList extends Component {
     console.log(deliveryList);
     return (
       <Content style={{ backgroundColor: '#eee' }}>
+      <SearchBar
+        round
+        lightTheme
+        onChangeText={(text) => console.log(text)}
+        placeholder='Type here...'
+      />
       <List
         dataArray={deliveryList}
         renderRow={this.renderOrder.bind(this)}

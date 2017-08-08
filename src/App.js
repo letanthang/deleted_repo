@@ -9,6 +9,7 @@ import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import LoginScreen from './LoginScreen';
 import Drawer from './Drawer';
+import PickListScreen from './PickListScreen';
 import PickGroupDetailScreen from './PickGroupDetailScreen';
 import PickOrderScreen from './PickOrderScreen';
 import POUpdateWeightSizeScreen from './POUpdateWeightSizeScreen';
@@ -46,6 +47,7 @@ class App extends Component {
       {
         Login: { screen: LoginScreen },
         Drawer: { screen: Drawer },
+        PickList: { screen: PickListScreen },
         PickGroupDetail: { screen: PickGroupDetailScreen },
         PickOrder: { screen: PickOrderScreen },
         POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },

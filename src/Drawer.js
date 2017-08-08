@@ -15,7 +15,6 @@ const Drawer = DrawerNavigator(
     Home: { screen: HomeScreen },
     Map: { screen: MapScreen },
     Help: { screen: HelpScreen },
-    PickList: { screen: PickListScreen },
     DeliveryList: { screen: DeliveryListScreen },
     ReturnList: { screen: ReturnListScreen }
   },

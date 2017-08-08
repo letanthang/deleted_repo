@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { 
-  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL,
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL
 } from './types';
 
@@ -19,8 +19,13 @@ export const pdListFetch = (sessionToken) => {
     })
       .then(response => {
         const json = response.data;
+        console.log('debug :');
+        console.log(json);
         if (json.code === 1) {
           pdListFetchSuccess(dispatch, json.data);
+        } else if (json.code === 4) {
+          console.log('khong co chuyen di');
+          dispatch({ type: PDLIST_NO_TRIP });
         } else {
           pdListFetchFail(dispatch);
         }
@@ -39,13 +44,6 @@ export const pdListFetchSuccess = (dispatch, data) => {
 
 export const pdListFetchFail = (dispatch) => {
   dispatch({ type: PDLIST_FETCH_FAIL });
-};
-
-export const setCurrentDeliveryOrder = (orderID) => {
-  return {
-    type: SET_CURRENT_DELIVERY_ORDER,
-    payload: orderID
-  };
 };
 
 export const updateOrderStatus = ({ 

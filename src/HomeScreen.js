@@ -37,7 +37,7 @@ class HomeScreen extends Component {
     const params = this.props.navigation.state.params;
     const needUpdateData = (params === undefined) ? false : params.needUpdateData;
     const sessionToken = this.props.user.SessionToken;
-    if (needUpdateData || !this.props.pds) {
+    if (needUpdateData) {
       if (needUpdateData) params.needUpdateData = false;
       console.log('update pds data:');
       console.log(needUpdateData);

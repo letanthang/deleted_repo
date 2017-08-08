@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { 
-  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL,
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL
  } from '../actions/types';
 import Utils from '../libs/Utils';
@@ -66,6 +66,8 @@ export default (state = nameInitialState, action) => {
     }
     case PDLIST_FETCH_FAIL:
       return { ...state, loading: false };
+    case PDLIST_NO_TRIP:
+      return nameInitialState;
     
     case UPDATE_ORDER_STATUS: {
       console.log('pdReducer: UPDATE_ORDER_STATUS !!!!!!turn on spinner!!!!!');

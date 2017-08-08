@@ -39,7 +39,6 @@ class SideBar extends Component {
   onUpdateDataPress() {
     console.log('onUpdateDataPress pressed');
     this.props.navigation.navigate('Home', { needUpdateData: true });
-    console.log('hehe');
   }
 
   render() {

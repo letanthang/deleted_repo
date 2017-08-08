@@ -10,6 +10,7 @@ export const LOGOUT_USER = 'logout_user';
 export const PDLIST_FETCH = 'pdlist_fetch';
 export const PDLIST_FETCH_SUCCESS = 'pdlist_fetch_success';
 export const PDLIST_FETCH_FAIL = 'pdlist_fetch_fail';
+export const PDLIST_NO_TRIP = 'PDLIST_NO_TRIP';
 
 export const UPDATE_ORDER_STATUS = 'UPDATE_ORDER_STATUS';
 export const UPDATE_ORDER_STATUS_SUCCESS = 'UPDATE_ORDER_STATUS_SUCCESS';

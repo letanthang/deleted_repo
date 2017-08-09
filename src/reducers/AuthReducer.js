@@ -8,6 +8,7 @@ import {
   LOGIN_USER_FAIL,
   LOGOUT_USER 
 } from '../actions/types';
+import ShareVariables from '../libs/ShareVariables';
 
 const INITIAL_STATE = { 
   userID: '', 
@@ -38,6 +39,7 @@ export default (state = INITIAL_STATE, action) => {
       };
     case LOGIN_USER_SUCCESS:
       console.log('login success');
+      new ShareVariables().setLoginInfo(action.payload.SessionToken);
       return { ...state,
         loading: false,
         error: '', 

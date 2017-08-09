@@ -12,8 +12,9 @@ import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
 
+let ClientID = null;
 class PickOrderScreen extends Component {
-
+  
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
@@ -64,6 +65,7 @@ class PickOrderScreen extends Component {
   render() {
     const OrderID = this.props.navigation.state.params.OrderID;
     const order = Utils.getOrder(this.props.pds, OrderID);
+    ClientID = this.props.navigation.state.params.ClientID;
     //const order = this.props.navigation.state.params.order;
 
     const { navigate, goBack } = this.props.navigation;
@@ -92,7 +94,7 @@ class PickOrderScreen extends Component {
           <Right>
             <Button
               transparent
-              onPress={() => navigate('POUpdateWeightSize', { OrderID })}
+              onPress={() => navigate('POUpdateWeightSize', { OrderID, ClientID })}
             >
               <Icon name="create" />
             </Button>

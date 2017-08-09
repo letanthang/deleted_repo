@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
-  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL
+  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
+  PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -159,6 +160,24 @@ export default (state = nameInitialState, action) => {
       };
     }
 
+    case PD_UPDATE_WEIGHT_SIZE:
+      return { ...state, loading: true };
+
+    case PD_UPDATE_WEIGHT_SIZE_FAIL:
+      return { ...state, loading: false };
+
+    case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
+      const pds = state.pds;
+      const { OrderID, ServiceCost, Length, Width, Height, Weight } = action.payload;
+      const order = Utils.getOrder(pds, OrderID);
+      order.ServiceCost = ServiceCost;
+      order.Length = Length;
+      order.Weight = Weight;
+      order.Height = Height;
+      order.Width = Width;
+      return { ...state, pds, loading: false };
+    }
+      
     default:
       return state;
   }

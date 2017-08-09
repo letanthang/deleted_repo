@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
@@ -10,8 +10,12 @@ import accounting from 'accounting';
 
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
+import { calculateServiceFee, updateWeightSize } from './actions';
 
+let ClientID = null;
+let waitToSave = false;
 class POUpdateWeightSizeScreen extends Component {
+  state = { Weight: null, Height: null, Length: null, Width: null, CalculateWeight: null }
 
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
@@ -27,17 +31,87 @@ class POUpdateWeightSizeScreen extends Component {
     console.log('====================================');
     console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
     console.log(order);
+    if (waitToSave) {
+      console.log('wait to save ...');
+      waitToSave = false;
+      Alert.alert(
+        'Really want to update?',
+        `Do you really want o update, with new fee: ${this.props.ServiceFee}`,
+        [
+          { text: 'Đồng ý', onPress: () => this.onSaveWeightSize(order) },
+          { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        ],
+        { cancelable: false }
+      );
+    }
     console.log('====================================');
   }
-  
+
+// 
+// 
+// 
+// 
+  onInputChange(prop, value) {
+    this.state[prop] = value;
+
+    const CW = this.state.Length * this.state.Width * this.state.Height * 0.2;
+
+    this.setState({ [prop]: value, CalculateWeight: CW });
+  }
+  onSaveWeightSizePress(order) {
+    waitToSave = true;
+    this.onCalculateFeePress(order);
+  }
+  onSaveWeightSize(order) {
+    const { Length, Weight, Width, Height } = this.state;
+    const { OrderID } = order;
+    const { pdsId, ServiceFee } = this.props;
+    const params = {
+      Length, 
+      Width,
+      Height,
+      Weight,
+      ClientID,
+      OrderID,
+      PDSID: pdsId,
+      ServiceFee
+    };
+    this.props.updateWeightSize(params);
+  } 
+  onCalculateFeePress(order) {
+    const { Length, Weight, Width, Height } = this.state;
+    const { OrderID, ServiceID, FromDistrictID, ToDistrictID } = order;
+    const params = {
+      Weight,
+      Length,
+      Width,
+      Height,
+      OrderID,
+      ClientID,
+      ServiceID,
+      FromDistrictID,
+      ToDistrictID
+    };
+    console.log(params);
+    this.props.calculateServiceFee(params);
+  } 
   render() {
     const OrderID = this.props.navigation.state.params.OrderID;
     const order = Utils.getOrder(this.props.pds, OrderID);
+    ClientID = this.props.navigation.state.params.ClientID;
     console.log('Render called, order = ');
     console.log(order);
-    const { OrderCode, Weight, Length, Width, Height, ServiceCost } = order;
-    console.log(Weight);
-    const testvalue = 'abc123';
+    const { OrderCode, ServiceCost, Weight, Length, Width, Height } = order;
+    
+    if (this.state.Weight === null) {
+      this.state.Weight = Weight;
+      this.state.Height = Height;
+      this.state.Length = Length;
+      this.state.Width = Width; 
+      this.state.CalculateWeight = Length * Width * Height * 0.2;
+    }
+
+    const ServiceFee = this.props.ServiceFee || ServiceCost;
 
     const { goBack } = this.props.navigation;
     return (
@@ -57,12 +131,14 @@ class POUpdateWeightSizeScreen extends Component {
           <Right />
         </Header>
       
-        <Content>
+        <Content
+          keyboardShouldPersistTaps='handled' 
+        >
           <View style={styles.rowStyle}>
             <Text>Khối lượng </Text>
             <TextInput 
               style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
-              value={Weight.toString()}
+              value={this.state.Weight.toString()}
             />
             <Text> g</Text>
           </View>
@@ -74,37 +150,47 @@ class POUpdateWeightSizeScreen extends Component {
           
             <TextInput 
               style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
-              value={Length.toString()}
+              value={this.state.Length.toString()}
+              onChangeText={value => this.onInputChange('Length', value)}
             />
             <Text> x </Text>
             <TextInput 
               style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
-              value={Width.toString()}
+              value={this.state.Width.toString()}
+              onChangeText={value => this.onInputChange('Width', value)}
             />
             <Text> x </Text>
             <TextInput 
               style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
-              value={Height.toString()}
+              value={this.state.Height.toString()}
+              onChangeText={value => this.onInputChange('Height', value)}
             />
             <Text> cm3</Text>
           </View>
           <View style={styles.rowStyle}>
-            <Text>Khối lượng quy đổi: </Text><Text style={{ color: 'blue' }}>{Length * Width * Height * 0.2} g</Text>
+            <Text>Khối lượng quy đổi: </Text><Text style={{ color: 'blue' }}>{this.state.CalculateWeight} g</Text>
           </View>
           <View style={styles.rowStyle}>
-            <Text>Phí vận chuyển: </Text><Text style={{ color: 'red' }}>{accounting.formatNumber(ServiceCost)} đ</Text>
+            <Text>Phí vận chuyển: </Text><Text style={{ color: 'red' }}>{accounting.formatNumber(ServiceFee)} đ</Text>
           </View>
           <View style={styles.rowStyle}>
-            <Button block style={{ flex: 0.5, margin: 2 }}>
+            <Button 
+              onPress={this.onCalculateFeePress.bind(this, order)}
+              block 
+              style={{ flex: 0.5, margin: 2 }}
+            >
               <Text>Tính Phí</Text>
             </Button>
-            <Button block style={{ flex: 0.5, margin: 2 }}>
+            <Button 
+              onPress={this.onSaveWeightSizePress.bind(this, order)}
+              block 
+              style={{ flex: 0.5, margin: 2 }}
+            >
               <Text>Lưu</Text>
             </Button>
           </View>
         </Content>
-
-        <LoadingSpinner />
+        <LoadingSpinner loading={this.props.loading} />
       </Container>
     );
   }
@@ -121,15 +207,17 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ pd, auth }) => {
+const mapStateToProps = ({ pd, auth, other }) => {
   //const OrderID = ownProps.navigation.state.params.OrderID;
   const { sessionToken } = auth;
   const { pds, pdsId, loading } = pd;
-  return { pds, pdsId, sessionToken, loading };
+  const { ServiceFee } = other;
+
+  return { pds, sessionToken, ServiceFee, pdsId, loading };
 };
 
 
 export default connect(
   mapStateToProps, 
-  { }
+  { calculateServiceFee, updateWeightSize }
 )(POUpdateWeightSizeScreen);

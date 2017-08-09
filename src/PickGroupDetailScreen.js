@@ -106,9 +106,10 @@ class PickGroupDetailScreen extends Component {
     console.log(this.pickGroup.PickDeliveryType);
     const { navigate } = this.props.navigation;
     const { OrderID } = order;
+    const { ClientID } = this.pickGroup;
 
     if (this.pickGroup.PickDeliveryType === 1) {
-      navigate('PickOrder', { OrderID, order });
+      navigate('PickOrder', { OrderID, order, ClientID });
     } else if (this.pickGroup.PickDeliveryType === 3) {
       navigate('ReturnOrder', { OrderID, order });
     }

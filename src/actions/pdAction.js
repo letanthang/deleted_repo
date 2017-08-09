@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
-  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL
+  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
+  PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL
 } from './types';
+import ShareVariables from '../libs/ShareVariables';
 
 export const pdListFetch = (sessionToken) => {
   console.log('Action: pdListFetch start');
@@ -113,4 +115,59 @@ const updateOrderStatusFail = (dispatch) => {
   dispatch({
     type: UPDATE_ORDER_STATUS_FAIL
   });
+};
+
+export const updateWeightSize = ({
+  Length, 
+	Width,
+	Height,
+	Weight,
+	ClientID,
+	OrderID,
+  PDSID,
+  ServiceFee
+}) => {
+  return async dispatch => {
+    dispatch({
+      type: PD_UPDATE_WEIGHT_SIZE
+    });
+    const LoginInfo = new ShareVariables().getLoginInfo();
+    const params = {
+      ...LoginInfo,
+      Length,
+      Width,
+      Height,
+      Weight,
+      ClientID,
+      OrderID,
+      PDSID
+    };
+    console.log(params);
+
+    try {
+      const response = await axios.post('https://test.ghn.vn/api/mpds/UpdateOrderWeightRDC', params);      
+      const json = response.data;
+      if (json.code === 1) {
+        dispatch({
+          type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
+          payload: { 
+            OrderID, 
+            ServiceCost: ServiceFee,
+            Length,
+            Width,
+            Height,
+            Weight
+          }
+        });
+      } else {
+        dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
+        console.log('Update weight size failed with response json =');
+        console.log(json.code);
+      }
+    } catch (error) {
+      dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
+      console.log('Update weight size failed with error =');
+      console.log(error);
+    }
+  };
 };

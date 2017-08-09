@@ -59,6 +59,7 @@ class POUpdateWeightSizeScreen extends Component {
     this.setState({ [prop]: value, CalculateWeight: CW });
   }
   onSaveWeightSizePress(order) {
+    if (!this.isInfoChanged(order)) return;
     waitToSave = true;
     this.onCalculateFeePress(order);
   }
@@ -79,6 +80,8 @@ class POUpdateWeightSizeScreen extends Component {
     this.props.updateWeightSize(params);
   } 
   onCalculateFeePress(order) {
+    if (!this.isInfoChanged(order)) return;
+
     const { Length, Weight, Width, Height } = this.state;
     const { OrderID, ServiceID, FromDistrictID, ToDistrictID } = order;
     const params = {
@@ -94,7 +97,31 @@ class POUpdateWeightSizeScreen extends Component {
     };
     console.log(params);
     this.props.calculateServiceFee(params);
-  } 
+  }
+  
+  isInfoChanged(order) {
+    console.log('vao check changed info');
+    const { Length, Weight, Width, Height } = this.state;
+    console.log({ Length, Weight, Width, Height });
+    console.log({ Length: order.Length, Weight: order.Weight, Width: order.Width, Height: order.Height });
+    if (order.Length == Length 
+      && order.Weight == Weight 
+      && order.Height == Height 
+      && order.Width == Width) {
+      Alert.alert(
+        'Thông báo',
+        'Các giá trị khối lượng hoặc kích thước không thay đổi. Vui lòng kiểm tra và thử lại.',
+        [
+          
+          { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
+        ],
+        { cancelable: false }
+      );  
+      return false;
+    }
+    return true;
+  }
+
   render() {
     const OrderID = this.props.navigation.state.params.OrderID;
     const order = Utils.getOrder(this.props.pds, OrderID);

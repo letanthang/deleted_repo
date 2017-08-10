@@ -6,11 +6,18 @@ class ShareVariables {
     }
     return instance;
   }
-  setLoginInfo(SessionToken, 
+
+  BaseInfo = {
+    ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==\n', 
+    ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=\n', 
+    VersionCode: 63
+  }
+
+  setLoginInfo( 
+    SessionToken, 
     ApiKey = 'MiNyd2FrbnFScWVzU3MjRw==\n', 
     ApiSecretKey = 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=\n', 
     VersionCode = 63) {
-
     this.LoginInfo = { SessionToken, ApiKey, ApiSecretKey, VersionCode };
   }
   getLoginInfo() {

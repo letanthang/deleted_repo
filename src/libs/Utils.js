@@ -62,6 +62,13 @@ class Utils {
   static getOrder(pds, OrderID, ClientHubID = null, PickDeliveryType = null) {
     let order = null;
     let pickGroups = null;
+
+    if (PickDeliveryType === 2) {
+      order = pds.DeliveryItems.find(o => o.OrderID === OrderID);
+      return order;
+    }
+    // PickDeliveryType : 1 || 3 || null
+
     if (ClientHubID !== null) {
       pickGroups = pds.PickReturnItems.filter(pg => pg.ClientHubID === ClientHubID 
           && pg.PickDeliveryType === PickDeliveryType);

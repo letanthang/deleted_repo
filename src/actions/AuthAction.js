@@ -1,10 +1,9 @@
-import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { 
   USERID_CHANGED, PASSWORD_CHANGED, REMEMBER_ME_CHANGED, LOAD_SAVED_USER_PASS, LOGIN_USER,  
   LOGOUT_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS 
 } from './types.js';
-
+import * as API from '../apis/MPDS';
 
 export const userIDChanged = (text) => {
   return {
@@ -29,17 +28,15 @@ export const rememberMeChanged = () => {
 async function loadLoginInfo(dispatch) {
   try {
     const loginInfo = await AsyncStorage.getItem('loginInfo');
-    console.log('Da vao!: ');
     if (loginInfo !== null) {
       const payload = JSON.parse(loginInfo);
-      console.log(payload);
       dispatch({
         type: LOAD_SAVED_USER_PASS,
         payload
       });
     }
   } catch (error) {
-    console.log('load login info error!:');
+    console.log('loadLoginInfo failed with error=');
     console.log(error);
   }
 }
@@ -61,23 +58,19 @@ export const loadSavedUserPass = () => {
 export const loginUser = ({ userID, password, rememberMe }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
-    axios.post('https://test.ghn.vn/api/mpds/Authenticate', {
-      UserID: userID,
-      Password: password,
-      ApiKey: 'MiNyd2FrbnFScWVzU3MjRw==',
-      ApiSecretKey: 'QkQ1NjRCOTdGRDk2NzI3RUJEODk5NTcyOTFFMjk2MTE=',
-      VersionCode: 60
-    })
+    API.Authenticate({ UserID: userID, Password: password })
       .then(response => {
         const json = response.data;
-        console.log(json);
         if (json.code === 1) {
           loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
         } else {
+          console.log('loginUser fail with response json =');
+          console.log(json);
           loginUserFail(dispatch, json.data.ErrorMessage);
         }
       })
       .catch(error => {
+        console.log('loginUser fail with error =');
         console.log(error);
         loginUserFail(dispatch, error);
       });

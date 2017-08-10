@@ -96,6 +96,7 @@ class HomeScreen extends Component {
             upNumber={this.props.pickComplete}
             downNumber={this.props.pickTotal}
             color='#12cd72'
+            delay={true}
           />
 
           <PDCard
@@ -104,6 +105,7 @@ class HomeScreen extends Component {
             upNumber={this.props.deliveryComplete}
             downNumber={this.props.deliveryTotal}
             color='#ff6e40'
+            delay={false}
           />
 
           <PDCard
@@ -112,6 +114,7 @@ class HomeScreen extends Component {
             upNumber={this.props.returnComplete}
             downNumber={this.props.returnTotal}
             color='#606060'
+            delay={false}
           />
           
           <Card>

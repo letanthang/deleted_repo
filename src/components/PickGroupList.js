@@ -4,6 +4,7 @@ import {
   Content, Card, CardItem, Text,
   List, Right 
 } from 'native-base';
+import Utils from '../libs/Utils';
 
 class PickGroupList extends Component {
   componentWillMount() {
@@ -27,6 +28,8 @@ class PickGroupList extends Component {
     //const TotalServiceCost = pickGroup.PickReturnSOs.reduce((a, b) => a.ServiceCost + b.ServiceCost, 0);
     let TotalServiceCost = 0; 
     pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.ServiceCost; });
+    const ordersNum = pickGroup.PickReturnSOs.length;
+    const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
     return (
       <TouchableOpacity
         onPress={this.onPickGroupPress.bind(this, pickGroup)}
@@ -49,7 +52,7 @@ class PickGroupList extends Component {
             </CardItem>
             <CardItem footer>
               <Text>
-                Don hang: {0}/{pickGroup.PickReturnSOs.length}
+                Don hang: {completedNum}/{ordersNum}
               </Text>
             </CardItem>
             <CardItem>

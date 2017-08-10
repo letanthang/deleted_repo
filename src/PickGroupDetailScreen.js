@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, List,
   Header, Body, Left, Right,
   Button, Icon, Item,
-  Title, Text, ActionSheet
+  Title, ActionSheet
 } from 'native-base';
-import ChkBox from 'react-native-check-box';
 import { CheckBox } from 'react-native-elements';
 import { updateOrderStatus } from './actions';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -118,15 +117,20 @@ class PickGroupDetailScreen extends Component {
     if (this.pickGroup.PickDeliveryType === 3) return null;
     return (
       <View>
-        <Text>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
-        <Text>Tiền thu: {ServiceCost} đ</Text>
+        <View style={styles.itemStyle}>
+          <Text>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
+        </View>
+        <View style={styles.itemStyle}>
+          <Text style={styles.midTextStyle}>Tiền thu: {ServiceCost} đ</Text>
+        </View>
       </View>
     );
   }
   renderOrder(order) {
     const { 
       OrderCode, RecipientName, RecipientPhone, ServiceCost, 
-      Height, Width, Weight, Length, CurrentStatus, NextStatus
+      Height, Width, Weight, Length, CurrentStatus, NextStatus,
+      ExternalCode
     } = order;
 
     let rightText;
@@ -159,17 +163,27 @@ class PickGroupDetailScreen extends Component {
       <TouchableOpacity
         onPress={this.onOrderPress.bind(this, order)}
       >
-        <View style={{ padding: 5, backgroundColor }}>
-          <Text>{OrderCode}</Text>
-          <Text>{RecipientName} - {RecipientPhone}</Text>
+        <View style={[styles.orderWrapperStyle, { backgroundColor }]}>
+          <View style={styles.itemStyle}>
+            <Text style={styles.bigTextStyle}>{OrderCode}</Text>
+          </View>
+          <View style={styles.itemStyle}>
+            <Text style={styles.midTextStyle}>Mã shop: {ExternalCode}</Text>
+          </View>
+          <View style={styles.itemStyle}>
+            <Text>{RecipientName} - {RecipientPhone}</Text>
+          </View>
+          
           {this.renderInfosForPick({ Weight, Length, Width, Height, ServiceCost })}
           
-          <Item>
+          
+          <View style={[styles.itemStyle, styles.actionItemStyle]}>
             <CheckBox
               title='LỖI'
               onPress={this.updateOrderToFailWithReason.bind(this, order)}
               checked={fail}
               style={{ backgroundColor }}
+              checkedColor='white'
             />
             <CheckBox
               title={rightText}
@@ -177,7 +191,7 @@ class PickGroupDetailScreen extends Component {
               checked={done}
               style={{ backgroundColor }}
             />
-          </Item>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -235,6 +249,28 @@ class PickGroupDetailScreen extends Component {
   }
 }
 const styles = StyleSheet.create({
+  bigTextStyle: {
+    fontSize: 17,
+    fontWeight: '600'
+  },
+  midTextStyle: {
+    fontSize: 16,
+    fontWeight: '600'
+  },
+  orderWrapperStyle: { 
+    padding: 10
+  },
+  itemStyle: {
+    paddingTop: 2,
+    paddingBottom: 2,
+    flexDirection: 'row'
+  },
+  actionItemStyle: {
+    paddingTop: 6,
+    paddingLeft: 10,
+    paddingBottom: 2,
+    flexDirection: 'row'
+  },
   CheckBoxStyle: {
     backgroundColor: '#fff'
   },

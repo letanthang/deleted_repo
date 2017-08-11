@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { 
   Container, Right, Left, Body, 
-  Icon, Button, Title,
-  Header 
+  Icon, Button, Title, Tabs,
+  Tab, Header 
 } from 'native-base';
 import { connect } from 'react-redux';
 import PickGroupList from './components/PickGroupList';
+import { Styles } from './Styles';
 
 class PickListScreen extends Component {
   componentWillMount() {
@@ -31,11 +32,18 @@ class PickListScreen extends Component {
             </Button>
           </Left>
           <Body style={{ flex: 1.5 }}>
-            <Title>Chuyến đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
+            <Title style={Styles.normalColor}>Chuyến đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
           </Body>
           <Right />
         </Header>
-        <PickGroupList {...this.props} />
+        <Tabs initialPage={0}>
+          <Tab heading="Đang Giao">
+            <PickGroupList {...this.props} />
+          </Tab>
+          <Tab heading="Xong">
+            <PickGroupList {...this.props} />
+          </Tab>
+        </Tabs>
       </Container>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Text } from 'native-base';
 import * as Progress from 'react-native-progress';
+import { Styles } from '../../Styles';
 
 class PDCard extends Component {
   constructor(props) {
@@ -62,10 +63,14 @@ class PDCard extends Component {
                 <Text style={{ fontWeight: 'bold', color: cardTitleColor }}>
                   {cardTitle}
                 </Text>
-                <Text>
+                <Text
+                  style={Styles.normalColor}
+                >
                   Hoàn thành: {this.props.upNumber}
                 </Text>
-                <Text>
+                <Text
+                  style={Styles.normalColor}
+                >
                   Tổng số: {this.props.downNumber}
                 </Text>
               </View>

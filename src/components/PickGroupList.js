@@ -12,6 +12,7 @@ import * as Communications from 'react-native-communications';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Utils from '../libs/Utils';
+import { Styles } from '../Styles';
 
 class PickGroupList extends Component {
   componentWillMount() {
@@ -50,7 +51,7 @@ class PickGroupList extends Component {
         <Card containerStyle={styles.tripContainer}>
             <View style={[styles.rowStyle, { justifyContent: 'space-between' }]}>
               <Text 
-                style={styles.bigTextStyle} 
+                style={[Styles.bigTextStyle, Styles.normalColor]} 
                 numberOfLines={1}
               >
                 [{DisplayOrder}] {ClientName}
@@ -59,24 +60,28 @@ class PickGroupList extends Component {
             </View>
             <View style={styles.rowStyle}>
               <Text 
-                style={styles.bigTextStyle}
+                style={[Styles.bigTextStyle, Styles.weakColor]}
                 numberOfLines={1}
               >
                 {ContactName}
               </Text>
             </View>
             <View style={styles.rowStyle}>
-              <Text>
+              <Text
+                style={[Styles.weakColor]}
+              >
                 {Address}
               </Text>              
             </View>
             <View style={styles.rowStyle}>
-              <Text>
+              <Text
+                style={[Styles.weakColor]}
+              >
                 Tổng thu: {TotalServiceCost} d
               </Text>
             </View>
             <View style={[styles.rowStyle, { paddingTop: 5 }]}>
-              <Text style={styles.midTextStyle}>
+              <Text style={[Styles.weakColor]}>
                 Đơn hàng: {completedNum}/{ordersNum}
               </Text>
             </View>
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
     paddingBottom: 2
   },
   bigTextStyle: {
-    fontSize: 19, 
+    fontSize: 17, 
     fontWeight: '500'
   },
   midTextStyle: {
@@ -132,8 +137,10 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   tripContainer: {
-    padding: 8,
-    margin: 8,
+    paddingTop: 8,
+    paddingLeft: 12,
+    paddingRight: 12,
+    margin: 4,
     paddingBottom: 0
   }
 }); 

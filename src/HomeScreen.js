@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { pdListFetch } from './actions';
 import PDCard from './components/home/PDCard';
 import LoadingSpinner from './components/LoadingSpinner';
+import { HomeStyles, Styles } from './Styles';
 
 const efficiencyIcon = require('../resources/ic_summary.png');
 
@@ -78,7 +79,7 @@ class HomeScreen extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>MPDS</Title>
+            <Title style={Styles.normalColor}>MPDS</Title>
           </Body>
           <Right>
             <Button
@@ -119,14 +120,14 @@ class HomeScreen extends Component {
           
           <Card>
             <CardItem>
-              <View style={styles.cardItemLeft}>
+              <View style={HomeStyles.cardItemLeft}>
                 <View>
                   <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
                     Năng suất làm việc
                   </Text>
                 </View>
               </View>
-              <View style={styles.cardItemRight}>
+              <View style={HomeStyles.cardItemRight}>
                 <Image source={efficiencyIcon} />
               </View>
             </CardItem>
@@ -140,16 +141,7 @@ class HomeScreen extends Component {
   }
 }
 
-const styles = {
-  cardItemLeft: {
 
-  },
-  cardItemRight: { 
-    flex: 1, 
-    flexDirection: 'row', 
-    justifyContent: 'flex-end'
-  }
-};
 
 const mapStateToProps = ({ auth, pd }) => {
   const { 

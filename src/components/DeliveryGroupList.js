@@ -74,7 +74,7 @@ class DeliveryGroupList extends Component {
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
-    const deliveryList = this.props.pds.DeliveryItems;
+    const deliveryList = this.props.deliveryList;
     console.log(deliveryList);
     return (
       <Content style={{ backgroundColor: '#eee' }}>

@@ -54,3 +54,12 @@ export const Authenticate = ({ UserID, Password }) => {
     });
 };
 
+export const GetUserPerformance = (UserID) => {
+  const URL = `${DOMAIN}/mpds/GetUserPerformance`;
+  const LoginInfo = Share.getLoginInfo();
+  return axios.post(URL, {
+      ...LoginInfo,
+      UserID
+    });
+};
+  

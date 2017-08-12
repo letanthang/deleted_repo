@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { 
-  OTHER_GET_CONFIGURATION, OTHER_CALCULATE_FEE, OTHER_CALCULATE_FEE_SUCCESS
+  OTHER_GET_CONFIGURATION, OTHER_CALCULATE_FEE, OTHER_CALCULATE_FEE_SUCCESS,
+  OTHER_GET_USER_PERFORMANCE,
+  OTHER_GET_USER_PERFORMANCE_SUCCESS
 } from './types';
 import ShareVariables from '../libs/ShareVariables';
+import * as API from '../apis/MPDS';
 
 export const calculateServiceFee = ({ 
   Length, Width, Height, Weight, OrderID, ClientID, ServiceID, FromDistrictID, ToDistrictID 
@@ -72,6 +75,29 @@ export const getConfiguration = () => {
       }
     } catch (error) {
       console.log('Fail to getConfiguration with error =');
+      console.log(error);
+    }
+  };
+};
+
+export const getUserPerformance = (UserID) => {
+  return async dispatch => {
+    dispatch({ type: OTHER_GET_USER_PERFORMANCE });
+
+    try {
+      const response = await API.GetUserPerformance(UserID);
+      const json = response.data;
+      if (json.code === 1) {
+        dispatch({
+          type: OTHER_GET_USER_PERFORMANCE_SUCCESS,
+          payload: json.data
+        });
+      } else {
+        console.log('getUserPerformance failed, response data=');
+        console.log(json);
+      }
+    } catch (error) {
+      console.log('getUserPerformance failed with error =');
       console.log(error);
     }
   };

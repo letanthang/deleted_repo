@@ -109,7 +109,7 @@ class StylesPickGroupDetail extends Component {
       navigate('ReturnOrder', { OrderID, order });
     }
   }
-  renderInfosForPick({ Weight, Length, Width, Height, ServiceCost }) {
+  renderInfosForPick({ Weight, Length, Width, Height, ServiceCost, disabled }) {
     if (this.pickGroup.PickDeliveryType === 3) return null;
     return (
       <View>
@@ -117,7 +117,7 @@ class StylesPickGroupDetail extends Component {
           <Text style={Styles.weakColor}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
         </View>
         <View style={Styles.itemStyle}>
-          <Text style={[Styles.midTextStyle, Styles.normalColor]}>Tiền thu: {ServiceCost} đ</Text>
+          <Text style={[Styles.midTextStyle, disabled ? Styles.weakColor : Styles.normalColor]}>Tiền thu: {ServiceCost} đ</Text>
         </View>
       </View>
     );
@@ -152,7 +152,7 @@ class StylesPickGroupDetail extends Component {
       disabled = CurrentStatus !== 'Return';
     }
 
-    if (disabled) backgroundColor = '#ddd';
+    if (disabled) backgroundColor = '#fff';
     console.log(`OrderCode: ${OrderCode} | CurrentStatus: ${CurrentStatus} | doneStatus ${doneStatus}`);
     
     return (
@@ -170,7 +170,7 @@ class StylesPickGroupDetail extends Component {
             <Text style={Styles.weakColor}>{RecipientName} - {RecipientPhone}</Text>
           </View>
           
-          {this.renderInfosForPick({ Weight, Length, Width, Height, ServiceCost })}
+          {this.renderInfosForPick({ Weight, Length, Width, Height, ServiceCost, disabled })}
           
           
           <View style={[Styles.itemStyle, Styles.actionItemStyle]}>

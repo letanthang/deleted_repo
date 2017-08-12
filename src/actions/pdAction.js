@@ -3,7 +3,7 @@ import {
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL
 } from './types';
-import * as API from '../apis/MPDS.js';
+import * as API from '../apis/MPDS';
 
 export const pdListFetch = (sessionToken) => {
   console.log('Action: pdListFetch start');

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
@@ -117,22 +117,25 @@ class HomeScreen extends Component {
             color='#606060'
             delay={false}
           />
-          
-          <Card>
-            <CardItem>
-              <View style={HomeStyles.cardItemLeft}>
-                <View>
-                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
-                    Năng suất làm việc
-                  </Text>
+          <TouchableOpacity
+            onPress={() => navigate('Performance')}
+          >
+            <Card>
+              <CardItem>
+                <View style={HomeStyles.cardItemLeft}>
+                  <View>
+                    <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
+                      Năng suất làm việc
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={HomeStyles.cardItemRight}>
-                <Image source={efficiencyIcon} />
-              </View>
-            </CardItem>
-            
-          </Card>
+                <View style={HomeStyles.cardItemRight}>
+                  <Image source={efficiencyIcon} />
+                </View>
+              </CardItem>
+            </Card>
+          </TouchableOpacity>
+          
           
         </Content>
         <LoadingSpinner loading={this.props.loading} />

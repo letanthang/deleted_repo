@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux';
 import DeliveryGroupList from './components/DeliveryGroupList';
 import DeliveryGroupCreate from './components/DeliveryGroupCreate';
+import Utils from './libs/Utils';
 
 class DeliveryListScreen extends Component {
   componentWillMount() {
@@ -21,6 +22,8 @@ class DeliveryListScreen extends Component {
   render() {
     const { navigate, goBack } = this.props.navigation;
     const deliveryList = this.props.pds.DeliveryItems;
+    const deliveryListRun = this.props.pds.DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
+    const deliveryListDone = this.props.pds.DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.CurrentStatus));
     return (
       <Container>
         <Header hasTabs>
@@ -38,11 +41,14 @@ class DeliveryListScreen extends Component {
           <Right />
         </Header>
         <Tabs initialPage={0}>
-          <Tab heading="DS NHOM">
-            <DeliveryGroupList deliveryList={deliveryList} navigation={this.props.navigation} />
+          <Tab heading="Nhóm">
+            <DeliveryGroupList deliveryList={deliveryListRun} navigation={this.props.navigation} />
           </Tab>
-          <Tab heading="TAO NHOM">
+          <Tab heading="Tạo Nhóm">
             <DeliveryGroupCreate deliveryList={deliveryList} />
+          </Tab>
+          <Tab heading="Đã giao">
+            <DeliveryGroupList deliveryList={deliveryListDone} navigation={this.props.navigation} />
           </Tab>
         </Tabs>
         

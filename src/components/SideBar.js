@@ -8,7 +8,7 @@ import {
   Container, Content, Button, List, ListItem, 
   Text, Icon, Left, Body 
 } from 'native-base';
-import { logoutUser } from '../actions';
+import { logoutUser, pdListNoTrip } from '../actions';
 
 //create cmp
 class SideBar extends Component {
@@ -25,6 +25,7 @@ class SideBar extends Component {
 
     if (!user) {
       console.log('user is null and navigate to Login');
+      this.props.pdListNoTrip();
       dispatch(resetAction);
       return false;
     }
@@ -156,4 +157,4 @@ const mapStateToProps = ({ auth }) => {
   return { user };
 };
 //make avai
-export default connect(mapStateToProps, { logoutUser })(SideBar);
+export default connect(mapStateToProps, { logoutUser, pdListNoTrip })(SideBar);

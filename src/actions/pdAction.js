@@ -34,6 +34,10 @@ export const pdListFetch = (sessionToken) => {
   };
 };
 
+export const pdListNoTrip = () => {
+  return { type: PDLIST_NO_TRIP };
+};
+
 export const pdListFetchSuccess = (dispatch, data) => {
   console.log('success & prepare to update home screen');
   dispatch({ type: PDLIST_FETCH_SUCCESS, payload: data });

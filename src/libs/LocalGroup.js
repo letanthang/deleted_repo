@@ -1,61 +1,38 @@
 import { AsyncStorage } from 'react-native';
 
 class LocalGroup {
-  static async addGroup() {
+  static async addGroup(group) {
     try {
-      const loginInfo = await AsyncStorage.getItem('loginInfo');
-      if (loginInfo !== null) {
-        const payload = JSON.parse(loginInfo);
-        dispatch({
-          type: LOAD_SAVED_USER_PASS,
-          payload
-        });
-      }
+      const groups = await this.getGroups();
+      groups.push(group);
+      await AsyncStorage.setItem('localgroup', groups);
     } catch (error) {
-      console.log('loadLoginInfo failed with error=');
+      console.log('addGroup failed with error=');
       console.log(error);
     }
   }
   static async getGroups() {
     try {
-      const loginInfo = await AsyncStorage.getItem('loginInfo');
-      if (loginInfo !== null) {
-        const payload = JSON.parse(loginInfo);
-        dispatch({
-          type: LOAD_SAVED_USER_PASS,
-          payload
-        });
-      }
+      const groups = await AsyncStorage.getItem('localgroup');
+      return groups;
     } catch (error) {
       console.log('loadLoginInfo failed with error=');
       console.log(error);
     }
   }
-  static async setOrderGroup() {
+  static async setOrderGroup({ OrderID, group }) {
     try {
-      const loginInfo = await AsyncStorage.getItem('loginInfo');
-      if (loginInfo !== null) {
-        const payload = JSON.parse(loginInfo);
-        dispatch({
-          type: LOAD_SAVED_USER_PASS,
-          payload
-        });
-      }
+      const orderGroups = await this.getOrderGroups();
+      orderGroups[OrderID] = group;
     } catch (error) {
       console.log('loadLoginInfo failed with error=');
       console.log(error);
     }
   }
-  static async getOrderGroup() {
+  static async getOrderGroups() {
     try {
-      const loginInfo = await AsyncStorage.getItem('loginInfo');
-      if (loginInfo !== null) {
-        const payload = JSON.parse(loginInfo);
-        dispatch({
-          type: LOAD_SAVED_USER_PASS,
-          payload
-        });
-      }
+      const orderGroups = await AsyncStorage.getItem('order-group');
+      return orderGroups;
     } catch (error) {
       console.log('loadLoginInfo failed with error=');
       console.log(error);

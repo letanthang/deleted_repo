@@ -106,7 +106,7 @@ class HomeScreen extends Component {
             upNumber={this.props.deliveryComplete}
             downNumber={this.props.deliveryTotal}
             color='#ff6e40'
-            delay={false}
+            delay={true}
           />
 
           <PDCard
@@ -115,7 +115,7 @@ class HomeScreen extends Component {
             upNumber={this.props.returnComplete}
             downNumber={this.props.returnTotal}
             color='#606060'
-            delay={false}
+            delay={true}
           />
           <TouchableOpacity
             onPress={() => navigate('Performance')}

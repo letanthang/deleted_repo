@@ -11,6 +11,12 @@ export const Styles = StyleSheet.create({
     marginRight: 10,
     flex: 1
   },
+  smallTextStyle: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginRight: 10,
+    flex: 1
+  },
   weakColor: {
     color: '#4552658f'
   },
@@ -85,5 +91,15 @@ export const OrderStyles = {
     flex: 1, 
     flexDirection: 'row', 
     justifyContent: 'flex-end'
+  }
+};
+
+export const DeliverGroupStyles = {
+  col1Style: {
+    flex: 1,
+    alignSelf: 'center'
+  },
+  col2Style: {
+    justifyContent: 'center'
   }
 };

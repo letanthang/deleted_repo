@@ -172,7 +172,7 @@ class PickOrderScreen extends Component {
             </View>
             <View style={[Styles.rowStyle]}>
               <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú đơn hàng</Text>
-              <Text numberOfLines={1} style={[Styles.midTextStyle, Styles.normalColor]}> ad a d d d d d d  a  ad a d d d d d d  a  ad a d d d d d d  a  ad a d d d d d d  a  ad a d d d d d d  a  ad a d d d d d d  a  ad a d d d d d d  a {Note}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Note}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>

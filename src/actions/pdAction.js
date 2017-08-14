@@ -1,7 +1,8 @@
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
-  PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL
+  PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
+  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS
 } from './types';
 import * as API from '../apis/MPDS';
 
@@ -18,7 +19,8 @@ export const pdListFetch = (sessionToken) => {
         if (json.code === 1) {
           pdListFetchSuccess(dispatch, json.data);
         } else if (json.code === 4) {
-          console.log('khong co chuyen di');
+          console.log('khong co chuyen di, json response=');
+          console.log(json);
           dispatch({ type: PDLIST_NO_TRIP });
         } else {
           console.log('pdListFetch failed with response json = ');
@@ -161,5 +163,12 @@ export const updateWeightSize = ({
       console.log('Update weight size failed with error =');
       console.log(error);
     }
+  };
+};
+
+export const updateGroup = (updateList) => {
+  return {
+    type: PD_UPDATE_GROUP,
+    payload: updateList
   };
 };

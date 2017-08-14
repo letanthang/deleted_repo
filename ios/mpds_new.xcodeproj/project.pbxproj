@@ -1261,6 +1261,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.mpds-new";
 				PRODUCT_NAME = mpds_new;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1283,6 +1284,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.mpds-new";
 				PRODUCT_NAME = mpds_new;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

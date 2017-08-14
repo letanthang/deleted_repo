@@ -31,7 +31,7 @@ class PickListScreen extends Component {
               <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Body style={{ flex: 1.5 }}>
+          <Body style={{ flex: 2 }}>
             <Title style={Styles.normalColor}>Chuyến đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
           </Body>
           <Right />

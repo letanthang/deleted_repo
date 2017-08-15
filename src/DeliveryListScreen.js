@@ -6,6 +6,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import DeliveryGroupList from './components/DeliveryGroupList';
+import DeliveryByGroup from './components/DeliveryByGroup';
 import DeliveryGroupCreate from './components/DeliveryGroupCreate';
 import Utils from './libs/Utils';
 
@@ -42,7 +43,7 @@ class DeliveryListScreen extends Component {
         </Header>
         <Tabs initialPage={0}>
           <Tab heading="Nhóm">
-            <DeliveryGroupList deliveryList={deliveryListRun} navigation={this.props.navigation} />
+            <DeliveryByGroup deliveryList={deliveryListRun} navigation={this.props.navigation} />
           </Tab>
           <Tab heading="Tạo Nhóm">
             <DeliveryGroupCreate deliveryList={deliveryList} />

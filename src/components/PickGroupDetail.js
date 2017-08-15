@@ -13,7 +13,7 @@ const BUTTONS = ['KHÁCH khong lien lac duoc', 'KHÁCH Khong nghe may', 'Khach h
 const DESTRUCTIVE_INDEX = -1;
 const CANCEL_INDEX = 3;
 
-class StylesPickGroupDetail extends Component {
+class PickGroupDetail extends Component {
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
@@ -228,4 +228,4 @@ const mapStateToProps = ({ auth, pd }) => {
 };
 
 
-export default connect(mapStateToProps, { updateOrderStatus })(StylesPickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus })(PickGroupDetail);

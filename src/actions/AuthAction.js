@@ -4,6 +4,7 @@ import {
   LOGOUT_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS 
 } from './types.js';
 import * as API from '../apis/MPDS';
+import LocalGroup from '../libs/LocalGroup';
 
 export const userIDChanged = (text) => {
   return {
@@ -83,10 +84,15 @@ const loginUserSucess = (dispatch, user, { userID, password, rememberMe }) => {
   } else {
     saveLoginInfo({ userID: '', password: '', rememberMe: false });
   }
-  dispatch({
-    type: LOGIN_USER_SUCCESS,
-    payload: user
+  
+  LocalGroup.getLocalDB()
+  .then(() => {
+    dispatch({
+      type: LOGIN_USER_SUCCESS,
+      payload: user
+    });
   });
+  
 };
 
 const loginUserFail = (dispatch, errorMsg) => {

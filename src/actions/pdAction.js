@@ -5,14 +5,17 @@ import {
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS
 } from './types';
 import * as API from '../apis/MPDS';
+import LocalGroup from '../libs/LocalGroup';
 
 export const pdListFetch = (sessionToken) => {
   console.log('Action: pdListFetch start');
   console.log(sessionToken);
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({ type: PDLIST_FETCH });
     console.log(' prepare to fetch pd list');
-
+    // const { user } = getState().auth;
+    // console.log(' get state of authReducer from pdAction');
+    // console.log(user);
     API.GetUserActivePds()
       .then(response => {
         const json = response.data;
@@ -42,7 +45,9 @@ export const pdListNoTrip = () => {
 
 export const pdListFetchSuccess = (dispatch, data) => {
   console.log('success & prepare to update home screen');
-  dispatch({ type: PDLIST_FETCH_SUCCESS, payload: data });
+  const payload = { pds: data, orderGroup: LocalGroup.getOrderGroups() };
+  dispatch({ type: PDLIST_FETCH_SUCCESS, payload });
+    // .then(() => console.log('pdlist fetch success done!'));
 };
 
 export const pdListFetchFail = (dispatch) => {
@@ -166,7 +171,7 @@ export const updateWeightSize = ({
   };
 };
 
-export const updateGroup = (updateList) => {
+export const updateOrderGroup = (updateList) => {
   return {
     type: PD_UPDATE_GROUP,
     payload: updateList

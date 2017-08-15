@@ -28,18 +28,22 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: true };
     case PDLIST_FETCH_SUCCESS: {
       console.log('update home screen with numbers');
-      
+      const pds = action.payload.pds;
+      addGroup(pds, action.payload.orderGroup);
+      console.log('pds add group');
+      console.log(pds);
       const { 
         pickTotal,
         pickComplete,
         returnTotal,
         returnComplete,
         deliveryTotal,
-        deliveryComplete } = calculateStatNumbers(action.payload);
-
+        deliveryComplete } = calculateStatNumbers(pds);
+      
+      
       return { ...state, 
-        pds: action.payload,
-        pdsId: action.payload.PickDeliverySessionID, 
+        pds,
+        pdsId: pds.PickDeliverySessionID, 
         loading: false,
         pickTotal,
         pickComplete,
@@ -134,6 +138,26 @@ export default (state = nameInitialState, action) => {
       order.Width = Width;
       return { ...state, pds, loading: false };
     }
+
+    case PD_UPDATE_GROUP: {
+      const pds = _.cloneDeep(state.pds);
+      //const pds = state.pds;
+      const orders = pds.DeliveryItems;
+      const orderGroup = action.payload;
+      console.log('pdReducer: Pd udpate group');
+      console.log(orderGroup);
+      orders.forEach((order, index) => {
+        const group = orderGroup[order.OrderID];
+        console.log(order.OrderID);
+        console.log(group);
+        if (group !== undefined) {
+          orders[index].Group = group;
+        } 
+      });
+      console.log(orders);
+      console.log(pds);
+      return { ...state, pds };
+    }
       
     default:
       return state;
@@ -157,6 +181,12 @@ export default (state = nameInitialState, action) => {
 // 
 // 
 // 
+
+const addGroup = (pds, orderGroup) => {
+  pds.DeliveryItems.forEach((order, index) => {
+    pds.DeliveryItems[index].Group = orderGroup[order.OrderID] || null;
+  });
+};
 
 const calculateStatNumbers = (pds) => {
   // pick

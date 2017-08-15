@@ -10,6 +10,7 @@ import { pdListFetch } from './actions';
 import PDCard from './components/home/PDCard';
 import LoadingSpinner from './components/LoadingSpinner';
 import { HomeStyles, Styles } from './Styles';
+import LocalGroup from './libs/LocalGroup';
 
 const efficiencyIcon = require('../resources/ic_summary.png');
 
@@ -27,8 +28,10 @@ class HomeScreen extends Component {
       console.log(this.props.pds);
       this.props.pdListFetch(sessionToken);
     }
+    this.listGroups();
     console.log('===================================='); 
   }
+  
   shouldComponentUpdate({ user }) {
     return user !== null;
   }
@@ -65,6 +68,25 @@ class HomeScreen extends Component {
     const { navigate } = this.props.navigation;
     navigate('DeliveryList');
   }
+  async listGroups() {
+    try {
+      //await LocalGroup.getLocalDB();
+      //await LocalGroup.resetDB();
+      let groups = LocalGroup.getGroups();
+      if (groups.length === -1) {
+        await LocalGroup.addGroup('nhom1');
+        await LocalGroup.addGroup('nhom2');
+      }
+      // await LocalGroup.setGroups([]);
+      
+      groups = LocalGroup.getGroups();
+      console.log('HomeScreen:  listGroups async');
+      console.log(groups);
+    } catch (error) {
+      console.log('local group failed with error=');
+      console.log(error);
+    }
+  }
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -97,7 +119,7 @@ class HomeScreen extends Component {
             upNumber={this.props.pickComplete}
             downNumber={this.props.pickTotal}
             color='#12cd72'
-            delay={true}
+            delay={false}
           />
 
           <PDCard
@@ -106,7 +128,7 @@ class HomeScreen extends Component {
             upNumber={this.props.deliveryComplete}
             downNumber={this.props.deliveryTotal}
             color='#ff6e40'
-            delay={true}
+            delay={false}
           />
 
           <PDCard
@@ -115,7 +137,7 @@ class HomeScreen extends Component {
             upNumber={this.props.returnComplete}
             downNumber={this.props.returnTotal}
             color='#606060'
-            delay={true}
+            delay={false}
           />
           <TouchableOpacity
             onPress={() => navigate('Performance')}

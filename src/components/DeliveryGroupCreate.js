@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, TextInput, TouchableOpacity, ListView } from 'react-native';
 import { 
   Content, Text, 
@@ -8,20 +10,22 @@ import {
 import { CheckBox } from 'react-native-elements';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Styles, DeliverGroupStyles } from '../Styles';
+import LocalGroup from '../libs/LocalGroup';
+import { updateOrderGroup } from '../actions';
 
 const checkList = {};
 class DeliveryGroupCreate extends Component {
-  constructor(props) {
-    console.log('constructor called!');
-    super(props);
-    const { deliveryList } = props;
-    deliveryList.forEach(order => { checkList[order.OrderID] = false; });
-  }
-
   componentWillMount() {
     console.log('DeliveryGroupCreate: cwm !');
-    console.log(this.props.deliveryList);
+    
+    const pds = this.props.pds;
+    console.log(pds);
+    pds.DeliveryItems.forEach(order => { checkList[order.OrderID] = false; });
+    const GroupLength = LocalGroup.getGroups().length + 1;
+    const GroupName = `nhom${GroupLength}`;
+    this.state = { GroupName };
     this.createDataSource(this.props);
+    console.log(this.state.GroupName);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,9 +39,42 @@ class DeliveryGroupCreate extends Component {
     checkList[OrderID] = !checkList[OrderID];
     this.createDataSource(this.props);
   }
+  onCreateGroup() {
+    console.log('onCreateGroup pressed');
+
+    this.createGroup(this.state.GroupName);
+  }
+
+  async createGroup(GroupName) {
+    try {
+      //update local storage
+      await LocalGroup.addGroup(GroupName);
+      const orderGroup = {};
+      _.each(checkList, (value, prop) => {
+        if (value) {
+          orderGroup[prop] = GroupName;
+        }
+      });
+      console.log('createGroup: orderGroup = ');
+      console.log(orderGroup);
+      await LocalGroup.setOrdersGroups(orderGroup);
+
+      //update store
+      this.props.updateOrderGroup(orderGroup);
+
+
+      //update new group name
+      const GroupLength = LocalGroup.getGroups().length + 1;
+      const NewGroupName = `nhom${GroupLength}`;
+      this.setState({ GroupName: NewGroupName });
+    } catch (error) {
+      console.log('creategroup & add order group fail with error =');
+      console.log(error);
+    }
+  }
   
-  createDataSource({ deliveryList }) {
-    const list = deliveryList;
+  createDataSource({ pds }) {
+    const list = pds.DeliveryItems.filter(order => order.Group === null);
     list.forEach((order, index) => {
       list[index].groupChecked = checkList[order.OrderID];
     });
@@ -52,7 +89,6 @@ class DeliveryGroupCreate extends Component {
   renderOrder(order) {
     //console.log(`renderOrder is called! checked = ${this.state[OrderID]}`);
     //console.log(order);
-
     const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, groupChecked } = order;
     return (
       <TouchableOpacity
@@ -82,17 +118,23 @@ class DeliveryGroupCreate extends Component {
   }
 
   render() {
+    // const { pds } = this.props;
     console.log('DeliveryGroupCreate: render called, state =| datasource =');
+    // console.log(pds);
+    
+    
     return (
       <Content style={{ backgroundColor: '#fff' }}>
         <View style={Styles.rowStyle}>
           <TextInput 
-            style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 2, borderBottomColor: '#06B2F5' }}
-            value="Nhom 1"
+            style={{ height: 40, flex: 1, borderColor: 'gray', borderBottomWidth: 2, borderBottomColor: '#06B2F5' }}
+            value={this.state.GroupName}
+            onChangeText={(GroupName) => this.setState({ GroupName })}
           />
           <Button 
             small
             light
+            onPress={this.onCreateGroup.bind(this)}
           >
             <Text>Tạo Nhóm</Text>
           </Button>
@@ -105,5 +147,8 @@ class DeliveryGroupCreate extends Component {
     );
   }
 }
-
-export default DeliveryGroupCreate;
+const mapStateToProps = ({ pd }) => {
+  const { pds } = pd;
+  return { pds };
+};
+export default connect(mapStateToProps, { updateOrderGroup })(DeliveryGroupCreate);

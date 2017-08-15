@@ -137,6 +137,7 @@ class DeliveryByGroup extends Component {
     );
   }
   onAccordionChange(index) {
+    this.setState({ activeGroup: index });
     console.log(`active group change to ${index}`);
   }
 }

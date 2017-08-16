@@ -7,9 +7,8 @@ import {
 import * as API from '../apis/MPDS';
 import LocalGroup from '../libs/LocalGroup';
 
-export const pdListFetch = (sessionToken) => {
+export const pdListFetch = () => {
   console.log('Action: pdListFetch start');
-  console.log(sessionToken);
   return (dispatch, getState) => {
     dispatch({ type: PDLIST_FETCH });
     console.log(' prepare to fetch pd list');

@@ -20,13 +20,12 @@ class HomeScreen extends Component {
     console.log('HomeScreen : CWM');
     const params = this.props.navigation.state.params;
     const needUpdateData = (params === undefined) ? false : params.needUpdateData;
-    const sessionToken = this.props.user.SessionToken;
     if (needUpdateData || !this.props.pds) {
       if (needUpdateData) params.needUpdateData = false;
       console.log('update pds data:');
       console.log(needUpdateData);
       console.log(this.props.pds);
-      this.props.pdListFetch(sessionToken);
+      this.props.pdListFetch();
     }
     this.listGroups();
     console.log('===================================='); 
@@ -40,13 +39,12 @@ class HomeScreen extends Component {
     console.log('HomeScreen : CDU');
     const params = this.props.navigation.state.params;
     const needUpdateData = (params === undefined) ? false : params.needUpdateData;
-    const sessionToken = this.props.user.SessionToken;
     if (needUpdateData) {
       if (needUpdateData) params.needUpdateData = false;
       console.log('update pds data:');
       console.log(needUpdateData);
       console.log(this.props.pds);
-      this.props.pdListFetch(sessionToken);
+      this.props.pdListFetch();
     }
     console.log('====================================');
   }

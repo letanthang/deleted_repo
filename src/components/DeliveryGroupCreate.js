@@ -11,16 +11,17 @@ import { CheckBox } from 'react-native-elements';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Styles, DeliverGroupStyles } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
-import { updateOrderGroup } from '../actions';
+import Utils from '../libs/Utils';
+import { updateOrderGroup, pdListFetch } from '../actions';
 
-const checkList = {};
+let checkList = {};
 class DeliveryGroupCreate extends Component {
   componentWillMount() {
     console.log('DeliveryGroupCreate: cwm !');
     
     const pds = this.props.pds;
     console.log(pds);
-    pds.DeliveryItems.forEach(order => { checkList[order.OrderID] = false; });
+    
     const GroupLength = LocalGroup.getGroups().length + 1;
     const GroupName = `nhom${GroupLength}`;
     this.state = { GroupName };
@@ -30,6 +31,9 @@ class DeliveryGroupCreate extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log('DeliveryGroupCreate: cwrp');
+    const list = nextProps.pds.DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
+    checkList = {};
+    list.forEach(order => { checkList[order.OrderID] = false; });
     this.createDataSource(nextProps);
   }
   
@@ -72,9 +76,29 @@ class DeliveryGroupCreate extends Component {
       console.log(error);
     }
   }
+  onResetGroup() {
+    console.log('onCreateGroup pressed');
+
+    this.resetGroup();
+  }
+
+  async resetGroup() {
+    try {
+      await LocalGroup.resetDB();
+      this.props.pdListFetch();
+      //update new group name
+      // const GroupLength = LocalGroup.getGroups().length + 1;
+      // const NewGroupName = `nhom${GroupLength}`;
+      // this.setState({ GroupName: NewGroupName });
+      // this.createDataSource(this.props);
+    } catch (error) {
+      console.log('resetGroup failed');
+      console.log(error);
+    }
+  }
   
   createDataSource({ pds }) {
-    const list = pds.DeliveryItems.filter(order => order.Group === null);
+    const list = pds.DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
     list.forEach((order, index) => {
       list[index].groupChecked = checkList[order.OrderID];
     });
@@ -138,6 +162,13 @@ class DeliveryGroupCreate extends Component {
           >
             <Text>Tạo Nhóm</Text>
           </Button>
+          <Button 
+            small
+            light
+            onPress={this.onResetGroup.bind(this)}
+          >
+            <Text>Reset</Text>
+          </Button>
         </View> 
         <ListView
           dataSource={this.state.dataSource}
@@ -151,4 +182,4 @@ const mapStateToProps = ({ pd }) => {
   const { pds } = pd;
   return { pds };
 };
-export default connect(mapStateToProps, { updateOrderGroup })(DeliveryGroupCreate);
+export default connect(mapStateToProps, { updateOrderGroup, pdListFetch })(DeliveryGroupCreate);

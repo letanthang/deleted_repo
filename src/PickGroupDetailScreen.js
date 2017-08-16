@@ -64,7 +64,7 @@ class PickGroupDetailScreen extends Component {
           </Right>
         </Header>
         <Tabs initialPage={0}>
-          <Tab heading="Đang Giao">
+          <Tab heading={pickGroup.PickDeliveryType === 1 ? 'Đang Lấy' : 'Đang Trả'}>
             <PickGroupDetail {...this.props} done={false} />
           </Tab>
           <Tab heading="Xong">

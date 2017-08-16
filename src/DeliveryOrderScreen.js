@@ -11,6 +11,7 @@ import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
+import { Styles } from './Styles';
 
 const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Cancel'];
 const DESTRUCTIVE_INDEX = -1;
@@ -91,7 +92,9 @@ class DeliveryOrderScreen extends Component {
         <Grid>
           <Col style={{ margin: 2 }}>
             <Button 
-              block style={{ backgroundColor: '#06B2F5' }}
+              block 
+              style={{ backgroundColor: '#06B2F5' }}
+              small
               onPress={this.updateOrderToFailWithReason.bind(this, order)}
             >
               <Text>GIAO LỖI</Text>
@@ -99,7 +102,9 @@ class DeliveryOrderScreen extends Component {
           </Col>
           <Col style={{ margin: 2 }}>
           <Button 
-            block style={{ backgroundColor: '#06B2F5' }}
+            block 
+            style={{ backgroundColor: '#06B2F5' }}
+            small
             onPress={this.updateOrderToDone.bind(this, order)}
           >
             <Text>ĐÃ GIAO</Text>
@@ -165,82 +170,68 @@ class DeliveryOrderScreen extends Component {
           </Right>
         </Header>
         <Content>
-          <List>
-            <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
+          <List style={{ backgroundColor: 'white' }}>
+            <View style={Styles.rowHeaderStyle}>
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
-            </ListItem>
-            <ListItem>
-              <Left>
-                <Text>Tên khách hàng</Text>
-              </Left>
-              <Right>
-                <Text>{RecipientName}</Text>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left>
-                <Text>Số điện thoại</Text>
-              </Left>
-              <Right style={{ flex: 2 }}>
+            </View>
+            <View style={Styles.rowStyle}>
+                <Text style={[Styles.col1Style, Styles.weakColor]}>Tên khách hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{RecipientName}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+                <Text style={[Styles.col1Style, Styles.weakColor]}>Số điện thoại</Text>
                 <Button
                   transparent
                   iconRight
+                  small
+                  style={{ paddingLeft: 0 }}
                   onPress={() => phonecall(RecipientPhone, true)}
                 >
                   <Text>{RecipientPhone}</Text>
                   <Icon name='call' />
                 </Button>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left>
-                <Text>Địa chỉ</Text>
-              </Left>
-              <Right style={{ flex: 2 }}>
-                <Text>{Address}</Text>
-              </Right>
-            </ListItem>
-            <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
+            </View>
+            <View style={Styles.rowStyle}>
+                <Text style={[Styles.col1Style, Styles.weakColor]}>Địa chỉ</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Address}</Text>
+            </View>
+            <View style={Styles.rowHeaderStyle}>
               <Text style={{ color: 'white' }}>Thông tin đơn hàng</Text>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Tổng thu</Text></Left>
-              <Right><Text>{CODAmount}</Text></Right>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Nhà cung cấp</Text></Left>
-              <Right style={{ flex: 2 }}><Text>{ClientName}</Text></Right>
-            </ListItem>
-            <ListItem>
-              <Left><Text>SĐT NCC</Text></Left>
-              <Right style={{ flex: 2 }}>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Tổng thu</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{CODAmount}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Nhà cung cấp</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{ClientName}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>SĐT NCC</Text>
                 <Button
                   transparent
                   iconRight
+                  small
+                  style={{ paddingLeft: 0 }}
                 >
                   <Text>{ContactPhone}</Text>
                   <Icon name='call' />
                 </Button>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Ghi chú đơn hàng</Text></Left>
-              <Right style={{ flex: 1 }}>
-                <Text>{Note}</Text>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Body>
-              <Text>Lịch sử đơn hàng</Text>
-              <Text>{Log}</Text>
-              </Body>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Ghi chú xem hàng</Text></Left>
-              <Right>
-                <Text>{RequiredNote}</Text>
-              </Right>
-            </ListItem>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú đơn hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Note}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+              <View>
+                <Text style={[Styles.weakColor]}>Lịch sử đơn hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Log}</Text>
+              </View>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú xem hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{RequiredNote}</Text>
+            </View>
           </List>
 
           {this.renderButtons(order, CurrentStatus)}

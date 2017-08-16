@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List, ListItem 
+  List 
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
+import { Styles } from './Styles';
 
 class ReturnOrderScreen extends Component {
 
@@ -98,47 +99,41 @@ class ReturnOrderScreen extends Component {
           
         </Header>
         <Content>
-          <List>
-            <ListItem itemHeader first style={{ backgroundColor: '#06B2F5' }}>
+          <List style={{ backgroundColor: 'white' }}>
+            <View style={Styles.rowHeaderStyle}>
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Tên khách hàng</Text></Left>
-              <Right style={{ flex: 1 }}>
-                <Text>{RecipientName}</Text>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Số điện thoại</Text></Left>
-              <Right style={{ flex: 1 }}>
-                <Button
-                  transparent
-                  iconRight
-                  onPress={() => phonecall(RecipientPhone, true)}
-                >
-                  <Text>{RecipientPhone}</Text>
-                  <Icon name='call' />
-                </Button>  
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Địa chỉ</Text></Left>
-              <Right style={{ flex: 1 }}>
-                <Text>{Address}</Text>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left><Text>Ghi chú đơn hàng</Text></Left>
-              <Right style={{ flex: 1 }}>
-                <Text>{Note}</Text>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Body>
-              <Text>Lịch sử đơn hàng</Text>
-              <Text>{Log}</Text>
-              </Body>
-            </ListItem>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Tên khách hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{RecipientName}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Số điện thoại</Text>
+              <Button
+                transparent
+                iconRight
+                small
+                style={{ paddingLeft: 0 }}
+                onPress={() => phonecall(RecipientPhone, true)}
+              >
+                <Text>{RecipientPhone}</Text>
+                <Icon name='call' />
+              </Button>  
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Địa chỉ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Address}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú đơn hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Note}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+              <View>
+                <Text style={[Styles.weakColor]}>Lịch sử đơn hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Log}</Text>
+              </View>
+            </View>
           </List>
         </Content>
         <LoadingSpinner loading={this.props.loading} />

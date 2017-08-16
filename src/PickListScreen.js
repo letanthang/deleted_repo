@@ -37,7 +37,7 @@ class PickListScreen extends Component {
           <Right />
         </Header>
         <Tabs initialPage={0}>
-          <Tab heading="Đang Giao">
+          <Tab heading="Đang Lấy">
             <PickGroupList {...this.props} done={false} />
           </Tab>
           <Tab heading="Xong">

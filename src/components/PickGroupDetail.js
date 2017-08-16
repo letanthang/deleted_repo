@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { 
   Content, ActionSheet, List
 } from 'native-base';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox, SearchBar } from 'react-native-elements';
 import { updateOrderStatus } from '../actions';
 import Utils from '../libs/Utils';
 import { Styles } from '../Styles';
@@ -24,6 +24,7 @@ class PickGroupDetail extends Component {
     
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.state = { keyword: '' };
   }
 
   pickGroup = null;
@@ -211,9 +212,18 @@ class PickGroupDetail extends Component {
     console.log('====================================');
 
     return (
+      
       <Content>
+        <SearchBar
+          round
+          lightTheme
+          onChangeText={(text) => this.setState({ keyword: text.trim() })}
+          value={this.state.keyword}
+          placeholder='Type here...'
+        />
         <List
-          dataArray={pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus) === done)}
+          dataArray={pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus) === done 
+            && (this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())))}
           renderRow={this.renderOrder.bind(this)}
         />
       </Content>

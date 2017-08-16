@@ -15,7 +15,7 @@ class DeliveryByGroup extends Component {
     console.log('====================================');
     console.log('DeliveryGroupList CWM');
     console.log('====================================');
-    this.state = { activeGroup: 0 };
+    this.state = { activeGroup: 0, keyword: '' };
   }
   componentWillUpdate() {
     
@@ -95,7 +95,8 @@ class DeliveryByGroup extends Component {
   
   renderGroup(Group) {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
-    const deliveryList = this.props.deliveryList.filter(order => order.Group === Group);
+    const deliveryList = this.props.deliveryList.filter(order => order.Group === Group 
+      && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
     //console.log(`renderGroup ${Group}`);
     //console.log(deliveryList);
     return (
@@ -122,7 +123,8 @@ class DeliveryByGroup extends Component {
       <SearchBar
         round
         lightTheme
-        onChangeText={(text) => console.log(text)}
+        onChangeText={(text) => this.setState({ keyword: text.trim() })}
+        value={this.state.keyword}
         placeholder='Type here...'
       />
       <Accordion
@@ -132,7 +134,6 @@ class DeliveryByGroup extends Component {
         renderContent={this._renderContent.bind(this)}
         onChange={this.onAccordionChange.bind(this)}
       />
-      
       </Content>
     );
   }

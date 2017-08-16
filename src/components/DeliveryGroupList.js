@@ -13,6 +13,7 @@ class DeliveryGroupList extends Component {
     console.log('====================================');
     console.log('DeliveryGroupList CWM');
     console.log('====================================');
+    this.state = { keyword: '' };
   }
   componentWillUpdate() {
     
@@ -74,14 +75,16 @@ class DeliveryGroupList extends Component {
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
-    const deliveryList = this.props.deliveryList;
+    const deliveryList = this.props.deliveryList.filter(order => this.state.keyword === '' 
+      || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase()));
     console.log(deliveryList);
     return (
       <Content style={{ backgroundColor: '#eee' }}>
       <SearchBar
         round
         lightTheme
-        onChangeText={(text) => console.log(text)}
+        onChangeText={(text) => this.setState({ keyword: text.trim() })}
+        value={this.state.keyword}
         placeholder='Type here...'
       />
       <List

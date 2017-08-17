@@ -46,8 +46,19 @@ export const Styles = StyleSheet.create({
     borderColor: '#4552658f',
     borderBottomWidth: 0.5
   },
+  rowLastStyle: {
+    paddingTop: 14,
+    paddingBottom: 16,
+    paddingLeft: 0,
+    paddingRight: 0,
+    marginLeft: 16,
+    marginRight: 16,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    borderColor: '#4552658f'
+  },
   rowHeaderStyle: {
-    backgroundColor: '#06B2F5',
+    backgroundColor: '#eee',
     padding: 4,
     paddingLeft: 16,
     paddingRight: 16,

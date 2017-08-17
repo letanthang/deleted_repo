@@ -12,6 +12,7 @@ import { updateOrderStatus } from './actions';
 import Utils from './libs/Utils';
 import LoadingSpinner from './components/LoadingSpinner';
 import { Styles } from './Styles';
+import FormButton from './components/FormButton';
 
 const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Cancel'];
 const DESTRUCTIVE_INDEX = -1;
@@ -91,23 +92,19 @@ class DeliveryOrderScreen extends Component {
       return (
         <Grid>
           <Col style={{ margin: 2 }}>
-            <Button 
-              block 
-              style={{ backgroundColor: '#06B2F5' }}
-              small
+            <FormButton
+              text='Giao Lỗi'
               onPress={this.updateOrderToFailWithReason.bind(this, order)}
-            >
-              <Text>GIAO LỖI</Text>
-            </Button>
+            />
           </Col>
           <Col style={{ margin: 2 }}>
           <Button 
             block 
-            style={{ backgroundColor: '#06B2F5' }}
+            style={{ backgroundColor: 'white', borderWidth: 1 }}
             small
             onPress={this.updateOrderToDone.bind(this, order)}
           >
-            <Text>ĐÃ GIAO</Text>
+            <Text style={{ color: '#06B2F5' }}>Đã Giao</Text>
             </Button>
           </Col>
         </Grid>
@@ -169,10 +166,10 @@ class DeliveryOrderScreen extends Component {
             </Button>
           </Right>
         </Header>
-        <Content>
-          <List style={{ backgroundColor: 'white' }}>
+        <Content style={{ backgroundColor: 'white', paddingTop: 16 }}>
+          <List>
             <View style={Styles.rowHeaderStyle}>
-              <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
+              <Text style={[Styles.normalColor, Styles.midTextStyle]}>Thông tin khách hàng</Text>
             </View>
             <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColor]}>Tên khách hàng</Text>
@@ -191,12 +188,12 @@ class DeliveryOrderScreen extends Component {
                   <Icon name='call' />
                 </Button>
             </View>
-            <View style={Styles.rowStyle}>
+            <View style={Styles.rowLastStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColor]}>Địa chỉ</Text>
                 <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Address}</Text>
             </View>
             <View style={Styles.rowHeaderStyle}>
-              <Text style={{ color: 'white' }}>Thông tin đơn hàng</Text>
+              <Text style={[Styles.normalColor, Styles.midTextStyle]}>Thông tin đơn hàng</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColor]}>Tổng thu</Text>
@@ -228,7 +225,7 @@ class DeliveryOrderScreen extends Component {
                 <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Log}</Text>
               </View>
             </View>
-            <View style={Styles.rowStyle}>
+            <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú xem hàng</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColor]}>{RequiredNote}</Text>
             </View>

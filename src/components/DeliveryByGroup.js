@@ -79,7 +79,7 @@ class DeliveryByGroup extends Component {
   _renderHeader(Group) {
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>{ Group || 'Mac dinh'}</Text>
+        <Text style={styles.headerText}>{ Group || 'Mặc định'}</Text>
       </View>
     );
   }
@@ -95,8 +95,15 @@ class DeliveryByGroup extends Component {
   
   renderGroup(Group) {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
-    const deliveryList = this.props.deliveryList.filter(order => order.Group === Group 
-      && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
+    let deliveryList = {};
+    if (Group === 'Done') {
+      deliveryList = this.props.pds.DeliveryItems.filter(order => Utils.checkDeliveryComplete(order.CurrentStatus)
+        && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
+    } else {
+      deliveryList = this.props.deliveryList.filter(order => order.Group === Group
+        && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
+    }
+    
     //console.log(`renderGroup ${Group}`);
     //console.log(deliveryList);
     return (
@@ -115,6 +122,7 @@ class DeliveryByGroup extends Component {
     console.log(`DeliveryByGroup render, activeGroup = ${this.state.activeGroup}`);
     console.log(deliveryList);
     const groups = _.clone(LocalGroup.getGroups());
+    groups.push('Done');
     groups.unshift(null);
     // console.log('render, groups =');
     // console.log(groups);
@@ -164,7 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   content: {
-    padding: 20,
+    padding: 5,
     backgroundColor: '#fff',
   },
   active: {

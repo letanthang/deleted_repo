@@ -1,18 +1,61 @@
 import React from 'react';
+import { StyleSheet, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Button, Text } from 'native-base';
-import { Styles } from '../Styles';
+import { Colors } from '../Styles';
 
-const FormButton = ({ text, disabled, onPress }) => {
+const FormButton = ({ text, disabled, onPress, width }) => {
+  let textStyle = styles.textStyle;
+  let buttonStyle = styles.buttonStyle;
+  if (disabled) {
+    textStyle = styles.textDisabledStyle;
+    buttonStyle = styles.buttonDisabledStyle;
+  } 
+
+  if (width) {
+    buttonStyle = { ...buttonStyle, width };
+  }
+  
   return (
     <Button 
     block 
-    style={[{ backgroundColor: 'white', }, Styles.normalColor]}
+    style={buttonStyle}
     small
-    onPress={onPress}
+    onPress={disabled ? null : onPress}
     >
-      <Text style={Styles.normalColor}>{text}</Text>
+      <Text style={textStyle}>{text}</Text>
     </Button>
   );
+};
+
+let styles = {
+  textStyle: {
+    color: Colors.normalColor
+  },
+  textDisabledStyle: {
+    color: Colors.weakColor
+  },
+  buttonStyle: {
+    margin: 2,
+    backgroundColor: 'white',
+    borderColor: Colors.normalColor,
+    borderWidth: 1,
+    borderRadius: 2,
+    height: 52,
+    marginBottom: 10,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 0
+  },
+  buttonDisabledStyle: {
+    margin: 2,
+    backgroundColor: 'white',
+    borderColor: Colors.weakColor,
+    borderWidth: 1,
+    borderRadius: 2,
+    height: 52,
+    marginBottom: 10,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 0
+  }
 };
 
 export default FormButton;

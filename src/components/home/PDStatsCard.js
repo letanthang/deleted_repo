@@ -34,12 +34,12 @@ class PDStatsCard extends Component {
                 {cardTitle}
               </Text>
               <Text
-                style={Styles.normalColor}
+                style={Styles.normalColorStyle}
               >
                 Thành công: {upNumber} đơn
               </Text>
               <Text
-                style={Styles.normalColor}
+                style={Styles.normalColorStyle}
               >
                 Tổng số: {downNumber} đơn
               </Text>

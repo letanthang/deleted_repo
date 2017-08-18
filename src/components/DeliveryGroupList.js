@@ -7,6 +7,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import Utils from '../libs/Utils';
+import { Styles } from '../Styles';
 
 class DeliveryGroupList extends Component {
   componentWillMount() {
@@ -48,27 +49,24 @@ class DeliveryGroupList extends Component {
       <TouchableOpacity
         onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
       >
-        <Card>
-          <CardItem header>
-            <Text>
+        <View style={Styles.orderWrapperStyle}>
+          <View style={Styles.item2Style}>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
               [{DisplayOrder}] {OrderCode}
             </Text>
-            <Right>
-              <Badge>
-                <Text>6h</Text>
-              </Badge>
-            </Right>
-          </CardItem>
-          <CardItem>
-            <View style={{ flex: 1 }}>          
-            <Text>
+            <Badge>
+              <Text>6h</Text>
+            </Badge>
+          </View>
+          <View style={Styles.itemStyle}>
+            <Text style={[Styles.midTextStyle, Styles.weakColorStyle]}>
               {Address}
             </Text>
-            <Item style={{ }} />
+          </View>
+          <View style={Styles.itemStyle}>
             {this.renderStatusText(CurrentStatus)}
-            </View>
-          </CardItem>
-        </Card>
+          </View>
+        </View>
       </TouchableOpacity>
       
     );

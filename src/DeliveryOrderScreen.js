@@ -86,32 +86,25 @@ class DeliveryOrderScreen extends Component {
   }
   
   renderButtons(order, currentStatus) {
-    const displayStatus = Utils.getDisplayStatus(currentStatus);
-
-    if (displayStatus === 'Đang giao') {
-      return (
-        <Grid>
-          <Col style={{ margin: 2 }}>
-            <FormButton
-              text='Giao Lỗi'
-              onPress={this.updateOrderToFailWithReason.bind(this, order)}
-            />
-          </Col>
-          <Col style={{ margin: 2 }}>
-          <Button 
-            block 
-            style={{ backgroundColor: 'white', borderWidth: 1 }}
-            small
-            onPress={this.updateOrderToDone.bind(this, order)}
-          >
-            <Text style={{ color: '#06B2F5' }}>Đã Giao</Text>
-            </Button>
-          </Col>
-        </Grid>
-      );
-    }
-
-    return this.renderDisabledButtons();
+    const done = Utils.checkDeliveryComplete(currentStatus);
+    return (
+      <Grid style={{ height: 70, marginTop: 20, marginBottom: 20 }}>
+        <Col style={{ margin: 2 }}>
+          <FormButton
+            disabled={done}
+            text='Giao Lỗi'
+            onPress={this.updateOrderToFailWithReason.bind(this, order)}
+          />
+        </Col>
+        <Col style={{ margin: 2 }}>
+          <FormButton
+            disabled={done}
+            text='Đã Giao'
+            onPress={this.updateOrderToFailWithReason.bind(this, order)}
+          />
+        </Col>
+      </Grid>
+    );
   }
 
   renderDisabledButtons() {
@@ -169,14 +162,14 @@ class DeliveryOrderScreen extends Component {
         <Content style={{ backgroundColor: 'white', paddingTop: 16 }}>
           <List>
             <View style={Styles.rowHeaderStyle}>
-              <Text style={[Styles.normalColor, Styles.midTextStyle]}>Thông tin khách hàng</Text>
+              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>
             </View>
             <View style={Styles.rowStyle}>
-                <Text style={[Styles.col1Style, Styles.weakColor]}>Tên khách hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{RecipientName}</Text>
+                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RecipientName}</Text>
             </View>
             <View style={Styles.rowStyle}>
-                <Text style={[Styles.col1Style, Styles.weakColor]}>Số điện thoại</Text>
+                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
                 <Button
                   transparent
                   iconRight
@@ -189,22 +182,22 @@ class DeliveryOrderScreen extends Component {
                 </Button>
             </View>
             <View style={Styles.rowLastStyle}>
-                <Text style={[Styles.col1Style, Styles.weakColor]}>Địa chỉ</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Address}</Text>
+                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Address}</Text>
             </View>
             <View style={Styles.rowHeaderStyle}>
-              <Text style={[Styles.normalColor, Styles.midTextStyle]}>Thông tin đơn hàng</Text>
+              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin đơn hàng</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Tổng thu</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{CODAmount}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{CODAmount}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Nhà cung cấp</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{ClientName}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Nhà cung cấp</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ClientName}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>SĐT NCC</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>SĐT NCC</Text>
                 <Button
                   transparent
                   iconRight
@@ -216,18 +209,18 @@ class DeliveryOrderScreen extends Component {
                 </Button>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Note}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Note}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>
-                <Text style={[Styles.weakColor]}>Lịch sử đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Log}</Text>
+                <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Log}</Text>
               </View>
             </View>
             <View style={Styles.rowLastStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú xem hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{RequiredNote}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RequiredNote}</Text>
             </View>
           </List>
 

@@ -104,11 +104,11 @@ class ReturnOrderScreen extends Component {
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Tên khách hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{RecipientName}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RecipientName}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Số điện thoại</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
               <Button
                 transparent
                 iconRight
@@ -121,17 +121,17 @@ class ReturnOrderScreen extends Component {
               </Button>  
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Địa chỉ</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Address}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Address}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColor]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Note}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Note}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>
-                <Text style={[Styles.weakColor]}>Lịch sử đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColor]}>{Log}</Text>
+                <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Log}</Text>
               </View>
             </View>
           </List>

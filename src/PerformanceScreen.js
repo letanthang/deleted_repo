@@ -32,7 +32,7 @@ class PerformanceScreen extends Component {
             </Button>
           </Left>
           <Body style={{ flex: 1.5 }}>
-            <Title style={Styles.normalColor}>MPDS</Title>
+            <Title style={Styles.normalColorStyle}>MPDS</Title>
           </Body>
           <Right />
         </Header>

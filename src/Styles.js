@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
 
+export const Colors = {
+  normalColor: '#455265',
+  weakColor: '#4552658f'
+};
+
 export const Styles = StyleSheet.create({
   bigTextStyle: {
     fontSize: 17,
@@ -17,22 +22,31 @@ export const Styles = StyleSheet.create({
     marginRight: 10,
     flex: 1
   },
-  weakColor: {
-    color: '#4552658f'
+  weakColorStyle: {
+    color: Colors.weakColor
   },
-  normalColor: {
-    color: '#455265'
+  normalColorStyle: {
+    color: Colors.normalColor
   },
   orderWrapperStyle: { 
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingLeft: 12,
+    paddingRight: 12,
     paddingTop: 8,
-    paddingBottom: 8
+    paddingBottom: 8,
+    marginLeft: 4,
+    marginRight: 4,
+    marginTop: 8
   },
   itemStyle: {
     paddingTop: 2,
     paddingBottom: 2,
     flexDirection: 'row'
+  },
+  item2Style: {
+    paddingTop: 2,
+    paddingBottom: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   rowStyle: {
     paddingTop: 14,
@@ -44,7 +58,7 @@ export const Styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     borderColor: '#4552658f',
-    borderBottomWidth: 0.5
+    borderBottomWidth: 1
   },
   rowLastStyle: {
     paddingTop: 14,
@@ -73,6 +87,7 @@ export const Styles = StyleSheet.create({
     paddingTop: 6,
     paddingLeft: 10,
     paddingBottom: 2,
+    justifyContent: 'space-around',
     flexDirection: 'row'
   },
   CheckBoxStyle: {

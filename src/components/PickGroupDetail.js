@@ -8,6 +8,7 @@ import { CheckBox, SearchBar } from 'react-native-elements';
 import { updateOrderStatus } from '../actions';
 import Utils from '../libs/Utils';
 import { Styles } from '../Styles';
+import FormButton from './FormButton';
 
 const BUTTONS = ['KHÁCH khong lien lac duoc', 'KHÁCH Khong nghe may', 'Khach huy don', 'Cancel'];
 const DESTRUCTIVE_INDEX = -1;
@@ -115,10 +116,7 @@ class PickGroupDetail extends Component {
     return (
       <View>
         <View style={Styles.itemStyle}>
-          <Text style={Styles.weakColor}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
-        </View>
-        <View style={Styles.itemStyle}>
-          <Text style={[Styles.midTextStyle, disabled ? Styles.weakColor : Styles.normalColor]}>Tiền thu: {ServiceCost} đ</Text>
+          <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
         </View>
       </View>
     );
@@ -161,34 +159,32 @@ class PickGroupDetail extends Component {
         onPress={this.onOrderPress.bind(this, order)}
       >
         <View style={[Styles.orderWrapperStyle, { backgroundColor }]}>
-          <View style={Styles.itemStyle}>
-            <Text style={[Styles.bigTextStyle, Styles.normalColor]}>{OrderCode}</Text>
+          <View style={Styles.item2Style}>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{OrderCode}</Text>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{ServiceCost} đ</Text>
           </View>
           <View style={Styles.itemStyle}>
-            <Text style={[Styles.weakColor]}>Mã shop: {ExternalCode}</Text>
+            <Text style={[Styles.weakColorStyle]}>Mã shop: {ExternalCode}</Text>
           </View>
           <View style={Styles.itemStyle}>
-            <Text style={Styles.weakColor}>{RecipientName} - {RecipientPhone}</Text>
+            <Text style={Styles.weakColorStyle}>{RecipientName} - {RecipientPhone}</Text>
           </View>
           
           {this.renderInfosForPick({ Weight, Length, Width, Height, ServiceCost, disabled })}
           
           
           <View style={[Styles.itemStyle, Styles.actionItemStyle]}>
-            <CheckBox
-              textStyle={disabled ? Styles.weakColor : Styles.normalColor}
-              title='LỖI'
+            <FormButton
+              disabled={disabled}
+              text='LỖI'
+              width={150}
               onPress={this.updateOrderToFailWithReason.bind(this, order)}
-              checked={fail}
-              style={{ backgroundColor }}
-              checkedColor='white'
             />
-            <CheckBox
-              textStyle={disabled ? Styles.weakColor : Styles.normalColor}
-              title={rightText}
+            <FormButton
+              disabled={disabled}
+              text={rightText}
+              width={150}
               onPress={this.updateOrderToDone.bind(this, order)}
-              checked={done}
-              style={{ backgroundColor }}
             />
           </View>
         </View>
@@ -221,7 +217,7 @@ class PickGroupDetail extends Component {
           value={this.state.keyword}
           placeholder='Type here...'
         />
-        <List
+        <List style={{ backgroundColor: '#ddd' }}
           dataArray={pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus) === done 
             && (this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())))}
           renderRow={this.renderOrder.bind(this)}

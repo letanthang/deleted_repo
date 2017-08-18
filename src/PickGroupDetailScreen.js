@@ -53,7 +53,7 @@ class PickGroupDetailScreen extends Component {
             </Button>
           </Left>
           <Body style={{ flex: 3 }}>
-            <Title style={Styles.normalColor}>[{pickGroup.DisplayOrder}] {pickGroup.ClientName}</Title>
+            <Title style={Styles.normalColorStyle}>[{pickGroup.DisplayOrder}] {pickGroup.ClientName}</Title>
           </Body>
           <Right>
             <Button

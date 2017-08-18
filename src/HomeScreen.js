@@ -99,7 +99,7 @@ class HomeScreen extends Component {
             </Button>
           </Left>
           <Body>
-            <Title style={Styles.normalColor}>MPDS</Title>
+            <Title style={Styles.normalColorStyle}>MPDS</Title>
           </Body>
           <Right>
             <Button

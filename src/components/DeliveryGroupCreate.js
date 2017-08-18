@@ -120,10 +120,10 @@ class DeliveryGroupCreate extends Component {
       >
         <View style={Styles.rowStyle}>
           <View style={[DeliverGroupStyles.col1Style]}>
-            <Text style={[Styles.bigTextStyle, Styles.normalColor]}>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
               {OrderCode}
             </Text>
-            <Text style={[Styles.smallTextStyle, Styles.weakColor]}>
+            <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
               {Address}
             </Text>
           </View>

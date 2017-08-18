@@ -64,12 +64,12 @@ class PDCard extends Component {
                   {cardTitle}
                 </Text>
                 <Text
-                  style={Styles.normalColor}
+                  style={Styles.normalColorStyle}
                 >
                   Hoàn thành: {this.props.upNumber}
                 </Text>
                 <Text
-                  style={Styles.normalColor}
+                  style={Styles.normalColorStyle}
                 >
                   Tổng số: {this.props.downNumber}
                 </Text>

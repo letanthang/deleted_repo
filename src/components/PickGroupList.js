@@ -51,7 +51,7 @@ class PickGroupList extends Component {
         <Card containerStyle={styles.tripContainer}>
             <View style={[styles.rowStyle, { justifyContent: 'space-between' }]}>
               <Text 
-                style={[Styles.bigTextStyle, Styles.normalColor]} 
+                style={[Styles.bigTextStyle, Styles.normalColorStyle]} 
                 numberOfLines={1}
               >
                 [{DisplayOrder}] {ClientName}
@@ -60,7 +60,7 @@ class PickGroupList extends Component {
             </View>
             <View style={styles.rowStyle}>
               <Text 
-                style={[Styles.bigTextStyle, Styles.weakColor]}
+                style={[Styles.bigTextStyle, Styles.weakColorStyle]}
                 numberOfLines={1}
               >
                 {ContactName}
@@ -68,20 +68,20 @@ class PickGroupList extends Component {
             </View>
             <View style={styles.rowStyle}>
               <Text
-                style={[Styles.weakColor]}
+                style={[Styles.weakColorStyle]}
               >
                 {Address}
               </Text>              
             </View>
             <View style={styles.rowStyle}>
               <Text
-                style={[Styles.weakColor]}
+                style={[Styles.weakColorStyle]}
               >
                 Tổng thu: {TotalServiceCost} d
               </Text>
             </View>
             <View style={[styles.rowStyle, { paddingTop: 5 }]}>
-              <Text style={[Styles.weakColor]}>
+              <Text style={[Styles.weakColorStyle]}>
                 Đơn hàng: {completedNum}/{ordersNum}
               </Text>
             </View>

@@ -53,7 +53,7 @@ class Performance extends Component {
           downNumber={12}
           percentage={monthCurrent.return || 0}
         />
-        <Text style={[Styles.normalColor, Styles.bigTextStyle]}>Không có dữ liệu</Text>
+        <Text style={[Styles.normalColorStyle, Styles.bigTextStyle]}>Không có dữ liệu</Text>
       </Content>
     );
   }

@@ -9,6 +9,7 @@ import DeliveryGroupList from '../components/delivery/DeliveryGroupList';
 import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import DeliveryGroupCreate from '../components/delivery/DeliveryGroupCreate';
 import Utils from '../libs/Utils';
+import { Colors } from '../Styles';
 
 class DeliveryListScreen extends Component {
   componentWillMount() {
@@ -26,7 +27,7 @@ class DeliveryListScreen extends Component {
     const deliveryListRun = this.props.pds.DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
     const deliveryListDone = this.props.pds.DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.CurrentStatus));
     return (
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header hasTabs>
           <Left>
             <Button

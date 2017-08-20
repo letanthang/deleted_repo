@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Root } from 'native-base';
+import { Root, StyleProvider } from 'native-base';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -15,6 +15,10 @@ import PickOrderScreen from './screens/PickOrderScreen';
 import POUpdateWeightSizeScreen from './screens/POUpdateWeightSizeScreen';
 import ReturnOrderScreen from './screens/ReturnOrderScreen';
 import DeliveryOrderScreen from './screens/DeliveryOrderScreen';
+
+import getTheme from '../native-base-theme/components';
+import material from '../native-base-theme/variables/material';
+import platform from '../native-base-theme/variables/platform';
 
 const store = createStore(reducers, /* preloadedState, */ composeWithDevTools(
   applyMiddleware(ReduxThunk),
@@ -62,7 +66,9 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Root>
-          <AppNavigator />
+          <StyleProvider style={getTheme(platform)}>
+            <AppNavigator />
+          </StyleProvider>
         </Root>
       </Provider>
     );

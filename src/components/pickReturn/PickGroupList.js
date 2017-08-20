@@ -12,7 +12,7 @@ import * as Communications from 'react-native-communications';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Utils from '../../libs/Utils';
-import { Styles } from '../../Styles';
+import { Styles, Colors } from '../../Styles';
 
 class PickGroupList extends Component {
   componentWillMount() {
@@ -48,7 +48,7 @@ class PickGroupList extends Component {
       <TouchableOpacity
         onPress={this.onPickGroupPress.bind(this, pickGroup)}
       >
-        <Card containerStyle={styles.tripContainer}>
+        <Card containerStyle={Styles.tripWrapperStyle}>
             <View style={[styles.rowStyle, { justifyContent: 'space-between' }]}>
               <Text 
                 style={[Styles.bigTextStyle, Styles.normalColorStyle]} 
@@ -117,7 +117,7 @@ class PickGroupList extends Component {
       }
     });
     return (
-      <Content style={{ backgroundColor: '#eee' }}>
+      <Content style={{ backgroundColor: Colors.background }}>
       <List
         dataArray={pickList}
         renderRow={this.renderPickGroup.bind(this)}
@@ -146,13 +146,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingBottom: 0
   },
-  tripContainer: {
-    paddingTop: 8,
-    paddingLeft: 12,
-    paddingRight: 12,
-    margin: 4,
-    paddingBottom: 0
-  }
+  
 }); 
 
 export default PickGroupList;

@@ -7,7 +7,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import Utils from '../../libs/Utils';
-import { Styles } from '../../Styles';
+import { Styles, Colors } from '../../Styles';
 
 class DeliveryGroupList extends Component {
   componentWillMount() {
@@ -77,7 +77,7 @@ class DeliveryGroupList extends Component {
       || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase()));
     console.log(deliveryList);
     return (
-      <Content style={{ backgroundColor: '#eee' }}>
+      <Content style={{ backgroundColor: Colors.background }}>
       <SearchBar
         round
         lightTheme

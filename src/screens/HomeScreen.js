@@ -9,9 +9,9 @@ import { connect } from 'react-redux';
 import { pdListFetch } from '../actions';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HomeStyles, Styles } from '../Styles';
+import { HomeStyles, Styles, Colors } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
-import getTheme from '../..//native-base-theme/components';
+import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import platform from '../../native-base-theme/variables/platform';
 
@@ -91,8 +91,8 @@ class HomeScreen extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <StyleProvider style={getTheme(platform)}>
-        <Container>
+      
+        <Container style={{ backgroundColor: Colors.background }}>
           <Header>
             <Left>
               <Button
@@ -145,7 +145,7 @@ class HomeScreen extends Component {
               onPress={() => navigate('Performance')}
             >
               <Card>
-                <CardItem>
+                <CardItem style={{ backgroundColor: Colors.row }}>
                   <View style={HomeStyles.cardItemLeft}>
                     <View>
                       <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
@@ -164,7 +164,7 @@ class HomeScreen extends Component {
           </Content>
           <LoadingSpinner loading={this.props.loading} />
         </Container>
-      </StyleProvider>
+      
       
     );
   }

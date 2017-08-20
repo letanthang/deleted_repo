@@ -10,7 +10,7 @@ import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from '../actions';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { Styles, OrderStyles } from '../Styles';
+import { Styles, OrderStyles, Colors } from '../Styles';
 
 let ClientID = null;
 class PickOrderScreen extends Component {
@@ -78,7 +78,7 @@ class PickOrderScreen extends Component {
     } = order;
 
     return (
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button
@@ -101,8 +101,8 @@ class PickOrderScreen extends Component {
           </Right>
           
         </Header>
-        <Content>
-          <List style={{ backgroundColor: 'white' }}>
+        <Content style={{ backgroundColor: Colors.row }}>
+          <List>
             <View style={Styles.rowHeaderStyle}>
               <Text style={{ color: 'white' }}>Tổng quan</Text>
             </View>

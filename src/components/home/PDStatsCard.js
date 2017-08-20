@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Card, CardItem, Text } from 'native-base';
-import { Styles } from '../../Styles';
+import { Styles, Colors } from '../../Styles';
 
 class PDStatsCard extends Component {
   render() {
@@ -27,7 +27,7 @@ class PDStatsCard extends Component {
 
     return (
       <Card>
-        <CardItem>
+        <CardItem style={{ backgroundColor: Colors.row }}>
           <View style={styles.cardItemLeft}>
             <View>
               <Text style={{ fontWeight: 'bold', color: cardTitleColor }}>

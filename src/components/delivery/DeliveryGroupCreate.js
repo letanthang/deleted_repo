@@ -9,7 +9,7 @@ import {
 } from 'native-base';
 import { CheckBox } from 'react-native-elements';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Styles, DeliverGroupStyles } from '../../Styles';
+import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 import LocalGroup from '../../libs/LocalGroup';
 import Utils from '../../libs/Utils';
 import { updateOrderGroup, pdListFetch } from '../../actions';
@@ -148,7 +148,7 @@ class DeliveryGroupCreate extends Component {
     
     
     return (
-      <Content style={{ backgroundColor: '#fff' }}>
+      <Content style={{ backgroundColor: Colors.row }}>
         <View style={Styles.rowStyle}>
           <TextInput 
             style={{ height: 40, flex: 1, borderColor: 'gray', borderBottomWidth: 2, borderBottomColor: '#06B2F5' }}

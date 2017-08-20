@@ -11,6 +11,7 @@ import accounting from 'accounting';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { calculateServiceFee, updateWeightSize } from '../actions';
+import { Colors } from '../Styles';
 
 let ClientID = null;
 let waitToSave = false;
@@ -142,7 +143,7 @@ class POUpdateWeightSizeScreen extends Component {
 
     const { goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button

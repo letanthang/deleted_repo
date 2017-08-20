@@ -244,7 +244,9 @@ export default {
   tabTextColor: "#222222",
 
   // Text
-  textColor: "#000",
+  // Thang mod
+  //textColor: "#000",
+  textColor: Colors.normal,
   inverseTextColor: "#fff",
   noteFontSize: 14,
 

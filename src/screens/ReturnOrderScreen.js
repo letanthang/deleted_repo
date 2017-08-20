@@ -11,7 +11,7 @@ import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from '../actions';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { Styles } from '../Styles';
+import { Styles, Colors } from '../Styles';
 
 class ReturnOrderScreen extends Component {
 
@@ -75,7 +75,7 @@ class ReturnOrderScreen extends Component {
     } = order;
 
     return (
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button
@@ -98,8 +98,8 @@ class ReturnOrderScreen extends Component {
           </Right>
           
         </Header>
-        <Content>
-          <List style={{ backgroundColor: 'white' }}>
+        <Content style={{ backgroundColor: Colors.row }}>
+          <List>
             <View style={Styles.rowHeaderStyle}>
               <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
             </View>

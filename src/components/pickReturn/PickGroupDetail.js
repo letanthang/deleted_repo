@@ -7,7 +7,7 @@ import {
 import { CheckBox, SearchBar } from 'react-native-elements';
 import { updateOrderStatus } from '../../actions';
 import Utils from '../../libs/Utils';
-import { Styles } from '../../Styles';
+import { Styles, Colors } from '../../Styles';
 import FormButton from '../FormButton';
 
 const BUTTONS = ['KHÁCH khong lien lac duoc', 'KHÁCH Khong nghe may', 'Khach huy don', 'Cancel'];
@@ -134,7 +134,6 @@ class PickGroupDetail extends Component {
     let done;
     let fail;
     let disabled;
-    let backgroundColor = '#fff';
     if (this.pickGroup.PickDeliveryType === 1) {
       rightText = 'ĐÃ LẤY';
       doneStatus = 'Storing';
@@ -151,14 +150,13 @@ class PickGroupDetail extends Component {
       disabled = CurrentStatus !== 'Return';
     }
 
-    if (disabled) backgroundColor = '#fff';
     console.log(`OrderCode: ${OrderCode} | CurrentStatus: ${CurrentStatus} | doneStatus ${doneStatus}`);
     
     return (
       <TouchableOpacity
         onPress={this.onOrderPress.bind(this, order)}
       >
-        <View style={[Styles.orderWrapperStyle, { backgroundColor }]}>
+        <View style={[Styles.orderWrapperStyle]}>
           <View style={Styles.item2Style}>
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{OrderCode}</Text>
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{ServiceCost} đ</Text>
@@ -209,7 +207,7 @@ class PickGroupDetail extends Component {
 
     return (
       
-      <Content>
+      <Content style={{ backgroundColor: Colors.background }}>
         <SearchBar
           round
           lightTheme
@@ -217,7 +215,7 @@ class PickGroupDetail extends Component {
           value={this.state.keyword}
           placeholder='Type here...'
         />
-        <List style={{ backgroundColor: '#ddd' }}
+        <List
           dataArray={pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus) === done 
             && (this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())))}
           renderRow={this.renderOrder.bind(this)}

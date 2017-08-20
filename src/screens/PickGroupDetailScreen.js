@@ -8,7 +8,7 @@ import {
 import { updateOrderStatus } from '../actions';
 
 // import Utils from './libs/Utils';
-import { Styles } from '../Styles';
+import { Styles, Colors } from '../Styles';
 import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -42,7 +42,7 @@ class PickGroupDetailScreen extends Component {
 
     return (
       
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button

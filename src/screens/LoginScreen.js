@@ -11,6 +11,7 @@ import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loginUser, logoutUser } from '../actions';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { Colors } from '../Styles';
 
 //create comp
 class LoginScreen extends Component {
@@ -84,7 +85,7 @@ class LoginScreen extends Component {
   render() {
     const { userID, password, rememberMe } = this.props;
     return ( 
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Content
           keyboardShouldPersistTaps='handled' 
           style={{ paddingTop: 50, paddingLeft: 20, paddingRight: 20, backgroundColor: '#ffffff' }}

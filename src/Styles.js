@@ -10,11 +10,25 @@ export const darkTheme = {
   strongPurple: '#6039e3'
 };
 
-export const Colors = {
+const Colors0 = {
   normal: '#455265',
   weak: '#4552658f',
-  background: '#ccc'
+  background: '#ccc',
+  row: 'white',
+  rowDivider: '#4552658f',
+  rowHeader: '#eee'
 };
+
+const Colors1 = {
+  normal: darkTheme.light,
+  weak: darkTheme.dark,
+  background: darkTheme.background,
+  row: darkTheme.darkest,
+  rowDivider: darkTheme.veryLight,
+  rowHeader: '#eee'
+};
+
+export const Colors = Colors0;
 
 export const Styles = StyleSheet.create({
   bigTextStyle: {
@@ -47,7 +61,7 @@ export const Styles = StyleSheet.create({
     marginLeft: 4,
     marginRight: 4,
     marginTop: 8,
-    backgroundColor: 'white'
+    backgroundColor: Colors.row
   },
   itemStyle: {
     paddingTop: 2,
@@ -69,7 +83,7 @@ export const Styles = StyleSheet.create({
     marginRight: 16,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    borderColor: '#4552658f',
+    borderColor: Colors.rowDivider,
     borderBottomWidth: 1
   },
   rowLastStyle: {
@@ -81,10 +95,10 @@ export const Styles = StyleSheet.create({
     marginRight: 16,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    borderColor: '#4552658f'
+    borderColor: Colors.rowDivider
   },
   rowHeaderStyle: {
-    backgroundColor: '#eee',
+    backgroundColor: Colors.rowHeader,
     padding: 4,
     paddingLeft: 16,
     paddingRight: 16,
@@ -107,6 +121,14 @@ export const Styles = StyleSheet.create({
   },
   CheckBoxStyleDisable: {
     backgroundColor: '#ddd'
+  },
+  tripWrapperStyle: {
+    paddingTop: 8,
+    paddingLeft: 12,
+    paddingRight: 12,
+    margin: 4,
+    paddingBottom: 0,
+    backgroundColor: Colors.row
   }
 });
 

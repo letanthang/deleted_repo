@@ -6,7 +6,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import Performance from '../components/performance/Performance';
-import { Styles } from '../Styles';
+import { Styles, Colors } from '../Styles';
 
 class PerformanceScreen extends Component {
   componentWillMount() {
@@ -21,7 +21,7 @@ class PerformanceScreen extends Component {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button

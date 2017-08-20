@@ -11,7 +11,7 @@ import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from '../actions';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { Styles } from '../Styles';
+import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
 
 const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Cancel'];
@@ -138,7 +138,7 @@ class DeliveryOrderScreen extends Component {
     } = order;
 
     return (
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button
@@ -159,7 +159,7 @@ class DeliveryOrderScreen extends Component {
             </Button>
           </Right>
         </Header>
-        <Content style={{ backgroundColor: 'white', paddingTop: 16 }}>
+        <Content style={{ backgroundColor: Colors.row, paddingTop: 16 }}>
           <List>
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>

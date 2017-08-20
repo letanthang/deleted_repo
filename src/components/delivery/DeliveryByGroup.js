@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import Utils from '../../libs/Utils';
 import LocalGroup from '../../libs/LocalGroup';
-import { Styles } from '../../Styles';
+import { Styles, Colors } from '../../Styles';
 
 class DeliveryByGroup extends Component {
   componentWillMount() {
@@ -107,7 +107,6 @@ class DeliveryByGroup extends Component {
     return (
       
       <List 
-        style={{ backgroundColor: '#ddd' }}
         dataArray={deliveryList}
         renderRow={this.renderOrder.bind(this)}
       />
@@ -126,7 +125,7 @@ class DeliveryByGroup extends Component {
     // console.log('render, groups =');
     // console.log(groups);
     return (
-      <Content style={{ backgroundColor: '#eee' }}>
+      <Content style={{ backgroundColor: Colors.background }}>
       <SearchBar
         round
         lightTheme

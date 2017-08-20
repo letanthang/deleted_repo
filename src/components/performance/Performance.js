@@ -34,7 +34,7 @@ class Performance extends Component {
     console.log('Performance render, stats =');
     console.log(stats);
     return (
-      <Content style={{ backgroundColor: '#eee' }}>
+      <Content>
         <PDStatsCard 
           type='pick'
           upNumber={5}

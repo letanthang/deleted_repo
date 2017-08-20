@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Text } from 'native-base';
 import * as Progress from 'react-native-progress';
-import { Styles } from '../../Styles';
+import { Styles, Colors } from '../../Styles';
 
 class PDCard extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class PDCard extends Component {
               onPress={onPress}
       >
         <Card>
-          <CardItem>
+          <CardItem style={{ backgroundColor: Colors.row }}>
             <View style={styles.cardItemLeft}>
               <View>
                 <Text style={{ fontWeight: 'bold', color: cardTitleColor }}>

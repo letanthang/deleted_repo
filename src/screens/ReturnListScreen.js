@@ -6,6 +6,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import PickGroupList from '../components/pickReturn/PickGroupList';
+import { Colors } from '../Styles';
 
 class PickListScreen extends Component {
   componentWillMount() {
@@ -20,7 +21,7 @@ class PickListScreen extends Component {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button

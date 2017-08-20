@@ -6,8 +6,8 @@ import {
   List, ListItem, Item, Right, Badge 
 } from 'native-base';
 import { connect } from 'react-redux';
-import Utils from '../libs/Utils';
-import { Styles } from '../Styles';
+import Utils from '../../libs/Utils';
+import { Styles } from '../../Styles';
 
 class DeliveryGroupList extends Component {
   componentWillMount() {

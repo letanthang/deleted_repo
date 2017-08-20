@@ -8,11 +8,11 @@ import {
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { phonecall } from 'react-native-communications';
-import { updateOrderStatus } from './actions';
-import Utils from './libs/Utils';
-import LoadingSpinner from './components/LoadingSpinner';
-import { Styles } from './Styles';
-import FormButton from './components/FormButton';
+import { updateOrderStatus } from '../actions';
+import Utils from '../libs/Utils';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { Styles } from '../Styles';
+import FormButton from '../components/FormButton';
 
 const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Cancel'];
 const DESTRUCTIVE_INDEX = -1;

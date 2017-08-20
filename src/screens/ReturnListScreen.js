@@ -5,7 +5,7 @@ import {
   Header 
 } from 'native-base';
 import { connect } from 'react-redux';
-import PickGroupList from './components/PickGroupList';
+import PickGroupList from '../components/pickReturn/PickGroupList';
 
 class PickListScreen extends Component {
   componentWillMount() {

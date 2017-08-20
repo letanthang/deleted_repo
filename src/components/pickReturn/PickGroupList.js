@@ -11,8 +11,8 @@ import {
 import * as Communications from 'react-native-communications';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Utils from '../libs/Utils';
-import { Styles } from '../Styles';
+import Utils from '../../libs/Utils';
+import { Styles } from '../../Styles';
 
 class PickGroupList extends Component {
   componentWillMount() {

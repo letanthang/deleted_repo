@@ -1,6 +1,8 @@
 import color from "color";
 
 import { Platform, Dimensions, PixelRatio } from "react-native";
+//Thang add
+import { Colors } from '../../src/Styles';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -253,7 +255,7 @@ export default {
   subtitleColor: platform === "ios" ? "#8e8e93" : "#FFF",
 
   // New Variable
-  titleFontColor: platform === "ios" ? "#000" : "#FFF",
+  titleFontColor: platform === "ios" ? Colors.normal : "#FFF",
 
   // Other
   borderRadiusBase: platform === "ios" ? 5 : 2,

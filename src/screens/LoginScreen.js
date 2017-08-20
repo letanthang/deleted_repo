@@ -9,8 +9,8 @@ import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loginUser, logoutUser } from './actions';
-import LoadingSpinner from './components/LoadingSpinner';
+import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loginUser, logoutUser } from '../actions';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 //create comp
 class LoginScreen extends Component {

@@ -5,10 +5,10 @@ import {
   Header, Tab, Tabs 
 } from 'native-base';
 import { connect } from 'react-redux';
-import DeliveryGroupList from './components/DeliveryGroupList';
-import DeliveryByGroup from './components/DeliveryByGroup';
-import DeliveryGroupCreate from './components/DeliveryGroupCreate';
-import Utils from './libs/Utils';
+import DeliveryGroupList from '../components/delivery/DeliveryGroupList';
+import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
+import DeliveryGroupCreate from '../components/delivery/DeliveryGroupCreate';
+import Utils from '../libs/Utils';
 
 class DeliveryListScreen extends Component {
   componentWillMount() {

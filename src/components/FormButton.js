@@ -29,15 +29,15 @@ const FormButton = ({ text, disabled, onPress, width }) => {
 
 let styles = {
   textStyle: {
-    color: Colors.normalColor
+    color: Colors.normal
   },
   textDisabledStyle: {
-    color: Colors.weakColor
+    color: Colors.weak
   },
   buttonStyle: {
     margin: 2,
     backgroundColor: 'white',
-    borderColor: Colors.normalColor,
+    borderColor: Colors.normal,
     borderWidth: 1,
     borderRadius: 2,
     height: 52,
@@ -48,7 +48,7 @@ let styles = {
   buttonDisabledStyle: {
     margin: 2,
     backgroundColor: 'white',
-    borderColor: Colors.weakColor,
+    borderColor: Colors.weak,
     borderWidth: 1,
     borderRadius: 2,
     height: 52,

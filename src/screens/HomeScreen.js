@@ -3,16 +3,19 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
-  Card, CardItem 
+  Card, CardItem, StyleProvider 
 } from 'native-base';
 import { connect } from 'react-redux';
-import { pdListFetch } from './actions';
-import PDCard from './components/home/PDCard';
-import LoadingSpinner from './components/LoadingSpinner';
-import { HomeStyles, Styles } from './Styles';
-import LocalGroup from './libs/LocalGroup';
+import { pdListFetch } from '../actions';
+import PDCard from '../components/home/PDCard';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { HomeStyles, Styles } from '../Styles';
+import LocalGroup from '../libs/LocalGroup';
+import getTheme from '../..//native-base-theme/components';
+import material from '../../native-base-theme/variables/material';
+import platform from '../../native-base-theme/variables/platform';
 
-const efficiencyIcon = require('../resources/ic_summary.png');
+const efficiencyIcon = require('../../resources/ic_summary.png');
 
 class HomeScreen extends Component {
   componentWillMount() {
@@ -88,78 +91,81 @@ class HomeScreen extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <Container>
-        <Header>
-          <Left>
-            <Button
-              transparent
-              onPress={() => navigate('DrawerOpen')}
-            >          
-              <Icon name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={Styles.normalColorStyle}>MPDS</Title>
-          </Body>
-          <Right>
-            <Button
-              transparent
+      <StyleProvider style={getTheme(platform)}>
+        <Container>
+          <Header>
+            <Left>
+              <Button
+                transparent
+                onPress={() => navigate('DrawerOpen')}
+              >          
+                <Icon name="menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Title>MPDS</Title>
+            </Body>
+            <Right>
+              <Button
+                transparent
+              >
+                <Icon name="notifications" />
+              </Button>
+            </Right>
+          </Header>
+          <Content style={{ padding: 10 }}>
+
+            <PDCard
+              type='pick'
+              onPress={this.onPickPress.bind(this)}
+              upNumber={this.props.pickComplete}
+              downNumber={this.props.pickTotal}
+              color='#12cd72'
+              delay={false}
+            />
+
+            <PDCard
+              type='delivery'
+              onPress={this.onDeliveryPress.bind(this)}
+              upNumber={this.props.deliveryComplete}
+              downNumber={this.props.deliveryTotal}
+              color='#ff6e40'
+              delay={false}
+            />
+
+            <PDCard
+              type='return'
+              onPress={this.onReturnPress.bind(this)}
+              upNumber={this.props.returnComplete}
+              downNumber={this.props.returnTotal}
+              color='#606060'
+              delay={false}
+            />
+            <TouchableOpacity
+              onPress={() => navigate('Performance')}
             >
-              <Icon name="notifications" />
-            </Button>
-          </Right>
-        </Header>
-        <Content style={{ padding: 10 }}>
-
-          <PDCard
-            type='pick'
-            onPress={this.onPickPress.bind(this)}
-            upNumber={this.props.pickComplete}
-            downNumber={this.props.pickTotal}
-            color='#12cd72'
-            delay={false}
-          />
-
-          <PDCard
-            type='delivery'
-            onPress={this.onDeliveryPress.bind(this)}
-            upNumber={this.props.deliveryComplete}
-            downNumber={this.props.deliveryTotal}
-            color='#ff6e40'
-            delay={false}
-          />
-
-          <PDCard
-            type='return'
-            onPress={this.onReturnPress.bind(this)}
-            upNumber={this.props.returnComplete}
-            downNumber={this.props.returnTotal}
-            color='#606060'
-            delay={false}
-          />
-          <TouchableOpacity
-            onPress={() => navigate('Performance')}
-          >
-            <Card>
-              <CardItem>
-                <View style={HomeStyles.cardItemLeft}>
-                  <View>
-                    <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
-                      Năng suất làm việc
-                    </Text>
+              <Card>
+                <CardItem>
+                  <View style={HomeStyles.cardItemLeft}>
+                    <View>
+                      <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
+                        Năng suất làm việc
+                      </Text>
+                    </View>
                   </View>
-                </View>
-                <View style={HomeStyles.cardItemRight}>
-                  <Image source={efficiencyIcon} />
-                </View>
-              </CardItem>
-            </Card>
-          </TouchableOpacity>
-          
-          
-        </Content>
-        <LoadingSpinner loading={this.props.loading} />
-      </Container>
+                  <View style={HomeStyles.cardItemRight}>
+                    <Image source={efficiencyIcon} />
+                  </View>
+                </CardItem>
+              </Card>
+            </TouchableOpacity>
+            
+            
+          </Content>
+          <LoadingSpinner loading={this.props.loading} />
+        </Container>
+      </StyleProvider>
+      
     );
   }
 }

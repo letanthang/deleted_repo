@@ -8,9 +8,9 @@ import {
 } from 'native-base';
 import accounting from 'accounting';
 
-import Utils from './libs/Utils';
-import LoadingSpinner from './components/LoadingSpinner';
-import { calculateServiceFee, updateWeightSize } from './actions';
+import Utils from '../libs/Utils';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { calculateServiceFee, updateWeightSize } from '../actions';
 
 let ClientID = null;
 let waitToSave = false;

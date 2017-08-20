@@ -7,10 +7,10 @@ import {
   List 
 } from 'native-base';
 import { phonecall } from 'react-native-communications';
-import { updateOrderStatus } from './actions';
-import Utils from './libs/Utils';
-import LoadingSpinner from './components/LoadingSpinner';
-import { Styles, OrderStyles } from './Styles';
+import { updateOrderStatus } from '../actions';
+import Utils from '../libs/Utils';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { Styles, OrderStyles } from '../Styles';
 
 let ClientID = null;
 class PickOrderScreen extends Component {
@@ -89,7 +89,7 @@ class PickOrderScreen extends Component {
             </Button>
           </Left>
           <Body style={{ flex: 3 }}>
-            <Title style={Styles.normalColorStyle}>{OrderCode}</Title>
+            <Title>{OrderCode}</Title>
           </Body>
           <Right>
             <Button

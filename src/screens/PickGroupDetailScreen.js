@@ -5,12 +5,12 @@ import {
   Button, Icon, Tabs, Tab,
   Title
 } from 'native-base';
-import { updateOrderStatus } from './actions';
+import { updateOrderStatus } from '../actions';
 
 // import Utils from './libs/Utils';
-import { Styles } from './Styles';
-import PickGroupDetail from './components/PickGroupDetail';
-import LoadingSpinner from './components/LoadingSpinner';
+import { Styles } from '../Styles';
+import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 class PickGroupDetailScreen extends Component {
   componentWillMount() {
@@ -53,7 +53,7 @@ class PickGroupDetailScreen extends Component {
             </Button>
           </Left>
           <Body style={{ flex: 3 }}>
-            <Title style={Styles.normalColorStyle}>[{pickGroup.DisplayOrder}] {pickGroup.ClientName}</Title>
+            <Title>[{pickGroup.DisplayOrder}] {pickGroup.ClientName}</Title>
           </Body>
           <Right>
             <Button

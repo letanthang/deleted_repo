@@ -7,9 +7,9 @@ import {
   List, ListItem, Item, Right, Badge 
 } from 'native-base';
 import { connect } from 'react-redux';
-import Utils from '../libs/Utils';
-import LocalGroup from '../libs/LocalGroup';
-import { Styles } from '../Styles';
+import Utils from '../../libs/Utils';
+import LocalGroup from '../../libs/LocalGroup';
+import { Styles } from '../../Styles';
 
 class DeliveryByGroup extends Component {
   componentWillMount() {
@@ -106,7 +106,8 @@ class DeliveryByGroup extends Component {
     //console.log(deliveryList);
     return (
       
-      <List
+      <List 
+        style={{ backgroundColor: '#ddd' }}
         dataArray={deliveryList}
         renderRow={this.renderOrder.bind(this)}
       />
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 5,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   active: {
     backgroundColor: 'rgba(255,255,255,1)',

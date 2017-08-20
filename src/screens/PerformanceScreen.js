@@ -5,12 +5,12 @@ import {
   Tab, Header 
 } from 'native-base';
 import { connect } from 'react-redux';
-import PickGroupList from './components/PickGroupList';
-import { Styles } from './Styles';
+import Performance from '../components/performance/Performance';
+import { Styles } from '../Styles';
 
-class PickListScreen extends Component {
+class PerformanceScreen extends Component {
   componentWillMount() {
-    console.log('PickListScreen: CWM called!');
+    console.log('PerformanceScreen: CWM called!');
   }
   componentWillUpdate() {
     
@@ -31,17 +31,20 @@ class PickListScreen extends Component {
               <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Body style={{ flex: 2 }}>
-            <Title style={Styles.normalColorStyle}>Chuyến đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
+          <Body style={{ flex: 1.5 }}>
+            <Title>MPDS</Title>
           </Body>
           <Right />
         </Header>
         <Tabs initialPage={0}>
-          <Tab heading="Đang Lấy">
-            <PickGroupList {...this.props} done={false} />
+          <Tab heading="Hôm Qua">
+            <Performance {...this.props} />
           </Tab>
-          <Tab heading="Xong">
-            <PickGroupList {...this.props} done />
+          <Tab heading="Tuần Này">
+            <Performance {...this.props} />
+          </Tab>
+          <Tab heading="Tháng Này">
+            <Performance {...this.props} />
           </Tab>
         </Tabs>
       </Container>
@@ -54,4 +57,4 @@ const mapStateToProps = ({ pd }) => {
   return { pds, pickTotal, pickComplete };
 };
 
-export default connect(mapStateToProps, { })(PickListScreen);
+export default connect(mapStateToProps, { })(PerformanceScreen);

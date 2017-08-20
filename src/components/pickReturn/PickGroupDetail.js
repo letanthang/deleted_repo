@@ -5,10 +5,10 @@ import {
   Content, ActionSheet, List
 } from 'native-base';
 import { CheckBox, SearchBar } from 'react-native-elements';
-import { updateOrderStatus } from '../actions';
-import Utils from '../libs/Utils';
-import { Styles } from '../Styles';
-import FormButton from './FormButton';
+import { updateOrderStatus } from '../../actions';
+import Utils from '../../libs/Utils';
+import { Styles } from '../../Styles';
+import FormButton from '../FormButton';
 
 const BUTTONS = ['KHÁCH khong lien lac duoc', 'KHÁCH Khong nghe may', 'Khach huy don', 'Cancel'];
 const DESTRUCTIVE_INDEX = -1;

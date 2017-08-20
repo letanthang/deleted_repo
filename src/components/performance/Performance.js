@@ -10,10 +10,10 @@ import {
   Card 
 } from 'react-native-elements';
 
-import Utils from '../libs/Utils';
-import { Styles } from '../Styles';
-import { getUserPerformance } from '../actions';
-import PDStatsCard from './home/PDStatsCard';
+import Utils from '../../libs/Utils';
+import { Styles } from '../../Styles';
+import { getUserPerformance } from '../../actions';
+import PDStatsCard from '.././home/PDStatsCard';
 
 class Performance extends Component {
   componentWillMount() {

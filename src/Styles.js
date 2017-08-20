@@ -1,8 +1,19 @@
 import { StyleSheet } from 'react-native';
 
+export const darkTheme = {
+  background: '#272727',
+  purple: '#9677ff',
+  veryLight: '#f0f0f0',
+  light: '#8a8a8a',
+  dark: '#656565',
+  darkest: '#3d3d3d',
+  strongPurple: '#6039e3'
+};
+
 export const Colors = {
-  normalColor: '#455265',
-  weakColor: '#4552658f'
+  normal: '#455265',
+  weak: '#4552658f',
+  background: '#ccc'
 };
 
 export const Styles = StyleSheet.create({
@@ -23,10 +34,10 @@ export const Styles = StyleSheet.create({
     flex: 1
   },
   weakColorStyle: {
-    color: Colors.weakColor
+    color: Colors.weak
   },
   normalColorStyle: {
-    color: Colors.normalColor
+    color: Colors.normal
   },
   orderWrapperStyle: { 
     paddingLeft: 12,
@@ -35,7 +46,8 @@ export const Styles = StyleSheet.create({
     paddingBottom: 8,
     marginLeft: 4,
     marginRight: 4,
-    marginTop: 8
+    marginTop: 8,
+    backgroundColor: 'white'
   },
   itemStyle: {
     paddingTop: 2,

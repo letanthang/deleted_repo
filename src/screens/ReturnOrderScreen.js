@@ -8,10 +8,10 @@ import {
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { phonecall } from 'react-native-communications';
-import { updateOrderStatus } from './actions';
-import Utils from './libs/Utils';
-import LoadingSpinner from './components/LoadingSpinner';
-import { Styles } from './Styles';
+import { updateOrderStatus } from '../actions';
+import Utils from '../libs/Utils';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { Styles } from '../Styles';
 
 class ReturnOrderScreen extends Component {
 

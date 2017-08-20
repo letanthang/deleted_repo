@@ -7,14 +7,14 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'remote-redux-devtools';
 import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
-import LoginScreen from './LoginScreen';
+import LoginScreen from './screens/LoginScreen';
 import Drawer from './Drawer';
-import PickListScreen from './PickListScreen';
-import PickGroupDetailScreen from './PickGroupDetailScreen';
-import PickOrderScreen from './PickOrderScreen';
-import POUpdateWeightSizeScreen from './POUpdateWeightSizeScreen';
-import ReturnOrderScreen from './ReturnOrderScreen';
-import DeliveryOrderScreen from './DeliveryOrderScreen';
+import PickListScreen from './screens/PickListScreen';
+import PickGroupDetailScreen from './screens/PickGroupDetailScreen';
+import PickOrderScreen from './screens/PickOrderScreen';
+import POUpdateWeightSizeScreen from './screens/POUpdateWeightSizeScreen';
+import ReturnOrderScreen from './screens/ReturnOrderScreen';
+import DeliveryOrderScreen from './screens/DeliveryOrderScreen';
 
 const store = createStore(reducers, /* preloadedState, */ composeWithDevTools(
   applyMiddleware(ReduxThunk),

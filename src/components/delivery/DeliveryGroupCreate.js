@@ -9,10 +9,10 @@ import {
 } from 'native-base';
 import { CheckBox } from 'react-native-elements';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Styles, DeliverGroupStyles } from '../Styles';
-import LocalGroup from '../libs/LocalGroup';
-import Utils from '../libs/Utils';
-import { updateOrderGroup, pdListFetch } from '../actions';
+import { Styles, DeliverGroupStyles } from '../../Styles';
+import LocalGroup from '../../libs/LocalGroup';
+import Utils from '../../libs/Utils';
+import { updateOrderGroup, pdListFetch } from '../../actions';
 
 let checkList = {};
 class DeliveryGroupCreate extends Component {

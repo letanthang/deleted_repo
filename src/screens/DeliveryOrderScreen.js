@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Modal, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
@@ -14,12 +14,13 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
 
-const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Cancel'];
+const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
 const DESTRUCTIVE_INDEX = -1;
-const CANCEL_INDEX = 3;
+const CHANGE_DATE_INDEX = 3;
+const CANCEL_INDEX = 4;
 
 class DeliveryOrderScreen extends Component {
-
+  state = { modalShow: false }
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
@@ -57,8 +58,12 @@ class DeliveryOrderScreen extends Component {
       },
       buttonIndex => {
         console.log(`updateOrderToFailWithReason : ${buttonIndex}`);
-        if (buttonIndex !== CANCEL_INDEX && buttonIndex !== DESTRUCTIVE_INDEX) {
+        if (buttonIndex !== CANCEL_INDEX 
+          && buttonIndex !== CHANGE_DATE_INDEX 
+          && buttonIndex !== DESTRUCTIVE_INDEX) {
           this.updateOrderToFail(order, BUTTONS[buttonIndex]);
+        } else if (buttonIndex === CHANGE_DATE_INDEX) {
+          this.setState({ modalShow: true });
         }
       }
     );
@@ -225,6 +230,30 @@ class DeliveryOrderScreen extends Component {
           </List>
 
           {this.renderButtons(order, CurrentStatus)}
+          <Modal
+            animationType={"slide"}
+            transparent={true}
+            visible={this.state.modalShow}
+            onRequestClose={() => {
+              alert("Modal has been closed.");
+            }}
+            style={{ backgroundColor: 'red' }}
+            >
+            <View style={{ alignSelf: 'center', alignItems: 'center', backgroundColor: 'green' }}>
+              <View>
+                <Text>Hello World!</Text>
+
+                <TouchableHighlight 
+                  onPress={() => {
+                    this.setState({ modalShow: !this.state.modalShow });
+                  }}
+                >
+                  <Text>Hide Modal</Text>
+                </TouchableHighlight>
+
+              </View>
+            </View>
+          </Modal>
         </Content>
         <LoadingSpinner loading={this.props.loading} />
       </Container>

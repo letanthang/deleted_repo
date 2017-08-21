@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, DatePickerIOS } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
-  Card, CardItem, StyleProvider 
+  Card, CardItem, StyleProvider
 } from 'native-base';
 import { connect } from 'react-redux';
 import { pdListFetch } from '../actions';
@@ -31,6 +31,8 @@ class HomeScreen extends Component {
       this.props.pdListFetch();
     }
     this.listGroups();
+    this.state = { date: new Date() };
+    console.log(this.state.date);
     console.log('===================================='); 
   }
   
@@ -160,6 +162,14 @@ class HomeScreen extends Component {
               </Card>
             </TouchableOpacity>
             
+            <DatePickerIOS
+              date={this.state.date}
+              mode='date'
+              onDateChange={(date) => {
+                this.setState({ date });
+                console.log(`date changed to : ${date}`);
+                }}
+            />
             
           </Content>
           <LoadingSpinner loading={this.props.loading} />

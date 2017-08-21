@@ -88,6 +88,20 @@ class Utils {
     return order;
   }
 
+  static getReturnGroupFromPG(pds, pickGroup) {
+    const { ClientHubID } = pickGroup;
+    const returnGroup = pds.PickReturnItems.find(rg => rg.ClientHubID === ClientHubID
+      && rg.PickDeliveryType === 3);
+    return returnGroup;
+  }
+  static checkPickGroupHasRP(pds, pickGroup) {
+    const { ClientHubID } = pickGroup;
+    const returnGroup = pds.PickReturnItems.find(rg => rg.ClientHubID === ClientHubID
+      && rg.PickDeliveryType === 3);
+    if (returnGroup) return true;
+    return false;
+  }
+
 }
 
 export default Utils;

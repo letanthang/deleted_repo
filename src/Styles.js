@@ -13,7 +13,7 @@ export const darkTheme = {
 const Colors0 = {
   normal: '#455265',
   weak: '#4552658f',
-  background: '#ccc',
+  background: '#eee',
   row: 'white',
   rowDivider: '#4552658f',
   rowHeader: '#eee'

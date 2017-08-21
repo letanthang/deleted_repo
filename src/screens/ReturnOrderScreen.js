@@ -101,7 +101,7 @@ class ReturnOrderScreen extends Component {
         <Content style={{ backgroundColor: Colors.row }}>
           <List>
             <View style={Styles.rowHeaderStyle}>
-              <Text style={{ color: 'white' }}>Thông tin khách hàng</Text>
+              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>

@@ -112,6 +112,7 @@ class PickGroupList extends Component {
     );
   }
   renderHasReturnWarning(pickGroup) {
+    return null;
     if (!Utils.checkPickGroupHasRP(this.props.pds, pickGroup)) return null;
     return (
       <Button

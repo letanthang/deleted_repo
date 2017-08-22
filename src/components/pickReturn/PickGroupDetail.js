@@ -15,6 +15,7 @@ const DESTRUCTIVE_INDEX = -1;
 const CANCEL_INDEX = 3;
 
 class PickGroupDetail extends Component {
+  state = { keyword: '' };
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
@@ -25,12 +26,17 @@ class PickGroupDetail extends Component {
     
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
-    this.state = { keyword: '' };
   }
 
   pickGroup = null;
   ClientHubID = null;
   PickDeliveryType = null;
+
+  componentWillReceiveProps(nextProps) {
+    console.log('DeliveryByGroup cwrp');
+    const { keyword } = nextProps;
+    this.setState({ keyword });
+  }
   
   updateOrderToDone(order) {
     if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Return') return;
@@ -135,14 +141,14 @@ class PickGroupDetail extends Component {
     let fail;
     let disabled;
     if (this.pickGroup.PickDeliveryType === 1) {
-      rightText = 'ĐÃ LẤY';
+      rightText = 'LẤY';
       doneStatus = 'Storing';
       failStatus = 'ReadyToPick';
       fail = CurrentStatus === failStatus;
       done = Utils.checkPickDone(CurrentStatus);
       disabled = CurrentStatus !== 'Picking';
     } else if (this.pickGroup.PickDeliveryType === 3) {
-      rightText = 'ĐÃ TRẢ';
+      rightText = 'TRẢ';
       doneStatus = 'Returned';
       failStatus = 'Storing';
       fail = Utils.checkReturnFail(CurrentStatus, NextStatus);
@@ -174,12 +180,14 @@ class PickGroupDetail extends Component {
           <View style={[Styles.itemStyle, Styles.actionItemStyle]}>
             <FormButton
               disabled={disabled}
+              theme='danger'
               text='LỖI'
               width={150}
               onPress={this.updateOrderToFailWithReason.bind(this, order)}
             />
             <FormButton
               disabled={disabled}
+              theme='success'
               text={rightText}
               width={150}
               onPress={this.updateOrderToDone.bind(this, order)}
@@ -208,13 +216,6 @@ class PickGroupDetail extends Component {
     return (
       
       <Content style={{ backgroundColor: Colors.background }}>
-        <SearchBar
-          round
-          lightTheme
-          onChangeText={(text) => this.setState({ keyword: text.trim() })}
-          value={this.state.keyword}
-          placeholder='Type here...'
-        />
         <List
           dataArray={pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus) === done 
             && (this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())))}

@@ -20,10 +20,18 @@ import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
 import platform from '../native-base-theme/variables/platform';
 
-const store = createStore(reducers, /* preloadedState, */ composeWithDevTools(
+//devTool options
+const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
+const store = createStore(reducers, /* preloadedState, */ composeEnhancers(
   applyMiddleware(ReduxThunk),
   // other store enhancers if any
 ));
+
+//remote
+// const store = createStore(reducers, /* preloadedState, */ composeWithDevTools(
+//   applyMiddleware(ReduxThunk),
+//   // other store enhancers if any
+// ));
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(reducers, /* preloadedState, */ composeEnhancers(

@@ -3,14 +3,24 @@ import { StyleSheet, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Button, Text } from 'native-base';
 import { Colors } from '../Styles';
 
-const FormButton = ({ text, disabled, onPress, width }) => {
+const FormButton = ({ text, disabled, theme, onPress, width }) => {
   let textStyle = styles.textStyle;
   let buttonStyle = styles.buttonStyle;
+  
+
+  if (theme === 'success') {
+    buttonStyle = styles.buttonSuccessStyle;
+    textStyle = styles.textSuccessStyle;
+  } else if (theme === 'danger') {
+    buttonStyle = styles.buttonDangerStyle;
+    textStyle = styles.textDangerStyle;
+  }
+
+  
   if (disabled) {
     textStyle = styles.textDisabledStyle;
     buttonStyle = styles.buttonDisabledStyle;
-  } 
-
+  }
   if (width) {
     buttonStyle = { ...buttonStyle, width };
   }
@@ -27,34 +37,49 @@ const FormButton = ({ text, disabled, onPress, width }) => {
   );
 };
 
-let styles = {
-  textStyle: {
-    color: Colors.normal
-  },
-  textDisabledStyle: {
-    color: Colors.weak
-  },
+const defaultStyles = {
   buttonStyle: {
     margin: 2,
     backgroundColor: 'white',
     borderColor: Colors.normal,
     borderWidth: 1,
-    borderRadius: 2,
+    borderRadius: 10,
     height: 52,
     marginBottom: 10,
     shadowOffset: { width: 0, height: 0 },
     elevation: 0
   },
+  textStyle: {
+    color: Colors.normal
+  },
+  successColor: '#20D3A1',
+  dangerColor: '#FB8589'
+};
+
+let styles = {
+  textStyle: defaultStyles.textStyle,
+  textSuccessStyle: {
+    color: defaultStyles.successColor
+  },
+  textDangerStyle: {
+    color: 'white'
+  },
+  textDisabledStyle: {
+    color: Colors.weak
+  },
+  buttonStyle: defaultStyles.buttonStyle,
+  buttonSuccessStyle: {
+    ...defaultStyles.buttonStyle,
+    borderColor: defaultStyles.successColor
+  },
+  buttonDangerStyle: {
+    ...defaultStyles.buttonStyle,
+    backgroundColor: defaultStyles.dangerColor,
+    borderColor: defaultStyles.dangerColor
+  },
   buttonDisabledStyle: {
-    margin: 2,
-    backgroundColor: 'white',
+    ...defaultStyles.buttonStyle,
     borderColor: Colors.weak,
-    borderWidth: 1,
-    borderRadius: 2,
-    height: 52,
-    marginBottom: 10,
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 0
   }
 };
 

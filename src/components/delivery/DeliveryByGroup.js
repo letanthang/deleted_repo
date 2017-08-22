@@ -21,6 +21,11 @@ class DeliveryByGroup extends Component {
   componentWillUpdate() {
     
   }
+  componentWillReceiveProps(nextProps) {
+    console.log('DeliveryByGroup cwrp');
+    const { keyword } = nextProps;
+    this.setState({ keyword });
+  }
   componentDidUpdate(prevProps, prevState) {
 
   }
@@ -94,6 +99,8 @@ class DeliveryByGroup extends Component {
   renderGroup(Group) {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
     let deliveryList = {};
+    console.log('renderGroup called, props=');
+    console.log(this.props);
     if (Group === 'Done') {
       deliveryList = this.props.pds.DeliveryItems.filter(order => Utils.checkDeliveryComplete(order.CurrentStatus)
         && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
@@ -126,13 +133,6 @@ class DeliveryByGroup extends Component {
     // console.log(groups);
     return (
       <Content style={{ backgroundColor: Colors.background }}>
-      <SearchBar
-        round
-        lightTheme
-        onChangeText={(text) => this.setState({ keyword: text.trim() })}
-        value={this.state.keyword}
-        placeholder='Type here...'
-      />
       <Accordion
         activeSection={this.state.activeGroup}
         sections={groups}

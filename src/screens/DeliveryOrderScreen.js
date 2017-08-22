@@ -92,20 +92,23 @@ class DeliveryOrderScreen extends Component {
   
   renderButtons(order, currentStatus) {
     const done = Utils.checkDeliveryComplete(currentStatus);
+    if (done) return null;
     return (
       <Grid style={{ height: 70, marginTop: 20, marginBottom: 20 }}>
         <Col style={{ margin: 2 }}>
           <FormButton
+            theme='danger'
             disabled={done}
-            text='Giao Lỗi'
+            text='Lỗi'
             onPress={this.updateOrderToFailWithReason.bind(this, order)}
           />
         </Col>
         <Col style={{ margin: 2 }}>
           <FormButton
+            theme='success'
             disabled={done}
-            text='Đã Giao'
-            onPress={this.updateOrderToFailWithReason.bind(this, order)}
+            text='Giao'
+            onPress={this.updateOrderToDone.bind(this, order)}
           />
         </Col>
       </Grid>
@@ -131,6 +134,9 @@ class DeliveryOrderScreen extends Component {
 
   
   render() {
+
+    
+
     const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
     const order = deliveryList.find(o => o.OrderID === OrderID);
@@ -141,6 +147,8 @@ class DeliveryOrderScreen extends Component {
       ClientName, ContactPhone, RequiredNote, OrderCode,
       DisplayOrder, Note, Log, CurrentStatus, NextStatus
     } = order;
+
+    const displayStatus = Utils.getDisplayStatus(CurrentStatus);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -164,7 +172,13 @@ class DeliveryOrderScreen extends Component {
             </Button>
           </Right>
         </Header>
-        <Content style={{ backgroundColor: Colors.row, paddingTop: 16 }}>
+        <Content style={{ backgroundColor: Colors.row, paddingTop: 0 }}>
+          <View
+            style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
+          >
+            <Text>Tình Trạng: {displayStatus}</Text>
+          </View>
+          
           <List>
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>

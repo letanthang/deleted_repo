@@ -95,6 +95,7 @@ class Utils {
     return returnGroup;
   }
   static checkPickGroupHasRP(pds, pickGroup) {
+  
     const { ClientHubID } = pickGroup;
     const returnGroup = pds.PickReturnItems.find(rg => rg.ClientHubID === ClientHubID
       && rg.PickDeliveryType === 3);

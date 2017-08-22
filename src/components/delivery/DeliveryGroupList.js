@@ -19,6 +19,11 @@ class DeliveryGroupList extends Component {
   componentWillUpdate() {
     
   }
+  componentWillReceiveProps(nextProps) {
+    console.log('DeliveryByGroup cwrp');
+    const { keyword } = nextProps;
+    this.setState({ keyword });
+  }
   componentDidUpdate(prevProps, prevState) {
 
   }
@@ -78,13 +83,6 @@ class DeliveryGroupList extends Component {
     console.log(deliveryList);
     return (
       <Content style={{ backgroundColor: Colors.background }}>
-      <SearchBar
-        round
-        lightTheme
-        onChangeText={(text) => this.setState({ keyword: text.trim() })}
-        value={this.state.keyword}
-        placeholder='Type here...'
-      />
       <List
         dataArray={deliveryList}
         renderRow={this.renderOrder.bind(this)}

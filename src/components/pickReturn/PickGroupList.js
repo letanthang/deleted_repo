@@ -35,6 +35,9 @@ class PickGroupList extends Component {
     const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
     console.log('PickGroupPress called ');
     console.log(pickGroup);
+    this.goToReturnGroup(returnGroup);
+  }
+  goToReturnGroup(returnGroup) {
     if (returnGroup) {
       this.props.navigation.navigate('PickGroupDetail', { pickGroup: returnGroup });
     }
@@ -112,15 +115,18 @@ class PickGroupList extends Component {
     );
   }
   renderHasReturnWarning(pickGroup) {
-    return null;
-    if (!Utils.checkPickGroupHasRP(this.props.pds, pickGroup)) return null;
+    console.log('renderHasReturnWarning called!');
+    console.log(this.props.pds);
+    const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
+    console.log(returnGroup);
+    if (!returnGroup) return null;
     return (
       <Button
         warning
         small
         transparent
         style={{ paddingLeft: 0 }}
-        onPress={this.onPickToReturnPress(pickGroup).bind(this)}
+        onPress={() => this.goToReturnGroup(returnGroup)}
       >
         <Text style={{ color: '#F3BD71', fontSize: 13, fontWeight: '600' }}>ĐƠN TRẢ</Text>
         <IC name='arrow-dropright' />

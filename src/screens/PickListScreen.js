@@ -32,7 +32,7 @@ class PickListScreen extends Component {
             </Button>
           </Left>
           <Body style={{ flex: 2 }}>
-            <Title>Chuyến đi lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
+            <Title>Lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
           </Body>
           <Right />
         </Header>

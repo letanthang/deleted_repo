@@ -61,7 +61,8 @@ export const Styles = StyleSheet.create({
     marginLeft: 4,
     marginRight: 4,
     marginTop: 8,
-    backgroundColor: Colors.row
+    backgroundColor: Colors.row,
+    borderRadius: 2
   },
   itemStyle: {
     paddingTop: 2,
@@ -128,7 +129,8 @@ export const Styles = StyleSheet.create({
     paddingRight: 12,
     margin: 4,
     paddingBottom: 0,
-    backgroundColor: Colors.row
+    backgroundColor: Colors.row,
+    borderRadius: 2
   }
 });
 

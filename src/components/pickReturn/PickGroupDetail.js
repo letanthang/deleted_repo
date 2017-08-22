@@ -182,14 +182,14 @@ class PickGroupDetail extends Component {
               disabled={disabled}
               theme='danger'
               text='LỖI'
-              width={150}
+              width={100}
               onPress={this.updateOrderToFailWithReason.bind(this, order)}
             />
             <FormButton
               disabled={disabled}
               theme='success'
               text={rightText}
-              width={150}
+              width={100}
               onPress={this.updateOrderToDone.bind(this, order)}
             />
           </View>

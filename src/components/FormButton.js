@@ -26,8 +26,7 @@ const FormButton = ({ text, disabled, theme, onPress, width }) => {
   }
   
   return (
-    <Button 
-    block 
+    <Button  
     style={buttonStyle}
     small
     onPress={disabled ? null : onPress}
@@ -44,10 +43,10 @@ const defaultStyles = {
     borderColor: Colors.normal,
     borderWidth: 1,
     borderRadius: 10,
-    height: 52,
-    marginBottom: 10,
+    height: 44,
     shadowOffset: { width: 0, height: 0 },
-    elevation: 0
+    elevation: 0,
+    justifyContent: 'center'
   },
   textStyle: {
     color: Colors.normal

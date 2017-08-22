@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableHighlight } from 'react-native';
+import { View, Modal, TouchableHighlight, DatePickerIOS } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
@@ -20,7 +20,7 @@ const CHANGE_DATE_INDEX = 3;
 const CANCEL_INDEX = 4;
 
 class DeliveryOrderScreen extends Component {
-  state = { modalShow: false }
+  state = { modalShow: false, date: new Date() }
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
@@ -92,26 +92,37 @@ class DeliveryOrderScreen extends Component {
   
   renderButtons(order, currentStatus) {
     const done = Utils.checkDeliveryComplete(currentStatus);
-    if (done) return null;
+    const displayStatus = Utils.getDisplayStatus(currentStatus);
+    if (done) {
+      return (
+        <View
+          style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
+        >
+          <Text>Tình Trạng: {displayStatus}</Text>
+        </View>
+      );
+    }
     return (
-      <Grid style={{ height: 70, marginTop: 20, marginBottom: 20 }}>
-        <Col style={{ margin: 2 }}>
+      <View style={{ paddingBottom: 0, flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={{ margin: 2 }}>
           <FormButton
             theme='danger'
             disabled={done}
             text='Lỗi'
+            width={100}
             onPress={this.updateOrderToFailWithReason.bind(this, order)}
           />
-        </Col>
-        <Col style={{ margin: 2 }}>
+        </View>
+        <View style={{ margin: 2 }}>
           <FormButton
             theme='success'
             disabled={done}
             text='Giao'
+            width={100}
             onPress={this.updateOrderToDone.bind(this, order)}
           />
-        </Col>
-      </Grid>
+        </View>
+      </View>
     );
   }
 
@@ -132,10 +143,7 @@ class DeliveryOrderScreen extends Component {
     );
   }
 
-  
   render() {
-
-    
 
     const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
@@ -148,7 +156,6 @@ class DeliveryOrderScreen extends Component {
       DisplayOrder, Note, Log, CurrentStatus, NextStatus
     } = order;
 
-    const displayStatus = Utils.getDisplayStatus(CurrentStatus);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -173,12 +180,7 @@ class DeliveryOrderScreen extends Component {
           </Right>
         </Header>
         <Content style={{ backgroundColor: Colors.row, paddingTop: 0 }}>
-          <View
-            style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
-          >
-            <Text>Tình Trạng: {displayStatus}</Text>
-          </View>
-          
+          {this.renderButtons(order, CurrentStatus)}
           <List>
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>
@@ -253,11 +255,23 @@ class DeliveryOrderScreen extends Component {
             }}
             style={{ backgroundColor: 'red' }}
             >
-            <View style={{ alignSelf: 'center', alignItems: 'center', backgroundColor: 'green' }}>
-              <View>
-                <Text>Hello World!</Text>
-
-                <TouchableHighlight 
+            <View style={{ marginTop: 300, backgroundColor: 'green' }}>
+              <View style={{ backgroundColor: 'white' }} >
+                <Text
+                  style={{ alignSelf: 'center' }}
+                >
+                  Hello World!
+                </Text>
+                <DatePickerIOS
+                  date={this.state.date}
+                  mode='date'
+                  onDateChange={(date) => {
+                    this.setState({ date });
+                    console.log(`date changed to : ${date}`);
+                    }}
+                />
+                <TouchableHighlight
+                  style={{ alignSelf: 'center' }}
                   onPress={() => {
                     this.setState({ modalShow: !this.state.modalShow });
                   }}

@@ -66,7 +66,16 @@ export const updateOrderStatus = ({
   Log = ''
 }) => {
   console.log(`pdAction: updateOrderStatus is called with type: ${PickDeliveryType}`);
-  console.log({ sessionToken, pdsId, OrderID, PickDeliveryType, status, StoringCode, NewDate, Log });
+  console.log({ 
+    sessionToken, 
+    pdsId, 
+    OrderID, 
+    PickDeliveryType, 
+    status, 
+    StoringCode, 
+    NewDate, 
+    Log 
+  });
 
   return ((dispatch) => {
     dispatch({ type: UPDATE_ORDER_STATUS });

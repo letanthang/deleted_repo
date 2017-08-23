@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Modal, TouchableHighlight, DatePickerIOS } from 'react-native';
+import { View, Modal, Alert, TouchableHighlight, DatePickerIOS, Button as Btn } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
@@ -15,12 +15,17 @@ import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
 
 const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
+const CODES = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
 const DESTRUCTIVE_INDEX = -1;
 const CHANGE_DATE_INDEX = 3;
 const CANCEL_INDEX = 4;
 
+const minimumDate = new Date();
+const maximumDate = new Date();
+maximumDate.setDate(maximumDate.getDate() + 5);
+let order = {};
 class DeliveryOrderScreen extends Component {
-  state = { modalShow: false, date: new Date() }
+  state = { modalShow: false, date: new Date(), buttonIndex: null }
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
@@ -32,14 +37,14 @@ class DeliveryOrderScreen extends Component {
   componentDidUpdate() {
     const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
-    const order = deliveryList.find(o => o.OrderID === OrderID);
+    order = deliveryList.find(o => o.OrderID === OrderID);
     console.log('====================================');
     console.log('DeliveryOrderScreen cdu');
     console.log(order);
     console.log('====================================');
   }
 
-  updateOrderToDone(order) {
+  updateOrderToDone() {
     const { sessionToken, pdsId } = this.props;
     const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Delivered';
@@ -48,7 +53,7 @@ class DeliveryOrderScreen extends Component {
     });
   }
 
-  updateOrderToFailWithReason(order) {
+  updateOrderToFailWithReason() {
     ActionSheet.show(
       {
         options: BUTTONS,
@@ -61,22 +66,22 @@ class DeliveryOrderScreen extends Component {
         if (buttonIndex !== CANCEL_INDEX 
           && buttonIndex !== CHANGE_DATE_INDEX 
           && buttonIndex !== DESTRUCTIVE_INDEX) {
-          this.updateOrderToFail(order, BUTTONS[buttonIndex]);
+          this.updateOrderToFail(buttonIndex);
         } else if (buttonIndex === CHANGE_DATE_INDEX) {
-          this.setState({ modalShow: true });
+          this.setState({ modalShow: true, buttonIndex });
         }
       }
     );
   }
 
-  updateOrderToFail(order, reason) {
+  updateOrderToFail(buttonIndex, NewDate = 0) {
+    const StoringCode = CODES[buttonIndex]; 
+    const reason = BUTTONS[buttonIndex];
     console.log(`giao loi pressed with reason ${reason}`);
     const { sessionToken, pdsId } = this.props;
     const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Storing';
-    const StoringCode = 'GHN-SC9649';
-    const NewDate = 0;
-    const Log = 'GHN-SC9649|KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG';
+    const Log = `${StoringCode}|${reason}`;
     this.props.updateOrderStatus({ 
       sessionToken, 
       pdsId, 
@@ -90,7 +95,7 @@ class DeliveryOrderScreen extends Component {
     });
   }
   
-  renderButtons(order, currentStatus) {
+  renderButtons(currentStatus) {
     const done = Utils.checkDeliveryComplete(currentStatus);
     const displayStatus = Utils.getDisplayStatus(currentStatus);
     if (done) {
@@ -110,7 +115,7 @@ class DeliveryOrderScreen extends Component {
             disabled={done}
             text='Lỗi'
             width={100}
-            onPress={this.updateOrderToFailWithReason.bind(this, order)}
+            onPress={this.updateOrderToFailWithReason.bind(this)}
           />
         </View>
         <View style={{ margin: 2 }}>
@@ -119,35 +124,17 @@ class DeliveryOrderScreen extends Component {
             disabled={done}
             text='Giao'
             width={100}
-            onPress={this.updateOrderToDone.bind(this, order)}
+            onPress={this.updateOrderToDone.bind(this)}
           />
         </View>
       </View>
     );
   }
 
-  renderDisabledButtons() {
-    return (
-      <Grid>
-        <Col style={{ margin: 2 }}>
-          <Button block disabled style={{ backgroundColor: '#aaa' }}>
-          <Text>GIAO LỖI</Text>
-          </Button>
-        </Col>
-        <Col style={{ margin: 2 }}>
-        <Button block disabled style={{ backgroundColor: '#aaa' }}>
-          <Text>ĐÃ GIAO</Text>
-          </Button>
-        </Col>
-      </Grid>
-    );
-  }
-
   render() {
-
     const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
-    const order = deliveryList.find(o => o.OrderID === OrderID);
+    order = deliveryList.find(o => o.OrderID === OrderID);
 
     const { navigate, goBack } = this.props.navigation;
     const { 
@@ -180,7 +167,6 @@ class DeliveryOrderScreen extends Component {
           </Right>
         </Header>
         <Content style={{ backgroundColor: Colors.row, paddingTop: 0 }}>
-          {this.renderButtons(order, CurrentStatus)}
           <List>
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>
@@ -245,40 +231,57 @@ class DeliveryOrderScreen extends Component {
             </View>
           </List>
 
-          {this.renderButtons(order, CurrentStatus)}
+          {this.renderButtons(CurrentStatus)}
           <Modal
-            animationType={"slide"}
+            animationType={"fade"}
             transparent={true}
             visible={this.state.modalShow}
             onRequestClose={() => {
               alert("Modal has been closed.");
             }}
-            style={{ backgroundColor: 'red' }}
+          >
+            <View 
+              style={{ 
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                backgroundColor: '#000000aa'
+              }}
             >
-            <View style={{ marginTop: 300, backgroundColor: 'green' }}>
-              <View style={{ backgroundColor: 'white' }} >
+              <View style={{ backgroundColor: 'white', borderRadius: 20, margin: 10 }} >
                 <Text
-                  style={{ alignSelf: 'center' }}
+                  style={{ alignSelf: 'center', color: 'black', fontWeight: 'bold', margin: 20 }}
                 >
-                  Hello World!
+                  Chọn ngày
                 </Text>
                 <DatePickerIOS
                   date={this.state.date}
                   mode='date'
+                  maximumDate={maximumDate}
+                  minimumDate={minimumDate}
                   onDateChange={(date) => {
                     this.setState({ date });
                     console.log(`date changed to : ${date}`);
                     }}
                 />
-                <TouchableHighlight
-                  style={{ alignSelf: 'center' }}
-                  onPress={() => {
-                    this.setState({ modalShow: !this.state.modalShow });
-                  }}
+                <View
+                    style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
                 >
-                  <Text>Hide Modal</Text>
-                </TouchableHighlight>
-
+                    <Btn
+                      onPress={this.onChooseDate.bind(this)}
+                      title='ĐỒNG Ý'
+                      color='#057AFF'
+                    />
+                </View>
+                <View
+                    style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+                >
+                    <Btn
+                      onPress={this.onCancelDate.bind(this)}
+                      title='HUỶ'
+                      color='#057AFF'
+                    />
+                </View>
               </View>
             </View>
           </Modal>
@@ -286,6 +289,19 @@ class DeliveryOrderScreen extends Component {
         <LoadingSpinner loading={this.props.loading} />
       </Container>
     );
+  }
+  onChooseDate() {
+    const date = this.state.date;
+    //string
+    const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+    console.log(stringDate);
+    //timestamp
+    const timestamp = this.state.date.getTime();
+    this.updateOrderToFail(this.state.buttonIndex, timestamp);
+    this.setState({ modalShow: !this.state.modalShow, buttonIndex: null });
+  }
+  onCancelDate() {
+    this.setState({ modalShow: !this.state.modalShow, date: new Date() });
   }
 }
 

@@ -4,10 +4,11 @@ import ShareVariables from '../libs/ShareVariables';
 const DOMAIN = 'https://test.ghn.vn/api';
 const Share = new ShareVariables();
 export const GetUserActivePds = () => {
-  const URL = `${DOMAIN}/mpds/GetUserActivePds`;
+  //const URL = `${DOMAIN}/mpds/GetUserActivePds`;
+  const URL = 'http://10.10.0.16:4108/pdaone/255299';
   const LoginInfo = Share.getLoginInfo();
   console.log('GetUserActivePds: ABC');
-  return axios.post(URL, {
+  return axios.get(URL, {
       ...LoginInfo
     });
 };

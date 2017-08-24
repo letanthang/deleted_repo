@@ -33,7 +33,7 @@ export const calculateServiceFee = ({
       const response = await axios.post('https://test.ghn.vn/api/mpds/CaculateServiceFee', params);
       console.log('Hang ve: new Fee');
       const json = response.data;
-      if (json.status === 'ok') {
+      if (json.status === 'OK') {
         dispatch({
           type: OTHER_CALCULATE_FEE_SUCCESS,
           payload: json.data.ServiceFee
@@ -64,7 +64,7 @@ export const getConfiguration = () => {
       const response = await axios.post('https://test.ghn.vn/api/mpds/getConfiguration', params);
       console.log('Hang ve: new Fee');
       const json = response.data;
-      if (json.status === 'ok') {
+      if (json.status === 'OK') {
         dispatch({
           type: OTHER_CALCULATE_FEE_SUCCESS,
           payload: json.data.ServiceFee
@@ -87,7 +87,7 @@ export const getUserPerformance = (UserID) => {
     try {
       const response = await API.GetUserPerformance(UserID);
       const json = response.data;
-      if (json.status === 'ok') {
+      if (json.status === 'OK') {
         dispatch({
           type: OTHER_GET_USER_PERFORMANCE_SUCCESS,
           payload: json.data

@@ -19,8 +19,8 @@ export const pdListFetch = () => {
       .then(response => {
         console.log(response);
         const json = response.data;
-        if (json.status === 'ok') {
-          pdListFetchSuccess(dispatch, json.data);
+        if (json.status === 'OK') {
+          pdListFetchSuccess(dispatch, json.data[0]);
         } else if (json.status === 4) {
           console.log('khong co chuyen di, json response=');
           console.log(json);
@@ -98,7 +98,7 @@ export const updateOrderStatus = ({
       .then(response => {
         const json = response.data;
         console.log(json);
-        if (json.status === 'ok') {
+        if (json.status === 'OK') {
           updateOrderStatusSuccess(dispatch, 
             { OrderID, CurrentStatus: status, PickDeliveryType, ClientHubID });
         } else {
@@ -155,7 +155,7 @@ export const updateWeightSize = ({
     try {
       const response = await API.UpdateOrderWeightRDC(params);      
       const json = response.data;
-      if (json.status === 'ok') {
+      if (json.status === 'OK') {
         dispatch({
           type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
           payload: { 

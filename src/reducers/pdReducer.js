@@ -30,7 +30,7 @@ export default (state = nameInitialState, action) => {
       console.log('update home screen with numbers');
       const pds = action.payload.pds;
       
-      pds.PickReturnItems.push(lastItem);
+      //pds.PickReturnItems.push(lastItem);
       addGroup(pds, action.payload.orderGroup);
       console.log('pds add group');
       console.log(pds);

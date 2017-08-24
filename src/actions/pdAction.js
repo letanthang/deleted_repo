@@ -17,10 +17,11 @@ export const pdListFetch = () => {
     // console.log(user);
     API.GetUserActivePds()
       .then(response => {
+        console.log(response);
         const json = response.data;
-        if (json.code === 1) {
+        if (json.status === 'ok') {
           pdListFetchSuccess(dispatch, json.data);
-        } else if (json.code === 4) {
+        } else if (json.status === 4) {
           console.log('khong co chuyen di, json response=');
           console.log(json);
           dispatch({ type: PDLIST_NO_TRIP });
@@ -97,7 +98,7 @@ export const updateOrderStatus = ({
       .then(response => {
         const json = response.data;
         console.log(json);
-        if (json.code === 1) {
+        if (json.status === 'ok') {
           updateOrderStatusSuccess(dispatch, 
             { OrderID, CurrentStatus: status, PickDeliveryType, ClientHubID });
         } else {
@@ -154,7 +155,7 @@ export const updateWeightSize = ({
     try {
       const response = await API.UpdateOrderWeightRDC(params);      
       const json = response.data;
-      if (json.code === 1) {
+      if (json.status === 'ok') {
         dispatch({
           type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
           payload: { 
@@ -169,7 +170,7 @@ export const updateWeightSize = ({
       } else {
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
         console.log('Update weight size failed with response json =');
-        console.log(json.code);
+        console.log(json.status);
       }
     } catch (error) {
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });

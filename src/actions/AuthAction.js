@@ -62,7 +62,7 @@ export const loginUser = ({ userID, password, rememberMe }) => {
     API.Authenticate({ UserID: userID, Password: password })
       .then(response => {
         const json = response.data;
-        if (json.code === 1) {
+        if (json.status === 'ok') {
           loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
         } else {
           console.log('loginUser fail with response json =');

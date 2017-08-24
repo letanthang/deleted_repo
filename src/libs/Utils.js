@@ -1,18 +1,60 @@
 class Utils {
-  static getDisplayStatus(status) {
-    switch (status) {
-      case 'Delivering':
-        return 'Đang giao';
-      case 'Delivered':
-        return 'Đã giao';
-      case 'WaitingToFinish':
-        return 'Đã giao';
-      case 'Finish':
-        return 'Đã giao';
-      case 'Storing':
-        return 'Giao lỗi';
+  static getDisplayStatus(status, type = 2, nextStatus) {
+    if (type === 1) {
+      switch (status) {
+        case 'Storing':
+          return 'Đã lấy';
+        case 'Picking':
+          if (nextStatus === null) return 'Lấy lỗi';
+          return 'Đang lấy';
+        default:
+          return 'Đang lấy';
+      }
+    } else if (type === 3) {
+      switch (status) {
+        case 'Returned':
+          return 'Đã trả';
+        case 'WaitingToFinish':
+          return 'Đã trả';
+        case 'Storing':
+          return 'Trả lỗi';
+        default:
+          return 'Đang trả';
+      }
+    } else {
+      switch (status) {
+        case 'Delivering':
+          return 'Đang giao';
+        case 'Delivered':
+          return 'Đã giao';
+        case 'WaitingToFinish':
+          return 'Đã giao';
+        case 'Finish':
+          return 'Đã giao';
+        case 'Storing':
+          return 'Giao lỗi';
+        default:
+          return 'Đang giao';
+      }
+    }
+  }
+  static getDisplayStatusColor(status, type = 2, nextStatus) {
+    const DisplayStatus = this.getDisplayStatus(status, type, nextStatus);
+    switch (DisplayStatus) {
+      case 'Giao lỗi':
+        return 'red';
+      case 'Lấy lỗi':
+        return 'red';
+      case 'Trả lỗi':
+        return 'red';
+      case 'Đã giao':
+        return 'green';
+      case 'Đã lấy':
+        return 'green';
+      case 'Đã trả':
+        return 'green';
       default:
-        return 'Đang giao';
+        return 'black';
     }
   }
   static checkDeliveryComplete(status) {

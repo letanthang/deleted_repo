@@ -94,7 +94,6 @@ class PickGroupList extends Component {
               <Text style={[Styles.normalColorStyle]}>
               {TotalServiceCost} đ
               </Text>
-              
             </View>
             <View style={[Styles.item2Style]}>
               <View>
@@ -111,12 +110,12 @@ class PickGroupList extends Component {
               </Button>
             </View>
           </Card>
-      </TouchableOpacity>      
+      </TouchableOpacity>
     );
   }
   renderHasReturnWarning(pickGroup) {
     console.log('renderHasReturnWarning called!');
-    console.log(this.props.pds);
+    if (pickGroup.PickDeliveryType != '1') return null;
     const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
     console.log(returnGroup);
     if (!returnGroup) return null;

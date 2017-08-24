@@ -9,6 +9,7 @@ import { updateOrderStatus } from '../../actions';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import FormButton from '../FormButton';
+import StatusText from '../StatusText';
 
 const BUTTONS = ['KHÁCH khong lien lac duoc', 'KHÁCH Khong nghe may', 'Khach huy don', 'Cancel'];
 const DESTRUCTIVE_INDEX = -1;
@@ -133,6 +134,7 @@ class PickGroupDetail extends Component {
       Height, Width, Weight, Length, CurrentStatus, NextStatus,
       ExternalCode
     } = order;
+    const PickDeliveryType = this.pickGroup.PickDeliveryType;
 
     let rightText;
     let doneStatus;
@@ -140,14 +142,16 @@ class PickGroupDetail extends Component {
     let done;
     let fail;
     let disabled;
-    if (this.pickGroup.PickDeliveryType === 1) {
+    const DisplayStatus = Utils.getDisplayStatus(CurrentStatus, PickDeliveryType, NextStatus);
+    const StatusColor = Utils.getDisplayStatusColor(CurrentStatus, PickDeliveryType, NextStatus);
+    if (PickDeliveryType === 1) {
       rightText = 'LẤY';
       doneStatus = 'Storing';
       failStatus = 'ReadyToPick';
       fail = CurrentStatus === failStatus;
       done = Utils.checkPickDone(CurrentStatus);
       disabled = CurrentStatus !== 'Picking';
-    } else if (this.pickGroup.PickDeliveryType === 3) {
+    } else if (PickDeliveryType === 3) {
       rightText = 'TRẢ';
       doneStatus = 'Returned';
       failStatus = 'Storing';
@@ -164,7 +168,11 @@ class PickGroupDetail extends Component {
       >
         <View style={[Styles.orderWrapperStyle]}>
           <View style={Styles.item2Style}>
-            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{OrderCode}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{OrderCode}</Text>
+              <StatusText text={DisplayStatus} colorTheme={StatusColor} style={{ marginLeft: 10 }} show={disabled} />
+            </View>
+            
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{ServiceCost} đ</Text>
           </View>
           <View style={Styles.itemStyle}>
@@ -176,25 +184,31 @@ class PickGroupDetail extends Component {
           
           {this.renderInfosForPick({ Weight, Length, Width, Height, ServiceCost, disabled })}
           
+          {this.renderActionButtons(disabled, rightText, order)}
           
-          <View style={[Styles.itemStyle, Styles.actionItemStyle]}>
-            <FormButton
-              disabled={disabled}
-              theme='danger'
-              text='LỖI'
-              width={100}
-              onPress={this.updateOrderToFailWithReason.bind(this, order)}
-            />
-            <FormButton
-              disabled={disabled}
-              theme='success'
-              text={rightText}
-              width={100}
-              onPress={this.updateOrderToDone.bind(this, order)}
-            />
-          </View>
         </View>
       </TouchableOpacity>
+    );
+  }
+  renderActionButtons(disabled, rightText, order) {
+    if (disabled) return null;
+    return (
+      <View style={[Styles.itemStyle, Styles.actionItemStyle]}>
+        <FormButton
+          disabled={disabled}
+          theme='danger'
+          text='LỖI'
+          width={100}
+          onPress={this.updateOrderToFailWithReason.bind(this, order)}
+        />
+        <FormButton
+          disabled={disabled}
+          theme='success'
+          text={rightText}
+          width={100}
+          onPress={this.updateOrderToDone.bind(this, order)}
+        />
+      </View>
     );
   }
 

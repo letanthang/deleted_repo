@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import Utils from '../../libs/Utils';
 import LocalGroup from '../../libs/LocalGroup';
 import { Styles, Colors } from '../../Styles';
+import StatusText from '../StatusText';
 
 class DeliveryByGroup extends Component {
   componentWillMount() {
@@ -36,17 +37,10 @@ class DeliveryByGroup extends Component {
   }
 
   renderStatusText(status) {
-    const displayStatus = Utils.getDisplayStatus(status);
-    let textColor = '#65BD68';
-    if (displayStatus === 'Đã giao') {
-      textColor = 'grey';
-    } else if (displayStatus === 'Giao lỗi') {
-      textColor = '#E82027';
-    }
+    const DisplayStatus = Utils.getDisplayStatus(status);
+    const StatusColor = Utils.getDisplayStatusColor(status);
     return (
-      <Text style={{ color: textColor }}>
-        {displayStatus}
-      </Text>
+      <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
   }
 

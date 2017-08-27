@@ -54,19 +54,8 @@ export const pdListFetchFail = (dispatch) => {
   dispatch({ type: PDLIST_FETCH_FAIL });
 };
 
-export const updateOrderStatus = ({ 
-  sessionToken, 
-  pdsId, 
-  PickDeliverySessionDetailID,
-  OrderID,
-  PickDeliveryType,
-  status,
-  ClientHubID,
-  StoringCode = '',
-  NewDate = null,
-  Log = ''
-}) => {
-  console.log(`pdAction: updateOrderStatus is called with type: ${PickDeliveryType}`);
+export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status, ClientHubID, StoringCode = '', NewDate = null, Log = '' }) => {
+  //console.log(`pdAction: updateOrderStatus is called with type: ${PickDeliveryType}`);
   console.log({ 
     sessionToken, 
     pdsId, 

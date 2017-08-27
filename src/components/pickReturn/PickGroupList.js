@@ -135,7 +135,7 @@ class PickGroupList extends Component {
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
     let pdType = this.props.pdType;
-    pdType = pdType === undefined ? 1 : pdType;
+    pdType = pdType === undefined ? 0 : pdType;
     const done = this.props.done;
     console.log('====================================');
     console.log(`PickGroupList render! pdType = ${pdType}`);

@@ -90,8 +90,7 @@ export default (state = nameInitialState, action) => {
         order = Utils.getOrder(pds, OrderID, null, 2);
         //order.CurrentStatus = 'WaitingToFinish';
         order.CurrentStatus = CurrentStatus;
-      }
-      if (PickDeliveryType === 1 || PickDeliveryType === 3) {
+      } else {
         order = Utils.getOrder(pds, OrderID, ClientHubID, PickDeliveryType);
         order.CurrentStatus = CurrentStatus;
         order.NextStatus = CurrentStatus;
@@ -192,7 +191,7 @@ const addGroup = (pds, orderGroup) => {
 
 const calculateStatNumbers = (pds) => {
   // pick
-      const pickGroupList = pds.PickReturnItems.filter(p => p.PickDeliveryType === 1);
+      const pickGroupList = pds.PickReturnItems.filter(p => p.PickDeliveryType === 0);
       const pickTotal = pickGroupList.length;
       const pickComplete = pickTotal === 0 ? 0 : pickGroupList.filter(pg => {
         let isComplete = true;

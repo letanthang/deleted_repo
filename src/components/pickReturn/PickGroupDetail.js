@@ -38,7 +38,7 @@ class PickGroupDetail extends Component {
     
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
-    if (this.PickDeliveryType === 0) {
+    if (this.PickDeliveryType === 1) {
       this.buttons = BUTTONS;
       this.codes = CODES;
     } else {
@@ -58,7 +58,7 @@ class PickGroupDetail extends Component {
 
     let status = null;
     if (this.pickGroup.PickDeliveryType === 3) status = 'WaitingToFinish';
-    if (this.pickGroup.PickDeliveryType === 0) status = 'Storing';
+    if (this.pickGroup.PickDeliveryType === 1) status = 'Storing';
     this.updateOrder(order, status);
   }
 
@@ -98,7 +98,7 @@ class PickGroupDetail extends Component {
       status = 'Return';
       infos = { StoringCode, NewDate, Log };
     } 
-    if (this.pickGroup.PickDeliveryType === 0) {
+    if (this.pickGroup.PickDeliveryType === 1) {
       status = 'ReadyToPick';     
       infos = { StoringCode, NewDate, Log };
     } 
@@ -130,7 +130,7 @@ class PickGroupDetail extends Component {
     const { OrderID } = order;
     const { ClientID } = this.pickGroup;
 
-    if (this.pickGroup.PickDeliveryType === 0) {
+    if (this.pickGroup.PickDeliveryType === 1) {
       navigate('PickOrder', { OrderID, order, ClientID });
     } else if (this.pickGroup.PickDeliveryType === 3) {
       navigate('ReturnOrder', { OrderID, order });
@@ -162,7 +162,7 @@ class PickGroupDetail extends Component {
     let disabled;
     const DisplayStatus = Utils.getDisplayStatus(CurrentStatus, PickDeliveryType, NextStatus);
     const StatusColor = Utils.getDisplayStatusColor(CurrentStatus, PickDeliveryType, NextStatus);
-    if (PickDeliveryType === 0) {
+    if (PickDeliveryType === 1) {
       rightText = 'LẤY';
       doneStatus = 'Storing';
       failStatus = 'ReadyToPick';

@@ -191,7 +191,7 @@ const addGroup = (pds, orderGroup) => {
 
 const calculateStatNumbers = (pds) => {
   // pick
-      const pickGroupList = pds.PickReturnItems.filter(p => p.PickDeliveryType === 0);
+      const pickGroupList = pds.PickItems;
       const pickTotal = pickGroupList.length;
       const pickComplete = pickTotal === 0 ? 0 : pickGroupList.filter(pg => {
         let isComplete = true;
@@ -207,7 +207,7 @@ const calculateStatNumbers = (pds) => {
       const deliveryComplete = deliveryTotal === 0 ? 0 : pds.DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.CurrentStatus)).length;
 
       // return
-      const returnGroupList = pds.PickReturnItems.filter(p => p.PickDeliveryType === 3);
+      const returnGroupList = pds.ReturnItems;
       const returnTotal = returnGroupList.length;
       const returnComplete = returnTotal === 0 ? 0 : returnGroupList.filter(pg => {
         let isComplete = true;

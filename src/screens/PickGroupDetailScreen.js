@@ -91,15 +91,13 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
-    const { DisplayOrder } = this.pickGroup;
+    const { pds } = this.props;
+    const { PickItems, ReturnItems } = pds;
+    const { PickDeliveryType } = this.pickGroup;
 
-    this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID 
-      && pg.PickDeliveryType === this.PickDeliveryType && pg.DisplayOrder === DisplayOrder);
+    const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(trip => trip.ClientHubID === this.ClientHubID); 
       
-    const { navigation } = this.props;
-    const { pickGroup } = this;
-    
-
     console.log('====================================');
     console.log('PickGroupDetail render!');
     console.log(pickGroup);

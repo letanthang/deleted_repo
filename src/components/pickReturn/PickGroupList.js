@@ -134,20 +134,18 @@ class PickGroupList extends Component {
   }
   render() {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
-    let pdType = this.props.pdType;
-    pdType = pdType === undefined ? 0 : pdType;
-    const done = this.props.done;
+    const { done, pds, pdType = 1 } = this.props;
+    const Items = (pdType === 1) ? pds.PickItems : pds.ReturnItems;
+
     console.log('====================================');
     console.log(`PickGroupList render! pdType = ${pdType}`);
     console.log('====================================');
     
-    const pickList = this.props.pds.PickReturnItems.filter(pg => {
-      if (done === undefined) {
-        return pg.PickDeliveryType === pdType;
-      } else {
+    const pickList = Items.filter(pg => {
+      if (done !== undefined) {
         const ordersNum = pg.PickReturnSOs.length;
         const completedNum = pg.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
-        return pg.PickDeliveryType === pdType && done === (ordersNum === completedNum);
+        return done === (ordersNum === completedNum);
       }
     });
     return (

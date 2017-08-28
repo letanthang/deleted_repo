@@ -110,7 +110,7 @@ class PickGroupDetailScreen extends Component {
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
         <Tabs initialPage={0}>
-          <Tab heading={pickGroup.PickDeliveryType === 1 ? 'Đang Lấy' : 'Đang Trả'}>
+          <Tab heading={pickGroup.PickDeliveryType !== 3 ? 'Đang Lấy' : 'Đang Trả'}>
             <PickGroupDetail {...this.props} keyword={this.state.keyword} done={false} />
           </Tab>
           <Tab heading="Xong">

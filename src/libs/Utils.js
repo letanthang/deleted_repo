@@ -144,7 +144,6 @@ class Utils {
     if (returnGroup) return true;
     return false;
   }
-
 }
 
 export default Utils;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text, Modal, Button as Btn } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Content, ActionSheet, List
@@ -10,13 +10,24 @@ import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import FormButton from '../FormButton';
 import StatusText from '../StatusText';
+import DatePicker from '../DatePicker';
 
-const BUTTONS = ['KHÁCH khong lien lac duoc', 'KHÁCH Khong nghe may', 'Khach huy don', 'Cancel'];
+const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
+const CODES = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
+const BUTTON3S = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
+const CODE3S = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
 const DESTRUCTIVE_INDEX = -1;
-const CANCEL_INDEX = 3;
+const CHANGE_DATE_INDEX = 3;
+const CANCEL_INDEX = 4;
 
 class PickGroupDetail extends Component {
-  state = { keyword: '' };
+  state = { keyword: '', modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
+  buttons = null;
+  codes = null;
+  pickGroup = null;
+  ClientHubID = null;
+  PickDeliveryType = null;
+  order = {};
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
@@ -27,11 +38,14 @@ class PickGroupDetail extends Component {
     
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    if (this.PickDeliveryType === 0) {
+      this.buttons = BUTTONS;
+      this.codes = CODES;
+    } else {
+      this.buttons = BUTTON3S;
+      this.codes = CODE3S;
+    }
   }
-
-  pickGroup = null;
-  ClientHubID = null;
-  PickDeliveryType = null;
 
   componentWillReceiveProps(nextProps) {
     console.log('DeliveryByGroup cwrp');
@@ -49,39 +63,43 @@ class PickGroupDetail extends Component {
   }
 
   updateOrderToFailWithReason(order) {
+    this.order = order;
     ActionSheet.show(
       {
-        options: BUTTONS,
+        options: this.buttons,
         cancelButtonIndex: CANCEL_INDEX,
         destructiveButtonIndex: DESTRUCTIVE_INDEX,
         title: 'Chọn lý do giao lỗi'
       },
       buttonIndex => {
-        console.log(`updateOrderToFailWithReason : ${buttonIndex}`);
-        if (buttonIndex !== CANCEL_INDEX && buttonIndex !== DESTRUCTIVE_INDEX) {
-          this.updateOrderToFail(order, BUTTONS[buttonIndex]);
+        console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof CHANGE_DATE_INDEX}`);
+
+        if (buttonIndex != CANCEL_INDEX 
+          && buttonIndex != CHANGE_DATE_INDEX 
+          && buttonIndex != DESTRUCTIVE_INDEX) {
+          this.updateOrderToFail(order, buttonIndex);
+        } else if (buttonIndex == CHANGE_DATE_INDEX) {
+          console.log('Hien modal popup');
+          this.setState({ modalShow: true, buttonIndex });
         }
       }
     );
   }
 
-  updateOrderToFail(order) {
+  updateOrderToFail(order, buttonIndex, NewDate = 0) {
     if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Return') return;
+    const StoringCode = this.codes[buttonIndex]; 
+    const reason = this.buttons[buttonIndex];
+    const Log = `${StoringCode}|${reason}`;
 
     let status = null;
     let infos = {};
     if (this.pickGroup.PickDeliveryType === 3) {
       status = 'Return';
-      const StoringCode = 'GHN-RCD0D6';
-      const NewDate = 0;
-      const Log = 'GHN-RCD0D6|NGƯỜI GỬI KHÔNG NHẬN HÀNG TRẢ';
       infos = { StoringCode, NewDate, Log };
     } 
     if (this.pickGroup.PickDeliveryType === 0) {
-      status = 'ReadyToPick';
-      const StoringCode = 'GHN-PC952A';
-      const NewDate = 0;
-      const Log = 'GHN-PC952A|NGƯỜI GỬI HẸN LẠI NGÀY LẤY(5/8/2017)';
+      status = 'ReadyToPick';     
       infos = { StoringCode, NewDate, Log };
     } 
     this.updateOrder(order, status, infos);
@@ -235,8 +253,74 @@ class PickGroupDetail extends Component {
             && (this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())))}
           renderRow={this.renderOrder.bind(this)}
         />
+        <Modal
+            animationType={"fade"}
+            transparent={true}
+            visible={this.state.modalShow}
+            
+            onRequestClose={() => {
+              alert("Modal has been closed.");
+            }}
+          >
+            <View 
+              style={{ 
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                backgroundColor: '#000000aa'
+              }}
+            >
+              <View style={{ backgroundColor: 'white', borderRadius: 20, margin: 10 }} >
+                <Text
+                  style={{ alignSelf: 'center', color: 'black', fontWeight: 'bold', margin: 20 }}
+                >
+                  Chọn ngày
+                </Text>
+                <DatePicker
+                  date={this.state.date}
+                  androidDPShow={this.state.androidDPShow}
+                  mode='date'
+                  onDateChange={(date) => {
+                    this.setState({ date });
+                    console.log(`date changed to : ${date}`);
+                    }}
+                />
+                <View
+                    style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+                >
+                    <Btn
+                      onPress={this.onChooseDate.bind(this)}
+                      title='ĐỒNG Ý'
+                      color='#057AFF'
+                    />
+                </View>
+                <View
+                    style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+                >
+                    <Btn
+                      onPress={this.onCancelDate.bind(this)}
+                      title='HUỶ'
+                      color='#057AFF'
+                    />
+                </View>
+              </View>
+            </View>
+          </Modal>
       </Content>
     );
+  }
+  onChooseDate() {
+    const date = this.state.date;
+    //string
+    const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+    console.log(stringDate);
+    //timestamp
+    const timestamp = this.state.date.getTime();
+    this.updateOrderToFail(this.order, this.state.buttonIndex, timestamp);
+    this.setState({ modalShow: !this.state.modalShow, buttonIndex: null, androidDPShow: false });
+  }
+  onCancelDate() {
+    this.setState({ modalShow: !this.state.modalShow, date: new Date(), androidDPShow: false });
   }
 }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import ShareVariables from '../libs/ShareVariables';
 
-// const DOMAIN = 'http://dev.inhub.vn:4108/pdaone';
+//const DOMAIN = 'http://dev.inhub.vn:4108/pdaone';
 const DOMAIN = 'http://10.10.0.16:4108/pdaone';
 
 const Share = new ShareVariables();
@@ -18,10 +18,14 @@ export const GetUserActivePds = (UserID) => {
 export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
   const URL = `${DOMAIN}/${PDSID}`;
   const LoginInfo = Share.getLoginInfo();
-  return axios.put(URL, {
-      ...LoginInfo,
-      OrderInfos
-    });
+  const params = {
+    ...LoginInfo,
+    PDSID,
+    OrderInfos
+  };
+  console.log(`UpdatePickDeliverySession url = ${URL}`);
+  console.log(params);
+  return axios.put(URL, params);
 };
 
 export const UpdateOrderWeightRDC = ({ 

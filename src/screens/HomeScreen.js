@@ -11,6 +11,7 @@ import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Styles, Colors } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
+import DatePicker from '../components/DatePicker';
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import platform from '../../native-base-theme/variables/platform';
@@ -161,16 +162,6 @@ class HomeScreen extends Component {
                 </CardItem>
               </Card>
             </TouchableOpacity>
-            
-            <DatePickerIOS
-              date={this.state.date}
-              mode='date'
-              onDateChange={(date) => {
-                this.setState({ date });
-                console.log(`date changed to : ${date}`);
-                }}
-            />
-            
           </Content>
           <LoadingSpinner loading={this.props.loading} />
         </Container>

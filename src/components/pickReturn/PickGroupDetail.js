@@ -264,7 +264,7 @@ class PickGroupDetail extends Component {
             animationType={"fade"}
             transparent={true}
             visible={this.state.modalShow}
-            
+            onShow={() => this.setState({ androidDPShow: true })}
             onRequestClose={() => {
               alert("Modal has been closed.");
             }}

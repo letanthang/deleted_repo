@@ -58,7 +58,7 @@ class Utils {
       case 'Đã trả':
         return 'green';
       default:
-        return 'black';
+        return 'yellow';
     }
   }
   static checkDeliveryComplete(status) {

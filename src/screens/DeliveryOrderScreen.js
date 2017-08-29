@@ -13,6 +13,8 @@ import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
+import DatePicker from '../components/DatePicker';
+import OrderStatusText from '../components/OrderStatusText';
 
 const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
 const CODES = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
@@ -20,12 +22,9 @@ const DESTRUCTIVE_INDEX = -1;
 const CHANGE_DATE_INDEX = 3;
 const CANCEL_INDEX = 4;
 
-const minimumDate = new Date();
-const maximumDate = new Date();
-maximumDate.setDate(maximumDate.getDate() + 5);
 let order = {};
 class DeliveryOrderScreen extends Component {
-  state = { modalShow: false, date: new Date(), buttonIndex: null }
+  state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
     const OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
@@ -63,11 +62,11 @@ class DeliveryOrderScreen extends Component {
       },
       buttonIndex => {
         console.log(`updateOrderToFailWithReason : ${buttonIndex}`);
-        if (buttonIndex !== CANCEL_INDEX 
-          && buttonIndex !== CHANGE_DATE_INDEX 
-          && buttonIndex !== DESTRUCTIVE_INDEX) {
+        if (buttonIndex != CANCEL_INDEX 
+          && buttonIndex != CHANGE_DATE_INDEX 
+          && buttonIndex != DESTRUCTIVE_INDEX) {
           this.updateOrderToFail(buttonIndex);
-        } else if (buttonIndex === CHANGE_DATE_INDEX) {
+        } else if (buttonIndex == CHANGE_DATE_INDEX) {
           this.setState({ modalShow: true, buttonIndex });
         }
       }
@@ -77,11 +76,11 @@ class DeliveryOrderScreen extends Component {
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const StoringCode = CODES[buttonIndex]; 
     const reason = BUTTONS[buttonIndex];
+    const Log = `${StoringCode}|${reason}`;
     console.log(`giao loi pressed with reason ${reason}`);
     const { sessionToken, pdsId } = this.props;
     const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Storing';
-    const Log = `${StoringCode}|${reason}`;
     this.props.updateOrderStatus({ 
       sessionToken, 
       pdsId, 
@@ -97,13 +96,15 @@ class DeliveryOrderScreen extends Component {
   
   renderButtons(currentStatus) {
     const done = Utils.checkDeliveryComplete(currentStatus);
-    const displayStatus = Utils.getDisplayStatus(currentStatus);
     if (done) {
       return (
         <View
           style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
         >
-          <Text>Tình Trạng: {displayStatus}</Text>
+          <OrderStatusText 
+            CurrentStatus={currentStatus}
+            PickDeliveryType={2}
+          />
         </View>
       );
     }
@@ -236,6 +237,7 @@ class DeliveryOrderScreen extends Component {
             animationType={"fade"}
             transparent={true}
             visible={this.state.modalShow}
+            onShow={() => this.setState({ androidDPShow: true })}
             onRequestClose={() => {
               alert("Modal has been closed.");
             }}
@@ -254,11 +256,9 @@ class DeliveryOrderScreen extends Component {
                 >
                   Chọn ngày
                 </Text>
-                <DatePickerIOS
+                <DatePicker
                   date={this.state.date}
-                  mode='date'
-                  maximumDate={maximumDate}
-                  minimumDate={minimumDate}
+                  androidDPShow={this.state.androidDPShow}
                   onDateChange={(date) => {
                     this.setState({ date });
                     console.log(`date changed to : ${date}`);

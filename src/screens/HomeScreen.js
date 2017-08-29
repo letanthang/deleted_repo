@@ -12,6 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Styles, Colors } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 import DatePicker from '../components/DatePicker';
+import OrderStatusText from '../components/OrderStatusText';
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
 import platform from '../../native-base-theme/variables/platform';

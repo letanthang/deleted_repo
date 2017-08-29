@@ -17,6 +17,14 @@ class StatusText extends Component {
         color = '#82E6AA';
         backgroundColor = '#F1FCF6';
         break;
+      case 'black':
+        color = 'black';
+        backgroundColor = '#ccc';
+        break;
+      case 'yellow':
+        color = '#F3BD71';
+        backgroundColor = 'white';
+        break;
       default:
         color = 'black';
         backgroundColor = '#ccc';

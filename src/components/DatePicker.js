@@ -15,8 +15,10 @@ class DatePicker extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('DatePicker: cwrp');
+    if (Platform.OS === 'ios') return;
     const { androidDPShow } = nextProps;
-    if (androidDPShow) {
+    if (!this.props.androidDPShow && androidDPShow) {
       this.showAndroidDP();
     }
   }

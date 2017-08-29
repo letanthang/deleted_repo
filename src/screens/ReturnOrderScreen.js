@@ -13,10 +13,10 @@ import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 
+let OrderID = null;
 class ReturnOrderScreen extends Component {
-
   componentWillMount() {
-    const OrderID = this.props.navigation.state.params.OrderID;
+    OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
     console.log(`ReturnOrderScreen: cwm called with
     OrderID = ${OrderID}`);
@@ -24,18 +24,14 @@ class ReturnOrderScreen extends Component {
   }
 
   componentDidUpdate() {
-    const deliveryList = this.props.pds.DeliveryItems;
-    const OrderID = this.props.navigation.state.params.OrderID;
-    const order = deliveryList.find(o => o.OrderID === OrderID);
     console.log('====================================');
     console.log('ReturnOrderScreen: cdu');
-    console.log(order);
     console.log('====================================');
   }
 
   updateOrderToDone(order) {
     const { sessionToken, pdsId } = this.props;
-    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
+    const { PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Delivered';
     this.props.updateOrderStatus({ 
       sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status 
@@ -45,7 +41,7 @@ class ReturnOrderScreen extends Component {
   updateOrderToFail(order) {
     console.log('giao loi pressed');
     const { sessionToken, pdsId } = this.props;
-    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
+    const { PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Storing';
     const StoringCode = 'GHN-SC9649';
     const NewDate = 0;
@@ -64,10 +60,9 @@ class ReturnOrderScreen extends Component {
   }
   
   render() {
-    const OrderID = this.props.navigation.state.params.OrderID;
     const order = this.props.navigation.state.params.order;
 
-    const { navigate, goBack } = this.props.navigation;
+    const { goBack } = this.props.navigation;
     const { 
       RecipientName, RecipientPhone, Address, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,

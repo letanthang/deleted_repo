@@ -54,11 +54,11 @@ class PickGroupDetail extends Component {
   }
   
   updateOrderToDone(order) {
-    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Return') return;
+    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Returning') return;
 
     let status = null;
-    if (this.pickGroup.PickDeliveryType === 3) status = 'WaitingToFinish';
-    if (this.pickGroup.PickDeliveryType === 1) status = 'Storing';
+    if (this.PickDeliveryType === 3) status = 'Returned';
+    if (this.PickDeliveryType === 1) status = 'Storing';
     this.updateOrder(order, status);
   }
 
@@ -87,18 +87,18 @@ class PickGroupDetail extends Component {
   }
 
   updateOrderToFail(order, buttonIndex, NewDate = 0) {
-    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Return') return;
+    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Returning') return;
     const StoringCode = this.codes[buttonIndex]; 
     const reason = this.buttons[buttonIndex];
     const Log = `${StoringCode}|${reason}`;
 
     let status = null;
     let infos = {};
-    if (this.pickGroup.PickDeliveryType === 3) {
+    if (this.PickDeliveryType === 3) {
       status = 'Return';
       infos = { StoringCode, NewDate, Log };
     } 
-    if (this.pickGroup.PickDeliveryType === 1) {
+    if (this.PickDeliveryType === 1) {
       status = 'ReadyToPick';     
       infos = { StoringCode, NewDate, Log };
     } 
@@ -124,20 +124,20 @@ class PickGroupDetail extends Component {
     });
   }
   onOrderPress(order) {
-    console.log('onOrderPress called with type = ');
-    console.log(this.pickGroup.PickDeliveryType);
+    console.log(`onOrderPress called with type = ${this.pickGroup.PickDeliveryType}, order=`);
+    console.log(order);
     const { navigate } = this.props.navigation;
     const { OrderID } = order;
-    const { ClientID } = this.pickGroup;
-
-    if (this.pickGroup.PickDeliveryType === 1) {
-      navigate('PickOrder', { OrderID, order, ClientID });
-    } else if (this.pickGroup.PickDeliveryType === 3) {
-      navigate('ReturnOrder', { OrderID, order });
+    const { ClientID, ClientHubID } = this.pickGroup;
+    
+    if (this.PickDeliveryType === 1) {
+      navigate('PickOrder', { OrderID, order, ClientID, ClientHubID });
+    } else if (this.PickDeliveryType === 3) {
+      navigate('ReturnOrder', { OrderID, order, ClientHubID });
     }
   }
   renderInfosForPick({ Weight, Length, Width, Height, ServiceCost, disabled }) {
-    if (this.pickGroup.PickDeliveryType === 3) return null;
+    if (this.PickDeliveryType === 3) return null;
     return (
       <View>
         <View style={Styles.itemStyle}>
@@ -152,7 +152,7 @@ class PickGroupDetail extends Component {
       Height, Width, Weight, Length, CurrentStatus, NextStatus,
       ExternalCode
     } = order;
-    const PickDeliveryType = this.pickGroup.PickDeliveryType;
+    const PickDeliveryType = this.PickDeliveryType;
 
     let rightText;
     let doneStatus;
@@ -175,7 +175,7 @@ class PickGroupDetail extends Component {
       failStatus = 'Storing';
       fail = Utils.checkReturnFail(CurrentStatus, NextStatus);
       done = Utils.checkReturnDone(CurrentStatus);
-      disabled = CurrentStatus !== 'Return';
+      disabled = CurrentStatus !== 'Returning';
     }
 
     console.log(`OrderCode: ${OrderCode} | CurrentStatus: ${CurrentStatus} | doneStatus ${doneStatus}`);
@@ -230,15 +230,23 @@ class PickGroupDetail extends Component {
     );
   }
 
-  render() {
-    const { DisplayOrder } = this.pickGroup;
-    const { done } = this.props;
+  checkComplete({ CurrentStatus, PickDeliveryType }) {
+    if (PickDeliveryType === 1) {
+      return Utils.checkPickComplete(CurrentStatus);
+    } else {
+      return Utils.checkReturnComplete(CurrentStatus);
+    }
+  }
+  checkKeywork({ OrderCode }) {
+    return this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+  }
 
-    this.pickGroup = this.props.pds.PickReturnItems.find(pg => pg.ClientHubID === this.ClientHubID 
-      && pg.PickDeliveryType === this.PickDeliveryType && pg.DisplayOrder === DisplayOrder);
-      
-    const { pickGroup } = this;
+  render() {
     
+    const { done, pds } = this.props;
+    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
 
     console.log('====================================');
     console.log('PickGroupDetail render!');
@@ -249,8 +257,7 @@ class PickGroupDetail extends Component {
       
       <Content style={{ backgroundColor: Colors.background }}>
         <List
-          dataArray={pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus) === done 
-            && (this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())))}
+          dataArray={orders}
           renderRow={this.renderOrder.bind(this)}
         />
         <Modal

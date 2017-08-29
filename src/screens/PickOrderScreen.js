@@ -13,10 +13,14 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, OrderStyles, Colors } from '../Styles';
 
 let ClientID = null;
+let ClientHubID = null;
+let OrderID = null;
 class PickOrderScreen extends Component {
   
   componentWillMount() {
-    const OrderID = this.props.navigation.state.params.OrderID;
+    ClientID = this.props.navigation.state.params.ClientID;
+    ClientHubID = this.props.navigation.state.params.ClientHubID;
+    OrderID = this.props.navigation.state.params.OrderID;
     console.log('====================================');
     console.log(`PickOrderScreen: cwm called with
     OrderID = ${OrderID}`);
@@ -24,8 +28,7 @@ class PickOrderScreen extends Component {
   }
 
   componentDidUpdate() {
-    const OrderID = this.props.navigation.state.params.OrderID;
-    const order = Utils.getOrder(this.props.pds, OrderID);
+    const order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
     console.log('====================================');
     console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
     console.log(order);
@@ -34,7 +37,7 @@ class PickOrderScreen extends Component {
 
   updateOrderToDone(order) {
     const { sessionToken, pdsId } = this.props;
-    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
+    const { PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Delivered';
     this.props.updateOrderStatus({ 
       sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status 
@@ -44,7 +47,7 @@ class PickOrderScreen extends Component {
   updateOrderToFail(order) {
     console.log('giao loi pressed');
     const { sessionToken, pdsId } = this.props;
-    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
+    const { PickDeliveryType, PickDeliverySessionDetailID } = order;
     const status = 'Storing';
     const StoringCode = 'GHN-SC9649';
     const NewDate = 0;
@@ -63,11 +66,7 @@ class PickOrderScreen extends Component {
   }
   
   render() {
-    const OrderID = this.props.navigation.state.params.OrderID;
-    const order = Utils.getOrder(this.props.pds, OrderID);
-    ClientID = this.props.navigation.state.params.ClientID;
-    //const order = this.props.navigation.state.params.order;
-
+    const order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
     const { navigate, goBack } = this.props.navigation;
     const { 
       RecipientName, RecipientPhone, Address, ExternalCode,

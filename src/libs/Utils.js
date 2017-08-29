@@ -4,6 +4,8 @@ class Utils {
       switch (status) {
         case 'Storing':
           return 'Đã lấy';
+        case 'ReadyToPick':
+          return 'Lấy lỗi';
         case 'Picking':
           if (nextStatus === null) return 'Lấy lỗi';
           return 'Đang lấy';
@@ -16,6 +18,8 @@ class Utils {
           return 'Đã trả';
         case 'WaitingToFinish':
           return 'Đã trả';
+        case 'Return':
+          return 'Trả lỗi';
         case 'Storing':
           return 'Trả lỗi';
         default:
@@ -82,7 +86,7 @@ class Utils {
   }
 
   static checkReturnComplete(status) {
-    const completeList = ['WaitingToFinish', 'Returned'];
+    const completeList = ['WaitingToFinish', 'Returned', 'Return'];
     if (completeList.includes(status)) {
       return true;
     }
@@ -103,7 +107,7 @@ class Utils {
 
   static getOrder(pds, OrderID, ClientHubID = null, PickDeliveryType = null) {
     let order = null;
-    let pickGroups = null;
+    let pickGroup = null;
 
     if (PickDeliveryType === 2) {
       order = pds.DeliveryItems.find(o => o.OrderID === OrderID);
@@ -111,36 +115,23 @@ class Utils {
     }
     // PickDeliveryType : 1 || 3 || null
 
+    const Items = PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
     if (ClientHubID !== null) {
-      pickGroups = pds.PickReturnItems.filter(pg => pg.ClientHubID === ClientHubID 
-          && pg.PickDeliveryType === PickDeliveryType);
-    } else {
-      pickGroups = pds.PickReturnItems;
+      pickGroup = Items.find(g => g.ClientHubID === ClientHubID);
+      order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
     }
     
-    console.log(pickGroups);
-    pickGroups.every(pickGroup => {
-      const ord = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
-      if (ord !== undefined) {
-        order = ord;
-        return false;
-      }
-      return true; 
-    });
     return order;
   }
 
   static getReturnGroupFromPG(pds, pickGroup) {
     const { ClientHubID } = pickGroup;
-    const returnGroup = pds.PickReturnItems.find(rg => rg.ClientHubID === ClientHubID
-      && rg.PickDeliveryType === 3);
+    const returnGroup = pds.ReturnItems.find(rg => rg.ClientHubID === ClientHubID);
     return returnGroup;
   }
   static checkPickGroupHasRP(pds, pickGroup) {
-  
     const { ClientHubID } = pickGroup;
-    const returnGroup = pds.PickReturnItems.find(rg => rg.ClientHubID === ClientHubID
-      && rg.PickDeliveryType === 3);
+    const returnGroup = pds.ReturnItems.find(rg => rg.ClientHubID === ClientHubID);
     if (returnGroup) return true;
     return false;
   }

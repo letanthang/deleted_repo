@@ -147,7 +147,10 @@ class PickGroupList extends Component {
         const completedNum = pg.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
         return done === (ordersNum === completedNum);
       }
+      return true;
     });
+    console.log(Items);
+    console.log(pickList);
     return (
       <Content style={{ backgroundColor: Colors.background }}>
       <List

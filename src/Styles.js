@@ -28,7 +28,7 @@ const Colors1 = {
   rowHeader: '#eee'
 };
 
-export const Colors = Colors0;
+export const Colors = Colors1;
 
 export const Styles = StyleSheet.create({
   bigTextStyle: {

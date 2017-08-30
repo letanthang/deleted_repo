@@ -25,16 +25,20 @@ export const pdListFetch = () => {
           console.log('khong co chuyen di, json response=');
           console.log(json);
           dispatch({ type: PDLIST_NO_TRIP });
+        } else if (json.status === 'ERROR') {
+          console.log('pdListFetch failed with response json = ');
+          console.log(json);
+          pdListFetchFail(dispatch, json.message);
         } else {
           console.log('pdListFetch failed with response json = ');
           console.log(json);
-          pdListFetchFail(dispatch);
+          pdListFetchFail(dispatch, 'Something went wrong!');
         }
       })
       .catch(error => {
         console.log('pdListFetch failed with error = ');
         console.log(error);
-        pdListFetchFail(dispatch);
+        pdListFetchFail(dispatch, 'Something went wrong!');
       });
   };
 };
@@ -50,8 +54,8 @@ export const pdListFetchSuccess = (dispatch, data) => {
     // .then(() => console.log('pdlist fetch success done!'));
 };
 
-export const pdListFetchFail = (dispatch) => {
-  dispatch({ type: PDLIST_FETCH_FAIL });
+export const pdListFetchFail = (dispatch, error) => {
+  dispatch({ type: PDLIST_FETCH_FAIL, payload: error });
 };
 
 export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status, ClientHubID, StoringCode = '', NewDate = null, Log = '' }) => {

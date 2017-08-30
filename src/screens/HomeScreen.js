@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, DatePickerIOS } from 'react-native';
+import { View, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
@@ -36,6 +36,11 @@ class HomeScreen extends Component {
     this.state = { date: new Date() };
     console.log(this.state.date);
     console.log('===================================='); 
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.error !== nextProps.error && nextProps.error !== '') {
+      ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
+    }
   }
   
   shouldComponentUpdate({ user }) {
@@ -109,16 +114,9 @@ class HomeScreen extends Component {
             <Body>
               <Title>MPDS</Title>
             </Body>
-            <Right>
-              <Button
-                transparent
-              >
-                <Icon name="notifications" />
-              </Button>
-            </Right>
+            <Right />
           </Header>
           <Content style={{ padding: 10 }}>
-
             <PDCard
               type='pick'
               onPress={this.onPickPress.bind(this)}
@@ -127,7 +125,6 @@ class HomeScreen extends Component {
               color='#12cd72'
               delay={false}
             />
-
             <PDCard
               type='delivery'
               onPress={this.onDeliveryPress.bind(this)}
@@ -136,7 +133,6 @@ class HomeScreen extends Component {
               color='#ff6e40'
               delay={false}
             />
-
             <PDCard
               type='return'
               onPress={this.onReturnPress.bind(this)}

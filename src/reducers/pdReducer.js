@@ -25,7 +25,7 @@ export default (state = nameInitialState, action) => {
   switch (action.type) {
     case PDLIST_FETCH:
       console.log('turn on spinner');
-      return { ...state, loading: true };
+      return { ...state, loading: true, error: '' };
     case PDLIST_FETCH_SUCCESS: {
       console.log('update home screen with numbers');
       const pds = action.payload.pds;
@@ -44,6 +44,7 @@ export default (state = nameInitialState, action) => {
       
       
       return { ...state, 
+        error: '',
         pds,
         pdsId: pds.PickDeliverySessionID, 
         loading: false,
@@ -56,7 +57,7 @@ export default (state = nameInitialState, action) => {
       };
     }
     case PDLIST_FETCH_FAIL:
-      return { ...state, loading: false };
+      return { ...state, loading: false, error: action.payload };
     case PDLIST_NO_TRIP:
       return nameInitialState;
     

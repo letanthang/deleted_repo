@@ -2,7 +2,7 @@ import color from "color";
 
 import { Platform, Dimensions, PixelRatio } from "react-native";
 //Thang add
-import { Colors } from '../../src/Styles';
+import { Colors, Theme } from '../../src/Styles';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -155,8 +155,9 @@ export default {
   /* Mod by Thang */
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
 
-  // toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : "white",
-  toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : Colors.background,
+  // toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
+  toolbarDefaultBg: Theme === 'dark' ? Colors.background : (platform === "ios" ? "#F8F8F8" : "#3F51B5"),
+
   toolbarHeight: platform === "ios" ? 64 : 56,
   toolbarIconSize: platform === "ios" ? 20 : 22,
   toolbarSearchIconSize: platform === "ios" ? 20 : 23,
@@ -168,8 +169,8 @@ export default {
   toolbarDefaultBorder: platform === "ios" ? "#a7a6ab" : "#3F51B5",
   iosStatusbar: platform === "ios" ? "dark-content" : "light-content",
   get statusBarColor() {
-    //return color(this.toolbarDefaultBg).darken(0.2).hex();
-    return this.toolbarDefaultBg;
+    if (Theme === 'dark') return this.toolbarDefaultBg;
+    return color(this.toolbarDefaultBg).darken(0.2).hex();
   },
 
   // Icon

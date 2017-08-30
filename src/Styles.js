@@ -1,8 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const Theme = 'dark';
-
-export const darkTheme = {
+const darkTheme = {
   background: '#272727',
   purple: '#9677ff',
   veryLight: '#f0f0f0',
@@ -12,7 +10,7 @@ export const darkTheme = {
   strongPurple: '#6039e3'
 };
 
-const Colors0 = {
+const ColorsDefault = {
   normal: '#455265',
   weak: '#4552658f',
   background: '#eee',
@@ -21,7 +19,8 @@ const Colors0 = {
   rowHeader: '#eee'
 };
 
-const Colors1 = {
+
+const ColorsDark = {
   normal: darkTheme.light,
   weak: darkTheme.dark,
   background: darkTheme.background,
@@ -30,7 +29,8 @@ const Colors1 = {
   rowHeader: '#eee'
 };
 
-export const Colors = Colors1;
+export const Theme = 'dark';
+export const Colors = ColorsDark;
 
 export const Styles = StyleSheet.create({
   bigTextStyle: {

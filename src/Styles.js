@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+export const Theme = 'dark';
+
 export const darkTheme = {
   background: '#272727',
   purple: '#9677ff',

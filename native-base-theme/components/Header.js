@@ -1,6 +1,7 @@
+/** Mod by Thang */
 import { PixelRatio } from "react-native";
-
 import variable from "./../variables/platform";
+import { Theme } from '../../src/Styles';
 
 export default (variables = variable) => {
   const platformStyle = variables.platformStyle;
@@ -308,7 +309,8 @@ export default (variables = variable) => {
       : 0,
     borderBottomColor: variables.toolbarDefaultBorder,
     height: variables.toolbarHeight,
-    elevation: 3,
+    // elevation: 3,
+    elevation: Theme === 'dark' ? 0 : 3,
     shadowColor: platformStyle === "material" ? "#000" : undefined,
     shadowOffset: platformStyle === "material"
       ? { width: 0, height: 2 }

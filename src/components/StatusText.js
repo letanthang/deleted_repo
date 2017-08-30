@@ -23,7 +23,7 @@ class StatusText extends Component {
         break;
       case 'yellow':
         color = '#F3BD71';
-        backgroundColor = 'white';
+        backgroundColor = '#ffffff99';
         break;
       default:
         color = 'black';

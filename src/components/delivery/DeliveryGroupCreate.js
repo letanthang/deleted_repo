@@ -13,6 +13,7 @@ import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 import LocalGroup from '../../libs/LocalGroup';
 import Utils from '../../libs/Utils';
 import { updateOrderGroup, pdListFetch } from '../../actions';
+import DataEmptyCheck from '../DataEmptyCheck';
 
 let checkList = {};
 class DeliveryGroupCreate extends Component {
@@ -170,10 +171,16 @@ class DeliveryGroupCreate extends Component {
             <Text>Reset</Text>
           </Button>
         </View> 
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={order => this.renderOrder(order)}
-        />
+        <DataEmptyCheck
+          data={this.state.dataSource.getRowCount()}
+          message='Không có dữ liệu'
+        >
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={order => this.renderOrder(order)}
+          />
+        </DataEmptyCheck>
+        
       </Content>
     );
   }

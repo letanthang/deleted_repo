@@ -11,6 +11,7 @@ import Utils from '../../libs/Utils';
 import LocalGroup from '../../libs/LocalGroup';
 import { Styles, Colors } from '../../Styles';
 import StatusText from '../StatusText';
+import DataEmptyCheck from '../DataEmptyCheck';
 
 class DeliveryByGroup extends Component {
   componentWillMount() {
@@ -106,11 +107,16 @@ class DeliveryByGroup extends Component {
     //console.log(`renderGroup ${Group}`);
     //console.log(deliveryList);
     return (
+      <DataEmptyCheck
+        data={deliveryList}
+        message='Không có dữ liệu'
+      >
+        <List 
+          dataArray={deliveryList}
+          renderRow={this.renderOrder.bind(this)}
+        />
+      </DataEmptyCheck>
       
-      <List 
-        dataArray={deliveryList}
-        renderRow={this.renderOrder.bind(this)}
-      />
       
     );
   }

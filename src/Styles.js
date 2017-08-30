@@ -29,8 +29,8 @@ const ColorsDark = {
   rowHeader: '#eee'
 };
 
-export const Theme = 'dark';
-export const Colors = ColorsDark;
+export const Theme = 'default';
+export const Colors = ColorsDefault;
 
 export const Styles = StyleSheet.create({
   bigTextStyle: {

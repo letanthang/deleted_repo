@@ -15,6 +15,7 @@ import * as Communications from 'react-native-communications';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
+import DataEmptyCheck from '../DataEmptyCheck';
 
 class PickGroupList extends Component {
   componentWillMount() {
@@ -153,10 +154,16 @@ class PickGroupList extends Component {
     console.log(pickList);
     return (
       <Content style={{ backgroundColor: Colors.background }}>
-      <List
-        dataArray={pickList}
-        renderRow={this.renderPickGroup.bind(this)}
-      />
+      <DataEmptyCheck
+        data={pickList}
+        message='Không có dữ liệu'
+      >
+        <List
+          dataArray={pickList}
+          renderRow={this.renderPickGroup.bind(this)}
+        />
+      </DataEmptyCheck>
+      
       </Content>
     );
   }

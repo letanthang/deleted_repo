@@ -11,6 +11,7 @@ import { Styles, Colors } from '../../Styles';
 import FormButton from '../FormButton';
 import StatusText from '../StatusText';
 import DatePicker from '../DatePicker';
+import DataEmptyCheck from '../DataEmptyCheck';
 
 const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
 const CODES = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
@@ -256,10 +257,16 @@ class PickGroupDetail extends Component {
     return (
       
       <Content style={{ backgroundColor: Colors.background }}>
-        <List
-          dataArray={orders}
-          renderRow={this.renderOrder.bind(this)}
-        />
+        <DataEmptyCheck
+          data={orders}
+          message='Không có dữ liệu'
+        >
+          <List
+            dataArray={orders}
+            renderRow={this.renderOrder.bind(this)}
+          />
+        </DataEmptyCheck>
+       
         <Modal
             animationType={"fade"}
             transparent={true}

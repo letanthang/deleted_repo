@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { 
-  Content, Card, CardItem, Text,
+  Content, Card, CardItem, Text, Body,
   List, ListItem, Item, Right, Badge 
 } from 'native-base';
 import { connect } from 'react-redux';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import StatusText from '../StatusText';
+import DataEmptyCheck from '../DataEmptyCheck';
+
 
 class DeliveryGroupList extends Component {
   componentWillMount() {
@@ -75,14 +77,20 @@ class DeliveryGroupList extends Component {
     const deliveryList = this.props.deliveryList.filter(order => this.state.keyword === '' 
       || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase()));
     console.log(deliveryList);
+
     return (
       <Content style={{ backgroundColor: Colors.background }}>
-      <List
-        dataArray={deliveryList}
-        renderRow={this.renderOrder.bind(this)}
-      />
+        <DataEmptyCheck 
+          data={deliveryList}
+          message='Không có dữ liệu'
+        >
+          <List
+            dataArray={deliveryList}
+            renderRow={this.renderOrder.bind(this)}
+          />
+        </DataEmptyCheck>
       </Content>
-    );
+    ); 
   }
 }
 

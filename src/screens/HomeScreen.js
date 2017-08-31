@@ -3,7 +3,7 @@ import { View, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
-  Card, CardItem, StyleProvider
+  Card, CardItem, Toast
 } from 'native-base';
 import { connect } from 'react-redux';
 import { pdListFetch } from '../actions';
@@ -39,7 +39,13 @@ class HomeScreen extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.error !== nextProps.error && nextProps.error !== '') {
-      ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
+      //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
+      Toast.show({
+        text: nextProps.error,
+        position: 'bottom',
+        type: 'warning',
+        duration: 1100
+      });
     }
   }
   

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import ShareVariables from '../libs/ShareVariables';
 
-//const DOMAIN = 'http://dev.inhub.vn:4108/pdaone';
-const DOMAIN = 'http://10.10.0.16:4108/pdaone';
+const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+const BASE_URL = `http://${DOMAIN}/pdaone`;
 
 const Share = new ShareVariables();
 export const GetUserActivePds = (UserID) => {
   const UserID1 = 1017;
-  const URL = `${DOMAIN}/${UserID1}`;
+  const URL = `${BASE_URL}/${UserID1}`;
   const LoginInfo = Share.getLoginInfo();
   console.log(`GetUserActivePds: ${URL}`);
   return axios.get(URL, {
@@ -16,7 +16,7 @@ export const GetUserActivePds = (UserID) => {
 };
 
 export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
-  const URL = `${DOMAIN}/${PDSID}`;
+  const URL = `${BASE_URL}/${PDSID}`;
   const LoginInfo = Share.getLoginInfo();
   const params = {
     ...LoginInfo,
@@ -36,7 +36,7 @@ export const UpdateOrderWeightRDC = ({
   ClientID,
   OrderID,
   PDSID }) => {  
-  const URL = `${DOMAIN}/mpds/UpdateOrderWeightRDC`;
+  const URL = `${BASE_URL}/mpds/UpdateOrderWeightRDC`;
   const LoginInfo = Share.getLoginInfo();
   return axios.post(URL, {
       ...LoginInfo,
@@ -51,8 +51,8 @@ export const UpdateOrderWeightRDC = ({
 };
 
 export const Authenticate = ({ UserID, Password }) => {
-  const DOMAIN1 = 'https://test.ghn.vn/api';
-  const URL = `${DOMAIN1}/mpds/Authenticate`;
+  const BASE_URL1 = 'https://test.ghn.vn/api';
+  const URL = `${BASE_URL1}/mpds/Authenticate`;
   const BaseInfo = Share.BaseInfo;
   return axios.post(URL, {
       ...BaseInfo,
@@ -62,7 +62,7 @@ export const Authenticate = ({ UserID, Password }) => {
 };
 
 export const GetUserPerformance = (UserID) => {
-  const URL = `${DOMAIN}/mpds/GetUserPerformance`;
+  const URL = `${BASE_URL}/mpds/GetUserPerformance`;
   const LoginInfo = Share.getLoginInfo();
   return axios.post(URL, {
       ...LoginInfo,

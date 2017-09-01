@@ -2,6 +2,7 @@ import axios from 'axios';
 import ShareVariables from '../libs/ShareVariables';
 
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+// const DOMAIN = '10.10.0.16:4108';
 const BASE_URL = `http://${DOMAIN}/pdaone`;
 
 const Share = new ShareVariables();

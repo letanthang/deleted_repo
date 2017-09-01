@@ -15,12 +15,14 @@ import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
 import DatePicker from '../components/DatePicker';
 import OrderStatusText from '../components/OrderStatusText';
+import { DeliveryErrors } from '../components/Constant';
 
-const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
-const CODES = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
+const BUTTONS = Object.values(DeliveryErrors);
+BUTTONS.push('Cancel');
+const CODES = Object.keys(DeliveryErrors);
 const DESTRUCTIVE_INDEX = -1;
-const CHANGE_DATE_INDEX = 3;
-const CANCEL_INDEX = 4;
+const CHANGE_DATE_INDEX = BUTTONS.length - 3;
+const CANCEL_INDEX = BUTTONS.length - 1;
 
 let order = {};
 class DeliveryOrderScreen extends Component {

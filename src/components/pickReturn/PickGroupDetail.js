@@ -12,19 +12,15 @@ import FormButton from '../FormButton';
 import StatusText from '../StatusText';
 import DatePicker from '../DatePicker';
 import DataEmptyCheck from '../DataEmptyCheck';
-
-const BUTTONS = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
-const CODES = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
-const BUTTON3S = ['KHÁCH ĐỔI ĐỊA CHỈ GIAO HÀNG', 'KHÁCH ĐỔI Khong nghe may', 'Khach huy don giao', 'Khach chon ngay giao khac', 'Cancel'];
-const CODE3S = ['GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649', 'GHN-SC9649'];
-const DESTRUCTIVE_INDEX = -1;
-const CHANGE_DATE_INDEX = 3;
-const CANCEL_INDEX = 4;
+import { PickErrors, ReturnErrors } from '../Constant';
 
 class PickGroupDetail extends Component {
   state = { keyword: '', modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
   buttons = null;
   codes = null;
+  cancelIndex = null;
+  destructiveIndex = -1;
+  changeDateIndex = null;
   pickGroup = null;
   ClientHubID = null;
   PickDeliveryType = null;
@@ -40,11 +36,16 @@ class PickGroupDetail extends Component {
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
     if (this.PickDeliveryType === 1) {
-      this.buttons = BUTTONS;
-      this.codes = CODES;
+      this.buttons = Object.values(PickErrors);
+      this.buttons.push('Cancel');
+      this.codes = Object.keys(PickErrors);
+      this.cancelIndex = this.buttons.length - 1;
+      this.changeDateIndex = 0;
     } else {
-      this.buttons = BUTTON3S;
-      this.codes = CODE3S;
+      this.buttons = Object.values(ReturnErrors);
+      this.buttons.push('Cancel');
+      this.codes = Object.keys(ReturnErrors);
+      this.cancelIndex = this.buttons.length - 1;
     }
   }
 
@@ -68,18 +69,18 @@ class PickGroupDetail extends Component {
     ActionSheet.show(
       {
         options: this.buttons,
-        cancelButtonIndex: CANCEL_INDEX,
-        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        cancelButtonIndex: this.cancelIndex,
+        destructiveButtonIndex: this.destructiveIndex,
         title: 'Chọn lý do giao lỗi'
       },
       buttonIndex => {
-        console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof CHANGE_DATE_INDEX}`);
+        console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof this.changeDateIndex}`);
 
-        if (buttonIndex != CANCEL_INDEX 
-          && buttonIndex != CHANGE_DATE_INDEX 
-          && buttonIndex != DESTRUCTIVE_INDEX) {
+        if (buttonIndex != this.cancelIndex 
+          && buttonIndex != this.changeDateIndex 
+          && buttonIndex != this.destructiveIndex) {
           this.updateOrderToFail(order, buttonIndex);
-        } else if (buttonIndex == CHANGE_DATE_INDEX) {
+        } else if (buttonIndex == this.changeDateIndex) {
           console.log('Hien modal popup');
           this.setState({ modalShow: true, buttonIndex });
         }

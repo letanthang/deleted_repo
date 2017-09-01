@@ -3,19 +3,16 @@ import { View, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
-  Card, CardItem, Toast
+  Card, CardItem, Toast, Footer, FooterTab
 } from 'native-base';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { pdListFetch } from '../actions';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Styles, Colors } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
-import DatePicker from '../components/DatePicker';
-import OrderStatusText from '../components/OrderStatusText';
-import getTheme from '../../native-base-theme/components';
-import material from '../../native-base-theme/variables/material';
-import platform from '../../native-base-theme/variables/platform';
+import FooterButton from '../components/FooterButton';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
 
@@ -166,6 +163,42 @@ class HomeScreen extends Component {
               </Card>
             </TouchableOpacity>
           </Content>
+          <Footer>
+            <FooterTab>
+              <FooterButton
+                text='Nhà'
+                normalIcon='home'
+                activeIcon='home'
+                active={false}
+              />
+              <FooterButton
+                text='Lấy'
+                normalIcon='package-variant'
+                activeIcon='package-variant'
+                active={false}
+              />
+              <FooterButton
+                text='Giao'
+                normalIcon='truck-delivery'
+                activeIcon='truck-delivery'
+                active={true}
+              />
+              
+              <FooterButton
+                text='Trả'
+                normalIcon='truck-delivery'
+                activeIcon='truck-delivery'
+                flip
+                active={false}
+              />
+              <FooterButton
+                text='Tôi'
+                normalIcon='account-outline'
+                activeIcon='account'
+                active={true}
+              />
+            </FooterTab>
+          </Footer>
           <LoadingSpinner loading={this.props.loading} />
         </Container>
       
@@ -173,8 +206,6 @@ class HomeScreen extends Component {
     );
   }
 }
-
-
 
 const mapStateToProps = ({ auth, pd }) => {
   const { 

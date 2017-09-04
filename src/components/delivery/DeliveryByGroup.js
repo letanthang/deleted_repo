@@ -6,10 +6,11 @@ import {
   Content, Card, CardItem, Text,
   List, ListItem, Item, Right, Badge 
 } from 'native-base';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import Utils from '../../libs/Utils';
 import LocalGroup from '../../libs/LocalGroup';
-import { Styles, Colors } from '../../Styles';
+import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 import StatusText from '../StatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
 
@@ -45,13 +46,15 @@ class DeliveryByGroup extends Component {
     );
   }
 
-  renderOrder(order) {
+  renderOrder(order, sectionID, rowID) {
     const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder } = order;
+    const wrapperStyle = rowID == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
+    
     return (
       <TouchableOpacity
         onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
       >
-        <View style={Styles.orderWrapperStyle}>
+        <View style={wrapperStyle}>
           <View style={Styles.item2Style}>
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
               [{DisplayOrder}] {OrderCode}
@@ -77,6 +80,7 @@ class DeliveryByGroup extends Component {
   _renderHeader(Group) {
     return (
       <View style={styles.header}>
+        <IC name="plus-box-outline" size={20} color='#808080' />
         <Text style={styles.headerText}>{ Group || 'Mặc định'}</Text>
       </View>
     );
@@ -161,16 +165,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   header: {
-    backgroundColor: '#F5FCFF',
+    backgroundColor: Colors.background,
     padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#CFCFD1',
+    flexDirection: 'row'
   },
   headerText: {
-    textAlign: 'center',
     fontSize: 16,
     fontWeight: '500',
+    marginLeft: 8,
+    color: '#808080'
   },
   content: {
-    padding: 5,
+    paddingBottom: 5,
     // backgroundColor: '#fff',
   },
   active: {

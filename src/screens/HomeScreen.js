@@ -12,7 +12,7 @@ import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
-import FooterButton from '../components/FooterButton';
+import AppFooter from '../components/AppFooter';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
 
@@ -167,42 +167,7 @@ class HomeScreen extends Component {
               </Card>
             </TouchableOpacity>
           </Content>
-          <Footer>
-            <FooterTab>
-              <FooterButton
-                text='Nhà'
-                normalIcon='home'
-                activeIcon='home'
-                active={false}
-              />
-              <FooterButton
-                text='Lấy'
-                normalIcon='package-variant'
-                activeIcon='package-variant'
-                active={false}
-              />
-              <FooterButton
-                text='Giao'
-                normalIcon='truck-delivery'
-                activeIcon='truck-delivery'
-                active={true}
-              />
-              
-              <FooterButton
-                text='Trả'
-                normalIcon='truck-delivery'
-                activeIcon='truck-delivery'
-                flip
-                active={false}
-              />
-              <FooterButton
-                text='Tôi'
-                normalIcon='account-outline'
-                activeIcon='account'
-                active={true}
-              />
-            </FooterTab>
-          </Footer>
+          <AppFooter />
           <LoadingSpinner loading={this.props.loading} />
         </Container>
       

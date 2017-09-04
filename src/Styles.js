@@ -33,10 +33,10 @@ const ColorsDark = {
   headerActive: darkTheme.purple
 };
 
-export const Theme = 'dark';
-export const Colors = ColorsDark;
+export const Theme = 'default';
+export const Colors = ColorsDefault;
 
-export const Styles = StyleSheet.create({
+export const Styles = {
   bigTextStyle: {
     fontSize: 17,
     fontWeight: '600'
@@ -138,7 +138,7 @@ export const Styles = StyleSheet.create({
     backgroundColor: Colors.row,
     borderRadius: 2
   }
-});
+};
 
 export const HomeStyles = {
   cardItemLeft: {
@@ -163,6 +163,17 @@ export const OrderStyles = {
 };
 
 export const DeliverGroupStyles = {
+  orderWrapperStyle: {
+    ...Styles.orderWrapperStyle,
+    marginLeft: 0,
+    marginRight: 0
+  },
+  orderWrapperFirstStyle: {
+    ...Styles.orderWrapperStyle,
+    marginTop: 0,
+    marginLeft: 0,
+    marginRight: 0
+  },
   col1Style: {
     flex: 1,
     alignSelf: 'center'

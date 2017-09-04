@@ -5,10 +5,12 @@ import {
   Header, Tab, Tabs, Input, Item 
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import DeliveryGroupList from '../components/delivery/DeliveryGroupList';
 import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import DeliveryGroupCreate from '../components/delivery/DeliveryGroupCreate';
+import AppFooter from '../components/AppFooter';
 import Utils from '../libs/Utils';
 import { Colors } from '../Styles';
 
@@ -68,7 +70,7 @@ class DeliveryListScreen extends Component {
     } 
 
     return (
-      <Header hasTabs>
+      <Header>
         <Left>
           <Button
             transparent
@@ -87,6 +89,12 @@ class DeliveryListScreen extends Component {
           >
             <Icon name="search" />
           </Button>
+          <Button
+            transparent
+            onPress={() => navigate('DeliveryGroupCreate')}
+          >
+            <IC name="group" size={22} color={Colors.headerActive} />
+          </Button>
         </Right>
       </Header>
     );
@@ -100,18 +108,8 @@ class DeliveryListScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
-        <Tabs initialPage={0}>
-          <Tab heading="Nhóm">
-            <DeliveryByGroup deliveryList={deliveryListRun} navigation={this.props.navigation} keyword={this.state.keyword} />
-          </Tab>
-          <Tab heading="Tạo Nhóm">
-            <DeliveryGroupCreate deliveryList={deliveryList} />
-          </Tab>
-          <Tab heading="Đã giao">
-            <DeliveryGroupList deliveryList={deliveryListDone} navigation={this.props.navigation} keyword={this.state.keyword} />
-          </Tab>
-        </Tabs>
-        
+        <DeliveryByGroup deliveryList={deliveryListRun} navigation={this.props.navigation} keyword={this.state.keyword} />
+        <AppFooter />
       </Container>
     );
   }

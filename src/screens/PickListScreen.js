@@ -6,6 +6,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import PickGroupList from '../components/pickReturn/PickGroupList';
+import AppFooter from '../components/AppFooter';
 import { Styles, Colors } from '../Styles';
 
 class PickListScreen extends Component {
@@ -44,6 +45,7 @@ class PickListScreen extends Component {
             <PickGroupList {...this.props} done />
           </Tab>
         </Tabs>
+        <AppFooter />
       </Container>
     );
   }

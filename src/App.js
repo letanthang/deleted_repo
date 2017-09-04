@@ -15,6 +15,7 @@ import PickOrderScreen from './screens/PickOrderScreen';
 import POUpdateWeightSizeScreen from './screens/POUpdateWeightSizeScreen';
 import ReturnOrderScreen from './screens/ReturnOrderScreen';
 import DeliveryOrderScreen from './screens/DeliveryOrderScreen';
+import DeliveryGroupCreateScreen from './screens/DeliveryGroupCreateScreen';
 
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
@@ -59,6 +60,7 @@ class App extends Component {
       {
         Login: { screen: LoginScreen },
         Drawer: { screen: Drawer },
+        DeliveryGroupCreate: { screen: DeliveryGroupCreateScreen },
         PickList: { screen: PickListScreen },
         PickGroupDetail: { screen: PickGroupDetailScreen },
         PickOrder: { screen: PickOrderScreen },

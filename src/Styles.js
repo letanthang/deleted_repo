@@ -16,7 +16,9 @@ const ColorsDefault = {
   background: '#eee',
   row: 'white',
   rowDivider: '#4552658f',
-  rowHeader: '#eee'
+  rowHeader: '#eee',
+  headerNormal: '#1C1C1C',
+  headerActive: '#4EA1FD'
 };
 
 
@@ -26,11 +28,13 @@ const ColorsDark = {
   background: darkTheme.background,
   row: darkTheme.darkest,
   rowDivider: darkTheme.veryLight,
-  rowHeader: '#eee'
+  rowHeader: '#eee',
+  headerNormal: darkTheme.veryLight,
+  headerActive: darkTheme.purple
 };
 
-export const Theme = 'default';
-export const Colors = ColorsDefault;
+export const Theme = 'dark';
+export const Colors = ColorsDark;
 
 export const Styles = StyleSheet.create({
   bigTextStyle: {

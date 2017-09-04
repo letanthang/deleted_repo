@@ -133,7 +133,7 @@ export default {
 
   // Footer
   footerHeight: 55,
-  footerDefaultBg: platform === "ios" ? "#F8F8F8" : "#4179F7",
+  footerDefaultBg: Theme == 'dark' ? Colors.background : (platform === "ios" ? "#F8F8F8" : "#4179F7"),
 
   // FooterTab
   tabBarTextColor: platform === "ios" ? "#6b6b6b" : "#b3c7f9",
@@ -263,7 +263,7 @@ export default {
   subtitleColor: platform === "ios" ? "#8e8e93" : "#FFF",
 
   // New Variable
-  titleFontColor: platform === "ios" ? Colors.normal : "#FFF",
+  titleFontColor: Theme === 'dark' ? Colors.headerNormal : (platform === "ios" ? Colors.headerNormal : "#FFF"),
 
   // Other
   borderRadiusBase: platform === "ios" ? 5 : 2,

@@ -1,4 +1,5 @@
 import variable from "./../variables/platform";
+import { Theme } from '../../src/Styles';
 
 export default (variables = variable) => {
   const platformStyle = variables.platformStyle;
@@ -82,9 +83,11 @@ export default (variables = variable) => {
     backgroundColor: variables.footerDefaultBg,
     flexDirection: "row",
     justifyContent: "center",
-    borderTopWidth: platform === "ios" && platformStyle !== "material"
+
+    borderTopWidth: Theme === 'dark' ? 0 : (platform === "ios" && platformStyle !== "material"
       ? variables.borderWidth
-      : undefined,
+      : undefined),
+
     borderColor: platform === "ios" && platformStyle !== "material"
       ? "#cbcbcb"
       : undefined,

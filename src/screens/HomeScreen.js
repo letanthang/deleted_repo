@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { pdListFetch } from '../actions';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HomeStyles, Styles, Colors } from '../Styles';
+import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 import FooterButton from '../components/FooterButton';
 
@@ -102,10 +102,14 @@ class HomeScreen extends Component {
   }
   render() {
     const { navigate } = this.props.navigation;
+    const iosBarStyle = Theme === 'dark' ? 'light-content' : 'default';
+
     return (
       
         <Container style={{ backgroundColor: Colors.background }}>
-          <Header>
+          <Header
+            iosBarStyle={iosBarStyle}
+          >
             <Left>
               <Button
                 transparent

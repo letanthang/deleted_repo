@@ -14,8 +14,10 @@ import PickGroupDetailScreen from './screens/PickGroupDetailScreen';
 import PickOrderScreen from './screens/PickOrderScreen';
 import POUpdateWeightSizeScreen from './screens/POUpdateWeightSizeScreen';
 import ReturnOrderScreen from './screens/ReturnOrderScreen';
+import DeliveryListScreen from './screens/DeliveryListScreen';
 import DeliveryOrderScreen from './screens/DeliveryOrderScreen';
 import DeliveryGroupCreateScreen from './screens/DeliveryGroupCreateScreen';
+import ReturnListScreen from './screens/ReturnListScreen';
 
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
@@ -60,13 +62,15 @@ class App extends Component {
       {
         Login: { screen: LoginScreen },
         Drawer: { screen: Drawer },
+        DeliveryList: { screen: DeliveryListScreen },
         DeliveryGroupCreate: { screen: DeliveryGroupCreateScreen },
         PickList: { screen: PickListScreen },
         PickGroupDetail: { screen: PickGroupDetailScreen },
         PickOrder: { screen: PickOrderScreen },
         POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },
         ReturnOrder: { screen: ReturnOrderScreen },
-        DeliveryOrder: { screen: DeliveryOrderScreen },        
+        DeliveryOrder: { screen: DeliveryOrderScreen },
+        ReturnList: { screen: ReturnListScreen },        
       },
       {
         initialRouteName: 'Login',

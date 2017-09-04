@@ -21,7 +21,7 @@ export const pdListFetch = () => {
         const json = response.data;
         if (json.status === 'OK') {
           pdListFetchSuccess(dispatch, json.data[0]);
-        } else if (json.status === 4) {
+        } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
           console.log('khong co chuyen di, json response=');
           console.log(json);
           dispatch({ type: PDLIST_NO_TRIP });

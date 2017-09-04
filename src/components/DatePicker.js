@@ -9,6 +9,8 @@ maximumDate.setDate(maximumDate.getDate() + 5);
 class DatePicker extends Component {
   
   componentWillMount() {
+    console.log(`DatePicker: cwm ${Platform.OS}`);
+    console.log(Platform.OS);
     if (Platform.OS === 'android') {
       //this.showAndroidDP();
     }
@@ -47,7 +49,7 @@ class DatePicker extends Component {
     if (Platform.OS === 'ios') {
       return (
         <DatePickerIOS
-          date={this.state.date}
+          date={date}
           mode='date'
           maximumDate={maximumDate}
           minimumDate={minimumDate}

@@ -45,7 +45,7 @@ class PickListScreen extends Component {
             <PickGroupList {...this.props} done />
           </Tab>
         </Tabs>
-        <AppFooter />
+        <AppFooter navigation={this.props.navigation} />
       </Container>
     );
   }

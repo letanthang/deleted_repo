@@ -167,7 +167,7 @@ class HomeScreen extends Component {
               </Card>
             </TouchableOpacity>
           </Content>
-          <AppFooter />
+          <AppFooter navigation={this.props.navigation} />
           <LoadingSpinner loading={this.props.loading} />
         </Container>
       

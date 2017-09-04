@@ -109,7 +109,7 @@ class DeliveryListScreen extends Component {
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
         <DeliveryByGroup deliveryList={deliveryListRun} navigation={this.props.navigation} keyword={this.state.keyword} />
-        <AppFooter />
+        <AppFooter navigation={this.props.navigation} />
       </Container>
     );
   }

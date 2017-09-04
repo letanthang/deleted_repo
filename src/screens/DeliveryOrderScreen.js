@@ -22,6 +22,7 @@ BUTTONS.push('Cancel');
 const CODES = Object.keys(DeliveryErrors);
 const DESTRUCTIVE_INDEX = -1;
 const CHANGE_DATE_INDEX = BUTTONS.length - 3;
+const CUSTOMER_CHANGE_DATE_INDEX = 3;
 const CANCEL_INDEX = BUTTONS.length - 1;
 
 let order = {};
@@ -63,13 +64,13 @@ class DeliveryOrderScreen extends Component {
         title: 'Chọn lý do giao lỗi'
       },
       buttonIndex => {
-        console.log(`updateOrderToFailWithReason : ${buttonIndex}`);
-        if (buttonIndex != CANCEL_INDEX 
-          && buttonIndex != CHANGE_DATE_INDEX 
-          && buttonIndex != DESTRUCTIVE_INDEX) {
-          this.updateOrderToFail(buttonIndex);
-        } else if (buttonIndex == CHANGE_DATE_INDEX) {
+        console.log(`updateOrderToFailWithReason : ${buttonIndex} ${CANCEL_INDEX} ${CHANGE_DATE_INDEX}`);
+        if (buttonIndex == CANCEL_INDEX) {
+          return;
+        } else if (buttonIndex == CHANGE_DATE_INDEX || buttonIndex == CUSTOMER_CHANGE_DATE_INDEX) {
           this.setState({ modalShow: true, buttonIndex });
+        } else {
+          this.updateOrderToFail(buttonIndex);
         }
       }
     );

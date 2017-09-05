@@ -6,6 +6,7 @@ import {
   Title, Input, Item, Text
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { updateOrderStatus } from '../actions';
 // import Utils from './libs/Utils';
 import { Styles, Colors } from '../Styles';
@@ -13,7 +14,7 @@ import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 class PickGroupDetailScreen extends Component {
-  state = { showSearch: false, keyword: '' };
+  state = { showSearch: false, keyword: '', done: false };
 
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
@@ -57,7 +58,7 @@ class PickGroupDetailScreen extends Component {
           <Button
             transparent
             style={{ marginLeft: 8 }}
-            onPress={() => this.setState({ showSearch: !this.state.showSearch })}
+            onPress={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })}
           >
             <Text>Huỷ</Text>
           </Button>
@@ -66,7 +67,7 @@ class PickGroupDetailScreen extends Component {
     } 
 
     return (
-      <Header hasTabs>
+      <Header>
         <Left>
           <Button
             transparent
@@ -84,6 +85,12 @@ class PickGroupDetailScreen extends Component {
             onPress={() => this.setState({ showSearch: !this.state.showSearch })}
           >
             <Icon name="search" />
+          </Button>
+          <Button
+            transparent
+            onPress={() => this.setState({ done: !this.state.done, keyword: '' })}
+          >
+            <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
           </Button>
         </Right>
       </Header>
@@ -107,14 +114,7 @@ class PickGroupDetailScreen extends Component {
       
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
-        <Tabs initialPage={0}>
-          <Tab heading={pickGroup.PickDeliveryType !== 3 ? 'Đang Lấy' : 'Đang Trả'}>
-            <PickGroupDetail {...this.props} keyword={this.state.keyword} done={false} />
-          </Tab>
-          <Tab heading="Xong">
-            <PickGroupDetail {...this.props} done keyword={this.state.keyword} />
-          </Tab>
-        </Tabs>
+        <PickGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
         <LoadingSpinner loading={this.props.loading} />
       </Container>
       

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { 
-  OTHER_GET_CONFIGURATION, OTHER_CALCULATE_FEE, OTHER_CALCULATE_FEE_SUCCESS,
+  OTHER_GET_CONFIGURATION, OTHER_GET_CONFIGURATION_SUCCESS,
+  OTHER_CALCULATE_FEE, OTHER_CALCULATE_FEE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE,
   OTHER_GET_USER_PERFORMANCE_SUCCESS
 } from './types';
@@ -11,11 +12,8 @@ export const calculateServiceFee = ({
   Length, Width, Height, Weight, OrderID, ClientID, ServiceID, FromDistrictID, ToDistrictID 
 }) => {
   return async dispatch => {
-    const LoginInfo = new ShareVariables().getLoginInfo();
-    console.log('LoginInfo = ');
-    console.log(LoginInfo);
+    dispatch({ type: OTHER_CALCULATE_FEE });
     const params = {
-      ...LoginInfo,
       Length,
       Width,
       Height,
@@ -30,7 +28,7 @@ export const calculateServiceFee = ({
     console.log(params);
 
     try {
-      const response = await axios.post('https://test.ghn.vn/api/mpds/CaculateServiceFee', params);
+      const response = await API.CaculateServiceFee(params);
       console.log('Hang ve: new Fee');
       const json = response.data;
       if (json.status === 'OK') {
@@ -51,26 +49,17 @@ export const calculateServiceFee = ({
 
 export const getConfiguration = () => {
   return async dispatch => {
-    const LoginInfo = new ShareVariables().getLoginInfo();
-    const ConfigKey = ['alpha', 'timeExpire', 'maxWeight', 'minWeight', 'maxSize', 'minSize', 'minSize', 'initLoad', 'initLoadTrial', 'idsTrial', 'interval', 'fastestInterval', 'pushDataInterval', 'priority', 'smallestDisplacement', 'numberOfRecord', 'endTimeTracking', 'startTimeTracking'];
-    const params = {
-      ...LoginInfo,
-      ConfigKey
-    };
-    console.log('Bat dau cal Fee, with params=');
-    console.log(params);
-
     try {
-      const response = await axios.post('https://test.ghn.vn/api/mpds/getConfiguration', params);
-      console.log('Hang ve: new Fee');
+      dispatch({ type: OTHER_GET_CONFIGURATION });
+      const response = await API.getConfiguration();
       const json = response.data;
       if (json.status === 'OK') {
         dispatch({
-          type: OTHER_CALCULATE_FEE_SUCCESS,
+          type: OTHER_GET_CONFIGURATION_SUCCESS,
           payload: json.data.ServiceFee
         });
       } else {
-        console.log('calculateServiceFee failed, response data=');
+        console.log('getConfiguration failed, response data=');
         console.log(json);
       }
     } catch (error) {

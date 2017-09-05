@@ -240,7 +240,7 @@ class PickGroupDetail extends Component {
     }
   }
   checkKeywork({ OrderCode }) {
-    return this.state.keyword === '' || o.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+    return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
   }
 
   render() {

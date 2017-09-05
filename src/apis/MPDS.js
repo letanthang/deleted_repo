@@ -70,4 +70,10 @@ export const GetUserPerformance = (UserID) => {
       UserID
     });
 };
+
+export const GetConfiguration = (configKey = null) => {
+  const URL = `http://${DOMAIN}/pdaconfig`;
+  //const LoginInfo = Share.getLoginInfo();
+  return axios.get(URL, { configKey });
+};
   

@@ -5,11 +5,13 @@ import {
   Tab, Header 
 } from 'native-base';
 import { connect } from 'react-redux';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import PickGroupList from '../components/pickReturn/PickGroupList';
 import AppFooter from '../components/AppFooter';
 import { Styles, Colors } from '../Styles';
 
 class PickListScreen extends Component {
+  state = { done: false }
   componentWillMount() {
     console.log('PickListScreen: CWM called!');
   }
@@ -35,16 +37,16 @@ class PickListScreen extends Component {
           <Body style={{ flex: 2 }}>
             <Title>Lấy ({this.props.pickComplete}/{this.props.pickTotal})</Title>
           </Body>
-          <Right />
+          <Right>
+            <Button
+              transparent
+              onPress={() => this.setState({ done: !this.state.done })}
+            >
+              <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
+            </Button>
+          </Right>
         </Header>
-        <Tabs initialPage={0}>
-          <Tab heading="Đang Lấy">
-            <PickGroupList {...this.props} done={false} />
-          </Tab>
-          <Tab heading="Xong">
-            <PickGroupList {...this.props} done />
-          </Tab>
-        </Tabs>
+        <PickGroupList {...this.props} done={this.state.done} />
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );

@@ -131,8 +131,8 @@ export default (state = nameInitialState, action) => {
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
       const pds = state.pds;
-      const { OrderID, ServiceCost, Length, Width, Height, Weight } = action.payload;
-      const order = Utils.getOrder(pds, OrderID);
+      const { OrderID, ClientHubID, ServiceCost, Length, Width, Height, Weight } = action.payload;
+      const order = Utils.getOrder(pds, OrderID, ClientHubID, 1);
       order.ServiceCost = ServiceCost;
       order.Length = Length;
       order.Weight = Weight;

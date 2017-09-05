@@ -105,7 +105,8 @@ class Utils {
     return CurrentStatus === 'Return' && NextStatus === 'Return';
   }
 
-  static getOrder(pds, OrderID, ClientHubID = null, PickDeliveryType = null) {
+  static getOrder(pds, OrderID, ClientHubID, PickDeliveryType = null) {
+    console.log(`orderID = ${OrderID} ClientHubID = ${ClientHubID} PickDeliveryType = ${PickDeliveryType}`);
     let order = null;
     let pickGroup = null;
 

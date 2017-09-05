@@ -13,13 +13,17 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { calculateServiceFee, updateWeightSize } from '../actions';
 import { Colors } from '../Styles';
 
+let ClientHubID = null;
+let OrderID = null;
 let ClientID = null;
 let waitToSave = false;
 class POUpdateWeightSizeScreen extends Component {
   state = { Weight: null, Height: null, Length: null, Width: null, CalculateWeight: null }
 
   componentWillMount() {
-    const OrderID = this.props.navigation.state.params.OrderID;
+    OrderID = this.props.navigation.state.params.OrderID;
+    ClientHubID = this.props.navigation.state.params.ClientHubID;
+    ClientID = this.props.navigation.state.params.ClientID;
     console.log('====================================');
     console.log(`PickOrderScreen: cwm called with
     OrderID = ${OrderID}`);
@@ -27,8 +31,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   componentDidUpdate() {
-    const OrderID = this.props.navigation.state.params.OrderID;
-    const order = Utils.getOrder(this.props.pds, OrderID);
+    const order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
     console.log('====================================');
     console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
     console.log(order);
@@ -64,9 +67,8 @@ class POUpdateWeightSizeScreen extends Component {
     waitToSave = true;
     this.onCalculateFeePress(order);
   }
-  onSaveWeightSize(order) {
+  onSaveWeightSize() {
     const { Length, Weight, Width, Height } = this.state;
-    const { OrderID } = order;
     const { pdsId, ServiceFee } = this.props;
     const params = {
       Length, 
@@ -74,6 +76,7 @@ class POUpdateWeightSizeScreen extends Component {
       Height,
       Weight,
       ClientID,
+      ClientHubID,
       OrderID,
       PDSID: pdsId,
       ServiceFee
@@ -84,7 +87,7 @@ class POUpdateWeightSizeScreen extends Component {
     if (!this.isInfoChanged(order)) return;
 
     const { Length, Weight, Width, Height } = this.state;
-    const { OrderID, ServiceID, FromDistrictID, ToDistrictID } = order;
+    const { ServiceID, FromDistrictID, ToDistrictID } = order;
     const params = {
       Weight,
       Length,
@@ -124,9 +127,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
-    const OrderID = this.props.navigation.state.params.OrderID;
-    const order = Utils.getOrder(this.props.pds, OrderID);
-    ClientID = this.props.navigation.state.params.ClientID;
+    const order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
     console.log('Render called, order = ');
     console.log(order);
     const { OrderCode, ServiceCost, Weight, Length, Width, Height } = order;

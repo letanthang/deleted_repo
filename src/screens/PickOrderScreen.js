@@ -93,7 +93,7 @@ class PickOrderScreen extends Component {
           <Right>
             <Button
               transparent
-              onPress={() => navigate('POUpdateWeightSize', { OrderID, ClientID })}
+              onPress={() => navigate('POUpdateWeightSize', { OrderID, ClientID, ClientHubID })}
             >
               <Icon name="create" />
             </Button>

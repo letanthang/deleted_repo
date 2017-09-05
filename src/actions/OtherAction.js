@@ -28,7 +28,7 @@ export const calculateServiceFee = ({
     console.log(params);
 
     try {
-      const response = await API.CaculateServiceFee(params);
+      const response = await API.CalculateServiceFee(params);
       console.log('Hang ve: new Fee');
       const json = response.data;
       if (json.status === 'OK') {

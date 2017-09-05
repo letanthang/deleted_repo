@@ -3,12 +3,12 @@ import ShareVariables from '../libs/ShareVariables';
 
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = '10.10.0.16:4108';
-const BASE_URL = `http://${DOMAIN}/pdaone`;
+const BASE_URL = `http://${DOMAIN}`;
 
 const Share = new ShareVariables();
 export const GetUserActivePds = (UserID) => {
   const UserID1 = 210030;
-  const URL = `${BASE_URL}/${UserID1}`;
+  const URL = `${BASE_URL}/pdaone/${UserID1}`;
   const LoginInfo = Share.getLoginInfo();
   console.log(`GetUserActivePds: ${URL}`);
   return axios.get(URL, {
@@ -17,7 +17,7 @@ export const GetUserActivePds = (UserID) => {
 };
 
 export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
-  const URL = `${BASE_URL}/${PDSID}`;
+  const URL = `${BASE_URL}/pdaone/${PDSID}`;
   const LoginInfo = Share.getLoginInfo();
   const params = {
     ...LoginInfo,
@@ -37,9 +37,9 @@ export const UpdateOrderWeightRDC = ({
   ClientID,
   OrderID,
   PDSID }) => {  
-  const URL = `${BASE_URL}/mpds/UpdateOrderWeightRDC`;
+  const URL = `${BASE_URL}/fee`;
   const LoginInfo = Share.getLoginInfo();
-  return axios.post(URL, {
+  return axios.put(URL, {
       ...LoginInfo,
       Length,
       Width,
@@ -72,8 +72,13 @@ export const GetUserPerformance = (UserID) => {
 };
 
 export const GetConfiguration = (configKey = null) => {
-  const URL = `http://${DOMAIN}/pdaconfig`;
+  const URL = `${BASE_URL}/pdaconfig`;
   //const LoginInfo = Share.getLoginInfo();
   return axios.get(URL, { configKey });
 };
   
+export const CalculateServiceFee = (params) => {
+  console.log(params);
+  const URL = `${BASE_URL}/fee`;
+  return axios.post(URL, params);
+};

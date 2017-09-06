@@ -2,7 +2,7 @@ import axios from 'axios';
 import ShareVariables from '../libs/ShareVariables';
 
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-// const DOMAIN = '10.10.0.16:4108';
+//const DOMAIN = 'api.dev.inhub.ghn.vn';
 const BASE_URL = `http://${DOMAIN}`;
 
 const Share = new ShareVariables();
@@ -39,16 +39,19 @@ export const UpdateOrderWeightRDC = ({
   PDSID }) => {  
   const URL = `${BASE_URL}/fee`;
   const LoginInfo = Share.getLoginInfo();
-  return axios.put(URL, {
-      ...LoginInfo,
-      Length,
-      Width,
-      Height,
-      Weight,
-      ClientID,
-      OrderID,
-      PDSID
-    });
+  console.log(URL);
+  const params = {
+    ...LoginInfo,
+    Length,
+    Width,
+    Height,
+    Weight,
+    ClientID,
+    OrderID,
+    PDSID
+  };
+  console.log(params);
+  return axios.put(URL, params);
 };
 
 export const Authenticate = ({ UserID, Password }) => {

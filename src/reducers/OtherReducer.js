@@ -30,9 +30,10 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: false, error: action.payload };
     
     case OTHER_CALCULATE_FEE_SUCCESS: {
+      console.log(action.payload);
       return {
         ...state,
-        ServiceFee: action.payload
+        ServiceFee: action.payload.ServiceFee
       };
     }
     case OTHER_GET_USER_PERFORMANCE_SUCCESS: {

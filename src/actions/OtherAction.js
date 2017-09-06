@@ -34,7 +34,7 @@ export const calculateServiceFee = ({
       if (json.status === 'OK') {
         dispatch({
           type: OTHER_CALCULATE_FEE_SUCCESS,
-          payload: json.data.ServiceFee
+          payload: json.data[0]
         });
       } else {
         console.log('calculateServiceFee failed, response data=');
@@ -56,7 +56,7 @@ export const getConfiguration = () => {
       if (json.status === 'OK') {
         dispatch({
           type: OTHER_GET_CONFIGURATION_SUCCESS,
-          payload: json.data.ServiceFee
+          payload: json.data[0]
         });
       } else {
         console.log('getConfiguration failed, response data=');
@@ -79,7 +79,7 @@ export const getUserPerformance = (UserID) => {
       if (json.status === 'OK') {
         dispatch({
           type: OTHER_GET_USER_PERFORMANCE_SUCCESS,
-          payload: json.data
+          payload: json.data[0]
         });
       } else {
         console.log('getUserPerformance failed, response data=');

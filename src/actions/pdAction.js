@@ -163,7 +163,7 @@ export const updateWeightSize = ({
       } else {
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
         console.log('Update weight size failed with response json =');
-        console.log(json.status);
+        console.log(json);
       }
     } catch (error) {
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });

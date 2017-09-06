@@ -21,15 +21,18 @@ class PickListScreen extends Component {
   componentDidUpdate() {
     
   }
+  goBack() {
+    const { navigate } = this.props.navigation;
+    navigate('Home');
+  }
   render() {
-    const { navigate, goBack } = this.props.navigation;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
           <Left>
             <Button
               transparent
-              onPress={() => goBack()}
+              onPress={() => this.goBack()}
             >
               <Icon name="arrow-back" />
             </Button>

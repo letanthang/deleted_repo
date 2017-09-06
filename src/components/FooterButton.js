@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '../Styles';
 
 const FooterButton = ({ active, text, normalIcon, activeIcon, flip, onPress }) => {
+  const onButtonPress = active ? null : onPress;
   let color = Colors.headerNormal;
   let iconName = normalIcon;
   let style = null;
@@ -16,7 +17,7 @@ const FooterButton = ({ active, text, normalIcon, activeIcon, flip, onPress }) =
   }
   return (
     <Button
-      onPress={onPress}
+      onPress={onButtonPress}
     >
       <Icon name={iconName} size={32} color={color} style={style} />
       <Text style={{ color }}>{text}</Text>

@@ -25,6 +25,10 @@ class DeliveryListScreen extends Component {
   componentDidUpdate() {
     
   }
+  goBack() {
+    const { navigate } = this.props.navigation;
+    navigate('Home');
+  }
 
   renderHeader() {
     const { navigate, goBack } = this.props.navigation;
@@ -64,17 +68,16 @@ class DeliveryListScreen extends Component {
               <Text>Huỷ</Text>
             </Button>
           </Right>
-          
         </Header>
         );
     } 
-
+    
     return (
       <Header>
         <Left>
           <Button
             transparent
-            onPress={() => goBack()}
+            onPress={() => this.goBack()}
           >
             <Icon name="arrow-back" />
           </Button>
@@ -101,7 +104,6 @@ class DeliveryListScreen extends Component {
   }
 
   render() {
-    const { navigate, goBack } = this.props.navigation;
     const deliveryList = this.props.pds.DeliveryItems;
     const deliveryListRun = this.props.pds.DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
     const deliveryListDone = this.props.pds.DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.CurrentStatus));

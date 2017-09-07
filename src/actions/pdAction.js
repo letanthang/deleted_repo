@@ -123,11 +123,12 @@ const updateOrderStatusFail = (dispatch) => {
 
 export const updateWeightSize = ({
   Length, 
-	Width,
-	Height,
-	Weight,
-	ClientID,
-	OrderID,
+  Width,
+  Height,
+  Weight,
+  ClientID,
+  ClientHubID,
+  OrderID,
   PDSID,
   ServiceFee
 }) => {
@@ -152,7 +153,8 @@ export const updateWeightSize = ({
         dispatch({
           type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
           payload: { 
-            OrderID, 
+            OrderID,
+            ClientHubID, 
             ServiceCost: ServiceFee,
             Length,
             Width,

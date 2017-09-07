@@ -47,7 +47,7 @@ class DeliveryByGroup extends Component {
   }
 
   renderOrder(order, sectionID, rowID) {
-    const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder } = order;
+    const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder, ServiceName } = order;
     const wrapperStyle = rowID == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
     
     return (
@@ -60,7 +60,7 @@ class DeliveryByGroup extends Component {
               [{DisplayOrder}] {OrderCode}
             </Text>
             <Badge>
-              <Text>6h</Text>
+              <Text>{ServiceName}</Text>
             </Badge>
           </View>
           <View style={Styles.itemStyle}>
@@ -88,7 +88,7 @@ class DeliveryByGroup extends Component {
 
   _renderContent(Group) {
     return (
-      <View style={styles.content}>
+      <View style={DeliverGroupStyles.content}>
         {this.renderGroup(Group)}
       </View>
     );

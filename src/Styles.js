@@ -165,12 +165,14 @@ export const OrderStyles = {
 export const DeliverGroupStyles = {
   orderWrapperStyle: {
     ...Styles.orderWrapperStyle,
+    marginTop: 4,
     marginLeft: 0,
-    marginRight: 0
+    marginRight: 0,
   },
   orderWrapperFirstStyle: {
     ...Styles.orderWrapperStyle,
     marginTop: 0,
+    marginBottom: 0,
     marginLeft: 0,
     marginRight: 0
   },
@@ -182,13 +184,21 @@ export const DeliverGroupStyles = {
     justifyContent: 'center'
   },
   content: {
-    paddingBottom: 5,
+    // paddingBottom: 5,
     // backgroundColor: '#fff',
   },
   header: {
     backgroundColor: Colors.background,
     padding: 10,
     borderTopWidth: 1,
+    borderColor: '#CFCFD1',
+    flexDirection: 'row'
+  },
+  sectionHeader: {
+    backgroundColor: Colors.background,
+    padding: 10,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
     borderColor: '#CFCFD1',
     flexDirection: 'row'
   },

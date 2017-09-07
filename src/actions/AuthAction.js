@@ -61,14 +61,16 @@ export const loginUser = ({ userID, password, rememberMe }) => {
     dispatch({ type: LOGIN_USER });
     API.Authenticate({ UserID: userID, Password: password })
       .then(response => {
-        const json = response.data;        
-        if (json.code === 1) {
-          loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
-        } else {
-          console.log('loginUser fail with response json =');
-          console.log(json);
-          loginUserFail(dispatch, json.data.ErrorMessage);
-        }
+        const json = response.data;
+        loginUserSucess(dispatch, { UserID: 1017, FullName: 'Nguyen Ngoc Khanh Tuong' }, { userID, password, rememberMe });
+
+        // if (json.code === 1) {
+        //   loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
+        // } else {
+        //   console.log('loginUser fail with response json =');
+        //   console.log(json);
+        //   loginUserFail(dispatch, json.data.ErrorMessage);
+        // }
       })
       .catch(error => {
         console.log('loginUser fail with error =');

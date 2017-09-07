@@ -90,7 +90,7 @@ class OrderListScreen extends Component {
           </Button>
         </Left>
         <Body style={{ flex: 3 }}>
-          <Title>Tat ca</Title>
+          <Title>Tất cả: lấy|giao|trả</Title>
         </Body>
         <Right>
           <Button
@@ -161,7 +161,7 @@ class OrderListScreen extends Component {
             );
           }}
           renderSectionHeader={({ section }) => (
-            <View style={DeliverGroupStyles.header}>
+            <View style={DeliverGroupStyles.sectionHeader}>
               <IC name="plus-box-outline" size={20} color='#808080' />
               <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
             </View>

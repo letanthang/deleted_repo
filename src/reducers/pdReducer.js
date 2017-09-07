@@ -188,6 +188,12 @@ const addGroup = (pds, orderGroup) => {
   pds.DeliveryItems.forEach((order, index) => {
     pds.DeliveryItems[index].Group = orderGroup[order.OrderID] || null;
   });
+
+  //add 'key' for order
+  pds.PDSItems.forEach((order, index) => {
+    pds.PDSItems[index].key = order.OrderID;
+  });
+  //split to: pickItems, returnItems, deliveryItems
 };
 
 const calculateStatNumbers = (pds) => {
@@ -201,7 +207,7 @@ const calculateStatNumbers = (pds) => {
         });
         return isComplete;
       }).length;
-      console.log(`fetch succes with pickComplete = ${pickComplete}`);
+      console.log(`fetch success with pickComplete = ${pickComplete}`);
 
       // delivery
       const deliveryTotal = pds.DeliveryItems.length;

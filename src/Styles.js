@@ -180,5 +180,22 @@ export const DeliverGroupStyles = {
   },
   col2Style: {
     justifyContent: 'center'
-  }
+  },
+  content: {
+    paddingBottom: 5,
+    // backgroundColor: '#fff',
+  },
+  header: {
+    backgroundColor: Colors.background,
+    padding: 10,
+    borderTopWidth: 1,
+    borderColor: '#CFCFD1',
+    flexDirection: 'row'
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginLeft: 8,
+    color: '#808080'
+  },
 };

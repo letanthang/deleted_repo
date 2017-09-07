@@ -1,18 +1,20 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
+import { SectionList, FlatList, View, TouchableOpacity } from 'react-native';
 import { 
   Container, Right, Left, Body, 
   Icon, Button, Title, Text,
-  Header, Input, Item 
+  Header, Input, Item, Badge 
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
-import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import AppFooter from '../components/AppFooter';
 import Utils from '../libs/Utils';
-import { Colors } from '../Styles';
+import StatusText from '../components/StatusText';
+import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 
-class DeliveryListScreen extends Component {
+class OrderListScreen extends Component {
   state = { showSearch: false, keyword: '' };
   componentWillMount() {
     
@@ -23,6 +25,13 @@ class DeliveryListScreen extends Component {
   componentDidUpdate() {
     
   }
+
+  onDeliveryOrderPress(OrderID) {
+    console.log('onDeliveryOrderPress called with OrderID =');
+    console.log(OrderID);
+    this.props.navigation.navigate('DeliveryOrder', { OrderID });
+  }
+
   goBack() {
     const { navigate } = this.props.navigation;
     navigate('Home');
@@ -81,7 +90,7 @@ class DeliveryListScreen extends Component {
           </Button>
         </Left>
         <Body style={{ flex: 3 }}>
-          <Title>Giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
+          <Title>Tat ca</Title>
         </Body>
         <Right>
           <Button
@@ -100,13 +109,66 @@ class DeliveryListScreen extends Component {
       </Header>
     );
   }
+  renderStatusText(status) {
+    const DisplayStatus = Utils.getDisplayStatus(status);
+    const StatusColor = Utils.getDisplayStatusColor(status);
+    return (
+      <StatusText text={DisplayStatus} colorTheme={StatusColor} />
+    );
+  }
+  
 
   render() {
-    const deliveryListRun = this.props.pds.DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
+    const { pds } = this.props;
+    const datas = _.groupBy(pds.PDSItems, 'Address');
+    const sections = _.map(datas, (item) => {
+      return { data: item, title: item[0].Address };
+    });
+    console.log('OrderListScreen: render, sections =');
+    console.log(sections);
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
-        <DeliveryByGroup deliveryList={deliveryListRun} navigation={this.props.navigation} keyword={this.state.keyword} />
+        {/* <FlatList
+          data={pds.PDSItems}
+          renderItem={({ item }) => <View><Text>{item.OrderCode}</Text></View>}
+        /> */}
+        <SectionList
+          renderItem={({ item, index }) => { 
+            const { Address, OrderCode, OrderID, ServiceName, CurrentStatus, TotalCollectedAmount, DisplayOrder } = item;
+            const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
+            return (
+              <View style={DeliverGroupStyles.content}>
+                <TouchableOpacity
+                  onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
+                >
+                  <View style={wrapperStyle}>
+                    <View style={Styles.item2Style}>
+                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
+                        [{DisplayOrder}] {OrderCode}
+                      </Text>
+                      <Badge>
+                        <Text>{ServiceName}</Text>
+                      </Badge>
+                    </View>
+                    
+                    <View style={Styles.itemStyle}>
+                      {this.renderStatusText(CurrentStatus)}
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+          renderSectionHeader={({ section }) => (
+            <View style={DeliverGroupStyles.header}>
+              <IC name="plus-box-outline" size={20} color='#808080' />
+              <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
+            </View>
+          )}
+          sections={sections}
+        />
+
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );
@@ -119,4 +181,4 @@ const mapStateToProps = ({ pd }) => {
   return { pds, deliveryTotal, deliveryComplete };
 };
 
-export default connect(mapStateToProps, {})(DeliveryListScreen);
+export default connect(mapStateToProps, {})(OrderListScreen);

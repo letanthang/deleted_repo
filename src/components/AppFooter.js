@@ -20,13 +20,13 @@ const AppFooter = ({ navigation }) => {
   return (
     <Footer>
       <FooterTab>
-        <FooterButton
+        {/* <FooterButton
           text='Nhà'
           normalIcon='home'
           activeIcon='home'
           active={currentRoute === 'Home'}
           onPress={() => navigate(dispatch, 'Drawer')}
-        />
+        /> */}
         <FooterButton
           text='Lấy'
           normalIcon='package-variant'
@@ -49,6 +49,14 @@ const AppFooter = ({ navigation }) => {
           flip
           active={currentRoute === 'ReturnList'}
           onPress={() => navigate(dispatch, 'ReturnList')}
+        />
+        <FooterButton
+          text='All'
+          normalIcon='all-inclusive'
+          activeIcon='all-inclusive'
+          flip
+          active={currentRoute === 'OrderList'}
+          onPress={() => navigate(dispatch, 'OrderList')}
         />
         <FooterButton
           text='Tôi'

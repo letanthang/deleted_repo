@@ -18,6 +18,7 @@ import DeliveryListScreen from './screens/DeliveryListScreen';
 import DeliveryOrderScreen from './screens/DeliveryOrderScreen';
 import DeliveryGroupCreateScreen from './screens/DeliveryGroupCreateScreen';
 import ReturnListScreen from './screens/ReturnListScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
@@ -70,7 +71,8 @@ class App extends Component {
         POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },
         ReturnOrder: { screen: ReturnOrderScreen },
         DeliveryOrder: { screen: DeliveryOrderScreen },
-        ReturnList: { screen: ReturnListScreen },        
+        ReturnList: { screen: ReturnListScreen },
+        OrderList: { screen: OrderListScreen },        
       },
       {
         initialRouteName: 'Login',

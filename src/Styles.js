@@ -200,7 +200,7 @@ export const DeliverGroupStyles = {
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#CFCFD1',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   headerText: {
     fontSize: 16,

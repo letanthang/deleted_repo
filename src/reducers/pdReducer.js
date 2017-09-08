@@ -181,8 +181,9 @@ export default (state = nameInitialState, action) => {
 // 
 // 
 // 
-// 
-// 
+//
+//
+
 
 const addGroup = (pds, orderGroup) => {
   pds.DeliveryItems.forEach((order, index) => {
@@ -227,58 +228,3 @@ const calculateStatNumbers = (pds) => {
   return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete };
 };
 
-
-const lastItem = 
-  {
-    "DisplayOrder": 14,
-    "ClientName": "doan dai ho tet ",
-    "ContactName": "doan dai ho tet ",
-    "ContactPhone": "01204790909",
-    "ClientID": 192801,
-    "ClientHubID": 297910,
-    "CircleName": "",
-    "PickReturnSOs": [
-        {
-            "OrderID": 253517,
-            "OrderCode": "2H5DD6L1",
-            "OldOrderCode": null,
-            "ExternalCode": null,
-            "CurrentStatus": "Picking",
-            "RecipientName": "doan dai ho",
-            "RecipientPhone": "0902933025",
-            "DeliveryAddress": "344",
-            "CODAmount": 500,
-            "ServiceCost": 59400,
-            "Note": "doan ai ho",
-            "Log": "\n17/08/2017 16:26:37 - \n17/08/2017 16:26:37 - GHN-PC952A|NGƯỜI GỬI HẸN LẠI NGÀY LẤY - ",
-            "SONote": null,
-            "PickDeliverySessionDetailID": 110513,
-            "EndPickTime": null,
-            "UpdatedStatus": null,
-            "PaymentTypeID": 1,
-            "TotalExtraFee": 0,
-            "Weight": 90,
-            "ServiceID": 53322,
-            "ServiceName": "3 Ngày",
-            "TotalCollectedAmount": 500,
-            "NextStatus": null,
-            "Length": 8,
-            "Width": 8,
-            "Height": 8,
-            "FromDistrictID": 1455,
-            "ToDistrictID": 1453,
-            "Lat": 0,
-            "Lng": 0,
-            "DistrictCode": "0214",
-            "DistrictName": "Quận Tân Bình",
-            "IsTrial": 0
-        }
-    ],
-    "Lat": 0,
-    "Lng": 0,
-    "DistrictName": "Quận Tân Bình",
-    "DistrictCode": "0214",
-    "Address": "220 Lý Thường Kiệt, phường 9, Tân Bình, Hồ Chí Minh, Vietnam",
-    "ExpectedDeliveryTime": "/Date(1503244800000)/",
-    "PickDeliveryType": 3
-  };

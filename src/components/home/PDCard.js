@@ -19,7 +19,7 @@ class PDCard extends Component {
   }
   
   componentWillReceiveProps(nextProps) {
-    console.log('PDCard: componentWillReceiveProps');
+    //console.log('PDCard: componentWillReceiveProps');
     if (this.props !== nextProps) {
       console.log('props changed');
       const { upNumber, downNumber, delay } = nextProps;

@@ -17,6 +17,7 @@ let ClientHubID = null;
 let OrderID = null;
 let ClientID = null;
 let waitToSave = false;
+let calculated = false;
 class POUpdateWeightSizeScreen extends Component {
   state = { Weight: null, Height: null, Length: null, Width: null, CalculateWeight: null }
 
@@ -36,19 +37,23 @@ class POUpdateWeightSizeScreen extends Component {
     console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
     console.log(order);
     if (waitToSave) {
-      console.log('wait to save ...');
+      this.showSaveDialog();
       waitToSave = false;
-      Alert.alert(
-        'Really want to update?',
-        `Do you really want o update, with new fee: ${this.props.ServiceFee}`,
-        [
-          { text: 'Đồng ý', onPress: () => this.onSaveWeightSize(order) },
-          { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
-        ],
-        { cancelable: false }
-      );
     }
     console.log('====================================');
+  }
+
+  showSaveDialog() {
+    console.log('wait to save ...');
+    Alert.alert(
+      'Really want to update?',
+      `Do you really want o update, with new fee: ${this.props.ServiceFee}`,
+      [
+        { text: 'Đồng ý', onPress: () => this.onSaveWeightSize() },
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
   }
 
 // 
@@ -59,13 +64,17 @@ class POUpdateWeightSizeScreen extends Component {
     this.state[prop] = value;
 
     const CW = this.state.Length * this.state.Width * this.state.Height * 0.2;
-
+    calculated = false;
     this.setState({ [prop]: value, CalculateWeight: CW });
   }
   onSaveWeightSizePress(order) {
     if (!this.isInfoChanged(order)) return;
-    waitToSave = true;
-    this.onCalculateFeePress(order);
+    if (calculated) {
+      this.showSaveDialog();
+    } else {
+      waitToSave = true;
+      this.onCalculateFeePress(order);
+    }
   }
   onSaveWeightSize() {
     const { Length, Weight, Width, Height } = this.state;
@@ -100,6 +109,7 @@ class POUpdateWeightSizeScreen extends Component {
       ToDistrictID
     };
     console.log(params);
+    calculated = true;
     this.props.calculateServiceFee(params);
   }
   

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, ToastAndroid } from 'react-native';
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
@@ -13,10 +14,13 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 import AppFooter from '../components/AppFooter';
+import AppMenu from '../components/AppMenu';
+import MyMenu from '../components/MyMenu';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
 
 class HomeScreen extends Component {
+  state = { date: new Date(), showMenu: false }
   componentWillMount() {
     console.log('====================================');
     console.log('HomeScreen : CWM');
@@ -30,7 +34,6 @@ class HomeScreen extends Component {
       this.props.pdListFetch();
     }
     this.listGroups();
-    this.state = { date: new Date() };
     console.log(this.state.date);
     console.log('===================================='); 
   }
@@ -105,7 +108,8 @@ class HomeScreen extends Component {
     const iosBarStyle = Theme === 'dark' ? 'light-content' : 'default';
 
     return (
-      
+       
+        
         <Container style={{ backgroundColor: Colors.background }}>
           <Header
             iosBarStyle={iosBarStyle}
@@ -121,7 +125,17 @@ class HomeScreen extends Component {
             <Body>
               <Title>MPDS</Title>
             </Body>
-            <Right />
+            <Right>
+              <Button
+                  transparent
+                  onPress={() => {
+                    console.log('showMenu pressed');
+                    this.setState({ showMenu: !this.state.showMenu });
+                  }}
+              >          
+                <IC name='dots-horizontal' size={28} />
+              </Button>
+            </Right>
           </Header>
           <Content style={{ padding: 10 }}>
             <PDCard
@@ -166,11 +180,25 @@ class HomeScreen extends Component {
                 </CardItem>
               </Card>
             </TouchableOpacity>
+            
           </Content>
+          
           <AppFooter navigation={this.props.navigation} />
+          <MyMenu 
+            show={this.state.showMenu} 
+            onBlur={() => {
+              console.log('Menu onBlur');
+              this.setState({ showMenu: !this.state.showMenu });
+            }}
+            onPress={() => {
+              console.log('Menu onPress');
+              this.setState({ showMenu: !this.state.showMenu });
+            }}
+          />
           <LoadingSpinner loading={this.props.loading} />
+          
         </Container>
-      
+        
       
     );
   }

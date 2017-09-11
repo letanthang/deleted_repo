@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, ToastAndroid } from 'react-native';
-import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
+import { View, Image, TouchableOpacity } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
-  Card, CardItem, Toast, Footer, FooterTab
+  Card, CardItem, Toast
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -14,7 +13,6 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 import AppFooter from '../components/AppFooter';
-import AppMenu from '../components/AppMenu';
 import MyMenu from '../components/MyMenu';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');

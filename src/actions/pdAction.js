@@ -12,10 +12,10 @@ export const pdListFetch = () => {
   return (dispatch, getState) => {
     dispatch({ type: PDLIST_FETCH });
     console.log(' prepare to fetch pd list');
-    const { UserID } = getState().auth;
+    const { userID } = getState().auth;
     // console.log(' get state of authReducer from pdAction');
     // console.log(user);
-    API.GetUserActivePds(UserID)
+    API.GetUserActivePds(userID)
       .then(response => {
         console.log(response);
         const json = response.data;

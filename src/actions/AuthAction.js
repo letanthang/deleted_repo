@@ -62,7 +62,7 @@ export const loginUser = ({ userID, password, rememberMe }) => {
     API.Authenticate({ UserID: userID, Password: password })
       .then(response => {
         const json = response.data;
-        loginUserSucess(dispatch, { UserID: 1017, FullName: 'Nguyen Ngoc Khanh Tuong' }, { userID, password, rememberMe });
+        loginUserSucess(dispatch, { UserID: userID, FullName: userID }, { userID, password, rememberMe });
 
         // if (json.code === 1) {
         //   loginUserSucess(dispatch, json.data, { userID, password, rememberMe });

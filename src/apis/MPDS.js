@@ -7,8 +7,7 @@ const BASE_URL = `http://${DOMAIN}`;
 
 const Share = new ShareVariables();
 export const GetUserActivePds = (UserID) => {
-  const UserID1 = 210030;
-  const URL = `${BASE_URL}/pdaone/${UserID1}`;
+  const URL = `${BASE_URL}/pdaone/${UserID}`;
   const LoginInfo = Share.getLoginInfo();
   console.log(`GetUserActivePds: ${URL}`);
   return axios.get(URL, {
@@ -55,8 +54,7 @@ export const UpdateOrderWeightRDC = ({
 };
 
 export const Authenticate = ({ UserID, Password }) => {
-  const BASE_URL1 = 'https://test.ghn.vn/api';
-  const URL = `${BASE_URL1}/mpds/Authenticate`;
+  const URL = `${BASE_URL}/acc/pdaLogin`;
   const BaseInfo = Share.BaseInfo;
   return axios.post(URL, {
       ...BaseInfo,

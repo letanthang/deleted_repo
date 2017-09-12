@@ -13,6 +13,12 @@ class ShareVariables {
     VersionCode: 63
   }
 
+  LoginHeader = {
+    'X-Auth': null,
+    'X-HubId': '',
+    'X-WarehouseId': 0
+  }
+
   setLoginInfo( 
     SessionToken, 
     ApiKey = 'MiNyd2FrbnFScWVzU3MjRw==\n', 
@@ -23,5 +29,6 @@ class ShareVariables {
   getLoginInfo() {
     return this.LoginInfo;
   }
+  
 }
 export default ShareVariables;

@@ -37,14 +37,19 @@ export default (state = INITIAL_STATE, action) => {
         password: action.payload.password,
         rememberMe: action.payload.rememberMe,
       };
-    case LOGIN_USER_SUCCESS:
+    case LOGIN_USER_SUCCESS: {
       console.log('login success');
-      new ShareVariables().setLoginInfo(action.payload.SessionToken);
+      new ShareVariables().LoginHeader['X-Auth'] = action.payload.session;
+      const user = action.payload.userInfo;
+      user.UserID = user.ssoId;
+      user.FullName = user.fullname;
       return { ...state,
         loading: false,
         error: '', 
-        sessionToken: action.payload.SessionToken,
-        user: action.payload };
+        sessionToken: action.payload.session,
+        user 
+      };
+    }
     case LOGIN_USER_FAIL:
       return { ...state,
         loading: false, 

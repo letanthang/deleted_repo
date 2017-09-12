@@ -1,31 +1,31 @@
 import axios from 'axios';
 import ShareVariables from '../libs/ShareVariables';
 
-const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-//const DOMAIN = 'api.dev.inhub.ghn.vn';
+//const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 
 const Share = new ShareVariables();
 export const GetUserActivePds = (UserID) => {
   const URL = `${BASE_URL}/pdaone/${UserID}`;
-  const LoginInfo = Share.getLoginInfo();
+  const LoginHeader = Share.LoginHeader;
   console.log(`GetUserActivePds: ${URL}`);
   return axios.get(URL, {
-      ...LoginInfo
+      headers: LoginHeader
     });
 };
 
 export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
   const URL = `${BASE_URL}/pdaone/${PDSID}`;
-  const LoginInfo = Share.getLoginInfo();
   const params = {
-    ...LoginInfo,
     PDSID,
     OrderInfos
   };
+  const LoginHeader = Share.LoginHeader;
+  const config = { headers: LoginHeader };
   console.log(`UpdatePickDeliverySession url = ${URL}`);
   console.log(params);
-  return axios.put(URL, params);
+  return axios.put(URL, params, config);
 };
 
 export const UpdateOrderWeightRDC = ({ 
@@ -50,36 +50,39 @@ export const UpdateOrderWeightRDC = ({
     PDSID
   };
   console.log(params);
-  return axios.put(URL, params);
+  const LoginHeader = Share.LoginHeader;
+  const config = { headers: LoginHeader };
+  return axios.put(URL, params, config);
 };
 
 export const Authenticate = ({ UserID, Password }) => {
   const URL = `${BASE_URL}/acc/pdaLogin`;
-  const BaseInfo = Share.BaseInfo;
   return axios.post(URL, {
-      ...BaseInfo,
-      UserID,
-      Password
+      userid: UserID,
+      password: Password
     });
 };
 
 export const GetUserPerformance = (UserID) => {
   const URL = `${BASE_URL}/mpds/GetUserPerformance`;
-  const LoginInfo = Share.getLoginInfo();
+  const LoginHeader = Share.LoginHeader;
+  const config = { headers: LoginHeader };
   return axios.post(URL, {
-      ...LoginInfo,
       UserID
-    });
+    }, config);
 };
 
 export const GetConfiguration = (configKey = null) => {
   const URL = `${BASE_URL}/pdaconfig`;
-  //const LoginInfo = Share.getLoginInfo();
-  return axios.get(URL, { configKey });
+  const LoginHeader = Share.LoginHeader;
+  const config = { headers: LoginHeader };
+  return axios.get(URL, { configKey }, config);
 };
   
 export const CalculateServiceFee = (params) => {
   console.log(params);
   const URL = `${BASE_URL}/fee`;
-  return axios.post(URL, params);
+  const LoginHeader = Share.LoginHeader;
+  const config = { headers: LoginHeader };
+  return axios.post(URL, params, config);
 };

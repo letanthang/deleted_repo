@@ -64,13 +64,13 @@ export const loginUser = ({ userID, password, rememberMe }) => {
         const json = response.data;
         loginUserSucess(dispatch, { UserID: userID, FullName: userID }, { userID, password, rememberMe });
 
-        // if (json.code === 1) {
-        //   loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
-        // } else {
-        //   console.log('loginUser fail with response json =');
-        //   console.log(json);
-        //   loginUserFail(dispatch, json.data.ErrorMessage);
-        // }
+        if (json.status === 'OK') {
+          loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
+        } else {
+          console.log('loginUser fail with response json =');
+          console.log(json);
+          loginUserFail(dispatch, json.message);
+        }
       })
       .catch(error => {
         console.log('loginUser fail with error =');

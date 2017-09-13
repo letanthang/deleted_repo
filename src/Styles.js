@@ -205,7 +205,6 @@ export const DeliverGroupStyles = {
   headerText: {
     fontSize: 16,
     fontWeight: '500',
-    marginLeft: 8,
     color: '#808080'
   },
 };

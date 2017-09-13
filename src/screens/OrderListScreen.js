@@ -26,10 +26,24 @@ class OrderListScreen extends Component {
     
   }
 
-  onDeliveryOrderPress(OrderID) {
+  onDeliveryOrderPress(order) {
+    const { OrderID, ClientHubID, ClientID, PickDeliveryType } = order;
+    const navigate = this.props.navigation.navigate;
     console.log('onDeliveryOrderPress called with OrderID =');
     console.log(OrderID);
-    this.props.navigation.navigate('DeliveryOrder', { OrderID });
+    switch (PickDeliveryType) {
+      case 1:
+        navigate('PickOrder', { OrderID, order, ClientID, ClientHubID });
+        break;
+      case 2:
+        navigate('DeliveryOrder', { OrderID });
+        break;
+      case 3:
+        navigate('ReturnOrder', { OrderID, order, ClientID, ClientHubID });
+        break;
+      default:
+        break;
+    }
   }
 
   goBack() {
@@ -38,7 +52,7 @@ class OrderListScreen extends Component {
   }
 
   renderHeader() {
-    const { navigate, goBack } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     if (this.state.showSearch) {
       return (
         <Header searchBar>
@@ -109,9 +123,10 @@ class OrderListScreen extends Component {
       </Header>
     );
   }
-  renderStatusText(status) {
-    const DisplayStatus = Utils.getDisplayStatus(status);
-    const StatusColor = Utils.getDisplayStatusColor(status);
+  renderStatusText(order) {
+    const { CurrentStatus, PickDeliveryType } = order;
+    const DisplayStatus = Utils.getDisplayStatus(CurrentStatus, PickDeliveryType);
+    const StatusColor = Utils.getDisplayStatusColor(CurrentStatus, PickDeliveryType);
     return (
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
@@ -140,7 +155,7 @@ class OrderListScreen extends Component {
             return (
               <View style={DeliverGroupStyles.content}>
                 <TouchableOpacity
-                  onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
+                  onPress={this.onDeliveryOrderPress.bind(this, item)}
                 >
                   <View style={wrapperStyle}>
                     <View style={Styles.item2Style}>
@@ -153,7 +168,7 @@ class OrderListScreen extends Component {
                     </View>
                     
                     <View style={Styles.itemStyle}>
-                      {this.renderStatusText(CurrentStatus)}
+                      {this.renderStatusText(item)}
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -162,7 +177,6 @@ class OrderListScreen extends Component {
           }}
           renderSectionHeader={({ section }) => (
             <View style={DeliverGroupStyles.sectionHeader}>
-              <IC name="plus-box-outline" size={20} color='#808080' />
               <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
             </View>
           )}

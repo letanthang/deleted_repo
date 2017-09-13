@@ -93,6 +93,9 @@ const loginUserSucess = (dispatch, user, { userID, password, rememberMe }) => {
       type: LOGIN_USER_SUCCESS,
       payload: user
     });
+  })
+  .catch(error => {
+    console.log('getLocalDB error');
   });
   
 };

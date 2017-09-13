@@ -15,10 +15,15 @@ const MyMenu = ({ show, onBlur, onPress }) => {
             <TouchableOpacity
               onPress={onPress}
             >
-              <Text style={styles.item}>Lay</Text>
+              <Text style={styles.item}>Cập nhật DL</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onPress}
+            >
+              <Text style={styles.item}>Lấy</Text>
             </TouchableOpacity>
             <Text style={styles.item}>Giao</Text>
-            <Text style={styles.item}>Tra</Text>
+            <Text style={styles.item}>Trả</Text>
           </View>
         </View>
       </TouchableOpacity>

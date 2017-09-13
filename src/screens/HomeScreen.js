@@ -7,6 +7,7 @@ import {
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { pdListFetch } from '../actions';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -81,6 +82,17 @@ class HomeScreen extends Component {
     console.log('DeliveryList pressed!');
     const { navigate } = this.props.navigation;
     navigate('DeliveryList');
+  }
+  onUpdateDataPress() {
+    const dispatch = this.props.navigation.dispatch;
+    console.log('onUpdateDataPress pressed');
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home', params: { needUpdateData: true } })
+      ]
+    });
+    dispatch(resetAction);
   }
   async listGroups() {
     try {
@@ -190,6 +202,7 @@ class HomeScreen extends Component {
             }}
             onPress={() => {
               console.log('Menu onPress');
+              this.onUpdateDataPress();
               this.setState({ showMenu: !this.state.showMenu });
             }}
           />

@@ -9,9 +9,10 @@ import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import PickGroupList from '../components/pickReturn/PickGroupList';
 import AppFooter from '../components/AppFooter';
 import { Styles, Colors } from '../Styles';
+import MyMenu from '../components/MyMenu';
 
 class PickListScreen extends Component {
-  state = { done: false }
+  state = { done: false, showMenu: false }
   componentWillMount() {
     console.log('PickListScreen: CWM called!');
   }
@@ -21,6 +22,11 @@ class PickListScreen extends Component {
   componentDidUpdate() {
     
   }
+  onUpdateDataPress() {
+    console.log('onUpdateDataPress pressed');
+    this.props.navigation.navigate('Home', { needUpdateData: true });
+  }
+
   goBack() {
     const { navigate } = this.props.navigation;
     navigate('Home');
@@ -47,10 +53,31 @@ class PickListScreen extends Component {
             >
               <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
             </Button>
+            <Button
+                transparent
+                onPress={() => {
+                  console.log('showMenu pressed');
+                  this.setState({ showMenu: !this.state.showMenu });
+                }}
+            >          
+              <IC name='dots-horizontal' size={28} />
+            </Button>
           </Right>
         </Header>
         <PickGroupList {...this.props} done={this.state.done} />
         <AppFooter navigation={this.props.navigation} />
+        <MyMenu 
+          show={this.state.showMenu} 
+          onBlur={() => {
+            console.log('Menu onBlur');
+            this.setState({ showMenu: !this.state.showMenu });
+          }}
+          onPress={() => {
+            console.log('Menu onPress');
+            this.onUpdateDataPress();
+            this.setState({ showMenu: !this.state.showMenu });
+          }}
+        />
       </Container>
     );
   }

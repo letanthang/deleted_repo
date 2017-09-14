@@ -77,10 +77,11 @@ class DeliveryByGroup extends Component {
     );
   }
 
-  _renderHeader(Group) {
+  _renderHeader(Group, index, active) {
+    const iconName = active ? 'minus-box-outline' : 'plus-box-outline';
     return (
       <View style={styles.header}>
-        <IC name="plus-box-outline" size={20} color='#808080' />
+        <IC name={iconName} size={20} color='#808080' />
         <Text style={styles.headerText}>{ Group || 'Mặc định'}</Text>
       </View>
     );

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import ShareVariables from '../libs/ShareVariables';
 
-//const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-const DOMAIN = 'api.inhub-ghn.tk';
+const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+// const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 
 const Share = new ShareVariables();

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { 
   Container, Right, Left, Body, 
-  Icon, Button, Title,
-  Header 
+  Icon, Button, Title, Content,
+  Header, Text 
 } from 'native-base';
 import { connect } from 'react-redux';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -35,7 +35,30 @@ class PickListScreen extends Component {
     });
     dispatch(resetAction);
   }
+  renderNullData() {
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.goBack()}
+            >
+              <Icon name="arrow-back" />
+            </Button>
+          </Left>
+          <Right />
+        </Header>
+        <Content style={{ padding: 16 }}>
+          <Body><Text>Không có dữ liệu</Text></Body>
+        </Content>
+      </Container>
+    );
+  }
   render() {
+    const { pds } = this.props;
+    if (!pds || !pds.ReturnItems) return this.renderNullData();
+
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>

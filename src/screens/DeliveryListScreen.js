@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { 
-  Container, Right, Left, Body, 
+  Container, Right, Left, Body, Content,
   Icon, Button, Title, Text,
   Header, Input, Item 
 } from 'native-base';
@@ -111,7 +111,30 @@ class DeliveryListScreen extends Component {
     );
   }
 
+  renderNullData() {
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.goBack()}
+            >
+              <Icon name="arrow-back" />
+            </Button>
+          </Left>
+          <Right />
+        </Header>
+        <Content style={{ padding: 16 }}>
+          <Body><Text>Không có dữ liệu</Text></Body>
+        </Content>
+      </Container>
+    );
+  }
   render() {
+    const { pds } = this.props;
+    if (!pds || !pds.DeliveryItems) return this.renderNullData();
+
     const deliveryListRun = this.props.pds.DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
     return (
       <Container style={{ backgroundColor: Colors.background }}>

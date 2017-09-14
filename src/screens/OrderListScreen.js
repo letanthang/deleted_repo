@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { SectionList, FlatList, View, TouchableOpacity } from 'react-native';
 import { 
-  Container, Right, Left, Body, 
+  Container, Right, Left, Body, Content,
   Icon, Button, Title, Text,
   Header, Input, Item, Badge 
 } from 'native-base';
@@ -146,8 +146,31 @@ class OrderListScreen extends Component {
   checkKeywork({ OrderCode }) {
     return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
   }
+  renderNullData() {
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.goBack()}
+            >
+              <Icon name="arrow-back" />
+            </Button>
+          </Left>
+          <Right />
+        </Header>
+        <Content style={{ padding: 16 }}>
+          <Body><Text>Không có dữ liệu</Text></Body>
+        </Content>
+      </Container>
+    );
+  }
+
   render() {
     const { pds } = this.props;
+    if (!pds || pds.PDSItems) return this.renderNullData();
+
     const items = pds.PDSItems.filter(o => this.checkKeywork(o));
     const datas = _.groupBy(items, 'Address');
     const sections = _.map(datas, (item) => {
@@ -155,6 +178,7 @@ class OrderListScreen extends Component {
     });
     console.log('OrderListScreen: render, sections =');
     console.log(sections);
+    
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}

@@ -66,11 +66,11 @@ class PickOrderScreen extends Component {
     });
   }
 
-  renderNullOrder() {
+  renderNullData() {
     return (
       <Container>
         <Header />
-        <Content>
+        <Content style={{ padding: 16 }}>
           <Body><Text>Đơn hàng không tồn tài</Text></Body>
         </Content>
       </Container>
@@ -82,7 +82,7 @@ class PickOrderScreen extends Component {
     const { navigate, goBack } = this.props.navigation;
     if (!order) {
       goBack();
-      return this.renderNullOrder();
+      return this.renderNullData();
     } 
 
     const { 

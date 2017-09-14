@@ -9,9 +9,11 @@ import {
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import AppFooter from '../components/AppFooter';
 import Utils from '../libs/Utils';
 import StatusText from '../components/StatusText';
+import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 
 class OrderListScreen extends Component {
@@ -47,8 +49,17 @@ class OrderListScreen extends Component {
   }
 
   goBack() {
-    const { navigate } = this.props.navigation;
-    navigate('Home');
+    const dispatch = this.props.navigation.dispatch;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ 
+          routeName: 'Drawer', 
+          action: NavigationActions.navigate({ routeName: 'Home' }) 
+        })
+      ]
+    });
+    dispatch(resetAction);
   }
 
   renderHeader() {
@@ -132,10 +143,13 @@ class OrderListScreen extends Component {
     );
   }
   
-
+  checkKeywork({ OrderCode }) {
+    return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+  }
   render() {
     const { pds } = this.props;
-    const datas = _.groupBy(pds.PDSItems, 'Address');
+    const items = pds.PDSItems.filter(o => this.checkKeywork(o));
+    const datas = _.groupBy(items, 'Address');
     const sections = _.map(datas, (item) => {
       return { data: item, title: item[0].Address };
     });
@@ -148,41 +162,45 @@ class OrderListScreen extends Component {
           data={pds.PDSItems}
           renderItem={({ item }) => <View><Text>{item.OrderCode}</Text></View>}
         /> */}
-        <SectionList
-          renderItem={({ item, index }) => { 
-            const { Address, OrderCode, OrderID, ServiceName, CurrentStatus, TotalCollectedAmount, DisplayOrder } = item;
-            const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
-            return (
-              <View style={DeliverGroupStyles.content}>
-                <TouchableOpacity
-                  onPress={this.onDeliveryOrderPress.bind(this, item)}
-                >
-                  <View style={wrapperStyle}>
-                    <View style={Styles.item2Style}>
-                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        [{DisplayOrder}] {OrderCode}
-                      </Text>
-                      <Badge>
-                        <Text>{ServiceName}</Text>
-                      </Badge>
+        <DataEmptyCheck
+          data={items}
+          message="Không có dữ liệu"
+        >
+          <SectionList
+            renderItem={({ item, index }) => { 
+              const { Address, OrderCode, OrderID, ServiceName, CurrentStatus, TotalCollectedAmount, DisplayOrder } = item;
+              const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
+              return (
+                <View style={DeliverGroupStyles.content}>
+                  <TouchableOpacity
+                    onPress={this.onDeliveryOrderPress.bind(this, item)}
+                  >
+                    <View style={wrapperStyle}>
+                      <View style={Styles.item2Style}>
+                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
+                          [{DisplayOrder}] {OrderCode}
+                        </Text>
+                        <Badge>
+                          <Text>{ServiceName}</Text>
+                        </Badge>
+                      </View>
+                      
+                      <View style={Styles.itemStyle}>
+                        {this.renderStatusText(item)}
+                      </View>
                     </View>
-                    
-                    <View style={Styles.itemStyle}>
-                      {this.renderStatusText(item)}
-                    </View>
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+            renderSectionHeader={({ section }) => (
+              <View style={DeliverGroupStyles.sectionHeader}>
+                <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
               </View>
-            );
-          }}
-          renderSectionHeader={({ section }) => (
-            <View style={DeliverGroupStyles.sectionHeader}>
-              <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
-            </View>
-          )}
-          sections={sections}
-        />
-
+            )}
+            sections={sections}
+          /> 
+        </DataEmptyCheck>
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );

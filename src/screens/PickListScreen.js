@@ -6,6 +6,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
+import { NavigationActions } from 'react-navigation';
 import PickGroupList from '../components/pickReturn/PickGroupList';
 import AppFooter from '../components/AppFooter';
 import { Styles, Colors } from '../Styles';
@@ -24,12 +25,31 @@ class PickListScreen extends Component {
   }
   onUpdateDataPress() {
     console.log('onUpdateDataPress pressed');
-    this.props.navigation.navigate('Home', { needUpdateData: true });
+    const dispatch = this.props.navigation.dispatch;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ 
+          routeName: 'Drawer', 
+          action: NavigationActions.navigate({ routeName: 'Home', params: { needUpdateData: true } }) 
+        })
+      ]
+    });
+    dispatch(resetAction);
   }
 
   goBack() {
-    const { navigate } = this.props.navigation;
-    navigate('Home');
+    const dispatch = this.props.navigation.dispatch;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ 
+          routeName: 'Drawer', 
+          action: NavigationActions.navigate({ routeName: 'Home' }) 
+        })
+      ]
+    });
+    dispatch(resetAction);
   }
   render() {
     return (

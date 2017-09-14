@@ -119,7 +119,7 @@ class Utils {
     const Items = PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
     if (ClientHubID !== null) {
       pickGroup = Items.find(g => g.ClientHubID === ClientHubID);
-      order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
+      if (pickGroup) order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
     }
     
     return order;

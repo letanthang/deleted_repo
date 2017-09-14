@@ -89,7 +89,10 @@ class HomeScreen extends Component {
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: 'Home', params: { needUpdateData: true } })
+        NavigationActions.navigate({ 
+          routeName: 'Drawer', 
+          action: NavigationActions.navigate({ routeName: 'Home', params: { needUpdateData: true } }) 
+        })
       ]
     });
     dispatch(resetAction);

@@ -7,6 +7,7 @@ import {
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import AppFooter from '../components/AppFooter';
 import Utils from '../libs/Utils';
@@ -24,8 +25,17 @@ class DeliveryListScreen extends Component {
     
   }
   goBack() {
-    const { navigate } = this.props.navigation;
-    navigate('Home');
+    const dispatch = this.props.navigation.dispatch;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ 
+          routeName: 'Drawer', 
+          action: NavigationActions.navigate({ routeName: 'Home' }) 
+        })
+      ]
+    });
+    dispatch(resetAction);
   }
 
   renderHeader() {

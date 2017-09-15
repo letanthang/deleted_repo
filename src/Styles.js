@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { StyleSheet } from 'react-native';
 
 const darkTheme = {
@@ -10,7 +11,7 @@ const darkTheme = {
   strongPurple: '#6039e3'
 };
 
-const ColorsDefault = {
+let ColorsDefault = {
   normal: '#455265',
   weak: '#4552658f',
   background: '#eee',
@@ -20,7 +21,11 @@ const ColorsDefault = {
   headerNormal: '#1C1C1C',
   headerActive: '#4EA1FD'
 };
-
+const ColorsAndroid = {
+  headerNormal: '#fff',
+  headerActive: '#00f'
+};
+if (Platform.OS === 'android') ColorsDefault = { ...ColorsDefault, ...ColorsAndroid };
 
 const ColorsDark = {
   normal: darkTheme.light,

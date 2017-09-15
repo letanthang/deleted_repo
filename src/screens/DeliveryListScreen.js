@@ -104,7 +104,7 @@ class DeliveryListScreen extends Component {
             transparent
             onPress={() => navigate('DeliveryGroupCreate')}
           >
-            <IC name="group" size={22} color={Colors.headerActive} />
+            <IC name="group" size={22} color={Colors.headerNormal} />
           </Button>
         </Right>
       </Header>

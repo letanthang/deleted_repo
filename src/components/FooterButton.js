@@ -18,6 +18,7 @@ const FooterButton = ({ active, text, normalIcon, activeIcon, flip, onPress }) =
   return (
     <Button
       onPress={onButtonPress}
+      transparent
     >
       <Icon name={iconName} size={32} color={color} style={style} />
       <Text style={{ color }}>{text}</Text>

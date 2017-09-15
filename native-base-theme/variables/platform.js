@@ -133,7 +133,7 @@ export default {
 
   // Footer
   footerHeight: 55,
-  footerDefaultBg: Theme == 'dark' ? Colors.background : (platform === "ios" ? "#F8F8F8" : "#4179F7"),
+  footerDefaultBg: Theme === 'dark' ? Colors.background : (platform === "ios" ? "#F8F8F8" : "#21d27b"),
 
   // FooterTab
   tabBarTextColor: platform === "ios" ? "#6b6b6b" : "#b3c7f9",
@@ -156,7 +156,7 @@ export default {
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
 
   // toolbarDefaultBg: platform === "ios" ? "#F8F8F8" : "#3F51B5",
-  toolbarDefaultBg: Theme === 'dark' ? Colors.background : (platform === "ios" ? "#F8F8F8" : "#3F51B5"),
+  toolbarDefaultBg: Theme === 'dark' ? Colors.background : (platform === "ios" ? "#F8F8F8" : "#21d27b"),
 
   toolbarHeight: platform === "ios" ? 64 : 56,
   toolbarIconSize: platform === "ios" ? 20 : 22,

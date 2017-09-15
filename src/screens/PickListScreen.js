@@ -103,7 +103,7 @@ class PickListScreen extends Component {
                   this.setState({ showMenu: !this.state.showMenu });
                 }}
             >          
-              <IC name='dots-horizontal' size={28} />
+              <IC name='dots-horizontal' size={28} color={Colors.headerNormal} />
             </Button>
           </Right>
         </Header>

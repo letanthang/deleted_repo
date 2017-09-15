@@ -169,7 +169,7 @@ class OrderListScreen extends Component {
 
   render() {
     const { pds } = this.props;
-    if (!pds || pds.PDSItems) return this.renderNullData();
+    if (!pds || !pds.PDSItems) return this.renderNullData();
 
     const items = pds.PDSItems.filter(o => this.checkKeywork(o));
     const datas = _.groupBy(items, 'Address');

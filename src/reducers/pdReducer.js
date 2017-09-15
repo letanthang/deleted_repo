@@ -29,8 +29,7 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_SUCCESS: {
       console.log('update home screen with numbers');
       const pds = action.payload.pds;
-      
-      //pds.PickReturnItems.push(lastItem);
+      transformPDS(pds);
       addGroup(pds, action.payload.orderGroup);
       console.log('pds add group');
       console.log(pds);
@@ -97,6 +96,7 @@ export default (state = nameInitialState, action) => {
         order.NextStatus = CurrentStatus;
         console.log(`Found order - id = ${order.OrderID}`);
       }
+      transformPDS(pds);
 
       console.log('state after:');
       console.log(pds);
@@ -184,6 +184,36 @@ export default (state = nameInitialState, action) => {
 //
 //
 
+const transformPDS = (pds) => {
+  console.log(pds.PickItems);
+  // create PickItems, DeliveryItems, ReturnItems
+  pds.DeliveryItems = pds.PDSItems.filter(o => o.PickDeliveryType === 2);
+
+  let items = pds.PDSItems.filter(o => o.PickDeliveryType === 1);
+  let groups = _.groupBy(items, 'ClientHubID');
+  pds.PickItems = [];
+  _.forEach(groups, (orders,key) => {
+    const order = orders[0];
+    const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
+
+    const group = { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
+    group.PickReturnSOs = orders;
+    pds.PickItems.push(group);
+  });
+  console.log(pds.PickItems);
+
+  items = pds.PDSItems.filter(o => o.PickDeliveryType === 3);
+  groups = _.groupBy(items, 'ClientHubID');
+  pds.ReturnItems = [];
+  _.forEach(groups, (orders,key) => {
+    const order = orders[0];
+    const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
+
+    const group = { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
+    group.PickReturnSOs = orders;
+    pds.ReturnItems.push(group);
+  });
+}
 
 const addGroup = (pds, orderGroup) => {
   pds.DeliveryItems.forEach((order, index) => {
@@ -194,7 +224,6 @@ const addGroup = (pds, orderGroup) => {
   pds.PDSItems.forEach((order, index) => {
     pds.PDSItems[index].key = order.OrderID;
   });
-  //split to: pickItems, returnItems, deliveryItems
 };
 
 const calculateStatNumbers = (pds) => {

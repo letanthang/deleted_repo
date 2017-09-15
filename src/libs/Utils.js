@@ -106,7 +106,7 @@ class Utils {
   }
 
   static getOrder(pds, OrderID, ClientHubID, PickDeliveryType = null) {
-    console.log(`orderID = ${OrderID} ClientHubID = ${ClientHubID} PickDeliveryType = ${PickDeliveryType}`);
+    /*console.log(`orderID = ${OrderID} ClientHubID = ${ClientHubID} PickDeliveryType = ${PickDeliveryType}`);
     let order = null;
     let pickGroup = null;
 
@@ -121,8 +121,9 @@ class Utils {
       pickGroup = Items.find(g => g.ClientHubID === ClientHubID);
       if (pickGroup) order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
     }
-    
     return order;
+    */
+    return pds.PDSItems.find(o => o.OrderID === OrderID);
   }
 
   static getReturnGroupFromPG(pds, pickGroup) {

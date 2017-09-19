@@ -13,15 +13,12 @@ class PDCard extends Component {
       this.state = { upNumber: 0, downNumber: 0 };
       setTimeout(() => this.setState({ upNumber, downNumber }), 500);
     } else {
-      console.log('Delay false');
       this.state = { upNumber, downNumber };
     }
   }
   
   componentWillReceiveProps(nextProps) {
-    //console.log('PDCard: componentWillReceiveProps');
     if (this.props !== nextProps) {
-      console.log('props changed');
       const { upNumber, downNumber, delay } = nextProps;
       if (delay) {
         this.setState({ upNumber: 0, downNumber: 0 });

@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import IconFA from 'react-native-vector-icons/FontAwesome';
+import { phonecall } from 'react-native-communications';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { 
   Container, Content, Button, List, ListItem, 
-  Text, Icon, Left, Body 
+  Text, Icon, Left, Body, Right 
 } from 'native-base';
 import { logoutUser, pdListNoTrip } from '../actions';
 
@@ -44,42 +45,59 @@ class SideBar extends Component {
 
   render() {
     console.log('SideBar: render called');
+    let CoordinatorFullName = '';
+    let CoordinatorPhone = '';
+    if (this.props.pds) {
+      CoordinatorFullName = this.props.pds.CoordinatorFullName;
+      CoordinatorPhone = this.props.pds.CoordinatorPhone;
+    }
+    
     const { UserID, FullName } = this.props.user;
     return (
       <Container style={{ marginTop: 20 }}>
         <Content>
-          <View style={{ padding: 3, height: 170, backgroundColor: '#56B85A', borderColor: 'green', borderWidth: 3 }}>
-            <IconFA name="user-circle" size={50} />
-            <Text style={{ color: 'white', marginTop: 50 }}>{FullName}</Text>
+          <View style={{ justifyContent: 'space-between', paddingBottom: 16, paddingTop: 16, paddingLeft: 16, height: 170, backgroundColor: '#56B85A', borderColor: 'green', borderWidth: 3 }}>
+            <IC name="account-circle" size={70} color='white' />
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>{FullName}</Text>
           </View>
 
           <List>
             <ListItem icon>
                 <Left>
-                  <IconFA name="user-circle" size={15} />
+                  <IC name="account" size={20} color='#FF9504' />
                 </Left>
                 <Body>
-                  <Text>ĐP:{UserID} - {FullName}</Text>
+                  <Text>ĐP : {CoordinatorFullName}</Text>
                 </Body>
             </ListItem>
-            <ListItem icon>
+            <ListItem 
+              icon
+              onPress={() => phonecall(CoordinatorPhone, true)}
+            >
               <Left>
-                <IconFA name="mobile" size={18} />
+                <IC name="cellphone" size={20} color='#FF9504' />
               </Left>
               <Body>
-                <Text>SĐT:0908</Text>
+                <Text>SĐT ĐP : {CoordinatorPhone}</Text>
               </Body>
+              <Right>
+                <IC name='phone' color='#FF9504' size={20} />
+                <Icon name="arrow-forward" />
+              </Right>
             </ListItem>
             <ListItem 
               onPress={this.onUpdateDataPress.bind(this)}
               icon
             >
               <Left>
-                <IconFA name="download" size={15} />
+                <IC name="autorenew" size={20} color='#4DDA64' />
               </Left>
               <Body>
-                <Text>Cập nhật dữ liệu</Text>
+                <Text>Cập nhật DL</Text>
               </Body>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
             </ListItem>
             
             <ListItem 
@@ -87,42 +105,21 @@ class SideBar extends Component {
               icon
             >
               <Left>
-                <IconFA name="home" size={15} />
+                <IC name="home" size={20} color='#4DDA64' />
               </Left>
               <Body>
                 <Text>Màn hình chính</Text>
               </Body>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
             </ListItem>
             <ListItem icon>
               <Left>
-                <IconFA name="map" size={15} />
+                <IC name="information" size={20} color='#8F8E93' />
               </Left>
               <Body>
-                <Text>Bản đồ</Text>
-              </Body>
-            </ListItem>
-            <ListItem icon>
-              <Left>
-                <IconFA name="info-circle" size={15} />
-              </Left>
-              <Body>
-                <Text>Thông tin ứng dụng</Text>
-              </Body>
-            </ListItem>
-            <ListItem icon>
-              <Left>
-                <IconFA name="map" size={15} />
-              </Left>
-              <Body>
-                <Text>Góp ý</Text>
-              </Body>
-            </ListItem>
-            <ListItem icon>
-              <Left>
-                <IconFA name="map" size={15} />
-              </Left>
-              <Body>
-                <Text>Hướng dẫn</Text>
+                <Text>Thông tin app</Text>
               </Body>
             </ListItem>
             <ListItem 
@@ -130,11 +127,14 @@ class SideBar extends Component {
               onPress={this.onLogoutPress.bind(this)}
             >
               <Left>
-                <Icon name="log-out" size={15} />
+                <IC name="logout" size={20} color='#8F8E93' />
               </Left>
               <Body>
                 <Text>Logout</Text>
               </Body>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
             </ListItem>
           </List>
         </Content>
@@ -152,9 +152,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, pd }) => {
   const { user } = auth;
-  return { user };
+  const { pds } = pd;
+  return { user, pds };
 };
 //make avai
 export default connect(mapStateToProps, { logoutUser, pdListNoTrip })(SideBar);

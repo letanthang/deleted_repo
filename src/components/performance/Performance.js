@@ -37,20 +37,20 @@ class Performance extends Component {
       <Content>
         <PDStatsCard 
           type='pick'
-          upNumber={5}
-          downNumber={12}
+          upNumber={0}
+          downNumber={0}
           percentage={monthCurrent.pick || 0}
         />
         <PDStatsCard 
           type='delivery'
-          upNumber={5}
-          downNumber={12}
+          upNumber={0}
+          downNumber={0}
           percentage={monthCurrent.delivery || 0}
         />
         <PDStatsCard 
           type='return'
-          upNumber={5}
-          downNumber={12}
+          upNumber={0}
+          downNumber={0}
           percentage={monthCurrent.return || 0}
         />
         <Text style={[Styles.normalColorStyle, Styles.bigTextStyle]}>Không có dữ liệu</Text>

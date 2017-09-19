@@ -185,7 +185,6 @@ export default (state = nameInitialState, action) => {
 //
 
 const transformPDS = (pds) => {
-  console.log(pds.PickItems);
   // create PickItems, DeliveryItems, ReturnItems
   pds.DeliveryItems = pds.PDSItems.filter(o => o.PickDeliveryType === 2);
 
@@ -200,7 +199,6 @@ const transformPDS = (pds) => {
     group.PickReturnSOs = orders;
     pds.PickItems.push(group);
   });
-  console.log(pds.PickItems);
 
   items = pds.PDSItems.filter(o => o.PickDeliveryType === 3);
   groups = _.groupBy(items, 'ClientHubID');

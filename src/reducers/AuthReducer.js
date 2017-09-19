@@ -29,8 +29,8 @@ export default (state = INITIAL_STATE, action) => {
     case REMEMBER_ME_CHANGED:
       return { ...state, rememberMe: !state.rememberMe };
     case LOAD_SAVED_USER_PASS:
-      console.log('AuthReducer: LOAD_SAVED_USER_PASS');
-      console.log(action.payload);
+      // console.log('AuthReducer: LOAD_SAVED_USER_PASS');
+      // console.log(action.payload);
       return { 
         ...state, 
         userID: action.payload.userID,

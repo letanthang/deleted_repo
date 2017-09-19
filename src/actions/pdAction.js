@@ -17,7 +17,6 @@ export const pdListFetch = () => {
     // console.log(user);
     API.GetUserActivePds(userID)
       .then(response => {
-        console.log(response);
         const json = response.data;
         if (json.status === 'OK') {
           pdListFetchSuccess(dispatch, json.data[0]);

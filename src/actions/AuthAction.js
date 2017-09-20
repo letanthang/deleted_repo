@@ -75,7 +75,7 @@ export const loginUser = ({ userID, password, rememberMe }) => {
       .catch(error => {
         console.log('loginUser fail with error =');
         console.log(error);
-        loginUserFail(dispatch, error);
+        loginUserFail(dispatch, error.message);
       });
   };
 };

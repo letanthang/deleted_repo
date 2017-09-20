@@ -24,20 +24,16 @@ export const pdListFetch = () => {
           console.log('khong co chuyen di, json response=');
           console.log(json);
           dispatch({ type: PDLIST_NO_TRIP });
-        } else if (json.status === 'ERROR') {
-          console.log('pdListFetch failed with response json = ');
-          console.log(json);
-          pdListFetchFail(dispatch, json.message);
         } else {
           console.log('pdListFetch failed with response json = ');
           console.log(json);
-          pdListFetchFail(dispatch, 'Something went wrong!');
+          pdListFetchFail(dispatch, json.message);
         }
       })
       .catch(error => {
         console.log('pdListFetch failed with error = ');
         console.log(error);
-        pdListFetchFail(dispatch, 'Something went wrong!');
+        pdListFetchFail(dispatch, error.message);
       });
   };
 };

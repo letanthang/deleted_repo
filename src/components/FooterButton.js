@@ -5,14 +5,14 @@ import { Colors } from '../Styles';
 
 const FooterButton = ({ active, text, normalIcon, activeIcon, flip, onPress }) => {
   const onButtonPress = active ? null : onPress;
-  let color = Colors.headerNormal;
+  let color = Colors.footerNormal;
   let iconName = normalIcon;
   let style = null;
   if (flip) {
     style = { transform: [{ rotateY: '180deg' }] };
   }
   if (active) {
-    color = Colors.headerActive;
+    color = Colors.footerActive;
     if (activeIcon) iconName = activeIcon;
   }
   return (

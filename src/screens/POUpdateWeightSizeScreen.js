@@ -136,11 +136,23 @@ class POUpdateWeightSizeScreen extends Component {
     return true;
   }
 
+  renderFee(ServiceFee) {
+    if (ServiceFee == '0') {
+      return (
+        <Text style={{ color: 'red' }}>Chưa tính</Text>
+      );
+    } 
+
+    return (
+      <Text style={{ color: 'red' }}>{accounting.formatNumber(ServiceFee)} đ</Text>
+    );
+  }
+
   render() {
     const order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
     // console.log('Render called, order = ');
     console.log(order);
-    const { OrderCode, ServiceCost, Weight, Length, Width, Height } = order;
+    const { OrderCode, ServiceCost, CODAmount, Weight, Length, Width, Height } = order;
     
     if (this.state.Weight === null) {
       this.state.Weight = Weight;
@@ -151,7 +163,7 @@ class POUpdateWeightSizeScreen extends Component {
     }
 
     console.log(`Render: ServiceCost: ${ServiceCost} ServiceFee: ${this.props.ServiceFee} `);
-    const ServiceFee = this.props.ServiceFee || ServiceCost;
+    const ServiceFee = this.props.ServiceFee || CODAmount;
 
     const { goBack } = this.props.navigation;
     return (
@@ -177,7 +189,7 @@ class POUpdateWeightSizeScreen extends Component {
           <View style={styles.rowStyle}>
             <Text>Khối lượng </Text>
             <TextInput 
-              style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
+              style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Weight.toString()}
             />
             <Text> g</Text>
@@ -189,19 +201,19 @@ class POUpdateWeightSizeScreen extends Component {
           <View style={styles.rowStyle}>
           
             <TextInput 
-              style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
+              style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Length.toString()}
               onChangeText={value => this.onInputChange('Length', value)}
             />
             <Text> x </Text>
             <TextInput 
-              style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
+              style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Width.toString()}
               onChangeText={value => this.onInputChange('Width', value)}
             />
             <Text> x </Text>
             <TextInput 
-              style={{ height: 30, flex: 1, borderColor: 'gray', borderBottomWidth: 1 }}
+              style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Height.toString()}
               onChangeText={value => this.onInputChange('Height', value)}
             />
@@ -211,7 +223,8 @@ class POUpdateWeightSizeScreen extends Component {
             <Text>Khối lượng quy đổi: </Text><Text style={{ color: 'blue' }}>{this.state.CalculateWeight} g</Text>
           </View>
           <View style={styles.rowStyle}>
-            <Text>Phí vận chuyển: </Text><Text style={{ color: 'red' }}>{accounting.formatNumber(ServiceFee)} đ</Text>
+            <Text>Phí vận chuyển: </Text>
+            {this.renderFee(ServiceFee)}
           </View>
           <View style={styles.rowStyle}>
             <Button 

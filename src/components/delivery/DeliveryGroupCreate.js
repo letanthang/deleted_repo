@@ -152,11 +152,12 @@ class DeliveryGroupCreate extends Component {
       <Content style={{ backgroundColor: Colors.row }}>
         <View style={Styles.rowStyle}>
           <TextInput 
-            style={{ height: 40, flex: 1, borderColor: 'gray', borderBottomWidth: 2, borderBottomColor: '#06B2F5' }}
+            style={{ height: 40, flex: 1 }}
             value={this.state.GroupName}
             onChangeText={(GroupName) => this.setState({ GroupName })}
           />
-          <Button 
+          <Button
+            style={{ marginLeft: 4, marginRight: 4 }} 
             small
             light
             onPress={this.onCreateGroup.bind(this)}

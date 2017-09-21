@@ -11,18 +11,26 @@ const darkTheme = {
 };
 
 let ColorsDefault = {
-  normal: '#455265',
-  weak: '#4552658f',
-  background: '#eee',
+  normal: '#202430',
+  weak: '#202430fa',
+  background: '#EAEFF2',
   row: 'white',
   rowDivider: '#4552658f',
   rowHeader: '#eee',
   headerNormal: '#1C1C1C',
-  headerActive: '#4EA1FD'
+  headerActive: '#4EA1FD',
+  headerBackground: '#F8F8F8',
+  footerNormal: this.headerNormal,
+  footerActive: this.headerActive,
+  footerBackground: '#F8F8F8'
 };
 const ColorsAndroid = {
   headerNormal: '#fff',
-  headerActive: '#00f'
+  headerActive: '#00f',
+  headerBackground: '#005939',
+  footerNormal: '#878787',
+  footerActive: '#141414',
+  footerBackground: 'white'
 };
 if (Platform.OS === 'android') ColorsDefault = { ...ColorsDefault, ...ColorsAndroid };
 
@@ -34,7 +42,10 @@ const ColorsDark = {
   rowDivider: darkTheme.veryLight,
   rowHeader: '#eee',
   headerNormal: darkTheme.veryLight,
-  headerActive: darkTheme.purple
+  headerActive: darkTheme.purple,
+  footerNormal: this.headerNormal,
+  footerActive: this.headerActive,
+  footerBackground: darkTheme.background
 };
 
 export const Theme = 'default';

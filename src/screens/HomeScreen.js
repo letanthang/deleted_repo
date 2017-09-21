@@ -136,7 +136,7 @@ class HomeScreen extends Component {
               </Button>
             </Left>
             <Body>
-              <Title>MPDS</Title>
+              <Title>Tài xế GHN</Title>
             </Body>
             <Right>
               <Button

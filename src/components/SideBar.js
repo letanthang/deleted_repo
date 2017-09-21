@@ -56,7 +56,7 @@ class SideBar extends Component {
     return (
       <Container style={{ marginTop: 20 }}>
         <Content>
-          <View style={{ justifyContent: 'space-between', paddingBottom: 16, paddingTop: 16, paddingLeft: 16, height: 170, backgroundColor: '#56B85A', borderColor: 'green', borderWidth: 3 }}>
+          <View style={{ justifyContent: 'space-between', paddingBottom: 16, paddingTop: 16, paddingLeft: 16, height: 170, backgroundColor: '#56B85A' }}>
             <IC name="account-circle" size={70} color='white' />
             <Text style={{ color: 'white', fontWeight: 'bold' }}>{FullName}</Text>
           </View>
@@ -119,7 +119,7 @@ class SideBar extends Component {
                 <IC name="information" size={20} color='#8F8E93' />
               </Left>
               <Body>
-                <Text>Thông tin app</Text>
+                <Text>Thông tin ứng dụng</Text>
               </Body>
             </ListItem>
             <ListItem 
@@ -130,7 +130,7 @@ class SideBar extends Component {
                 <IC name="logout" size={20} color='#8F8E93' />
               </Left>
               <Body>
-                <Text>Logout</Text>
+                <Text>Đăng xuất</Text>
               </Body>
               <Right>
                 <Icon name="arrow-forward" />

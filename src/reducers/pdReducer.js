@@ -133,7 +133,10 @@ export default (state = nameInitialState, action) => {
       const pds = state.pds;
       const { OrderID, ClientHubID, ServiceCost, Length, Width, Height, Weight } = action.payload;
       const order = Utils.getOrder(pds, OrderID, ClientHubID, 1);
-      order.ServiceCost = ServiceCost;
+      if (order.CODAmount != 0) {
+        order.CODAmount = ServiceCost;
+      }
+      
       order.Length = Length;
       order.Weight = Weight;
       order.Height = Height;

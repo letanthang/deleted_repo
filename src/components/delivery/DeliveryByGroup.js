@@ -132,7 +132,7 @@ class DeliveryByGroup extends Component {
     console.log(`DeliveryByGroup render, activeGroup = ${this.state.activeGroup}`);
     console.log(deliveryList);
     const groups = _.clone(LocalGroup.getGroups());
-    groups.push('Done');
+    groups.push('Đã xong');
     groups.unshift(null);
     // console.log('render, groups =');
     // console.log(groups);

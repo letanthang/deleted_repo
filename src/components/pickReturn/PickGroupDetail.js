@@ -138,7 +138,7 @@ class PickGroupDetail extends Component {
       navigate('ReturnOrder', { OrderID, order, ClientHubID });
     }
   }
-  renderInfosForPick({ Weight, Length, Width, Height, ServiceCost, disabled }) {
+  renderInfosForPick({ Weight, Length, Width, Height }) {
     if (this.PickDeliveryType === 3) return null;
     return (
       <View>
@@ -150,9 +150,9 @@ class PickGroupDetail extends Component {
   }
   renderOrder(order) {
     const { 
-      OrderCode, RecipientName, RecipientPhone, ServiceCost, 
+      OrderCode, RecipientName, RecipientPhone,
       Height, Width, Weight, Length, CurrentStatus, NextStatus,
-      ExternalCode
+      ExternalCode, CODAmount
     } = order;
     const PickDeliveryType = this.PickDeliveryType;
 
@@ -193,16 +193,16 @@ class PickGroupDetail extends Component {
               <StatusText text={DisplayStatus} colorTheme={StatusColor} style={{ marginLeft: 10 }} show={disabled} />
             </View>
             
-            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{ServiceCost} đ</Text>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{CODAmount} đ</Text>
           </View>
           <View style={Styles.itemStyle}>
-            <Text style={[Styles.weakColorStyle]}>Mã shop: {ExternalCode}</Text>
+            <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {ExternalCode}</Text>
           </View>
           <View style={Styles.itemStyle}>
-            <Text style={Styles.weakColorStyle}>{RecipientName} - {RecipientPhone}</Text>
+            <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
           </View>
           
-          {this.renderInfosForPick({ Weight, Length, Width, Height, ServiceCost, disabled })}
+          {this.renderInfosForPick({ Weight, Length, Width, Height })}
           
           {this.renderActionButtons(disabled, rightText, order)}
           

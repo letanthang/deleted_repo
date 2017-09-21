@@ -17,7 +17,7 @@ export const pdListFetch = () => {
     // console.log(user);
     API.GetUserActivePds(userID)
       .then(response => {
-        const json = response.data;
+        const json = sampleResponse;
         if (json.status === 'OK') {
           pdListFetchSuccess(dispatch, json.data[0]);
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
@@ -176,3 +176,95 @@ export const updateOrderGroup = (updateList) => {
     payload: updateList
   };
 };
+
+const sampleResponse = {
+    "status": "OK",
+    "data": [
+        {
+            "EmployeeFullName": "Võ Đức Đạt",
+            "CoordinatorFullName": "Trần Chí Cường",
+            "CoordinatorPhone": "0939006988",
+            "PickDeliverySessionID": "59c252cfbae4ba02c08327ba",
+            "PDSCode": "170920DVPGUN",
+            "StartTime": "Sep 20, 2017 6:37:21 PM",
+            "SType": 0,
+            "PDSItems": [
+                {
+                    "OrderID": 36846889,
+                    "OrderCode": "23RUXXR4",
+                    "CurrentStatus": "Picking",
+                    "RecipientName": "Cường gửi",
+                    "RecipientPhone": "01668117449",
+                    "CODAmount": 0,
+                    "ServiceCost": 0,
+                    "Note": "",
+                    "Log": "",
+                    "PickDeliverySessionDetailID": "59c252cfe5c882d9f5122e2b",
+                    "PaymentTypeID": 0,
+                    "TotalExtraFee": 0,
+                    "Weight": 500,
+                    "ServiceID": 53321,
+                    "ServiceName": "2 Ngày",
+                    "TotalCollectedAmount": 0,
+                    "NextStatus": "",
+                    "Length": 10,
+                    "Width": 10,
+                    "Height": 10,
+                    "FromDistrictID": 1453,
+                    "ToDistrictID": 2086,
+                    "Lat": 0,
+                    "Lng": 0,
+                    "DistrictCode": "0211",
+                    "DistrictName": "Quận 11",
+                    "IsTrial": 0,
+                    "PickDeliveryType": 1,
+                    "ClientID": 0,
+                    "ClientName": 'Sendo.vn',
+                    "ContactName": "Cường gửi",
+                    "ContactPhone": "01668117449",
+                    "ClientHubID": 653473,
+                    "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
+                },
+                {
+                    "OrderID": 36846901,
+                    "OrderCode": "23F5NNH9",
+                    "CurrentStatus": "Picking",
+                    "RecipientName": "Cường gửi",
+                    "RecipientPhone": "01668117449",
+                    "CODAmount": 71500,
+                    "ServiceCost": 0,
+                    "Note": "",
+                    "Log": "",
+                    "PickDeliverySessionDetailID": "59c252cfe5c882d9f512581c",
+                    "PaymentTypeID": 0,
+                    "TotalExtraFee": 0,
+                    "Weight": 500,
+                    "ServiceID": 53320,
+                    "ServiceName": "1 Ngày",
+                    "TotalCollectedAmount": 0,
+                    "NextStatus": "",
+                    "Length": 10,
+                    "Width": 10,
+                    "Height": 10,
+                    "FromDistrictID": 1453,
+                    "ToDistrictID": 2086,
+                    "Lat": 0,
+                    "Lng": 0,
+                    "DistrictCode": "0211",
+                    "DistrictName": "Quận 11",
+                    "IsTrial": 0,
+                    "PickDeliveryType": 1,
+                    "ClientID": 0,
+                    "ClientName": 'Sendo.vn',
+                    "ContactName": "Cường gửi",
+                    "ContactPhone": "01668117449",
+                    "ClientHubID": 653473,
+                    "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
+                }
+            ],
+            "timeServer": 0,
+            "code": 1
+        }
+    ],
+    "message": ""
+}

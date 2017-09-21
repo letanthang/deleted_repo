@@ -51,7 +51,7 @@ const AppFooter = ({ navigation }) => {
           onPress={() => navigate(dispatch, 'ReturnList')}
         />
         <FooterButton
-          text='All'
+          text='Tất cả'
           normalIcon='all-inclusive'
           activeIcon='all-inclusive'
           flip

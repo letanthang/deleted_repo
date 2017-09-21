@@ -54,7 +54,7 @@ class SideBar extends Component {
     
     const { UserID, FullName } = this.props.user;
     return (
-      <Container style={{ marginTop: 20 }}>
+      <Container>
         <Content>
           <View style={{ justifyContent: 'space-between', paddingBottom: 16, paddingTop: 16, paddingLeft: 16, height: 170, backgroundColor: '#56B85A' }}>
             <IC name="account-circle" size={70} color='white' />

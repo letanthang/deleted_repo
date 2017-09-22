@@ -17,13 +17,13 @@ export const pdListFetch = () => {
     // console.log(user);
     API.GetUserActivePds(userID)
       .then(response => {
-        const json = response;
+        const json = response.data;
         if (json.status === 'OK') {
           pdListFetchSuccess(dispatch, json.data[0]);
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
           console.log('khong co chuyen di, json response=');
           console.log(json);
-          dispatch({ type: PDLIST_NO_TRIP });
+          dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
         } else {
           console.log('pdListFetch failed with response json = ');
           console.log(json);

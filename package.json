@@ -30,6 +30,7 @@
     "rxjs": "^5.4.2"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.9.0",
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "2.1.0",
     "jest": "20.0.4",

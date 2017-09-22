@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { accounting } from 'accounting';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
@@ -140,7 +141,7 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ServiceCost} đ</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>

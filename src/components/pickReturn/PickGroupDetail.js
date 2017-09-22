@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet, Text, Modal, Button as Btn } from 'react-native';
 import { connect } from 'react-redux';
+import { accounting } from 'accounting';
 import { 
   Content, ActionSheet, List
 } from 'native-base';
@@ -193,7 +194,7 @@ class PickGroupDetail extends Component {
               <StatusText text={DisplayStatus} colorTheme={StatusColor} style={{ marginLeft: 10 }} show={disabled} />
             </View>
             
-            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{CODAmount} đ</Text>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
           </View>
           <View style={Styles.itemStyle}>
             <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {ExternalCode}</Text>

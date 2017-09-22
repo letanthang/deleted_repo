@@ -252,8 +252,8 @@ class POUpdateWeightSizeScreen extends Component {
 const styles = StyleSheet.create({
   rowStyle: {
     paddingTop: 20,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingLeft: 16,
+    paddingRight: 16,
     flexDirection: 'row',
     //justifyContent: 'space-between',
     alignItems: 'center'

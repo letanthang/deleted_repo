@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
+import accounting from 'accounting';
 import { 
   Content,
   List,
@@ -55,7 +56,7 @@ class PickGroupList extends Component {
     const { Address, CircleName, ClientName, DisplayOrder, ContactName, ContactPhone } = pickGroup;
     
     let TotalServiceCost = 0; 
-    pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.ServiceCost; });
+    pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.CODAmount; });
     const ordersNum = pickGroup.PickReturnSOs.length;
     const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
     return (
@@ -93,7 +94,7 @@ class PickGroupList extends Component {
                 Đơn hàng: {completedNum}/{ordersNum}
               </Text>
               <Text style={[Styles.normalColorStyle]}>
-              {TotalServiceCost} đ
+              {accounting.formatNumber(TotalServiceCost)} đ
               </Text>
             </View>
             <View style={[Styles.item2Style]}>

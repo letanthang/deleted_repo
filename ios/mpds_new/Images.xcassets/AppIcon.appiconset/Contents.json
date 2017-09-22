@@ -3,50 +3,56 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_20@2x.png",
+      "filename" : "mpds_icon_20@2x-2.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_20@3x.png",
+      "filename" : "mpds_icon_20@3x-2.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_29@2x.png",
+      "filename" : "mpds_icon_29@2x-4.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_29@3x.png",
+      "filename" : "mpds_icon_29@3x-4.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_40@2x.png",
+      "filename" : "mpds_icon_40@2x-2.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_40@3x.png",
+      "filename" : "mpds_icon_40@3x-2.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_60@2x.png",
+      "filename" : "mpds_icon_60@2x-2.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "mpds_icon_60@3x.png",
+      "filename" : "mpds_icon_60@3x-2.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "mpds_icon_1024-1.png",
+      "scale" : "1x"
     },
     {
       "size" : "24x24",
@@ -94,6 +100,95 @@
       "scale" : "2x",
       "role" : "quickLook",
       "subtype" : "42mm"
+    },
+    {
+      "idiom" : "watch-marketing",
+      "size" : "1024x1024",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "mpds_icon_20@2x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_20@2x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_20@3x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_20@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@2x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@2x-2.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@2x-3.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@2x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@3x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@3x-2.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@3x-3.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_29@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_40@2x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_40@2x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_40@3x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_40@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_60@2x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_60@2x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_60@3x-1.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_60@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "mpds_icon_1024.png",
+      "unassigned" : true
     }
   ],
   "info" : {

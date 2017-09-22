@@ -51,8 +51,8 @@ const defaultStyles = {
   textStyle: {
     color: Colors.normal
   },
-  successColor: '#20D3A1',
-  dangerColor: '#FB8589'
+  successColor: '#006441',
+  dangerColor: '#FB4548'
 };
 
 let styles = {

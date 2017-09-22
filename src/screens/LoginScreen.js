@@ -9,7 +9,7 @@ import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loginUser, logoutUser } from '../actions';
+import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser } from '../actions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Colors } from '../Styles';
 
@@ -25,11 +25,23 @@ class LoginScreen extends Component {
   componentWillMount() {
     console.log('MPDS_new : componentWillMount');
     this.props.loadSavedUserPass();
+    this.props.loadSavedSession();
   }
-  // componentWillReceiveProps(nextProps) {
-  //   // this.props still here -> the old set of props
-  //   console.log('MPDS_new : componentWillReceiveProps');
-  // }
+  componentWillReceiveProps(nextProps) {
+    console.log('MPDS_new : componentWillReceiveProps');
+    const { dispatch } = this.props.navigation;
+    const { user } = nextProps;
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Drawer' })
+      ]
+    });
+
+    if (user) {
+      dispatch(resetAction);
+    }
+  }
   componentWillUpdate() {
     const { dispatch } = this.props.navigation;
     const resetAction = NavigationActions.reset({
@@ -46,17 +58,6 @@ class LoginScreen extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log('cdu called!');
-    const { dispatch } = this.props.navigation;
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Drawer' })
-      ]
-    });
-
-    if (this.props.user) {
-      dispatch(resetAction);
-    }
 
     //show login error
     if (!prevProps.error && this.props.error) {
@@ -174,12 +175,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth }) => {
-  const { userID, password, rememberMe, user, error, loading } = auth;
-  return { userID, password, rememberMe, user, error, loading };
+  const { userID, password, rememberMe, user, error, loading, sessionToken } = auth;
+  return { userID, password, rememberMe, user, error, loading, sessionToken };
 };
 
 //make it available
 export default connect(
   mapStateToProps, 
-  { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loginUser, logoutUser }
+  { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser }
 )(LoginScreen);

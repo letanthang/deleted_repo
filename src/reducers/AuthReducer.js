@@ -3,6 +3,7 @@ import {
   PASSWORD_CHANGED,
   REMEMBER_ME_CHANGED,
   LOAD_SAVED_USER_PASS,
+  LOAD_SAVED_SESSION,
   LOGIN_USER, 
   LOGIN_USER_SUCCESS, 
   LOGIN_USER_FAIL,
@@ -17,7 +18,7 @@ const INITIAL_STATE = {
   loading: false,
   error: '',
   user: null,
-  sessionToken: ''
+  sessionToken: null
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,12 +31,17 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, rememberMe: !state.rememberMe };
     case LOAD_SAVED_USER_PASS:
       // console.log('AuthReducer: LOAD_SAVED_USER_PASS');
-      // console.log(action.payload);
       return { 
         ...state, 
         userID: action.payload.userID,
         password: action.payload.password,
         rememberMe: action.payload.rememberMe,
+      };
+    case LOAD_SAVED_SESSION:
+      return { 
+        ...state, 
+        user: action.payload.user,
+        sessionToken: action.payload.sessionToken
       };
     case LOGIN_USER_SUCCESS: {
       console.log('login success');

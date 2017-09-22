@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { 
-  USERID_CHANGED, PASSWORD_CHANGED, REMEMBER_ME_CHANGED, LOAD_SAVED_USER_PASS, LOGIN_USER,  
+  USERID_CHANGED, PASSWORD_CHANGED, REMEMBER_ME_CHANGED, LOAD_SAVED_USER_PASS, LOAD_SAVED_SESSION, LOGIN_USER,  
   LOGOUT_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS 
 } from './types.js';
 import * as API from '../apis/MPDS';
@@ -56,13 +56,66 @@ export const loadSavedUserPass = () => {
   return loadLoginInfo;
 };
 
+
+
+
+
+
+async function loadSession(dispatch) {
+  try {
+    const loginInfo = await AsyncStorage.getItem('session');
+    if (loginInfo !== null) {
+      const payload = JSON.parse(loginInfo);
+      dispatch({
+        type: LOAD_SAVED_SESSION,
+        payload
+      });
+    }
+  } catch (error) {
+    console.log('loadSession failed with error=');
+    console.log(error);
+  }
+}
+
+async function saveSession(data) {
+  try {
+    console.log('saveSession start!')
+    await AsyncStorage.setItem('session', JSON.stringify(data));
+    
+  } catch (error) {
+    console.log('Fail to session ');
+    console.log(error);
+  }
+}
+
+async function destroySession() {
+  try {
+    await AsyncStorage.removeItem('session');
+  } catch (error) {
+    console.log('Fail to destroy session ');
+    console.log(error);
+  }
+}
+
+export const loadSavedSession = () => {  
+  return loadSession;
+};
+
+
+
+
+
+
+
+
+
+
 export const loginUser = ({ userID, password, rememberMe }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
     API.Authenticate({ UserID: userID, Password: password })
       .then(response => {
         const json = response.data;
-        loginUserSucess(dispatch, { UserID: userID, FullName: userID }, { userID, password, rememberMe });
 
         if (json.status === 'OK') {
           loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
@@ -80,9 +133,13 @@ export const loginUser = ({ userID, password, rememberMe }) => {
   };
 };
 
-const loginUserSucess = (dispatch, user, { userID, password, rememberMe }) => {
+const loginUserSucess = (dispatch, { userInfo, session }, { userID, password, rememberMe }) => {
   if (rememberMe) {
     saveLoginInfo({ userID, password, rememberMe });
+    const user = userInfo;
+    user.UserID = user.ssoId;
+    user.FullName = user.fullname;
+    saveSession({ user, session });
   } else {
     saveLoginInfo({ userID: '', password: '', rememberMe: false });
   }
@@ -91,11 +148,12 @@ const loginUserSucess = (dispatch, user, { userID, password, rememberMe }) => {
   .then(() => {
     dispatch({
       type: LOGIN_USER_SUCCESS,
-      payload: user
+      payload: { userInfo, session }
     });
   })
   .catch(error => {
-    console.log('getLocalDB error');
+    console.log('getLocalDB error=');
+    console.log(error);
   });
   
 };
@@ -108,6 +166,7 @@ const loginUserFail = (dispatch, errorMsg) => {
 };
 
 export const logoutUser = () => {
+  destroySession();
   return({
     type: LOGOUT_USER
   });

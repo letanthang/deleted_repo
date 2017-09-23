@@ -25,10 +25,11 @@ import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
 import platform from '../native-base-theme/variables/platform';
 
-export const store = configureStore();
-
+//export const store = configureStore();
 class App extends Component {
   render() {
+    console.log('Root render');
+    const { store } = this.props;
     const AppNavigator = StackNavigator(
       {
         Login: { screen: LoginScreen },
@@ -60,5 +61,9 @@ class App extends Component {
     );
   }
 }
+
+App.defaultProps = {
+  store: configureStore()
+};
 
 export default App;

@@ -16,12 +16,10 @@ export default function configureStore() {
     // Enable Webpack hot module replacement for reducers
     const acceptCallback = () => {
       //const nextRootReducer = require('./reducers/index').default;
-      const nextRootReducer = combineReducers(require('./reducers/index')); 
+      const nextRootReducer = require('./reducers/index').default; 
       store.replaceReducer(nextRootReducer);
     };
-
-    module.hot.accept('./reducers', acceptCallback);
-    module.hot.acceptCallback = acceptCallback;
+    module.hot.accept(acceptCallback);
   }
   //remote
   // const store = createStore(reducers, /* preloadedState, */ composeWithDevTools(
@@ -50,4 +48,4 @@ export default function configureStore() {
 
   //const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
   return store;
-};
+}

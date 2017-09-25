@@ -69,7 +69,7 @@ class PickGroupList extends Component {
                 style={[Styles.bigTextStyle, Styles.normalColorStyle]} 
                 numberOfLines={1}
               >
-                [{DisplayOrder}] {ClientName}
+                {ClientName}
               </Text>
               {this.renderCheckedIcon(ordersNum, completedNum)}
             </View>

@@ -65,6 +65,12 @@ class HomeScreen extends Component {
     }
     console.log('====================================');
   }
+  onTripListPress() {
+    if (this.props.pickTotal === 0) return;
+    console.log('TripList pressed!');
+    const { navigate } = this.props.navigation;
+    navigate('TripList');
+  }
   onPickPress() {
     if (this.props.pickTotal === 0) return;
     console.log('PickList pressed!');
@@ -153,7 +159,7 @@ class HomeScreen extends Component {
           <Content style={{ padding: 10 }}>
             <PDCard
               type='pick'
-              onPress={this.onPickPress.bind(this)}
+              onPress={this.onTripListPress.bind(this)}
               upNumber={this.props.pickComplete}
               downNumber={this.props.pickTotal}
               color='#12cd72'

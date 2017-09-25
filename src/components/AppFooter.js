@@ -31,7 +31,7 @@ const AppFooter = ({ navigation }) => {
           text='Lấy'
           normalIcon='package-variant'
           activeIcon='package-variant'
-          active={currentRoute === 'PickList'}
+          active={currentRoute === 'TripList'}
           onPress={() => navigate(dispatch, 'PickList')}
         />
         <FooterButton

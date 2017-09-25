@@ -198,7 +198,7 @@ const transformPDS = (pds) => {
     const order = orders[0];
     const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
 
-    const group = { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
+    const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
     group.PickReturnSOs = orders;
     pds.PickItems.push(group);
   });

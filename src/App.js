@@ -20,6 +20,7 @@ import DeliveryOrderScreen from './screens/DeliveryOrderScreen';
 import DeliveryGroupCreateScreen from './screens/DeliveryGroupCreateScreen';
 import ReturnListScreen from './screens/ReturnListScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import TripListScreen from './screens/TripListScreen';
 
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
@@ -37,6 +38,7 @@ class App extends Component {
         DeliveryList: { screen: DeliveryListScreen },
         DeliveryGroupCreate: { screen: DeliveryGroupCreateScreen },
         PickList: { screen: PickListScreen },
+        TripList: { screen: TripListScreen },
         PickGroupDetail: { screen: PickGroupDetailScreen },
         PickOrder: { screen: PickOrderScreen },
         POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },

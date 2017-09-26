@@ -38,10 +38,13 @@ export default (state = INITIAL_STATE, action) => {
         rememberMe: action.payload.rememberMe,
       };
     case LOAD_SAVED_SESSION:
+      console.log('login session success');
+      new ShareVariables().LoginHeader['X-Auth'] = action.payload.session;
       return { 
-        ...state, 
-        user: action.payload.user,
-        sessionToken: action.payload.sessionToken
+        ...state,
+        error: '', 
+        sessionToken: action.payload.sessionToken,
+        user: action.payload.user
       };
     case LOGIN_USER_SUCCESS: {
       console.log('login success');

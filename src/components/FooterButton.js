@@ -25,7 +25,7 @@ const FooterButton = ({ active, text, normalImage, activeImage, normalIcon, acti
         transparent
       >
         <Icon name={iconName} size={32} color={color} style={style} />
-        <Text style={{ color }}>{text}</Text>
+        <Text uppercase={false} style={{ color }}>{text}</Text>
       </Button>
     );
   }
@@ -34,8 +34,8 @@ const FooterButton = ({ active, text, normalImage, activeImage, normalIcon, acti
       onPress={onButtonPress}
       transparent
     >
-      <Image source={imageSource} style={{ width: 25, height: 25, margin: 5 }} />
-      <Text style={{ color }}>{text}</Text>
+      <Image source={imageSource} style={{ width: 26, height: 26, margin: 5 }} />
+      <Text uppercase={false} style={{ color }}>{text}</Text>
     </Button>
   );
 };

@@ -14,8 +14,6 @@ import { logoutUser, pdListNoTrip } from '../actions';
 //create cmp
 class SideBar extends Component {
   shouldComponentUpdate({ navigation, user }) {
-    console.log('Drawer : componentShouldUpdate: ');
-    console.log(user);
     const { dispatch } = navigation;
     const resetAction = NavigationActions.reset({
       index: 0,
@@ -43,7 +41,6 @@ class SideBar extends Component {
   }
 
   render() {
-    console.log('SideBar: render called');
     let CoordinatorFullName = '';
     let CoordinatorPhone = '';
     if (this.props.pds) {

@@ -58,9 +58,6 @@ class HomeScreen extends Component {
     const needUpdateData = (params === undefined) ? false : params.needUpdateData;
     if (needUpdateData) {
       if (needUpdateData) params.needUpdateData = false;
-      console.log('update pds data:');
-      console.log(needUpdateData);
-      console.log(this.props.pds);
       this.props.pdListFetch();
     }
     console.log('====================================');

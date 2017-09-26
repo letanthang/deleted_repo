@@ -6,14 +6,14 @@ import {
   Content,
   List,
   Button,
-  Icon as IC
+  Icon
 } from 'native-base';
 import {
   Card 
 } from 'react-native-elements';
 import * as Communications from 'react-native-communications';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import DataEmptyCheck from '../DataEmptyCheck';
@@ -46,7 +46,7 @@ class PickGroupList extends Component {
   }
   renderCheckedIcon(orderNum, completedNum) {
     if (orderNum === completedNum) {
-      return <Icon name='check-circle-o' size={25} color='green' />;
+      return <IC name='check-circle-outline' size={25} color='green' />;
     }
     return null;
   }
@@ -107,7 +107,7 @@ class PickGroupList extends Component {
                 onPress={() => Communications.phonecall(ContactPhone, true)}
                 style={{ paddingRight: 0 }}
               >
-                <IC name='call' />
+                <Icon name='call' />
                 <Text style={{ color: '#00b0ff', fontSize: 13, fontWeight: '600' }}>SHOP</Text>
               </Button>
             </View>
@@ -130,7 +130,7 @@ class PickGroupList extends Component {
         onPress={() => this.goToReturnGroup(returnGroup)}
       >
         <Text style={{ color: '#F3BD71', fontSize: 13, fontWeight: '600' }}>ĐƠN TRẢ</Text>
-        <IC name='arrow-dropright' />
+        <Icon name='arrow-dropright' />
       </Button>
     );
   }

@@ -113,7 +113,7 @@ class TripListScreen extends Component {
   }
   renderCheckedIcon(orderNum, completedNum) {
     if (orderNum === completedNum) {
-      return <Icon name='check-circle-o' size={25} color='green' />;
+      return <IC name='check-circle-outline' size={25} color='green' />;
     }
     return null;
   }

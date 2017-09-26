@@ -2,8 +2,8 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import ShareVariables from '../libs/ShareVariables';
 
-const DOMAIN = 'api.inhubv2.ghn.vn';
-//const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+// const DOMAIN = 'api.inhubv2.ghn.vn';
+const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 
@@ -12,10 +12,11 @@ export const GetUserActivePds = (UserID) => {
   const URL = `${BASE_URL}/pdaone/${UserID}`;
   const LoginHeader = Share.LoginHeader;
   console.log(`GetUserActivePds: ${URL}`);
-  //const mock = new MockAdapter(axios);
-  //mock.onGet(URL).reply(200, sampleResponse);
+//   const mock = new MockAdapter(axios);
+//   mock.onGet(URL).reply(200, sampleResponse);
   return axios.get(URL, {
-      headers: LoginHeader
+      headers: LoginHeader,
+      timeout: 1000
     });
 };
 

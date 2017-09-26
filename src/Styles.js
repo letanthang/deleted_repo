@@ -11,6 +11,7 @@ const darkTheme = {
 };
 
 let ColorsDefault = {
+  theme: '#005939',
   normal: '#202430',
   weak: '#202430fa',
   background: '#EAEFF2',
@@ -29,7 +30,7 @@ const ColorsAndroid = {
   headerActive: '#00f',
   headerBackground: '#005939',
   footerNormal: '#878787',
-  footerActive: '#141414',
+  footerActive: ColorsDefault.theme,
   footerBackground: 'white'
 };
 if (Platform.OS === 'android') ColorsDefault = { ...ColorsDefault, ...ColorsAndroid };

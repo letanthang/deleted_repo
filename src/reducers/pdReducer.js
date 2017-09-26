@@ -32,7 +32,6 @@ export default (state = nameInitialState, action) => {
       transformPDS(pds);
       addGroup(pds, action.payload.orderGroup);
       console.log('pds add group');
-      console.log(pds);
       const { 
         pickTotal,
         pickComplete,

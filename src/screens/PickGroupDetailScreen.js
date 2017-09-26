@@ -77,7 +77,7 @@ class PickGroupDetailScreen extends Component {
           </Button>
         </Left>
         <Body style={{ flex: 3 }}>
-          <Title>[{pickGroup.DisplayOrder}] {pickGroup.ClientName}</Title>
+          <Title>{pickGroup.ClientName} - {pickGroup.ContactName}</Title>
         </Body>
         <Right>
           <Button

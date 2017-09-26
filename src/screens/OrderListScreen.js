@@ -202,7 +202,7 @@ class OrderListScreen extends Component {
                     <View style={wrapperStyle}>
                       <View style={Styles.item2Style}>
                         <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                          [{DisplayOrder}] {OrderCode}
+                          {this.getDO(DisplayOrder)}{OrderCode}
                         </Text>
                         <Badge>
                           <Text>{ServiceName}</Text>
@@ -228,6 +228,12 @@ class OrderListScreen extends Component {
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );
+  }
+  getDO(DisplayOrder) {
+    if (DisplayOrder) {
+      return '[{DisplayOrder}] ';
+    }
+    return '';
   }
 
 }

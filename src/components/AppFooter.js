@@ -3,6 +3,18 @@ import { NavigationActions } from 'react-navigation';
 import { Footer, FooterTab } from 'native-base';
 import FooterButton from './FooterButton';
 
+const pickIcon = require('../../resources/pick.png');
+const pickIconActive = require('../../resources/pick_active.png');
+const deliveryIcon = require('../../resources/delivery.png');
+const deliveryIconActive = require('../../resources/delivery_active.png');
+
+const returnIcon = require('../../resources/return.png');
+const returnIconActive = require('../../resources/return_active.png');
+const allIcon = require('../../resources/all.png');
+const allIconActive = require('../../resources/all_active.png');
+const accountIcon = require('../../resources/account.png');
+const accountIconActive = require('../../resources/account_active.png');
+
 const navigate = (dispatch, routeName) => {
   const resetAction = NavigationActions.reset({
     index: 0,
@@ -29,13 +41,17 @@ const AppFooter = ({ navigation }) => {
         /> */}
         <FooterButton
           text='Lấy'
+          normalImage={pickIcon}
+          activeImage={pickIconActive}
           normalIcon='package-variant'
           activeIcon='package-variant'
-          active={currentRoute === 'PickList'}
-          onPress={() => navigate(dispatch, 'PickList')}
+          active={currentRoute === 'TripList'}
+          onPress={() => navigate(dispatch, 'TripList')}
         />
         <FooterButton
           text='Giao'
+          normalImage={deliveryIcon}
+          activeImage={deliveryIconActive}
           normalIcon='truck-delivery'
           activeIcon='truck-delivery'
           active={currentRoute === 'DeliveryList'}
@@ -44,6 +60,8 @@ const AppFooter = ({ navigation }) => {
         
         <FooterButton
           text='Trả'
+          normalImage={returnIcon}
+          activeImage={returnIconActive}
           normalIcon='truck-delivery'
           activeIcon='truck-delivery'
           flip
@@ -52,6 +70,8 @@ const AppFooter = ({ navigation }) => {
         />
         <FooterButton
           text='Tất cả'
+          normalImage={allIcon}
+          activeImage={allIconActive}
           normalIcon='all-inclusive'
           activeIcon='all-inclusive'
           flip
@@ -60,6 +80,8 @@ const AppFooter = ({ navigation }) => {
         />
         <FooterButton
           text='Tôi'
+          normalImage={accountIcon}
+          activeImage={accountIconActive}
           normalIcon='account-outline'
           activeIcon='account'
           active={false}

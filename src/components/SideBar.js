@@ -26,7 +26,6 @@ class SideBar extends Component {
 
     if (!user) {
       console.log('user is null and navigate to Login');
-      this.props.pdListNoTrip();
       dispatch(resetAction);
       return false;
     }

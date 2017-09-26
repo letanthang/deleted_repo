@@ -1,9 +1,10 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet, Text, Modal, Button as Btn } from 'react-native';
+import { View, Alert, TouchableOpacity, StyleSheet, Text, Modal, Button as Btn } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
-  Content, ActionSheet, List
+  Content, ActionSheet, List, Button, Text as Txt
 } from 'native-base';
 import { CheckBox, SearchBar } from 'react-native-elements';
 import { updateOrderStatus } from '../../actions';
@@ -55,14 +56,55 @@ class PickGroupDetail extends Component {
     const { keyword } = nextProps;
     this.setState({ keyword });
   }
+
+  confirmUpdateOrderToDone(order) {
+    const message = order === null ? 'Bạn có chắc chắn muốn cập nhật tất cả đơn hàng đang chạy sang đã lấy?' : '';
+    const title = order === null ? 'Cập nhật đồng loạt đơn hàng thành đã lấy ?' : 'Cập nhật đơn hàng thành đã lấy ?';
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: 'Đồng ý', onPress: () => this.updateOrderToDone(order) },
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  confirmUpdateOrderToFail() {
+    const message = 'Bạn có chắc chắn muốn cập nhật tất cả đơn hàng đang chạy sang lỗi?';
+    Alert.alert(
+      'Cập nhật đồng loạt đơn hàng thành lấy lỗi?',
+      message,
+      [
+        { text: 'Đồng ý', onPress: () => this.updateOrderToFailWithReason(null) },
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
+  }
   
   updateOrderToDone(order) {
-    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Returning') return;
+    if (order !== null) {
+      if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Returning') return;
+      
+      let status = null;
+      if (this.PickDeliveryType === 3) status = 'Returned';
+      if (this.PickDeliveryType === 1) status = 'Storing';
+      this.updateOrder(order, status);
+    } else {
+      const { pds } = this.props;
+      const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+      const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+      const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === false && this.checkKeywork(o));
+      if (orders.length === 0) return;
 
-    let status = null;
-    if (this.PickDeliveryType === 3) status = 'Returned';
-    if (this.PickDeliveryType === 1) status = 'Storing';
-    this.updateOrder(order, status);
+      let status = null;
+      if (this.PickDeliveryType === 3) status = 'Returned';
+      if (this.PickDeliveryType === 1) status = 'Storing';
+      this.updateOrders(orders, status);
+    }
+    
   }
 
   updateOrderToFailWithReason(order) {
@@ -90,7 +132,18 @@ class PickGroupDetail extends Component {
   }
 
   updateOrderToFail(order, buttonIndex, NewDate = 0) {
-    if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Returning') return;
+    let orders = null;
+    if (order !== null) {
+      if (order.CurrentStatus !== 'Picking' && order.CurrentStatus !== 'Returning') return;
+    } else {
+      const { pds } = this.props;
+      const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+      const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+      orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === false && this.checkKeywork(o));
+      
+      if (orders.length === 0) return;
+    }
+    
     const StoringCode = this.codes[buttonIndex]; 
     const reason = this.buttons[buttonIndex];
     const Log = `${StoringCode}|${reason}`;
@@ -105,7 +158,11 @@ class PickGroupDetail extends Component {
       status = 'ReadyToPick';     
       infos = { StoringCode, NewDate, Log };
     } 
-    this.updateOrder(order, status, infos);
+    if (order !== null) {
+      this.updateOrder(order, status, infos);
+    } else {
+      this.updateOrders(orders, status, infos);
+    }
   }
 
   updateOrder(order, status, infos = {}) {
@@ -120,6 +177,30 @@ class PickGroupDetail extends Component {
       pdsId,
       PickDeliverySessionDetailID, 
       OrderID, 
+      PickDeliveryType, 
+      status,
+      ClientHubID,
+      ...infos 
+    });
+  }
+  updateOrders(orders, status, infos = {}) {
+    console.log('updateOrders: update dong loat');
+    const { pickGroup, ClientHubID } = this;
+    const { sessionToken, pdsId } = this.props;
+    const { PickDeliveryType } = pickGroup;
+    console.log(`updateOrders to status : ${status} | pdsId ${pdsId} | ClientHubID ${ClientHubID}`);
+    console.log(orders);
+    const ordersInfo = _.map(orders, (item) => {
+      const { OrderID, PickDeliverySessionDetailID } = item;
+      return { OrderID, PickDeliverySessionDetailID };
+    });
+    console.log(ordersInfo);
+
+    this.props.updateOrderStatus({ 
+      sessionToken,
+      pdsId,
+      PickDeliverySessionDetailID: null, 
+      OrderID: ordersInfo, 
       PickDeliveryType, 
       status,
       ClientHubID,
@@ -227,7 +308,7 @@ class PickGroupDetail extends Component {
           theme='success'
           text={rightText}
           width={100}
-          onPress={this.updateOrderToDone.bind(this, order)}
+          onPress={this.confirmUpdateOrderToDone.bind(this, order)}
         />
       </View>
     );
@@ -245,7 +326,6 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    
     const { done, pds } = this.props;
     const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
@@ -259,6 +339,24 @@ class PickGroupDetail extends Component {
     return (
       
       <Content style={{ backgroundColor: Colors.background }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 8 }}>
+          <Button
+            rounded
+            onPress={() => this.confirmUpdateOrderToFail(null)}
+          >
+            <Txt>
+              Tất cả lỗi
+            </Txt>
+          </Button>
+          <Button
+            rounded
+            onPress={() => this.confirmUpdateOrderToDone(null)}
+          >
+            <Txt>
+              Tất cả lấy
+            </Txt>
+          </Button>
+        </View>
         <DataEmptyCheck
           data={orders}
           message='Không có dữ liệu'

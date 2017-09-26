@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
@@ -66,22 +67,43 @@ export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDeta
     Log 
   });
 
+  let OrderInfos;
+
+  if (OrderID instanceof Array) {
+    OrderInfos = _.map(OrderID, (item) => {
+      return {  
+        PDSDetailID: item.PickDeliverySessionDetailID,
+        OrderID: item.OrderID,
+        PDSType: PickDeliveryType,
+        NextStatus: status,
+        ClientHubID,
+        StoringCode,
+        NewDate,
+        Log
+      };
+    });
+    console.log('update dong loat');
+    console.log(OrderInfos);
+  } else {
+    OrderInfos = [  
+      {  
+        PDSDetailID: PickDeliverySessionDetailID,
+        OrderID,
+        PDSType: PickDeliveryType,
+        NextStatus: status,
+        ClientHubID,
+        StoringCode,
+        NewDate,
+        Log
+      }
+    ]
+  }
+
   return ((dispatch) => {
     dispatch({ type: UPDATE_ORDER_STATUS });
     API.UpdatePickDeliverySession({
       PDSID: pdsId,
-      OrderInfos: [  
-          {  
-            PDSDetailID: PickDeliverySessionDetailID,
-            OrderID,
-            PDSType: PickDeliveryType,
-            NextStatus: status,
-            ClientHubID,
-            StoringCode,
-            NewDate,
-            Log
-          }
-      ]
+      OrderInfos
     })
       .then(response => {
         const json = response.data;

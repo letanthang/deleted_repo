@@ -339,32 +339,19 @@ class PickGroupDetail extends Component {
     return (
       
       <Content style={{ backgroundColor: Colors.background }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 8 }}>
-          <Button
-            rounded
-            onPress={() => this.confirmUpdateOrderToFail(null)}
-          >
-            <Txt>
-              Tất cả lỗi
-            </Txt>
-          </Button>
-          <Button
-            rounded
-            onPress={() => this.confirmUpdateOrderToDone(null)}
-          >
-            <Txt>
-              Tất cả lấy
-            </Txt>
-          </Button>
-        </View>
+
         <DataEmptyCheck
           data={orders}
           message='Không có dữ liệu'
         >
+          <View>
           <List
             dataArray={orders}
             renderRow={this.renderOrder.bind(this)}
           />
+          {this.renderMassUpdateButton(done)}
+          </View>
+          
         </DataEmptyCheck>
        
         <Modal
@@ -421,6 +408,29 @@ class PickGroupDetail extends Component {
             </View>
           </Modal>
       </Content>
+    );
+  }
+  renderMassUpdateButton(done) {
+    if (done) return null;
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 8 }}>
+          <Button
+            rounded
+            onPress={() => this.confirmUpdateOrderToFail(null)}
+          >
+            <Txt>
+              Tất cả lỗi
+            </Txt>
+          </Button>
+          <Button
+            rounded
+            onPress={() => this.confirmUpdateOrderToDone(null)}
+          >
+            <Txt>
+              Tất cả lấy
+            </Txt>
+          </Button>
+        </View>
     );
   }
   onChooseDate() {

@@ -83,18 +83,28 @@ export default (state = nameInitialState, action) => {
       console.log(state.pds);
 
       const { OrderID, PickDeliveryType, CurrentStatus, ClientHubID } = action.payload;
-      let order = {};
-      const pds = _.cloneDeep(state.pds);
-      if (PickDeliveryType === 2) {
-        order = Utils.getOrder(pds, OrderID, null, 2);
-        //order.CurrentStatus = 'WaitingToFinish';
-        order.CurrentStatus = CurrentStatus;
+      let orderIds;
+      if (OrderID instanceof Array) {
+        orderIds = _.map(OrderID, item => item.OrderID);
       } else {
-        order = Utils.getOrder(pds, OrderID, ClientHubID, PickDeliveryType);
-        order.CurrentStatus = CurrentStatus;
-        order.NextStatus = CurrentStatus;
-        console.log(`Found order - id = ${order.OrderID}`);
+        orderIds = [OrderID];
       }
+
+      const pds = _.cloneDeep(state.pds);
+      _.each(orderIds, ID => {
+        if (PickDeliveryType === 2) {
+          order = Utils.getOrder(pds, ID, null, 2);
+          //order.CurrentStatus = 'WaitingToFinish';
+          order.CurrentStatus = CurrentStatus;
+        } else {
+          order = Utils.getOrder(pds, ID, ClientHubID, PickDeliveryType);
+          order.CurrentStatus = CurrentStatus;
+          order.NextStatus = CurrentStatus;
+        }
+      });
+      let order = {};
+      
+      
       transformPDS(pds);
 
       console.log('state after:');

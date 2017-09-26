@@ -99,6 +99,8 @@ export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDeta
     ]
   }
 
+  console.log(OrderInfos);
+  // return { type: "NO_THING" };
   return ((dispatch) => {
     dispatch({ type: UPDATE_ORDER_STATUS });
     API.UpdatePickDeliverySession({

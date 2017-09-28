@@ -8,7 +8,7 @@ import {
 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { phonecall } from 'react-native-communications';
-import { updateOrderStatus } from '../actions';
+import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
@@ -36,6 +36,11 @@ class DeliveryOrderScreen extends Component {
     console.log('====================================');
   }
 
+  componentDidMount() {
+    console.log('DeliveryOrderScreen cdm');
+    if (!this.props.configuration) this.props.getConfiguration();
+  }
+
   componentDidUpdate() {
     const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
@@ -55,6 +60,21 @@ class DeliveryOrderScreen extends Component {
     });
   }
 
+  alertMissOfCall(phoneNumber) {
+    console.log(phoneNumber);
+    const title = 'Không đủ số cuộc gọi.';
+    const message = 'Bạn không thực hiện đủ số cuộc gọi cho khách hàng. Gọi bây giờ?';
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: 'Gọi', onPress: () => phonecall(phoneNumber, true) },
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
+  }
+
   updateOrderToFailWithReason() {
     ActionSheet.show(
       {
@@ -71,15 +91,23 @@ class DeliveryOrderScreen extends Component {
           this.setState({ modalShow: true, buttonIndex });
         } else if (buttonIndex == 0 || buttonIndex == 1) {
           //cannot contact
-          Utils.validateCallCannotContact(order.RecipientPhone)
+          Utils.validateCallCannotContact(order.RecipientPhone, this.props.configuration)
           .then((result) => {
-            if (result) this.updateOrderToFail(buttonIndex); 
+            if (result) {
+              this.updateOrderToFail(buttonIndex); 
+            } else {
+              this.alertMissOfCall(order.RecipientPhone);
+            }
           });
         } else if (buttonIndex == 2) {
           //cannot contact
-          Utils.validateCallNotHangUp(order.RecipientPhone)
+          Utils.validateCallNotHangUp(order.RecipientPhone, this.props.configuration)
             .then((result) => {
-              if (result) this.updateOrderToFail(buttonIndex); 
+              if (result) {
+                this.updateOrderToFail(buttonIndex);
+              } else {
+                this.alertMissOfCall(order.RecipientPhone);
+              }
             });
         } else {
           this.updateOrderToFail(buttonIndex);
@@ -320,15 +348,16 @@ class DeliveryOrderScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ pd, auth }) => {
+const mapStateToProps = ({ pd, auth, other }) => {
   //const OrderID = ownProps.navigation.state.params.OrderID;
   const { sessionToken } = auth;
   const { pds, pdsId, loading } = pd;
-  return { pds, pdsId, sessionToken, loading };
+  const { configuration } = other;
+  return { pds, pdsId, sessionToken, loading, configuration };
 };
 
 
 export default connect(
   mapStateToProps, 
-  { updateOrderStatus }
+  { updateOrderStatus, getConfiguration }
 )(DeliveryOrderScreen);

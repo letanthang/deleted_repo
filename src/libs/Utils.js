@@ -147,7 +147,11 @@ class Utils {
       });
     }
 
-    const { minDurationCallLogUnconnected, repeatCallUnconnected } = configuration;
+    let { minDurationCallLogUnconnected, repeatCallUnconnected } = configuration;
+    if (minDurationCallLogUnconnected === undefined) {
+      minDurationCallLogUnconnected = 5;
+      repeatCallUnconnected = 3;
+    }
 
     return new Promise((resolve, reject) => {
       CallHistory.list(
@@ -173,7 +177,11 @@ class Utils {
           console.log('xuat history');
           const json = JSON.parse(history);
           // console.log(json);
-          const { minDurationCallLogNoAnswer, repeatCallUnconnected } = configuration;
+          let { minDurationCallLogNoAnswer, repeatCallUnconnected } = configuration;
+          if (minDurationCallLogNoAnswer === undefined) {
+            minDurationCallLogNoAnswer = 20;
+            repeatCallUnconnected = 3;
+          }
           const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
           // console.log(callLogs);
           resolve(callLogs.length >= repeatCallUnconnected);

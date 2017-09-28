@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import ShareVariables from '../libs/ShareVariables';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = true;
+const mockOn = false;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
@@ -307,7 +307,43 @@ const sampleResponse = {
               "ContactPhone": "01668117449",
               "ClientHubID": 653474,
               "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
-            }
+            },
+            {
+                "OrderID": 3684111,
+                "OrderCode": "43JFJD9",
+                "CurrentStatus": "Delivering",
+                "RecipientName": "Cường gửi",
+                "RecipientPhone": "01668117449",
+                "CODAmount": 71500,
+                "ServiceCost": 0,
+                "Note": "",
+                "Log": "",
+                "PickDeliverySessionDetailID": "59c252cfe5c882d9f512581c",
+                "PaymentTypeID": 0,
+                "TotalExtraFee": 0,
+                "Weight": 500,
+                "ServiceID": 53320,
+                "ServiceName": "1 Ngày",
+                "TotalCollectedAmount": 0,
+                "NextStatus": "",
+                "Length": 10,
+                "Width": 10,
+                "Height": 10,
+                "FromDistrictID": 1453,
+                "ToDistrictID": 2086,
+                "Lat": 0,
+                "Lng": 0,
+                "DistrictCode": "0211",
+                "DistrictName": "Quận 11",
+                "IsTrial": 0,
+                "PickDeliveryType": 2,
+                "ClientID": 2,
+                "ClientName": 'Shoppee',
+                "ContactName": "Cường gửi",
+                "ContactPhone": "01668117449",
+                "ClientHubID": 653474,
+                "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
+              }
           ],
           "timeServer": 0,
           "code": 1
@@ -2474,10 +2510,10 @@ const sampleResponse2 = {
             "endTimeTracking": 1045,
             "startTimeTracking": 500,
             "code": 0,
-            "minDurationCallLogNoAnswer": "20000",
-            "minDurationCallLogUnconnected": "5000",
-            "repeatCallNoAnswer": "3",
-            "repeatCallUnconnected": "3"
+            // "minDurationCallLogNoAnswer": "20000",
+            // "minDurationCallLogUnconnected": "5000",
+            // "repeatCallNoAnswer": "3",
+            // "repeatCallUnconnected": "3"
         }
     ],
     "message": ""

@@ -1,3 +1,6 @@
+import CallHistory from 'react-native-call-history';
+import { Platform } from 'react-native';
+
 class Utils {
   static getDisplayStatus(status, type = 2, nextStatus) {
     if (type === 1) {
@@ -136,6 +139,50 @@ class Utils {
     const returnGroup = pds.ReturnItems.find(rg => rg.ClientHubID === ClientHubID);
     if (returnGroup) return true;
     return false;
+  }
+  static validateCallCannotContact(phoneNumber, configuration) {
+    if (Platform.OS === 'ios') {
+      return new Promise((resolve) => {
+        resolve(true);
+      });
+    }
+
+    const { minDurationCallLogUnconnected, repeatCallUnconnected } = configuration;
+
+    return new Promise((resolve, reject) => {
+      CallHistory.list(
+        (history) => {
+          console.log('xuat history');
+          const json = JSON.parse(history);
+          //console.log(json);
+          const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
+          // console.log(callLogs);
+          resolve(callLogs.length >= repeatCallUnconnected);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  static validateCallNotHangUp(phoneNumber, configuration) {
+    return new Promise((resolve, reject) => {
+      CallHistory.list(
+        (history) => {
+          console.log('xuat history');
+          const json = JSON.parse(history);
+          // console.log(json);
+          const { minDurationCallLogNoAnswer, repeatCallUnconnected } = configuration;
+          const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
+          // console.log(callLogs);
+          resolve(callLogs.length >= repeatCallUnconnected);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
   }
 }
 

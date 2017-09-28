@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity, StyleSheet, Text, Modal, Button as Btn } from 'react-native';
+import { View, Alert, TouchableOpacity, Text, Modal, Button as Btn } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
+import * as Communications from 'react-native-communications';
 import { 
   Content, ActionSheet, List, Button, Text as Txt
 } from 'native-base';
-import { CheckBox, SearchBar } from 'react-native-elements';
-import { updateOrderStatus } from '../../actions';
+import { updateOrderStatus, getConfiguration } from '../../actions';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import FormButton from '../FormButton';
@@ -23,6 +23,9 @@ class PickGroupDetail extends Component {
   cancelIndex = null;
   destructiveIndex = -1;
   changeDateIndex = null;
+  cannotContactIndex = null;
+  cannotCallIndex = null;
+  notHangUpIndex = null;
   pickGroup = null;
   ClientHubID = null;
   PickDeliveryType = null;
@@ -31,8 +34,6 @@ class PickGroupDetail extends Component {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     console.log('====================================');
-    console.log('PickGroupDetail: cwm is called. pickgroup = ');
-    console.log(this.props.navigation.state.params.pickGroup);
     console.log('====================================');    
     
     this.ClientHubID = this.pickGroup.ClientHubID;
@@ -43,18 +44,45 @@ class PickGroupDetail extends Component {
       this.codes = Object.keys(PickErrors);
       this.cancelIndex = this.buttons.length - 1;
       this.changeDateIndex = 0;
+      this.cannotContactIndex = 1;
+      this.cannotCallIndex = 2;
+      this.notHangUpIndex = 3;
+
     } else {
       this.buttons = Object.values(ReturnErrors);
       this.buttons.push('Cancel');
       this.codes = Object.keys(ReturnErrors);
       this.cancelIndex = this.buttons.length - 1;
+      this.cannotContactIndex = 0;
+      this.cannotCallIndex = 3;
+      this.notHangUpIndex = 1;
     }
+  }
+
+  componentDidMount() {
+    console.log('PickgGroupDetail cdm');
+    if (!this.props.configuration) this.props.getConfiguration();
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('DeliveryByGroup cwrp');
     const { keyword } = nextProps;
     this.setState({ keyword });
+  }
+
+  alertMissOfCall(phoneNumber) {
+    console.log(phoneNumber);
+    const title = 'Không đủ số cuộc gọi.';
+    const message = 'Bạn không thực hiện đủ số cuộc gọi cho khách hàng. Gọi bây giờ?';
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: 'Gọi', onPress: () => Communications.phonecall(phoneNumber, true) },
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
   }
 
   confirmUpdateOrderToDone(order) {
@@ -108,6 +136,7 @@ class PickGroupDetail extends Component {
   }
 
   updateOrderToFailWithReason(order) {
+    console.log('updateOrderToFailWithReason pressed');
     this.order = order;
     ActionSheet.show(
       {
@@ -119,13 +148,34 @@ class PickGroupDetail extends Component {
       buttonIndex => {
         console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof this.changeDateIndex}`);
 
-        if (buttonIndex != this.cancelIndex 
-          && buttonIndex != this.changeDateIndex 
-          && buttonIndex != this.destructiveIndex) {
-          this.updateOrderToFail(order, buttonIndex);
-        } else if (buttonIndex == this.changeDateIndex) {
+        if (buttonIndex == this.changeDateIndex) {
           console.log('Hien modal popup');
           this.setState({ modalShow: true, buttonIndex });
+        } else if (buttonIndex == this.cannotCallIndex || buttonIndex == this.cannotContactIndex) {
+          //cannot contact
+          Utils.validateCallCannotContact(this.pickGroup.ContactPhone, this.props.configuration)
+            .then((result) => {
+              console.log(result);
+              if (result) { 
+                this.updateOrderToFail(order, buttonIndex); 
+              } else {
+                this.alertMissOfCall(this.pickGroup.ContactPhone);
+              } 
+            });
+        } else if (buttonIndex == this.notHangUpIndex) {
+          console.log(this.pickGroup.ContactPhone);
+          //cannot contact
+          Utils.validateCallNotHangUp(this.pickGroup.ContactPhone, this.props.configuration)
+            .then((result) => {
+              console.log(result);
+              if (result) { 
+                this.updateOrderToFail(order, buttonIndex); 
+              } else {
+                this.alertMissOfCall(this.pickGroup.ContactPhone);
+              }
+            });
+        } else {
+          this.updateOrderToFail(order, buttonIndex);
         }
       }
     );
@@ -333,7 +383,6 @@ class PickGroupDetail extends Component {
 
     console.log('====================================');
     console.log('PickGroupDetail render!');
-    console.log(pickGroup);
     console.log('====================================');
 
     return (
@@ -448,11 +497,12 @@ class PickGroupDetail extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, pd }) => {
+const mapStateToProps = ({ auth, pd, other }) => {
   const { sessionToken } = auth;
   const { pdsId, pds, loading } = pd;
-  return { sessionToken, pdsId, pds, loading };
+  const { configuration } = other;
+  return { sessionToken, pdsId, pds, loading, configuration };
 };
 
 
-export default connect(mapStateToProps, { updateOrderStatus })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration })(PickGroupDetail);

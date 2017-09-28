@@ -6,7 +6,6 @@ import { Styles, Colors } from '../../Styles';
 
 class PDCard extends Component {
   constructor(props) {
-    console.log('PDCard: construct, props=');
     super(props);
     const { upNumber, downNumber, delay } = props;
     if (delay) {

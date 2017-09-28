@@ -145,8 +145,6 @@ class TripListScreen extends Component {
     const sections = _.map(datas, (item) => {
       return { data: item, title: item[0].ClientName + ' (' + item.length + ')' };
     });
-    console.log('TripListScreen: render, sections =');
-    console.log(sections);
     
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -164,8 +162,6 @@ class TripListScreen extends Component {
               const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                
               const pickGroup = item;
-              console.log('pickGroup =');
-              console.log(pickGroup);
               const { Address, ClientName, DisplayOrder, ContactName, ContactPhone } = pickGroup;
               
               let TotalServiceCost = 0; 

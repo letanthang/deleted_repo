@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { 
   OTHER_GET_CONFIGURATION, OTHER_GET_CONFIGURATION_SUCCESS,
   OTHER_CALCULATE_FEE, OTHER_CALCULATE_FEE_SUCCESS,
@@ -51,7 +50,7 @@ export const getConfiguration = () => {
   return async dispatch => {
     try {
       dispatch({ type: OTHER_GET_CONFIGURATION });
-      const response = await API.getConfiguration();
+      const response = await API.GetConfiguration();
       const json = response.data;
       if (json.status === 'OK') {
         dispatch({

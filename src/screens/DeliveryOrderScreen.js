@@ -69,6 +69,18 @@ class DeliveryOrderScreen extends Component {
           return;
         } else if (buttonIndex == CHANGE_DATE_INDEX || buttonIndex == CUSTOMER_CHANGE_DATE_INDEX) {
           this.setState({ modalShow: true, buttonIndex });
+        } else if (buttonIndex == 0 || buttonIndex == 1) {
+          //cannot contact
+          Utils.validateCallCannotContact(order.RecipientPhone)
+          .then((result) => {
+            if (result) this.updateOrderToFail(buttonIndex); 
+          });
+        } else if (buttonIndex == 2) {
+          //cannot contact
+          Utils.validateCallNotHangUp(order.RecipientPhone)
+            .then((result) => {
+              if (result) this.updateOrderToFail(buttonIndex); 
+            });
         } else {
           this.updateOrderToFail(buttonIndex);
         }

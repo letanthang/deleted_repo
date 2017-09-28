@@ -2,18 +2,26 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import ShareVariables from '../libs/ShareVariables';
 
+//!!!!!!!!! turn on mock data!!!!!!!!!!
+const mockOn = true;
+
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 
 const Share = new ShareVariables();
+const mock = mockOn ? new MockAdapter(axios) : null;
+
 export const GetUserActivePds = (UserID) => {
   const URL = `${BASE_URL}/pdaone/${UserID}`;
   const LoginHeader = Share.LoginHeader;
   console.log(`GetUserActivePds: ${URL}`);
-//   const mock = new MockAdapter(axios);
-//   mock.onGet(URL).reply(200, sampleResponse);
+  
+  if (mockOn) {
+    mock.onGet(URL).reply(200, sampleResponse);
+  }
+
   return axios.get(URL, {
       headers: LoginHeader,
       timeout: 1000
@@ -62,6 +70,14 @@ export const UpdateOrderWeightRDC = ({
 
 export const Authenticate = ({ UserID, Password }) => {
   const URL = `${BASE_URL}/acc/pdaLogin`;
+
+  if (mockOn){
+    mock.onPost(URL, {
+        userid: UserID,
+        password: Password
+      }).reply(200, loginResponse);
+  } 
+
   return axios.post(URL, {
       userid: UserID,
       password: Password
@@ -81,6 +97,11 @@ export const GetConfiguration = (configKey = null) => {
   const URL = `${BASE_URL}/pdaconfig`;
   const LoginHeader = Share.LoginHeader;
   const config = { headers: LoginHeader };
+
+  if (mockOn) {
+    mock.onGet(URL, { configKey }, config).reply(200, sampleResponse2);
+  }
+  
   return axios.get(URL, { configKey }, config);
 };
   
@@ -2429,4 +2450,90 @@ const sampleResponse1 = {
       }
   ],
   "message": ""
+}
+
+const sampleResponse2 = {
+    "status": "OK",
+    "data": [
+        {
+            "timeExpire": 86400000,
+            "alpha": 0.2,
+            "maxWeight": 500000,
+            "minWeight": 1,
+            "maxSize": 200,
+            "minSize": 1,
+            "initLoad": 0,
+            "initLoadTrial": 1,
+            "idsTrial": 0,
+            "interval": 10000,
+            "fastestInterval": 5000,
+            "pushDataInterval": 300000,
+            "priority": 1,
+            "smallestDisplacement": 30,
+            "numberOfRecord": 20,
+            "endTimeTracking": 1045,
+            "startTimeTracking": 500,
+            "code": 0,
+            "minDurationCallLogNoAnswer": "20000",
+            "minDurationCallLogUnconnected": "5000",
+            "repeatCallNoAnswer": "3",
+            "repeatCallUnconnected": "3"
+        }
+    ],
+    "message": ""
+}
+
+const loginResponse = {
+    "status": "OK",
+    "message": "Successfull",
+    "data": {
+        "session": "40cf13dc238677d0c3632a5c30276c61",
+        "expired": 1506671613820,
+        "userInfo": {
+            "fullname": "Lê Tấn Thắng",
+            "email": "thanglt@ghn.vn",
+            "phone": "0933932173",
+            "ssoId": "210030",
+            "roles": [
+                {
+                    "name": "PDA",
+                    "description": "Quyền cho PDA",
+                    "permissionList": [
+                        "PDAConfig_EDIT",
+                        "PDAConfig_VIEW",
+                        "PDA_EDIT",
+                        "PDA_VIEW"
+                    ],
+                    "orderNumber": 3,
+                    "id": "59c21fa4bae4ba6f3d33458e",
+                    "createdTime": "Sep 20, 2017 2:58:28 PM",
+                    "lastUpdatedTime": "Sep 20, 2017 4:47:05 PM"
+                }
+            ],
+            "hubIds": [
+                "SGN"
+            ],
+            "portIds": [
+                "5882d8830c28171270a6ebd6",
+                "5882e1060c28171270a6ebe6",
+                "5882e1550c28171270a6ebe8",
+                "5882e28f0c28171270a6ebea",
+                "58954a3f0c2817118cd21621",
+                "58954a5b0c2817118cd21622",
+                "58954a740c2817118cd21623",
+                "58954a8d0c2817118cd21624",
+                "58954ab50c2817118cd21625",
+                "58954ac70c2817118cd21626",
+                "58954ae30c2817118cd21627",
+                "58954afd0c2817118cd21628",
+                "58954b130c2817118cd21629",
+                "58954b390c2817118cd2162a",
+                "5950c47a0c28171d000cfcee"
+            ],
+            "secret": "ztSYIyaP59S0tA18Sd4xfPr00vds3Tq1Rplwoqi5ia3pjD3X0tO",
+            "status": "ACTIVE",
+            "isSupperUser": false,
+            "userType": 1
+        }
+    }
 }

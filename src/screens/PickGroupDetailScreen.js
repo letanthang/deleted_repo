@@ -19,10 +19,6 @@ class PickGroupDetailScreen extends Component {
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-    console.log('====================================');
-    console.log('PickGroupDetailScreen: cwm is called. pickgroup = ');
-    console.log(this.props.navigation.state.params.pickGroup);
-    console.log('====================================');
         
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
@@ -104,11 +100,6 @@ class PickGroupDetailScreen extends Component {
 
     const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(trip => trip.ClientHubID === this.ClientHubID); 
-      
-    console.log('====================================');
-    console.log('PickGroupDetail render!');
-    console.log(pickGroup);
-    console.log('====================================');
 
     return (
       

@@ -247,7 +247,6 @@ const calculateStatNumbers = (pds) => {
         });
         return isComplete;
       }).length;
-      console.log(`fetch success with pickComplete = ${pickComplete}`);
 
       // delivery
       const deliveryTotal = pds.DeliveryItems.length;

@@ -18,7 +18,7 @@ import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 
 class TripListScreen extends Component {
-  state = { showSearch: false, keyword: '' };
+  state = { done: false, showSearch: false, keyword: '', activeTrip: null, activeTripShow: true };
   componentWillMount() {
     
   }
@@ -64,6 +64,12 @@ class TripListScreen extends Component {
           <Title>Lấy</Title>
         </Body>
         <Right>
+          <Button
+            transparent
+            onPress={() => this.setState({ done: !this.state.done, activeTrip: null, activeTripShow: true })}
+          >
+            <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
+          </Button>
           {/* <Button
             transparent
             onPress={() => navigate('DeliveryGroupCreate')}
@@ -85,6 +91,11 @@ class TripListScreen extends Component {
   
   checkKeywork({ OrderCode }) {
     return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+  }
+  checkTripDone(trip) {
+    const ordersNum = trip.PickReturnSOs.length;
+    const completedNum = trip.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+    return (ordersNum === completedNum);
   }
   renderNullData() {
     return (
@@ -140,11 +151,19 @@ class TripListScreen extends Component {
     const { pds } = this.props;
     if (!pds || !pds.PickItems) return this.renderNullData();
 
-    const items = pds.PickItems;
+    const items = pds.PickItems.filter(trip => this.state.done === this.checkTripDone(trip));
     const datas = _.groupBy(items, 'ClientID');
+    let first = true;
     const sections = _.map(datas, (item) => {
-      return { data: item, title: item[0].ClientName + ' (' + item.length + ')' };
+      const ClientID = item[0].ClientID;
+      let activeSection = false;
+      if (this.state.activeTrip === ClientID || (this.state.activeTrip === null && first)) activeSection = true;
+      activeSection = activeSection && this.state.activeTripShow;
+      first = false;
+      return { data: item, title: item[0].ClientName + ' (' + item.length + ')', ClientID, activeSection };
     });
+    
+    const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
     
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -155,10 +174,14 @@ class TripListScreen extends Component {
         /> */}
         <DataEmptyCheck
           data={items}
-          message="Không có dữ liệu"
+          message={emptyMessage}
         >
           <SectionList
-            renderItem={({ item, index }) => {
+            renderItem={({ item, index, section }) => {
+             
+              if (!section.activeSection) return null;
+              
+
               const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                
               const pickGroup = item;
@@ -218,11 +241,30 @@ class TripListScreen extends Component {
                 </View>
               );
             }}
-            renderSectionHeader={({ section }) => (
-              <View style={DeliverGroupStyles.sectionHeader}>
-                <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
-              </View>
-            )}
+            renderSectionHeader={({ section }) => {
+              let active = false;
+              if (section.activeSection) active = true;
+              const iconName = active ? 'minus-box-outline' : 'plus-box-outline';
+              return (
+                <TouchableOpacity 
+                  style={DeliverGroupStyles.sectionHeader}
+                  onPress={() => {
+                    const key = section.ClientID;
+                    console.log(key);
+                    let activeTripShow;
+                    if (!section.activeSection) {
+                      activeTripShow = true;
+                    } else {
+                      activeTripShow = !this.state.activeTripShow;
+                    }
+                    this.setState({ activeTrip: key, activeTripShow });
+                  }}
+                >
+                  <IC name={iconName} size={20} color='#808080' />
+                  <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
+                </TouchableOpacity>
+              );
+            }}
             sections={sections}
           /> 
         </DataEmptyCheck>

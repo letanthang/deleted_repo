@@ -231,7 +231,7 @@ const sampleResponse = {
                 "PickDeliveryType": 1,
                 "ClientID": 1,
                 "ClientName": 'Sendo.vn',
-                "ContactName": "Cường gửi",
+                "ContactName": "Cường gửi123",
                 "ContactPhone": "01668117449",
                 "ClientHubID": 659473,
                 "Address": "70 Ngo Gia Tu, Ho Chi Minh City, Ho Chi Minh, Vietnam"

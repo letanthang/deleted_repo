@@ -15,6 +15,7 @@ import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 import AppFooter from '../components/AppFooter';
 import MyMenu from '../components/MyMenu';
+import LogoButton from '../components/LogoButton';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
 const logoIcon = require('../../resources/mpds_icon_48.png');
@@ -131,26 +132,32 @@ class HomeScreen extends Component {
           <Header
             iosBarStyle={iosBarStyle}
           >
-            <Left style={{ flexDirection: 'row' }}>
+            <Left style={{ flex: 0.75 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Button
                 transparent
                 onPress={() => navigate('DrawerOpen')}
               >          
                 <Icon name="menu" />
               </Button>
-              
+              <LogoButton dispatch={this.props.navigation.dispatch} />
+              <Button
+                transparent
+                onPress={() => this.setState({ showSearch: !this.state.showSearch })}
+              >
+              <IC name='magnify' size={25} color={Colors.headerNormal} />
+              </Button>
+            </View>
             </Left>
-            <Body>
-              <Title>Tài xế</Title>
-            </Body>
-            <Right>
+            
+            <Right style={{ flex: 0.25 }}>
               <Button
                   transparent
                   onPress={() => {
                     console.log('barcode scan pressed');
                   }}
               >          
-                <IC name='barcode-scan' size={28} color={Colors.headerNormal} />
+                <IC name='barcode-scan' size={25} color={Colors.headerNormal} />
               </Button>
             </Right>
           </Header>

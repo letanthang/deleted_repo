@@ -12,6 +12,7 @@ import accounting from 'accounting';
 import * as Communications from 'react-native-communications';
 import { NavigationActions } from 'react-navigation';
 import AppFooter from '../components/AppFooter';
+import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
@@ -52,18 +53,22 @@ class TripListScreen extends Component {
     
     return (
       <Header>
-        <Left>
+        <Left style={{ flex: 0.25 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button
             transparent
             onPress={() => this.goBack()}
           >
             <Icon name="arrow-back" />
           </Button>
+          <LogoButton dispatch={this.props.navigation.dispatch} />
+          </View>
+          
         </Left>
-        <Body style={{ flex: 3 }}>
+        <Body style={{ flex: 0.55 }}>
           <Title>Lấy</Title>
         </Body>
-        <Right>
+        <Right style={{ flex: 0.2 }}>
           <Button
             transparent
             onPress={() => this.setState({ done: !this.state.done, activeTrip: null, activeTripShow: true })}

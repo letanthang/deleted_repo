@@ -13,6 +13,7 @@ import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, OrderStyles, Colors } from '../Styles';
 import DataEmptyCheck from '../components/DataEmptyCheck';
+import LogoButton from '../components/LogoButton';
 
 let ClientID = null;
 let ClientHubID = null;
@@ -97,18 +98,21 @@ class PickOrderScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
-          <Left>
+          <Left style={{ flex: 0.22 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Button
               transparent
               onPress={() => goBack()}
             >
               <Icon name="arrow-back" />
             </Button>
+            <LogoButton dispatch={this.props.navigation.dispatch} />
+          </View>
           </Left>
-          <Body style={{ flex: 3 }}>
+          <Body style={{ flex: 0.53 }}>
             <Title>{OrderCode}</Title>
           </Body>
-          <Right>
+          <Right style={{ flex: 0.25 }}>
             <Button
               transparent
               onPress={() => navigate('POUpdateWeightSize', { OrderID, ClientID, ClientHubID })}

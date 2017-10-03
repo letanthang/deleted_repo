@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -12,6 +13,7 @@ import { updateOrderStatus } from '../actions';
 import { Styles, Colors } from '../Styles';
 import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
 import LoadingSpinner from '../components/LoadingSpinner';
+import LogoButton from '../components/LogoButton';
 
 class PickGroupDetailScreen extends Component {
   state = { showSearch: false, keyword: '', done: false };
@@ -66,18 +68,21 @@ class PickGroupDetailScreen extends Component {
 
     return (
       <Header>
-        <Left>
+        <Left style={{ flex: 0.22 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button
             transparent
             onPress={() => goBack()}
           >
             <Icon name="arrow-back" />
           </Button>
+          <LogoButton dispatch={this.props.navigation.dispatch} />
+        </View>
         </Left>
-        <Body style={{ flex: 3 }}>
+        <Body style={{ flex: 0.53 }}>
           <Title>{pickGroup.ClientName} - {pickGroup.ContactName}</Title>
         </Body>
-        <Right>
+        <Right style={{ flex: 0.25 }}>
           <Button
             transparent
             onPress={() => this.setState({ showSearch: !this.state.showSearch })}

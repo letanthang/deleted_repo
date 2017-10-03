@@ -17,6 +17,7 @@ import AppFooter from '../components/AppFooter';
 import MyMenu from '../components/MyMenu';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
+const logoIcon = require('../../resources/mpds_icon_48.png');
 
 class HomeScreen extends Component {
   state = { date: new Date(), showMenu: false }
@@ -130,26 +131,26 @@ class HomeScreen extends Component {
           <Header
             iosBarStyle={iosBarStyle}
           >
-            <Left>
+            <Left style={{ flexDirection: 'row' }}>
               <Button
                 transparent
                 onPress={() => navigate('DrawerOpen')}
               >          
                 <Icon name="menu" />
               </Button>
+              
             </Left>
             <Body>
-              <Title>Tài xế GHN</Title>
+              <Title>Tài xế</Title>
             </Body>
             <Right>
               <Button
                   transparent
                   onPress={() => {
-                    console.log('showMenu pressed');
-                    this.setState({ showMenu: !this.state.showMenu });
+                    console.log('barcode scan pressed');
                   }}
               >          
-                <IC name='dots-horizontal' size={28} color={Colors.headerNormal} />
+                <IC name='barcode-scan' size={28} color={Colors.headerNormal} />
               </Button>
             </Right>
           </Header>

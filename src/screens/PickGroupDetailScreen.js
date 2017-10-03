@@ -51,13 +51,15 @@ class PickGroupDetailScreen extends Component {
             </Button>
             
           </Item>
-          <Button
-            transparent
-            style={{ marginLeft: 8 }}
-            onPress={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })}
-          >
-            <Text>Huỷ</Text>
-          </Button>
+          <Right style={{ flex: 0 }} >
+            <Button
+              transparent
+              style={{ marginLeft: 8 }}
+              onPress={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })}
+            >
+              <Text>Huỷ</Text>
+            </Button>
+          </Right>
         </Header>
         );
     } 

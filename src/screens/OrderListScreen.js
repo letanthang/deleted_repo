@@ -124,12 +124,7 @@ class OrderListScreen extends Component {
           >
             <Icon name="search" />
           </Button>
-          <Button
-            transparent
-            onPress={() => navigate('DeliveryGroupCreate')}
-          >
-            <IC name="group" size={22} color={Colors.headerActive} />
-          </Button>
+         
         </Right>
       </Header>
     );

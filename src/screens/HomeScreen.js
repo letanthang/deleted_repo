@@ -3,11 +3,12 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
-  Card, CardItem, Toast
+  Card, CardItem, Toast, Input, Item
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
+import SearchList from '../components/SearchList';
 import { pdListFetch } from '../actions';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -18,10 +19,10 @@ import MyMenu from '../components/MyMenu';
 import LogoButton from '../components/LogoButton';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
-const logoIcon = require('../../resources/mpds_icon_48.png');
+
 
 class HomeScreen extends Component {
-  state = { date: new Date(), showMenu: false }
+  state = { date: new Date(), showMenu: false, showSearch: false, keyword: '' }
   componentWillMount() {
     console.log('====================================');
     console.log('HomeScreen : CWM');
@@ -121,105 +122,156 @@ class HomeScreen extends Component {
       console.log(error);
     }
   }
-  render() {
+  renderHeader() {
     const { navigate } = this.props.navigation;
     const iosBarStyle = Theme === 'dark' ? 'light-content' : 'default';
 
-    return (
-       
-        
-        <Container style={{ backgroundColor: Colors.background }}>
-          <Header
-            iosBarStyle={iosBarStyle}
+    if (this.state.showSearch) {
+      return (
+        <Header 
+          searchBar
+          iosBarStyle={iosBarStyle}
+        >
+          <Item
+            style={{ borderRadius: 4, backgroundColor: Colors.background, padding: 4 }} 
           >
-            <Left style={{ flex: 0.75 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Button
-                transparent
-                onPress={() => navigate('DrawerOpen')}
-              >          
-                <Icon name="menu" />
-              </Button>
-              <LogoButton dispatch={this.props.navigation.dispatch} />
-              <Button
-                transparent
-                onPress={() => this.setState({ showSearch: !this.state.showSearch })}
-              >
-              <IC name='magnify' size={25} color={Colors.headerNormal} />
-              </Button>
-            </View>
-            </Left>
-            
-            <Right style={{ flex: 0.25 }}>
-              <Button
-                  transparent
-                  onPress={() => {
-                    console.log('barcode scan pressed');
-                  }}
-              >          
-                <IC name='barcode-scan' size={25} color={Colors.headerNormal} />
-              </Button>
-            </Right>
-          </Header>
-          <Content style={{ padding: 10 }}>
-            <PDCard
-              type='pick'
-              onPress={this.onTripListPress.bind(this)}
-              upNumber={this.props.pickComplete}
-              downNumber={this.props.pickTotal}
-              color='#12cd72'
-              delay={false}
-            />
-            <PDCard
-              type='delivery'
-              onPress={this.onDeliveryPress.bind(this)}
-              upNumber={this.props.deliveryComplete}
-              downNumber={this.props.deliveryTotal}
-              color='#ff6e40'
-              delay={false}
-            />
-            <PDCard
-              type='return'
-              onPress={this.onReturnPress.bind(this)}
-              upNumber={this.props.returnComplete}
-              downNumber={this.props.returnTotal}
-              color='#606060'
-              delay={false}
+            <IC name='magnify' size={25} color={Colors.normal} />
+            <Input 
+              placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
+              onChangeText={(keyword) => { 
+                  console.log('keyword changed!');
+                  this.setState({ keyword: keyword.trim() });
+              }}
             />
             <TouchableOpacity
-              onPress={() => navigate('Performance')}
+              onPress={() => this.setState({ keyword: '' })}
+              style={{ padding: 4 }}
             >
-              <Card>
-                <CardItem style={{ backgroundColor: Colors.row }}>
-                  <View style={HomeStyles.cardItemLeft}>
-                    <View>
-                      <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
-                        Năng suất làm việc
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={HomeStyles.cardItemRight}>
-                    <Image source={efficiencyIcon} />
-                  </View>
-                </CardItem>
-              </Card>
+              <IC 
+                name="close-circle-outline" size={14} 
+              />
             </TouchableOpacity>
             
-          </Content>
-          
-          <AppFooter navigation={this.props.navigation} />
-          <MyMenu 
-            show={this.state.showMenu} 
-            onBlur={() => {
-              console.log('Menu onBlur');
-              this.setState({ showMenu: !this.state.showMenu });
-            }}
-            onPress={() => {
-              console.log('Menu onPress');
-              this.onUpdateDataPress();
-              this.setState({ showMenu: !this.state.showMenu });
-            }}
-          />
+          </Item>
+          <Right style={{ flex: 0 }} >
+            <Button
+              transparent
+              style={{ marginLeft: 0 }}
+              onPress={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })}
+            >
+              <Text uppercase={false}>Huỷ</Text>
+            </Button>
+          </Right>
+        </Header>
+      );
+    }
+
+    return (
+      <Header
+        iosBarStyle={iosBarStyle}
+      >
+        <Left style={{ flex: 0.75 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Button
+            transparent
+            onPress={() => navigate('DrawerOpen')}
+          >          
+            <Icon name="menu" />
+          </Button>
+          {/* <LogoButton dispatch={this.props.navigation.dispatch} /> */}
+          <Button
+            transparent
+            onPress={() => this.setState({ showSearch: !this.state.showSearch })}
+          >
+          <IC name='magnify' size={25} color={Colors.headerNormal} />
+          </Button>
+        </View>
+        </Left>
+        
+        <Right style={{ flex: 0.25 }}>
+          <Button
+              transparent
+              onPress={() => {
+                console.log('barcode scan pressed');
+              }}
+          >          
+            <IC name='barcode-scan' size={25} color={Colors.headerNormal} />
+          </Button>
+        </Right>
+      </Header>
+    );
+  }
+  renderContent() {
+    if (this.state.showSearch) {
+      return (
+        <SearchList 
+          keyword={this.state.keyword} 
+          navigation={this.props.navigation} 
+          cancelSearch={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })} 
+        />
+      );
+    }
+    const { navigate } = this.props.navigation;
+    return (
+      <Content style={{ padding: 10 }}>
+      <PDCard
+        type='pick'
+        onPress={this.onTripListPress.bind(this)}
+        upNumber={this.props.pickComplete}
+        downNumber={this.props.pickTotal}
+        color='#12cd72'
+        delay={false}
+      />
+      <PDCard
+        type='delivery'
+        onPress={this.onDeliveryPress.bind(this)}
+        upNumber={this.props.deliveryComplete}
+        downNumber={this.props.deliveryTotal}
+        color='#ff6e40'
+        delay={false}
+      />
+      <PDCard
+        type='return'
+        onPress={this.onReturnPress.bind(this)}
+        upNumber={this.props.returnComplete}
+        downNumber={this.props.returnTotal}
+        color='#606060'
+        delay={false}
+      />
+      <TouchableOpacity
+        onPress={() => navigate('Performance')}
+      >
+        <Card>
+          <CardItem style={{ backgroundColor: Colors.row }}>
+            <View style={HomeStyles.cardItemLeft}>
+              <View>
+                <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
+                  Năng suất làm việc
+                </Text>
+              </View>
+            </View>
+            <View style={HomeStyles.cardItemRight}>
+              <Image source={efficiencyIcon} />
+            </View>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
+      
+    </Content>
+    );
+  }
+  renderFooter() {
+    if (this.state.showSearch) return null;
+    return (
+      <AppFooter navigation={this.props.navigation} />
+    );
+  }
+  render() {
+    return (
+        <Container style={{ backgroundColor: Colors.background }}>
+          {this.renderHeader()}
+          {this.renderContent()}
+          {this.renderFooter()}
           <LoadingSpinner loading={this.props.loading} />
           
         </Container>

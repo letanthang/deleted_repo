@@ -148,7 +148,7 @@ class TripListScreen extends Component {
         onPress={() => this.goToReturnGroup(returnGroup)}
       >
         <Text style={{ color: '#F3BD71', fontSize: 13, fontWeight: '600' }}>ĐƠN TRẢ</Text>
-        <IC name='arrow-dropright' />
+        <IC name='arrow-right' size={20} />
       </Button>
     );
   }

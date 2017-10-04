@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -42,24 +42,23 @@ class PickGroupDetailScreen extends Component {
                   this.setState({ keyword: keyword.trim() });
               }}
             />
-            <Button
-              transparent
-              small
+            <TouchableOpacity
               onPress={() => this.setState({ keyword: '' })}
+              style={{ padding: 8 }}
             >
               <IconFA 
                 name="times-circle" size={14} 
               />
-            </Button>
+            </TouchableOpacity>
             
           </Item>
           <Right style={{ flex: 0 }} >
             <Button
               transparent
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: 0 }}
               onPress={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })}
             >
-              <Text>Huỷ</Text>
+              <Text uppercase={false}>Huỷ</Text>
             </Button>
           </Right>
         </Header>

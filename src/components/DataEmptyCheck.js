@@ -10,6 +10,10 @@ const DataEmptyCheck = ({ children, data, message }) => {
       </Body>      
     );
   }
-  return children;
+  return (
+    <View>
+      {children}
+    </View>
+  );
 };
 export default DataEmptyCheck;

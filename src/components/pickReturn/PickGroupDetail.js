@@ -143,7 +143,7 @@ class PickGroupDetail extends Component {
         options: this.buttons,
         cancelButtonIndex: this.cancelIndex,
         destructiveButtonIndex: this.destructiveIndex,
-        title: 'Chọn lý do giao lỗi'
+        title: 'Chọn lý do lỗi'
       },
       buttonIndex => {
         console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof this.changeDateIndex}`);

@@ -13,6 +13,7 @@ import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
+import LogoButton from '../components/LogoButton';
 import DatePicker from '../components/DatePicker';
 import OrderStatusText from '../components/OrderStatusText';
 import { DeliveryErrors } from '../components/Constant';
@@ -191,18 +192,22 @@ class DeliveryOrderScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
-          <Left>
+          <Left style={{ flex: 0.22 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Button
               transparent
               onPress={() => goBack()}
             >
               <Icon name="arrow-back" />
             </Button>
+            <LogoButton dispatch={this.props.navigation.dispatch} />
+            </View>
+            
           </Left>
-          <Body style={{ flex: 3 }}>
+          <Body style={{ flex: 0.53 }}>
             <Title>[{DisplayOrder}] {OrderCode}</Title>
           </Body>
-          <Right>
+          <Right style={{ flex: 0.25 }}>
             <Button
               transparent
             >

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
   Icon, Button, Title, Text,
@@ -10,6 +11,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import AppFooter from '../components/AppFooter';
+import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
 import { Colors } from '../Styles';
 
@@ -82,18 +84,22 @@ class DeliveryListScreen extends Component {
     
     return (
       <Header>
-        <Left>
+        <Left style={{ flex: 0.22 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button
             transparent
             onPress={() => this.goBack()}
           >
             <Icon name="arrow-back" />
           </Button>
+          <LogoButton dispatch={this.props.navigation.dispatch} />
+          </View>
+          
         </Left>
-        <Body style={{ flex: 3 }}>
+        <Body style={{ flex: 0.53 }}>
           <Title>Giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
         </Body>
-        <Right>
+        <Right style={{ flex: 0.25 }}>
           <Button
             transparent
             onPress={() => this.setState({ showSearch: !this.state.showSearch })}

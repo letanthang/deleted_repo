@@ -181,6 +181,7 @@ class OrderListScreen extends Component {
           data={pds.PDSItems}
           renderItem={({ item }) => <View><Text>{item.OrderCode}</Text></View>}
         /> */}
+        <Content>
         <DataEmptyCheck
           data={items}
           message="Không có dữ liệu"
@@ -220,13 +221,14 @@ class OrderListScreen extends Component {
             sections={sections}
           /> 
         </DataEmptyCheck>
+        </Content>
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );
   }
   getDO(DisplayOrder) {
     if (DisplayOrder) {
-      return '[{DisplayOrder}] ';
+      return `[${DisplayOrder}] `;
     }
     return '';
   }

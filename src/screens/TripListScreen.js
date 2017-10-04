@@ -173,107 +173,105 @@ class TripListScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
-        {/* <FlatList
-          data={pds.PDSItems}
-          renderItem={({ item }) => <View><Text>{item.OrderCode}</Text></View>}
-        /> */}
-        <DataEmptyCheck
-          data={items}
-          message={emptyMessage}
-        >
-          <SectionList
-            renderItem={({ item, index, section }) => {
-             
-              if (!section.activeSection) return null;
+        <Content>
+          <DataEmptyCheck
+            data={items}
+            message={emptyMessage}
+          >
+            <SectionList
+              renderItem={({ item, index, section }) => {
               
+                if (!section.activeSection) return null;
+                
 
-              const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
-               
-              const pickGroup = item;
-              const { Address, ClientName, DisplayOrder, ContactName, ContactPhone } = pickGroup;
-              
-              let TotalServiceCost = 0; 
-              pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.CODAmount; });
-              const ordersNum = pickGroup.PickReturnSOs.length;
-              const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
-              return (
-                <View style={DeliverGroupStyles.content}>
-                <TouchableOpacity
-                  onPress={this.onTripPress.bind(this, pickGroup)}
-                >
-                  <View style={wrapperStyle}>
-                      <View style={[Styles.itemStyle, { justifyContent: 'space-between' }]}>
-                        <Text 
-                          style={[Styles.bigTextStyle, Styles.weakColorStyle]}
-                          numberOfLines={1}
-                        >
-                          {ContactName}
-                        </Text>
-                        {this.renderCheckedIcon(ordersNum, completedNum)}
-                      </View>
-                      <View style={styles.rowStyle}>
-                        <Text
-                          style={[Styles.weakColorStyle]}
-                        >
-                          {Address}
-                        </Text>              
-                      </View>
-                      
-                      <View style={[Styles.item2Style, { paddingTop: 5 }]}>
-                        <Text style={[Styles.weakColorStyle]}>
-                          Đơn hàng: {completedNum}/{ordersNum}
-                        </Text>
-                        <Text style={[Styles.normalColorStyle]}>
-                        {accounting.formatNumber(TotalServiceCost)} đ
-                        </Text>
-                      </View>
-                      <View style={[Styles.item2Style]}>
-                        <View>
-                          {this.renderHasReturnWarning(pickGroup)}
+                const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
+                
+                const pickGroup = item;
+                const { Address, ClientName, DisplayOrder, ContactName, ContactPhone } = pickGroup;
+                
+                let TotalServiceCost = 0; 
+                pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.CODAmount; });
+                const ordersNum = pickGroup.PickReturnSOs.length;
+                const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+                return (
+                  <View style={DeliverGroupStyles.content}>
+                  <TouchableOpacity
+                    onPress={this.onTripPress.bind(this, pickGroup)}
+                  >
+                    <View style={wrapperStyle}>
+                        <View style={[Styles.itemStyle, { justifyContent: 'space-between' }]}>
+                          <Text 
+                            style={[Styles.bigTextStyle, Styles.weakColorStyle]}
+                            numberOfLines={1}
+                          >
+                            {ContactName}
+                          </Text>
+                          {this.renderCheckedIcon(ordersNum, completedNum)}
                         </View>
-                        <Button
-                          small
-                          transparent
-                          onPress={() => Communications.phonecall(ContactPhone, true)}
-                          style={{ paddingRight: 0 }}
-                        >
-                          <Icon name='call' />
-                          <Text style={{ color: '#00b0ff', fontSize: 13, fontWeight: '600' }}>SHOP</Text>
-                        </Button>
+                        <View style={styles.rowStyle}>
+                          <Text
+                            style={[Styles.weakColorStyle]}
+                          >
+                            {Address}
+                          </Text>              
+                        </View>
+                        
+                        <View style={[Styles.item2Style, { paddingTop: 5 }]}>
+                          <Text style={[Styles.weakColorStyle]}>
+                            Đơn hàng: {completedNum}/{ordersNum}
+                          </Text>
+                          <Text style={[Styles.normalColorStyle]}>
+                          {accounting.formatNumber(TotalServiceCost)} đ
+                          </Text>
+                        </View>
+                        <View style={[Styles.item2Style]}>
+                          <View>
+                            {this.renderHasReturnWarning(pickGroup)}
+                          </View>
+                          <Button
+                            small
+                            transparent
+                            onPress={() => Communications.phonecall(ContactPhone, true)}
+                            style={{ paddingRight: 0 }}
+                          >
+                            <Icon name='call' />
+                            <Text style={{ color: '#00b0ff', fontSize: 13, fontWeight: '600' }}>SHOP</Text>
+                          </Button>
+                        </View>
                       </View>
-                    </View>
-                </TouchableOpacity>
-                </View>
-              );
-            }}
-            renderSectionHeader={({ section }) => {
-              let active = false;
-              if (section.activeSection) active = true;
-              const iconName = active ? 'minus-box-outline' : 'plus-box-outline';
-              return (
-                <TouchableOpacity 
-                  style={DeliverGroupStyles.sectionHeader}
-                  onPress={() => {
-                    const key = section.ClientID;
-                    console.log(key);
-                    let activeTripShow;
-                    if (!section.activeSection) {
-                      activeTripShow = true;
-                    } else {
-                      activeTripShow = !this.state.activeTripShow;
-                    }
-                    this.setState({ activeTrip: key, activeTripShow });
-                  }}
-                >
-                  <IC name={iconName} size={20} color='#808080' />
-                  <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
-                </TouchableOpacity>
-              );
-            }}
-            sections={sections}
-          /> 
-        </DataEmptyCheck>
-        <AppFooter navigation={this.props.navigation} />
+                  </TouchableOpacity>
+                  </View>
+                );
+              }}
+              renderSectionHeader={({ section }) => {
+                let active = false;
+                if (section.activeSection) active = true;
+                const iconName = active ? 'minus-box-outline' : 'plus-box-outline';
+                return (
+                  <TouchableOpacity 
+                    style={DeliverGroupStyles.sectionHeader}
+                    onPress={() => {
+                      const key = section.ClientID;
+                      console.log(key);
+                      let activeTripShow;
+                      if (!section.activeSection) {
+                        activeTripShow = true;
+                      } else {
+                        activeTripShow = !this.state.activeTripShow;
+                      }
+                      this.setState({ activeTrip: key, activeTripShow });
+                    }}
+                  >
+                    <IC name={iconName} size={20} color='#808080' />
+                    <Text style={DeliverGroupStyles.headerText}>{section.title}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              sections={sections}
+            /> 
+          </DataEmptyCheck>         
+        </Content>
+        <AppFooter navigation={this.props.navigation} />      
       </Container>
     );
   }

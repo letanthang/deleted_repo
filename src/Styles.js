@@ -153,6 +153,15 @@ export const Styles = {
     paddingBottom: 0,
     backgroundColor: Colors.row,
     borderRadius: 2
+  },
+  leftStyle: {
+    flex: 0.11
+  },
+  bodyStyle: {
+    flex: 0.64
+  },
+  rightStyle: {
+    flex: 0.25
   }
 };
 

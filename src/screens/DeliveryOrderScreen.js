@@ -192,7 +192,7 @@ class DeliveryOrderScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
-          <Left style={{ flex: 0.22 }}>
+          <Left style={Styles.leftStyle}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Button
               transparent
@@ -204,10 +204,10 @@ class DeliveryOrderScreen extends Component {
             </View>
             
           </Left>
-          <Body style={{ flex: 0.53 }}>
+          <Body style={Styles.bodyStyle}>
             <Title>[{DisplayOrder}] {OrderCode}</Title>
           </Body>
-          <Right style={{ flex: 0.25 }}>
+          <Right style={Styles.rightStyle}>
             <Button
               transparent
             >

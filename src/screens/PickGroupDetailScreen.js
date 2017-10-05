@@ -67,7 +67,7 @@ class PickGroupDetailScreen extends Component {
 
     return (
       <Header>
-        <Left style={{ flex: 0.22 }}>
+        <Left style={Styles.leftStyle}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button
             transparent
@@ -78,10 +78,10 @@ class PickGroupDetailScreen extends Component {
           <LogoButton dispatch={this.props.navigation.dispatch} />
         </View>
         </Left>
-        <Body style={{ flex: 0.53 }}>
+        <Body style={Styles.bodyStyle}>
           <Title>{pickGroup.ClientName} - {pickGroup.ContactName}</Title>
         </Body>
-        <Right style={{ flex: 0.25 }}>
+        <Right style={Styles.rightStyle}>
           <Button
             transparent
             onPress={() => this.setState({ showSearch: !this.state.showSearch })}

@@ -9,7 +9,7 @@ import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationActions } from 'react-navigation';
 import PickGroupList from '../components/pickReturn/PickGroupList';
 import AppFooter from '../components/AppFooter';
-import { Colors } from '../Styles';
+import { Colors, Styles } from '../Styles';
 
 class PickListScreen extends Component {
   state = { done: false }
@@ -62,7 +62,7 @@ class PickListScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
-          <Left>
+          <Left style={Styles.leftStyle}>
             <Button
               transparent
               onPress={() => this.goBack()}
@@ -70,10 +70,10 @@ class PickListScreen extends Component {
               <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Body>
+          <Body style={Styles.bodyStyle}>
             <Title>C đi trả ({this.props.returnComplete}/{this.props.returnTotal})</Title>
           </Body>
-          <Right>
+          <Right style={Styles.rightStyle}>
             <Button
               transparent
               onPress={() => this.setState({ done: !this.state.done })}

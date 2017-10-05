@@ -13,7 +13,7 @@ import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
-import { Colors } from '../Styles';
+import { Colors, Styles } from '../Styles';
 
 class DeliveryListScreen extends Component {
   state = { showSearch: false, keyword: '' };
@@ -84,7 +84,7 @@ class DeliveryListScreen extends Component {
     
     return (
       <Header>
-        <Left style={{ flex: 0.22 }}>
+        <Left style={Styles.leftStyle}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button
             transparent
@@ -96,10 +96,10 @@ class DeliveryListScreen extends Component {
           </View>
           
         </Left>
-        <Body style={{ flex: 0.53 }}>
+        <Body style={Styles.bodyStyle}>
           <Title>Giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
         </Body>
-        <Right style={{ flex: 0.25 }}>
+        <Right style={Styles.rightStyle}>
           <Button
             transparent
             onPress={() => this.setState({ showSearch: !this.state.showSearch })}

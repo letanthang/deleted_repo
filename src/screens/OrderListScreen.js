@@ -106,7 +106,7 @@ class OrderListScreen extends Component {
     
     return (
       <Header>
-        <Left>
+        <Left style={Styles.leftStyle}>
           <Button
             transparent
             onPress={() => this.goBack()}
@@ -114,10 +114,10 @@ class OrderListScreen extends Component {
             <Icon name="arrow-back" />
           </Button>
         </Left>
-        <Body style={{ flex: 3 }}>
+        <Body style={Styles.bodyStyle}>
           <Title>Tất cả: lấy|giao|trả</Title>
         </Body>
-        <Right>
+        <Right style={Styles.rightStyle}>
           <Button
             transparent
             onPress={() => this.setState({ showSearch: !this.state.showSearch })}

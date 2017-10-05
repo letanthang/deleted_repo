@@ -72,7 +72,7 @@ class ReturnOrderScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
-          <Left>
+          <Left style={Styles.leftStyle}>
             <Button
               transparent
               onPress={() => goBack()}
@@ -81,10 +81,10 @@ class ReturnOrderScreen extends Component {
             </Button>
           </Left>
           
-          <Body style={{ flex: 3 }}>
+          <Body style={Styles.bodyStyle}>
             <Title>{OrderCode}</Title>
           </Body>
-          <Right>
+          <Right style={Styles.rightStyle}>
             <Button
               transparent
             >

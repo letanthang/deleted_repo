@@ -11,7 +11,7 @@ import DeliveryGroupList from '../components/delivery/DeliveryGroupList';
 import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import DeliveryGroupCreate from '../components/delivery/DeliveryGroupCreate';
 import Utils from '../libs/Utils';
-import { Colors } from '../Styles';
+import { Colors, Styles } from '../Styles';
 
 class DeliveryGroupCreateScreen extends Component {
   state = { showSearch: false, keyword: '' };
@@ -30,7 +30,7 @@ class DeliveryGroupCreateScreen extends Component {
 
     return (
       <Header>
-        <Left>
+        <Left style={Styles.leftStyle}>
           <Button
             transparent
             onPress={() => goBack()}
@@ -38,10 +38,10 @@ class DeliveryGroupCreateScreen extends Component {
             <Icon name="arrow-back" />
           </Button>
         </Left>
-        <Body style={{ flex: 3 }}>
+        <Body style={Styles.bodyStyle}>
           <Title>Tạo Nhóm Giao</Title>
         </Body>
-        <Right />
+        <Right style={Styles.rightStyle} />
       </Header>
     );
   }

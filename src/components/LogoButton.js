@@ -18,6 +18,7 @@ const reset = (dispatch) => {
 };
 
 const LogoButton = ({ dispatch }) => {
+  if (true) return null;
   return (
     <TouchableOpacity
       onPress={() => reset(dispatch)}

@@ -53,7 +53,7 @@ class TripListScreen extends Component {
     
     return (
       <Header>
-        <Left style={{ flex: 0.25 }}>
+        <Left style={Styles.leftStyle}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button
             transparent
@@ -65,10 +65,10 @@ class TripListScreen extends Component {
           </View>
           
         </Left>
-        <Body style={{ flex: 0.55 }}>
+        <Body style={Styles.bodyStyle}>
           <Title>Lấy</Title>
         </Body>
-        <Right style={{ flex: 0.2 }}>
+        <Right style={Styles.rightStyle}>
           <Button
             transparent
             onPress={() => this.setState({ done: !this.state.done, activeTrip: null, activeTripShow: true })}

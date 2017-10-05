@@ -11,7 +11,7 @@ import accounting from 'accounting';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { calculateServiceFee, updateWeightSize } from '../actions';
-import { Colors } from '../Styles';
+import { Colors, Styles } from '../Styles';
 
 let ClientHubID = null;
 let OrderID = null;
@@ -169,7 +169,7 @@ class POUpdateWeightSizeScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
-          <Left>
+          <Left style={Styles.leftStyle}>
             <Button
               transparent
               onPress={() => goBack()}
@@ -177,10 +177,10 @@ class POUpdateWeightSizeScreen extends Component {
               <Icon name="arrow-back" />
             </Button>
           </Left>
-          <Body style={{ flex: 1 }}>
+          <Body style={Styles.bodyStyle}>
             <Title>{OrderCode}</Title>
           </Body>
-          <Right />
+          <Right style={Styles.rightStyle} />
         </Header>
       
         <Content

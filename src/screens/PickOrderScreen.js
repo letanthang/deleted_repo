@@ -85,7 +85,7 @@ class PickOrderScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
-          <Left style={{ flex: 0.22 }}>
+          <Left style={Styles.leftStyle}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Button
               transparent
@@ -96,10 +96,10 @@ class PickOrderScreen extends Component {
             <LogoButton dispatch={this.props.navigation.dispatch} />
           </View>
           </Left>
-          <Body style={{ flex: 0.53 }}>
+          <Body style={Styles.bodyStyle}>
             <Title>{OrderCode}</Title>
           </Body>
-          <Right style={{ flex: 0.25 }}>
+          <Right style={Styles.rightStyle}>
             <Button
               transparent
               onPress={() => navigate('POUpdateWeightSize', { OrderID, ClientID, ClientHubID })}

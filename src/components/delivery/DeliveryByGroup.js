@@ -15,11 +15,11 @@ import StatusText from '../StatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
 
 class DeliveryByGroup extends Component {
+  state = { activeGroup: 0, keyword: '' };
   componentWillMount() {
     console.log('====================================');
     console.log('DeliveryGroupList CWM');
     console.log('====================================');
-    this.state = { activeGroup: 0, keyword: '' };
   }
   componentWillUpdate() {
     

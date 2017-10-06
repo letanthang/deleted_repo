@@ -22,7 +22,7 @@ import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
 import platform from '../native-base-theme/variables/platform';
 
-if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
+if (true || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
   // disable console. log in production
   console.log = function () {};
   console.info = function () {};

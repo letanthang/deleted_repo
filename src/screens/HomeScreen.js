@@ -140,7 +140,7 @@ class HomeScreen extends Component {
               placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
               onChangeText={(keyword) => { 
                   console.log('keyword changed!');
-                  this.setState({ keyword: keyword.trim() });
+                  this.setState({ keyword });
               }}
             />
             <TouchableOpacity

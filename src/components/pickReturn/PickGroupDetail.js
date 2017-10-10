@@ -7,6 +7,7 @@ import * as Communications from 'react-native-communications';
 import { 
   Content, ActionSheet, List, Button, Text as Txt
 } from 'native-base';
+import { CheckBox } from 'react-native-elements';
 import { updateOrderStatus, getConfiguration } from '../../actions';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
@@ -14,6 +15,7 @@ import FormButton from '../FormButton';
 import StatusText from '../StatusText';
 import DatePicker from '../DatePicker';
 import DataEmptyCheck from '../DataEmptyCheck';
+import ActionButtons from './ActionButtons';
 import { PickErrors, ReturnErrors } from '../Constant';
 
 class PickGroupDetail extends Component {
@@ -34,6 +36,7 @@ class PickGroupDetail extends Component {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     console.log('====================================');
+    console.log('PickgGroupDetail cwm');
     console.log('====================================');    
     
     this.ClientHubID = this.pickGroup.ClientHubID;
@@ -65,8 +68,9 @@ class PickGroupDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('DeliveryByGroup cwrp');
+    console.log('PickgGroupDetail cwrp');
     const { keyword } = nextProps;
+    console.log(this.props.pds.PickItems);
     this.setState({ keyword });
   }
 
@@ -345,22 +349,7 @@ class PickGroupDetail extends Component {
   renderActionButtons(disabled, rightText, order) {
     if (disabled) return null;
     return (
-      <View style={[Styles.itemStyle, Styles.actionItemStyle]}>
-        <FormButton
-          disabled={disabled}
-          theme='danger'
-          text='LỖI'
-          width={100}
-          onPress={this.updateOrderToFailWithReason.bind(this, order)}
-        />
-        <FormButton
-          disabled={disabled}
-          theme='success'
-          text={rightText}
-          width={100}
-          onPress={this.confirmUpdateOrderToDone.bind(this, order)}
-        />
-      </View>
+      <ActionButtons />
     );
   }
 
@@ -386,9 +375,11 @@ class PickGroupDetail extends Component {
     console.log('====================================');
 
     return (
-      
       <Content style={{ backgroundColor: Colors.background }}>
-
+        <View style={Styles.actionAllWrapperStyle}>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Cập nhật tất cả thành: </Text>
+          <ActionButtons />
+        </View>
         <DataEmptyCheck
           data={orders}
           message='Không có dữ liệu'
@@ -398,7 +389,7 @@ class PickGroupDetail extends Component {
             dataArray={orders}
             renderRow={this.renderOrder.bind(this)}
           />
-          {this.renderMassUpdateButton(done)}
+          
           </View>
           
         </DataEmptyCheck>
@@ -459,29 +450,7 @@ class PickGroupDetail extends Component {
       </Content>
     );
   }
-  renderMassUpdateButton(done) {
-    if (done) return null;
-    return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 8 }}>
-          <Button
-            rounded
-            onPress={() => this.confirmUpdateOrderToFail(null)}
-          >
-            <Txt>
-              Tất cả lỗi
-            </Txt>
-          </Button>
-          <Button
-            rounded
-            onPress={() => this.confirmUpdateOrderToDone(null)}
-          >
-            <Txt>
-              Tất cả lấy
-            </Txt>
-          </Button>
-        </View>
-    );
-  }
+  
   onChooseDate() {
     const date = this.state.date;
     //string

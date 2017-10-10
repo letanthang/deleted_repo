@@ -75,6 +75,14 @@ export const Styles = {
   normalColorStyle: {
     color: Colors.normal
   },
+  actionAllWrapperStyle: { 
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 8,
+    paddingBottom: 8,
+    marginTop: 8,
+    backgroundColor: '#666666',
+  },
   orderWrapperStyle: { 
     paddingLeft: 12,
     paddingRight: 12,
@@ -136,7 +144,7 @@ export const Styles = {
     paddingTop: 6,
     paddingLeft: 10,
     paddingBottom: 2,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     flexDirection: 'row'
   },
   CheckBoxStyle: {

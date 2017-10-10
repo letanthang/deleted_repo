@@ -26,33 +26,35 @@ const FormButton = ({ text, disabled, theme, onPress, width }) => {
   }
   
   return (
-    <Button  
+    <TouchableOpacity  
     style={buttonStyle}
     small
     onPress={disabled ? null : onPress}
     >
       <Text style={textStyle}>{text}</Text>
-    </Button>
+    </TouchableOpacity>
   );
 };
 
 const defaultStyles = {
   buttonStyle: {
-    margin: 2,
+    margin: 0,
+    padding: 0,
     backgroundColor: 'white',
     borderColor: Colors.normal,
     borderWidth: 1,
-    borderRadius: 10,
-    height: 44,
+    borderRadius: 5,
+    height: 38,
     shadowOffset: { width: 0, height: 0 },
     elevation: 0,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   textStyle: {
     color: Colors.normal
   },
   successColor: '#006441',
-  dangerColor: '#FB4548'
+  dangerColor: '#AF3738'
 };
 
 let styles = {

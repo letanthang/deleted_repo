@@ -76,34 +76,34 @@ export default (state = nameInitialState, action) => {
       };
     }
 
+  // [
+  //   {  
+  //     PDSDetailID,
+  //     OrderID,
+  //     PDSType,
+  //     NextStatus,
+  //     ClientHubID,
+  //     StoringCode,
+  //     NewDate,
+  //     Log
+  //   },
+  //   ...
+  // ]
+
     case UPDATE_ORDER_STATUS_SUCCESS: {
       console.log('================================================');
       console.log('pdReducer: UPDATE_ORDER_STATUS_SUCCESS is called');
       console.log('state before:');
       console.log(state.pds);
 
-      const { OrderID, PickDeliveryType, CurrentStatus, ClientHubID } = action.payload;
-      let orderIds;
-      if (OrderID instanceof Array) {
-        orderIds = _.map(OrderID, item => item.OrderID);
-      } else {
-        orderIds = [OrderID];
-      }
+      const OrderInfos = action.payload;
 
       const pds = _.cloneDeep(state.pds);
-      _.each(orderIds, ID => {
-        if (PickDeliveryType === 2) {
-          order = Utils.getOrder(pds, ID, null, 2);
-          //order.CurrentStatus = 'WaitingToFinish';
-          order.CurrentStatus = CurrentStatus;
-        } else {
-          order = Utils.getOrder(pds, ID, ClientHubID, PickDeliveryType);
-          order.CurrentStatus = CurrentStatus;
-          order.NextStatus = CurrentStatus;
-        }
+      _.each(OrderInfos, info => {
+          const order = Utils.getOrder(pds, info.OrderID);
+          order.CurrentStatus = info.NextStatus;
+          order.NextStatus = info.NextStatus;
       });
-      let order = {};
-      
       
       transformPDS(pds);
 

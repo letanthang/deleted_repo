@@ -54,51 +54,22 @@ export const pdListFetchFail = (dispatch, error) => {
   dispatch({ type: PDLIST_FETCH_FAIL, payload: error });
 };
 
-export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status, ClientHubID, StoringCode = '', NewDate = null, Log = '' }) => {
-  //console.log(`pdAction: updateOrderStatus is called with type: ${PickDeliveryType}`);
-  console.log({ 
-    sessionToken, 
-    pdsId, 
-    OrderID, 
-    PickDeliveryType, 
-    status, 
-    StoringCode, 
-    NewDate, 
-    Log 
-  });
+  // [
+  //   {  
+  //     PDSDetailID,
+  //     OrderID,
+  //     PDSType,
+  //     NextStatus,
+  //     ClientHubID,
+  //     StoringCode,
+  //     NewDate,
+  //     Log
+  //   },
+  //   ...
+  // ]
 
-  let OrderInfos;
-
-  if (OrderID instanceof Array) {
-    OrderInfos = _.map(OrderID, (item) => {
-      return {  
-        PDSDetailID: item.PickDeliverySessionDetailID,
-        OrderID: item.OrderID,
-        PDSType: PickDeliveryType,
-        NextStatus: status,
-        ClientHubID,
-        StoringCode,
-        NewDate,
-        Log
-      };
-    });
-    console.log('update dong loat');
-    console.log(OrderInfos);
-  } else {
-    OrderInfos = [  
-      {  
-        PDSDetailID: PickDeliverySessionDetailID,
-        OrderID,
-        PDSType: PickDeliveryType,
-        NextStatus: status,
-        ClientHubID,
-        StoringCode,
-        NewDate,
-        Log
-      }
-    ]
-  }
-
+export const updateOrderStatus = ({ pdsId, OrderInfos }) => {
+  
   console.log(OrderInfos);
   // return { type: "NO_THING" };
   return ((dispatch) => {
@@ -112,7 +83,7 @@ export const updateOrderStatus = ({ sessionToken, pdsId, PickDeliverySessionDeta
         console.log(json);
         if (json.status === 'OK') {
           updateOrderStatusSuccess(dispatch, 
-            { OrderID, CurrentStatus: status, PickDeliveryType, ClientHubID });
+            OrderInfos);
         } else {
           console.log('UpdateOrderStatus failed with response json =');
           console.log(json);

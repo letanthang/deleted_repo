@@ -17,12 +17,12 @@ import LocalGroup from '../libs/LocalGroup';
 import AppFooter from '../components/AppFooter';
 import MyMenu from '../components/MyMenu';
 import LogoButton from '../components/LogoButton';
+import BarcodeReader from '../components/BarcodeReader';
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
 
-
 class HomeScreen extends Component {
-  state = { date: new Date(), showMenu: false, showSearch: false, keyword: '' }
+  state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     console.log('====================================');
     console.log('HomeScreen : CWM');
@@ -140,7 +140,7 @@ class HomeScreen extends Component {
               placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
               onChangeText={(keyword) => { 
                   console.log('keyword changed!');
-                  this.setState({ keyword: keyword.trim() });
+                  this.setState({ keyword });
               }}
             />
             <TouchableOpacity
@@ -193,6 +193,7 @@ class HomeScreen extends Component {
               transparent
               onPress={() => {
                 console.log('barcode scan pressed');
+                this.setState({ showScanner: !this.state.showScanner });
               }}
           >          
             <IC name='barcode-scan' size={25} color={Colors.headerNormal} />
@@ -256,7 +257,13 @@ class HomeScreen extends Component {
           </CardItem>
         </Card>
       </TouchableOpacity>
-      
+      {this.state.showScanner ?
+          <BarcodeReader 
+            onBarCodeRead={({data, bounds}) => {
+              //this.setState({ showScanner: false });
+            }}
+          />
+          : null }
     </Content>
     );
   }
@@ -272,6 +279,7 @@ class HomeScreen extends Component {
           {this.renderHeader()}
           {this.renderContent()}
           {this.renderFooter()}
+          
           <LoadingSpinner loading={this.props.loading} />
           
         </Container>

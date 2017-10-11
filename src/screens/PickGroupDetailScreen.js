@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
-  Button, Icon, Tabs, Tab,
+  Button, Icon, Tabs, Tab, Footer, FooterTab,
   Title, Input, Item, Text
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
@@ -113,6 +113,13 @@ class PickGroupDetailScreen extends Component {
         {this.renderHeader(pickGroup)}
         <PickGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
         <LoadingSpinner loading={this.props.loading} />
+        <Footer>
+        <FooterTab>
+          <TouchableOpacity style={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#666666' }}>
+            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>
+          </TouchableOpacity>
+        </FooterTab>
+        </Footer>
       </Container>
       
     );

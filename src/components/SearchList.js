@@ -72,8 +72,13 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ OrderCode }) {
-    return !this.props.keyword || this.props.keyword === '' || OrderCode.toUpperCase().includes(this.props.keyword.toUpperCase());
+  checkKeywork({ OrderCode, ClientName, ContactName, RecipientName, Address }) {
+    return !this.props.keyword || this.props.keyword === '' 
+    || OrderCode.toUpperCase().includes(this.props.keyword.toUpperCase())
+    || ClientName.toUpperCase().includes(this.props.keyword.toUpperCase())
+    || ContactName.toUpperCase().includes(this.props.keyword.toUpperCase())
+    || RecipientName.toUpperCase().includes(this.props.keyword.toUpperCase())
+    || Address.toUpperCase().includes(this.props.keyword.toUpperCase());
   }
   renderNullData() {
     return (
@@ -121,7 +126,9 @@ class OrderListScreen extends Component {
                       </Text>
                       {this.renderStatusText(item)}
                     </View>
-                    
+                    <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
+                      {item.ClientName} - {item.ContactName} - {item.RecipientName} 
+                    </Text>
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
                       {item.Address}
                     </Text>

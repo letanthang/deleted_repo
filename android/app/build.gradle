@@ -72,6 +72,10 @@ import com.android.build.OutputFile
  * ]
  */
 
+project.ext.react = [
+    entryFile: "index.js"
+]
+
 apply from: "../../node_modules/react-native/react.gradle"
 
 /**
@@ -144,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-camera')
     compile project(':react-native-call-history')
     compile project(':realm')
     compile project(':react-native-vector-icons')

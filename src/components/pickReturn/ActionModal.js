@@ -13,17 +13,21 @@ class ActionModal extends Component {
     //const timestamp = this.state.date.getTime();
     //this.updateOrderToFail(this.order, this.state.buttonIndex, timestamp);
     this.props.onChooseDate(date);
-    this.setState({ modalShow: !this.state.modalShow, buttonIndex: null, androidDPShow: false });
+    this.setState({ buttonIndex: null, androidDPShow: false });
   }
   onCancelDate() {
-    this.setState({ modalShow: !this.state.modalShow, date: new Date(), androidDPShow: false });
+    this.setState({ date: new Date(), androidDPShow: false });
+    this.props.onCancelDate();
   }
   render() {
     return (
       <Modal
         animationType={'fade'}
-        visible={this.state.modalShow}
+        visible={this.props.visible}
         onShow={() => this.setState({ androidDPShow: true })}
+        onRequestClose={() => {
+              alert("Modal has been closed.");
+            }}
       >
         <View 
           style={{ 

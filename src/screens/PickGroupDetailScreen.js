@@ -1,5 +1,6 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -19,11 +20,31 @@ class PickGroupDetailScreen extends Component {
   state = { showSearch: false, keyword: '', done: false };
 
   componentWillMount() {
-    //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-        
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+  }
+
+  updateOrder() {
+    console.log(this.props.OrderInfos);
+    let OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
+    console.log(OrderInfos); 
+    this.props.updateOrderStatus(OrderInfos);
+  }
+
+  confirmUpdateOrder(orders) {
+    const message = `Bạn có chắc chắn muốn cập nhật ${orders.length} đơn hàng trên ?`;
+    const title = 'Cập nhật đơn hàng ?';
+  
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: 'Đồng ý', onPress: () => this.updateOrder() },
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
   }
 
   renderHeader(pickGroup) {
@@ -103,10 +124,8 @@ class PickGroupDetailScreen extends Component {
     const { pds } = this.props;
     const { PickItems, ReturnItems } = pds;
     const { PickDeliveryType } = this.pickGroup;
-
     const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(trip => trip.ClientHubID === this.ClientHubID); 
-
     return (
       
       <Container style={{ backgroundColor: Colors.background }}>
@@ -115,7 +134,10 @@ class PickGroupDetailScreen extends Component {
         <LoadingSpinner loading={this.props.loading} />
         <Footer>
         <FooterTab>
-          <TouchableOpacity style={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#666666' }}>
+          <TouchableOpacity 
+            style={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#666666' }}
+            onPress={this.confirmUpdateOrder.bind(this)}
+          >
             <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>
           </TouchableOpacity>
         </FooterTab>
@@ -126,10 +148,11 @@ class PickGroupDetailScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, pd }) => {
+const mapStateToProps = ({ auth, pd, pickGroup }) => {
   const { sessionToken } = auth;
   const { pdsId, pds, loading } = pd;
-  return { sessionToken, pdsId, pds, loading };
+  const { OrderInfos } = pickGroup;
+  return { sessionToken, pdsId, pds, loading, OrderInfos };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus })(PickGroupDetailScreen);

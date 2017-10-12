@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import FormButton from '../FormButton';
 import { Colors } from '../../Styles';
+import { getUpdateOrderInfoForDone } from './Helpers';
 
 class ActionButtons extends Component {
   componentWillMount() {
@@ -11,60 +12,57 @@ class ActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const { OrderID } = this.props.order;
-    let info;
-    if (nextStatus === 0) { 
+    let info = {};
+    if (nextStatus === undefined) { 
       info = undefined;
+    } else if (nextStatus) {
+      info = getUpdateOrderInfoForDone(this.props.order);
+      info.success = nextStatus;
     } else {
-      info = {
-        OrderID,
-        success: (nextStatus === 2)
-      };
+      info.success = nextStatus;
     }
-    console.log(info);
+    //console.log(info);
     this.props.onInfoChanged(info);
   }
   render() {
     console.log('ActionButtons : render');
     const { info, order } = this.props;
-    let status = 0;
-    if (info[order.OrderID] !== undefined) {
-      status = info.success ? 2 : 1; 
-    }
-    console.log('ActionButtons : render with status');
-    console.log(status);
+    const status = (info === undefined) ? undefined : info.success;
+    //console.log('ActionButtons : render with status');
+    //console.log(status);
 
     return (
       <View style={{ flexDirection: 'row', flex: 1, margin: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flex: 0.5, padding: 0, margin: 0 }}>
           <CheckBox
-            checked={status === 1} 
+            checked={status === false} 
             checkedIcon='dot-circle-o'
             uncheckedIcon='circle-o'
             containerStyle={{ backgroundColor: Colors.item, borderWidth: 0, marginLeft: -10, marginRight: 0, width: 42 }}
-            onPress={this.changeInfo.bind(this, status === 1 ? 0 : 1)}
+            onPress={this.changeInfo.bind(this, status !== false ? false : undefined)}
           /> 
           <FormButton
             disabled={false}
             theme='danger'
             text='LỖI'
             width={60}
-            onPress={this.changeInfo.bind(this, status === 1 ? 0 : 1)}
+            onPress={this.changeInfo.bind(this, status !== false ? false : undefined)}
           />
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', flex: 0.5 }}>
           <CheckBox
-            checked={status === 2}
+            checked={status === true}
             checkedIcon='dot-circle-o'
             uncheckedIcon='circle-o'
             containerStyle={{ backgroundColor: Colors.item, borderWidth: 0, marginRight: 0, width: 42 }}
-            onPress={this.changeInfo.bind(this, status === 2 ? 0 : 2)}
+            onPress={this.changeInfo.bind(this, status !== true ? true : undefined)}
           />
           <FormButton
             disabled={false}
             theme='success'
             text='Lay'
             width={60}
-            onPress={this.changeInfo.bind(this, status === 2 ? 0 : 2)}
+            onPress={this.changeInfo.bind(this, status !== true ? true : undefined)}
           />
         </View>
       </View>

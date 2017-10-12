@@ -7,25 +7,19 @@ import { accounting } from 'accounting';
 import { 
   Content, List
 } from 'native-base';
-import { updateOrderStatus, getConfiguration } from '../../actions';
+import { updateOrderStatus, getConfiguration, updateAllOrderInfo } from '../../actions';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import OrderStatusText from '../OrderStatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
 import ActionButtons from './ActionButtons';
 import ActionModal from './ActionModal';
-import { PickErrors, ReturnErrors } from '../Constant';
+import { updateOrderToFailWithReason, getUpdateOrderInfo } from './Helpers';
+
 
 class PickGroupDetail extends Component {
   state = { OrderInfos: {}, keyword: '', modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
-  buttons = null;
-  codes = null;
-  cancelIndex = null;
-  destructiveIndex = -1;
-  changeDateIndex = null;
-  cannotContactIndex = null;
-  cannotCallIndex = null;
-  notHangUpIndex = null;
+  
   pickGroup = null;
   ClientHubID = null;
   PickDeliveryType = null;
@@ -37,18 +31,8 @@ class PickGroupDetail extends Component {
     console.log('====================================');
     console.log('PickgGroupDetail cwm');
     console.log('====================================');    
-    
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
-  
-    this.buttons = Object.values(PickErrors);
-    this.buttons.push('Cancel');
-    this.codes = Object.keys(PickErrors);
-    this.cancelIndex = this.buttons.length - 1;
-    this.changeDateIndex = 0;
-    this.cannotContactIndex = 1;
-    this.cannotCallIndex = 2;
-    this.notHangUpIndex = 3;
   }
 
   componentDidMount() {
@@ -114,24 +98,52 @@ class PickGroupDetail extends Component {
 
   onChooseDate(date) {    
     const timestamp = date.getTime();
-    this.updateOrderToFail(this.order, this.state.buttonIndex, timestamp);
-    this.setState({ modalShow: !this.state.modalShow, buttonIndex: null });
+    const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
+    this.setStateOrderInfo(this.order, this.info, moreInfo);
+    this.setState({ modalShow: !this.state.modalShow });
   }
   onCancelDate() {
     this.setState({ modalShow: !this.state.modalShow });
   }
 
+  setStateOrderInfo(order, info, moreInfo = null) {
+    const OrderInfos = _.clone(this.state.OrderInfos);
+    if (moreInfo) {
+      OrderInfos[order.OrderID] = { ...info, ...moreInfo };
+    } else {
+      OrderInfos[order.OrderID] = info;
+    }
+    this.props.updateAllOrderInfo(OrderInfos);
+    this.setState({ OrderInfos });
+  }
+
   renderActionButtons(rightText, order) {
-    console.log(order);
-    const OrderID = order.OrderID;
+    const { OrderID, ContactPhone } = order;
     return (
       <ActionButtons 
-        info={this.state.OrderInfos}
+        info={this.state.OrderInfos[OrderID]}
         order={order}
         onInfoChanged={info => {
-          const OrderInfos = _.cloneDeep(this.state.OrderInfos);
-          OrderInfos[OrderID] = info;
-          this.setState({ OrderInfos });
+          if (info === undefined || info.success) {
+            this.setStateOrderInfo(order, info);
+          } else {
+            // ask for reason
+            updateOrderToFailWithReason(ContactPhone, this.props.configuration, (error, buttonIndex) => {
+              console.log(' call back !');
+              if (error === null) {
+                //console.log('set state to loi');
+                const moreInfo = getUpdateOrderInfo(order, buttonIndex);
+                this.setStateOrderInfo(order, info, moreInfo);
+              } else if (error === 'moreCall') {
+                console.log('moreCall');
+              } else if (error === 'chooseDate') {
+                this.order = order;
+                this.info = info;
+                this.buttonIndex = buttonIndex;
+                this.setState({ modalShow: true });
+              }
+            });
+          }
         }} 
       />
     );
@@ -171,16 +183,16 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
-            renderItem={(order) => {
+            renderItem={({ item }) => {
               const { 
                 OrderCode, RecipientName, RecipientPhone, PickDeliveryType,
                 Height, Width, Weight, Length, CurrentStatus,
                 ExternalCode, CODAmount
-              } = order;
+              } = item;
               const rightText = 'LẤY';
               return (
                 <TouchableOpacity
-                  onPress={this.onOrderPress.bind(this, order)}
+                  onPress={this.onOrderPress.bind(this, item)}
                 >
                   <View style={[Styles.orderWrapperStyle]}>
                     <View style={Styles.item2Style}>
@@ -192,7 +204,6 @@ class PickGroupDetail extends Component {
                           style={{ marginLeft: 10 }}
                         />
                       </View>
-                      
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
                     </View>
                     <View style={Styles.itemStyle}>
@@ -201,20 +212,14 @@ class PickGroupDetail extends Component {
                     <View style={Styles.itemStyle}>
                       <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
                     </View>
-                    
                     {this.renderInfosForPick({ Weight, Length, Width, Height })}
-                    
-                    {this.renderActionButtons(rightText, order)}
-                    
+                    {!done ? this.renderActionButtons(rightText, item) : null}
                   </View>
                 </TouchableOpacity>
               );
             }}
           />
-          
-          
           </View>
-          
         </DataEmptyCheck>
        
         <ActionModal
@@ -238,4 +243,4 @@ const mapStateToProps = ({ auth, pd, other }) => {
 };
 
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo })(PickGroupDetail);

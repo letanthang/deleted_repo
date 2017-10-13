@@ -33,7 +33,7 @@ class PickGroupDetailScreen extends Component {
     //console.log(this.props.OrderInfos);
     const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
     //console.log(OrderInfos); 
-    this.props.updateOrderStatus(OrderInfos);
+    this.props.updateOrderStatus({ OrderInfos });
   }
 
   confirmUpdateOrder(orders) {

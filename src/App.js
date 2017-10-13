@@ -8,6 +8,7 @@ import LoginScreen from './screens/LoginScreen';
 import Drawer from './Drawer';
 import PickListScreen from './screens/PickListScreen';
 import PickGroupDetailScreen from './screens/PickGroupDetailScreen';
+import ReturnGroupDetailScreen from './screens/ReturnGroupDetailScreen';
 import PickOrderScreen from './screens/PickOrderScreen';
 import POUpdateWeightSizeScreen from './screens/POUpdateWeightSizeScreen';
 import ReturnOrderScreen from './screens/ReturnOrderScreen';
@@ -45,6 +46,7 @@ class App extends Component {
         PickList: { screen: PickListScreen },
         TripList: { screen: TripListScreen },
         PickGroupDetail: { screen: PickGroupDetailScreen },
+        ReturnGroupDetail: { screen: ReturnGroupDetailScreen },
         PickOrder: { screen: PickOrderScreen },
         POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },
         ReturnOrder: { screen: ReturnOrderScreen },

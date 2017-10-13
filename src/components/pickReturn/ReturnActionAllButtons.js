@@ -1,37 +1,37 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors } from '../../Styles';
-import { updateOrderInfo } from '../../actions';
-import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
+import { updateAllOrderInfoReturn, setAllStatusReturn } from '../../actions';
+import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
 
-class ActionButtons extends Component {
+class ReturnActionAllButtons extends Component {
   componentWillMount() {
-    console.log('ActionButtons : cwm');
+    console.log('ActionAllButtons : cwm');
     console.log(this.props);
   }
   changeInfo(nextStatus) {
-    const order = this.props.order;
-    const { OrderID, ContactPhone } = this.props.order;
-    let info = {};
+    const orders = this.props.orders;
+    const { ContactPhone } = orders[0];
+    
     if (nextStatus === undefined) { 
-      info = undefined;
-      this.props.updateOrderInfo(OrderID, undefined);
+      this.props.setAllStatusReturn(undefined);
+      this.props.updateAllOrderInfoReturn({});
     } else if (nextStatus) {
-      info = getUpdateOrderInfoForDone(this.props.order);
-      info.success = nextStatus;
-      this.props.updateOrderInfo(OrderID, info);
+      this.props.setAllStatusReturn(true);
+      const OrderInfos = _.map(orders, order => getUpdateOrderInfoForDone(order)); 
+      this.props.updateAllOrderInfoReturn(OrderInfos);
     } else {
-      //failed to pick
-      info.success = nextStatus;
       updateOrderToFailWithReason(ContactPhone, this.props.configuration, (error, buttonIndex) => {
         console.log(' call back !');
         if (error === null) {
           //console.log('set state to loi');
-          const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfo(OrderID, moreInfo);
+          const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));
+          this.props.updateAllOrderInfoReturn(OrderInfos);
+          this.props.setAllStatusReturn(false);
         } else if (error === 'moreCall') {
           console.log('moreCall');
         } else if (error === 'chooseDate') {
@@ -42,11 +42,14 @@ class ActionButtons extends Component {
     //console.log(info);
   }
   render() {
-    console.log('ActionButtons : render');
-    const { info, done, rightText = 'Lấy' } = this.props;
+    console.log('ActionAllButtons : render');
+    const { allStatus, done, rightText = 'Trả' } = this.props;
     if (done) return null;
 
-    const status = (info === undefined) ? undefined : info.success;
+    const status = allStatus;
+    //console.log('ActionButtons : render with status');
+    //console.log(status);
+
     return (
       <View style={{ flexDirection: 'row', flex: 1, margin: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flex: 0.5, padding: 0, margin: 0 }}>
@@ -86,9 +89,10 @@ class ActionButtons extends Component {
   }
 }
 
-const mapStateToProps = ({ other }) => {
+const mapStateToProps = ({ other, pickGroup }) => {
+  const { allStatus } = pickGroup;
   const { configuration } = other;
-  return { configuration };
+  return { configuration, allStatus };
 };
 
-export default connect(mapStateToProps, { updateOrderInfo })(ActionButtons);
+export default connect(mapStateToProps, { updateAllOrderInfoReturn, setAllStatusReturn })(ReturnActionAllButtons);

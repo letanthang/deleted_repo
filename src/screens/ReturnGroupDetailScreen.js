@@ -12,7 +12,7 @@ import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { updateOrderStatus } from '../actions';
 // import Utils from './libs/Utils';
 import { Styles, Colors } from '../Styles';
-import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
+import ReturnGroupDetail from '../components/pickReturn/ReturnGroupDetail';
 import LoadingSpinner from '../components/LoadingSpinner';
 import LogoButton from '../components/LogoButton';
 
@@ -32,9 +32,8 @@ class PickGroupDetailScreen extends Component {
   updateOrder() {
     //console.log(this.props.OrderInfos);
     const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
-  
     //console.log(OrderInfos); 
-    this.props.updateOrderStatus({ OrderInfos });
+    this.props.updateOrderStatus(OrderInfos);
   }
 
   confirmUpdateOrder(orders) {
@@ -135,7 +134,7 @@ class PickGroupDetailScreen extends Component {
       
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
-        <PickGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
+        <ReturnGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
         <LoadingSpinner loading={this.props.loading} />
         <Footer>
         <FooterTab>
@@ -153,10 +152,10 @@ class PickGroupDetailScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, pd, pickGroup }) => {
+const mapStateToProps = ({ auth, pd, returnGroup }) => {
   const { sessionToken } = auth;
   const { pdsId, pds, loading } = pd;
-  const { OrderInfos } = pickGroup;
+  const { OrderInfos } = returnGroup;
   return { sessionToken, pdsId, pds, loading, OrderInfos };
 };
 

@@ -203,7 +203,7 @@ const transformPDS = (pds) => {
   let items = pds.PDSItems.filter(o => o.PickDeliveryType === 1);
   let groups = _.groupBy(items, 'ClientHubID');
   pds.PickItems = [];
-  _.forEach(groups, (orders,key) => {
+  _.forEach(groups, (orders, key) => {
     const order = orders[0];
     const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
 
@@ -215,11 +215,11 @@ const transformPDS = (pds) => {
   items = pds.PDSItems.filter(o => o.PickDeliveryType === 3);
   groups = _.groupBy(items, 'ClientHubID');
   pds.ReturnItems = [];
-  _.forEach(groups, (orders,key) => {
+  _.forEach(groups, (orders, key) => {
     const order = orders[0];
     const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
 
-    const group = { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
+    const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
     group.PickReturnSOs = orders;
     pds.ReturnItems.push(group);
   });

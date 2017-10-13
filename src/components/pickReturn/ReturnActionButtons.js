@@ -4,10 +4,10 @@ import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors } from '../../Styles';
-import { updateOrderInfo } from '../../actions';
-import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
+import { updateOrderInfoReturn } from '../../actions';
+import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
 
-class ActionButtons extends Component {
+class ReturnActionButtons extends Component {
   componentWillMount() {
     console.log('ActionButtons : cwm');
     console.log(this.props);
@@ -18,11 +18,11 @@ class ActionButtons extends Component {
     let info = {};
     if (nextStatus === undefined) { 
       info = undefined;
-      this.props.updateOrderInfo(OrderID, undefined);
+      this.props.updateOrderInfoReturn(OrderID, undefined);
     } else if (nextStatus) {
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
-      this.props.updateOrderInfo(OrderID, info);
+      this.props.updateOrderInfoReturn(OrderID, info);
     } else {
       //failed to pick
       info.success = nextStatus;
@@ -31,7 +31,7 @@ class ActionButtons extends Component {
         if (error === null) {
           //console.log('set state to loi');
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfo(OrderID, moreInfo);
+          this.props.updateOrderInfoReturn(OrderID, moreInfo);
         } else if (error === 'moreCall') {
           console.log('moreCall');
         } else if (error === 'chooseDate') {
@@ -43,7 +43,7 @@ class ActionButtons extends Component {
   }
   render() {
     console.log('ActionButtons : render');
-    const { info, done, rightText = 'Lấy' } = this.props;
+    const { info, done, rightText = 'Trả' } = this.props;
     if (done) return null;
 
     const status = (info === undefined) ? undefined : info.success;
@@ -91,4 +91,4 @@ const mapStateToProps = ({ other }) => {
   return { configuration };
 };
 
-export default connect(mapStateToProps, { updateOrderInfo })(ActionButtons);
+export default connect(mapStateToProps, { updateOrderInfoReturn })(ReturnActionButtons);

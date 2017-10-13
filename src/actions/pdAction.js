@@ -68,12 +68,13 @@ export const pdListFetchFail = (dispatch, error) => {
   //   ...
   // ]
 
-export const updateOrderStatus = ({ pdsId, OrderInfos }) => {
+export const updateOrderStatus = ({ OrderInfos }) => {
   
   console.log(OrderInfos);
   // return { type: "NO_THING" };
-  return ((dispatch) => {
+  return ((dispatch, getState) => {
     dispatch({ type: UPDATE_ORDER_STATUS });
+    const { pdsId } = getState().pd;
     API.UpdatePickDeliverySession({
       PDSID: pdsId,
       OrderInfos
@@ -82,8 +83,7 @@ export const updateOrderStatus = ({ pdsId, OrderInfos }) => {
         const json = response.data;
         console.log(json);
         if (json.status === 'OK') {
-          updateOrderStatusSuccess(dispatch, 
-            OrderInfos);
+          updateOrderStatusSuccess(dispatch, OrderInfos);
         } else {
           console.log('UpdateOrderStatus failed with response json =');
           console.log(json);

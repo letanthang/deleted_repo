@@ -43,9 +43,9 @@ class ActionAllButtons extends Component {
   }
   render() {
     console.log('ActionAllButtons : render');
-    const { allStatus, done } = this.props;
+    const { allStatus, done, rightText = 'Lấy' } = this.props;
     if (done) return null;
-    
+
     const status = allStatus;
     //console.log('ActionButtons : render with status');
     //console.log(status);
@@ -79,7 +79,7 @@ class ActionAllButtons extends Component {
           <FormButton
             disabled={false}
             theme='success'
-            text='Lay'
+            text={rightText}
             width={60}
             onPress={this.changeInfo.bind(this, status !== true ? true : undefined)}
           />

@@ -43,7 +43,7 @@ class ActionButtons extends Component {
   }
   render() {
     console.log('ActionButtons : render');
-    const { info, done } = this.props;
+    const { info, done, rightText = 'Trả' } = this.props;
     if (done) return null;
 
     const status = (info === undefined) ? undefined : info.success;
@@ -76,7 +76,7 @@ class ActionButtons extends Component {
           <FormButton
             disabled={false}
             theme='success'
-            text='Lay'
+            text={rightText}
             width={60}
             onPress={this.changeInfo.bind(this, status !== true ? true : undefined)}
           />

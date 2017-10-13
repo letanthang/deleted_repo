@@ -7,18 +7,19 @@ import { accounting } from 'accounting';
 import { 
   Content, List
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, updateAllOrderInfo } from '../../actions';
+import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus } from '../../actions';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import OrderStatusText from '../OrderStatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
 import ActionButtons from './ActionButtons';
+import ActionAllButtons from './ActionAllButtons';
 import ActionModal from './ActionModal';
 import { updateOrderToFailWithReason, getUpdateOrderInfo } from './Helpers';
 
 
 class PickGroupDetail extends Component {
-  state = { OrderInfos: {}, keyword: '', modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
+  state = { keyword: '', modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
   
   pickGroup = null;
   ClientHubID = null;
@@ -47,31 +48,6 @@ class PickGroupDetail extends Component {
     this.setState({ keyword });
   }
 
-
-  updateOrders(orders, status, infos = {}) {
-    const { pickGroup, ClientHubID } = this;
-    const { sessionToken, pdsId } = this.props;
-    const { PickDeliveryType } = pickGroup;
-    console.log(`updateOrders to status : ${status} | pdsId ${pdsId} | ClientHubID ${ClientHubID}`);
-    console.log(orders);
-    const ordersInfo = _.map(orders, (item) => {
-      const { OrderID, PickDeliverySessionDetailID } = item;
-      return { OrderID, PickDeliverySessionDetailID };
-    });
-    console.log(ordersInfo);
-
-    this.props.updateOrderStatus({ 
-      sessionToken,
-      pdsId,
-      PickDeliverySessionDetailID: null, 
-      OrderID: ordersInfo, 
-      PickDeliveryType, 
-      status,
-      ClientHubID,
-      ...infos 
-    });
-  }
-
   checkComplete({ CurrentStatus, PickDeliveryType }) {
     if (PickDeliveryType === 1) {
       return Utils.checkPickComplete(CurrentStatus);
@@ -98,56 +74,20 @@ class PickGroupDetail extends Component {
 
   onChooseDate(date) {    
     const timestamp = date.getTime();
-    const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-    this.setStateOrderInfo(this.order, this.info, moreInfo);
+    if (this.order === null) {
+      const OrderInfos = _.map(this.orders, order => getUpdateOrderInfo(order, this.buttonIndex, timestamp));
+      this.props.updateAllOrderInfo(OrderInfos);
+      this.props.setAllStatus(false);
+    } else {
+      const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
+      this.props.updateOrderInfo(this.order.OrderID, moreInfo);
+    }
     this.setState({ modalShow: !this.state.modalShow });
   }
   onCancelDate() {
     this.setState({ modalShow: !this.state.modalShow });
   }
 
-  setStateOrderInfo(order, info, moreInfo = null) {
-    const OrderInfos = _.clone(this.state.OrderInfos);
-    if (moreInfo) {
-      OrderInfos[order.OrderID] = { ...info, ...moreInfo };
-    } else {
-      OrderInfos[order.OrderID] = info;
-    }
-    this.props.updateAllOrderInfo(OrderInfos);
-    this.setState({ OrderInfos });
-  }
-
-  renderActionButtons(rightText, order) {
-    const { OrderID, ContactPhone } = order;
-    return (
-      <ActionButtons 
-        info={this.state.OrderInfos[OrderID]}
-        order={order}
-        onInfoChanged={info => {
-          if (info === undefined || info.success) {
-            this.setStateOrderInfo(order, info);
-          } else {
-            // ask for reason
-            updateOrderToFailWithReason(ContactPhone, this.props.configuration, (error, buttonIndex) => {
-              console.log(' call back !');
-              if (error === null) {
-                //console.log('set state to loi');
-                const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-                this.setStateOrderInfo(order, info, moreInfo);
-              } else if (error === 'moreCall') {
-                console.log('moreCall');
-              } else if (error === 'chooseDate') {
-                this.order = order;
-                this.info = info;
-                this.buttonIndex = buttonIndex;
-                this.setState({ modalShow: true });
-              }
-            });
-          }
-        }} 
-      />
-    );
-  }
   renderInfosForPick({ Weight, Length, Width, Height }) {
     if (this.PickDeliveryType === 3) return null;
     return (
@@ -174,7 +114,16 @@ class PickGroupDetail extends Component {
       <Content style={{ backgroundColor: Colors.background }}>
         <View style={Styles.actionAllWrapperStyle}>
           <Text style={{ color: 'white', fontWeight: 'bold' }}>Cập nhật tất cả thành: </Text>
-          {/* <ActionButtons /> */}
+          <ActionAllButtons
+            done={done}
+            orders={orders}
+            onSelectDateCase={buttonIndex => {
+              this.buttonIndex = buttonIndex;
+              this.order = null;
+              this.orders = orders;
+              this.setState({ modalShow: true });        
+            }} 
+          />
         </View>
         <DataEmptyCheck
           data={orders}
@@ -184,10 +133,11 @@ class PickGroupDetail extends Component {
           <FlatList 
             data={orders}
             renderItem={({ item }) => {
+              const order = item;
               const { 
                 OrderCode, RecipientName, RecipientPhone, PickDeliveryType,
                 Height, Width, Weight, Length, CurrentStatus,
-                ExternalCode, CODAmount
+                ExternalCode, CODAmount, OrderID
               } = item;
               const rightText = 'LẤY';
               return (
@@ -213,7 +163,16 @@ class PickGroupDetail extends Component {
                       <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
                     </View>
                     {this.renderInfosForPick({ Weight, Length, Width, Height })}
-                    {!done ? this.renderActionButtons(rightText, item) : null}
+                    <ActionButtons
+                      done={done}
+                      info={this.props.OrderInfos[OrderID]}
+                      order={order}
+                      onSelectDateCase={buttonIndex => {
+                        this.buttonIndex = buttonIndex;
+                        this.order = order;
+                        this.setState({ modalShow: true });        
+                      }} 
+                    />
                   </View>
                 </TouchableOpacity>
               );
@@ -231,16 +190,14 @@ class PickGroupDetail extends Component {
       </Content>
     );
   }
-  
-  
 }
 
-const mapStateToProps = ({ auth, pd, other }) => {
+const mapStateToProps = ({ auth, pd, other, pickGroup }) => {
   const { sessionToken } = auth;
   const { pdsId, pds, loading } = pd;
   const { configuration } = other;
-  return { sessionToken, pdsId, pds, loading, configuration };
+  const { showDatePicker, OrderInfos } = pickGroup;
+  return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos };
 };
 
-
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus })(PickGroupDetail);

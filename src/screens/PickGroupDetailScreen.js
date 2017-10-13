@@ -25,10 +25,14 @@ class PickGroupDetailScreen extends Component {
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+  }
+
   updateOrder() {
-    console.log(this.props.OrderInfos);
-    let OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
-    console.log(OrderInfos); 
+    //console.log(this.props.OrderInfos);
+    const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
+    //console.log(OrderInfos); 
     this.props.updateOrderStatus(OrderInfos);
   }
 

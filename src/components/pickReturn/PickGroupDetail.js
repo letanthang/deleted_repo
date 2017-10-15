@@ -113,7 +113,7 @@ class PickGroupDetail extends Component {
     return (
       <Content style={{ backgroundColor: Colors.background }}>
         <View style={Styles.actionAllWrapperStyle}>
-          <Text style={{ color: 'white', fontWeight: 'bold' }}>Cập nhật tất cả thành: </Text>
+          
           <ActionAllButtons
             done={done}
             orders={orders}

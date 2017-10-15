@@ -140,6 +140,7 @@ class PickGroupDetailScreen extends Component {
         {this.renderHeader(pickGroup)}
         <ReturnGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
         <LoadingSpinner loading={this.props.loading} />
+        {!this.state.done ?
         <Footer>
         <FooterTab>
           <TouchableOpacity 
@@ -150,6 +151,7 @@ class PickGroupDetailScreen extends Component {
           </TouchableOpacity>
         </FooterTab>
         </Footer>
+        : null}
       </Container>
       
     );

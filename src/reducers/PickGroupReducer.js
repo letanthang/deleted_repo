@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { 
   PICKGROUP_UPDATE_ORDER_INFO,
   PICKGROUP_UPDATE_ALL_ORDER_INFO,
-  PICKGROUP_SET_ALL_STATUS
+  PICKGROUP_SET_ALL_STATUS,
+  PICKGROUP_RESET
  } from '../actions/types';
 
 const nameInitialState = {
@@ -34,7 +35,9 @@ export default (state = nameInitialState, action) => {
     
     case PICKGROUP_SET_ALL_STATUS:
       return { ...state, allStatus: action.payload };
-      
+
+    case PICKGROUP_RESET:
+      return nameInitialState;
     default:
       return state;
   }

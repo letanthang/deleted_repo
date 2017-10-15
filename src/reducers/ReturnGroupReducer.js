@@ -2,11 +2,12 @@ import _ from 'lodash';
 import { 
   RETURNGROUP_UPDATE_ORDER_INFO,
   RETURNGROUP_UPDATE_ALL_ORDER_INFO,
-  RETURNGROUP_SET_ALL_STATUS
+  RETURNGROUP_SET_ALL_STATUS,
+  RETURNGROUP_RESET
  } from '../actions/types';
 
 const nameInitialState = {
-  allStatus: undefined,
+  allStatusReturn: undefined,
   showDatePicker: false,
   OrderInfos: {}
 };
@@ -33,7 +34,10 @@ export default (state = nameInitialState, action) => {
       
     
     case RETURNGROUP_SET_ALL_STATUS:
-      return { ...state, allStatus: action.payload };
+      return { ...state, allStatusReturn: action.payload };
+    
+    case RETURNGROUP_RESET:
+      return nameInitialState;
       
     default:
       return state;

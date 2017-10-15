@@ -1,7 +1,8 @@
 import { 
   RETURNGROUP_UPDATE_ORDER_INFO,
   RETURNGROUP_UPDATE_ALL_ORDER_INFO,
-  RETURNGROUP_SET_ALL_STATUS
+  RETURNGROUP_SET_ALL_STATUS,
+  RETURNGROUP_RESET
 } from './types';
 
 export const updateOrderInfoReturn = (OrderID, info) => {
@@ -25,5 +26,11 @@ export const setAllStatusReturn = (status) => {
   return {
     type: RETURNGROUP_SET_ALL_STATUS,
     payload: status
+  };
+};
+
+export const resetReturnGroup = () => {
+  return {
+    type: RETURNGROUP_RESET,
   };
 };

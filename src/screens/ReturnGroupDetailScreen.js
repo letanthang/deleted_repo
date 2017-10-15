@@ -9,7 +9,7 @@ import {
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
-import { updateOrderStatus } from '../actions';
+import { updateOrderStatus, resetReturnGroup } from '../actions';
 // import Utils from './libs/Utils';
 import { Styles, Colors } from '../Styles';
 import ReturnGroupDetail from '../components/pickReturn/ReturnGroupDetail';
@@ -27,6 +27,10 @@ class PickGroupDetailScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
+  }
+  
+  componentWillUnmount() {
+    this.props.resetReturnGroup();
   }
 
   updateOrder() {
@@ -159,4 +163,4 @@ const mapStateToProps = ({ auth, pd, returnGroup }) => {
   return { sessionToken, pdsId, pds, loading, OrderInfos };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus })(PickGroupDetailScreen);
+export default connect(mapStateToProps, { updateOrderStatus, resetReturnGroup })(PickGroupDetailScreen);

@@ -43,10 +43,10 @@ class ReturnActionAllButtons extends Component {
   }
   render() {
     console.log('ActionAllButtons : render');
-    const { allStatus, done, rightText = 'Trả' } = this.props;
+    const { allStatusReturn, done, rightText = 'Trả' } = this.props;
     if (done) return null;
 
-    const status = allStatus;
+    const status = allStatusReturn;
     //console.log('ActionButtons : render with status');
     //console.log(status);
 
@@ -89,10 +89,10 @@ class ReturnActionAllButtons extends Component {
   }
 }
 
-const mapStateToProps = ({ other, pickGroup }) => {
-  const { allStatus } = pickGroup;
+const mapStateToProps = ({ other, returnGroup }) => {
+  const { allStatusReturn } = returnGroup;
   const { configuration } = other;
-  return { configuration, allStatus };
+  return { configuration, allStatusReturn };
 };
 
 export default connect(mapStateToProps, { updateAllOrderInfoReturn, setAllStatusReturn })(ReturnActionAllButtons);

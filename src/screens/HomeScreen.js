@@ -122,6 +122,12 @@ class HomeScreen extends Component {
       console.log(error);
     }
   }
+
+  onSearchPress() {
+    if (this.state.showSearch === false && this.props.pds === null) return;
+    this.setState({ showSearch: !this.state.showSearch });
+  }
+
   renderHeader() {
     const { navigate } = this.props.navigation;
     const iosBarStyle = Theme === 'dark' ? 'light-content' : 'default';
@@ -181,7 +187,7 @@ class HomeScreen extends Component {
           {/* <LogoButton dispatch={this.props.navigation.dispatch} /> */}
           <Button
             transparent
-            onPress={() => this.setState({ showSearch: !this.state.showSearch })}
+            onPress={() => this.onSearchPress()}
           >
           <IC name='magnify' size={25} color={Colors.headerNormal} />
           </Button>

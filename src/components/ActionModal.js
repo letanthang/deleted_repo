@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Modal, Button } from 'react-native';
-import DatePicker from '../DatePicker';
+import DatePicker from './DatePicker';
 
 class ActionModal extends Component {
   state = { date: new Date(), androidDPShow: false }

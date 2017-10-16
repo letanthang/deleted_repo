@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { View, Modal, Alert, TouchableHighlight, DatePickerIOS, Button as Btn } from 'react-native';
+import { View, Alert, Button as Btn } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List, ListItem, ActionSheet 
+  List 
 } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
@@ -14,17 +13,9 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
 import LogoButton from '../components/LogoButton';
-import DatePicker from '../components/DatePicker';
 import OrderStatusText from '../components/OrderStatusText';
-import { DeliveryErrors } from '../components/Constant';
-
-const BUTTONS = Object.values(DeliveryErrors);
-BUTTONS.push('Cancel');
-const CODES = Object.keys(DeliveryErrors);
-const DESTRUCTIVE_INDEX = -1;
-const CHANGE_DATE_INDEX = BUTTONS.length - 3;
-const CUSTOMER_CHANGE_DATE_INDEX = 3;
-const CANCEL_INDEX = BUTTONS.length - 1;
+import ActionModal from '../components/ActionModal';
+import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason } from './Helper';
 
 let order = {};
 class DeliveryOrderScreen extends Component {
@@ -52,90 +43,63 @@ class DeliveryOrderScreen extends Component {
     console.log('====================================');
   }
 
-  updateOrderToDone() {
-    const { sessionToken, pdsId } = this.props;
-    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
-    const status = 'Delivered';
-    this.props.updateOrderStatus({ 
-      sessionToken, pdsId, PickDeliverySessionDetailID, OrderID, PickDeliveryType, status 
-    });
+  onChooseDate() {
+    const date = this.state.date;
+    //string
+    // const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+    //timestamp
+    const timestamp = date.getTime();
+    this.updateOrderToFail(this.buttonIndex, timestamp);
+    this.setState({ modalShow: !this.state.modalShow });
+  }
+  
+  onCancelDate() {
+    this.setState({ modalShow: !this.state.modalShow });
   }
 
-  alertMissOfCall(phoneNumber) {
-    console.log(phoneNumber);
-    const title = 'Không đủ số cuộc gọi.';
-    const message = 'Bạn không thực hiện đủ số cuộc gọi cho khách hàng. Gọi bây giờ?';
+  confirmUpdateOrder() {
+    const message = 'Bạn có chắc chắn muốn cập nhật đơn hàng trên ?';
+    const title = 'Cập nhật đơn hàng ?';
+  
     Alert.alert(
       title,
       message,
       [
-        { text: 'Gọi', onPress: () => phonecall(phoneNumber, true) },
+        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() },
         { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
       ],
       { cancelable: false }
     );
   }
 
-  updateOrderToFailWithReason() {
-    ActionSheet.show(
-      {
-        options: BUTTONS,
-        cancelButtonIndex: CANCEL_INDEX,
-        destructiveButtonIndex: DESTRUCTIVE_INDEX,
-        title: 'Chọn lý do giao lỗi'
-      },
-      buttonIndex => {
-        console.log(`updateOrderToFailWithReason : ${buttonIndex} ${CANCEL_INDEX} ${CHANGE_DATE_INDEX}`);
-        if (buttonIndex == CANCEL_INDEX) {
-          return;
-        } else if (buttonIndex == CHANGE_DATE_INDEX || buttonIndex == CUSTOMER_CHANGE_DATE_INDEX) {
-          this.setState({ modalShow: true, buttonIndex });
-        } else if (buttonIndex == 0 || buttonIndex == 1) {
-          //cannot contact
-          Utils.validateCallCannotContact(order.RecipientPhone, this.props.configuration)
-          .then((result) => {
-            if (result) {
-              this.updateOrderToFail(buttonIndex); 
-            } else {
-              this.alertMissOfCall(order.RecipientPhone);
-            }
-          });
-        } else if (buttonIndex == 2) {
-          //cannot contact
-          Utils.validateCallNotHangUp(order.RecipientPhone, this.props.configuration)
-            .then((result) => {
-              if (result) {
-                this.updateOrderToFail(buttonIndex);
-              } else {
-                this.alertMissOfCall(order.RecipientPhone);
-              }
-            });
-        } else {
-          this.updateOrderToFail(buttonIndex);
-        }
-      }
-    );
+  updateOrderToDone() {
+    console.log('updateOrderToDone');
+    console.log(order);
+    const OrderInfos = getDeliveryDoneOrderInfo(order);
+    this.props.updateOrderStatus({ OrderInfos });
   }
 
-  updateOrderToFail(buttonIndex, NewDate = 0) {
-    const StoringCode = CODES[buttonIndex]; 
-    const reason = BUTTONS[buttonIndex];
-    const Log = `${StoringCode}|${reason}`;
-    console.log(`giao loi pressed with reason ${reason}`);
-    const { sessionToken, pdsId } = this.props;
-    const { OrderID, PickDeliveryType, PickDeliverySessionDetailID } = order;
-    const status = 'Storing';
-    this.props.updateOrderStatus({ 
-      sessionToken, 
-      pdsId, 
-      PickDeliverySessionDetailID, 
-      OrderID, 
-      PickDeliveryType, 
-      status,
-      StoringCode,
-      NewDate,
-      Log 
+  updateOrderToFailWithReason() {
+    updateOrderToFailWithReason(order.RecipientPhone, this.props.configuration)
+    .then(({ error, buttonIndex }) => {
+      if (error === null) {
+        this.updateOrderToFail(buttonIndex);
+      } else if (error === 'cancel') {
+        console.log('user cancel');
+        console.log(buttonIndex);
+      } else if (error === 'moreCall') {
+        console.log('not enough call');
+      } else if (error === 'chooseDate') {
+        this.buttonIndex = buttonIndex;
+        this.setState({ modalShow: true });
+      }
     });
+  }
+  updateOrderToFail(buttonIndex, NewDate = 0) {
+    console.log('updateOrderToFail');
+    console.log(buttonIndex);
+    const OrderInfos = getDeliveryFailOrderInfo(order, buttonIndex, NewDate);
+    this.props.updateOrderStatus({ OrderInfos });
   }
   
   renderButtons(currentStatus) {
@@ -160,7 +124,7 @@ class DeliveryOrderScreen extends Component {
             disabled={done}
             text='Lỗi'
             width={100}
-            onPress={this.updateOrderToFailWithReason.bind(this)}
+            onPress={() => this.updateOrderToFailWithReason()}
           />
         </View>
         <View style={{ margin: 2 }}>
@@ -169,7 +133,7 @@ class DeliveryOrderScreen extends Component {
             disabled={done}
             text='Giao'
             width={100}
-            onPress={this.updateOrderToDone.bind(this)}
+            onPress={() => this.confirmUpdateOrder()}
           />
         </View>
       </View>
@@ -281,75 +245,15 @@ class DeliveryOrderScreen extends Component {
           </List>
 
           {this.renderButtons(CurrentStatus)}
-          <Modal
-            animationType={"fade"}
-            transparent={true}
+          <ActionModal
             visible={this.state.modalShow}
-            onShow={() => this.setState({ androidDPShow: true })}
-            onRequestClose={() => {
-              alert("Modal has been closed.");
-            }}
-          >
-            <View 
-              style={{ 
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                backgroundColor: '#000000aa'
-              }}
-            >
-              <View style={{ backgroundColor: 'white', borderRadius: 20, margin: 10 }} >
-                <Text
-                  style={{ alignSelf: 'center', color: 'black', fontWeight: 'bold', margin: 20 }}
-                >
-                  Chọn ngày
-                </Text>
-                <DatePicker
-                  date={this.state.date}
-                  androidDPShow={this.state.androidDPShow}
-                  onDateChange={(date) => {
-                    this.setState({ date });
-                    console.log(`date changed to : ${date}`);
-                    }}
-                />
-                <View
-                    style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
-                >
-                    <Btn
-                      onPress={this.onChooseDate.bind(this)}
-                      title='ĐỒNG Ý'
-                      color='#057AFF'
-                    />
-                </View>
-                <View
-                    style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
-                >
-                    <Btn
-                      onPress={this.onCancelDate.bind(this)}
-                      title='HUỶ'
-                      color='#057AFF'
-                    />
-                </View>
-              </View>
-            </View>
-          </Modal>
+            onChooseDate={this.onChooseDate.bind(this)}
+            onCancelDate={this.onCancelDate.bind(this)} 
+          />
         </Content>
         <LoadingSpinner loading={this.props.loading} />
       </Container>
     );
-  }
-  onChooseDate() {
-    const date = this.state.date;
-    //string
-    const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-    console.log(stringDate);
-    //timestamp
-    const timestamp = this.state.date.getTime();
-    this.updateOrderToFail(this.state.buttonIndex, timestamp);
-    this.setState({ modalShow: !this.state.modalShow, buttonIndex: null });
-  }
-  onCancelDate() {
-    this.setState({ modalShow: !this.state.modalShow, date: new Date() });
   }
 }
 

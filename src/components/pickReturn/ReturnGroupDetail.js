@@ -14,7 +14,7 @@ import OrderStatusText from '../OrderStatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
 import ReturnActionButtons from './ReturnActionButtons';
 import ReturnActionAllButtons from './ReturnActionAllButtons';
-import ActionModal from './ActionModal';
+import ActionModal from '../ActionModal';
 import { getUpdateOrderInfo } from './Helpers';
 
 

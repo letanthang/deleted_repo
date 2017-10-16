@@ -14,7 +14,7 @@ import OrderStatusText from '../OrderStatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
 import ActionButtons from './ActionButtons';
 import ActionAllButtons from './ActionAllButtons';
-import ActionModal from './ActionModal';
+import ActionModal from '../ActionModal';
 import { updateOrderToFailWithReason, getUpdateOrderInfo } from './Helpers';
 
 

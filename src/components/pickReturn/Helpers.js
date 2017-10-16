@@ -1,4 +1,5 @@
 import * as Communications from 'react-native-communications';
+import { phonecall } from 'react-native-communications';
 import { Alert } from 'react-native';
 import { ActionSheet } from 'native-base';
 import Utils from '../../libs/Utils';
@@ -14,7 +15,7 @@ const cannotContactIndex = 1;
 const cannotCallIndex = 2;
 const notHangUpIndex = 3;
 
-export function alertMissOfCall(phoneNumber) {
+function alertMissOfCall(phoneNumber) {
   console.log(phoneNumber);
   const title = 'Không đủ số cuộc gọi.';
   const message = 'Bạn không thực hiện đủ số cuộc gọi cho khách hàng. Gọi bây giờ?';
@@ -22,7 +23,7 @@ export function alertMissOfCall(phoneNumber) {
     title,
     message,
     [
-      { text: 'Gọi', onPress: () => Communications.phonecall(phoneNumber, true) },
+      { text: 'Gọi', onPress: () => phonecall(phoneNumber, true) },
       { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
     ],
     { cancelable: false }

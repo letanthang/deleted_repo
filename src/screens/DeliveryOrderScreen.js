@@ -43,8 +43,7 @@ class DeliveryOrderScreen extends Component {
     console.log('====================================');
   }
 
-  onChooseDate() {
-    const date = this.state.date;
+  onChooseDate(date) {
     //string
     // const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
     //timestamp

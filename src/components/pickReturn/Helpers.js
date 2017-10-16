@@ -80,6 +80,57 @@ export function updateOrderToFailWithReason(phone, configuration, callback) {
   );
 }
 
+export function updateOrderToFailWithReason2(phone, configuration) {
+  return new Promise((resolve, reject) => {
+    console.log('updateOrderToFailWithReason pressed');
+    const ContactPhone = phone;
+    ActionSheet.show(
+      {
+        options: buttons,
+        cancelButtonIndex: cancelIndex,
+        destructiveButtonIndex: destructiveIndex,
+        title: 'Chọn lý do lỗi'
+      },
+      buttonIndex => {
+        console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof changeDateIndex}`);
+  
+        if (buttonIndex == cancelIndex) {
+          return resolve({ error: 'cancel', buttonIndex });
+        } else if (buttonIndex == changeDateIndex) {
+          return resolve({ error: 'chooseDate', buttonIndex });
+        } else if (buttonIndex == cannotCallIndex || buttonIndex == cannotContactIndex) {
+          //cannot contact
+          Utils.validateCallCannotContact(ContactPhone, configuration)
+            .then((result) => {
+              console.log(result);
+              if (result) { 
+                return resolve({ error: null, buttonIndex });
+              } else {
+                alertMissOfCall(ContactPhone);
+                return resolve({ error: 'moreCall', buttonIndex });
+              } 
+            });
+        } else if (buttonIndex == notHangUpIndex) {
+          console.log(ContactPhone);
+          //cannot contact
+          Utils.validateCallNotHangUp(ContactPhone, configuration)
+            .then((result) => {
+              console.log(result);
+              if (result) { 
+                return resolve({ error: null, buttonIndex });
+              } else {
+                alertMissOfCall(ContactPhone);
+                return resolve({ error: 'moreCall', buttonIndex });
+              }
+            });
+        } else {
+          return resolve({ error: null, buttonIndex });
+        }
+      }
+    );
+  });
+}
+
   // [
   //   {  
   //     PDSDetailID,

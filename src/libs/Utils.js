@@ -171,17 +171,24 @@ class Utils {
   }
 
   static validateCallNotHangUp(phoneNumber, configuration) {
+    if (Platform.OS === 'ios') {
+      return new Promise((resolve) => {
+        resolve(true);
+      });
+    }
+
+    let { minDurationCallLogNoAnswer, repeatCallUnconnected } = configuration;
+    if (minDurationCallLogNoAnswer === undefined) {
+      minDurationCallLogNoAnswer = 5;
+      repeatCallUnconnected = 3;
+    }
+
     return new Promise((resolve, reject) => {
       CallHistory.list(
         (history) => {
           console.log('xuat history');
           const json = JSON.parse(history);
           // console.log(json);
-          let { minDurationCallLogNoAnswer, repeatCallUnconnected } = configuration;
-          if (minDurationCallLogNoAnswer === undefined) {
-            minDurationCallLogNoAnswer = 20;
-            repeatCallUnconnected = 3;
-          }
           const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
           // console.log(callLogs);
           resolve(callLogs.length >= repeatCallUnconnected);

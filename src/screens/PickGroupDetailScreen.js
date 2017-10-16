@@ -26,7 +26,6 @@ class PickGroupDetailScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
   }
 
   componentWillUnmount() {

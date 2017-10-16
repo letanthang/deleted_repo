@@ -26,7 +26,6 @@ const navigate = (dispatch, routeName) => {
 };
 
 const AppFooter = ({ navigation }) => {
-  console.log(navigation);
   const { dispatch } = navigation;
   const currentRoute = navigation.state.routeName;
   return (

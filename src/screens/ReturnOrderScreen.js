@@ -89,15 +89,15 @@ class ReturnOrderScreen extends Component {
     });
   }
 
-  renderButtons(currentStatus) {
-    const done = Utils.checkDeliveryComplete(currentStatus);
+  renderButtons(CurrentStatus) {
+    const done = Utils.checkReturnComplete(CurrentStatus);
     if (done) {
       return (
         <View
           style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
         >
           <OrderStatusText 
-            CurrentStatus={currentStatus}
+            CurrentStatus={CurrentStatus}
             PickDeliveryType={1}
           />
         </View>

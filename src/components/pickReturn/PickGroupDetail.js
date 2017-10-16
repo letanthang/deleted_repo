@@ -100,7 +100,6 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    console.log(this.state);
     const { done, pds } = this.props;
     const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);

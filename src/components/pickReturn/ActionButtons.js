@@ -9,8 +9,7 @@ import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForD
 
 class ActionButtons extends Component {
   componentWillMount() {
-    console.log('ActionButtons : cwm');
-    console.log(this.props);
+    // console.log('ActionButtons : cwm');
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
@@ -42,7 +41,7 @@ class ActionButtons extends Component {
     //console.log(info);
   }
   render() {
-    console.log('ActionButtons : render');
+    // console.log('ActionButtons : render');
     const { info, done, rightText = 'Lấy' } = this.props;
     if (done) return null;
 

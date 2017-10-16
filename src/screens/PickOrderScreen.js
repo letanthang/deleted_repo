@@ -31,6 +31,7 @@ class PickOrderScreen extends Component {
     ClientID = this.props.navigation.state.params.ClientID;
     ClientHubID = this.props.navigation.state.params.ClientHubID;
     OrderID = this.props.navigation.state.params.OrderID;
+    order = Utils.getOrder(this.props.pds, OrderID);
     console.log('====================================');
     console.log(`PickOrderScreen: cwm called with
     OrderID = ${OrderID}`);
@@ -41,11 +42,14 @@ class PickOrderScreen extends Component {
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { pds } = nextProps;
+    order = Utils.getOrder(pds, OrderID);
+  }
+
   componentDidUpdate() {
-    order = Utils.getOrder(this.props.pds, OrderID);
     console.log('====================================');
     console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
-    console.log(order);
     console.log('====================================');
   }
   onChooseDate(date) {
@@ -111,15 +115,15 @@ class PickOrderScreen extends Component {
     );
   }
 
-  renderButtons(currentStatus) {
-    const done = Utils.checkDeliveryComplete(currentStatus);
+  renderButtons(CurrentStatus) {
+    const done = Utils.checkPickComplete(CurrentStatus);
     if (done) {
       return (
         <View
           style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
         >
           <OrderStatusText 
-            CurrentStatus={currentStatus}
+            CurrentStatus={CurrentStatus}
             PickDeliveryType={1}
           />
         </View>
@@ -150,7 +154,7 @@ class PickOrderScreen extends Component {
   }
   
   render() {
-    order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
+    console.log('PickOrderScreen: render');
     const { navigate, goBack } = this.props.navigation;
     if (!order) {
       goBack();
@@ -165,6 +169,7 @@ class PickOrderScreen extends Component {
       Note, Log, CurrentStatus
     } = order;
 
+    console.log(CurrentStatus);
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>

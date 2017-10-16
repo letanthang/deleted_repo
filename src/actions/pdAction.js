@@ -68,8 +68,13 @@ export const pdListFetchFail = (dispatch, error) => {
   //   ...
   // ]
 
-export const updateOrderStatus = ({ OrderInfos }) => {
+export const updateOrderStatus = (infos) => {
   
+  let OrderInfos = infos.OrderInfos;
+  if (!(OrderInfos instanceof Array)) {
+    OrderInfos = [OrderInfos];
+  }
+
   console.log(OrderInfos);
   // return { type: "NO_THING" };
   return ((dispatch, getState) => {

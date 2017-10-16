@@ -112,19 +112,17 @@ class PickGroupDetail extends Component {
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>
-        <View style={Styles.actionAllWrapperStyle}>
-          
-          <ActionAllButtons
-            done={done}
-            orders={orders}
-            onSelectDateCase={buttonIndex => {
-              this.buttonIndex = buttonIndex;
-              this.order = null;
-              this.orders = orders;
-              this.setState({ modalShow: true });        
-            }} 
-          />
-        </View>
+        <ActionAllButtons
+          done={done}
+          orders={orders}
+          onSelectDateCase={buttonIndex => {
+            this.buttonIndex = buttonIndex;
+            this.order = null;
+            this.orders = orders;
+            this.setState({ modalShow: true });        
+          }}
+          style={Styles.actionAllWrapperStyle}
+        />
         <DataEmptyCheck
           data={orders}
           message='Không có dữ liệu'

@@ -43,7 +43,7 @@ class ActionAllButtons extends Component {
   }
   render() {
     console.log('ActionAllButtons : render');
-    const { allStatus, done, rightText = 'Lấy' } = this.props;
+    const { allStatus, done, style, rightText = 'Lấy' } = this.props;
     if (done) return null;
 
     const status = allStatus;
@@ -51,7 +51,7 @@ class ActionAllButtons extends Component {
     //console.log(status);
 
     return (
-      <View>
+      <View style={style}>
         <Text style={{ color: 'white', fontWeight: 'bold' }}>Cập nhật tất cả thành: </Text>
         <View style={{ flexDirection: 'row', flex: 1, margin: 0 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flex: 0.5, padding: 0, margin: 0 }}>

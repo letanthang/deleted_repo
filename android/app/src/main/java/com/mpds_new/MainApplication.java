@@ -5,7 +5,6 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.reactnativecallhistory.RNCallHistoryPackage;
-import io.realm.react.RealmReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -29,7 +28,6 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RCTCameraPackage(),
             new RNCallHistoryPackage(),
-            new RealmReactPackage(),
             new VectorIconsPackage()
       );
     }

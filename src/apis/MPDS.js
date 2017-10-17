@@ -19,13 +19,15 @@ export const GetUserActivePds = (UserID) => {
   console.log(`GetUserActivePds: ${URL}`);
   
   if (mockOn) {
-    mock.onGet(URL).reply(200, sampleResponse);
+    mock.onGet(URL, config).reply(200, sampleResponse);
   }
 
-  return axios.get(URL, {
-      headers: LoginHeader,
-      timeout: 1000
-    });
+  const config = {
+    headers: LoginHeader,
+    timeout: 3000
+  };
+
+  return axios.get(URL, config);
 };
 
 export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
@@ -85,24 +87,28 @@ export const Authenticate = ({ UserID, Password }) => {
 };
 
 export const GetUserPerformance = (UserID) => {
-  const URL = `${BASE_URL}/mpds/GetUserPerformance`;
+  const URL = `${BASE_URL}/performance/${UserID}?q={}`;
   const LoginHeader = Share.LoginHeader;
-  const config = { headers: LoginHeader };
-  return axios.post(URL, {
-      UserID
-    }, config);
+  const config = {
+      headers: LoginHeader,
+      timeout: 3000
+    };
+  return axios.get(URL, config);
 };
 
 export const GetConfiguration = (configKey = null) => {
   const URL = `${BASE_URL}/pdaconfig`;
   const LoginHeader = Share.LoginHeader;
-  const config = { headers: LoginHeader };
+  const config = { 
+      headers: LoginHeader,
+      params: { configKey }
+  };
 
   if (mockOn) {
-    mock.onGet(URL, { configKey }, config).reply(200, sampleResponse2);
+    mock.onGet(URL, config).reply(200, sampleResponse2);
   }
   
-  return axios.get(URL, { configKey }, config);
+  return axios.get(URL, config);
 };
   
 export const CalculateServiceFee = (params) => {
@@ -112,6 +118,8 @@ export const CalculateServiceFee = (params) => {
   const config = { headers: LoginHeader };
   return axios.post(URL, params, config);
 };
+
+
 
 
 

@@ -9,7 +9,7 @@ import {
   Container, Content, Button, List, ListItem, 
   Text, Icon, Left, Body, Right 
 } from 'native-base';
-import { logoutUser, pdListNoTrip } from '../actions';
+import { logoutUser, pdListNoTrip, pdListFetch } from '../actions';
 
 //create cmp
 class SideBar extends Component {
@@ -37,7 +37,10 @@ class SideBar extends Component {
 
   onUpdateDataPress() {
     console.log('onUpdateDataPress pressed');
-    this.props.navigation.navigate('Home', { needUpdateData: true });
+    //this.props.navigation.navigate('Home', { needUpdateData: true });
+    
+    this.props.navigation.navigate('DrawerClose');
+    this.props.pdListFetch();
   }
 
   render() {
@@ -139,4 +142,4 @@ const mapStateToProps = ({ auth, pd }) => {
   return { user, pds };
 };
 //make avai
-export default connect(mapStateToProps, { logoutUser, pdListNoTrip })(SideBar);
+export default connect(mapStateToProps, { logoutUser, pdListNoTrip, pdListFetch })(SideBar);

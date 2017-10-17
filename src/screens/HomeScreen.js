@@ -26,13 +26,8 @@ class HomeScreen extends Component {
   componentWillMount() {
     console.log('====================================');
     console.log('HomeScreen : CWM');
-    const params = this.props.navigation.state.params;
-    const needUpdateData = (params === undefined) ? false : params.needUpdateData;
-    if (needUpdateData || !this.props.pds) {
-      if (needUpdateData) params.needUpdateData = false;
-      console.log('update pds data:');
-      console.log(needUpdateData);
-      console.log(this.props.pds);
+    // const params = this.props.navigation.state.params;
+    if (!this.props.pds) {
       this.props.pdListFetch();
     }
     this.listGroups();
@@ -40,6 +35,7 @@ class HomeScreen extends Component {
     console.log('===================================='); 
   }
   componentWillReceiveProps(nextProps) {
+    console.log('HomeScreen: cwrp');
     if (this.props.error !== nextProps.error && nextProps.error !== '') {
       //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
       Toast.show({
@@ -57,12 +53,6 @@ class HomeScreen extends Component {
   componentDidUpdate() {
     console.log('====================================');
     console.log('HomeScreen : CDU');
-    const params = this.props.navigation.state.params;
-    const needUpdateData = (params === undefined) ? false : params.needUpdateData;
-    if (needUpdateData) {
-      if (needUpdateData) params.needUpdateData = false;
-      this.props.pdListFetch();
-    }
     console.log('====================================');
   }
   onTripListPress() {

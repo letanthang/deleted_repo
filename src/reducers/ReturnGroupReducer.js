@@ -17,7 +17,7 @@ export default (state = nameInitialState, action) => {
       const { OrderID, info } = action.payload;
       const OrderInfos = _.clone(state.OrderInfos);
       OrderInfos[OrderID] = info;
-      return { ...state, OrderInfos };
+      return { ...state, OrderInfos, allStatusReturn: undefined };
     }
 
     case RETURNGROUP_UPDATE_ALL_ORDER_INFO: {

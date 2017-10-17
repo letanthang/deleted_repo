@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 import ShareVariables from '../libs/ShareVariables';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = false;
+const mockOn = true;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';

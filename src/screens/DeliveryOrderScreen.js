@@ -15,7 +15,7 @@ import FormButton from '../components/FormButton';
 import LogoButton from '../components/LogoButton';
 import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
-import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason } from './Helper';
+import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2 } from './Helper';
 
 let order = {};
 class DeliveryOrderScreen extends Component {
@@ -79,7 +79,7 @@ class DeliveryOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason(order.RecipientPhone, this.props.configuration)
+    updateOrderToFailWithReason2(order.RecipientPhone, this.props.configuration, order.OrderCode)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);

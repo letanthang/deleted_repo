@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors } from '../../Styles';
 import { updateOrderInfo } from '../../actions';
-import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
+import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
 
 class ActionButtons extends Component {
   componentWillMount() {
@@ -13,7 +13,7 @@ class ActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
-    const { OrderID, ContactPhone } = this.props.order;
+    const { OrderID, ContactPhone, OrderCode } = this.props.order;
     let info = {};
     if (nextStatus === undefined) { 
       info = undefined;
@@ -25,10 +25,9 @@ class ActionButtons extends Component {
     } else {
       //failed to pick
       info.success = nextStatus;
-      updateOrderToFailWithReason(ContactPhone, this.props.configuration, (error, buttonIndex) => {
-        console.log(' call back !');
+      updateOrderToFailWithReason2(ContactPhone, this.props.configuration, OrderCode)
+      .then(({ error, buttonIndex }) => {
         if (error === null) {
-          //console.log('set state to loi');
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
           this.props.updateOrderInfo(OrderID, moreInfo);
         } else if (error === 'moreCall') {

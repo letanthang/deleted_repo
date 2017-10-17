@@ -33,14 +33,16 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, NewDate = 0) {
   return { OrderID, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
 }
 
-export function updateOrderToFailWithReason(phone, configuration) {
+export function updateOrderToFailWithReason2(phone, configuration, OrderCode = null) {
+  const ContactPhone = phone;
+  const title = OrderCode ? `Chọn lý do lỗi cho đơn ${OrderCode}` : `Chọn lý do lỗi cho tất cả các đơn này`;
   return new Promise((resolve, reject) => {
     ActionSheet.show(
       {
         options: BUTTONS,
         cancelButtonIndex: CANCEL_INDEX,
         destructiveButtonIndex: DESTRUCTIVE_INDEX,
-        title: 'Chọn lý do giao lỗi'
+        title
       },
       buttonIndex => {
         console.log(`updateOrderToFailWithReason : ${buttonIndex} ${CANCEL_INDEX} ${CHANGE_DATE_INDEX}`);

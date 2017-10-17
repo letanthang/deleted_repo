@@ -89,7 +89,7 @@ class PickOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.ContactPhone, this.props.configuration)
+    updateOrderToFailWithReason2(order.ContactPhone, this.props.configuration, order.OrderCode)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);

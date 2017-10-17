@@ -29,56 +29,6 @@ export function alertMissOfCall(phoneNumber) {
   );
 }
 
-export function updateOrderToFailWithReason(phone, configuration, callback) {
-
-  console.log('updateOrderToFailWithReason pressed');
-  const ContactPhone = phone;
-  ActionSheet.show(
-    {
-      options: buttons,
-      cancelButtonIndex: cancelIndex,
-      destructiveButtonIndex: destructiveIndex,
-      title: 'Chọn lý do lỗi'
-    },
-    buttonIndex => {
-      console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof changeDateIndex}`);
-
-      if (buttonIndex == cancelIndex) {
-        return;
-      } else if (buttonIndex == changeDateIndex) {
-        callback('chooseDate', buttonIndex);
-      } else if (buttonIndex == cannotCallIndex || buttonIndex == cannotContactIndex) {
-        //cannot contact
-        Utils.validateCallCannotContact(ContactPhone, configuration)
-          .then((result) => {
-            console.log(result);
-            if (result) { 
-              callback(null, buttonIndex);
-            } else {
-              callback('moreCall', buttonIndex);
-              alertMissOfCall(ContactPhone);
-            } 
-          });
-      } else if (buttonIndex == notHangUpIndex) {
-        console.log(ContactPhone);
-        //cannot contact
-        Utils.validateCallNotHangUp(ContactPhone, configuration)
-          .then((result) => {
-            console.log(result);
-            if (result) { 
-              callback(null, buttonIndex); 
-            } else {
-              callback('moreCall', buttonIndex);
-              alertMissOfCall(ContactPhone);
-            }
-          });
-      } else {
-        callback(null, buttonIndex);
-      }
-    }
-  );
-}
-
 export function updateOrderToFailWithReason2(phone, configuration) {
   return new Promise((resolve, reject) => {
     console.log('updateOrderToFailWithReason pressed');

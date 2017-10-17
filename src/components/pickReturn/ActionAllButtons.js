@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors } from '../../Styles';
 import { updateAllOrderInfo, setAllStatus } from '../../actions';
-import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
+import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
 
 class ActionAllButtons extends Component {
   componentWillMount() {
@@ -25,8 +25,8 @@ class ActionAllButtons extends Component {
       const OrderInfos = _.map(orders, order => getUpdateOrderInfoForDone(order)); 
       this.props.updateAllOrderInfo(OrderInfos);
     } else {
-      updateOrderToFailWithReason(ContactPhone, this.props.configuration, (error, buttonIndex) => {
-        console.log(' call back !');
+      updateOrderToFailWithReason2(ContactPhone, this.props.configuration)
+      .then(({ error, buttonIndex }) => {
         if (error === null) {
           //console.log('set state to loi');
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));
@@ -39,7 +39,6 @@ class ActionAllButtons extends Component {
         }
       });
     }
-    //console.log(info);
   }
   render() {
     console.log('ActionAllButtons : render');

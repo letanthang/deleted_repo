@@ -42,6 +42,8 @@ class PickGroupDetailScreen extends Component {
   confirmUpdateOrder() {
     const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
     const OrderNum = OrderInfos.length;
+    if (OrderNum === 0) return;
+    
     const message = `Bạn có chắc chắn muốn cập nhật ${OrderNum} đơn hàng trên ?`;
     const title = 'Cập nhật đơn hàng ?';
   

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors } from '../../Styles';
 import { updateOrderInfoReturn } from '../../actions';
-import { updateOrderToFailWithReason, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
+import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
 
 class ReturnActionButtons extends Component {
   componentWillMount() {
@@ -14,7 +14,7 @@ class ReturnActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
-    const { OrderID, ContactPhone } = this.props.order;
+    const { OrderID, ContactPhone, OrderCode } = this.props.order;
     let info = {};
     if (nextStatus === undefined) { 
       info = undefined;
@@ -26,10 +26,9 @@ class ReturnActionButtons extends Component {
     } else {
       //failed to pick
       info.success = nextStatus;
-      updateOrderToFailWithReason(ContactPhone, this.props.configuration, (error, buttonIndex) => {
-        console.log(' call back !');
+      updateOrderToFailWithReason2(ContactPhone, this.props.configuration, OrderCode)
+      .then(({ error, buttonIndex }) => {
         if (error === null) {
-          //console.log('set state to loi');
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
           this.props.updateOrderInfoReturn(OrderID, moreInfo);
         } else if (error === 'moreCall') {
@@ -39,7 +38,6 @@ class ReturnActionButtons extends Component {
         }
       });
     }
-    //console.log(info);
   }
   render() {
     console.log('ActionButtons : render');

@@ -37,14 +37,14 @@ export default (state = nameInitialState, action) => {
       };
     }
     case OTHER_GET_USER_PERFORMANCE_SUCCESS: {
-      const stats = action.payload.Data;
+      const stat = action.payload.stat;
+      const statType = action.payload.statType;
+
+      const result = {};
+      result[statType] = stat;
       return {
         ...state,
-        stats,
-        yesterday: null,
-        week: null,
-        monthCurrent: { pick: 41.7, delivery: 68.4, return: 50 },
-        monthPrevious: null 
+        ...result
       };
     }
 

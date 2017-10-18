@@ -19,7 +19,10 @@ class PerformanceScreen extends Component {
     
   }
   render() {
+    console.log('PerformanceScreen: render!');
+
     const { navigate, goBack } = this.props.navigation;
+    const { yesterday, week, month } = this.props;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -38,13 +41,13 @@ class PerformanceScreen extends Component {
         </Header>
         <Tabs initialPage={0}>
           <Tab heading="Hôm Qua">
-            <Performance {...this.props} />
+            <Performance stats={yesterday} statType='yesterday' />
           </Tab>
           <Tab heading="Tuần Này">
-            <Performance {...this.props} />
+            <Performance stats={week} statType='week' />
           </Tab>
           <Tab heading="Tháng Này">
-            <Performance {...this.props} />
+            <Performance stats={month} statType='month' />
           </Tab>
         </Tabs>
       </Container>
@@ -52,9 +55,9 @@ class PerformanceScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ pd }) => {
-  const { pds, pickTotal, pickComplete } = pd;
-  return { pds, pickTotal, pickComplete };
+const mapStateToProps = ({ other }) => {
+  const { yesterday, week, month } = other;
+  return { yesterday, week, month };
 };
 
 export default connect(mapStateToProps, { })(PerformanceScreen);

@@ -73,7 +73,7 @@ export const UpdateOrderWeightRDC = ({
 export const Authenticate = ({ UserID, Password }) => {
   const URL = `${BASE_URL}/acc/pdaLogin`;
 
-  if (mockOn){
+  if (mockOn) {
     mock.onPost(URL, {
         userid: UserID,
         password: Password
@@ -86,13 +86,20 @@ export const Authenticate = ({ UserID, Password }) => {
     });
 };
 
-export const GetUserPerformance = (UserID) => {
+export const GetUserPerformance = (UserID, from = null, to = null) => {
   const URL = `${BASE_URL}/performance/${UserID}?q={}`;
   const LoginHeader = Share.LoginHeader;
   const config = {
       headers: LoginHeader,
-      timeout: 3000
+      timeout: 3000,
+      params: {
+          q: { from, to }
+      }
     };
+
+  if (mockOn) {
+    mock.onGet(URL, config).reply(200, performanceResponse);
+  }
   return axios.get(URL, config);
 };
 
@@ -2725,4 +2732,57 @@ const loginResponse = {
             "userType": 1
         }
     }
+}
+
+const performanceResponse = {
+    "status": "OK",
+    "data": [
+        {
+            "driver_id": "210030",
+            "performance_date": "Oct 12, 2017 12:00:00 AM",
+            "pick_succeed": 0,
+            "pick_total": 1,
+            "deliver_succeed": 0,
+            "deliver_total": 0,
+            "return_succeed": 0,
+            "return_total": 0,
+            "from": 0,
+            "to": 0,
+            "id": "59e5808fbae4ba33ce3c4e7c",
+            "createdTime": "Oct 17, 2017 11:01:19 AM",
+            "lastUpdatedTime": "Oct 17, 2017 11:01:19 AM"
+        },
+        {
+            "driver_id": "210030",
+            "performance_date": "Oct 16, 2017 12:00:00 AM",
+            "pick_succeed": 6,
+            "pick_total": 10,
+            "deliver_succeed": 1,
+            "deliver_total": 1,
+            "return_succeed": 0,
+            "return_total": 0,
+            "from": 0,
+            "to": 0,
+            "id": "59e5808fbae4ba33ce3c4e7d",
+            "createdTime": "Oct 17, 2017 11:01:19 AM",
+            "lastUpdatedTime": "Oct 17, 2017 11:01:19 AM"
+        },
+        {
+            "driver_id": "210030",
+            "performance_date": "Oct 17, 2017 12:00:00 AM",
+            "pick_succeed": 0,
+            "pick_total": 2,
+            "deliver_succeed": 0,
+            "deliver_total": 0,
+            "return_succeed": 0,
+            "return_total": 0,
+            "from": 0,
+            "to": 0,
+            "id": "59e6c288bae4ba32d1ef263b",
+            "createdTime": "Oct 18, 2017 9:55:04 AM",
+            "lastUpdatedTime": "Oct 18, 2017 9:55:04 AM"
+        }
+    ],
+    "total": 3,
+    "message": "Query performance successfully."
 }

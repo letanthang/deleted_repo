@@ -18,7 +18,7 @@ import PDStatsCard from '.././home/PDStatsCard';
 class Performance extends Component {
   componentWillMount() {
     console.log('Performance cwm');
-    this.props.getUserPerformance();
+    this.props.getUserPerformance(this.props.statType);
   }
   componentWillUpdate() {
     
@@ -26,41 +26,46 @@ class Performance extends Component {
   componentDidUpdate() {
     
   }
-  
-  render() {
 
-    const { stats } = this.props;
-    const monthCurrent = _.defaultTo(this.props.monthCurrent, { pick: 0, delivery: 0, return: 0 });
-    console.log('Performance render, stats =');
-    console.log(stats);
+  renderNullData() {
     return (
       <Content>
-        <PDStatsCard 
-          type='pick'
-          upNumber={0}
-          downNumber={0}
-          percentage={monthCurrent.pick || 0}
-        />
-        <PDStatsCard 
-          type='delivery'
-          upNumber={0}
-          downNumber={0}
-          percentage={monthCurrent.delivery || 0}
-        />
-        <PDStatsCard 
-          type='return'
-          upNumber={0}
-          downNumber={0}
-          percentage={monthCurrent.return || 0}
-        />
         <Text style={[Styles.normalColorStyle, Styles.bigTextStyle]}>Không có dữ liệu</Text>
       </Content>
     );
   }
+  
+  render() {
+    console.log(this.props.stats);
+    console.log('Performance render!');
+    if (!this.props.stats) return this.renderNullData();
+    const { pickRate, returnRate, deliveryRate, pick_total, pick_succeed, delivery_total, deliver_succeed, return_total, return_succeed } = this.props.stats;
+    //const monthCurrent = _.defaultTo(this.props.monthCurrent, { pick: 0, delivery: 0, return: 0 });
+    console.log('Performance render, stats =');
+    //console.log(stats);
+    return (
+      <Content>
+        <PDStatsCard 
+          type='pick'
+          upNumber={pick_succeed}
+          downNumber={pick_total}
+          percentage={pickRate}
+        />
+        <PDStatsCard 
+          type='delivery'
+          upNumber={deliver_succeed}
+          downNumber={delivery_total}
+          percentage={deliveryRate}
+        />
+        <PDStatsCard 
+          type='return'
+          upNumber={return_succeed}
+          downNumber={return_total}
+          percentage={returnRate}
+        />
+      </Content>
+    );
+  }
 }
-const mapStateToProps = ({ other }) => {
-  const { stats, yesterday, week, monthCurrent, monthPrevious } = other;
-  return { stats, yesterday, week, monthCurrent, monthPrevious };
-};
 
-export default connect(mapStateToProps, { getUserPerformance })(Performance);
+export default connect(null, { getUserPerformance })(Performance);

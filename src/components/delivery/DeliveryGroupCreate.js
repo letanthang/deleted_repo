@@ -22,12 +22,10 @@ class DeliveryGroupCreate extends Component {
     
     const pds = this.props.pds;
     console.log(pds);
-    
     const GroupLength = LocalGroup.getGroups().length + 1;
     const GroupName = `nhom${GroupLength}`;
-    this.state = { GroupName };
-    this.createDataSource(this.props);
-    console.log(this.state.GroupName);
+    const dataSource = this.getDataSource(this.props);
+    this.setState({ GroupName, dataSource });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -99,6 +97,13 @@ class DeliveryGroupCreate extends Component {
   }
   
   createDataSource({ pds }) {
+    
+    const dataSource = this.getDataSource({ pds });
+    this.setState({ dataSource });
+    console.log('ds changed');
+  }
+
+  getDataSource({ pds }) {
     const list = pds.DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
     list.forEach((order, index) => {
       list[index].groupChecked = checkList[order.OrderID];
@@ -106,9 +111,8 @@ class DeliveryGroupCreate extends Component {
 
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
-    }); 
-    this.setState({ dataSource: ds.cloneWithRows(list) });
-    console.log('ds changed');
+    });
+    return ds.cloneWithRows(list);
   }
 
   renderOrder(order) {
@@ -145,6 +149,7 @@ class DeliveryGroupCreate extends Component {
   render() {
     // const { pds } = this.props;
     console.log('DeliveryGroupCreate: render called, state =| datasource =');
+    if (!this.state.dataSource) return null;
     // console.log(pds);
     
     

@@ -5,6 +5,7 @@ import {
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS
 } from './types';
+import { logoutUser } from './';
 import * as API from '../apis/MPDS';
 import LocalGroup from '../libs/LocalGroup';
 
@@ -25,6 +26,9 @@ export const pdListFetch = () => {
           console.log('khong co chuyen di, json response=');
           console.log(json);
           dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
+        } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
+          console.log('Saved Session Expired: log user out');
+          dispatch(logoutUser());
         } else {
           console.log('pdListFetch failed with response json = ');
           console.log(json);

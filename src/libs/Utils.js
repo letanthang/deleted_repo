@@ -23,8 +23,12 @@ class Utils {
           return 'Đã trả';
         case 'Return':
           return 'Trả lỗi';
+        case 'NotReturn':
+          return 'Trả lỗi';
         case 'Storing':
           return 'Trả lỗi';
+        case 'Returning':
+          return 'Đang trả';
         default:
           return 'Đang trả';
       }
@@ -89,7 +93,7 @@ class Utils {
   }
 
   static checkReturnComplete(status) {
-    const completeList = ['WaitingToFinish', 'Returned', 'Return'];
+    const completeList = ['WaitingToFinish', 'Returned', 'Return', 'NotReturn'];
     if (completeList.includes(status)) {
       return true;
     }
@@ -104,28 +108,15 @@ class Utils {
     return false;
   }
 
-  static checkReturnFail(CurrentStatus, NextStatus) {
-    return CurrentStatus === 'Return' && NextStatus === 'Return';
+  static checkReturnFail(status) {
+    const completeList = ['Return', 'NotReturn'];
+    if (completeList.includes(status)) {
+      return true;
+    }
+    return false;
   }
 
-  static getOrder(pds, OrderID, ClientHubID, PickDeliveryType = null) {
-    /*console.log(`orderID = ${OrderID} ClientHubID = ${ClientHubID} PickDeliveryType = ${PickDeliveryType}`);
-    let order = null;
-    let pickGroup = null;
-
-    if (PickDeliveryType === 2) {
-      order = pds.DeliveryItems.find(o => o.OrderID === OrderID);
-      return order;
-    }
-    // PickDeliveryType : 1 || 3 || null
-
-    const Items = PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
-    if (ClientHubID !== null) {
-      pickGroup = Items.find(g => g.ClientHubID === ClientHubID);
-      if (pickGroup) order = pickGroup.PickReturnSOs.find(o => o.OrderID === OrderID);
-    }
-    return order;
-    */
+  static getOrder(pds, OrderID) {
     return pds.PDSItems.find(o => o.OrderID === OrderID);
   }
 

@@ -98,7 +98,7 @@ export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
   const Log = `${StoringCode}|${reason}`;
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
-  const NextStatus = 'ReadyToPick';
+  const NextStatus = 'NotReturn';
   const success = false;
   return { OrderID, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
 }

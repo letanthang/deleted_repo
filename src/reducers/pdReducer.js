@@ -102,7 +102,6 @@ export default (state = nameInitialState, action) => {
       _.each(OrderInfos, info => {
           const order = Utils.getOrder(pds, info.OrderID);
           order.CurrentStatus = info.NextStatus;
-          order.NextStatus = info.NextStatus;
       });
       
       transformPDS(pds);

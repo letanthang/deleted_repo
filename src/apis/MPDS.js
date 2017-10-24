@@ -87,7 +87,7 @@ export const Authenticate = ({ UserID, Password }) => {
 };
 
 export const GetUserPerformance = (UserID, from = null, to = null) => {
-  const URL = `${BASE_URL}/performance/${UserID}?q={}`;
+  const URL = `${BASE_URL}/performance/${UserID}`;
   const LoginHeader = Share.LoginHeader;
   const config = {
       headers: LoginHeader,

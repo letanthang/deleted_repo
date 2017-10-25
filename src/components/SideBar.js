@@ -98,13 +98,21 @@ class SideBar extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            <ListItem icon>
+            <ListItem 
+              onPress={() => {
+                this.props.navigation.navigate('About');
+              }}
+              icon
+            >
               <Left>
                 <IC name="information" size={20} color='#8F8E93' />
               </Left>
               <Body>
                 <Text>Thông tin ứng dụng</Text>
               </Body>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
             </ListItem>
             <ListItem 
               icon

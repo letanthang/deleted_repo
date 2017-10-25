@@ -6,7 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import HelpScreen from './screens/HelpScreen';
 import PickListScreen from './screens/PickListScreen';
-
+import AboutScreen from './screens/AboutScreen';
 
 import PerformanceScreen from './screens/PerformanceScreen';
 
@@ -14,6 +14,7 @@ import PerformanceScreen from './screens/PerformanceScreen';
 const Drawer = DrawerNavigator(
   {
     Home: { screen: HomeScreen },
+    About: { screen: AboutScreen },
     Map: { screen: MapScreen },
     Help: { screen: HelpScreen },
     Performance: { screen: PerformanceScreen }

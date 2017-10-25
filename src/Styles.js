@@ -80,8 +80,7 @@ export const Styles = {
     paddingRight: 16,
     paddingTop: 8,
     paddingBottom: 8,
-    marginTop: 8,
-    backgroundColor: '#BDC3C7',
+    backgroundColor: '#f5f5f5',
   },
   orderWrapperStyle: { 
     paddingLeft: 12,

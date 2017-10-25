@@ -1,0 +1,29 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'mpds_new' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for mpds_new
+  pod 'Firebase/Core'
+
+  target 'mpds_newTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'mpds_new-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for mpds_new-tvOS
+
+  target 'mpds_new-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

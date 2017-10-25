@@ -3,6 +3,7 @@ package com.mpds_new;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.reactnativecallhistory.RNCallHistoryPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
             new RCTCameraPackage(),
             new RNCallHistoryPackage(),
             new VectorIconsPackage()

@@ -81,7 +81,7 @@ export const Styles = {
     paddingTop: 8,
     paddingBottom: 8,
     marginTop: 8,
-    backgroundColor: '#666666',
+    backgroundColor: '#BDC3C7',
   },
   orderWrapperStyle: { 
     paddingLeft: 12,
@@ -170,6 +170,16 @@ export const Styles = {
   },
   rightStyle: {
     flex: 0.25
+  },
+  updateButtonStyle: {
+    margin: 1,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flex: 1, 
+    backgroundColor: '#2ECC71',
+    borderColor: '#2ECC71',
+    borderWidth: 1,
+    borderRadius: 5,
   }
 };
 

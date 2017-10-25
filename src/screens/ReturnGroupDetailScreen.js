@@ -147,7 +147,7 @@ class PickGroupDetailScreen extends Component {
         <Footer>
         <FooterTab>
           <TouchableOpacity 
-            style={{ borderWidth: 1, justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#666666' }}
+            style={Styles.updateButtonStyle}
             onPress={this.confirmUpdateOrder.bind(this)}
           >
             <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>

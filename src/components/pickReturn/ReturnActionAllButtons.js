@@ -60,6 +60,7 @@ class ReturnActionAllButtons extends Component {
               checked={status === false} 
               checkedIcon='dot-circle-o'
               uncheckedIcon='circle-o'
+              uncheckedColor='#FFF'
               containerStyle={{ backgroundColor: Colors.item, borderWidth: 0, marginLeft: -10, marginRight: 0, width: 42 }}
               onPress={this.changeInfo.bind(this, status !== false ? false : undefined)}
             /> 
@@ -76,6 +77,7 @@ class ReturnActionAllButtons extends Component {
               checked={status === true}
               checkedIcon='dot-circle-o'
               uncheckedIcon='circle-o'
+              uncheckedColor='#FFF'
               containerStyle={{ backgroundColor: Colors.item, borderWidth: 0, marginRight: 0, width: 42 }}
               onPress={this.changeInfo.bind(this, status !== true ? true : undefined)}
             />

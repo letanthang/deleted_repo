@@ -381,6 +381,7 @@
 		2D02E47B1E0B4A5D006451C7 /* mpds_new-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mpds_new-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* mpds_new-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mpds_new-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ADE64750E72768DE345AF57 /* Pods-mpds_newTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_newTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_newTests/Pods-mpds_newTests.release.xcconfig"; sourceTree = "<group>"; };
+		3D3305021FA1EBF300089F8B /* mpds_new.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mpds_new.entitlements; path = mpds_new/mpds_new.entitlements; sourceTree = "<group>"; };
 		3DD8991D1F384D4900F7A4F4 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		3DF63E501FA088B5003D5417 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "mpds_new/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		47627062339F42EF9FBE6172 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -568,6 +569,7 @@
 		13B07FAE1A68108700A75B9A /* mpds_new */ = {
 			isa = PBXGroup;
 			children = (
+				3D3305021FA1EBF300089F8B /* mpds_new.entitlements */,
 				3DF63E501FA088B5003D5417 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -887,6 +889,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = N7956XYWZ3;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1665,6 +1672,7 @@
 			baseConfigurationReference = 76FE08AF8B7C07B1D58BD118 /* Pods-mpds_new.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mpds_new/mpds_new.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = N7956XYWZ3;
@@ -1692,6 +1700,7 @@
 			baseConfigurationReference = 807B5DA34CE9046036B0ED9D /* Pods-mpds_new.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mpds_new/mpds_new.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N7956XYWZ3;
 				HEADER_SEARCH_PATHS = (

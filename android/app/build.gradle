@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.mpds_new"
+        applicationId "com.thangcompany.mpds.android"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 6
@@ -165,3 +165,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

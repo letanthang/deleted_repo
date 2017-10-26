@@ -145,8 +145,8 @@ class PickGroupDetailScreen extends Component {
         <PickGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
         <LoadingSpinner loading={this.props.loading} />
         {!this.state.done ?
-        <Footer>
-        <FooterTab>
+        <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
+        <FooterTab style={{ backgroundColor: Colors.background }}>
           <TouchableOpacity 
             style={Styles.updateButtonStyle}
             onPress={this.confirmUpdateOrder.bind(this)}

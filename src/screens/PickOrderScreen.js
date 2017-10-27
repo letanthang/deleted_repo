@@ -256,7 +256,7 @@ class PickOrderScreen extends Component {
                     transparent
                     iconRight
                     small
-                    onPress={() => phonecall(RecipientPhone, true)}
+                    onPress={() => Utils.phoneCall(RecipientPhone, true)}
                     style={{ paddingLeft: 0 }}
                   >
                     <Text>{RecipientPhone}</Text>

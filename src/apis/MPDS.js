@@ -5,8 +5,8 @@ import ShareVariables from '../libs/ShareVariables';
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
 
-const DOMAIN = 'api.inhubv2.ghn.vn';
-// const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+// const DOMAIN = 'api.inhubv2.ghn.vn';
+const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 
@@ -19,7 +19,7 @@ export const GetUserActivePds = (UserID) => {
   console.log(`GetUserActivePds: ${URL}`);
   
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, sampleResponse);
+    mock.onGet(URL, config).reply(200, sampleResponse1Item);
   }
 
   const config = {
@@ -583,6 +583,70 @@ const sampleResponse = {
   ],
   "message": ""
 }
+
+const sampleResponse1Item = {
+    "status": "OK",
+    "data": [
+        {
+            "EmployeeFullName": "Võ Đức Đạt",
+            "CoordinatorFullName": "Nguyễn Hoàng Lộc",
+            "CoordinatorPhone": "0979745121",
+            "PickDeliverySessionID": "59c3204dbae4ba10cd744c4b",
+            "PDSCode": "170921HAUXXV",
+            "StartTime": "Sep 21, 2017 11:53:49 AM",
+            "SType": 0,
+            "PDSItems": [
+                {
+                    "OrderID": 35248526,
+                    "OrderCode": "23UAX5DQ",
+                    "ExternalCode": "3580075-1-176812-636400714755565889",
+                    "CurrentStatus": "Picking",
+                    "CODAmount": 42000,
+                    "ServiceCost": 0,
+                    "Log": "",
+                    "PickDeliverySessionDetailID": "59c3204de5ca9069bf206a5f",
+                    "PaymentTypeID": 0,
+                    "TotalExtraFee": 0,
+                    "Weight": 200,
+                    "ServiceID": 53321,
+                    "ServiceName": "2 Ngày",
+                    "TotalCollectedAmount": 0,
+                    "NextStatus": "",
+                    "Length": 10,
+                    "Width": 10,
+                    "Height": 10,
+                    "IsTrial": 0,
+                    "PickDeliveryType": 1,
+                    "ClientID": 243390,
+                    "ClientName": "ZWATCH Việt Nam",
+                    "ContactName": "ZWATCH Việt Nam",
+                    "ContactPhone": "84933932173",
+                    "ClientHubID": 592541,
+                    "Address": "GHN - 291 Hồng Bàng, Phường 11",
+                    "Lat": 0,
+                    "Lng": 0,
+                    "DistrictCode": "0205",
+                    "DistrictName": "Quận 5",
+                    "ReturnName": "ZWATCH Việt Nam",
+                    "ReturnPhone": "0899887668",
+                    "ReturnAddress": "GHN - 291 Hồng Bàng, Phường 11",
+                    "ReturnClientHubID": 592541,
+                    "ReturnLat": 0,
+                    "ReturnLng": 0,
+                    "ReturnDistrictCode": "0205",
+                    "ReturnDistrictName": "Quận 5",
+                    "RecipientName": "Ho Văn Khanh",
+                    "RecipientPhone": "01647851865",
+                    "DeliveryAddress": "6A Trần Hưng Đạo,, Thị Xã Long Mỹ, Tỉnh Hậu Giang",
+                    "DeliveryLat": 9.6825032,
+                    "DeliveryLng": 105.5702646,
+                    "ToDistrictCode": "6408",
+                    "ToDistrictName": "Long Mỹ"
+                }
+            ]
+        }
+    ]
+};
 
 const sampleResponse1 = {
   "status": "OK",

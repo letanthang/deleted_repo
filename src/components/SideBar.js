@@ -10,6 +10,7 @@ import {
   Text, Icon, Left, Body, Right 
 } from 'native-base';
 import { logoutUser, pdListNoTrip, pdListFetch } from '../actions';
+import Utils from '../libs/Utils';
 
 //create cmp
 class SideBar extends Component {
@@ -71,7 +72,7 @@ class SideBar extends Component {
             </ListItem>
             <ListItem 
               icon
-              onPress={() => phonecall(CoordinatorPhone, true)}
+              onPress={() => Utils.phoneCall(CoordinatorPhone, true)}
             >
               <Left>
                 <IC name="cellphone" size={20} color='#FF9504' />

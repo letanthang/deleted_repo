@@ -23,7 +23,7 @@ function alertMissOfCall(phoneNumber) {
     title,
     message,
     [
-      { text: 'Gọi', onPress: () => phonecall(phoneNumber, true) },
+      { text: 'Gọi', onPress: () => Utils.phoneCall(phoneNumber, true) },
       { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
     ],
     { cancelable: false }

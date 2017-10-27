@@ -194,7 +194,7 @@ class DeliveryOrderScreen extends Component {
                   iconRight
                   small
                   style={{ paddingLeft: 0 }}
-                  onPress={() => phonecall(RecipientPhone, true)}
+                  onPress={() => Utils.phoneCall(RecipientPhone, true)}
                 >
                   <Text>{RecipientPhone}</Text>
                   <Icon name='call' />

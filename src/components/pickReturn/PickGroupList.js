@@ -104,7 +104,7 @@ class PickGroupList extends Component {
               <Button
                 small
                 transparent
-                onPress={() => Communications.phonecall(ContactPhone, true)}
+                onPress={() => Utils.phoneCall(ContactPhone, true)}
                 style={{ paddingRight: 0 }}
               >
                 <Icon name='call' />

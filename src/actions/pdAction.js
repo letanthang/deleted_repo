@@ -176,11 +176,13 @@ export const updateWeightSize = ({
           }
         });
       } else {
+        reportBug(json.message, { OrderID, Length, Weight, Height, ServiceFee });
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
         console.log('Update weight size failed with response json =');
         console.log(json);
       }
     } catch (error) {
+      reportBug(error.message, { OrderID, Length, Weight, Height, ServiceFee });
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
       console.log('Update weight size failed with error =');
       console.log(error);

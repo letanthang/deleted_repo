@@ -33,11 +33,10 @@ class PickGroupDetailScreen extends Component {
   }
 
   updateOrder() {
-    //console.log(this.props.OrderInfos);
     const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
-  
-    //console.log(OrderInfos); 
     this.props.updateOrderStatus({ OrderInfos });
+    this.props.resetPickGroup();
+    // console.log(OrderInfos);
   }
 
   confirmUpdateOrder() {
@@ -52,8 +51,8 @@ class PickGroupDetailScreen extends Component {
       title,
       message,
       [
-        { text: 'Đồng ý', onPress: () => this.updateOrder() },
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.updateOrder() }
       ],
       { cancelable: false }
     );

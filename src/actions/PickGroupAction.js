@@ -30,6 +30,7 @@ export const setAllStatus = (status) => {
 };
 
 export const resetPickGroup = () => {
+  console.log('resetPickGroup');
   return {
     type: PICKGROUP_RESET,
   };

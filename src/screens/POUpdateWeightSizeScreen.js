@@ -191,6 +191,7 @@ class POUpdateWeightSizeScreen extends Component {
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Weight.toString()}
+              onChangeText={value => this.onInputChange('Weight', value)}
             />
             <Text> g</Text>
           </View>

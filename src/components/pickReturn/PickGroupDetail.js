@@ -34,6 +34,20 @@ class PickGroupDetail extends Component {
     console.log('====================================');    
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.autoChangeTab();
+  }
+
+  autoChangeTab() {
+    console.log('vao change TAb');
+    const { done, pds } = this.props;
+    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done);
+    console.log(orders.length);
+    if (orders.length === 0) {
+      console.log('change tab');
+      this.setState({ done: true });
+    }
   }
 
   componentDidMount() {
@@ -44,7 +58,7 @@ class PickGroupDetail extends Component {
   componentWillReceiveProps(nextProps) {
     console.log('PickgGroupDetail cwrp');
     const { keyword } = nextProps;
-    console.log(this.props.pds.PickItems);
+    this.autoChangeTab();
     this.setState({ keyword });
   }
 

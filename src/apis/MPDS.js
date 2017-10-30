@@ -5,8 +5,8 @@ import ShareVariables from '../libs/ShareVariables';
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
 
-// const DOMAIN = 'api.inhubv2.ghn.vn';
-const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+const DOMAIN = 'api.inhubv2.ghn.vn';
+// const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 

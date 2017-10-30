@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List, ActionSheet 
+  List 
 } from 'native-base';
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getConfiguration } from '../actions';
@@ -178,7 +178,6 @@ class DeliveryOrderScreen extends Component {
             </Button>
           </Right>
         </Header>
-        <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <Content style={{ backgroundColor: Colors.row, paddingTop: 0 }}>
           <List>
             <View style={Styles.rowHeaderStyle}>

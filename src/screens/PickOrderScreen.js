@@ -6,7 +6,7 @@ import { accounting } from 'accounting';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List, ActionSheet 
+  List 
 } from 'native-base';
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getConfiguration } from '../actions';
@@ -197,7 +197,6 @@ class PickOrderScreen extends Component {
           </Right>
           
         </Header>
-        <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <Content style={{ backgroundColor: Colors.row }}>
           <DataEmptyCheck
             data={order}

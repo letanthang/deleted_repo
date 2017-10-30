@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
   Button, Icon, Tabs, Tab, Footer, FooterTab,
-  Title, Input, Item, Text
+  Title, Input, Item, Text, ActionSheet
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -141,6 +141,7 @@ class PickGroupDetailScreen extends Component {
       
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
+        <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <ReturnGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
         <LoadingSpinner loading={this.props.loading} />
         {!this.state.done ?

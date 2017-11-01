@@ -99,7 +99,7 @@ class TripListScreen extends Component {
   }
   checkTripDone(trip) {
     const ordersNum = trip.PickReturnSOs.length;
-    const completedNum = trip.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+    const completedNum = trip.PickReturnSOs.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
     return (ordersNum === completedNum);
   }
   renderNullData() {
@@ -192,7 +192,7 @@ class TripListScreen extends Component {
                 let TotalServiceCost = 0; 
                 pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.CODAmount; });
                 const ordersNum = pickGroup.PickReturnSOs.length;
-                const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+                const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
                 return (
                   <View style={DeliverGroupStyles.content}>
                   <TouchableOpacity

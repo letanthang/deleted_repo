@@ -3,12 +3,16 @@ import {
   PICKGROUP_UPDATE_ORDER_INFO,
   PICKGROUP_UPDATE_ALL_ORDER_INFO,
   PICKGROUP_SET_ALL_STATUS,
+  PICKGROUP_CHANGE_DONE,
+  PICKGROUP_CHANGE_KEYWORD,
   PICKGROUP_RESET
  } from '../actions/types';
 
 const nameInitialState = {
   allStatus: undefined,
   showDatePicker: false,
+  done: false,
+  keyword: '',
   OrderInfos: {}
 };
 export default (state = nameInitialState, action) => {
@@ -31,8 +35,13 @@ export default (state = nameInitialState, action) => {
       }
       return { ...state, OrderInfos };
     }
-      
     
+    case PICKGROUP_CHANGE_DONE:
+      return { ...state, done: action.payload.done };
+
+    case PICKGROUP_CHANGE_KEYWORD:
+      return { ...state, done: action.payload.keyword };
+
     case PICKGROUP_SET_ALL_STATUS:
       return { ...state, allStatus: action.payload };
 

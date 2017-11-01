@@ -9,7 +9,7 @@ import {
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
-import { updateOrderStatus, resetPickGroup } from '../actions';
+import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone } from '../actions';
 // import Utils from './libs/Utils';
 import { Styles, Colors } from '../Styles';
 import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
@@ -17,7 +17,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import LogoButton from '../components/LogoButton';
 
 class PickGroupDetailScreen extends Component {
-  state = { showSearch: false, keyword: '', done: false };
+  state = { showSearch: false };
 
   componentWillMount() {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
@@ -68,14 +68,14 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" size={10} />
             <Input 
-              placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
+              placeholder="Tìm đơn hàng ..." value={this.prop.keyword} 
               onChangeText={(keyword) => { 
                   console.log('keyword changed!');
-                  this.setState({ keyword: keyword.trim() });
+                  this.props.changeKeyword(keyword);
               }}
             />
             <TouchableOpacity
-              onPress={() => this.setState({ keyword: '' })}
+              onPress={() => this.changeKeyword('')}
               style={{ padding: 8 }}
             >
               <IconFA 
@@ -88,7 +88,10 @@ class PickGroupDetailScreen extends Component {
             <Button
               transparent
               style={{ marginLeft: 0 }}
-              onPress={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })}
+              onPress={() => {
+                this.setState({ showSearch: !this.state.showSearch });
+                this.props.changeKeyword('');
+              }}
             >
               <Text uppercase={false}>Huỷ</Text>
             </Button>
@@ -122,9 +125,12 @@ class PickGroupDetailScreen extends Component {
           </Button>
           <Button
             transparent
-            onPress={() => this.setState({ done: !this.state.done, keyword: '' })}
+            onPress={() => {
+              this.changeDone(!this.props.done);
+              this.changeKeyword('');
+            }}
           >
-            <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
+            <IC name="playlist-check" size={25} color={this.props.done ? Colors.headerActive : Colors.headerNormal} />
           </Button>
         </Right>
       </Header>
@@ -142,9 +148,9 @@ class PickGroupDetailScreen extends Component {
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <PickGroupDetail {...this.props} keyword={this.state.keyword} done={this.state.done} />
+        <PickGroupDetail navigation={this.props.navigation} />
         <LoadingSpinner loading={this.props.loading} />
-        {!this.state.done ?
+        {!this.props.done ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>
           <TouchableOpacity 
@@ -165,8 +171,8 @@ class PickGroupDetailScreen extends Component {
 const mapStateToProps = ({ auth, pd, pickGroup }) => {
   const { sessionToken } = auth;
   const { pdsId, pds, loading } = pd;
-  const { OrderInfos } = pickGroup;
-  return { sessionToken, pdsId, pds, loading, OrderInfos };
+  const { OrderInfos, done, keyword } = pickGroup;
+  return { sessionToken, pdsId, pds, loading, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup })(PickGroupDetailScreen);
+export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone })(PickGroupDetailScreen);

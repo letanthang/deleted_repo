@@ -5,8 +5,8 @@ import ShareVariables from '../libs/ShareVariables';
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
 
-const DOMAIN = 'api.inhubv2.ghn.vn';
-// const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+// const DOMAIN = 'api.inhubv2.ghn.vn';
+const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 
@@ -600,7 +600,7 @@ const sampleResponse1Item = {
                     "OrderID": 35248526,
                     "OrderCode": "23UAX5DQ",
                     "ExternalCode": "3580075-1-176812-636400714755565889",
-                    "CurrentStatus": "Picking",
+                    "CurrentStatus": "Returned",
                     "CODAmount": 42000,
                     "ServiceCost": 0,
                     "Log": "",
@@ -616,7 +616,7 @@ const sampleResponse1Item = {
                     "Width": 10,
                     "Height": 10,
                     "IsTrial": 0,
-                    "PickDeliveryType": 1,
+                    "PickDeliveryType": 3,
                     "ClientID": 243390,
                     "ClientName": "ZWATCH Việt Nam",
                     "ContactName": "ZWATCH Việt Nam",

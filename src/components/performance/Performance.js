@@ -20,11 +20,10 @@ class Performance extends Component {
     console.log('Performance cwm');
     this.props.getUserPerformance(this.props.statType);
   }
-  componentWillUpdate() {
-    
-  }
-  componentDidUpdate() {
-    
+  componentWillReceiveProps(nextProps) {
+    if (this.props.statType !== nextProps.statType) {
+      this.props.getUserPerformance(nextProps.statType);
+    }
   }
 
   renderNullData() {

@@ -40,6 +40,10 @@ export const pdListFetch = () => {
           console.log('khong co chuyen di, json response=');
           console.log(json);
           dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
+        } else if (json.status === 'ERROR' && json.message === 'Not found pds.') {
+          console.log('khong co chuyen di, json response=');
+          console.log(json);
+          dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
           console.log('Saved Session Expired: log user out');
           dispatch(logoutUser());

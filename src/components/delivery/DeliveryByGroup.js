@@ -101,7 +101,7 @@ class DeliveryByGroup extends Component {
     let deliveryList = {};
     console.log('renderGroup called, props=');
     console.log(this.props);
-    if (Group === 'Done') {
+    if (Group === 'Đã xong') {
       deliveryList = this.props.pds.DeliveryItems.filter(order => Utils.checkDeliveryComplete(order.CurrentStatus)
         && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
     } else {

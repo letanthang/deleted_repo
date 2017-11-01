@@ -57,7 +57,7 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_FAIL:
       return { ...state, loading: false, error: action.payload };
     case PDLIST_NO_TRIP:
-      return { ...nameInitialState, error: action.payload };
+      return { ...nameInitialState, error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.' };
     
     case UPDATE_ORDER_STATUS: {
       console.log('pdReducer: UPDATE_ORDER_STATUS !!!!!!turn on spinner!!!!!');

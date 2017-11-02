@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, Picker } from 'react-native';
+import { Text, Picker, View } from 'react-native';
 import { 
   Content
 } from 'native-base';
@@ -33,17 +33,21 @@ class All extends Component {
 
     return (
       <Content>
-        <Picker
-          selectedValue={this.state.statType}
-          onValueChange={(value, index) => {
-            this.setState({ statType: value });
-          }}
-        >
-          <Picker.Item label="Tuần trước" value="lastWeek" />
-          <Picker.Item label="Tháng trước" value="lastMonth" />
-          <Picker.Item label="Quý này" value="quarter" />
-          <Picker.Item label="Quý trước" value="lastQuarter" />
-        </Picker>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Picker
+            selectedValue={this.state.statType}
+            onValueChange={(value) => {
+              this.setState({ statType: value });
+            }}
+            style={{ flex: 0.3 }}
+          >
+            <Picker.Item label="Tuần trước" value="lastWeek" />
+            <Picker.Item label="Tháng trước" value="lastMonth" />
+            <Picker.Item label="Quý này" value="quarter" />
+            <Picker.Item label="Quý trước" value="lastQuarter" />
+          </Picker>
+        </View>
+        
         <Performance stats={this.props[this.state.statType]} statType={this.state.statType} />
       </Content>
     );

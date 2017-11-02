@@ -40,7 +40,7 @@ export default (state = nameInitialState, action) => {
       return { ...state, done: action.payload.done };
 
     case PICKGROUP_CHANGE_KEYWORD:
-      return { ...state, done: action.payload.keyword };
+      return { ...state, keyword: action.payload.keyword };
 
     case PICKGROUP_SET_ALL_STATUS:
       return { ...state, allStatus: action.payload };

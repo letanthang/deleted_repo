@@ -85,7 +85,9 @@ export const pdListFetchFail = (dispatch, error) => {
   //     ClientHubID,
   //     StoringCode,
   //     NewDate,
-  //     Log
+  //     Log,
+  //     Note,
+  //     NoteCode,
   //   },
   //   ...
   // ]

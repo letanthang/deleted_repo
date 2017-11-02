@@ -18,12 +18,13 @@ import DeliveryGroupCreateScreen from './screens/DeliveryGroupCreateScreen';
 import ReturnListScreen from './screens/ReturnListScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import TripListScreen from './screens/TripListScreen';
+import AddOrderScreen from './screens/AddOrderScreen';
 
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
 import platform from '../native-base-theme/variables/platform';
 
-if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
+if (true || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
   // disable console. log in production
   console.log = function () {};
   console.info = function () {};
@@ -52,7 +53,8 @@ class App extends Component {
         ReturnOrder: { screen: ReturnOrderScreen },
         DeliveryOrder: { screen: DeliveryOrderScreen },
         ReturnList: { screen: ReturnListScreen },
-        OrderList: { screen: OrderListScreen },        
+        OrderList: { screen: OrderListScreen },
+        AddOrder: { screen: AddOrderScreen }
       },
       {
         initialRouteName: 'Login',

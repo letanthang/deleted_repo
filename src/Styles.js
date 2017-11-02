@@ -179,6 +179,28 @@ export const Styles = {
     borderColor: '#2ECC71',
     borderWidth: 1,
     borderRadius: 5,
+  },
+  addButtonStyle: {
+    margin: 1,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    width: 95, 
+    height: 40,
+    backgroundColor: '#1FAA61',
+    borderColor: '#1FAA61',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  addButtonDisableStyle: {
+    margin: 1,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    width: 95, 
+    height: 40,
+    backgroundColor: '#555',
+    borderColor: '#555',
+    borderWidth: 1,
+    borderRadius: 5,
   }
 };
 

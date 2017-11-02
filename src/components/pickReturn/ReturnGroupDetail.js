@@ -38,6 +38,7 @@ class PickGroupDetail extends Component {
   }
 
   autoChangeTab() {
+    if (this.props.done) return;
     console.log('vao change TAb');
     const { done, pds } = this.props;
     const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;

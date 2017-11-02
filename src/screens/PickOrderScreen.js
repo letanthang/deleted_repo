@@ -8,7 +8,6 @@ import {
   Header, Button, Left, Right, Body,
   List 
 } from 'native-base';
-import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';

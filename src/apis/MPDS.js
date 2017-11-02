@@ -1,12 +1,13 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import ShareVariables from '../libs/ShareVariables';
+import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
 
-// const DOMAIN = 'api.inhubv2.ghn.vn';
-const DOMAIN = 'api.staging.inhubv2.ghn.vn';
+const DOMAIN = 'api.inhubv2.ghn.vn';
+// const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = 'api.inhub-ghn.tk';
 const BASE_URL = `http://${DOMAIN}`;
 
@@ -126,6 +127,35 @@ export const CalculateServiceFee = (params) => {
   return axios.post(URL, params, config);
 };
 
+export const GetOrderByCode = (OrderCode) => {
+    const URL = `${BASE_URL}/order`;
+    const LoginHeader = Share.LoginHeader;
+    const config = {
+        headers: LoginHeader,
+        timeout: 3000,
+        params: {
+            q: { order_code: OrderCode }
+        }
+        };
+    return axios.get(URL, config);
+};
+
+export const AddOrders = (OrderCodes, psdID) => {
+    const URL = `${BASE_URL}/pds`;
+    const LoginHeader = Share.LoginHeader;
+    const config = {
+        headers: LoginHeader,
+        timeout: 7000
+        };
+    const params = {
+        order_codes: OrderCodes,
+        pds_id: psdID,
+        lastUpdatedTime: moment().format('MMM D, YYYY h:m:s a')
+        //Oct 5, 2017 2:23:38 PM
+    };
+    console.log(params);
+    return axios.put(URL, params, config);
+};
 
 
 

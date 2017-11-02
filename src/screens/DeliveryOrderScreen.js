@@ -64,8 +64,8 @@ class DeliveryOrderScreen extends Component {
       title,
       message,
       [
-        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() },
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() }
       ],
       { cancelable: false }
     );

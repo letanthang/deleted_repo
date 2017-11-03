@@ -142,7 +142,7 @@ class OrderListScreen extends Component {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
       || OrderCode.toUpperCase().includes(keyword)
-      || ExternalCode.toUpperCase().includes(keyword);
+      || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
   renderNullData() {
     return (

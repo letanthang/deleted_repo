@@ -51,9 +51,6 @@ class AddOrderScreen extends Component {
               <Text style={{ color: '#FFF' }}>Kiểm tra đơn</Text>
             </TouchableOpacity>
           </View>
-          <View>
-            <OrderDetail />
-          </View>
         </Content>
 
       </Container>

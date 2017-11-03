@@ -25,8 +25,8 @@ const reportBug = (errorMessage, info) => {
 };
 
 const confirmAddOrder = (dispatch, OrderCode) => {
-  const title = 'Don hang hop le';
-  const message = 'Don hop le. Them vao chuyen di?';
+  const title = 'Đơn hàng hợp lệ';
+  const message = 'Dơn hàng hợp lệ. Thêm vào chuyến đi?';
   Alert.alert(
     title,
     message,
@@ -38,7 +38,7 @@ const confirmAddOrder = (dispatch, OrderCode) => {
 };
 
 const alertNoAddOrder = (OrderCode) => {
-  const title = `Don hang "${OrderCode}" khong hop le`;
+  const title = `Đơn hàng "${OrderCode}" không hợp lệ`;
   const message = '';
   Alert.alert(
     title,

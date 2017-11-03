@@ -67,7 +67,7 @@ class PickGroupDetail extends Component {
     const keyword = this.props.keyword.toUpperCase(); 
     return this.props.keyword === '' 
       || OrderCode.toUpperCase().includes(keyword)
-      || ExternalCode.toUpperCase().includes(keyword);
+      || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
   onOrderPress(order) {
     console.log(`onOrderPress called with type = ${this.pickGroup.PickDeliveryType}, order=`);

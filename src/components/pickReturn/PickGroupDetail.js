@@ -66,8 +66,11 @@ class PickGroupDetail extends Component {
     }
   }
 
-  checkKeywork({ OrderCode }) {
-    return this.props.keyword === '' || OrderCode.toUpperCase().includes(this.props.keyword.toUpperCase());
+  checkKeywork({ OrderCode, ExternalCode }) {
+    const keyword = this.props.keyword.toUpperCase()
+    return this.props.keyword === '' 
+      || OrderCode.toUpperCase().includes(keyword)
+      || ExternalCode.toUpperCase().includes(keyword);
   }
 
   onOrderPress(order) {

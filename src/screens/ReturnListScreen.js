@@ -94,8 +94,11 @@ class TripListScreen extends Component {
     );
   }
   
-  checkKeywork({ OrderCode }) {
-    return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+  checkKeywork({ OrderCode, ExternalCode }) {
+    const keyword = this.state.keyword.toUpperCase();
+    return this.state.keyword === '' 
+      || OrderCode.toUpperCase().includes(keyword)
+      || ExternalCode.toUpperCase().includes(keyword);
   }
   checkTripDone(trip) {
     const ordersNum = trip.PickReturnSOs.length;

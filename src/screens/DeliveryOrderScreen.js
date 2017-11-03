@@ -148,7 +148,7 @@ class DeliveryOrderScreen extends Component {
     const { 
       RecipientName, RecipientPhone, Address, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,
-      DisplayOrder, Note, Log, CurrentStatus, NextStatus
+      DisplayOrder, SONote, Log, CurrentStatus
     } = order;
 
 
@@ -230,7 +230,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Note}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>

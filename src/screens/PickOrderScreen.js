@@ -161,11 +161,10 @@ class PickOrderScreen extends Component {
     } 
 
     const { 
-      RecipientName, RecipientPhone, Address, ExternalCode,
-      ServiceName, TotalCollectedAmount, Width, Height,
+      RecipientName, RecipientPhone, ExternalCode,
+      ServiceName, Width, Height, OrderCode,
       CODAmount, Weight, Length, ServiceCost,
-      ClientName, ContactPhone, RequiredNote, OrderCode,
-      Note, Log, CurrentStatus, DeliveryAddress
+      Log, CurrentStatus, DeliveryAddress, SONote, RequiredNote
     } = order;
 
     console.log(CurrentStatus);
@@ -271,7 +270,11 @@ class PickOrderScreen extends Component {
               </View>
               <View style={[Styles.rowStyle]}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Note}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
+              </View>
+              <View style={[Styles.rowStyle]}>
+                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RequiredNote}</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                 <View>

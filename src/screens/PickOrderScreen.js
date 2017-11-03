@@ -8,7 +8,6 @@ import {
   Header, Button, Left, Right, Body,
   List 
 } from 'native-base';
-import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -71,8 +70,8 @@ class PickOrderScreen extends Component {
       title,
       message,
       [
-        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() },
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() }
       ],
       { cancelable: false }
     );
@@ -162,11 +161,10 @@ class PickOrderScreen extends Component {
     } 
 
     const { 
-      RecipientName, RecipientPhone, Address, ExternalCode,
-      ServiceName, TotalCollectedAmount, Width, Height,
+      RecipientName, RecipientPhone, ExternalCode,
+      ServiceName, Width, Height, OrderCode,
       CODAmount, Weight, Length, ServiceCost,
-      ClientName, ContactPhone, RequiredNote, OrderCode,
-      Note, Log, CurrentStatus
+      Log, CurrentStatus, DeliveryAddress, SONote, RequiredNote
     } = order;
 
     console.log(CurrentStatus);
@@ -256,7 +254,7 @@ class PickOrderScreen extends Component {
                     transparent
                     iconRight
                     small
-                    onPress={() => phonecall(RecipientPhone, true)}
+                    onPress={() => Utils.phoneCall(RecipientPhone, true)}
                     style={{ paddingLeft: 0 }}
                   >
                     <Text>{RecipientPhone}</Text>
@@ -265,14 +263,18 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Address}</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{DeliveryAddress}</Text>
               </View>
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Ghi chú</Text>
               </View>
               <View style={[Styles.rowStyle]}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Note}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
+              </View>
+              <View style={[Styles.rowStyle]}>
+                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RequiredNote}</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                 <View>

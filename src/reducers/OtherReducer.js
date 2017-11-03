@@ -14,8 +14,11 @@ const nameInitialState = {
   stats: null,
   yesterday: null,
   week: null,
-  monthCurrent: null,
-  monthPrevious: null
+  month: null,
+  quarter: null,
+  lastWeek: null,
+  lastMonth: null,
+  lastQuarter: null
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {

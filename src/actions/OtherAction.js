@@ -118,6 +118,26 @@ const getQuery = (statType) => {
       to = moment().endOf('month');
       return { from, to };
     }
+    case 'quarter': {
+      from = moment().startOf('quarter');
+      to = moment().endOf('quarter');
+      return { from, to };
+    }
+    case 'lastWeek': {
+      from = moment().subtract(1, 'week').startOf('week');
+      to = moment().subtract(1, 'week').endOf('week'); 
+      return { from, to };
+    }
+    case 'lastMonth': {
+      from = moment().subtract(1, 'month').startOf('month');
+      to = moment().subtract(1, 'month').endOf('month');
+      return { from, to };
+    }
+    case 'lastQuarter': {
+      from = moment().subtract(1, 'quarter').startOf('quarter');
+      to = moment().subtract(1, 'quarter').endOf('quarter');
+      return { from, to };
+    }
     default:
       return null;
   }
@@ -130,6 +150,7 @@ export const getUserPerformance = (statType = 'yesterday') => {
     try {
       const UserID = getState().auth.userID;
       const { from, to } = getQuery(statType);
+      console.log({ from, to });
       const response = await API.GetUserPerformance(UserID, from.valueOf(), to.valueOf());
       const json = response.data;
       // console.log(json);

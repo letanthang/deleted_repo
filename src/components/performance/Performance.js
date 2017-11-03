@@ -20,11 +20,10 @@ class Performance extends Component {
     console.log('Performance cwm');
     this.props.getUserPerformance(this.props.statType);
   }
-  componentWillUpdate() {
-    
-  }
-  componentDidUpdate() {
-    
+  componentWillReceiveProps(nextProps) {
+    if (this.props.statType !== nextProps.statType) {
+      this.props.getUserPerformance(nextProps.statType);
+    }
   }
 
   renderNullData() {
@@ -39,7 +38,7 @@ class Performance extends Component {
     console.log(this.props.stats);
     console.log('Performance render!');
     if (!this.props.stats) return this.renderNullData();
-    const { pickRate, returnRate, deliveryRate, pick_total, pick_succeed, delivery_total, deliver_succeed, return_total, return_succeed } = this.props.stats;
+    const { pickRate, returnRate, deliveryRate, pick_total, pick_succeed, deliver_total, deliver_succeed, return_total, return_succeed } = this.props.stats;
     //const monthCurrent = _.defaultTo(this.props.monthCurrent, { pick: 0, delivery: 0, return: 0 });
     console.log('Performance render, stats =');
     //console.log(stats);
@@ -54,7 +53,7 @@ class Performance extends Component {
         <PDStatsCard 
           type='delivery'
           upNumber={deliver_succeed}
-          downNumber={delivery_total}
+          downNumber={deliver_total}
           percentage={deliveryRate}
         />
         <PDStatsCard 

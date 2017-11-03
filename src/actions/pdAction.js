@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Alert, Clipboard } from 'react-native';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
@@ -8,6 +9,19 @@ import {
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
 import LocalGroup from '../libs/LocalGroup';
+
+const reportBug = (errorMessage, info) => {
+  const message = errorMessage;
+  const title = 'Lỗi hệ thống';
+  const fullMessage = `${errorMessage} ${JSON.stringify(info)}`;
+  Alert.alert(
+    title,
+    message,
+    [
+      { text: 'Copy & Đóng', onPress: () => Clipboard.setString(fullMessage) }
+    ]
+  );
+};
 
 export const pdListFetch = () => {
   console.log('Action: pdListFetch start');
@@ -23,6 +37,10 @@ export const pdListFetch = () => {
         if (json.status === 'OK') {
           pdListFetchSuccess(dispatch, json.data[0]);
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
+          console.log('khong co chuyen di, json response=');
+          console.log(json);
+          dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
+        } else if (json.status === 'ERROR' && json.message === 'Not found pds.') {
           console.log('khong co chuyen di, json response=');
           console.log(json);
           dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
@@ -67,7 +85,9 @@ export const pdListFetchFail = (dispatch, error) => {
   //     ClientHubID,
   //     StoringCode,
   //     NewDate,
-  //     Log
+  //     Log,
+  //     Note,
+  //     NoteCode,
   //   },
   //   ...
   // ]
@@ -95,14 +115,12 @@ export const updateOrderStatus = (infos) => {
           updateOrderStatusSuccess(dispatch, OrderInfos);
         } else {
           console.log('UpdateOrderStatus failed with response json =');
-          console.log(json);
-          updateOrderStatusFail(dispatch);
+          updateOrderStatusFail(dispatch, json.message, OrderInfos);
         }
       })
       .catch(error => {
         console.log('update status failed with error=');
-        console.log(error);
-        updateOrderStatusFail(dispatch);
+        updateOrderStatusFail(dispatch, error.message, OrderInfos);
       });
   });
 };
@@ -114,9 +132,11 @@ const updateOrderStatusSuccess = (dispatch, data) => {
   });
 };
 
-const updateOrderStatusFail = (dispatch) => {
+const updateOrderStatusFail = (dispatch, error, info) => {
+  reportBug(error, info);
   dispatch({
-    type: UPDATE_ORDER_STATUS_FAIL
+    type: UPDATE_ORDER_STATUS_FAIL,
+    payload: { error }
   });
 };
 
@@ -162,11 +182,13 @@ export const updateWeightSize = ({
           }
         });
       } else {
+        reportBug(json.message, { OrderID, Length, Weight, Height, ServiceFee });
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
         console.log('Update weight size failed with response json =');
         console.log(json);
       }
     } catch (error) {
+      reportBug(error.message, { OrderID, Length, Weight, Height, ServiceFee });
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
       console.log('Update weight size failed with error =');
       console.log(error);

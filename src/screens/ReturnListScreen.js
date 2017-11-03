@@ -94,12 +94,15 @@ class TripListScreen extends Component {
     );
   }
   
-  checkKeywork({ OrderCode }) {
-    return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+  checkKeywork({ OrderCode, ExternalCode }) {
+    const keyword = this.state.keyword.toUpperCase();
+    return this.state.keyword === '' 
+      || OrderCode.toUpperCase().includes(keyword)
+      || ExternalCode.toUpperCase().includes(keyword);
   }
   checkTripDone(trip) {
     const ordersNum = trip.PickReturnSOs.length;
-    const completedNum = trip.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+    const completedNum = trip.PickReturnSOs.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
     return (ordersNum === completedNum);
   }
   renderNullData() {
@@ -192,7 +195,7 @@ class TripListScreen extends Component {
                 let TotalServiceCost = 0; 
                 pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.CODAmount; });
                 const ordersNum = pickGroup.PickReturnSOs.length;
-                const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+                const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
                 return (
                   <View style={DeliverGroupStyles.content}>
                   <TouchableOpacity
@@ -231,7 +234,7 @@ class TripListScreen extends Component {
                           <Button
                             small
                             transparent
-                            onPress={() => Communications.phonecall(ContactPhone, true)}
+                            onPress={() => Utils.phoneCall(ContactPhone, true)}
                             style={{ paddingRight: 0 }}
                           >
                             <Icon name='call' />

@@ -29,8 +29,10 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, NewDate = 0) {
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
   const NextStatus = 'Storing';
+  const NoteCode = StoringCode;
+  const Note = reason;
   const success = false;
-  return { OrderID, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
+  return { OrderID, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, Note, NoteCode, success };
 }
 
 export function updateOrderToFailWithReason2(phone, configuration, OrderCode = null) {

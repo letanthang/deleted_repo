@@ -7,7 +7,7 @@ import { accounting } from 'accounting';
 import { 
   Content, List
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus } from '../../actions';
+import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone } from '../../actions';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import OrderStatusText from '../OrderStatusText';
@@ -19,7 +19,7 @@ import { getUpdateOrderInfo } from './Helpers';
 
 
 class PickGroupDetail extends Component {
-  state = { keyword: '', modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
+  state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
   
   pickGroup = null;
   ClientHubID = null;
@@ -31,21 +31,31 @@ class PickGroupDetail extends Component {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     console.log('====================================');
     console.log('PickgGroupDetail cwm');
-    console.log('====================================');    
+    console.log('====================================');
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.autoChangeTab();
+  }
+
+  autoChangeTab() {
+    if (this.props.done) return;
+    
+    console.log('vao change TAb');
+    const { done, pds } = this.props;
+    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done);
+    console.log(orders);
+    console.log(orders.length);
+    if (orders.length === 0) {
+      console.log('change tab');
+      this.props.changeDone(!done);
+    }
   }
 
   componentDidMount() {
     console.log('PickgGroupDetail cdm');
     if (!this.props.configuration) this.props.getConfiguration();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('PickgGroupDetail cwrp');
-    const { keyword } = nextProps;
-    console.log(this.props.pds.PickItems);
-    this.setState({ keyword });
   }
 
   checkComplete({ CurrentStatus, PickDeliveryType }) {
@@ -55,9 +65,14 @@ class PickGroupDetail extends Component {
       return Utils.checkReturnComplete(CurrentStatus);
     }
   }
-  checkKeywork({ OrderCode }) {
-    return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+
+  checkKeywork({ OrderCode, ExternalCode }) {
+    const keyword = this.props.keyword.toUpperCase()
+    return this.props.keyword === '' 
+      || OrderCode.toUpperCase().includes(keyword)
+      || ExternalCode.toUpperCase().includes(keyword);
   }
+
   onOrderPress(order) {
     console.log(`onOrderPress called with type = ${this.pickGroup.PickDeliveryType}, order=`);
     console.log(order);
@@ -167,7 +182,7 @@ class PickGroupDetail extends Component {
                       onSelectDateCase={buttonIndex => {
                         this.buttonIndex = buttonIndex;
                         this.order = order;
-                        this.setState({ modalShow: true });        
+                        this.setState({ modalShow: true });
                       }} 
                     />
                   </View>
@@ -187,14 +202,18 @@ class PickGroupDetail extends Component {
       </Content>
     );
   }
+  componentDidUpdate(prevProps) {
+    console.log('PickGroupDetail: cdu');
+    if (prevProps.pds !== this.props.pds) this.autoChangeTab();
+  }
 }
 
 const mapStateToProps = ({ auth, pd, other, pickGroup }) => {
   const { sessionToken } = auth;
   const { pdsId, pds, loading } = pd;
   const { configuration } = other;
-  const { showDatePicker, OrderInfos } = pickGroup;
-  return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos };
+  const { showDatePicker, OrderInfos, done, keyword } = pickGroup;
+  return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone })(PickGroupDetail);

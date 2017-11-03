@@ -56,8 +56,8 @@ class ReturnOrderScreen extends Component {
       title,
       message,
       [
-        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() },
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() }
       ],
       { cancelable: false }
     );
@@ -131,9 +131,8 @@ class ReturnOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      RecipientName, RecipientPhone, Address, CODAmount,
-      ClientName, ContactPhone, RequiredNote, OrderCode,
-      Note, Log, CurrentStatus
+      RecipientName, RecipientPhone, OrderCode, DeliveryAddress,
+      SONote, RequiredNote, Log, CurrentStatus
     } = order;
 
     return (
@@ -176,7 +175,7 @@ class ReturnOrderScreen extends Component {
                 iconRight
                 small
                 style={{ paddingLeft: 0 }}
-                onPress={() => phonecall(RecipientPhone, true)}
+                onPress={() => Utils.phoneCall(RecipientPhone, true)}
               >
                 <Text>{RecipientPhone}</Text>
                 <Icon name='call' />
@@ -184,11 +183,15 @@ class ReturnOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Address}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{DeliveryAddress}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Note}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
+            </View>
+            <View style={Styles.rowStyle}>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RequiredNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>

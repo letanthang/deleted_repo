@@ -6,6 +6,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import Performance from '../components/performance/Performance';
+import All from '../components/performance/All';
 import { Styles, Colors } from '../Styles';
 
 class PerformanceScreen extends Component {
@@ -48,6 +49,9 @@ class PerformanceScreen extends Component {
           </Tab>
           <Tab heading="Tháng Này">
             <Performance stats={month} statType='month' />
+          </Tab>
+          <Tab heading="Tất cả">
+            <All />
           </Tab>
         </Tabs>
       </Container>

@@ -23,7 +23,7 @@ function alertMissOfCall(phoneNumber) {
     title,
     message,
     [
-      { text: 'Gọi', onPress: () => phonecall(phoneNumber, true) },
+      { text: 'Gọi', onPress: () => Utils.phoneCall(phoneNumber, true) },
       { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
     ],
     { cancelable: false }
@@ -92,6 +92,8 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
   //     StoringCode,
   //     NewDate,
   //     Log
+  //     Note,
+  //     NoteCode,
   //   },
 export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
   const OrderID = order.OrderID;
@@ -101,8 +103,10 @@ export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
   const NextStatus = 'ReadyToPick';
+  const NoteCode = StoringCode;
+  const Note = reason;
   const success = false;
-  return { OrderID, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
+  return { OrderID, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, Note, NoteCode, success };
 }
 
 export function getUpdateOrderInfoForDone(order, NewDate = 0) {

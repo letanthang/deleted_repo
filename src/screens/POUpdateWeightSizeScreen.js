@@ -45,12 +45,13 @@ class POUpdateWeightSizeScreen extends Component {
 
   showSaveDialog() {
     console.log('wait to save ...');
+    const Fee = accounting.formatNumber(this.props.ServiceFee);
     Alert.alert(
-      'Really want to update?',
-      `Do you really want o update, with new fee: ${this.props.ServiceFee}`,
+      'Cập nhật kích thước?',
+      `Bạn có chắc chắn muốn cập nhật kích thước, với mức phí mới: ${Fee}`,
       [
-        { text: 'Đồng ý', onPress: () => this.onSaveWeightSize() },
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.onSaveWeightSize() }
       ],
       { cancelable: false }
     );
@@ -191,6 +192,8 @@ class POUpdateWeightSizeScreen extends Component {
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Weight.toString()}
+              onChangeText={value => this.onInputChange('Weight', value)}
+              keyboardType='numeric'
             />
             <Text> g</Text>
           </View>
@@ -204,18 +207,21 @@ class POUpdateWeightSizeScreen extends Component {
               style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Length.toString()}
               onChangeText={value => this.onInputChange('Length', value)}
+              keyboardType='numeric'
             />
             <Text> x </Text>
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Width.toString()}
               onChangeText={value => this.onInputChange('Width', value)}
+              keyboardType='numeric'
             />
             <Text> x </Text>
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.Height.toString()}
               onChangeText={value => this.onInputChange('Height', value)}
+              keyboardType='numeric'
             />
             <Text> cm3</Text>
           </View>

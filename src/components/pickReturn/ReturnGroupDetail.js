@@ -7,7 +7,7 @@ import { accounting } from 'accounting';
 import { 
   Content, List
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, updateAllOrderInfoReturn, updateOrderInfoReturn, setAllStatusReturn } from '../../actions';
+import { updateOrderStatus, getConfiguration, updateAllOrderInfoReturn, updateOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 } from '../../actions';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import OrderStatusText from '../OrderStatusText';
@@ -19,7 +19,7 @@ import { getUpdateOrderInfo } from './Helpers';
 
 
 class PickGroupDetail extends Component {
-  state = { keyword: '', modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
+  state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
   
   pickGroup = null;
   ClientHubID = null;
@@ -34,18 +34,26 @@ class PickGroupDetail extends Component {
     console.log('====================================');    
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.autoChangeTab();
+  }
+
+  autoChangeTab() {
+    if (this.props.done) return;
+    console.log('vao change TAb');
+    const { done, pds } = this.props;
+    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done);
+    console.log(orders.length);
+    if (orders.length === 0) {
+      console.log('change tab');
+      this.props.changeDone1(!done);
+    }
   }
 
   componentDidMount() {
     console.log('PickgGroupDetail cdm');
     if (!this.props.configuration) this.props.getConfiguration();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('PickgGroupDetail cwrp');
-    const { keyword } = nextProps;
-    console.log(this.props.pds.PickItems);
-    this.setState({ keyword });
   }
 
   checkComplete({ CurrentStatus, PickDeliveryType }) {
@@ -55,8 +63,11 @@ class PickGroupDetail extends Component {
       return Utils.checkReturnComplete(CurrentStatus);
     }
   }
-  checkKeywork({ OrderCode }) {
-    return this.state.keyword === '' || OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase());
+  checkKeywork({ OrderCode, ExternalCode }) {
+    const keyword = this.props.keyword.toUpperCase(); 
+    return this.props.keyword === '' 
+      || OrderCode.toUpperCase().includes(keyword)
+      || ExternalCode.toUpperCase().includes(keyword);
   }
   onOrderPress(order) {
     console.log(`onOrderPress called with type = ${this.pickGroup.PickDeliveryType}, order=`);
@@ -188,14 +199,18 @@ class PickGroupDetail extends Component {
       </Content>
     );
   }
+  componentDidUpdate(prevProps) {
+    console.log('ReturnGroupDetail: cdu');
+    if (prevProps.pds !== this.props.pds) this.autoChangeTab();
+  }
 }
 
 const mapStateToProps = ({ auth, pd, other, returnGroup }) => {
   const { sessionToken } = auth;
   const { pdsId, pds, loading } = pd;
   const { configuration } = other;
-  const { showDatePicker, OrderInfos } = returnGroup;
-  return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos };
+  const { showDatePicker, OrderInfos, done, keyword } = returnGroup;
+  return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfoReturn, updateOrderInfoReturn, setAllStatusReturn })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfoReturn, updateOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 })(PickGroupDetail);

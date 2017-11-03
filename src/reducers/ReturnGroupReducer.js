@@ -3,13 +3,17 @@ import {
   RETURNGROUP_UPDATE_ORDER_INFO,
   RETURNGROUP_UPDATE_ALL_ORDER_INFO,
   RETURNGROUP_SET_ALL_STATUS,
-  RETURNGROUP_RESET
+  RETURNGROUP_RESET,
+  RETURNGROUP_CHANGE_DONE,
+  RETURNGROUP_CHANGE_KEYWORD
  } from '../actions/types';
 
 const nameInitialState = {
   allStatusReturn: undefined,
   showDatePicker: false,
-  OrderInfos: {}
+  OrderInfos: {},
+  done: false,
+  keyword: ''
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
@@ -32,7 +36,12 @@ export default (state = nameInitialState, action) => {
       return { ...state, OrderInfos };
     }
       
-    
+    case RETURNGROUP_CHANGE_DONE: 
+      return { ...state, done: action.payload.done };
+
+    case RETURNGROUP_CHANGE_KEYWORD: 
+      return { ...state, keyword: action.payload.keyword };
+
     case RETURNGROUP_SET_ALL_STATUS:
       return { ...state, allStatusReturn: action.payload };
     

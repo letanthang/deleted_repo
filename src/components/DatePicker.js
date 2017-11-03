@@ -61,8 +61,9 @@ class DatePicker extends Component {
     }
     
     //string
-    const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-    console.log(stringDate);
+    // console.log(date);
+    const stringDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    // console.log(stringDate);
 
     return (
       <View style={{ alignSelf: 'center' }}>

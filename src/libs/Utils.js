@@ -1,4 +1,5 @@
 import CallHistory from 'react-native-call-history';
+import { phonecall } from 'react-native-communications';
 import { Platform } from 'react-native';
 
 class Utils {
@@ -189,6 +190,20 @@ class Utils {
         }
       );
     });
+  }
+
+  static fixPhoneNumber(phone) {
+    let number = phone;
+    if (phone.startsWith('84')) {
+      number = `0${phone.substr(2)}`;
+    }
+    return number;
+  }
+
+  static phoneCall(phone, prompt) {
+    //fix phone
+    const number = Utils.fixPhoneNumber(phone);
+    phonecall(number, prompt);
   }
 }
 

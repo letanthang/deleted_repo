@@ -2,6 +2,8 @@ import {
   PICKGROUP_UPDATE_ORDER_INFO,
   PICKGROUP_UPDATE_ALL_ORDER_INFO,
   PICKGROUP_SET_ALL_STATUS,
+  PICKGROUP_CHANGE_DONE,
+  PICKGROUP_CHANGE_KEYWORD,
   PICKGROUP_RESET
 } from './types';
 
@@ -29,7 +31,24 @@ export const setAllStatus = (status) => {
   };
 };
 
+export const changeDone = (done) => {
+  console.log('change props done');
+  return {
+    type: PICKGROUP_CHANGE_DONE,
+    payload: { done }
+  };
+};
+
+export const changeKeyword = (keyword) => {
+  console.log('change props keyword');
+  return {
+    type: PICKGROUP_CHANGE_KEYWORD,
+    payload: { keyword }
+  };
+};
+
 export const resetPickGroup = () => {
+  console.log('resetPickGroup');
   return {
     type: PICKGROUP_RESET,
   };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List 
+  List, ActionSheet
 } from 'native-base';
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getConfiguration } from '../actions';
@@ -64,8 +64,8 @@ class DeliveryOrderScreen extends Component {
       title,
       message,
       [
-        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() },
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.updateOrderToDone() }
       ],
       { cancelable: false }
     );
@@ -148,7 +148,7 @@ class DeliveryOrderScreen extends Component {
     const { 
       RecipientName, RecipientPhone, Address, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,
-      DisplayOrder, Note, Log, CurrentStatus, NextStatus
+      DisplayOrder, SONote, Log, CurrentStatus
     } = order;
 
 
@@ -178,6 +178,7 @@ class DeliveryOrderScreen extends Component {
             </Button>
           </Right>
         </Header>
+        <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <Content style={{ backgroundColor: Colors.row, paddingTop: 0 }}>
           <List>
             <View style={Styles.rowHeaderStyle}>
@@ -194,7 +195,7 @@ class DeliveryOrderScreen extends Component {
                   iconRight
                   small
                   style={{ paddingLeft: 0 }}
-                  onPress={() => phonecall(RecipientPhone, true)}
+                  onPress={() => Utils.phoneCall(RecipientPhone, true)}
                 >
                   <Text>{RecipientPhone}</Text>
                   <Icon name='call' />
@@ -229,7 +230,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Note}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>

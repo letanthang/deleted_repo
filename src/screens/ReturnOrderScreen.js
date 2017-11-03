@@ -211,7 +211,6 @@ const mapStateToProps = ({ pd, auth }) => {
   return { pds, pdsId, sessionToken, loading };
 };
 
-
 export default connect(
   mapStateToProps, 
   { updateOrderStatus }

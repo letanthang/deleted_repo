@@ -118,7 +118,7 @@ class DeliveryGroupCreate extends Component {
   renderOrder(order) {
     //console.log(`renderOrder is called! checked = ${this.state[OrderID]}`);
     //console.log(order);
-    const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, groupChecked } = order;
+    const { DeliveryAddress, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, groupChecked } = order;
     return (
       <TouchableOpacity
         onPress={this.onOrderChecked.bind(this, OrderID)}
@@ -129,7 +129,7 @@ class DeliveryGroupCreate extends Component {
               {OrderCode}
             </Text>
             <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-              {Address}
+              {DeliveryAddress}
             </Text>
           </View>
           <View

@@ -47,7 +47,7 @@ class DeliveryByGroup extends Component {
   }
 
   renderOrder(order, sectionID, rowID) {
-    const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder, ServiceName } = order;
+    const { DeliveryAddress, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder, ServiceName } = order;
     const wrapperStyle = rowID == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
     
     return (
@@ -65,7 +65,7 @@ class DeliveryByGroup extends Component {
           </View>
           <View style={Styles.itemStyle}>
             <Text style={[Styles.midTextStyle, Styles.weakColorStyle]}>
-              {Address}
+              {DeliveryAddress}
             </Text>
           </View>
           <View style={Styles.itemStyle}>
@@ -97,7 +97,6 @@ class DeliveryByGroup extends Component {
 
   
   renderGroup(Group) {
-    //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
     let deliveryList = {};
     console.log('renderGroup called, props=');
     console.log(this.props);
@@ -127,7 +126,6 @@ class DeliveryByGroup extends Component {
   }
   render() {
     
-    //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
     const deliveryList = this.props.deliveryList;
     console.log(`DeliveryByGroup render, activeGroup = ${this.state.activeGroup}`);
     console.log(deliveryList);

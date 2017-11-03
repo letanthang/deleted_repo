@@ -98,7 +98,7 @@ class ReturnOrderScreen extends Component {
         >
           <OrderStatusText 
             CurrentStatus={CurrentStatus}
-            PickDeliveryType={1}
+            PickDeliveryType={3}
           />
         </View>
       );

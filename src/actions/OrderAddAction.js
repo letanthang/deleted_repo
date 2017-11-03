@@ -26,13 +26,13 @@ const reportBug = (errorMessage, info) => {
 
 const confirmAddOrder = (dispatch, OrderCode) => {
   const title = 'Đơn hàng hợp lệ';
-  const message = 'Dơn hàng hợp lệ. Thêm vào chuyến đi?';
+  const message = 'Đơn hàng hợp lệ. Thêm vào chuyến đi?';
   Alert.alert(
     title,
     message,
     [
-      { text: 'Huy' },
-      { text: 'Đống ý', onPress: () => dispatch(addOrder(OrderCode)) }
+      { text: 'Huỷ' },
+      { text: 'Đồng ý', onPress: () => dispatch(addOrder(OrderCode)) }
     ]
   );
 };

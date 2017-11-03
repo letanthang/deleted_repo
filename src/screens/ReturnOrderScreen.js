@@ -98,7 +98,7 @@ class ReturnOrderScreen extends Component {
         >
           <OrderStatusText 
             CurrentStatus={CurrentStatus}
-            PickDeliveryType={1}
+            PickDeliveryType={3}
           />
         </View>
       );
@@ -219,7 +219,6 @@ const mapStateToProps = ({ pd, auth }) => {
   const { pds, pdsId, loading } = pd;
   return { pds, pdsId, sessionToken, loading };
 };
-
 
 export default connect(
   mapStateToProps, 

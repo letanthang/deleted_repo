@@ -7,7 +7,8 @@ import {
   LOGIN_USER, 
   LOGIN_USER_SUCCESS, 
   LOGIN_USER_FAIL,
-  LOGOUT_USER 
+  LOGOUT_USER,
+  GO_SUPPORT 
 } from '../actions/types';
 import ShareVariables from '../libs/ShareVariables';
 
@@ -74,6 +75,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         user: null
+      };
+    case GO_SUPPORT: 
+      return {
+        ...state,
+        userID: action.payload.UserID
       };
     default:
       return state;

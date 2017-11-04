@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { 
   USERID_CHANGED, PASSWORD_CHANGED, REMEMBER_ME_CHANGED, LOAD_SAVED_USER_PASS, LOAD_SAVED_SESSION, LOGIN_USER,  
-  LOGOUT_USER, LOGOUT, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS 
+  LOGOUT_USER, LOGOUT, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS, GO_SUPPORT 
 } from './types.js';
 import * as API from '../apis/MPDS';
 import LocalGroup from '../libs/LocalGroup';
@@ -171,6 +171,13 @@ export const logoutUser = () => {
     type: LOGOUT
   });
 }
+
+export const goSupport = (UserID) => {
+  return {
+    type: GO_SUPPORT,
+    payload: { UserID }
+  };
+};
 
 // fetch('https://test.ghn.vn/api/mpds/GetApiKey')
     //   .then((response) => {

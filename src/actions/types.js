@@ -8,6 +8,7 @@ export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 export const LOGOUT_USER = 'logout_user';
 export const LOGOUT = 'LOGOUT';
+export const GO_SUPPORT = 'GO_SUPPORT';
 
 export const PDLIST_FETCH = 'pdlist_fetch';
 export const PDLIST_FETCH_SUCCESS = 'pdlist_fetch_success';

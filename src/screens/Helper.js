@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { ActionSheet } from 'native-base';
 import { DeliveryErrors } from '../components/Constant';
 import Utils from '../libs/Utils';
@@ -9,6 +10,22 @@ const DESTRUCTIVE_INDEX = -1;
 const CHANGE_DATE_INDEX = BUTTONS.length - 3;
 const CUSTOMER_CHANGE_DATE_INDEX = 3;
 const CANCEL_INDEX = BUTTONS.length - 1;
+
+
+function alertMissOfCall(phoneNumber) {
+  console.log(phoneNumber);
+  const title = 'Không đủ số cuộc gọi.';
+  const message = 'Bạn không thực hiện đủ số cuộc gọi cho khách hàng. Gọi bây giờ?';
+  Alert.alert(
+    title,
+    message,
+    [
+      { text: 'Gọi', onPress: () => Utils.phoneCall(phoneNumber, true) },
+      { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' }
+    ],
+    { cancelable: false }
+  );
+}
 
 export function getDeliveryDoneOrderInfo(order, NewDate = 0) {
   const OrderID = order.OrderID;
@@ -60,7 +77,7 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
             if (result) {
               return resolve({ error: null, buttonIndex });
             } else {
-              this.alertMissOfCall(phone);
+              alertMissOfCall(phone);
               return resolve({ error: 'moreCall', buttonIndex });
             }
           });
@@ -71,7 +88,7 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
               if (result) {
                 return resolve({ error: null, buttonIndex });
               } else {
-                this.alertMissOfCall(phone);
+                alertMissOfCall(phone);
                 return resolve({ error: 'moreCall', buttonIndex });
               }
             });

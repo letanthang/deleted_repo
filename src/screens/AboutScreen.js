@@ -5,11 +5,12 @@ import {
   Content, Text, Button, Icon, CardItem 
 } from 'native-base';
 import { connect } from 'react-redux';
+import md5 from 'md5';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import { goSupport } from '../actions';
 
 class AboutScreen extends Component {
-  state = { clickNum: 0 }
+  state = { clickNum: 0, password: '', verified: false }
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
@@ -27,10 +28,11 @@ class AboutScreen extends Component {
           </Left>
           <Body />
         </Header>
-        <Content style={{ padding: 10 }}>
-          <TouchableOpacity
-            onPress={() => this.setState({ clickNum: this.state.clickNum + 1 })}
-          >
+        <Content
+          keyboardShouldPersistTaps='handled'
+          style={{ padding: 10 }}
+        >
+          <TouchableOpacity>
             <Card>
               <CardItem style={{ backgroundColor: Colors.row }}>
                 <View style={HomeStyles.cardItemLeft}>
@@ -44,9 +46,37 @@ class AboutScreen extends Component {
               </CardItem>
             </Card>
           </TouchableOpacity>
-          {this.state.clickNum > 7 ?
+          <TouchableOpacity
+            onPress={() => this.setState({ clickNum: this.state.clickNum + 1 })}
+          >
+            <View style={{ flex: 1, height: 44 }}></View>
+          </TouchableOpacity>
+          {this.state.clickNum > 6 && !this.state.verified ?
           <View>
-            <TextInput 
+            <TextInput
+              secureTextEntry
+              placeholder='password'
+              value={this.state.password}
+              onChangeText={(text) => this.setState({ password: text })}
+            />
+            <Btn 
+              title="Verify"
+              onPress={() => {
+                if (md5(this.state.password) === 'ee9b4ea92c81bfcee752e0bcda322350') {
+                  this.setState({ verified: true });
+                } else {
+                  alert('wrong password');
+                  this.setState({ password: '' });
+                }
+              }}
+            />
+            <Text>{this.props.userID}</Text>
+          </View>
+          : null}
+          {this.state.clickNum > 6 && this.state.verified ?
+          <View>
+            <TextInput
+              placeholder='USER ID'
               value={this.state.UserID}
               onChangeText={(text) => this.setState({ UserID: text })}
             />

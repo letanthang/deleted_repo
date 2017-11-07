@@ -41,11 +41,12 @@ class AboutScreen extends Component {
                   </View>
                 </View>
                 <View style={HomeStyles.cardItemRight}>
-                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>04112017-10am</Text>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>07112017-3pm</Text>
                 </View>
               </CardItem>
             </Card>
           </TouchableOpacity>
+          
           <TouchableOpacity
             onPress={() => this.setState({ clickNum: this.state.clickNum + 1 })}
           >

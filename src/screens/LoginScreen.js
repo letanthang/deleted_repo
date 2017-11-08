@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser } from '../actions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Colors } from '../Styles';
+import LocalGroup from '../libs/LocalGroup';
 
 //create comp
 class LoginScreen extends Component {
@@ -24,6 +25,7 @@ class LoginScreen extends Component {
 
   componentWillMount() {
     console.log('MPDS_new : componentWillMount');
+    LocalGroup.getLocalDB();
     this.props.loadSavedUserPass();
     this.props.loadSavedSession();
   }

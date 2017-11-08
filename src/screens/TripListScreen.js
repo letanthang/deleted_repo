@@ -128,7 +128,7 @@ class TripListScreen extends Component {
   }
   goToReturnGroup(returnGroup) {
     if (returnGroup) {
-      this.props.navigation.navigate('PickGroupDetail', { pickGroup: returnGroup });
+      this.props.navigation.navigate('ReturnGroupDetail', { pickGroup: returnGroup });
     }
   }
   renderCheckedIcon(orderNum, completedNum) {

@@ -68,14 +68,14 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" size={10} />
             <Input 
-              placeholder="Tìm đơn hàng ..." value={this.prop.keyword} 
-              onChangeText={(keyword) => { 
+              placeholder="Tìm đơn hàng ..." value={this.props.keyword} 
+              onChangeText={(text) => { 
                   console.log('keyword changed!');
-                  this.props.changeKeyword(keyword);
+                  this.props.changeKeyword(text);
               }}
             />
             <TouchableOpacity
-              onPress={() => this.changeKeyword('')}
+              onPress={() => this.props.changeKeyword('')}
               style={{ padding: 8 }}
             >
               <IconFA 

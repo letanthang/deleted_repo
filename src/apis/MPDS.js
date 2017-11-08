@@ -17,7 +17,6 @@ const mock = mockOn ? new MockAdapter(axios) : null;
 export const GetUserActivePds = (UserID) => {
   const URL = `${BASE_URL}/pdaone/${UserID}`;
   const LoginHeader = Share.LoginHeader;
-  console.log(`GetUserActivePds: ${URL}`);
   
   if (mockOn) {
     mock.onGet(URL, config).reply(200, sampleResponse);
@@ -39,8 +38,6 @@ export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
   };
   const LoginHeader = Share.LoginHeader;
   const config = { headers: LoginHeader };
-  console.log(`UpdatePickDeliverySession url = ${URL}`);
-  console.log(params);
   return axios.put(URL, params, config);
 };
 
@@ -54,7 +51,6 @@ export const UpdateOrderWeightRDC = ({
   PDSID }) => {  
   const URL = `${BASE_URL}/fee`;
   const LoginInfo = Share.getLoginInfo();
-  console.log(URL);
   const params = {
     ...LoginInfo,
     Length,
@@ -65,7 +61,6 @@ export const UpdateOrderWeightRDC = ({
     OrderID,
     PDSID
   };
-  console.log(params);
   const LoginHeader = Share.LoginHeader;
   const config = { headers: LoginHeader };
   return axios.put(URL, params, config);
@@ -120,7 +115,6 @@ export const GetConfiguration = (configKey = null) => {
 };
   
 export const CalculateServiceFee = (params) => {
-  console.log(params);
   const URL = `${BASE_URL}/fee`;
   const LoginHeader = Share.LoginHeader;
   const config = { headers: LoginHeader };
@@ -153,7 +147,6 @@ export const AddOrders = (OrderCodes, psdID) => {
         lastUpdatedTime: moment().format('MMM D, YYYY h:m:s a')
         //Oct 5, 2017 2:23:38 PM
     };
-    console.log(params);
     return axios.put(URL, params, config);
 };
 

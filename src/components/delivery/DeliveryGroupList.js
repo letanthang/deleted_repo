@@ -14,16 +14,12 @@ import DataEmptyCheck from '../DataEmptyCheck';
 
 class DeliveryGroupList extends Component {
   componentWillMount() {
-    console.log('====================================');
-    console.log('DeliveryGroupList CWM');
-    console.log('====================================');
     this.state = { keyword: '' };
   }
   componentWillUpdate() {
     
   }
   componentWillReceiveProps(nextProps) {
-    console.log('DeliveryByGroup cwrp');
     const { keyword } = nextProps;
     this.setState({ keyword });
   }
@@ -31,8 +27,6 @@ class DeliveryGroupList extends Component {
 
   }
   onDeliveryOrderPress(OrderID) {
-    console.log('onDeliveryOrderPress called with OrderID =');
-    console.log(OrderID);
     this.props.navigation.navigate('DeliveryOrder', { OrderID });
   }
 
@@ -76,7 +70,6 @@ class DeliveryGroupList extends Component {
     //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
     const deliveryList = this.props.deliveryList.filter(order => this.state.keyword === '' 
       || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase()));
-    console.log(deliveryList);
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>

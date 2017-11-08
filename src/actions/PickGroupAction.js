@@ -9,7 +9,6 @@ import {
 
 export const updateOrderInfo = (OrderID, info) => {
   return (dispatch, getState) => {
-    console.log('PickGroupAction: updateOrderInfo');
     dispatch({
       type: PICKGROUP_UPDATE_ORDER_INFO,
       payload: { OrderID, info }
@@ -32,7 +31,6 @@ export const setAllStatus = (status) => {
 };
 
 export const changeDone = (done) => {
-  console.log('change props done');
   return {
     type: PICKGROUP_CHANGE_DONE,
     payload: { done }
@@ -40,7 +38,6 @@ export const changeDone = (done) => {
 };
 
 export const changeKeyword = (keyword) => {
-  console.log('change props keyword');
   return {
     type: PICKGROUP_CHANGE_KEYWORD,
     payload: { keyword }
@@ -48,7 +45,6 @@ export const changeKeyword = (keyword) => {
 };
 
 export const resetPickGroup = () => {
-  console.log('resetPickGroup');
   return {
     type: PICKGROUP_RESET,
   };

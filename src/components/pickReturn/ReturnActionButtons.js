@@ -9,8 +9,6 @@ import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoFor
 
 class ReturnActionButtons extends Component {
   componentWillMount() {
-    console.log('ActionButtons : cwm');
-    console.log(this.props);
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
@@ -32,7 +30,7 @@ class ReturnActionButtons extends Component {
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
           this.props.updateOrderInfoReturn(OrderID, moreInfo);
         } else if (error === 'moreCall') {
-          console.log('moreCall');
+          // more call
         } else if (error === 'chooseDate') {
           this.props.onSelectDateCase(buttonIndex);
         }
@@ -40,7 +38,6 @@ class ReturnActionButtons extends Component {
     }
   }
   render() {
-    console.log('ActionButtons : render');
     const { info, done, rightText = 'Trả' } = this.props;
     if (done) return null;
 

@@ -31,8 +31,6 @@ class OrderListScreen extends Component {
   onDeliveryOrderPress(order) {
     const { OrderID, ClientHubID, ClientID, PickDeliveryType } = order;
     const navigate = this.props.navigation.navigate;
-    console.log('onDeliveryOrderPress called with OrderID =');
-    console.log(OrderID);
     switch (PickDeliveryType) {
       case 1:
         navigate('PickOrder', { OrderID, order, ClientID, ClientHubID });
@@ -75,7 +73,6 @@ class OrderListScreen extends Component {
               placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
               onChangeText={(keyword) => { 
                 if (keyword !== undefined) {
-                  console.log('keyword changed!');
                   this.setState({ keyword: keyword.trim() });
                 }
               }}
@@ -174,8 +171,6 @@ class OrderListScreen extends Component {
     const sections = _.map(datas, (item) => {
       return { data: item, title: item[0].Address };
     });
-    console.log('OrderListScreen: render, sections =');
-    console.log(sections);
     
     return (
       <Container style={{ backgroundColor: Colors.background }}>

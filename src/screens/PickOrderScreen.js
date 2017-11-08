@@ -31,13 +31,8 @@ class PickOrderScreen extends Component {
     ClientHubID = this.props.navigation.state.params.ClientHubID;
     OrderID = this.props.navigation.state.params.OrderID;
     order = Utils.getOrder(this.props.pds, OrderID);
-    console.log('====================================');
-    console.log(`PickOrderScreen: cwm called with
-    OrderID = ${OrderID}`);
-    console.log('====================================');
   }
   componentDidMount() {
-    console.log('PickOrderScreen cdm');
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
@@ -47,9 +42,6 @@ class PickOrderScreen extends Component {
   }
 
   componentDidUpdate() {
-    console.log('====================================');
-    console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
-    console.log('====================================');
   }
   onChooseDate(date) {
     //string
@@ -93,9 +85,7 @@ class PickOrderScreen extends Component {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
       } else if (error === 'cancel') {
-        console.log('user cancel');
       } else if (error === 'moreCall') {
-        console.log('not enough call');
       } else if (error === 'chooseDate') {
         this.buttonIndex = buttonIndex;
         this.setState({ modalShow: true });
@@ -153,7 +143,6 @@ class PickOrderScreen extends Component {
   }
   
   render() {
-    console.log('PickOrderScreen: render');
     const { navigate, goBack } = this.props.navigation;
     if (!order) {
       goBack();
@@ -167,7 +156,6 @@ class PickOrderScreen extends Component {
       Log, CurrentStatus, DeliveryAddress, SONote, RequiredNote
     } = order;
 
-    console.log(CurrentStatus);
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>

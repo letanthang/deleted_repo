@@ -9,7 +9,6 @@ import {
 
 export const updateOrderInfoReturn = (OrderID, info) => {
   return (dispatch, getState) => {
-    console.log('PickGroupAction: updateOrderInfo');
     dispatch({
       type: RETURNGROUP_UPDATE_ORDER_INFO,
       payload: { OrderID, info }
@@ -32,7 +31,6 @@ export const setAllStatusReturn = (status) => {
 };
 
 export const changeDone1 = (done) => {
-  console.log('change props done');
   return {
     type: RETURNGROUP_CHANGE_DONE,
     payload: { done }
@@ -40,7 +38,6 @@ export const changeDone1 = (done) => {
 };
 
 export const changeKeyword1 = (keyword) => {
-  console.log('change props keyword');
   return {
     type: RETURNGROUP_CHANGE_KEYWORD,
     payload: { keyword }

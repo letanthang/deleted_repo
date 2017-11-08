@@ -25,26 +25,17 @@ class POUpdateWeightSizeScreen extends Component {
     OrderID = this.props.navigation.state.params.OrderID;
     ClientHubID = this.props.navigation.state.params.ClientHubID;
     ClientID = this.props.navigation.state.params.ClientID;
-    console.log('====================================');
-    console.log(`PickOrderScreen: cwm called with
-    OrderID = ${OrderID}`);
-    console.log('====================================');
   }
 
   componentDidUpdate() {
     const order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
-    console.log('====================================');
-    console.log(`PickOrderScreen: cdu, OrderId = ${OrderID}, order = `);
-    console.log(order);
     if (waitToSave) {
       this.showSaveDialog();
       waitToSave = false;
     }
-    console.log('====================================');
   }
 
   showSaveDialog() {
-    console.log('wait to save ...');
     const Fee = accounting.formatNumber(this.props.ServiceFee);
     Alert.alert(
       'Cập nhật kích thước?',
@@ -109,16 +100,12 @@ class POUpdateWeightSizeScreen extends Component {
       FromDistrictID,
       ToDistrictID
     };
-    console.log(params);
     calculated = true;
     this.props.calculateServiceFee(params);
   }
   
   isInfoChanged(order) {
-    console.log('vao check changed info');
     const { Length, Weight, Width, Height } = this.state;
-    console.log({ Length, Weight, Width, Height });
-    console.log({ Length: order.Length, Weight: order.Weight, Width: order.Width, Height: order.Height });
     if (order.Length == Length 
       && order.Weight == Weight 
       && order.Height == Height 
@@ -151,8 +138,6 @@ class POUpdateWeightSizeScreen extends Component {
 
   render() {
     const order = Utils.getOrder(this.props.pds, OrderID, ClientHubID, 1);
-    // console.log('Render called, order = ');
-    console.log(order);
     const { OrderCode, ServiceCost, CODAmount, Weight, Length, Width, Height } = order;
     
     if (this.state.Weight === null) {
@@ -163,7 +148,6 @@ class POUpdateWeightSizeScreen extends Component {
       this.state.CalculateWeight = Length * Width * Height * 0.2;
     }
 
-    console.log(`Render: ServiceCost: ${ServiceCost} ServiceFee: ${this.props.ServiceFee} `);
     const ServiceFee = this.props.ServiceFee || CODAmount;
 
     const { goBack } = this.props.navigation;

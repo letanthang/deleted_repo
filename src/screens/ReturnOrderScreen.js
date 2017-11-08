@@ -23,10 +23,6 @@ class ReturnOrderScreen extends Component {
   componentWillMount() {
     OrderID = this.props.navigation.state.params.OrderID;
     order = Utils.getOrder(this.props.pds, OrderID);
-    console.log('====================================');
-    console.log(`ReturnOrderScreen: cwm called with
-    OrderID = ${OrderID}`);
-    console.log('====================================');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,9 +31,6 @@ class ReturnOrderScreen extends Component {
   }
 
   componentDidUpdate() {
-    console.log('====================================');
-    console.log('ReturnOrderScreen: cdu');
-    console.log('====================================');
   }
 
   onChooseDate(date) {
@@ -79,9 +72,7 @@ class ReturnOrderScreen extends Component {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
       } else if (error === 'cancel') {
-        console.log('user cancel');
       } else if (error === 'moreCall') {
-        console.log('not enough call');
       } else if (error === 'chooseDate') {
         this.buttonIndex = buttonIndex;
         this.setState({ modalShow: true });

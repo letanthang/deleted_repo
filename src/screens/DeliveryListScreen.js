@@ -53,7 +53,6 @@ class DeliveryListScreen extends Component {
               placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
               onChangeText={(keyword) => { 
                 if (keyword !== undefined) {
-                  console.log('keyword changed!');
                   this.setState({ keyword: keyword.trim() });
                 }
               }}

@@ -15,7 +15,6 @@ const cannotCallIndex = 3;
 const notHangUpIndex = 1;
 
 export function alertMissOfCall(phoneNumber) {
-  console.log(phoneNumber);
   const title = 'Không đủ số cuộc gọi.';
   const message = 'Bạn không thực hiện đủ số cuộc gọi cho khách hàng. Gọi bây giờ?';
   Alert.alert(
@@ -31,7 +30,6 @@ export function alertMissOfCall(phoneNumber) {
 
 export function updateOrderToFailWithReason2(phone, configuration) {
   return new Promise((resolve, reject) => {
-    console.log('updateOrderToFailWithReason pressed');
     const ContactPhone = phone;
     ActionSheet.show(
       {
@@ -41,7 +39,6 @@ export function updateOrderToFailWithReason2(phone, configuration) {
         title: 'Chọn lý do lỗi'
       },
       buttonIndex => {
-        console.log(`updateOrderToFailWithReason : ${typeof buttonIndex}${typeof changeDateIndex}`);
   
         if (buttonIndex == cancelIndex) {
           return resolve({ error: 'cancel', buttonIndex });
@@ -51,7 +48,6 @@ export function updateOrderToFailWithReason2(phone, configuration) {
           //cannot contact
           Utils.validateCallCannotContact(ContactPhone, configuration)
             .then((result) => {
-              console.log(result);
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {
@@ -60,11 +56,9 @@ export function updateOrderToFailWithReason2(phone, configuration) {
               } 
             });
         } else if (buttonIndex == notHangUpIndex) {
-          console.log(ContactPhone);
           //cannot contact
           Utils.validateCallNotHangUp(ContactPhone, configuration)
             .then((result) => {
-              console.log(result);
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {

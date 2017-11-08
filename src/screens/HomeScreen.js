@@ -24,26 +24,26 @@ const efficiencyIcon = require('../../resources/ic_summary.png');
 class HomeScreen extends Component {
   state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
-    console.log('====================================');
-    console.log('HomeScreen : CWM');
     // const params = this.props.navigation.state.params;
     if (!this.props.pds) {
       this.props.pdListFetch();
     }
     this.listGroups();
-    console.log(this.state.date);
-    console.log('===================================='); 
   }
   componentWillReceiveProps(nextProps) {
-    console.log('HomeScreen: cwrp');
     if (this.props.error !== nextProps.error && nextProps.error !== '') {
       //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
-      Toast.show({
-        text: nextProps.error,
-        position: 'bottom',
-        type: 'warning',
-        duration: 1100
-      });
+      try {
+        //console.log('Toast is called');
+        Toast.show({
+          text: nextProps.error,
+          position: 'bottom',
+          type: 'warning',
+          duration: 1100
+        });
+      } catch (error) {
+
+      }
     }
   }
   
@@ -51,37 +51,29 @@ class HomeScreen extends Component {
     return user !== null;
   }
   componentDidUpdate() {
-    console.log('====================================');
-    console.log('HomeScreen : CDU');
-    console.log('====================================');
   }
   onTripListPress() {
     if (this.props.pickTotal === 0) return;
-    console.log('TripList pressed!');
     const { navigate } = this.props.navigation;
     navigate('TripList');
   }
   onPickPress() {
     if (this.props.pickTotal === 0) return;
-    console.log('PickList pressed!');
     const { navigate } = this.props.navigation;
     navigate('PickList');
   }
   onReturnPress() {
     if (this.props.returnTotal === 0) return;
-    console.log('ReturnList pressed!');
     const { navigate } = this.props.navigation;
     navigate('ReturnList');
   }
   onDeliveryPress() {
     if (this.props.deliveryTotal === 0) return;
-    console.log('DeliveryList pressed!');
     const { navigate } = this.props.navigation;
     navigate('DeliveryList');
   }
   onUpdateDataPress() {
     const dispatch = this.props.navigation.dispatch;
-    console.log('onUpdateDataPress pressed');
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
@@ -105,11 +97,8 @@ class HomeScreen extends Component {
       // await LocalGroup.setGroups([]);
       
       groups = LocalGroup.getGroups();
-      console.log('HomeScreen:  listGroups async');
-      console.log(groups);
     } catch (error) {
-      console.log('local group failed with error=');
-      console.log(error);
+      // log error
     }
   }
 
@@ -135,7 +124,6 @@ class HomeScreen extends Component {
             <Input 
               placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
               onChangeText={(keyword) => { 
-                  console.log('keyword changed!');
                   this.setState({ keyword });
               }}
             />
@@ -188,7 +176,6 @@ class HomeScreen extends Component {
           {/* <Button
               transparent
               onPress={() => {
-                console.log('barcode scan pressed');
                 this.setState({ showScanner: !this.state.showScanner });
               }}
           >          

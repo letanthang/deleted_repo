@@ -60,7 +60,6 @@ class TripListScreen extends Component {
             <Input 
               placeholder="Lộc tên shop ..." value={this.state.keyword} 
               onChangeText={(text) => { 
-                  console.log('keyword changed!');
                   this.setState({ keyword: text });
               }}
             />
@@ -183,10 +182,8 @@ class TripListScreen extends Component {
     return null;
   }
   renderHasReturnWarning(pickGroup) {
-    console.log('renderHasReturnWarning called!');
     if (pickGroup.PickDeliveryType != '1') return null;
     const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
-    console.log(returnGroup);
     if (!returnGroup) return null;
     return (
       <Button
@@ -301,7 +298,6 @@ class TripListScreen extends Component {
                     style={DeliverGroupStyles.sectionHeader}
                     onPress={() => {
                       const key = section.ClientID;
-                      console.log(key);
                       let activeTripShow;
                       if (!section.activeSection) {
                         activeTripShow = true;

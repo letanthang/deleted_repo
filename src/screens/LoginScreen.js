@@ -24,13 +24,11 @@ class LoginScreen extends Component {
   state = { showPassword: false, rememberMe: false }
 
   componentWillMount() {
-    console.log('MPDS_new : componentWillMount');
     LocalGroup.getLocalDB();
     this.props.loadSavedUserPass();
     this.props.loadSavedSession();
   }
   componentWillReceiveProps(nextProps) {
-    console.log('MPDS_new : componentWillReceiveProps');
     const { dispatch } = this.props.navigation;
     const { user } = nextProps;
     const resetAction = NavigationActions.reset({
@@ -59,7 +57,6 @@ class LoginScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('cdu called!');
 
     //show login error
     if (!prevProps.error && this.props.error) {

@@ -17,7 +17,6 @@ import PDStatsCard from '.././home/PDStatsCard';
 
 class Performance extends Component {
   componentWillMount() {
-    console.log('Performance cwm');
     this.props.getUserPerformance(this.props.statType);
   }
   componentWillReceiveProps(nextProps) {
@@ -35,13 +34,9 @@ class Performance extends Component {
   }
   
   render() {
-    console.log(this.props.stats);
-    console.log('Performance render!');
     if (!this.props.stats) return this.renderNullData();
     const { pickRate, returnRate, deliveryRate, pick_total, pick_succeed, deliver_total, deliver_succeed, return_total, return_succeed } = this.props.stats;
     //const monthCurrent = _.defaultTo(this.props.monthCurrent, { pick: 0, delivery: 0, return: 0 });
-    console.log('Performance render, stats =');
-    //console.log(stats);
     return (
       <Content>
         <PDStatsCard 

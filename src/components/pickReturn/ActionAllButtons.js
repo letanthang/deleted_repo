@@ -10,8 +10,6 @@ import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoFor
 
 class ActionAllButtons extends Component {
   componentWillMount() {
-    console.log('ActionAllButtons : cwm');
-    console.log(this.props);
   }
   changeInfo(nextStatus) {
     const orders = this.props.orders;
@@ -28,12 +26,11 @@ class ActionAllButtons extends Component {
       updateOrderToFailWithReason2(ContactPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
-          //console.log('set state to loi');
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));
           this.props.updateAllOrderInfo(OrderInfos);
           this.props.setAllStatus(false);
         } else if (error === 'moreCall') {
-          console.log('moreCall');
+          // more call
         } else if (error === 'chooseDate') {
           this.props.onSelectDateCase(buttonIndex);
         }
@@ -41,13 +38,10 @@ class ActionAllButtons extends Component {
     }
   }
   render() {
-    console.log('ActionAllButtons : render');
     const { allStatus, done, style, rightText = 'Lấy' } = this.props;
     if (done) return null;
 
     const status = allStatus;
-    //console.log('ActionButtons : render with status');
-    //console.log(status);
 
     return (
       <View style={style}>

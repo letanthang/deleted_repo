@@ -29,14 +29,10 @@ class PickGroupList extends Component {
     
   }
   onPickGroupPress(pickGroup) {
-    console.log('PickGroupPress called ');
-    console.log(pickGroup);
     this.props.navigation.navigate('PickGroupDetail', { pickGroup });
   }
   onPickToReturnPress(pickGroup) {
     const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
-    console.log('PickGroupPress called ');
-    console.log(pickGroup);
     this.goToReturnGroup(returnGroup);
   }
   goToReturnGroup(returnGroup) {
@@ -51,8 +47,6 @@ class PickGroupList extends Component {
     return null;
   }
   renderPickGroup(pickGroup) {
-    console.log('pickGroup =');
-    console.log(pickGroup);
     const { Address, CircleName, ClientName, DisplayOrder, ContactName, ContactPhone } = pickGroup;
     
     let TotalServiceCost = 0; 
@@ -116,10 +110,8 @@ class PickGroupList extends Component {
     );
   }
   renderHasReturnWarning(pickGroup) {
-    console.log('renderHasReturnWarning called!');
     if (pickGroup.PickDeliveryType != '1') return null;
     const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
-    console.log(returnGroup);
     if (!returnGroup) return null;
     return (
       <Button
@@ -139,10 +131,6 @@ class PickGroupList extends Component {
     const { done, pds, pdType = 1 } = this.props;
     const Items = (pdType === 1) ? pds.PickItems : pds.ReturnItems;
 
-    console.log('====================================');
-    console.log(`PickGroupList render! pdType = ${pdType}`);
-    console.log('====================================');
-    
     const pickList = Items.filter(pg => {
       if (done !== undefined) {
         const ordersNum = pg.PickReturnSOs.length;
@@ -151,8 +139,7 @@ class PickGroupList extends Component {
       }
       return true;
     });
-    console.log(Items);
-    console.log(pickList);
+
     return (
       <Content style={{ backgroundColor: Colors.background }}>
       <DataEmptyCheck

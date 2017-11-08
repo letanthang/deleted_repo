@@ -24,14 +24,12 @@ const nameInitialState = {
 export default (state = nameInitialState, action) => {
   switch (action.type) {
     case PDLIST_FETCH:
-      console.log('turn on spinner');
+      // turn on spinner
       return { ...state, loading: true, error: '' };
     case PDLIST_FETCH_SUCCESS: {
-      console.log('update home screen with numbers');
       const pds = action.payload.pds;
       transformPDS(pds);
       addGroup(pds, action.payload.orderGroup);
-      console.log('pds add group');
       const { 
         pickTotal,
         pickComplete,
@@ -60,7 +58,6 @@ export default (state = nameInitialState, action) => {
       return { ...nameInitialState, error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.' };
     
     case UPDATE_ORDER_STATUS: {
-      console.log('pdReducer: UPDATE_ORDER_STATUS !!!!!!turn on spinner!!!!!');
       return {
         ...state,
         loading: true
@@ -68,7 +65,6 @@ export default (state = nameInitialState, action) => {
     }
 
     case UPDATE_ORDER_STATUS_FAIL: {
-      console.log('pdReducer: UPDATE_ORDER_STATUS_FAIL');
       return {
         ...state,
         loading: false,
@@ -91,10 +87,6 @@ export default (state = nameInitialState, action) => {
   // ]
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
-      console.log('================================================');
-      console.log('pdReducer: UPDATE_ORDER_STATUS_SUCCESS is called');
-      console.log('state before:');
-      console.log(state.pds);
 
       const OrderInfos = action.payload;
 
@@ -105,9 +97,6 @@ export default (state = nameInitialState, action) => {
       });
       
       transformPDS(pds);
-
-      console.log('state after:');
-      console.log(pds);
       const { 
         pickTotal,
         pickComplete,
@@ -116,7 +105,6 @@ export default (state = nameInitialState, action) => {
         deliveryTotal,
         deliveryComplete } = calculateStatNumbers(pds);     
 
-      console.log('================================================');
       return {
         ...state,
         loading: false,
@@ -157,18 +145,12 @@ export default (state = nameInitialState, action) => {
       //const pds = state.pds;
       const orders = pds.DeliveryItems;
       const orderGroup = action.payload;
-      console.log('pdReducer: Pd udpate group');
-      console.log(orderGroup);
       orders.forEach((order, index) => {
         const group = orderGroup[order.OrderID];
-        console.log(order.OrderID);
-        console.log(group);
         if (group !== undefined) {
           orders[index].Group = group;
         } 
       });
-      console.log(orders);
-      console.log(pds);
       return { ...state, pds };
     }
       

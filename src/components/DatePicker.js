@@ -9,15 +9,12 @@ maximumDate.setDate(maximumDate.getDate() + 5);
 class DatePicker extends Component {
   
   componentWillMount() {
-    console.log(`DatePicker: cwm ${Platform.OS}`);
-    console.log(Platform.OS);
     if (Platform.OS === 'android') {
       //this.showAndroidDP();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('DatePicker: cwrp');
     if (Platform.OS === 'ios') return;
     const { androidDPShow } = nextProps;
     if (!this.props.androidDPShow && androidDPShow) {
@@ -36,7 +33,6 @@ class DatePicker extends Component {
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
         const stringDate = `${month}/${day}/${year}`;
-        console.log(stringDate);
         const newDate = new Date(year, month, day);
         onDateChange(newDate);
       }
@@ -61,9 +57,7 @@ class DatePicker extends Component {
     }
     
     //string
-    // console.log(date);
     const stringDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    // console.log(stringDate);
 
     return (
       <View style={{ alignSelf: 'center' }}>

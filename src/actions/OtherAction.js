@@ -28,12 +28,9 @@ export const calculateServiceFee = ({
       FromDistrictID,
       ToDistrictID
     };
-    console.log('Bat dau cal Fee, with params=');
-    console.log(params);
 
     try {
       const response = await API.CalculateServiceFee(params);
-      console.log('Hang ve: new Fee');
       const json = response.data;
       if (json.status === 'OK') {
         dispatch({
@@ -74,7 +71,6 @@ export const getConfiguration = () => {
 };
 
 const getStat = (data) => {
-  console.log(data);
   if (data.length === 0) return null;
 
   const result = { pick_succeed: 0, pick_total: 0, deliver_succeed: 0, deliver_total: 0, return_succeed: 0, return_total: 0 };
@@ -95,7 +91,6 @@ const getStat = (data) => {
   result.returnRate = Math.round(result.returnRate);
   result.deliveryRate = Math.round(result.deliveryRate);
 
-  console.log(result);
   return result;
 };
 

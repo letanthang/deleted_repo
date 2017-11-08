@@ -36,7 +36,6 @@ class PickGroupDetailScreen extends Component {
     const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
     this.props.updateOrderStatus({ OrderInfos });
     this.props.resetPickGroup();
-    // console.log(OrderInfos);
   }
 
   confirmUpdateOrder() {
@@ -70,7 +69,6 @@ class PickGroupDetailScreen extends Component {
             <Input 
               placeholder="Tìm đơn hàng ..." value={this.props.keyword} 
               onChangeText={(text) => { 
-                  console.log('keyword changed!');
                   this.props.changeKeyword(text);
               }}
             />

@@ -24,13 +24,9 @@ const reportBug = (errorMessage, info) => {
 };
 
 export const pdListFetch = () => {
-  console.log('Action: pdListFetch start');
   return (dispatch, getState) => {
     dispatch({ type: PDLIST_FETCH });
-    console.log(' prepare to fetch pd list');
     const { userID } = getState().auth;
-    // console.log(' get state of authReducer from pdAction');
-    // console.log(user);
     API.GetUserActivePds(userID)
       .then(response => {
         const json = response.data;

@@ -30,8 +30,6 @@ class OrderListScreen extends Component {
   onDeliveryOrderPress(order) {
     const { OrderID, ClientHubID, ClientID, PickDeliveryType } = order;
     const navigate = this.props.navigation.navigate;
-    console.log('onDeliveryOrderPress called with OrderID =');
-    console.log(OrderID);
     switch (PickDeliveryType) {
       case 1:
         navigate('PickOrder', { OrderID, order, ClientID, ClientHubID });

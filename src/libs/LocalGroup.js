@@ -31,19 +31,17 @@ class LocalGroup {
       this.db = json;
       return this.db;
     } catch (error) {
-      console.log('getLocalDB failed with error=');
-      console.log(error);
+      // log error
     }
   }
 
   static async resetDB() {
     try {
-      console.log('start reset db');
       //this.db = { groups: [], orderGroup: {} };
       await AsyncStorage.removeItem(this.dbName);
       this.getLocalDB();
     } catch (error) {
-      console.log('resetDB failed');
+      // log error
     }
   }
 
@@ -51,7 +49,7 @@ class LocalGroup {
     try {
       await AsyncStorage.setItem(this.dbName, JSON.stringify(this.db));
     } catch (error) {
-      console.log('saveDB failed');
+      // log error
     }
   }
 
@@ -60,8 +58,7 @@ class LocalGroup {
       this.db.groups.push(group);
       await this.saveDB();
     } catch (error) {
-      console.log('addGroup failed with error=');
-      console.log(error);
+      // log error
     }
   }
   static async setGroups(groups) {
@@ -69,16 +66,14 @@ class LocalGroup {
       this.db.groups = groups;
       await this.saveDB();
     } catch (error) {
-      console.log('setGroups failed with error=');
-      console.log(error);
+      //log error
     }
   }
   static getGroups() {
     try {
       return this.db.groups;
     } catch (error) {
-      console.log('getGroups failed with error=');
-      console.log(error);
+      // log error
     }
   }
   static async setOrderGroup({ OrderID, group }) {
@@ -86,8 +81,7 @@ class LocalGroup {
       this.db.orderGroup[OrderID] = group;
       await this.saveDB();
     } catch (error) {
-      console.log('setOrderGroup failed with error=');
-      console.log(error);
+      //log error
     }
   }
   static async setOrdersGroups(orderGroup) {
@@ -95,16 +89,14 @@ class LocalGroup {
       this.db.orderGroup = { ...this.db.orderGroup, ...orderGroup };
       await this.saveDB();
     } catch (error) {
-      console.log('setOrderGroup failed with error=');
-      console.log(error);
+      //log error
     }
   }
   static getOrderGroups() {
     try {
       return this.db.orderGroup;
     } catch (error) {
-      console.log('getOrderGroups failed with error=');
-      console.log(error);
+      // log error
     }
   }
 }

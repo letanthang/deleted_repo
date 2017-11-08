@@ -18,10 +18,8 @@ import DataEmptyCheck from '../DataEmptyCheck';
 let checkList = {};
 class DeliveryGroupCreate extends Component {
   componentWillMount() {
-    console.log('DeliveryGroupCreate: cwm !');
     
     const pds = this.props.pds;
-    console.log(pds);
     const GroupLength = LocalGroup.getGroups().length + 1;
     const GroupName = `nhom${GroupLength}`;
     const dataSource = this.getDataSource(this.props);
@@ -29,7 +27,6 @@ class DeliveryGroupCreate extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('DeliveryGroupCreate: cwrp');
     const list = nextProps.pds.DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
     checkList = {};
     list.forEach(order => { checkList[order.OrderID] = false; });
@@ -37,13 +34,11 @@ class DeliveryGroupCreate extends Component {
   }
   
   onOrderChecked(OrderID) {
-    console.log(`onOrderChecked OrderID = ${OrderID}`);
     //this.setState({ [OrderID]: !checkList[OrderID] });
     checkList[OrderID] = !checkList[OrderID];
     this.createDataSource(this.props);
   }
   onCreateGroup() {
-    console.log('onCreateGroup pressed');
 
     this.createGroup(this.state.GroupName);
   }
@@ -58,8 +53,6 @@ class DeliveryGroupCreate extends Component {
           orderGroup[prop] = GroupName;
         }
       });
-      console.log('createGroup: orderGroup = ');
-      console.log(orderGroup);
       await LocalGroup.setOrdersGroups(orderGroup);
 
       //update store
@@ -71,13 +64,10 @@ class DeliveryGroupCreate extends Component {
       const NewGroupName = `nhom${GroupLength}`;
       this.setState({ GroupName: NewGroupName });
     } catch (error) {
-      console.log('creategroup & add order group fail with error =');
-      console.log(error);
+      //log error
     }
   }
   onResetGroup() {
-    console.log('onCreateGroup pressed');
-
     this.resetGroup();
   }
 
@@ -85,14 +75,8 @@ class DeliveryGroupCreate extends Component {
     try {
       await LocalGroup.resetDB();
       this.props.pdListFetch();
-      //update new group name
-      // const GroupLength = LocalGroup.getGroups().length + 1;
-      // const NewGroupName = `nhom${GroupLength}`;
-      // this.setState({ GroupName: NewGroupName });
-      // this.createDataSource(this.props);
     } catch (error) {
-      console.log('resetGroup failed');
-      console.log(error);
+      // log error
     }
   }
   
@@ -100,7 +84,6 @@ class DeliveryGroupCreate extends Component {
     
     const dataSource = this.getDataSource({ pds });
     this.setState({ dataSource });
-    console.log('ds changed');
   }
 
   getDataSource({ pds }) {
@@ -116,8 +99,6 @@ class DeliveryGroupCreate extends Component {
   }
 
   renderOrder(order) {
-    //console.log(`renderOrder is called! checked = ${this.state[OrderID]}`);
-    //console.log(order);
     const { DeliveryAddress, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, groupChecked } = order;
     return (
       <TouchableOpacity
@@ -147,10 +128,7 @@ class DeliveryGroupCreate extends Component {
   }
 
   render() {
-    // const { pds } = this.props;
-    console.log('DeliveryGroupCreate: render called, state =| datasource =');
     if (!this.state.dataSource) return null;
-    // console.log(pds);
     
     
     return (

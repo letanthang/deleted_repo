@@ -29,9 +29,6 @@ class PickGroupDetail extends Component {
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-    console.log('====================================');
-    console.log('PickgGroupDetail cwm');
-    console.log('====================================');
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
     this.autoChangeTab();
@@ -40,21 +37,16 @@ class PickGroupDetail extends Component {
   autoChangeTab() {
     if (this.props.done) return;
     
-    console.log('vao change TAb');
     const { done, pds } = this.props;
     const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done);
-    console.log(orders);
-    console.log(orders.length);
     if (orders.length === 0) {
-      console.log('change tab');
       this.props.changeDone(!done);
     }
   }
 
   componentDidMount() {
-    console.log('PickgGroupDetail cdm');
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
@@ -74,8 +66,6 @@ class PickGroupDetail extends Component {
   }
 
   onOrderPress(order) {
-    console.log(`onOrderPress called with type = ${this.pickGroup.PickDeliveryType}, order=`);
-    console.log(order);
     const { navigate } = this.props.navigation;
     const { OrderID } = order;
     const { ClientID, ClientHubID } = this.pickGroup;
@@ -120,9 +110,6 @@ class PickGroupDetail extends Component {
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
 
-    console.log('====================================');
-    console.log('PickGroupDetail render!');
-    console.log('====================================');
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>
@@ -203,7 +190,6 @@ class PickGroupDetail extends Component {
     );
   }
   componentDidUpdate(prevProps) {
-    console.log('PickGroupDetail: cdu');
     if (prevProps.pds !== this.props.pds) this.autoChangeTab();
   }
 }

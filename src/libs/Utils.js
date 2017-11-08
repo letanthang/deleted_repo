@@ -148,11 +148,8 @@ class Utils {
     return new Promise((resolve, reject) => {
       CallHistory.list(
         (history) => {
-          console.log('xuat history');
           const json = JSON.parse(history);
-          //console.log(json);
           const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
-          // console.log(callLogs);
           resolve(callLogs.length >= repeatCallUnconnected);
         },
         (error) => {
@@ -178,11 +175,8 @@ class Utils {
     return new Promise((resolve, reject) => {
       CallHistory.list(
         (history) => {
-          console.log('xuat history');
           const json = JSON.parse(history);
-          // console.log(json);
           const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
-          // console.log(callLogs);
           resolve(callLogs.length >= repeatCallUnconnected);
         },
         (error) => {

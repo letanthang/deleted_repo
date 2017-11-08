@@ -6,12 +6,6 @@ class ActionModal extends Component {
   state = { date: new Date(), androidDPShow: false }
   onChooseDate() {
     const date = this.state.date;
-    //string
-    //const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-    //console.log(stringDate);
-    //timestamp
-    //const timestamp = this.state.date.getTime();
-    //this.updateOrderToFail(this.order, this.state.buttonIndex, timestamp);
     this.props.onChooseDate(date);
     this.setState({ buttonIndex: null, androidDPShow: false });
   }
@@ -49,7 +43,6 @@ class ActionModal extends Component {
               mode='date'
               onDateChange={(date) => {
                 this.setState({ date });
-                console.log(`date changed to : ${date}`);
                 }}
             />
             <View

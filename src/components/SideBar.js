@@ -24,7 +24,6 @@ class SideBar extends Component {
     });
 
     if (!user) {
-      console.log('user is null and navigate to Login');
       dispatch(resetAction);
       return false;
     }
@@ -32,12 +31,10 @@ class SideBar extends Component {
   }  
   
   onLogoutPress() {
-    console.log('onLogoutPress called');
     this.props.logoutUser();
   }
 
   onUpdateDataPress() {
-    console.log('onUpdateDataPress pressed');
     //this.props.navigation.navigate('Home', { needUpdateData: true });
     
     this.props.navigation.navigate('DrawerClose');

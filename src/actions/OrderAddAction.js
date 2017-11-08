@@ -58,7 +58,6 @@ export const getOrder = (OrderCode) => {
     API.GetOrderByCode(OrderCode)
       .then(response => {
         const json = response.data;
-        console.log(json);
         if (json.status === 'OK') {
           dispatch({
             type: ORDER_GET_ORDER,
@@ -90,7 +89,6 @@ export const addOrder = (OrderCode) => {
     API.AddOrders([OrderCode], getState().pd.pdsId)
       .then(response => {
         const json = response.data;
-        console.log(json);
         if (json.status === 'OK') {
           dispatch({
             type: ORDER_ADD_ORDER,

@@ -17,15 +17,11 @@ import DataEmptyCheck from '../DataEmptyCheck';
 class DeliveryByGroup extends Component {
   state = { activeGroup: 0, keyword: '' };
   componentWillMount() {
-    console.log('====================================');
-    console.log('DeliveryGroupList CWM');
-    console.log('====================================');
   }
   componentWillUpdate() {
     
   }
   componentWillReceiveProps(nextProps) {
-    console.log('DeliveryByGroup cwrp');
     const { keyword } = nextProps;
     this.setState({ keyword });
   }
@@ -33,8 +29,6 @@ class DeliveryByGroup extends Component {
 
   }
   onDeliveryOrderPress(OrderID) {
-    console.log('onDeliveryOrderPress called with OrderID =');
-    console.log(OrderID);
     this.props.navigation.navigate('DeliveryOrder', { OrderID });
   }
 
@@ -98,8 +92,6 @@ class DeliveryByGroup extends Component {
   
   renderGroup(Group) {
     let deliveryList = {};
-    console.log('renderGroup called, props=');
-    console.log(this.props);
     if (Group === 'Đã xong') {
       deliveryList = this.props.pds.DeliveryItems.filter(order => Utils.checkDeliveryComplete(order.CurrentStatus)
         && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
@@ -108,8 +100,6 @@ class DeliveryByGroup extends Component {
         && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
     }
     
-    //console.log(`renderGroup ${Group}`);
-    //console.log(deliveryList);
     return (
       <DataEmptyCheck
         data={deliveryList}
@@ -127,13 +117,9 @@ class DeliveryByGroup extends Component {
   render() {
     
     const deliveryList = this.props.deliveryList;
-    console.log(`DeliveryByGroup render, activeGroup = ${this.state.activeGroup}`);
-    console.log(deliveryList);
     const groups = _.clone(LocalGroup.getGroups());
     groups.push('Đã xong');
     groups.unshift(null);
-    // console.log('render, groups =');
-    // console.log(groups);
     return (
       <Content style={{ backgroundColor: Colors.background }}>
       <Accordion
@@ -148,7 +134,6 @@ class DeliveryByGroup extends Component {
   }
   onAccordionChange(index) {
     this.setState({ activeGroup: index });
-    console.log(`active group change to ${index}`);
   }
 }
 const styles = StyleSheet.create({

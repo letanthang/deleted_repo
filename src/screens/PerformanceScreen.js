@@ -11,7 +11,6 @@ import { Styles, Colors } from '../Styles';
 
 class PerformanceScreen extends Component {
   componentWillMount() {
-    console.log('PerformanceScreen: CWM called!');
   }
   componentWillUpdate() {
     
@@ -20,7 +19,6 @@ class PerformanceScreen extends Component {
     
   }
   render() {
-    console.log('PerformanceScreen: render!');
 
     const { navigate, goBack } = this.props.navigation;
     const { yesterday, week, month } = this.props;

@@ -21,15 +21,9 @@ let order = {};
 class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
-    const OrderID = this.props.navigation.state.params.OrderID;
-    console.log('====================================');
-    console.log(`DeliveryOrderScreen: cwm called with
-    OrderID = ${OrderID}`);
-    console.log('====================================');
   }
 
   componentDidMount() {
-    console.log('DeliveryOrderScreen cdm');
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
@@ -37,10 +31,6 @@ class DeliveryOrderScreen extends Component {
     const deliveryList = this.props.pds.DeliveryItems;
     const OrderID = this.props.navigation.state.params.OrderID;
     order = deliveryList.find(o => o.OrderID === OrderID);
-    console.log('====================================');
-    console.log('DeliveryOrderScreen cdu');
-    console.log(order);
-    console.log('====================================');
   }
 
   onChooseDate(date) {
@@ -72,8 +62,6 @@ class DeliveryOrderScreen extends Component {
   }
 
   updateOrderToDone() {
-    console.log('updateOrderToDone');
-    console.log(order);
     const OrderInfos = getDeliveryDoneOrderInfo(order);
     this.props.updateOrderStatus({ OrderInfos });
   }
@@ -84,10 +72,7 @@ class DeliveryOrderScreen extends Component {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
       } else if (error === 'cancel') {
-        console.log('user cancel');
-        console.log(buttonIndex);
       } else if (error === 'moreCall') {
-        console.log('not enough call');
       } else if (error === 'chooseDate') {
         this.buttonIndex = buttonIndex;
         this.setState({ modalShow: true });
@@ -95,8 +80,6 @@ class DeliveryOrderScreen extends Component {
     });
   }
   updateOrderToFail(buttonIndex, NewDate = 0) {
-    console.log('updateOrderToFail');
-    console.log(buttonIndex);
     const OrderInfos = getDeliveryFailOrderInfo(order, buttonIndex, NewDate);
     this.props.updateOrderStatus({ OrderInfos });
   }

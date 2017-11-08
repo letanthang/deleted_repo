@@ -31,7 +31,6 @@ export default (state = INITIAL_STATE, action) => {
     case REMEMBER_ME_CHANGED:
       return { ...state, rememberMe: !state.rememberMe };
     case LOAD_SAVED_USER_PASS:
-      // console.log('AuthReducer: LOAD_SAVED_USER_PASS');
       return { 
         ...state, 
         userID: action.payload.userID,
@@ -39,7 +38,6 @@ export default (state = INITIAL_STATE, action) => {
         rememberMe: action.payload.rememberMe,
       };
     case LOAD_SAVED_SESSION:
-      console.log('login session success');
       new ShareVariables().LoginHeader['X-Auth'] = action.payload.session;
       return { 
         ...state,
@@ -48,7 +46,6 @@ export default (state = INITIAL_STATE, action) => {
         user: action.payload.user
       };
     case LOGIN_USER_SUCCESS: {
-      console.log('login success');
       new ShareVariables().LoginHeader['X-Auth'] = action.payload.session;
       const user = action.payload.userInfo;
       user.UserID = user.ssoId;
@@ -66,7 +63,6 @@ export default (state = INITIAL_STATE, action) => {
         error: action.payload 
       };
     case LOGIN_USER:
-      console.log('update activity indicator');
       return { ...state,
         loading: true,
         error: ''

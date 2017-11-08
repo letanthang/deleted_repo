@@ -13,7 +13,6 @@ const CANCEL_INDEX = BUTTONS.length - 1;
 
 
 function alertMissOfCall(phoneNumber) {
-  console.log(phoneNumber);
   const title = 'Không đủ số cuộc gọi.';
   const message = 'Bạn không thực hiện đủ số cuộc gọi cho khách hàng. Gọi bây giờ?';
   Alert.alert(
@@ -64,7 +63,6 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
         title
       },
       buttonIndex => {
-        console.log(`updateOrderToFailWithReason : ${buttonIndex} ${CANCEL_INDEX} ${CHANGE_DATE_INDEX}`);
         if (buttonIndex == CANCEL_INDEX) {
 
           return resolve({ error: 'cancel', buttonIndex });

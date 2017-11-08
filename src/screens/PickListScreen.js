@@ -15,7 +15,6 @@ import MyMenu from '../components/MyMenu';
 class PickListScreen extends Component {
   state = { done: false, showMenu: false }
   componentWillMount() {
-    console.log('PickListScreen: CWM called!');
   }
   componentWillUpdate() {
     
@@ -24,7 +23,6 @@ class PickListScreen extends Component {
     
   }
   onUpdateDataPress() {
-    console.log('onUpdateDataPress pressed');
     const dispatch = this.props.navigation.dispatch;
     const resetAction = NavigationActions.reset({
       index: 0,
@@ -99,7 +97,6 @@ class PickListScreen extends Component {
             <Button
                 transparent
                 onPress={() => {
-                  console.log('showMenu pressed');
                   this.setState({ showMenu: !this.state.showMenu });
                 }}
             >          
@@ -112,11 +109,9 @@ class PickListScreen extends Component {
         <MyMenu 
           show={this.state.showMenu} 
           onBlur={() => {
-            console.log('Menu onBlur');
             this.setState({ showMenu: !this.state.showMenu });
           }}
           onPress={() => {
-            console.log('Menu onPress');
             this.onUpdateDataPress();
             this.setState({ showMenu: !this.state.showMenu });
           }}

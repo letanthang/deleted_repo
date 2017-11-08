@@ -185,7 +185,7 @@ class HomeScreen extends Component {
         </Left>
         
         <Right style={{ flex: 0.25 }}>
-          <Button
+          {/* <Button
               transparent
               onPress={() => {
                 console.log('barcode scan pressed');
@@ -193,7 +193,7 @@ class HomeScreen extends Component {
               }}
           >          
             <IC name='barcode-scan' size={25} color={Colors.headerNormal} />
-          </Button>
+          </Button> */}
         </Right>
       </Header>
     );

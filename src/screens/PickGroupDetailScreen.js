@@ -78,8 +78,8 @@ class PickGroupDetailScreen extends Component {
               onPress={() => this.props.changeKeyword('')}
               style={{ padding: 8 }}
             >
-              <IconFA 
-                name="times-circle" size={14} 
+              <IC 
+                name="close-circle-outline" size={14} 
               />
             </TouchableOpacity>
             

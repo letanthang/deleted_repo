@@ -20,7 +20,7 @@ export const GetUserActivePds = (UserID) => {
   console.log(`GetUserActivePds: ${URL}`);
   
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, sampleResponse1Item);
+    mock.onGet(URL, config).reply(200, sampleResponse);
   }
 
   const config = {

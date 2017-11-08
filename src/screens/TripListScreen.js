@@ -4,7 +4,7 @@ import { SectionList, View, TouchableOpacity } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
   Icon, Button, Title, Text, Card,
-  Header
+  Header, Item, Input
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -50,7 +50,45 @@ class TripListScreen extends Component {
 
   renderHeader() {
     const { navigate } = this.props.navigation;
-    
+    if (this.state.showSearch) {
+      return (
+        <Header searchBar>
+          <Item
+            style={{ borderRadius: 4, backgroundColor: Colors.background }} 
+          >
+            <Icon name="search" size={10} />
+            <Input 
+              placeholder="Lộc tên shop ..." value={this.state.keyword} 
+              onChangeText={(text) => { 
+                  console.log('keyword changed!');
+                  this.setState({ keyword: text });
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => this.setState({ keyword: '' })}
+              style={{ padding: 8 }}
+            >
+              <IC 
+                name="close-circle-outline" size={14} 
+              />
+            </TouchableOpacity>
+            
+          </Item>
+          <Right style={{ flex: 0 }} >
+            <Button
+              transparent
+              style={{ marginLeft: 0 }}
+              onPress={() => {
+                this.setState({ showSearch: !this.state.showSearch, keyword: '' });
+              }}
+            >
+              <Text uppercase={false}>Huỷ</Text>
+            </Button>
+          </Right>
+        </Header>
+      );
+    }
+
     return (
       <Header>
         <Left style={Styles.leftStyle}>
@@ -69,6 +107,12 @@ class TripListScreen extends Component {
           <Title>Lấy</Title>
         </Body>
         <Right style={Styles.rightStyle}>
+          <Button
+            transparent
+            onPress={() => this.setState({ showSearch: !this.state.showSearch })}
+          >
+            <Icon name="search" />
+          </Button>
           <Button
             transparent
             onPress={() => this.setState({ done: !this.state.done, activeTrip: null, activeTripShow: true })}
@@ -94,11 +138,12 @@ class TripListScreen extends Component {
     );
   }
   
-  checkKeywork({ OrderCode, ExternalCode }) {
+  checkKeywork({ ClientName, ContactName, Address }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
-      || OrderCode.toUpperCase().includes(keyword)
-      || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
+      || ClientName.toUpperCase().includes(keyword)
+      || ContactName.toUpperCase().includes(keyword)
+      || Address.toUpperCase().includes(keyword);
   }
 
   checkTripDone(trip) {
@@ -160,7 +205,7 @@ class TripListScreen extends Component {
     const { pds } = this.props;
     if (!pds || !pds.PickItems) return this.renderNullData();
 
-    const items = pds.PickItems.filter(trip => this.state.done === this.checkTripDone(trip));
+    const items = pds.PickItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
     const datas = _.groupBy(items, 'ClientID');
     let first = true;
     const sections = _.map(datas, (item) => {

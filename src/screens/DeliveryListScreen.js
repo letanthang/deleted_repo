@@ -56,6 +56,7 @@ class DeliveryListScreen extends Component {
                   this.setState({ keyword: keyword.trim() });
                 }
               }}
+              autoFocus
             />
             <Button
               transparent

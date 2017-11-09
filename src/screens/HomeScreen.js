@@ -126,6 +126,7 @@ class HomeScreen extends Component {
               onChangeText={(keyword) => { 
                   this.setState({ keyword });
               }}
+              autoFocus
             />
             <TouchableOpacity
               onPress={() => this.setState({ keyword: '' })}

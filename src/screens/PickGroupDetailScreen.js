@@ -71,6 +71,7 @@ class PickGroupDetailScreen extends Component {
               onChangeText={(text) => { 
                   this.props.changeKeyword(text);
               }}
+              autoFocus
             />
             <TouchableOpacity
               onPress={() => this.props.changeKeyword('')}

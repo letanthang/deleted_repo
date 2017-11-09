@@ -103,7 +103,12 @@ class OrderListScreen extends Component {
 
   render() {
     const { pds } = this.props;
-    const items = pds.PDSItems.filter(o => this.checkKeywork(o));
+    let i = 0;
+    let limit = 5;
+    const items = pds.PDSItems.filter(o => {
+      i++;
+      return (i < limit) && this.checkKeywork(o);
+    });
     if (!pds || !pds.PDSItems || !items) return this.renderNullData();
 
     return (

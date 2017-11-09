@@ -62,6 +62,7 @@ class TripListScreen extends Component {
               onChangeText={(text) => { 
                   this.setState({ keyword: text });
               }}
+              autoFocus
             />
             <TouchableOpacity
               onPress={() => this.setState({ keyword: '' })}

@@ -58,7 +58,7 @@ class TripListScreen extends Component {
           >
             <Icon name="search" size={10} />
             <Input 
-              placeholder="Lộc tên shop ..." value={this.state.keyword} 
+              placeholder="Lọc tên shop ..." value={this.state.keyword} 
               onChangeText={(text) => { 
                   this.setState({ keyword: text });
               }}

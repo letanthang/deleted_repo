@@ -57,6 +57,7 @@ class DeliveryListScreen extends Component {
                 }
               }}
               autoFocus
+              autoCorrect={false}
             />
             <Button
               transparent

@@ -127,6 +127,7 @@ class HomeScreen extends Component {
                   this.setState({ keyword });
               }}
               autoFocus
+              autoCorrect={false}
             />
             <TouchableOpacity
               onPress={() => this.setState({ keyword: '' })}

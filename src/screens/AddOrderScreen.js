@@ -39,6 +39,7 @@ class AddOrderScreen extends Component {
               <TextInput 
                 value={OrderCode}
                 onChangeText={(text) => this.props.changeOrderCode(text.toUpperCase())}
+                autoCorrect={false}
               />
             </View>
           </View>

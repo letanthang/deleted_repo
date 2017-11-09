@@ -106,8 +106,11 @@ class OrderListScreen extends Component {
     let i = 0;
     let limit = 5;
     const items = pds.PDSItems.filter(o => {
-      i++;
-      return (i < limit) && this.checkKeywork(o);
+      if (i < limit && this.checkKeywork(o)) {
+        i++;
+        return true;
+      }
+      return false;
     });
     if (!pds || !pds.PDSItems || !items) return this.renderNullData();
 

@@ -42,7 +42,7 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
       },
       buttonIndex => {
   
-        if (buttonIndex == cancelIndex) {
+        if (buttonIndex == cancelIndex || buttonIndex == destructiveIndex) {
           return resolve({ error: 'cancel', buttonIndex });
         } else if (buttonIndex == changeDateIndex) {
           return resolve({ error: 'chooseDate', buttonIndex });

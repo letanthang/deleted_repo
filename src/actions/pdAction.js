@@ -95,8 +95,6 @@ export const updateOrderStatus = (infos) => {
     OrderInfos = [OrderInfos];
   }
 
-  console.log(OrderInfos);
-  // return { type: "NO_THING" };
   return ((dispatch, getState) => {
     dispatch({ type: UPDATE_ORDER_STATUS });
     const { pdsId } = getState().pd;

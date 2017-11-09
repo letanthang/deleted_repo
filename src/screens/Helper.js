@@ -63,8 +63,7 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
         title
       },
       buttonIndex => {
-        if (buttonIndex == CANCEL_INDEX) {
-
+        if (buttonIndex == CANCEL_INDEX || buttonIndex == DESTRUCTIVE_INDEX) {
           return resolve({ error: 'cancel', buttonIndex });
         } else if (buttonIndex == CHANGE_DATE_INDEX || buttonIndex == CUSTOMER_CHANGE_DATE_INDEX) {
           return resolve({ error: 'chooseDate', buttonIndex });

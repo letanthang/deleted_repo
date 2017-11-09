@@ -132,7 +132,8 @@ class Utils {
     if (returnGroup) return true;
     return false;
   }
-  static validateCallCannotContact(phoneNumber, configuration) {
+  static validateCallCannotContact(phone, configuration) {
+    const phoneNumber = Utils.fixPhoneNumber(phone);
     if (Platform.OS === 'ios') {
       return new Promise((resolve) => {
         resolve(true);
@@ -159,7 +160,8 @@ class Utils {
     });
   }
 
-  static validateCallNotHangUp(phoneNumber, configuration) {
+  static validateCallNotHangUp(phone, configuration) {
+    const phoneNumber = Utils.fixPhoneNumber(phone);
     if (Platform.OS === 'ios') {
       return new Promise((resolve) => {
         resolve(true);

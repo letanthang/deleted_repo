@@ -8,10 +8,10 @@ const buttons = Object.values(ReturnErrors);
 buttons.push('Cancel');
 const codes = Object.keys(ReturnErrors);
 const cancelIndex = buttons.length - 1;
-const changeDateIndex = -3;
+const changeDateIndex = 3;
 const destructiveIndex = -1;
 const cannotContactIndex = 0;
-const cannotCallIndex = 3;
+const cannotCallIndex = 2;
 const notHangUpIndex = 1;
 
 export function alertMissOfCall(phoneNumber) {

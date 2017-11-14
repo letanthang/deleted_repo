@@ -7,6 +7,7 @@ target 'mpds_new' do
 
   # Pods for mpds_new
   pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
 
   target 'mpds_newTests' do
     inherit! :search_paths

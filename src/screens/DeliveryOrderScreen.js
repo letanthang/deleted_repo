@@ -38,7 +38,7 @@ class DeliveryOrderScreen extends Component {
     // const stringDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
     //timestamp
     const timestamp = date.getTime();
-    this.updateOrderToFail(this.buttonIndex, timestamp);
+    this.confirmUpdateOrderFail(this.buttonIndex, timestamp);
     this.setState({ modalShow: !this.state.modalShow });
   }
   
@@ -47,7 +47,7 @@ class DeliveryOrderScreen extends Component {
   }
 
   confirmUpdateOrder() {
-    const message = 'Bạn có chắc chắn muốn cập nhật đơn hàng trên ?';
+    const message = 'Bạn có chắc chắn muốn cập nhật đơn hàng trên: Đã giao ?';
     const title = 'Cập nhật đơn hàng ?';
   
     Alert.alert(
@@ -66,11 +66,25 @@ class DeliveryOrderScreen extends Component {
     this.props.updateOrderStatus({ OrderInfos });
   }
 
+  confirmUpdateOrderFail(buttonIndex, NewDate = 0) {
+    const message = 'Bạn có chắc chắn muốn cập nhật đơn hàng trên: Giao lỗi ?';
+    const title = 'Cập nhật đơn hàng ?';
+  
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.updateOrderToFail(buttonIndex, NewDate) }
+      ],
+      { cancelable: false }
+    );
+  }
   updateOrderToFailWithReason() {
     updateOrderToFailWithReason2(order.RecipientPhone, this.props.configuration, order.OrderCode)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
-        this.updateOrderToFail(buttonIndex);
+        this.confirmUpdateOrderFail(buttonIndex);
       } else if (error === 'cancel') {
       } else if (error === 'moreCall') {
       } else if (error === 'chooseDate') {

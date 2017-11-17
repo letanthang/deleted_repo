@@ -46,7 +46,7 @@ class Utils {
         case 'Storing':
           return 'Giao lỗi';
         default:
-          return 'Đang giao';
+          return 'Giao lỗi';
       }
     }
   }

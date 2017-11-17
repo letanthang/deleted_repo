@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -9,6 +10,7 @@ import {
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import Utils from '../../libs/Utils';
+import { navigateOnce } from '../../libs/Common';
 import LocalGroup from '../../libs/LocalGroup';
 import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 import StatusText from '../StatusText';
@@ -28,8 +30,11 @@ class DeliveryByGroup extends Component {
   componentDidUpdate(prevProps, prevState) {
 
   }
+
+  onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 500);
+
   onDeliveryOrderPress(OrderID) {
-    this.props.navigation.navigate('DeliveryOrder', { OrderID });
+    navigateOnce(this, 'DeliveryOrder', { OrderID });
   }
 
   renderStatusText(status) {

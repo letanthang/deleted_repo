@@ -14,10 +14,12 @@ import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
+import { navigateOnce } from '../libs/Common';
 import AppFooter from '../components/AppFooter';
 import MyMenu from '../components/MyMenu';
 import LogoButton from '../components/LogoButton';
 import BarcodeReader from '../components/BarcodeReader';
+
 
 const efficiencyIcon = require('../../resources/ic_summary.png');
 
@@ -54,23 +56,21 @@ class HomeScreen extends Component {
   }
   onTripListPress() {
     if (this.props.pickTotal === 0) return;
-    const { navigate } = this.props.navigation;
-    navigate('TripList');
+    
+    navigateOnce(this, 'TripList');
   }
   onPickPress() {
     if (this.props.pickTotal === 0) return;
-    const { navigate } = this.props.navigation;
-    navigate('PickList');
+    
+    navigateOnce(this, 'PickList');
   }
   onReturnPress() {
     if (this.props.returnTotal === 0) return;
-    const { navigate } = this.props.navigation;
-    navigate('ReturnList');
+    navigateOnce(this, 'ReturnList');
   }
   onDeliveryPress() {
     if (this.props.deliveryTotal === 0) return;
-    const { navigate } = this.props.navigation;
-    navigate('DeliveryList');
+    navigateOnce(this, 'DeliveryList');
   }
   onUpdateDataPress() {
     const dispatch = this.props.navigation.dispatch;

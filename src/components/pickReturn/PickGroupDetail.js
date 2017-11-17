@@ -9,6 +9,7 @@ import {
 } from 'native-base';
 import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone } from '../../actions';
 import Utils from '../../libs/Utils';
+import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
 import OrderStatusText from '../OrderStatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
@@ -66,14 +67,14 @@ class PickGroupDetail extends Component {
   }
 
   onOrderPress(order) {
-    const { navigate } = this.props.navigation;
+  
     const { OrderID } = order;
     const { ClientID, ClientHubID } = this.pickGroup;
     
     if (this.PickDeliveryType === 1) {
-      navigate('PickOrder', { OrderID, order, ClientID, ClientHubID });
+      navigateOnce(this, 'PickOrder', { OrderID, order, ClientID, ClientHubID });
     } else if (this.PickDeliveryType === 3) {
-      navigate('ReturnOrder', { OrderID, order, ClientHubID });
+      navigateOnce(this, 'ReturnOrder', { OrderID, order, ClientHubID });
     }
   }
 

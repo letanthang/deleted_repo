@@ -14,6 +14,7 @@ import { NavigationActions } from 'react-navigation';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
+import { navigateOnce } from '../libs/Common';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
@@ -31,7 +32,7 @@ class TripListScreen extends Component {
   }
 
   onTripPress(trip) {
-    this.props.navigation.navigate('PickGroupDetail', { pickGroup: trip });
+    navigateOnce(this, 'PickGroupDetail', { pickGroup: trip });
   }
 
   goBack() {
@@ -174,7 +175,7 @@ class TripListScreen extends Component {
   }
   goToReturnGroup(returnGroup) {
     if (returnGroup) {
-      this.props.navigation.navigate('ReturnGroupDetail', { pickGroup: returnGroup });
+      navigateOnce(this, 'ReturnGroupDetail', { pickGroup: returnGroup });
     }
   }
   renderCheckedIcon(orderNum, completedNum) {

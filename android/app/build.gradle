@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.thangcompany.mpds.android"
+        applicationId "com.mpds_new"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 11

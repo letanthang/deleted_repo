@@ -17,20 +17,26 @@ import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
 import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2 } from './Helper';
 
-let order = {};
+let order = null;
+let OrderID = null;
 class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
+    OrderID = this.props.navigation.state.params.OrderID;
+    order = Utils.getOrder(this.props.pds, OrderID);
   }
 
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
-  componentDidUpdate() {
-    const deliveryList = this.props.pds.DeliveryItems;
-    const OrderID = this.props.navigation.state.params.OrderID;
-    order = deliveryList.find(o => o.OrderID === OrderID);
+  componentWillReceiveProps(nextProps) {
+    if (this.props.pds != nextProps.pds) {
+      const newOrder = Utils.getOrder(nextProps.pds, OrderID);
+      if (order.CurrentStatus !== newOrder.CurrentStatus) {
+        this.props.navigation.goBack();
+      }
+    }
   }
 
   onChooseDate(date) {
@@ -137,11 +143,9 @@ class DeliveryOrderScreen extends Component {
   }
 
   render() {
-    const deliveryList = this.props.pds.DeliveryItems;
-    const OrderID = this.props.navigation.state.params.OrderID;
-    order = deliveryList.find(o => o.OrderID === OrderID);
+    order = Utils.getOrder(this.props.pds, OrderID);
 
-    const { navigate, goBack } = this.props.navigation;
+    const { goBack } = this.props.navigation;
     const { 
       RecipientName, RecipientPhone, DeliveryAddress, CODAmount,
       ClientName, ContactPhone, RequiredNote, OrderCode,
@@ -255,7 +259,6 @@ class DeliveryOrderScreen extends Component {
 }
 
 const mapStateToProps = ({ pd, auth, other }) => {
-  //const OrderID = ownProps.navigation.state.params.OrderID;
   const { sessionToken } = auth;
   const { pds, pdsId, loading } = pd;
   const { configuration } = other;

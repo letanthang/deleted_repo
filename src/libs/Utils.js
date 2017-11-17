@@ -70,11 +70,16 @@ class Utils {
     }
   }
   static checkDeliveryComplete(status) {
-    const completeList = ['Delivered', 'WaitingToFinish', 'Finish', 'Storing'];
-    if (completeList.includes(status)) {
-      return true;
+    // const completeList = ['Delivered', 'WaitingToFinish', 'Finish', 'Storing'];
+    // if (completeList.includes(status)) {
+    //   return true;
+    // }
+    // return false;
+    const unCompleteStatus = 'Delivering';
+    if (status === unCompleteStatus) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   static checkPickComplete(status) {

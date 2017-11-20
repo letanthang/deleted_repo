@@ -45,7 +45,7 @@ class DeliveryOrderScreen extends Component {
     //timestamp
     const timestamp = date.getTime();
     this.confirmUpdateOrderFail(this.buttonIndex, timestamp);
-    this.setState({ modalShow: !this.state.modalShow });
+    //this.setState({ modalShow: !this.state.modalShow });
   }
   
   onCancelDate() {
@@ -102,6 +102,7 @@ class DeliveryOrderScreen extends Component {
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getDeliveryFailOrderInfo(order, buttonIndex, NewDate);
     this.props.updateOrderStatus({ OrderInfos });
+    if (this.state.modalShow) this.setState({ modalShow: false });
   }
   
   renderButtons(currentStatus) {

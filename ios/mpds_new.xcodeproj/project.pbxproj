@@ -381,8 +381,8 @@
 		2D02E47B1E0B4A5D006451C7 /* mpds_new-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mpds_new-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* mpds_new-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mpds_new-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ADE64750E72768DE345AF57 /* Pods-mpds_newTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_newTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_newTests/Pods-mpds_newTests.release.xcconfig"; sourceTree = "<group>"; };
-		3D3305021FA1EBF300089F8B /* mpds_new.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mpds_new.entitlements; path = mpds_new/mpds_new.entitlements; sourceTree = "<group>"; };
 		3DD8991D1F384D4900F7A4F4 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
+		3DE030281FE8FBB600E366BA /* mpds_new.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mpds_new.entitlements; path = mpds_new/mpds_new.entitlements; sourceTree = "<group>"; };
 		3DF63E501FA088B5003D5417 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "mpds_new/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		47627062339F42EF9FBE6172 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		530D57CE080E4E37BBB5D0FA /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
@@ -569,7 +569,7 @@
 		13B07FAE1A68108700A75B9A /* mpds_new */ = {
 			isa = PBXGroup;
 			children = (
-				3D3305021FA1EBF300089F8B /* mpds_new.entitlements */,
+				3DE030281FE8FBB600E366BA /* mpds_new.entitlements */,
 				3DF63E501FA088B5003D5417 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -885,13 +885,22 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 34NKY4NYGZ;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = N7956XYWZ3;
+						DevelopmentTeam = 34NKY4NYGZ;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -1614,6 +1623,9 @@
 			baseConfigurationReference = AF99D3385A054998393A83BB /* Pods-mpds_newTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 34NKY4NYGZ;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1637,6 +1649,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mpds_new.app/mpds_new";
 			};
 			name = Debug;
@@ -1646,7 +1659,10 @@
 			baseConfigurationReference = 3ADE64750E72768DE345AF57 /* Pods-mpds_newTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 34NKY4NYGZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1666,6 +1682,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mpds_new.app/mpds_new";
 			};
 			name = Release;
@@ -1676,9 +1693,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = mpds_new/mpds_new.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = N7956XYWZ3;
+				DEVELOPMENT_TEAM = 34NKY4NYGZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1692,8 +1711,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.thangcompany.fcm;
+				PRODUCT_BUNDLE_IDENTIFIER = vn.ghn.driver;
 				PRODUCT_NAME = mpds_new;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1704,8 +1725,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = mpds_new/mpds_new.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N7956XYWZ3;
+				DEVELOPMENT_TEAM = 34NKY4NYGZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1719,8 +1742,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.thangcompany.fcm;
+				PRODUCT_BUNDLE_IDENTIFIER = vn.ghn.driver;
 				PRODUCT_NAME = mpds_new;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

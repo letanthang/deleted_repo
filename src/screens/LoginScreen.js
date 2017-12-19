@@ -1,5 +1,6 @@
 //import libs
 import React, { Component } from 'react';
+import firebase from 'react-native-firebase';
 import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native';
 import { 
   Container, Content, Button, Text, 
@@ -14,6 +15,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Colors } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 
+
 //create comp
 class LoginScreen extends Component {
   // static navigationOptions = {
@@ -27,6 +29,7 @@ class LoginScreen extends Component {
     LocalGroup.getLocalDB();
     this.props.loadSavedUserPass();
     this.props.loadSavedSession();
+    firebase.messaging().requestPermissions();
   }
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props.navigation;

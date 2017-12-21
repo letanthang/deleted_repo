@@ -23,7 +23,7 @@ class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
     OrderID = this.props.navigation.state.params.OrderID;
-    order = Utils.getOrder(this.props.pds, OrderID);
+    order = Utils.getOrder(this.props.pds, OrderID, 2);
   }
 
   componentDidMount() {
@@ -32,10 +32,11 @@ class DeliveryOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.pds != nextProps.pds) {
-      const newOrder = Utils.getOrder(nextProps.pds, OrderID);
+      const newOrder = Utils.getOrder(nextProps.pds, OrderID, 2);
       if (order.CurrentStatus !== newOrder.CurrentStatus) {
         this.props.navigation.goBack();
       }
+      order = newOrder;
     }
   }
 
@@ -144,7 +145,6 @@ class DeliveryOrderScreen extends Component {
   }
 
   render() {
-    order = Utils.getOrder(this.props.pds, OrderID);
 
     const { goBack } = this.props.navigation;
     const { 

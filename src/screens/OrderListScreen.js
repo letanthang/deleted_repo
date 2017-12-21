@@ -217,6 +217,7 @@ class OrderListScreen extends Component {
               </View>
             )}
             sections={sections}
+            keyExtractor={(item, index) => `${item.OrderID}_${item.PickDeliveryType}`}
           /> 
         </DataEmptyCheck>
         </Content>

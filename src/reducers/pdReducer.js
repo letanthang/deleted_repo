@@ -92,7 +92,7 @@ export default (state = nameInitialState, action) => {
 
       const pds = _.cloneDeep(state.pds);
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pds, info.OrderID);
+          const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
           order.CurrentStatus = info.NextStatus;
       });
       
@@ -127,8 +127,8 @@ export default (state = nameInitialState, action) => {
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
       const pds = state.pds;
-      const { OrderID, ClientHubID, ServiceCost, Length, Width, Height, Weight } = action.payload;
-      const order = Utils.getOrder(pds, OrderID, ClientHubID, 1);
+      const { OrderID, ServiceCost, Length, Width, Height, Weight } = action.payload;
+      const order = Utils.getOrder(pds, OrderID, 1);
       if (order.CODAmount != 0) {
         order.CODAmount = ServiceCost;
       }

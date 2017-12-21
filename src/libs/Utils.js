@@ -122,8 +122,8 @@ class Utils {
     return false;
   }
 
-  static getOrder(pds, OrderID) {
-    return pds.PDSItems.find(o => o.OrderID === OrderID);
+  static getOrder(pds, OrderID, PickDeliveryType) {
+    return pds.PDSItems.find(o => o.OrderID === OrderID && o.PickDeliveryType == PickDeliveryType);
   }
 
   static getReturnGroupFromPG(pds, pickGroup) {

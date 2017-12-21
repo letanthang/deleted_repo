@@ -349,7 +349,7 @@ const sampleResponse = {
             {
                 "OrderID": 36646333,
                 "OrderCode": "CDENMMM",
-                "CurrentStatus": "Picking",
+                "CurrentStatus": "Storing",
                 "RecipientName": "Le Tan Thang",
                 "RecipientPhone": "01668117449",
                 "CODAmount": 71500,

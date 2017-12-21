@@ -3,7 +3,8 @@ import {
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS
+  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
+  PD_ADD_ORDER
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -95,6 +96,36 @@ export default (state = nameInitialState, action) => {
           const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
           order.CurrentStatus = info.NextStatus;
       });
+      
+      transformPDS(pds);
+      const { 
+        pickTotal,
+        pickComplete,
+        returnTotal,
+        returnComplete,
+        deliveryTotal,
+        deliveryComplete } = calculateStatNumbers(pds);     
+
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        pds,
+        deliveryTotal,
+        deliveryComplete,
+        pickTotal,
+        pickComplete,
+        returnTotal,
+        returnComplete
+      };
+    }
+
+    case PD_ADD_ORDER: {
+      console.log('addOrder reducer');
+      const order = action.payload.order;
+      console.log(order);
+      const pds = _.cloneDeep(state.pds);
+      pds.PDSItems.push(order);
       
       transformPDS(pds);
       const { 

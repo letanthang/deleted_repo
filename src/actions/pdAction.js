@@ -4,7 +4,8 @@ import {
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
-  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS
+  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
+  PD_ADD_ORDER
 } from './types';
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
@@ -194,5 +195,13 @@ export const updateOrderGroup = (updateList) => {
   return {
     type: PD_UPDATE_GROUP,
     payload: updateList
+  };
+};
+
+export const addOneOrder = (order) => {
+  console.log('addOneOrder Action');
+  return {
+    type: PD_ADD_ORDER,
+    payload: { order }
   };
 };

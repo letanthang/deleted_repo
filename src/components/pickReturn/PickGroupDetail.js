@@ -7,7 +7,7 @@ import { accounting } from 'accounting';
 import { 
   Content, List
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone } from '../../actions';
+import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder } from '../../actions';
 import Utils from '../../libs/Utils';
 import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
@@ -17,7 +17,7 @@ import ActionButtons from './ActionButtons';
 import ActionAllButtons from './ActionAllButtons';
 import ActionModal from '../ActionModal';
 import { getUpdateOrderInfo } from './Helpers';
-
+import FormButton from '../FormButton';
 
 class PickGroupDetail extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
@@ -105,6 +105,15 @@ class PickGroupDetail extends Component {
     );
   }
 
+  acceptDeliverPress(order) {
+    const newOrder = _.clone(order);
+    newOrder.PickDeliveryType = 2;
+    newOrder.CurrentStatus = 'Delivering';
+    newOrder.Group = null;
+    console.log('acceptDeliveryPress!');
+    this.props.addOneOrder(newOrder);
+  }
+
   render() {
     const { done, pds } = this.props;
     const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
@@ -163,6 +172,17 @@ class PickGroupDetail extends Component {
                       <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
                     </View>
                     {this.renderInfosForPick({ Weight, Length, Width, Height })}
+                    {done ?
+                    <View style={Styles.itemStyle}>
+                      <FormButton
+                        disabled={false}
+                        theme='success'
+                        text="Nhận đi giao"
+                        width={100}
+                        onPress={this.acceptDeliverPress.bind(this, order)}
+                      />
+                    </View>
+                    : null}
                     <ActionButtons
                       done={done}
                       info={this.props.OrderInfos[OrderID]}
@@ -203,4 +223,4 @@ const mapStateToProps = ({ auth, pd, other, pickGroup }) => {
   return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder })(PickGroupDetail);

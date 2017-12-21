@@ -141,8 +141,10 @@ class DeliveryListScreen extends Component {
   render() {
     const { pds } = this.props;
     if (!pds || !pds.DeliveryItems) return this.renderNullData();
+    console.log(pds.DeliveryItems.length);
 
     const deliveryListRun = this.props.pds.DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
+    console.log(deliveryListRun.length);
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}

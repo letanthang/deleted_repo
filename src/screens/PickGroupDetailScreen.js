@@ -138,7 +138,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
-    const { pds } = this.props;
+    const { pds, loading, addOrderLoading } = this.props;
     const { PickItems, ReturnItems } = pds;
     const { PickDeliveryType } = this.pickGroup;
     const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
@@ -149,7 +149,7 @@ class PickGroupDetailScreen extends Component {
         {this.renderHeader(pickGroup)}
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <PickGroupDetail navigation={this.props.navigation} />
-        <LoadingSpinner loading={this.props.loading} />
+        <LoadingSpinner loading={loading || addOrderLoading} />
         {!this.props.done ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>
@@ -170,9 +170,9 @@ class PickGroupDetailScreen extends Component {
 
 const mapStateToProps = ({ auth, pd, pickGroup }) => {
   const { sessionToken } = auth;
-  const { pdsId, pds, loading } = pd;
+  const { pdsId, pds, loading, addOrderLoading } = pd;
   const { OrderInfos, done, keyword } = pickGroup;
-  return { sessionToken, pdsId, pds, loading, OrderInfos, done, keyword };
+  return { sessionToken, pdsId, pds, loading, addOrderLoading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone })(PickGroupDetailScreen);

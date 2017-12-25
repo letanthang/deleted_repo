@@ -114,6 +114,11 @@ class PickGroupDetail extends Component {
     this.props.addOneOrder(newOrder);
   }
 
+  checkDelivering(order) {
+    if (Utils.getOrder(this.props.pds, order.OrderID, 2)) return true;
+    return false;
+  }
+
   render() {
     const { done, pds } = this.props;
     const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
@@ -175,7 +180,7 @@ class PickGroupDetail extends Component {
                     {done ?
                     <View style={Styles.itemStyle}>
                       <FormButton
-                        disabled={false}
+                        disabled={this.checkDelivering(order)}
                         theme='success'
                         text="Nhận đi giao"
                         width={100}

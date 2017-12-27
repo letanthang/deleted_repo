@@ -13,6 +13,8 @@ class Utils {
         case 'Picking':
           if (nextStatus === null) return 'Lấy lỗi';
           return 'Đang lấy';
+        case 'Progress':
+          return 'Đang xử lý';
         default:
           return 'Đang lấy';
       }
@@ -65,6 +67,8 @@ class Utils {
         return 'green';
       case 'Đã trả':
         return 'green';
+      case 'Đang xử lý':
+        return 'black';
       default:
         return 'yellow';
     }

@@ -30,28 +30,16 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: true, error: '' };
     case PDLIST_FETCH_SUCCESS: {
       const pds = action.payload.pds;
-      transformPDS(pds);
+      const statNumbers = transformPDS(pds);
       addGroup(pds, action.payload.orderGroup);
-      const { 
-        pickTotal,
-        pickComplete,
-        returnTotal,
-        returnComplete,
-        deliveryTotal,
-        deliveryComplete } = calculateStatNumbers(pds);
       
-      
-      return { ...state, 
+      return { 
+        ...state,
+        ...statNumbers,
         error: '',
         pds,
-        pdsId: pds.PickDeliverySessionID, 
+        pdsId: pds.PickDeliverySessionID,
         loading: false,
-        pickTotal,
-        pickComplete,
-        returnTotal,
-        returnComplete,
-        deliveryTotal,
-        deliveryComplete
       };
     }
     case PDLIST_FETCH_FAIL:
@@ -98,26 +86,14 @@ export default (state = nameInitialState, action) => {
           order.CurrentStatus = info.NextStatus;
       });
       
-      transformPDS(pds);
-      const { 
-        pickTotal,
-        pickComplete,
-        returnTotal,
-        returnComplete,
-        deliveryTotal,
-        deliveryComplete } = calculateStatNumbers(pds);     
+      const statNumbers = transformPDS(pds);
 
       return {
         ...state,
+        ...statNumbers,
         loading: false,
         error: '',
         pds,
-        deliveryTotal,
-        deliveryComplete,
-        pickTotal,
-        pickComplete,
-        returnTotal,
-        returnComplete
       };
     }
 
@@ -138,26 +114,14 @@ export default (state = nameInitialState, action) => {
       const pds = _.cloneDeep(state.pds);
       pds.PDSItems.push(order);
       
-      transformPDS(pds);
-      const { 
-        pickTotal,
-        pickComplete,
-        returnTotal,
-        returnComplete,
-        deliveryTotal,
-        deliveryComplete } = calculateStatNumbers(pds);     
+      const statNumbers = transformPDS(pds);
 
       return {
         ...state,
+        ...statNumbers,
         addOrderLoading: false,
         error: '',
         pds,
-        deliveryTotal,
-        deliveryComplete,
-        pickTotal,
-        pickComplete,
-        returnTotal,
-        returnComplete
       };
     }
 
@@ -246,7 +210,24 @@ const transformPDS = (pds) => {
     group.PickReturnSOs = orders;
     pds.ReturnItems.push(group);
   });
-}
+
+  const { 
+    pickTotal,
+    pickComplete,
+    returnTotal,
+    returnComplete,
+    deliveryTotal,
+    deliveryComplete } = calculateStatNumbers(pds);
+
+  return { 
+    pickTotal,
+    pickComplete,
+    returnTotal,
+    returnComplete,
+    deliveryTotal,
+    deliveryComplete 
+  };
+};
 
 const addGroup = (pds, orderGroup) => {
   pds.DeliveryItems.forEach((order, index) => {

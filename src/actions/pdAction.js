@@ -97,7 +97,7 @@ export const updateOrderStatus = (infos) => {
   }
 
   return ((dispatch, getState) => {
-    dispatch({ type: UPDATE_ORDER_STATUS });
+    dispatch({ type: UPDATE_ORDER_STATUS, payload: OrderInfos });
     const { pdsId } = getState().pd;
     API.UpdatePickDeliverySession({
       PDSID: pdsId,

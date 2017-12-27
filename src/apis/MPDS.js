@@ -138,7 +138,7 @@ export const AddOrders = (OrderCodes, psdID, PickDeliveryType = 2) => {
     const URL = `${BASE_URL}/pds`;
     const LoginHeader = Share.LoginHeader;
 
-    const type = PickDeliveryType == 2 ? 'deliver' : 'pick';
+    const type = PickDeliveryType == 2 ? 'DELIVER' : 'PICK';
     const config = {
         headers: LoginHeader,
         timeout: 90000

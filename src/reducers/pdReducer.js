@@ -48,9 +48,21 @@ export default (state = nameInitialState, action) => {
       return { ...nameInitialState, error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.' };
     
     case UPDATE_ORDER_STATUS: {
+      const OrderInfos = action.payload.OrderInfos;
+
+      const pds = _.cloneDeep(state.pds);
+      _.each(OrderInfos, info => {
+          const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
+          order.CurrentStatus = 'Progress';
+      });
+      
+      const statNumbers = transformPDS(pds);
+
       return {
         ...state,
-        loading: true
+        ...statNumbers,
+        pds,
+        //loading: true
       };
     }
 
@@ -78,12 +90,29 @@ export default (state = nameInitialState, action) => {
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
 
-      const OrderInfos = action.payload;
+      const OrderInfos = action.payload.OrderInfos;
+      const FailedOrders = action.payload.FailedOrders;
 
       const pds = _.cloneDeep(state.pds);
       _.each(OrderInfos, info => {
           const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
-          order.CurrentStatus = info.NextStatus;
+          if (FailedOrders instanceof Array && FailedOrders.length > 0 && FailedOrders.includes(info.OrderID)) {
+            switch (info.PickDeliveryType) {
+              case 1:
+                order.CurrentStatus = 'Picking';
+                break;
+              case 2:
+                order.CurrentStatus = 'Delivering';
+                break;
+              case 3:
+                order.CurrentStatus = 'Returning';
+                break;
+              default:
+                break;
+            }
+          } else {
+            order.CurrentStatus = info.NextStatus;
+          }
       });
       
       const statNumbers = transformPDS(pds);

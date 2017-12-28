@@ -92,11 +92,15 @@ export default (state = nameInitialState, action) => {
 
       const OrderInfos = action.payload.OrderInfos;
       const FailedOrders = action.payload.FailedOrders;
+      let ids = [];
+      if (FailedOrders instanceof Array && FailedOrders.length > 0) {
+        ids = FailedOrders.map(o => o.order_id);
+      }
 
       const pds = _.cloneDeep(state.pds);
       _.each(OrderInfos, info => {
           const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
-          if (FailedOrders instanceof Array && FailedOrders.length > 0 && FailedOrders.includes(info.OrderID)) {
+          if (ids.length > 0 && ids.includes(info.OrderID)) {
             switch (info.PickDeliveryType) {
               case 1:
                 order.CurrentStatus = 'Picking';

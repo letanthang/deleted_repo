@@ -3,7 +3,7 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { 
   Container, Header, Title, Left, Body, 
   Right, Content, Text, Button, Icon,
-  Card, CardItem, Toast, Input, Item
+  Card, CardItem, Toast, Input, Item, ActionSheet
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -279,6 +279,7 @@ class HomeScreen extends Component {
   render() {
     return (
         <Container style={{ backgroundColor: Colors.background }}>
+          <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
           {this.renderHeader()}
           {this.renderContent()}
           {this.renderFooter()}

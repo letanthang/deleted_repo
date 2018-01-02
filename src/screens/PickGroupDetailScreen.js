@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert } from 'react-native';
+import { View, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -9,12 +9,14 @@ import {
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Bar } from 'react-native-progress';
 import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone } from '../actions';
-// import Utils from './libs/Utils';
+import Utils from '../libs/Utils';
 import { Styles, Colors } from '../Styles';
 import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
 import LoadingSpinner from '../components/LoadingSpinner';
 import LogoButton from '../components/LogoButton';
+
 
 class PickGroupDetailScreen extends Component {
   state = { showSearch: false };
@@ -23,13 +25,22 @@ class PickGroupDetailScreen extends Component {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.totalNum = this.pickGroup.PickReturnSOs.length;
+    this.doneNum = this.pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps({ pds }) {
+    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    this.doneNum = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
   }
 
   componentWillUnmount() {
     this.props.resetPickGroup();
+  }
+
+  checkComplete(order) {
+    return Utils.checkPickComplete(order.CurrentStatus);
   }
 
   updateOrder() {
@@ -139,6 +150,7 @@ class PickGroupDetailScreen extends Component {
 
   render() {
     const { pds, loading, addOrderLoading } = this.props;
+    const { width } = Dimensions.get('window');
     const { PickItems, ReturnItems } = pds;
     const { PickDeliveryType } = this.pickGroup;
     const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
@@ -150,6 +162,18 @@ class PickGroupDetailScreen extends Component {
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <PickGroupDetail navigation={this.props.navigation} />
         <LoadingSpinner loading={loading || addOrderLoading} />
+        <View style={{ flexDirection: 'row', paddingTop: 20, paddingBottom: 20 }}>
+          <Bar 
+            color='blue'
+            unfilledColor='#ccc'
+            borderRadius={2}
+            progress={this.doneNum / this.totalNum}
+            height={10}
+            width={width - 20}
+            indeterminate={false}
+            style={{ marginLeft: 10, marginRight: 10 }}
+          />
+        </View>
         {!this.props.done ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>

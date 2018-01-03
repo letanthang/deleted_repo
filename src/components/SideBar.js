@@ -2,11 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { phonecall } from 'react-native-communications';
+import { View, StyleSheet } from 'react-native';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { 
-  Container, Content, Button, List, ListItem, 
+  Container, Content, List, ListItem, 
   Text, Icon, Left, Body, Right 
 } from 'native-base';
 import { logoutUser, pdListNoTrip, pdListFetch } from '../actions';
@@ -44,9 +43,9 @@ class SideBar extends Component {
   render() {
     let CoordinatorFullName = '';
     let CoordinatorPhone = '';
-    if (this.props.pds) {
-      CoordinatorFullName = this.props.pds.CoordinatorFullName;
-      CoordinatorPhone = this.props.pds.CoordinatorPhone;
+    if (this.props.PDSItems) {
+      CoordinatorFullName = this.props.Infos.CoordinatorFullName;
+      CoordinatorPhone = this.props.Infos.CoordinatorPhone;
     }
     
     const { UserID, FullName } = this.props.user;
@@ -133,19 +132,10 @@ class SideBar extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-
-  },
-  buttonStyle: {
-    
-  }
-});
-
 const mapStateToProps = ({ auth, pd }) => {
   const { user } = auth;
-  const { pds } = pd;
-  return { user, pds };
+  const { PDSItems, Infos } = pd;
+  return { user, PDSItems, Infos };
 };
 //make avai
 export default connect(mapStateToProps, { logoutUser, pdListNoTrip, pdListFetch })(SideBar);

@@ -1,13 +1,10 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { FlatList, View, TouchableOpacity } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
-  Icon, Button, Title, Text,
-  Header, Input, Item
+  Icon, Button, Text,
+  Header
 } from 'native-base';
-import IconFA from 'react-native-vector-icons/FontAwesome';
-import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Utils from '../libs/Utils';
@@ -102,17 +99,17 @@ class OrderListScreen extends Component {
   }
 
   render() {
-    const { pds } = this.props;
+    const { PDSItems } = this.props;
     let i = 0;
-    let limit = 5;
-    const items = pds.PDSItems.filter(o => {
+    const limit = 5;
+    const items = PDSItems.filter(o => {
       if (i < limit && this.checkKeywork(o)) {
         i++;
         return true;
       }
       return false;
     });
-    if (!pds || !pds.PDSItems || !items) return this.renderNullData();
+    if (!PDSItems || !items) return this.renderNullData();
 
     return (
         <Content style={{ backgroundColor: Colors.row }}>
@@ -159,8 +156,8 @@ class OrderListScreen extends Component {
 }
 
 const mapStateToProps = ({ pd }) => {
-  const { pds, deliveryTotal, deliveryComplete } = pd;
-  return { pds, deliveryTotal, deliveryComplete };
+  const { PDSItems } = pd;
+  return { PDSItems };
 };
 
 export default connect(mapStateToProps, {})(OrderListScreen);

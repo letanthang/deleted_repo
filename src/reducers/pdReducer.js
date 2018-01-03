@@ -9,7 +9,7 @@ import {
 import Utils from '../libs/Utils';
 
 const nameInitialState = {
-  pds: null,
+  PDSItems: null,
   pdsId: null,
   currentDeliveryOrder: null,
   pickTotal: 0,
@@ -30,16 +30,15 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: true, error: '' };
     case PDLIST_FETCH_SUCCESS: {
       const pds = action.payload.pds;
-      const statNumbers = transformPDS(pds);
-      addGroup(pds, action.payload.orderGroup);
+      const { PDSItems, EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID } = pds;
       
       return { 
         ...state,
-        ...statNumbers,
-        error: '',
-        pds,
-        pdsId: pds.PickDeliverySessionID,
+        PDSItems,
+        Infos: { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID },
+        pdsId: PickDeliverySessionID,
         loading: false,
+        error: '',
       };
     }
     case PDLIST_FETCH_FAIL:
@@ -216,50 +215,14 @@ export default (state = nameInitialState, action) => {
 //
 //
 
+const getKey = (orderID, type) => `${orderID}-${type}`;
+
 const transformPDS = (pds) => {
   // create PickItems, DeliveryItems, ReturnItems
-  pds.DeliveryItems = pds.PDSItems.filter(o => o.PickDeliveryType === 2);
-
-  let items = pds.PDSItems.filter(o => o.PickDeliveryType === 1);
-  let groups = _.groupBy(items, 'ClientHubID');
-  pds.PickItems = [];
-  _.forEach(groups, (orders, key) => {
-    const order = orders[0];
-    const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
-
-    const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
-    group.PickReturnSOs = orders;
-    pds.PickItems.push(group);
+  pds.PDSItems = {};
+  pds.PDSItems.forEach(item => {
+    pds.PDSItems[getKey(item.OrderID, item.PickDeliveryType)] = item;
   });
-
-  items = pds.PDSItems.filter(o => o.PickDeliveryType === 3);
-  groups = _.groupBy(items, 'ClientHubID');
-  pds.ReturnItems = [];
-  _.forEach(groups, (orders, key) => {
-    const order = orders[0];
-    const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
-
-    const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
-    group.PickReturnSOs = orders;
-    pds.ReturnItems.push(group);
-  });
-
-  const { 
-    pickTotal,
-    pickComplete,
-    returnTotal,
-    returnComplete,
-    deliveryTotal,
-    deliveryComplete } = calculateStatNumbers(pds);
-
-  return { 
-    pickTotal,
-    pickComplete,
-    returnTotal,
-    returnComplete,
-    deliveryTotal,
-    deliveryComplete 
-  };
 };
 
 const addGroup = (pds, orderGroup) => {

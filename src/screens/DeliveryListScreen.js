@@ -13,6 +13,7 @@ import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
+import { get3Type, getNumbers } from '../selectors';
 import { Colors, Styles } from '../Styles';
 
 class DeliveryListScreen extends Component {
@@ -42,6 +43,7 @@ class DeliveryListScreen extends Component {
 
   renderHeader() {
     const { navigate, goBack } = this.props.navigation;
+    const { deliveryComplete, deliveryTotal } = this.props.stats;
     if (this.state.showSearch) {
       return (
         <Header searchBar>
@@ -98,7 +100,7 @@ class DeliveryListScreen extends Component {
           
         </Left>
         <Body style={Styles.bodyStyle}>
-          <Title>Giao ({this.props.deliveryComplete}/{this.props.deliveryTotal})</Title>
+          <Title>Giao ({deliveryComplete}/{deliveryTotal})</Title>
         </Body>
         <Right style={Styles.rightStyle}>
           <Button
@@ -138,13 +140,12 @@ class DeliveryListScreen extends Component {
       </Container>
     );
   }
-  render() {
-    const { pds } = this.props;
-    if (!pds || !pds.DeliveryItems) return this.renderNullData();
-    console.log(pds.DeliveryItems.length);
 
-    const deliveryListRun = this.props.pds.DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
-    console.log(deliveryListRun.length);
+  render() {
+    const { DeliveryItems } = this.props;
+    if (!DeliveryItems) return this.renderNullData();
+
+    const deliveryListRun = DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
@@ -156,9 +157,10 @@ class DeliveryListScreen extends Component {
 
 }
 
-const mapStateToProps = ({ pd }) => {
-  const { pds, deliveryTotal, deliveryComplete } = pd;
-  return { pds, deliveryTotal, deliveryComplete };
+const mapStateToProps = (state) => {
+  const { DeliveryItems } = get3Type(state);
+  const stats = getNumbers(state);
+  return { DeliveryItems, stats };
 };
 
 export default connect(mapStateToProps, {})(DeliveryListScreen);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { 
-  Container, Header, Title, Left, Body, 
+  Container, Header, Left,
   Right, Content, Text, Button, Icon,
   Card, CardItem, Toast, Input, Item, ActionSheet
 } from 'native-base';
@@ -10,9 +10,10 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import SearchList from '../components/SearchList';
 import { pdListFetch } from '../actions';
+import { getNumbers } from '../selectors';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { HomeStyles, Styles, Colors, Theme } from '../Styles';
+import { HomeStyles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 import { navigateOnce } from '../libs/Common';
 import AppFooter from '../components/AppFooter';
@@ -27,7 +28,7 @@ class HomeScreen extends Component {
   state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     // const params = this.props.navigation.state.params;
-    if (!this.props.pds) {
+    if (!this.props.PDSItems) {
       this.props.pdListFetch();
     }
     this.listGroups();
@@ -103,7 +104,7 @@ class HomeScreen extends Component {
   }
 
   onSearchPress() {
-    if (this.state.showSearch === false && this.props.pds === null) return;
+    if (this.state.showSearch === false && this.props.PDSItems === null) return;
     this.setState({ showSearch: !this.state.showSearch });
   }
 
@@ -198,29 +199,30 @@ class HomeScreen extends Component {
       );
     }
     const { navigate } = this.props.navigation;
+    const { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete } = this.props.stats;
     return (
       <Content style={{ padding: 10 }}>
       <PDCard
         type='pick'
         onPress={this.onTripListPress.bind(this)}
-        upNumber={this.props.pickComplete}
-        downNumber={this.props.pickTotal}
+        upNumber={pickComplete}
+        downNumber={pickTotal}
         color='#12cd72'
         delay={false}
       />
       <PDCard
         type='delivery'
         onPress={this.onDeliveryPress.bind(this)}
-        upNumber={this.props.deliveryComplete}
-        downNumber={this.props.deliveryTotal}
+        upNumber={deliveryComplete}
+        downNumber={deliveryTotal}
         color='#ff6e40'
         delay={false}
       />
       <PDCard
         type='return'
         onPress={this.onReturnPress.bind(this)}
-        upNumber={this.props.returnComplete}
-        downNumber={this.props.returnTotal}
+        upNumber={returnComplete}
+        downNumber={returnTotal}
         color='#606060'
         delay={false}
       />
@@ -293,23 +295,12 @@ class HomeScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, pd }) => {
-  const { 
-    pds, loading, error, pickTotal, pickComplete, 
-    deliveryTotal, deliveryComplete, returnTotal, returnComplete } = pd;
-  const { user } = auth;
-  return { 
-    pds, 
-    loading, 
-    error, 
-    user, 
-    pickTotal,
-    pickComplete, 
-    deliveryTotal, 
-    deliveryComplete, 
-    returnTotal, 
-    returnComplete 
-  };
+const mapStateToProps = (state) => {
+  const { loading, error, PDSItems } = state.pd;
+  const { user } = state.auth;
+  
+  const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
+  return { loading, error, user, stats, PDSItems };
 };
 
 export default connect(mapStateToProps, { pdListFetch })(HomeScreen);

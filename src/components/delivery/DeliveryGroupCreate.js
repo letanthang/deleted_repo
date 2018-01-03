@@ -5,13 +5,12 @@ import { View, TextInput, TouchableOpacity, ListView } from 'react-native';
 import { 
   Content, Text, 
   Button,
-  List
 } from 'native-base';
 import { CheckBox } from 'react-native-elements';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 import LocalGroup from '../../libs/LocalGroup';
 import Utils from '../../libs/Utils';
+import { get3Type } from '../../selectors';
 import { updateOrderGroup, pdListFetch } from '../../actions';
 import DataEmptyCheck from '../DataEmptyCheck';
 
@@ -19,7 +18,6 @@ let checkList = {};
 class DeliveryGroupCreate extends Component {
   componentWillMount() {
     
-    const pds = this.props.pds;
     const GroupLength = LocalGroup.getGroups().length + 1;
     const GroupName = `nhom${GroupLength}`;
     const dataSource = this.getDataSource(this.props);
@@ -27,7 +25,7 @@ class DeliveryGroupCreate extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const list = nextProps.pds.DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
+    const list = nextProps.DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
     checkList = {};
     list.forEach(order => { checkList[order.OrderID] = false; });
     this.createDataSource(nextProps);
@@ -80,14 +78,14 @@ class DeliveryGroupCreate extends Component {
     }
   }
   
-  createDataSource({ pds }) {
+  createDataSource({ DeliveryItems }) {
     
-    const dataSource = this.getDataSource({ pds });
+    const dataSource = this.getDataSource({ DeliveryItems });
     this.setState({ dataSource });
   }
 
-  getDataSource({ pds }) {
-    const list = pds.DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
+  getDataSource({ DeliveryItems }) {
+    const list = DeliveryItems.filter(order => order.Group === null && !Utils.checkDeliveryComplete(order.CurrentStatus));
     list.forEach((order, index) => {
       list[index].groupChecked = checkList[order.OrderID];
     });
@@ -169,8 +167,8 @@ class DeliveryGroupCreate extends Component {
     );
   }
 }
-const mapStateToProps = ({ pd }) => {
-  const { pds } = pd;
-  return { pds };
+const mapStateToProps = (state) => {
+  const { DeliveryItems } = get3Type(state);
+  return { DeliveryItems };
 };
 export default connect(mapStateToProps, { updateOrderGroup, pdListFetch })(DeliveryGroupCreate);

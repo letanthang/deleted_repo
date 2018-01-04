@@ -1,11 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { SearchBar } from 'react-native-elements';
 import Accordion from 'react-native-collapsible/Accordion';
 import { 
-  Content, Card, CardItem, Text,
-  List, ListItem, Item, Right, Badge 
+  Content, Text,
+  List, Badge
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -15,20 +14,15 @@ import LocalGroup from '../../libs/LocalGroup';
 import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 import StatusText from '../StatusText';
 import DataEmptyCheck from '../DataEmptyCheck';
+import { get3Type } from '../../selectors';
 
 class DeliveryByGroup extends Component {
   state = { activeGroup: 0, keyword: '' };
   componentWillMount() {
   }
-  componentWillUpdate() {
-    
-  }
   componentWillReceiveProps(nextProps) {
     const { keyword } = nextProps;
     this.setState({ keyword });
-  }
-  componentDidUpdate(prevProps, prevState) {
-
   }
 
   onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 500);
@@ -98,12 +92,14 @@ class DeliveryByGroup extends Component {
   renderGroup(Group) {
     let deliveryList = {};
     if (Group === 'Đã xong') {
-      deliveryList = this.props.pds.DeliveryItems.filter(order => Utils.checkDeliveryComplete(order.CurrentStatus)
+      deliveryList = this.props.DeliveryItems.filter(order => Utils.checkDeliveryComplete(order.CurrentStatus)
         && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
     } else {
-      deliveryList = this.props.deliveryList.filter(order => order.Group === Group
+      deliveryList = this.props.DeliveryItems.filter(order => order.Group === Group
         && (this.state.keyword === '' || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase())));
     }
+
+    console.log(deliveryList);
     
     return (
       <DataEmptyCheck
@@ -120,11 +116,9 @@ class DeliveryByGroup extends Component {
     );
   }
   render() {
-    
-    const deliveryList = this.props.deliveryList;
     const groups = _.clone(LocalGroup.getGroups());
     groups.push('Đã xong');
-    groups.unshift(null);
+    groups.unshift(undefined);
     return (
       <Content style={{ backgroundColor: Colors.background }}>
       <Accordion
@@ -195,9 +189,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({ pd }) => {
-  const { pds } = pd;
-  return { pds };
+const mapStateToProps = (state) => {
+  const { DeliveryItems } = get3Type(state);
+  return { DeliveryItems };
 };
 
 export default connect(mapStateToProps)(DeliveryByGroup);

@@ -30,6 +30,7 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: true, error: '' };
     case PDLIST_FETCH_SUCCESS: {
       const pds = action.payload.pds;
+      transformPDS(pds);
       const { PDSItems, EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID } = pds;
       
       return { 
@@ -219,10 +220,11 @@ const getKey = (orderID, type) => `${orderID}-${type}`;
 
 const transformPDS = (pds) => {
   // create PickItems, DeliveryItems, ReturnItems
-  pds.PDSItems = {};
+  const temp = {};
   pds.PDSItems.forEach(item => {
-    pds.PDSItems[getKey(item.OrderID, item.PickDeliveryType)] = item;
+    temp[getKey(item.OrderID, item.PickDeliveryType)] = item;
   });
+  pds.PDSItems = [temp];
 };
 
 const addGroup = (pds, orderGroup) => {

@@ -6,9 +6,9 @@ import {
   Header, Button, Left, Right, Body,
   List, ActionSheet
 } from 'native-base';
-import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
+import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import FormButton from '../components/FormButton';
@@ -23,7 +23,7 @@ class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
     OrderID = this.props.navigation.state.params.OrderID;
-    order = Utils.getOrder(this.props.pds, OrderID, 2);
+    order = Utils.getOrder(this.props.db, OrderID, 2);
   }
 
   componentDidMount() {
@@ -31,8 +31,8 @@ class DeliveryOrderScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.pds != nextProps.pds) {
-      const newOrder = Utils.getOrder(nextProps.pds, OrderID, 2);
+    if (this.props.db != nextProps.db) {
+      const newOrder = Utils.getOrder(nextProps.db, OrderID, 2);
       if (order.CurrentStatus !== newOrder.CurrentStatus) {
         this.props.navigation.goBack();
       }
@@ -259,11 +259,13 @@ class DeliveryOrderScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ pd, auth, other }) => {
+const mapStateToProps = (state) => {
+  const { pd, auth, other } = state;
   const { sessionToken } = auth;
-  const { pds, pdsId, loading } = pd;
+  const { pdsId, loading } = pd;
+  const db = getOrders(state);
   const { configuration } = other;
-  return { pds, pdsId, sessionToken, loading, configuration };
+  return { db, pdsId, sessionToken, loading, configuration };
 };
 
 

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 import Utils from '../libs/Utils';
 
-const getOrders = ({ pd }) => pd.PDSItems;
+export const getOrders = ({ pd }) => pd.PDSItems === null ? null : pd.PDSItems[0];
 
 export const get3Type = createSelector(
   [getOrders],

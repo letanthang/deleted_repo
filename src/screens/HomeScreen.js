@@ -27,6 +27,7 @@ const efficiencyIcon = require('../../resources/ic_summary.png');
 class HomeScreen extends Component {
   state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
+    console.log('HomeScreen');
     // const params = this.props.navigation.state.params;
     if (!this.props.PDSItems) {
       this.props.pdListFetch();

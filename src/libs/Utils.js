@@ -125,9 +125,9 @@ class Utils {
     }
     return false;
   }
-
-  static getOrder(pds, OrderID, PickDeliveryType) {
-    return pds.PDSItems.find(o => o.OrderID === OrderID && o.PickDeliveryType == PickDeliveryType);
+  static getKey = (orderID, type) => `${orderID}-${type}`;
+  static getOrder(items, OrderID, PickDeliveryType) {
+    return items[Utils.getKey(OrderID, PickDeliveryType)];
   }
 
   static getReturnGroupFromPG(pds, pickGroup) {

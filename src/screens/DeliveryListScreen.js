@@ -145,11 +145,10 @@ class DeliveryListScreen extends Component {
     const { DeliveryItems } = this.props;
     if (!DeliveryItems) return this.renderNullData();
 
-    const deliveryListRun = DeliveryItems.filter(o => !Utils.checkDeliveryComplete(o.CurrentStatus));
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
-        <DeliveryByGroup deliveryList={deliveryListRun} navigation={this.props.navigation} keyword={this.state.keyword} />
+        <DeliveryByGroup navigation={this.props.navigation} keyword={this.state.keyword} />
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );

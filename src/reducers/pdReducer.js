@@ -49,19 +49,17 @@ export default (state = nameInitialState, action) => {
     
     case UPDATE_ORDER_STATUS: {
       const OrderInfos = action.payload.OrderInfos;
-
       const PDSItems = _.cloneDeep(state.PDSItems);
+
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
+          const order = Utils.getOrder(PDSItems[0], info.OrderID, info.PickDeliveryType);
           order.CurrentStatus = 'Progress';
       });
       
-      const statNumbers = transformPDS(pds);
 
       return {
         ...state,
-        ...statNumbers,
-        
+        PDSItems
         //loading: true
       };
     }
@@ -97,9 +95,9 @@ export default (state = nameInitialState, action) => {
         ids = FailedOrders.map(o => o.order_id);
       }
 
-      const pds = _.cloneDeep(state.pds);
+      const PDSItems = _.cloneDeep(state.PDSItems);
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
+          const order = Utils.getOrder(PDSItems[0], info.OrderID, info.PickDeliveryType);
           if (ids.length > 0 && ids.includes(info.OrderID)) {
             switch (info.PickDeliveryType) {
               case 1:
@@ -119,14 +117,12 @@ export default (state = nameInitialState, action) => {
           }
       });
       
-      const statNumbers = transformPDS(pds);
 
       return {
         ...state,
-        ...statNumbers,
         loading: false,
         error: '',
-        pds,
+        PDSItems,
       };
     }
 

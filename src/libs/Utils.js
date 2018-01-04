@@ -130,9 +130,9 @@ class Utils {
     return items[Utils.getKey(OrderID, PickDeliveryType)];
   }
 
-  static getReturnGroupFromPG(pds, pickGroup) {
+  static getReturnGroupFromPG(ReturnItems, pickGroup) {
     const { ClientHubID } = pickGroup;
-    const returnGroup = pds.ReturnItems.find(rg => rg.ClientHubID === ClientHubID);
+    const returnGroup = ReturnItems.find(rg => rg.ClientHubID === ClientHubID);
     return returnGroup;
   }
   static checkPickGroupHasRP(pds, pickGroup) {

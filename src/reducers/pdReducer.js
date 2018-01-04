@@ -3,7 +3,7 @@ import {
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
+  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL
  } from '../actions/types';
 import Utils from '../libs/Utils';
@@ -50,7 +50,7 @@ export default (state = nameInitialState, action) => {
     case UPDATE_ORDER_STATUS: {
       const OrderInfos = action.payload.OrderInfos;
 
-      const pds = _.cloneDeep(state.pds);
+      const PDSItems = _.cloneDeep(state.PDSItems);
       _.each(OrderInfos, info => {
           const order = Utils.getOrder(pds, info.OrderID, info.PickDeliveryType);
           order.CurrentStatus = 'Progress';
@@ -61,7 +61,7 @@ export default (state = nameInitialState, action) => {
       return {
         ...state,
         ...statNumbers,
-        pds,
+        
         //loading: true
       };
     }

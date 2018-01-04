@@ -3,17 +3,17 @@ import React, { Component } from 'react';
 import { SectionList, View, TouchableOpacity } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
-  Icon, Button, Title, Text, Card,
+  Icon, Button, Title, Text,
   Header, Item, Input
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import accounting from 'accounting';
-import * as Communications from 'react-native-communications';
 import { NavigationActions } from 'react-navigation';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
+import { get3Type } from '../selectors';
 import { navigateOnce } from '../libs/Common';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
@@ -22,7 +22,7 @@ import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 class TripListScreen extends Component {
   state = { done: false, showSearch: false, keyword: '', activeTrip: null, activeTripShow: true };
   componentWillMount() {
-    
+    console.log('here');
   }
   componentWillUpdate() {
     
@@ -186,7 +186,7 @@ class TripListScreen extends Component {
   }
   renderHasReturnWarning(pickGroup) {
     if (pickGroup.PickDeliveryType != '1') return null;
-    const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
+    const returnGroup = Utils.getReturnGroupFromPG(this.props.ReturnItems, pickGroup);
     if (!returnGroup) return null;
     return (
       <Button
@@ -202,10 +202,10 @@ class TripListScreen extends Component {
     );
   }
   render() {
-    const { pds } = this.props;
-    if (!pds || !pds.PickItems) return this.renderNullData();
+    const { PickItems } = this.props;
+    if (!PickItems) return this.renderNullData();
 
-    const items = pds.PickItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
+    const items = PickItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
     const datas = _.groupBy(items, 'ClientID');
     let first = true;
     const sections = _.map(datas, (item) => {
@@ -335,9 +335,9 @@ const styles = {
 };
 
 
-const mapStateToProps = ({ pd }) => {
-  const { pds, deliveryTotal, deliveryComplete } = pd;
-  return { pds, deliveryTotal, deliveryComplete };
+const mapStateToProps = (state) => {
+  const { PickItems, ReturnItems } = get3Type(state);
+  return { PickItems, ReturnItems };
 };
 
 export default connect(mapStateToProps, {})(TripListScreen);

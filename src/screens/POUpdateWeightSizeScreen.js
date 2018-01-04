@@ -9,6 +9,7 @@ import {
 import accounting from 'accounting';
 
 import Utils from '../libs/Utils';
+import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { calculateServiceFee, updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
@@ -28,7 +29,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   componentDidUpdate() {
-    const order = Utils.getOrder(this.props.pds, OrderID, 1);
+    const order = Utils.getOrder(this.props.db, OrderID, 1);
     if (waitToSave) {
       this.showSaveDialog();
       waitToSave = false;
@@ -137,7 +138,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
-    const order = Utils.getOrder(this.props.pds, OrderID, 1);
+    const order = Utils.getOrder(this.props.db, OrderID, 1);
     const { OrderCode, ServiceCost, CODAmount, Weight, Length, Width, Height } = order;
     
     if (this.state.Weight === null) {
@@ -250,13 +251,13 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ pd, auth, other }) => {
-  //const OrderID = ownProps.navigation.state.params.OrderID;
+const mapStateToProps = (state) => {
+  const { pd, auth, other } = state;
   const { sessionToken } = auth;
-  const { pds, pdsId, loading } = pd;
+  const { pdsId, loading } = pd;
   const { ServiceFee } = other;
-
-  return { pds, sessionToken, ServiceFee, pdsId, loading };
+  const db = getOrders(state);
+  return { db, sessionToken, ServiceFee, pdsId, loading };
 };
 
 

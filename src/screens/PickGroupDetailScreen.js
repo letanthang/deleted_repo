@@ -7,10 +7,10 @@ import {
   Button, Icon, Tabs, Tab, Footer, FooterTab,
   Title, Input, Item, Text, ActionSheet
 } from 'native-base';
-import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
 import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone } from '../actions';
+import { get3Type } from '../selectors';
 import Utils from '../libs/Utils';
 import { Styles, Colors } from '../Styles';
 import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
@@ -29,8 +29,8 @@ class PickGroupDetailScreen extends Component {
     this.doneNum = this.pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
   }
 
-  componentWillReceiveProps({ pds }) {
-    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+  componentWillReceiveProps({ PickItems, ReturnItems }) {
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     this.doneNum = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
   }
@@ -149,9 +149,8 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
-    const { pds, loading, addOrderLoading } = this.props;
+    const { loading, addOrderLoading, PickItems, ReturnItems } = this.props;
     const { width } = Dimensions.get('window');
-    const { PickItems, ReturnItems } = pds;
     const { PickDeliveryType } = this.pickGroup;
     const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(trip => trip.ClientHubID === this.ClientHubID); 
@@ -192,11 +191,13 @@ class PickGroupDetailScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, pd, pickGroup }) => {
+const mapStateToProps = (state) => {
+  const { auth, pd, pickGroup } = state;
   const { sessionToken } = auth;
-  const { pdsId, pds, loading, addOrderLoading } = pd;
+  const { pdsId, loading, addOrderLoading } = pd;
   const { OrderInfos, done, keyword } = pickGroup;
-  return { sessionToken, pdsId, pds, loading, addOrderLoading, OrderInfos, done, keyword };
+  const { PickItems, ReturnItems } = get3Type(state);
+  return { PickItems, ReturnItems, sessionToken, pdsId, state, loading, addOrderLoading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone })(PickGroupDetailScreen);

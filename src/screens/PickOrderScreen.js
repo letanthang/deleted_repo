@@ -10,6 +10,7 @@ import {
 } from 'native-base';
 import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
+import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, OrderStyles, Colors } from '../Styles';
 import DataEmptyCheck from '../components/DataEmptyCheck';
@@ -30,15 +31,15 @@ class PickOrderScreen extends Component {
     ClientID = this.props.navigation.state.params.ClientID;
     ClientHubID = this.props.navigation.state.params.ClientHubID;
     OrderID = this.props.navigation.state.params.OrderID;
-    order = Utils.getOrder(this.props.pds, OrderID, 1);
+    order = Utils.getOrder(this.props.db, OrderID, 1);
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { pds } = nextProps;
-    const newOrder = Utils.getOrder(pds, OrderID, 1);
+    const { db } = nextProps;
+    const newOrder = Utils.getOrder(db, OrderID, 1);
     if (order.CurrentStatus !== newOrder.CurrentStatus) {
       this.props.navigation.goBack();
     }
@@ -289,11 +290,12 @@ class PickOrderScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ pd, auth }) => {
-  //const OrderID = ownProps.navigation.state.params.OrderID;
+const mapStateToProps = (state) => {
+  const { pd, auth } = state;
   const { sessionToken } = auth;
-  const { pds, pdsId, loading } = pd;
-  return { pds, pdsId, sessionToken, loading };
+  const { pdsId, loading } = pd;
+  const db = getOrders(state);
+  return { db, pdsId, sessionToken, loading };
 };
 
 

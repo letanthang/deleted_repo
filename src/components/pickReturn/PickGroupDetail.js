@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { View, Alert, TouchableOpacity, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
-// import * as Communications from 'react-native-communications';
 import { 
-  Content, List
+  Content
 } from 'native-base';
 import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder } from '../../actions';
 import Utils from '../../libs/Utils';
+import { get3Type } from '../../selectors';
 import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
 import OrderStatusText from '../OrderStatusText';
@@ -38,8 +38,8 @@ class PickGroupDetail extends Component {
   autoChangeTab() {
     if (this.props.done) return;
     
-    const { done, pds } = this.props;
-    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const { done, PickItems, ReturnItems } = this.props;
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done);
     if (orders.length === 0) {
@@ -120,8 +120,8 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    const { done, pds } = this.props;
-    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const { done, PickItems, ReturnItems } = this.props;
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
 
@@ -209,23 +209,25 @@ class PickGroupDetail extends Component {
         <ActionModal
           visible={this.state.modalShow}
           onChooseDate={this.onChooseDate.bind(this)}
-          onCancelDate={this.onCancelDate.bind(this)} 
+          onCancelDate={this.onCancelDate.bind(this)}
         />
         
       </Content>
     );
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.pds !== this.props.pds) this.autoChangeTab();
+    if (prevProps.PickItems !== this.props.PickItems) this.autoChangeTab();
   }
 }
 
-const mapStateToProps = ({ auth, pd, other, pickGroup }) => {
+const mapStateToProps = (state) => {
+  const { auth, pd, other, pickGroup } = state;
   const { sessionToken } = auth;
-  const { pdsId, pds, loading } = pd;
+  const { pdsId, loading } = pd;
   const { configuration } = other;
   const { showDatePicker, OrderInfos, done, keyword } = pickGroup;
-  return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos, done, keyword };
+  const { PickItems, ReturnItems } = get3Type(state);
+  return { PickItems, ReturnItems, sessionToken, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder })(PickGroupDetail);

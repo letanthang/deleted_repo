@@ -31,11 +31,13 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_SUCCESS: {
       const pds = action.payload.pds;
       transformPDS(pds);
-      const { PDSItems, EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID } = pds;
-      
-      return { 
+      const { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID } = pds;
+      const newItems = pds.PDSItems;
+      const oldItems = state.PDSItems ? state.PDSItems[0] : null;
+      const PDSItems = mergeState(oldItems, newItems);
+      return {
         ...state,
-        PDSItems,
+        PDSItems: [PDSItems],
         Infos: { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID },
         pdsId: PickDeliverySessionID,
         loading: false,
@@ -137,20 +139,18 @@ export default (state = nameInitialState, action) => {
         addOrderLoading: false
       };
     case PD_ADD_ORDER: {
-      console.log('addOrder reducer');
       const order = action.payload.order;
-      console.log(order);
-      const pds = _.cloneDeep(state.pds);
-      pds.PDSItems.push(order);
-      
-      const statNumbers = transformPDS(pds);
-
       return {
         ...state,
-        ...statNumbers,
+        PDSItems: {
+          ...state.PDSItems,
+          0: {
+            ...state.PDSItems[0],
+            [getKey(order.OrderID, order.PickDeliveryType)]: order
+          }
+        },
         addOrderLoading: false,
         error: '',
-        pds,
       };
     }
 
@@ -161,9 +161,9 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: false };
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
-      const pds = state.pds;
+      const PDSItems = _.cloneDeep(state.PDSItems);
       const { OrderID, ServiceCost, Length, Width, Height, Weight } = action.payload;
-      const order = Utils.getOrder(pds, OrderID, 1);
+      const order = Utils.getOrder(PDSItems[0], OrderID, 1);
       if (order.CODAmount != 0) {
         order.CODAmount = ServiceCost;
       }
@@ -172,7 +172,7 @@ export default (state = nameInitialState, action) => {
       order.Weight = Weight;
       order.Height = Height;
       order.Width = Width;
-      return { ...state, pds, loading: false };
+      return { ...state, PDSItems, loading: false };
     }
 
     case PD_UPDATE_GROUP: {
@@ -220,7 +220,7 @@ const transformPDS = (pds) => {
   pds.PDSItems.forEach(item => {
     temp[getKey(item.OrderID, item.PickDeliveryType)] = item;
   });
-  pds.PDSItems = [temp];
+  pds.PDSItems = temp;
 };
 
 const addGroup = (pds, orderGroup) => {
@@ -234,32 +234,11 @@ const addGroup = (pds, orderGroup) => {
   });
 };
 
-const calculateStatNumbers = (pds) => {
-  // pick
-      const pickGroupList = pds.PickItems;
-      const pickTotal = pickGroupList.length;
-      const pickComplete = pickTotal === 0 ? 0 : pickGroupList.filter(pg => {
-        let isComplete = true;
-        pg.PickReturnSOs.forEach(o => {
-          isComplete = isComplete && Utils.checkPickComplete(o.CurrentStatus);
-        });
-        return isComplete;
-      }).length;
-
-      // delivery
-      const deliveryTotal = pds.DeliveryItems.length;
-      const deliveryComplete = deliveryTotal === 0 ? 0 : pds.DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.CurrentStatus)).length;
-
-      // return
-      const returnGroupList = pds.ReturnItems;
-      const returnTotal = returnGroupList.length;
-      const returnComplete = returnTotal === 0 ? 0 : returnGroupList.filter(pg => {
-        let isComplete = true;
-        pg.PickReturnSOs.forEach(o => {
-          isComplete = isComplete && Utils.checkReturnComplete(o.CurrentStatus);
-        });
-        return isComplete;
-      }).length;
-
-  return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete };
+const mergeState = (oldState, newState) => {
+  if (oldState === null) return newState;
+  const temp = {};
+  _.each(newState, (item, key) => {
+    temp[key] = Object.assign({}, oldState[key], item);
+  });
+  return temp;
 };

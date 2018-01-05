@@ -12,15 +12,15 @@ class ActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
-    const { OrderID, ContactPhone, OrderCode } = this.props.order;
+    const { OrderID, PickDeliveryType, ContactPhone, OrderCode } = this.props.order;
     let info = {};
     if (nextStatus === undefined) { 
-      info = undefined;
-      this.props.updateOrderInfo(OrderID, undefined);
+      info = { success: undefined };
+      this.props.updateOrderInfo(OrderID, PickDeliveryType, undefined);
     } else if (nextStatus) {
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
-      this.props.updateOrderInfo(OrderID, info);
+      this.props.updateOrderInfo(OrderID, PickDeliveryType, info);
     } else {
       //failed to pick
       info.success = nextStatus;
@@ -28,7 +28,7 @@ class ActionButtons extends Component {
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfo(OrderID, moreInfo);
+          this.props.updateOrderInfo(OrderID, PickDeliveryType, moreInfo);
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {
@@ -41,7 +41,7 @@ class ActionButtons extends Component {
     const { info, done, rightText = 'Lấy' } = this.props;
     if (done) return null;
 
-    const status = (info === undefined) ? undefined : info.success;
+    const status = info.success;
     return (
       <View style={{ flexDirection: 'row', flex: 1, margin: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flex: 0.5, padding: 0, margin: 0 }}>

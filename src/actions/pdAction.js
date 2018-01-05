@@ -5,7 +5,7 @@ import {
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
-  PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START
+  PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START, PD_UPDATE_ORDER_INFO
 } from './types';
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
@@ -219,5 +219,14 @@ export const addOneOrder = (order) => {
         dispatch({ type: PD_ADD_ORDER_FAIL });
         reportBug(error.message, { OrderCode });
       });
+  };
+};
+
+export const updateOrderInfo = (OrderID, PickDeliveryType, info) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: PD_UPDATE_ORDER_INFO,
+      payload: { OrderID, PickDeliveryType, info }
+    });
   };
 };

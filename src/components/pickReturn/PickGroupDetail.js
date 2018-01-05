@@ -191,7 +191,7 @@ class PickGroupDetail extends Component {
                     : null}
                     <ActionButtons
                       done={done}
-                      info={this.props.OrderInfos[OrderID]}
+                      info={order}
                       order={order}
                       onSelectDateCase={buttonIndex => {
                         this.buttonIndex = buttonIndex;

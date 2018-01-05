@@ -4,7 +4,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = true;
+const mockOn = false;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
@@ -74,7 +74,7 @@ export const Authenticate = ({ UserID, Password }) => {
         userid: UserID,
         password: Password
       }).reply(200, loginResponse);
-  } 
+  }
 
   return axios.post(URL, {
       userid: UserID,

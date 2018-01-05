@@ -7,7 +7,7 @@ import {
   PICKGROUP_RESET
 } from './types';
 
-export const updateOrderInfo = (OrderID, info) => {
+export const updateOrderInfoOld = (OrderID, info) => {
   return (dispatch, getState) => {
     dispatch({
       type: PICKGROUP_UPDATE_ORDER_INFO,

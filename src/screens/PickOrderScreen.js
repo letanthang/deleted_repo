@@ -109,16 +109,15 @@ class PickOrderScreen extends Component {
     );
   }
 
-  renderButtons(CurrentStatus) {
-    const done = Utils.checkPickComplete(CurrentStatus);
+  renderButtons() {
+    const done = Utils.checkPickComplete(order.CurrentStatus);
     if (done) {
       return (
         <View
           style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
         >
           <OrderStatusText 
-            CurrentStatus={CurrentStatus}
-            PickDeliveryType={1}
+            order={order}
           />
         </View>
       );
@@ -276,7 +275,7 @@ class PickOrderScreen extends Component {
                 </View>
               </View>
             </List>
-            {this.renderButtons(CurrentStatus)}
+            {this.renderButtons()}
           </DataEmptyCheck>
         </Content>
         <LoadingSpinner loading={this.props.loading} />

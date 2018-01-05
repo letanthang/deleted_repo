@@ -8,7 +8,7 @@ import {
 } from 'native-base';
 import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder } from '../../actions';
 import Utils from '../../libs/Utils';
-import { get3Type } from '../../selectors';
+import { get3Type, getOrders } from '../../selectors';
 import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
 import OrderStatusText from '../OrderStatusText';
@@ -86,7 +86,8 @@ class PickGroupDetail extends Component {
       this.props.setAllStatus(false);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      this.props.updateOrderInfo(this.order.OrderID, moreInfo);
+      const { OrderID, PickDeliveryType } = this.order;
+      this.props.updateOrderInfo(OrderID, PickDeliveryType, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -115,7 +116,7 @@ class PickGroupDetail extends Component {
   }
 
   checkDelivering(order) {
-    if (Utils.getOrder(this.props.pds, order.OrderID, 2)) return true;
+    if (Utils.getOrder(this.props.db, order.OrderID, 2)) return true;
     return false;
   }
 
@@ -164,8 +165,7 @@ class PickGroupDetail extends Component {
                       <View style={{ flexDirection: 'row' }}>
                         <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{OrderCode}</Text>
                         <OrderStatusText 
-                          CurrentStatus={CurrentStatus}
-                          PickDeliveryType={PickDeliveryType}
+                          order={order}
                           style={{ marginLeft: 10 }}
                         />
                       </View>
@@ -228,7 +228,8 @@ const mapStateToProps = (state) => {
   const { configuration } = other;
   const { showDatePicker, OrderInfos, done, keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems, sessionToken, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
+  const db = getOrders(state);
+  return { db, PickItems, ReturnItems, sessionToken, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder })(PickGroupDetail);

@@ -195,7 +195,7 @@ export default (state = nameInitialState, action) => {
       console.log(state.PDSItems);
       const PDSItems = _.cloneDeep(state.PDSItems);
       console.log(PDSItems);
-      Object.assign(PDSItems[0][getKey(OrderID, info.PickDeliveryType)], info);
+      Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], info);
       return { ...state, PDSItems, allStatus: undefined };
     }
       
@@ -228,6 +228,7 @@ const transformPDS = (pds) => {
   // create PickItems, DeliveryItems, ReturnItems
   const temp = {};
   pds.PDSItems.forEach(item => {
+    item.NextStatus = undefined;
     temp[getKey(item.OrderID, item.PickDeliveryType)] = item;
   });
   pds.PDSItems = temp;

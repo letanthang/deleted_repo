@@ -147,8 +147,7 @@ class PickGroupDetail extends Component {
                       <View style={{ flexDirection: 'row' }}>
                         <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{OrderCode}</Text>
                         <OrderStatusText 
-                          CurrentStatus={CurrentStatus}
-                          PickDeliveryType={PickDeliveryType}
+                          order={order}
                           style={{ marginLeft: 10 }}
                         />
                       </View>

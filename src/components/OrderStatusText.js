@@ -2,9 +2,9 @@ import React from 'react';
 import StatusText from './StatusText';
 import Utils from '../libs/Utils';
 
-const OrderStatusText = ({ CurrentStatus, PickDeliveryType, style }) => {
-  const DisplayStatus = Utils.getDisplayStatus(CurrentStatus, PickDeliveryType);
-  const StatusColor = Utils.getDisplayStatusColor(CurrentStatus, PickDeliveryType);
+const OrderStatusText = ({ order, style }) => {
+  const DisplayStatus = Utils.getDisplayStatus(order);
+  const StatusColor = Utils.getDisplayStatusColor(order);
   return (
     <StatusText text={DisplayStatus} colorTheme={StatusColor} style={style} />
   );

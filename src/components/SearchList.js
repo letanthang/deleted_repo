@@ -60,8 +60,8 @@ class OrderListScreen extends Component {
   
   renderStatusText(order) {
     const { CurrentStatus, PickDeliveryType } = order;
-    const DisplayStatus = Utils.getDisplayStatus(CurrentStatus, PickDeliveryType);
-    const StatusColor = Utils.getDisplayStatusColor(CurrentStatus, PickDeliveryType);
+    const DisplayStatus = Utils.getDisplayStatus(order);
+    const StatusColor = Utils.getDisplayStatusColor(order);
     return (
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );

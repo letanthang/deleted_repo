@@ -30,9 +30,9 @@ class DeliveryGroupList extends Component {
     this.props.navigation.navigate('DeliveryOrder', { OrderID });
   }
 
-  renderStatusText(status) {
-    const DisplayStatus = Utils.getDisplayStatus(status);
-    const StatusColor = Utils.getDisplayStatusColor(status);
+  renderStatusText(order) {
+    const DisplayStatus = Utils.getDisplayStatus(order);
+    const StatusColor = Utils.getDisplayStatusColor(order);
     return (
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
@@ -59,7 +59,7 @@ class DeliveryGroupList extends Component {
             </Text>
           </View>
           <View style={Styles.itemStyle}>
-            {this.renderStatusText(CurrentStatus)}
+            {this.renderStatusText(order)}
           </View>
         </View>
       </TouchableOpacity>

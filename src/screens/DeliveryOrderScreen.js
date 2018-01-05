@@ -106,16 +106,15 @@ class DeliveryOrderScreen extends Component {
     if (this.state.modalShow) this.setState({ modalShow: false });
   }
   
-  renderButtons(currentStatus) {
-    const done = Utils.checkDeliveryComplete(currentStatus);
+  renderButtons(order) {
+    const done = Utils.checkDeliveryComplete(order.CurrentStatus);
     if (done) {
       return (
         <View
           style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
         >
           <OrderStatusText 
-            CurrentStatus={currentStatus}
-            PickDeliveryType={2}
+            order={order}
           />
         </View>
       );
@@ -246,7 +245,7 @@ class DeliveryOrderScreen extends Component {
             </View>
           </List>
 
-          {this.renderButtons(CurrentStatus)}
+          {this.renderButtons(order)}
           <ActionModal
             visible={this.state.modalShow}
             onChooseDate={this.onChooseDate.bind(this)}

@@ -16,7 +16,7 @@ class ActionButtons extends Component {
     let info = {};
     if (nextStatus === undefined) { 
       info = { success: undefined };
-      this.props.updateOrderInfo(OrderID, PickDeliveryType, undefined);
+      this.props.updateOrderInfo(OrderID, PickDeliveryType, info);
     } else if (nextStatus) {
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;

@@ -2,58 +2,23 @@ import CallHistory from 'react-native-call-history';
 import { phonecall } from 'react-native-communications';
 import { Platform } from 'react-native';
 
+const pickStatus = { Storing: 'Đã lấy', ReadyToPick: 'Lấy lỗi', Picking: 'Đang lấy', Progress: 'Đang xử lý' };
+const returnStatus = { Returned: 'Đã trả', Returning: 'Đang trả', NotReturn: 'Trả lỗi', Storing: 'Trả lỗi', Progress: 'Đang xử lý' };
+const deliverStatus = { Delivering: 'Đang giao', Delivered: 'Đã giao', Storing: 'Giao lỗi' };
+
 class Utils {
-  static getDisplayStatus(status, type = 2, nextStatus) {
-    if (type === 1) {
-      switch (status) {
-        case 'Storing':
-          return 'Đã lấy';
-        case 'ReadyToPick':
-          return 'Lấy lỗi';
-        case 'Picking':
-          if (nextStatus === null) return 'Lấy lỗi';
-          return 'Đang lấy';
-        case 'Progress':
-          return 'Đang xử lý';
-        default:
-          return 'Đang lấy';
-      }
-    } else if (type === 3) {
-      switch (status) {
-        case 'Returned':
-          return 'Đã trả';
-        case 'WaitingToFinish':
-          return 'Đã trả';
-        case 'Return':
-          return 'Trả lỗi';
-        case 'NotReturn':
-          return 'Trả lỗi';
-        case 'Storing':
-          return 'Trả lỗi';
-        case 'Returning':
-          return 'Đang trả';
-        default:
-          return 'Đang trả';
-      }
+  static getDisplayStatus({ CurrentStatus, NextStatus, PickDeliveryType }) {
+    if (PickDeliveryType === 1) {
+      return pickStatus[CurrentStatus] ? pickStatus[CurrentStatus] : 'Đang lấy';
+    } else if (PickDeliveryType === 3) {
+      return returnStatus[CurrentStatus] ? pickStatus[CurrentStatus] : 'Đang trả';
     } else {
-      switch (status) {
-        case 'Delivering':
-          return 'Đang giao';
-        case 'Delivered':
-          return 'Đã giao';
-        case 'WaitingToFinish':
-          return 'Đã giao';
-        case 'Finish':
-          return 'Đã giao';
-        case 'Storing':
-          return 'Giao lỗi';
-        default:
-          return 'Giao lỗi';
-      }
+      return deliverStatus[CurrentStatus] ? pickStatus[CurrentStatus] : 'Đang giao';
     }
   }
-  static getDisplayStatusColor(status, type = 2, nextStatus) {
-    const DisplayStatus = this.getDisplayStatus(status, type, nextStatus);
+
+  static getDisplayStatusColor({ CurrentStatus, NextStatus, PickDeliveryType }) {
+    const DisplayStatus = this.getDisplayStatus({ CurrentStatus, NextStatus, PickDeliveryType });
     switch (DisplayStatus) {
       case 'Giao lỗi':
         return 'red';

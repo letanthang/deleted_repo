@@ -9,6 +9,7 @@ import {
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus } from '../actions';
 import Utils from '../libs/Utils';
+import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import OrderStatusText from '../components/OrderStatusText';
@@ -22,12 +23,12 @@ class ReturnOrderScreen extends Component {
   state = { modalShow: false } 
   componentWillMount() {
     OrderID = this.props.navigation.state.params.OrderID;
-    order = Utils.getOrder(this.props.pds, OrderID, 3);
+    order = Utils.getOrder(this.props.db, OrderID, 3);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { pds } = nextProps;
-    const newOrder = Utils.getOrder(pds, OrderID, 3);
+    const { db } = nextProps;
+    const newOrder = Utils.getOrder(db, OrderID, 3);
     if (order.CurrentStatus !== newOrder.CurrentStatus) {
       this.props.navigation.goBack();
     }
@@ -208,11 +209,12 @@ class ReturnOrderScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ pd, auth }) => {
-  //const OrderID = ownProps.navigation.state.params.OrderID;
+const mapStateToProps = (state) => {
+  const { pd, auth } = state;
   const { sessionToken } = auth;
-  const { pds, pdsId, loading } = pd;
-  return { pds, pdsId, sessionToken, loading };
+  const { pdsId, loading } = pd;
+  const db = getOrders(state);
+  return { db, pdsId, sessionToken, loading };
 };
 
 export default connect(

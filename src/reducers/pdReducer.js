@@ -263,4 +263,3 @@ const calculateStatNumbers = (pds) => {
 
   return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete };
 };
-

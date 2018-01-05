@@ -17,6 +17,7 @@ import ReturnActionButtons from './ReturnActionButtons';
 import ReturnActionAllButtons from './ReturnActionAllButtons';
 import ActionModal from '../ActionModal';
 import { getUpdateOrderInfo } from './Helpers';
+import { get3Type } from '../../selectors/index';
 
 
 class PickGroupDetail extends Component {
@@ -37,8 +38,8 @@ class PickGroupDetail extends Component {
 
   autoChangeTab() {
     if (this.props.done) return;
-    const { done, pds } = this.props;
-    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const { done, PickItems, ReturnItems } = this.props;
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done);
     if (orders.length === 0) {
@@ -102,8 +103,8 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    const { done, pds } = this.props;
-    const Items = this.PickDeliveryType === 1 ? pds.PickItems : pds.ReturnItems;
+    const { done, PickItems, ReturnItems } = this.props;
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
 
@@ -128,6 +129,7 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
+            keyExtractor={(item, index) => item.OrderID}
             renderItem={({ item }) => {
               const order = item;
               const { 
@@ -187,16 +189,18 @@ class PickGroupDetail extends Component {
     );
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.pds !== this.props.pds) this.autoChangeTab();
+    if (prevProps.ReturnItems !== this.props.ReturnItems) this.autoChangeTab();
   }
 }
 
-const mapStateToProps = ({ auth, pd, other, returnGroup }) => {
+const mapStateToProps = (state) => {
+  const { auth, pd, other, returnGroup } = state;
   const { sessionToken } = auth;
-  const { pdsId, pds, loading } = pd;
+  const { pdsId, loading } = pd;
   const { configuration } = other;
   const { showDatePicker, OrderInfos, done, keyword } = returnGroup;
-  return { sessionToken, pdsId, pds, loading, configuration, showDatePicker, OrderInfos, done, keyword };
+  const { PickItems, ReturnItems } = get3Type(state);
+  return { sessionToken, PickItems, ReturnItems, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfoReturn, updateOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 })(PickGroupDetail);

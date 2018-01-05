@@ -3,17 +3,17 @@ import React, { Component } from 'react';
 import { SectionList, View, TouchableOpacity } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
-  Icon, Button, Title, Text, Card,
+  Icon, Button, Title, Text,
   Header, Item, Input
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import accounting from 'accounting';
-import * as Communications from 'react-native-communications';
 import { NavigationActions } from 'react-navigation';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
+import { get3Type } from '../selectors';
 import { navigateOnce } from '../libs/Common';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
@@ -184,28 +184,12 @@ class TripListScreen extends Component {
     }
     return null;
   }
-  renderHasReturnWarning(pickGroup) {
-    if (pickGroup.PickDeliveryType != '1') return null;
-    const returnGroup = Utils.getReturnGroupFromPG(this.props.pds, pickGroup);
-    if (!returnGroup) return null;
-    return (
-      <Button
-        warning
-        small
-        transparent
-        style={{ paddingLeft: 0 }}
-        onPress={() => this.goToReturnGroup(returnGroup)}
-      >
-        <Text style={{ color: '#F3BD71', fontSize: 13, fontWeight: '600' }}>ĐƠN TRẢ</Text>
-        <IC name='arrow-right' size={20} />
-      </Button>
-    );
-  }
+  
   render() {
-    const { pds } = this.props;
-    if (!pds || !pds.ReturnItems) return this.renderNullData();
+    const { ReturnItems } = this.props;
+    if (!ReturnItems) return this.renderNullData();
 
-    const items = pds.ReturnItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
+    const items = ReturnItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
     const datas = _.groupBy(items, 'ClientID');
     let first = true;
     const sections = _.map(datas, (item) => {
@@ -236,7 +220,7 @@ class TripListScreen extends Component {
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                 
                 const pickGroup = item;
-                const { Address, ClientName, DisplayOrder, ContactName, ContactPhone } = pickGroup;
+                const { Address, ContactName, ContactPhone } = pickGroup;
                 
                 let TotalServiceCost = 0; 
                 pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.CODAmount; });
@@ -262,7 +246,7 @@ class TripListScreen extends Component {
                             style={[Styles.weakColorStyle]}
                           >
                             {Address}
-                          </Text>              
+                          </Text>
                         </View>
                         
                         <View style={[Styles.item2Style, { paddingTop: 5 }]}>
@@ -274,9 +258,7 @@ class TripListScreen extends Component {
                           </Text>
                         </View>
                         <View style={[Styles.item2Style]}>
-                          <View>
-                            {this.renderHasReturnWarning(pickGroup)}
-                          </View>
+                          <View></View>
                           <Button
                             small
                             transparent
@@ -317,7 +299,7 @@ class TripListScreen extends Component {
               }}
               sections={sections}
             /> 
-          </DataEmptyCheck>         
+          </DataEmptyCheck>
         </Content>
         <AppFooter navigation={this.props.navigation} />      
       </Container>
@@ -335,9 +317,9 @@ const styles = {
 };
 
 
-const mapStateToProps = ({ pd }) => {
-  const { pds, deliveryTotal, deliveryComplete } = pd;
-  return { pds, deliveryTotal, deliveryComplete };
+const mapStateToProps = (state) => {
+  const { ReturnItems } = get3Type(state);
+  return { ReturnItems };
 };
 
 export default connect(mapStateToProps, {})(TripListScreen);

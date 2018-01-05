@@ -10,6 +10,7 @@ import {
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { updateOrderStatus, resetReturnGroup, changeDone1, changeKeyword1 } from '../actions';
+import { get3Type } from '../selectors';
 // import Utils from './libs/Utils';
 import { Styles, Colors } from '../Styles';
 import ReturnGroupDetail from '../components/pickReturn/ReturnGroupDetail';
@@ -140,8 +141,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
-    const { pds, done } = this.props;
-    const { PickItems, ReturnItems } = pds;
+    const { PickItems, ReturnItems, done, navigation, loading } = this.props;
     const { PickDeliveryType } = this.pickGroup;
     const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(trip => trip.ClientHubID === this.ClientHubID); 
@@ -150,8 +150,8 @@ class PickGroupDetailScreen extends Component {
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <ReturnGroupDetail navigation={this.props.navigation} />
-        <LoadingSpinner loading={this.props.loading} />
+        <ReturnGroupDetail navigation={navigation} />
+        <LoadingSpinner loading={loading} />
         {!done ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>
@@ -170,11 +170,13 @@ class PickGroupDetailScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, pd, returnGroup }) => {
+const mapStateToProps = (state) => {
+  const { auth, pd, returnGroup } = state;
   const { sessionToken } = auth;
-  const { pdsId, pds, loading } = pd;
+  const { pdsId, loading } = pd;
   const { OrderInfos, done, keyword } = returnGroup;
-  return { sessionToken, pdsId, pds, loading, OrderInfos, done, keyword };
+  const { ReturnItems, PickItems } = get3Type(state);
+  return { ReturnItems, PickItems, sessionToken, pdsId, loading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetReturnGroup, changeDone1, changeKeyword1 })(PickGroupDetailScreen);

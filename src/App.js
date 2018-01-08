@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Root, StyleProvider } from 'native-base';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import configureStore from './configureStore';
 import LoginScreen from './screens/LoginScreen';
 import Drawer from './Drawer';
@@ -33,11 +34,13 @@ if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
   console.debug = function () {};
 }
 
+const { store, persistor } = configureStore();
+
 //export const store = configureStore();
 class App extends Component {
   render() {
     console.log('Root render');
-    const { store } = this.props;
+    // const { store } = this.props;
     const AppNavigator = StackNavigator(
       {
         Login: { screen: LoginScreen },
@@ -63,18 +66,22 @@ class App extends Component {
     );
     return (
       <Provider store={store}>
-        <Root>
-          <StyleProvider style={getTheme(platform)}>
-            <AppNavigator />
-          </StyleProvider>
-        </Root>
+        <PersistGate persistor={persistor}>
+          <Root>
+            <StyleProvider style={getTheme(platform)}>
+              <AppNavigator />
+            </StyleProvider>
+          </Root>
+        </PersistGate>
       </Provider>
     );
   }
 }
 
-App.defaultProps = {
-  store: configureStore()
-};
+
+// App.defaultProps = {
+//   store,
+//   persistor
+// };
 
 export default App;

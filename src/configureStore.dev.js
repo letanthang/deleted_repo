@@ -1,16 +1,26 @@
 
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'remote-redux-devtools';
+import { persistStore, persistCombineReducers } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
 import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
 
 export default function configureStore() {
+  const config = {
+    key: 'root',
+    storage
+  };
+  const reducer = persistCombineReducers(config, reducers);
+
   //devTool options
   const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
-  const store = createStore(reducers, /* preloadedState, */ composeEnhancers(
+  const store = createStore(reducer, /* preloadedState, */ composeEnhancers(
     applyMiddleware(ReduxThunk),
     // other store enhancers if any
   ));
+  const persistor = persistStore(store);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
@@ -47,5 +57,5 @@ export default function configureStore() {
   // const store = createStore(reducers, enhancer);
 
   //const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
-  return store;
+  return { store, persistor };
 }

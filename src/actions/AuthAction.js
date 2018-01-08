@@ -102,14 +102,6 @@ export const loadSavedSession = () => {
 };
 
 
-
-
-
-
-
-
-
-
 export const loginUser = ({ userID, password, rememberMe }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
@@ -134,26 +126,9 @@ export const loginUser = ({ userID, password, rememberMe }) => {
 };
 
 const loginUserSucess = (dispatch, { userInfo, session }, { userID, password, rememberMe }) => {
-  if (rememberMe) {
-    saveLoginInfo({ userID, password, rememberMe });
-    const user = userInfo;
-    user.UserID = user.ssoId;
-    user.FullName = user.fullname;
-    saveSession({ user, session });
-  } else {
-    saveLoginInfo({ userID: '', password: '', rememberMe: false });
-  }
-  
-  LocalGroup.getLocalDB()
-  .then(() => {
-    dispatch({
-      type: LOGIN_USER_SUCCESS,
-      payload: { userInfo, session }
-    });
-  })
-  .catch(error => {
-    console.log('getLocalDB error=');
-    console.log(error);
+  dispatch({
+    type: LOGIN_USER_SUCCESS,
+    payload: { userInfo, session, rememberMe }
   });
   
 };
@@ -168,7 +143,7 @@ const loginUserFail = (dispatch, errorMsg) => {
 export const logoutUser = () => {
   destroySession();
   return({
-    type: LOGOUT
+    type: LOGOUT_USER
   });
 }
 

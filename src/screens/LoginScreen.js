@@ -27,25 +27,31 @@ class LoginScreen extends Component {
 
   componentWillMount() {
     LocalGroup.getLocalDB();
-    this.props.loadSavedUserPass();
-    this.props.loadSavedSession();
+    //this.props.loadSavedUserPass();
+    //this.props.loadSavedSession();
     firebase.messaging().requestPermissions();
+    console.log(this.props.user);
+    if (this.props.user) {
+      console.log('navigate away2!');
+      this.goToHome();
+    }
   }
   componentWillReceiveProps(nextProps) {
-    const { dispatch } = this.props.navigation;
     const { user } = nextProps;
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Drawer' })
-      ]
-    });
 
     if (user) {
-      dispatch(resetAction);
+      console.log('navigate away!');
+      this.goToHome();
     }
   }
   componentWillUpdate() {
+    if (this.props.user) {
+      console.log('navigate away1!');
+      this.goToHome();
+    }
+  }
+
+  goToHome() {
     const { dispatch } = this.props.navigation;
     const resetAction = NavigationActions.reset({
       index: 0,
@@ -53,10 +59,7 @@ class LoginScreen extends Component {
         NavigationActions.navigate({ routeName: 'Drawer' })
       ]
     });
-
-    if (this.props.user) {
-      dispatch(resetAction);
-    }
+    dispatch(resetAction);
   }
 
   componentDidUpdate(prevProps, prevState) {

@@ -50,22 +50,23 @@ class PickGroupDetailScreen extends Component {
   }
 
   confirmUpdateOrder() {
-    const OrderInfos = this.pickGroup.PickReturnSOs.filter(o => o.success !== undefined);
-    const OrderNum = OrderInfos.length;
-    if (OrderNum === 0) return;
+    this.props.navigation.navigate('PickConfirm', { ClientHubID: this.ClientHubID });
+    // const OrderInfos = this.pickGroup.PickReturnSOs.filter(o => o.success !== undefined);
+    // const OrderNum = OrderInfos.length;
+    // if (OrderNum === 0) return;
 
-    const message = `Bạn có chắc chắn muốn cập nhật ${OrderNum} đơn hàng trên ?`;
-    const title = 'Cập nhật đơn hàng ?';
+    // const message = `Bạn có chắc chắn muốn cập nhật ${OrderNum} đơn hàng trên ?`;
+    // const title = 'Cập nhật đơn hàng ?';
   
-    Alert.alert(
-      title,
-      message,
-      [
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
-        { text: 'Đồng ý', onPress: () => this.updateOrder() }
-      ],
-      { cancelable: false }
-    );
+    // Alert.alert(
+    //   title,
+    //   message,
+    //   [
+    //     { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+    //     { text: 'Đồng ý', onPress: () => this.updateOrder() }
+    //   ],
+    //   { cancelable: false }
+    // );
   }
 
   renderHeader(pickGroup) {

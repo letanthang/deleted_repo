@@ -20,6 +20,7 @@ import ReturnListScreen from './screens/ReturnListScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import TripListScreen from './screens/TripListScreen';
 import AddOrderScreen from './screens/AddOrderScreen';
+import PickConfirmScreen from './screens/PickConfirmScreen';
 
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
@@ -57,7 +58,8 @@ class App extends Component {
         DeliveryOrder: { screen: DeliveryOrderScreen },
         ReturnList: { screen: ReturnListScreen },
         OrderList: { screen: OrderListScreen },
-        AddOrder: { screen: AddOrderScreen }
+        AddOrder: { screen: AddOrderScreen },
+        PickConfirm: { screen: PickConfirmScreen }
       },
       {
         initialRouteName: 'Login',

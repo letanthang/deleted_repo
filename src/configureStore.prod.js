@@ -1,9 +1,9 @@
 
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import reducers from './reducers';
 import { persistStore, persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import reducers from './reducers';
 
 export default function configureStore() {
   const config = {

@@ -116,6 +116,8 @@ export default (state = nameInitialState, action) => {
             }
           } else {
             order.CurrentStatus = info.NextStatus;
+            order.NextStatus = undefined;
+            order.success = undefined;
           }
       });
       

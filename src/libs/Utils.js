@@ -3,34 +3,62 @@ import { phonecall } from 'react-native-communications';
 import { Platform } from 'react-native';
 
 const pickStatus = { Storing: 'Đã lấy', ReadyToPick: 'Lấy lỗi', Picking: 'Đang lấy', Progress: 'Đang xử lý' };
+const pickCompleteStatus = ['Storing', 'ReadyToPick'];
+
 const returnStatus = { Returned: 'Đã trả', Returning: 'Đang trả', NotReturn: 'Trả lỗi', Storing: 'Trả lỗi', Progress: 'Đang xử lý' };
+const returnCompleteStatus = ['Returned', 'NotReturn', 'Storing'];
+
 const deliverStatus = { Delivering: 'Đang giao', Delivered: 'Đã giao', Storing: 'Giao lỗi' };
+const deliverCompleteStatus = ['Delivered', 'Storing'];
 
 class Utils {
   static getDisplayStatus({ CurrentStatus, NextStatus, PickDeliveryType }) {
+    let status = '';
     if (PickDeliveryType === 1) {
-      return pickStatus[CurrentStatus] ? pickStatus[CurrentStatus] : 'Đang lấy';
+      if (!pickCompleteStatus.includes(CurrentStatus) && pickCompleteStatus.includes(NextStatus)) {
+        status = pickStatus[NextStatus] ? pickStatus[NextStatus] : NextStatus;
+        status = `*${status}*`;
+      } else {
+        status = pickStatus[CurrentStatus] ? pickStatus[CurrentStatus] : CurrentStatus;
+      }
+    } else if (PickDeliveryType === 2) {
+      if (!deliverCompleteStatus.includes(CurrentStatus) && deliverCompleteStatus.includes(NextStatus)) {
+        status = deliverStatus[NextStatus] ? deliverStatus[NextStatus] : NextStatus;
+        status = `*${status}*`;
+      } else {
+        status = deliverStatus[CurrentStatus] ? deliverStatus[CurrentStatus] : CurrentStatus;
+      }
     } else if (PickDeliveryType === 3) {
-      return returnStatus[CurrentStatus] ? pickStatus[CurrentStatus] : 'Đang trả';
-    } else {
-      return deliverStatus[CurrentStatus] ? pickStatus[CurrentStatus] : 'Đang giao';
+      if (!returnCompleteStatus.includes(CurrentStatus) && returnCompleteStatus.includes(NextStatus)) {
+        status = returnStatus[NextStatus] ? returnStatus[NextStatus] : NextStatus;
+        status = `*${status}*`;
+      } else {
+        status = returnStatus[CurrentStatus] ? returnStatus[CurrentStatus] : CurrentStatus;
+      }
     }
+    return status;
   }
 
   static getDisplayStatusColor({ CurrentStatus, NextStatus, PickDeliveryType }) {
     const DisplayStatus = this.getDisplayStatus({ CurrentStatus, NextStatus, PickDeliveryType });
     switch (DisplayStatus) {
       case 'Giao lỗi':
+      case '*Giao lỗi*':
         return 'red';
       case 'Lấy lỗi':
+      case '*Lấy lỗi*':
         return 'red';
       case 'Trả lỗi':
+      case '*Trả lỗi*':
         return 'red';
       case 'Đã giao':
+      case '*Đã giao*':
         return 'green';
       case 'Đã lấy':
+      case '*Đã lấy*':
         return 'green';
       case 'Đã trả':
+      case '*Đã trả*':
         return 'green';
       case 'Đang xử lý':
         return 'black';
@@ -51,9 +79,17 @@ class Utils {
     return true;
   }
 
+
   static checkPickComplete(status) {
     const completeList = ['ReadyToPick', 'Storing'];
     if (completeList.includes(status)) {
+      return true;
+    }
+    return false;
+  }
+
+  static checkPickCompleteForUnsync({ NextStatus, CurrentStatus }) {
+    if (pickCompleteStatus.includes(CurrentStatus) || pickCompleteStatus.includes(NextStatus)) {
       return true;
     }
     return false;

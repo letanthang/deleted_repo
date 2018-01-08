@@ -51,9 +51,9 @@ class PickGroupDetail extends Component {
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
-  checkComplete({ CurrentStatus, PickDeliveryType }) {
+  checkComplete({ CurrentStatus, NextStatus, PickDeliveryType }) {
     if (PickDeliveryType === 1) {
-      return Utils.checkPickComplete(CurrentStatus);
+      return Utils.checkPickCompleteForUnsync({ CurrentStatus, NextStatus });
     } else {
       return Utils.checkReturnComplete(CurrentStatus);
     }
@@ -151,7 +151,7 @@ class PickGroupDetail extends Component {
             renderItem={({ item }) => {
               const order = item;
               const { 
-                OrderCode, RecipientName, RecipientPhone, PickDeliveryType,
+                OrderCode, RecipientName, RecipientPhone,
                 Height, Width, Weight, Length, CurrentStatus,
                 ExternalCode, CODAmount, OrderID
               } = item;
@@ -190,7 +190,7 @@ class PickGroupDetail extends Component {
                     </View>
                     : null}
                     <ActionButtons
-                      done={done}
+                      done={Utils.checkPickComplete(CurrentStatus)}
                       info={order}
                       order={order}
                       onSelectDateCase={buttonIndex => {

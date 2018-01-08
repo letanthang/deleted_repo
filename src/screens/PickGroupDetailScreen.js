@@ -31,8 +31,8 @@ class PickGroupDetailScreen extends Component {
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    this.doneNum = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
+    this.pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    this.doneNum = this.pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
   }
 
   componentWillUnmount() {
@@ -40,17 +40,17 @@ class PickGroupDetailScreen extends Component {
   }
 
   checkComplete(order) {
-    return Utils.checkPickComplete(order.CurrentStatus);
+    return Utils.checkPickCompleteForUnsync(order);
   }
 
   updateOrder() {
-    const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
+    const OrderInfos = this.pickGroup.PickReturnSOs.filter(o => o.success !== undefined);
     this.props.updateOrderStatus({ OrderInfos });
     this.props.resetPickGroup();
   }
 
   confirmUpdateOrder() {
-    const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
+    const OrderInfos = this.pickGroup.PickReturnSOs.filter(o => o.success !== undefined);
     const OrderNum = OrderInfos.length;
     if (OrderNum === 0) return;
 
@@ -161,6 +161,19 @@ class PickGroupDetailScreen extends Component {
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <PickGroupDetail navigation={this.props.navigation} />
         <LoadingSpinner loading={loading || addOrderLoading} />
+        
+        {this.props.done ?
+        <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
+        <FooterTab style={{ backgroundColor: Colors.background }}>
+          <TouchableOpacity 
+            style={Styles.updateButtonStyle}
+            onPress={this.confirmUpdateOrder.bind(this)}
+          >
+            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>
+          </TouchableOpacity>
+        </FooterTab>
+        </Footer>
+        : 
         <View style={{ flexDirection: 'row', paddingTop: 20, paddingBottom: 20 }}>
           <Bar 
             color='blue'
@@ -173,18 +186,7 @@ class PickGroupDetailScreen extends Component {
             style={{ marginLeft: 10, marginRight: 10 }}
           />
         </View>
-        {!this.props.done ?
-        <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
-        <FooterTab style={{ backgroundColor: Colors.background }}>
-          <TouchableOpacity 
-            style={Styles.updateButtonStyle}
-            onPress={this.confirmUpdateOrder.bind(this)}
-          >
-            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>
-          </TouchableOpacity>
-        </FooterTab>
-        </Footer>
-        : null}
+        }
       </Container>
       
     );

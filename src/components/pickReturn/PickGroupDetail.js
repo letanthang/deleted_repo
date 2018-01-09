@@ -99,9 +99,7 @@ class PickGroupDetail extends Component {
     if (this.PickDeliveryType === 3) return null;
     return (
       <View>
-        <View style={Styles.itemStyle}>
-          <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
-        </View>
+        
       </View>
     );
   }
@@ -176,19 +174,20 @@ class PickGroupDetail extends Component {
                     </View>
                     <View style={Styles.itemStyle}>
                       <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
+
+                      
                     </View>
-                    {this.renderInfosForPick({ Weight, Length, Width, Height })}
-                    {done ?
-                    <View style={Styles.itemStyle}>
+                    <View style={Styles.item2Style}>
+                      <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
+                      {done ?
                       <FormButton
                         disabled={this.checkDelivering(order)}
-                        theme='success'
+                        theme='theme1'
                         text="Nhận đi giao"
                         width={100}
                         onPress={this.acceptDeliverPress.bind(this, order)}
-                      />
+                      /> : null}
                     </View>
-                    : null}
                     <ActionButtons
                       done={Utils.checkPickComplete(CurrentStatus)}
                       info={order}

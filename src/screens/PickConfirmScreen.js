@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, TouchableHighlight, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import SignatureCapture from 'react-native-signature-capture';
 import { accounting } from 'accounting';
 import { 
   Container, Content, Text, Title, Icon,
@@ -18,7 +19,6 @@ import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithRea
 
 class PickOrderScreen extends Component {
   state = { modalShow: false }
-
   componentWillMount() {
     // ClientID = this.props.navigation.state.params.ClientID;
     this.ClientHubID = this.props.navigation.state.params.ClientHubID;
@@ -34,6 +34,62 @@ class PickOrderScreen extends Component {
 
   componentDidUpdate() {
   }
+
+  saveSign() {
+    this.refs["sign"].saveImage();
+  }
+
+  resetSign() {
+      this.refs["sign"].resetImage();
+      this.signed = false;
+  }
+
+  _onSaveEvent(result) {
+      //result.encoded - for the base64 encoded png
+      //result.pathName - for the file path name
+      console.log(result);
+  }
+  _onDragEvent() {
+      // This callback will be called when the user enters signature
+      console.log("dragged");
+      this.signed = true;
+  }
+
+  updateOrder() {
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
+    this.saveSign();
+    this.props.updateOrderStatus({ OrderInfos })
+      .then((failOrders) => {
+        console.log(failOrders);
+        this.props.navigation.goBack();
+      });
+  }
+
+  confirmUpdateOrder() {
+    console.log(this.signed);
+    if (!this.signed === true) {
+      Alert.alert('Thông báo', 'Vui lòng kí xác nhận!');
+      return;
+    }
+
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
+    const OrderNum = OrderInfos.length;
+    if (OrderNum === 0) return;
+
+    const message = `Bạn đã lấy đủ đơn và thu tiền Shop, chắc chắn cập nhật ?`;
+    const title = 'Cập nhật toàn bộ đơn hàng ?';
+  
+    Alert.alert(
+      title,
+      message,
+      [
+        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+        { text: 'Đồng ý', onPress: () => this.updateOrder() }
+      ],
+      { cancelable: false }
+    );
+  }
+
   render() {
     const { navigate, goBack } = this.props.navigation;
     console.log(this.props.PickItems);
@@ -74,13 +130,42 @@ class PickOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu COD</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{TotalServiceCost}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(TotalServiceCost)} đ</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Chữ kí xác nhận</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>20</Text>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <TouchableHighlight 
+                  style={styles.buttonStyle}
+                  onPress={() => this.resetSign()}
+                >
+                  <Text>Reset</Text>
+                </TouchableHighlight>
+              </View> 
             </View>
-  
+            <View style={Styles.signatureStyle}>
+              <SignatureCapture
+                style={[{ flex: 1 }, styles.signature]}
+                ref="sign"
+                onSaveEvent={this._onSaveEvent.bind(this)}
+                onDragEvent={this._onDragEvent.bind(this)}
+                saveImageFileInExtStorage={false}
+                showNativeButtons={false}
+                showTitleLabel={false}
+                viewMode='portrait'
+              />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', marginTop: 16 }}>
+              <Button 
+                onPress={() => this.confirmUpdateOrder()}
+                block 
+                style={{ flex: 0.3, margin: 2 }}
+              >
+                <Text>Xác nhận</Text>
+              </Button>
+              
+            </View>
+
           </List>
         </Content>
         <LoadingSpinner loading={this.props.loading} />
@@ -88,6 +173,22 @@ class PickOrderScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  signature: {
+      flex: 1,
+      borderColor: '#000033',
+      borderWidth: 1,
+  },
+  buttonStyle: {
+      flex: 1, 
+      justifyContent: "center", 
+      alignItems: "center", 
+      height: 50,
+      backgroundColor: "#eeeeee",
+      margin: 10
+  }
+});
 
 const mapStateToProps = (state) => {
   const { pd, auth } = state;

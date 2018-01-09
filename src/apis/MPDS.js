@@ -17,16 +17,15 @@ const mock = mockOn ? new MockAdapter(axios) : null;
 export const GetUserActivePds = (UserID) => {
   const URL = `${BASE_URL}/pdaone/${UserID}`;
   const LoginHeader = Share.LoginHeader;
-  
-  if (mockOn) {
-    mock.onGet(URL, config).reply(200, sampleResponse);
-  }
 
   const config = {
     headers: LoginHeader,
     timeout: 3000
   };
 
+  if (mockOn) {
+    mock.onGet(URL, config).reply(200, sampleResponse);
+  }
   return axios.get(URL, config);
 };
 
@@ -38,6 +37,11 @@ export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
   };
   const LoginHeader = Share.LoginHeader;
   const config = { headers: LoginHeader };
+
+  if (mockOn) {
+    mock.onPut(URL, params, config).reply(200, updateResponse);
+  }
+
   return axios.put(URL, params, config);
 };
 
@@ -108,7 +112,7 @@ export const GetConfiguration = (configKey = null) => {
   };
 
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, sampleResponse2);
+    mock.onGet(URL, config).reply(200, configResponse);
   }
   
   return axios.get(URL, config);
@@ -2847,7 +2851,7 @@ const sampleResponse1 = {
   "message": ""
 }
 
-const sampleResponse2 = {
+const configResponse = {
     "status": "OK",
     "data": [
         {
@@ -2984,4 +2988,12 @@ const performanceResponse = {
     ],
     "total": 3,
     "message": "Query performance successfully."
+}
+
+const updateResponse = {
+    "status": "OK",
+    "data": {
+        failed_orders: []
+    },
+    "message": "Successfull"
 }

@@ -43,6 +43,11 @@ class PickGroupDetailScreen extends Component {
     return Utils.checkPickCompleteForUnsync(order);
   }
 
+  checkRealDone() {
+    const completeNum = this.pickGroup.ShopOrders.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+    return completeNum === this.totalNum;
+  }
+
   updateOrder() {
     const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
     this.props.updateOrderStatus({ OrderInfos });
@@ -163,7 +168,7 @@ class PickGroupDetailScreen extends Component {
         <PickGroupDetail navigation={this.props.navigation} />
         <LoadingSpinner loading={loading || addOrderLoading} />
         
-        {this.props.done ?
+        {this.doneNum === this.totalNum && !this.checkRealDone() ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>
           <TouchableOpacity 

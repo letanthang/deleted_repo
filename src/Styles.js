@@ -116,6 +116,13 @@ export const Styles = {
     borderColor: Colors.rowDivider,
     borderBottomWidth: 1
   },
+  signatureStyle: {
+    height: 250,
+    marginLeft: 16,
+    marginRight: 16,
+    borderColor: Colors.rowDivider,
+    borderWidth: 1
+  },
   rowLastStyle: {
     paddingTop: 14,
     paddingBottom: 16,

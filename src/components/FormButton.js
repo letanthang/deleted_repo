@@ -14,6 +14,9 @@ const FormButton = ({ text, disabled, theme, onPress, width }) => {
   } else if (theme === 'danger') {
     buttonStyle = styles.buttonDangerStyle;
     textStyle = styles.textDangerStyle;
+  } else if (theme === 'theme1') {
+    buttonStyle = styles.buttonTheme1Style;
+    textStyle = styles.textTheme1Style;
   }
 
   
@@ -81,6 +84,14 @@ let styles = {
   buttonDisabledStyle: {
     ...defaultStyles.buttonStyle,
     borderColor: Colors.weak,
+  },
+  buttonTheme1Style: {
+    ...defaultStyles.buttonStyle,
+    backgroundColor: defaultStyles.successColor,
+    borderRadius: 2
+  },
+  textTheme1Style: {
+    color: 'white'
   }
 };
 

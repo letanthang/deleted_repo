@@ -41,7 +41,7 @@ class PickGroupDetail extends Component {
     const { done, PickItems, ReturnItems } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done);
+    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === done);
     if (orders.length === 0) {
       this.props.changeDone1(!done);
     }
@@ -106,7 +106,7 @@ class PickGroupDetail extends Component {
     const { done, PickItems, ReturnItems } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.PickReturnSOs.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
+    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
 
 
     return (

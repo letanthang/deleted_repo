@@ -148,8 +148,8 @@ class TripListScreen extends Component {
   }
 
   checkTripDone(trip) {
-    const ordersNum = trip.PickReturnSOs.length;
-    const completedNum = trip.PickReturnSOs.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
+    const ordersNum = trip.ShopOrders.length;
+    const completedNum = trip.ShopOrders.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
     return (ordersNum === completedNum);
   }
   renderNullData() {
@@ -219,12 +219,10 @@ class TripListScreen extends Component {
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                 
                 const pickGroup = item;
-                const { Address, ContactName, ContactPhone } = pickGroup;
+                const { Address, ContactName, ContactPhone, TotalServiceCost } = pickGroup;
                 
-                let TotalServiceCost = 0; 
-                pickGroup.PickReturnSOs.forEach(order => { TotalServiceCost += order.CODAmount; });
-                const ordersNum = pickGroup.PickReturnSOs.length;
-                const completedNum = pickGroup.PickReturnSOs.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
+                const ordersNum = pickGroup.ShopOrders.length;
+                const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
                 return (
                   <View style={DeliverGroupStyles.content}>
                   <TouchableOpacity

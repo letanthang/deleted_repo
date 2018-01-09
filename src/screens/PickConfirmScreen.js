@@ -10,34 +10,34 @@ import {
 } from 'native-base';
 import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
-import { getOrders } from '../selectors';
+import { get3Type } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import LogoButton from '../components/LogoButton';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/pickReturn/Helpers';
 
-let ClientID = null;
-let ClientHubID = null;
 class PickOrderScreen extends Component {
   state = { modalShow: false }
 
   componentWillMount() {
     // ClientID = this.props.navigation.state.params.ClientID;
-    ClientHubID = this.props.navigation.state.params.ClientHubID;
+    this.ClientHubID = this.props.navigation.state.params.ClientHubID;
+    this.pickGroup = this.props.PickItems.find(g => g.ClientHubID === this.ClientHubID);
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { db } = nextProps;
+  componentWillReceiveProps({ PickItems }) {
+    this.pickGroup = PickItems.find(g => g.ClientHubID === this.ClientHubID);
   }
 
   componentDidUpdate() {
   }
   render() {
     const { navigate, goBack } = this.props.navigation;
-
+    console.log(this.props.PickItems);
+    const { ContactName, TotalServiceCost } = this.pickGroup;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -62,19 +62,19 @@ class PickOrderScreen extends Component {
         <Content style={{ backgroundColor: Colors.row }}>
           <List>
             <View style={Styles.rowHeaderStyle}>
-              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Tổng quan</Text>
+              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin đơn hàng shop</Text>
             </View>
             <View style={Styles.rowStyle}> 
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên Shop</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Shop BCS</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ContactName}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số lượng đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>20</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{this.pickGroup.ShopOrders.length}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu COD</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>20</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{TotalServiceCost}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Chữ kí xác nhận</Text>
@@ -93,8 +93,8 @@ const mapStateToProps = (state) => {
   const { pd, auth } = state;
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
-  const db = getOrders(state);
-  return { db, pdsId, sessionToken, loading };
+  const { PickItems } = get3Type(state);
+  return { PickItems, pdsId, sessionToken, loading };
 };
 
 

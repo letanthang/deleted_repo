@@ -7,7 +7,6 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import configureStore from './configureStore';
 import LoginScreen from './screens/LoginScreen';
 import Drawer from './Drawer';
-import PickListScreen from './screens/PickListScreen';
 import PickGroupDetailScreen from './screens/PickGroupDetailScreen';
 import ReturnGroupDetailScreen from './screens/ReturnGroupDetailScreen';
 import PickOrderScreen from './screens/PickOrderScreen';
@@ -48,7 +47,6 @@ class App extends Component {
         Drawer: { screen: Drawer },
         DeliveryList: { screen: DeliveryListScreen },
         DeliveryGroupCreate: { screen: DeliveryGroupCreateScreen },
-        PickList: { screen: PickListScreen },
         TripList: { screen: TripListScreen },
         PickGroupDetail: { screen: PickGroupDetailScreen },
         ReturnGroupDetail: { screen: ReturnGroupDetailScreen },

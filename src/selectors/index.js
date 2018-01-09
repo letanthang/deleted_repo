@@ -18,7 +18,8 @@ export const get3Type = createSelector(
       const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
 
       const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
-      group.PickReturnSOs = orders;
+      group.ShopOrders = orders;
+      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
       PickItems.push(group);
     });
 
@@ -30,7 +31,8 @@ export const get3Type = createSelector(
       const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
 
       const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
-      group.PickReturnSOs = orders;
+      group.ShopOrders = orders;
+      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
       ReturnItems.push(group);
     });
 
@@ -52,7 +54,7 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
       const pickTotal = pickGroupList.length;
       const pickComplete = pickTotal === 0 ? 0 : pickGroupList.filter(pg => {
         let isComplete = true;
-        pg.PickReturnSOs.forEach(o => {
+        pg.ShopOrders.forEach(o => {
           isComplete = isComplete && Utils.checkPickComplete(o.CurrentStatus);
         });
         return isComplete;
@@ -67,7 +69,7 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
       const returnTotal = returnGroupList.length;
       const returnComplete = returnTotal === 0 ? 0 : returnGroupList.filter(pg => {
         let isComplete = true;
-        pg.PickReturnSOs.forEach(o => {
+        pg.ShopOrders.forEach(o => {
           isComplete = isComplete && Utils.checkReturnComplete(o.CurrentStatus);
         });
         return isComplete;

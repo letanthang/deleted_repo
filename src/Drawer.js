@@ -5,7 +5,6 @@ import SideBar from './components/SideBar';
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
 import HelpScreen from './screens/HelpScreen';
-import PickListScreen from './screens/PickListScreen';
 import AboutScreen from './screens/AboutScreen';
 
 import PerformanceScreen from './screens/PerformanceScreen';

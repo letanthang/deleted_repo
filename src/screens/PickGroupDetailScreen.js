@@ -25,14 +25,14 @@ class PickGroupDetailScreen extends Component {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
-    this.totalNum = this.pickGroup.PickReturnSOs.length;
-    this.doneNum = this.pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
+    this.totalNum = this.pickGroup.ShopOrders.length;
+    this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     this.pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    this.doneNum = this.pickGroup.PickReturnSOs.filter(o => this.checkComplete(o)).length;
+    this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
 
   componentWillUnmount() {
@@ -44,14 +44,14 @@ class PickGroupDetailScreen extends Component {
   }
 
   updateOrder() {
-    const OrderInfos = this.pickGroup.PickReturnSOs.filter(o => o.success !== undefined);
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
     this.props.updateOrderStatus({ OrderInfos });
     this.props.resetPickGroup();
   }
 
   confirmUpdateOrder() {
     this.props.navigation.navigate('PickConfirm', { ClientHubID: this.ClientHubID });
-    // const OrderInfos = this.pickGroup.PickReturnSOs.filter(o => o.success !== undefined);
+    // const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
     // const OrderNum = OrderInfos.length;
     // if (OrderNum === 0) return;
 

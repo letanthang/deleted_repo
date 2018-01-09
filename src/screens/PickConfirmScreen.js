@@ -15,7 +15,6 @@ import { get3Type } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import LogoButton from '../components/LogoButton';
-import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/pickReturn/Helpers';
 
 class PickOrderScreen extends Component {
   state = { modalShow: false }
@@ -23,7 +22,17 @@ class PickOrderScreen extends Component {
     // ClientID = this.props.navigation.state.params.ClientID;
     this.ClientHubID = this.props.navigation.state.params.ClientHubID;
     this.pickGroup = this.props.PickItems.find(g => g.ClientHubID === this.ClientHubID);
+    if (!this.checkDone() || this.checkRealDone()) {
+      Alert.alert(
+        'Không thể cập nhật',
+        'Có đơn mới thêm vào hoặc chuyến đi lấy này đã hoàn tất',
+        [
+          { text: 'Quay về', onPress: () => this.props.navigation.goBack() }
+        ]
+      );
+    }
   }
+  
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
   }
@@ -33,6 +42,14 @@ class PickOrderScreen extends Component {
   }
 
   componentDidUpdate() {
+  }
+
+  checkDone() {
+    return this.pickGroup.ShopOrders.filter(o => !Utils.checkPickCompleteForUnsync(o)).length === 0;
+  }
+
+  checkRealDone() {
+    return this.pickGroup.ShopOrders.filter(o => !Utils.checkPickComplete(o.CurrentStatus)).length === 0;
   }
 
   saveSign() {

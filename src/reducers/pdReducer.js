@@ -227,7 +227,7 @@ const transformPDS = (pds) => {
   // create PickItems, DeliveryItems, ReturnItems
   const temp = {};
   pds.PDSItems.forEach(item => {
-    item.NextStatus = undefined;
+    delete item.NextStatus;
     temp[getKey(item.OrderID, item.PickDeliveryType)] = item;
   });
   pds.PDSItems = temp;

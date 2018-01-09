@@ -28,11 +28,12 @@ export const pdListFetch = () => {
   return (dispatch, getState) => {
     dispatch({ type: PDLIST_FETCH });
     const { userID } = getState().auth;
-    API.GetUserActivePds(userID)
+    return API.GetUserActivePds(userID)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
           pdListFetchSuccess(dispatch, json.data[0]);
+          return;
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
           console.log('khong co chuyen di, json response=');
           console.log(json);

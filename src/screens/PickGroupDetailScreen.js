@@ -9,7 +9,7 @@ import {
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
-import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone } from '../actions';
+import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch } from '../actions';
 import { get3Type } from '../selectors';
 import Utils from '../libs/Utils';
 import { Styles, Colors } from '../Styles';
@@ -32,6 +32,7 @@ class PickGroupDetailScreen extends Component {
   componentWillReceiveProps({ PickItems, ReturnItems }) {
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     this.pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
 
@@ -55,23 +56,8 @@ class PickGroupDetailScreen extends Component {
   }
 
   confirmUpdateOrder() {
-    this.props.navigation.navigate('PickConfirm', { ClientHubID: this.ClientHubID });
-    // const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
-    // const OrderNum = OrderInfos.length;
-    // if (OrderNum === 0) return;
-
-    // const message = `Bạn có chắc chắn muốn cập nhật ${OrderNum} đơn hàng trên ?`;
-    // const title = 'Cập nhật đơn hàng ?';
-  
-    // Alert.alert(
-    //   title,
-    //   message,
-    //   [
-    //     { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
-    //     { text: 'Đồng ý', onPress: () => this.updateOrder() }
-    //   ],
-    //   { cancelable: false }
-    // );
+    this.props.pdListFetch()
+      .then(() => this.props.navigation.navigate('PickConfirm', { ClientHubID: this.ClientHubID }));
   }
 
   renderHeader(pickGroup) {
@@ -208,4 +194,4 @@ const mapStateToProps = (state) => {
   return { PickItems, ReturnItems, sessionToken, pdsId, state, loading, addOrderLoading, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone })(PickGroupDetailScreen);
+export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch })(PickGroupDetailScreen);

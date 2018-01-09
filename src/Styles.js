@@ -142,6 +142,13 @@ export const Styles = {
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
+  rowHeaderConfirm: {
+    backgroundColor: Colors.rowHeader,
+    padding: 4,
+    paddingLeft: 16,
+    paddingRight: 16,
+    justifyContent: 'flex-start'
+  },
   col1Style: {
     width: 150,
     alignSelf: 'center'

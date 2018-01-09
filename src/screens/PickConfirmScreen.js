@@ -134,8 +134,9 @@ class PickOrderScreen extends Component {
         </Header>
         <Content style={{ backgroundColor: Colors.row }}>
           <List>
-            <View style={Styles.rowHeaderStyle}>
-              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin đơn hàng shop</Text>
+            <View style={Styles.rowHeaderConfirm}>
+              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>* Vui lòng kiểm tra lại thông tin đơn hàng</Text>
+              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>* Đây là số COD & số đơn cập nhật sau cùng</Text>
             </View>
             <View style={Styles.rowStyle}> 
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên Shop</Text>

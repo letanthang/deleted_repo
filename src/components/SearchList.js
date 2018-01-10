@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { FlatList, View, TouchableOpacity } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
@@ -8,6 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Utils from '../libs/Utils';
+import { getOrders } from '../selectors';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
@@ -59,7 +61,6 @@ class OrderListScreen extends Component {
 
   
   renderStatusText(order) {
-    const { CurrentStatus, PickDeliveryType } = order;
     const DisplayStatus = Utils.getDisplayStatus(order);
     const StatusColor = Utils.getDisplayStatusColor(order);
     return (
@@ -99,17 +100,17 @@ class OrderListScreen extends Component {
   }
 
   render() {
-    const { PDSItems } = this.props;
+    const { db } = this.props;
     let i = 0;
     const limit = 5;
-    const items = PDSItems.filter(o => {
+    const items = _.filter(db, o => {
       if (i < limit && this.checkKeywork(o)) {
         i++;
         return true;
       }
       return false;
     });
-    if (!PDSItems || !items) return this.renderNullData();
+    if (!db || !items) return this.renderNullData();
 
     return (
         <Content style={{ backgroundColor: Colors.row }}>
@@ -119,6 +120,7 @@ class OrderListScreen extends Component {
           >
             <FlatList
               data={items}
+              keyExtractor={(item, index) => index}
               renderItem={({ item }) =>
               <TouchableOpacity
               onPress={this.onDeliveryOrderPress.bind(this, item)}
@@ -155,9 +157,9 @@ class OrderListScreen extends Component {
 
 }
 
-const mapStateToProps = ({ pd }) => {
-  const { PDSItems } = pd;
-  return { PDSItems };
+const mapStateToProps = (state) => {
+  const db = getOrders(state);
+  return { db };
 };
 
 export default connect(mapStateToProps, {})(OrderListScreen);

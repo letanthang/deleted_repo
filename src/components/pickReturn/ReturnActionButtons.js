@@ -4,7 +4,7 @@ import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors } from '../../Styles';
-import { updateOrderInfoReturn } from '../../actions';
+import { updateOrderInfo } from '../../actions';
 import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
 
 class ReturnActionButtons extends Component {
@@ -12,15 +12,15 @@ class ReturnActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
-    const { OrderID, ContactPhone, OrderCode } = this.props.order;
+    const { OrderID, PickDeliveryType, ContactPhone, OrderCode } = this.props.order;
     let info = {};
     if (nextStatus === undefined) { 
-      info = undefined;
-      this.props.updateOrderInfoReturn(OrderID, undefined);
+      info = { success: undefined, NextStatus: undefined };
+      this.props.updateOrderInfo(OrderID, PickDeliveryType, info);
     } else if (nextStatus) {
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
-      this.props.updateOrderInfoReturn(OrderID, info);
+      this.props.updateOrderInfo(OrderID, PickDeliveryType, info);
     } else {
       //failed to pick
       info.success = nextStatus;
@@ -28,7 +28,7 @@ class ReturnActionButtons extends Component {
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfoReturn(OrderID, moreInfo);
+          this.props.updateOrderInfo(OrderID, PickDeliveryType, moreInfo);
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {
@@ -86,4 +86,4 @@ const mapStateToProps = ({ other }) => {
   return { configuration };
 };
 
-export default connect(mapStateToProps, { updateOrderInfoReturn })(ReturnActionButtons);
+export default connect(mapStateToProps, { updateOrderInfo })(ReturnActionButtons);

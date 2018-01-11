@@ -110,6 +110,12 @@ class Utils {
     }
     return false;
   }
+  static checkReturnCompleteForUnsync({ NextStatus, CurrentStatus }) {
+    if (returnCompleteStatus.includes(CurrentStatus) || returnCompleteStatus.includes(NextStatus)) {
+      return true;
+    }
+    return false;
+  }
 
   static checkReturnDone(status) {
     const completeList = ['WaitingToFinish', 'Returned'];

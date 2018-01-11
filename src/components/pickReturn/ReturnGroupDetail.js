@@ -7,7 +7,7 @@ import { accounting } from 'accounting';
 import { 
   Content, List
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, updateAllOrderInfoReturn, updateOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 } from '../../actions';
+import { updateOrderInfo, getConfiguration, updateAllOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 } from '../../actions';
 import Utils from '../../libs/Utils';
 import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
@@ -41,7 +41,8 @@ class PickGroupDetail extends Component {
     const { done, PickItems, ReturnItems } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === done);
+    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === false);
+    console.log(orders.length);
     if (orders.length === 0) {
       this.props.changeDone1(!done);
     }
@@ -51,12 +52,8 @@ class PickGroupDetail extends Component {
     if (!this.props.configuration) this.props.getConfiguration();
   }
 
-  checkComplete({ CurrentStatus, PickDeliveryType }) {
-    if (PickDeliveryType === 1) {
-      return Utils.checkPickComplete(CurrentStatus);
-    } else {
-      return Utils.checkReturnComplete(CurrentStatus);
-    }
+  checkComplete(order) {
+      return Utils.checkReturnCompleteForUnsync(order);
   }
   checkKeywork({ OrderCode, ExternalCode }) {
     const keyword = this.props.keyword.toUpperCase(); 
@@ -89,17 +86,6 @@ class PickGroupDetail extends Component {
   }
   onCancelDate() {
     this.setState({ modalShow: !this.state.modalShow });
-  }
-
-  renderInfosForPick({ Weight, Length, Width, Height }) {
-    if (this.PickDeliveryType === 3) return null;
-    return (
-      <View>
-        <View style={Styles.itemStyle}>
-          <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
-        </View>
-      </View>
-    );
   }
 
   render() {
@@ -159,10 +145,9 @@ class PickGroupDetail extends Component {
                     <View style={Styles.itemStyle}>
                       <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
                     </View>
-                    {this.renderInfosForPick({ Weight, Length, Width, Height })}
                     <ReturnActionButtons
-                      done={done}
-                      info={this.props.OrderInfos[OrderID]}
+                      done={Utils.checkReturnComplete(order.CurrentStatus)}
+                      info={order}
                       order={order}
                       onSelectDateCase={buttonIndex => {
                         this.buttonIndex = buttonIndex;
@@ -202,4 +187,4 @@ const mapStateToProps = (state) => {
   return { sessionToken, PickItems, ReturnItems, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfoReturn, updateOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderInfo, getConfiguration, updateAllOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 })(PickGroupDetail);

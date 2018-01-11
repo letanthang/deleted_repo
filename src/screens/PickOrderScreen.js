@@ -8,7 +8,7 @@ import {
   Header, Button, Left, Right, Body,
   List 
 } from 'native-base';
-import { updateOrderStatus, getConfiguration } from '../actions';
+import { updateOrderInfo, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -76,12 +76,12 @@ class PickOrderScreen extends Component {
   
   updateOrderToDone() {
     const OrderInfos = getUpdateOrderInfoForDone(order);
-    this.props.updateOrderStatus({ OrderInfos });
+    this.props.updateOrderInfo(order.OrderID, order.PickDeliveryType, OrderInfos);
   }
 
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getUpdateOrderInfo(order, buttonIndex, NewDate);
-    this.props.updateOrderStatus({ OrderInfos });
+    this.props.updateOrderInfo(order.OrderID, order.PickDeliveryType, OrderInfos);
   }
 
   updateOrderToFailWithReason() {
@@ -110,7 +110,7 @@ class PickOrderScreen extends Component {
   }
 
   renderButtons() {
-    const done = Utils.checkPickComplete(order.CurrentStatus);
+    const done = Utils.checkPickCompleteForUnsync(order);
     if (done) {
       return (
         <View
@@ -300,5 +300,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, 
-  { updateOrderStatus, getConfiguration }
+  { updateOrderInfo, getConfiguration }
 )(PickOrderScreen);

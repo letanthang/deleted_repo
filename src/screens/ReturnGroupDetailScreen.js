@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert } from 'react-native';
+import { View, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -9,9 +9,10 @@ import {
 } from 'native-base';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
-import { updateOrderStatus, resetReturnGroup, changeDone1, changeKeyword1 } from '../actions';
+import { Bar } from 'react-native-progress';
+import { pdListFetch, changeDone1, changeKeyword1 } from '../actions';
 import { get3Type } from '../selectors';
-// import Utils from './libs/Utils';
+import Utils from '../libs/Utils';
 import { Styles, Colors } from '../Styles';
 import ReturnGroupDetail from '../components/pickReturn/ReturnGroupDetail';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -24,38 +25,34 @@ class PickGroupDetailScreen extends Component {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.totalNum = this.pickGroup.ShopOrders.length;
+    this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps({ PickItems, ReturnItems }) {
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
+    this.pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    this.totalNum = this.pickGroup.ShopOrders.length;
+    this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
-  
-  componentWillUnmount() {
-    this.props.resetReturnGroup();
+
+  checkComplete(order) {
+    return Utils.checkReturnCompleteForUnsync(order);
+  }
+
+  checkRealDone() {
+    const completeNum = this.pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
+    return completeNum === this.totalNum;
   }
 
   updateOrder() {
-    const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
     this.props.updateOrderStatus({ OrderInfos });
-    this.props.resetReturnGroup();
   }
 
   confirmUpdateOrder() {
-    const OrderInfos = _.filter(this.props.OrderInfos, item => item !== undefined);
-    const OrderNum = OrderInfos.length;
-    if (OrderNum === 0) return;
-    
-    const message = `Bạn có chắc chắn muốn cập nhật ${OrderNum} đơn hàng trên ?`;
-    const title = 'Cập nhật đơn hàng ?';
-  
-    Alert.alert(
-      title,
-      message,
-      [
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
-        { text: 'Đồng ý', onPress: () => this.updateOrder() }
-      ],
-      { cancelable: false }
-    );
+    this.props.pdListFetch()
+      .then(() => this.props.navigation.navigate('PickConfirm', { ClientHubID: this.ClientHubID, PickDeliveryType: 3 }));
   }
 
   renderHeader(pickGroup) {
@@ -141,7 +138,8 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
-    const { PickItems, ReturnItems, done, navigation, loading } = this.props;
+    const { PickItems, ReturnItems, navigation, loading } = this.props;
+    const { width } = Dimensions.get('window');
     const { PickDeliveryType } = this.pickGroup;
     const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(trip => trip.ClientHubID === this.ClientHubID); 
@@ -152,7 +150,7 @@ class PickGroupDetailScreen extends Component {
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <ReturnGroupDetail navigation={navigation} />
         <LoadingSpinner loading={loading} />
-        {!done ?
+        {this.doneNum === this.totalNum && !this.checkRealDone() ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>
           <TouchableOpacity 
@@ -163,7 +161,20 @@ class PickGroupDetailScreen extends Component {
           </TouchableOpacity>
         </FooterTab>
         </Footer>
-        : null}
+        : 
+        <View style={{ flexDirection: 'row', paddingTop: 20, paddingBottom: 20 }}>
+          <Bar 
+            color='blue'
+            unfilledColor='#ccc'
+            borderRadius={2}
+            progress={this.doneNum / this.totalNum}
+            height={10}
+            width={width - 20}
+            indeterminate={false}
+            style={{ marginLeft: 10, marginRight: 10 }}
+          />
+        </View>
+        }
       </Container>
       
     );
@@ -179,4 +190,4 @@ const mapStateToProps = (state) => {
   return { ReturnItems, PickItems, sessionToken, pdsId, loading, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, resetReturnGroup, changeDone1, changeKeyword1 })(PickGroupDetailScreen);
+export default connect(mapStateToProps, { pdListFetch, changeDone1, changeKeyword1 })(PickGroupDetailScreen);

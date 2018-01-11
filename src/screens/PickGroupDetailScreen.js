@@ -52,7 +52,6 @@ class PickGroupDetailScreen extends Component {
   updateOrder() {
     const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
     this.props.updateOrderStatus({ OrderInfos });
-    this.props.resetPickGroup();
   }
 
   confirmUpdateOrder() {

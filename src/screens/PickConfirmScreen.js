@@ -21,11 +21,14 @@ class PickOrderScreen extends Component {
   componentWillMount() {
     // ClientID = this.props.navigation.state.params.ClientID;
     this.ClientHubID = this.props.navigation.state.params.ClientHubID;
-    this.pickGroup = this.props.PickItems.find(g => g.ClientHubID === this.ClientHubID);
+    this.PickDeliveryType = this.props.navigation.state.params.PickDeliveryType;
+    const { PickItems, ReturnItems } = this.props;
+    const Items = this.PickDeliveryType === 3 ? ReturnItems : PickItems;
+    this.pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     if (!this.checkDone() || this.checkRealDone()) {
       Alert.alert(
         'Không thể cập nhật',
-        'Có đơn mới thêm vào hoặc chuyến đi lấy này đã hoàn tất',
+        'Có đơn mới thêm vào hoặc chuyến đi đã được cập nhật hoàn tất',
         [
           { text: 'Quay về', onPress: () => this.props.navigation.goBack() }
         ]
@@ -43,13 +46,19 @@ class PickOrderScreen extends Component {
 
   componentDidUpdate() {
   }
+  checkCompleteForUnsync(o) {
+    return this.PickDeliveryType === 3 ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkPickCompleteForUnsync(o);
+  }
+  checkComplete(o) {
+    return this.PickDeliveryType === 3 ? Utils.checkReturnComplete(o) : Utils.checkPickComplete(o);
+  }
 
   checkDone() {
-    return this.pickGroup.ShopOrders.filter(o => !Utils.checkPickCompleteForUnsync(o)).length === 0;
+    return this.pickGroup.ShopOrders.filter(o => !this.checkCompleteForUnsync(o)).length === 0;
   }
 
   checkRealDone() {
-    return this.pickGroup.ShopOrders.filter(o => !Utils.checkPickComplete(o.CurrentStatus)).length === 0;
+    return this.pickGroup.ShopOrders.filter(o => !this.checkComplete(o.CurrentStatus)).length === 0;
   }
 
   saveSign() {
@@ -126,7 +135,7 @@ class PickOrderScreen extends Component {
           </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>Lấy hàng Shop</Title>
+            <Title>{this.PickDeliveryType === 3 ? 'Trả' : 'Lấy'} hàng Shop</Title>
           </Body>
           <Right style={Styles.rightStyle}>
           </Right>
@@ -212,8 +221,8 @@ const mapStateToProps = (state) => {
   const { pd, auth } = state;
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
-  const { PickItems } = get3Type(state);
-  return { PickItems, pdsId, sessionToken, loading };
+  const { PickItems, ReturnItems } = get3Type(state);
+  return { PickItems, ReturnItems, pdsId, sessionToken, loading };
 };
 
 

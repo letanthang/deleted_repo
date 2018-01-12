@@ -5,7 +5,7 @@ import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors, Styles } from '../../Styles';
-import { updateAllOrderInfo, setAllStatus } from '../../actions';
+import { updateOrderInfos } from '../../actions';
 import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
 
 class ActionAllButtons extends Component {
@@ -15,20 +15,20 @@ class ActionAllButtons extends Component {
     const orders = this.props.orders;
     const { ContactPhone } = orders[0];
     
-    if (nextStatus === undefined) { 
-      this.props.setAllStatus(undefined);
-      this.props.updateAllOrderInfo({});
+    if (nextStatus === undefined) {
+      const OrderInfos = _.map(orders, ({ OrderID, PickDeliveryType }) => {
+        return { OrderID, PickDeliveryType, success: undefined, nextStatus: undefined };
+      });
+      this.props.updateOrderInfos(OrderInfos);
     } else if (nextStatus) {
-      this.props.setAllStatus(true);
       const OrderInfos = _.map(orders, order => getUpdateOrderInfoForDone(order)); 
-      this.props.updateAllOrderInfo(OrderInfos);
+      this.props.updateOrderInfos(OrderInfos);
     } else {
       updateOrderToFailWithReason2(ContactPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));
-          this.props.updateAllOrderInfo(OrderInfos);
-          this.props.setAllStatus(false);
+          this.props.updateOrderInfos(OrderInfos);
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {
@@ -38,10 +38,10 @@ class ActionAllButtons extends Component {
     }
   }
   render() {
-    const { allStatus, done, style, rightText = 'Lấy' } = this.props;
+    const { done, style, rightText = 'Lấy' } = this.props;
     if (done) return null;
 
-    const status = allStatus;
+    const status = undefined;
 
     return (
       <View style={style}>
@@ -91,4 +91,4 @@ const mapStateToProps = ({ other, pickGroup }) => {
   return { configuration, allStatus };
 };
 
-export default connect(mapStateToProps, { updateAllOrderInfo, setAllStatus })(ActionAllButtons);
+export default connect(mapStateToProps, { updateOrderInfos })(ActionAllButtons);

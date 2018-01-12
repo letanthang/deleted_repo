@@ -36,25 +36,32 @@ class PickGroupDetail extends Component {
     this.autoChangeTab();
   }
 
+  componentDidMount() {
+    if (!this.props.configuration) this.props.getConfiguration();
+  }  
+
   autoChangeTab() {
     if (this.props.done) return;
     const { done, PickItems, ReturnItems } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === false);
+    const orders = pickGroup.ShopOrders.filter(o => Utils.checkReturnCompleteForUnsync(o) === false);
     console.log(orders.length);
     if (orders.length === 0) {
       this.props.changeDone1(!done);
     }
   }
 
-  componentDidMount() {
-    if (!this.props.configuration) this.props.getConfiguration();
+  checkRealDone() {
+    const { PickItems, ReturnItems } = this.props;
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const orders = pickGroup.ShopOrders.filter(o => !Utils.checkReturnComplete(o.CurrentStatus));
+    console.log(orders.length);
+    if (orders.length === 0) return true;
+    return false;
   }
 
-  checkComplete(order) {
-      return Utils.checkReturnCompleteForUnsync(order);
-  }
   checkKeywork({ OrderCode, ExternalCode }) {
     const keyword = this.props.keyword.toUpperCase(); 
     return this.props.keyword === '' 
@@ -89,16 +96,18 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    const { done, PickItems, ReturnItems } = this.props;
+    const { done, PickItems, ReturnItems, keyword } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
-
+    const orders = pickGroup.ShopOrders.filter(o => Utils.checkReturnCompleteForUnsync(o) === done && this.checkKeywork(o));
+    const hidden = orders.length === 0 || keyword !== '' || this.checkRealDone();
+    console.log(hidden);
+    console.log(orders.length);
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>
         <ReturnActionAllButtons
-          done={done}
+          done={hidden}
           orders={orders}
           onSelectDateCase={buttonIndex => {
             this.buttonIndex = buttonIndex;

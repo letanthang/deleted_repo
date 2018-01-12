@@ -5,7 +5,7 @@ import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import FormButton from '../FormButton';
 import { Colors, Styles } from '../../Styles';
-import { updateAllOrderInfoReturn, setAllStatusReturn } from '../../actions';
+import { updateOrderInfos, setAllStatusReturn } from '../../actions';
 import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
 
 class ReturnActionAllButtons extends Component {
@@ -17,17 +17,21 @@ class ReturnActionAllButtons extends Component {
     
     if (nextStatus === undefined) { 
       this.props.setAllStatusReturn(undefined);
-      this.props.updateAllOrderInfoReturn({});
+      const OrderInfos = _.map(orders, order => { 
+        const { OrderID, PickDeliveryType } = order; 
+        return { OrderID, PickDeliveryType, success: undefined, NextStatus: undefined }; 
+      }); 
+      this.props.updateOrderInfos(OrderInfos);
     } else if (nextStatus) {
       this.props.setAllStatusReturn(true);
       const OrderInfos = _.map(orders, order => getUpdateOrderInfoForDone(order)); 
-      this.props.updateAllOrderInfoReturn(OrderInfos);
+      this.props.updateOrderInfos(OrderInfos);
     } else {
       updateOrderToFailWithReason2(ContactPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));
-          this.props.updateAllOrderInfoReturn(OrderInfos);
+          this.props.updateOrderInfos(OrderInfos);
           this.props.setAllStatusReturn(false);
         } else if (error === 'moreCall') {
           // more call
@@ -91,4 +95,4 @@ const mapStateToProps = ({ other, returnGroup }) => {
   return { configuration, allStatusReturn };
 };
 
-export default connect(mapStateToProps, { updateAllOrderInfoReturn, setAllStatusReturn })(ReturnActionAllButtons);
+export default connect(mapStateToProps, { updateOrderInfos, setAllStatusReturn })(ReturnActionAllButtons);

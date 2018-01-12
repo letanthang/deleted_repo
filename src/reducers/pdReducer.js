@@ -4,7 +4,7 @@ import {
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS,
-  PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO
+  PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -195,9 +195,20 @@ export default (state = nameInitialState, action) => {
       const { OrderID, PickDeliveryType, info } = action.payload;
       const PDSItems = _.cloneDeep(state.PDSItems);
       Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], info);
-      return { ...state, PDSItems, allStatus: undefined };
+      return { ...state, PDSItems };
     }
+     
+    case PD_UPDATE_ORDER_INFOS: {
+      const { OrderInfos } = action.payload;
+      const PDSItems = _.cloneDeep(state.PDSItems);
+      _.each(OrderInfos, info => {
+        const { OrderID, PickDeliveryType } = info;
+        Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], info);
+      });
       
+      return { ...state, PDSItems };
+    }
+
     default:
       return state;
   }

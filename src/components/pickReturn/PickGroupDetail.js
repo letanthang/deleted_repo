@@ -26,36 +26,47 @@ class PickGroupDetail extends Component {
   ClientHubID = null;
   PickDeliveryType = null;
   order = {};
+  done = false;
   
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.checkDone(this.props);
     this.autoChangeTab();
   }
 
   autoChangeTab() {
-    if (this.props.done) return;
-    
-    const { done, PickItems, ReturnItems } = this.props;
-    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === done);
-    if (orders.length === 0) {
-      this.props.changeDone(!done);
-    }
+    if (this.done) this.props.changeDone(true);
   }
 
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
   }
+  componentWillReceiveProps(nextProps) {
+    this.checkDone(nextProps);
+  }
 
-  checkComplete({ CurrentStatus, NextStatus, PickDeliveryType }) {
-    if (PickDeliveryType === 1) {
-      return Utils.checkPickCompleteForUnsync({ CurrentStatus, NextStatus });
+  checkRealDone() {
+    const { PickItems, ReturnItems } = this.props;
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const orders = pickGroup.ShopOrders.filter(o => !Utils.checkPickComplete(o.CurrentStatus));
+    console.log(orders.length);
+    if (orders.length === 0) return true;
+    return false;
+  }
+
+  checkDone(props) {
+    const { done, PickItems, ReturnItems } = props;
+    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const orders = pickGroup.ShopOrders.filter(o => Utils.checkPickCompleteForUnsync(o) === done);
+    if (orders.length === 0) {
+      this.done = true;
     } else {
-      return Utils.checkReturnComplete(CurrentStatus);
+      this.done = false;
     }
   }
 
@@ -95,15 +106,6 @@ class PickGroupDetail extends Component {
     this.setState({ modalShow: !this.state.modalShow });
   }
 
-  renderInfosForPick({ Weight, Length, Width, Height }) {
-    if (this.PickDeliveryType === 3) return null;
-    return (
-      <View>
-        
-      </View>
-    );
-  }
-
   acceptDeliverPress(order) {
     const newOrder = _.clone(order);
     newOrder.PickDeliveryType = 2;
@@ -120,16 +122,17 @@ class PickGroupDetail extends Component {
 
   render() {
     console.log('PickGroupDetail render!');
-    const { done, PickItems, ReturnItems } = this.props;
+    const { done, PickItems, ReturnItems, keyword } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkComplete(o) === done && this.checkKeywork(o));
+    const orders = pickGroup.ShopOrders.filter(o => Utils.checkPickCompleteForUnsync(o) === done && this.checkKeywork(o));
 
+    const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>
         <ActionAllButtons
-          done={done}
+          done={hidden}
           orders={orders}
           onSelectDateCase={buttonIndex => {
             this.buttonIndex = buttonIndex;
@@ -154,7 +157,8 @@ class PickGroupDetail extends Component {
                 Height, Width, Weight, Length, CurrentStatus,
                 ExternalCode, CODAmount, OrderID
               } = item;
-              const rightText = 'LẤY';
+              const isDelivering = this.checkDelivering(order);
+              const deliverStatus = isDelivering ? 'Đã đi giao' : 'Nhận đi giao';
               return (
                 <TouchableOpacity
                   onPress={this.onOrderPress.bind(this, item)}
@@ -182,9 +186,9 @@ class PickGroupDetail extends Component {
                       <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
                       {done ?
                       <FormButton
-                        disabled={this.checkDelivering(order)}
+                        disabled={isDelivering}
                         theme='theme1'
-                        text="Nhận đi giao"
+                        text={deliverStatus}
                         width={100}
                         onPress={this.acceptDeliverPress.bind(this, order)}
                       /> : null}

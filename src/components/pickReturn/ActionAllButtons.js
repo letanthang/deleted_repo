@@ -9,7 +9,11 @@ import { updateOrderInfos } from '../../actions';
 import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
 
 class ActionAllButtons extends Component {
+  state = { status: undefined }
   componentWillMount() {
+  }
+  componentWillUnmount() {
+    console.log('ActionAllButtons will unmounted');
   }
   changeInfo(nextStatus) {
     const orders = this.props.orders;
@@ -17,22 +21,26 @@ class ActionAllButtons extends Component {
     
     if (nextStatus === undefined) {
       const OrderInfos = _.map(orders, ({ OrderID, PickDeliveryType }) => {
-        return { OrderID, PickDeliveryType, success: undefined, nextStatus: undefined };
+        return { OrderID, PickDeliveryType, success: undefined, NextStatus: undefined };
       });
       this.props.updateOrderInfos(OrderInfos);
+      this.setState({ status: undefined });
     } else if (nextStatus) {
       const OrderInfos = _.map(orders, order => getUpdateOrderInfoForDone(order)); 
       this.props.updateOrderInfos(OrderInfos);
+      this.setState({ status: nextStatus });
     } else {
       updateOrderToFailWithReason2(ContactPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));
           this.props.updateOrderInfos(OrderInfos);
+          this.setState({ status: nextStatus });
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {
           this.props.onSelectDateCase(buttonIndex);
+          this.setState({ status: nextStatus });
         }
       });
     }
@@ -41,7 +49,7 @@ class ActionAllButtons extends Component {
     const { done, style, rightText = 'Lấy' } = this.props;
     if (done) return null;
 
-    const status = undefined;
+    const status = this.state.status;
 
     return (
       <View style={style}>

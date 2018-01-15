@@ -9,6 +9,7 @@ import { updateOrderInfos, setAllStatusReturn } from '../../actions';
 import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
 
 class ReturnActionAllButtons extends Component {
+  state = { status: undefined }
   componentWillMount() {
   }
   changeInfo(nextStatus) {
@@ -16,36 +17,37 @@ class ReturnActionAllButtons extends Component {
     const { ContactPhone } = orders[0];
     
     if (nextStatus === undefined) { 
-      this.props.setAllStatusReturn(undefined);
       const OrderInfos = _.map(orders, order => { 
         const { OrderID, PickDeliveryType } = order; 
         return { OrderID, PickDeliveryType, success: undefined, NextStatus: undefined }; 
       }); 
       this.props.updateOrderInfos(OrderInfos);
+      this.setState({ status: undefined });
     } else if (nextStatus) {
-      this.props.setAllStatusReturn(true);
       const OrderInfos = _.map(orders, order => getUpdateOrderInfoForDone(order)); 
       this.props.updateOrderInfos(OrderInfos);
+      this.setState({ status: nextStatus });
     } else {
       updateOrderToFailWithReason2(ContactPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));
           this.props.updateOrderInfos(OrderInfos);
-          this.props.setAllStatusReturn(false);
+          this.setState({ status: nextStatus });
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {
           this.props.onSelectDateCase(buttonIndex);
+          this.setState({ status: nextStatus });
         }
       });
     }
   }
   render() {
-    const { allStatusReturn, done, style, rightText = 'Trả' } = this.props;
+    const { done, style, rightText = 'Trả' } = this.props;
     if (done) return null;
 
-    const status = allStatusReturn;
+    const status = this.state.status;
 
     return (
       <View style={style}>
@@ -95,4 +97,4 @@ const mapStateToProps = ({ other, returnGroup }) => {
   return { configuration, allStatusReturn };
 };
 
-export default connect(mapStateToProps, { updateOrderInfos, setAllStatusReturn })(ReturnActionAllButtons);
+export default connect(mapStateToProps, { updateOrderInfos })(ReturnActionAllButtons);

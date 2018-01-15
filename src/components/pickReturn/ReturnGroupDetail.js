@@ -7,7 +7,7 @@ import { accounting } from 'accounting';
 import { 
   Content, List
 } from 'native-base';
-import { updateOrderInfo, getConfiguration, updateAllOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 } from '../../actions';
+import { updateOrderInfo, updateOrderInfos, getConfiguration, changeDone1, changeKeyword1 } from '../../actions';
 import Utils from '../../libs/Utils';
 import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
@@ -83,11 +83,10 @@ class PickGroupDetail extends Component {
     const timestamp = date.getTime();
     if (this.order === null) {
       const OrderInfos = _.map(this.orders, order => getUpdateOrderInfo(order, this.buttonIndex, timestamp));
-      this.props.updateAllOrderInfoReturn(OrderInfos);
-      this.props.setAllStatusReturn(false);
+      this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      this.props.updateOrderInfoReturn(this.order.OrderID, moreInfo);
+      this.props.updateOrderInfo(this.order.OrderID, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -101,8 +100,6 @@ class PickGroupDetail extends Component {
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.ShopOrders.filter(o => Utils.checkReturnCompleteForUnsync(o) === done && this.checkKeywork(o));
     const hidden = orders.length === 0 || keyword !== '' || this.checkRealDone();
-    console.log(hidden);
-    console.log(orders.length);
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>
@@ -128,11 +125,9 @@ class PickGroupDetail extends Component {
             renderItem={({ item }) => {
               const order = item;
               const { 
-                OrderCode, RecipientName, RecipientPhone, PickDeliveryType,
-                Height, Width, Weight, Length, CurrentStatus,
-                ExternalCode, CODAmount, OrderID
+                OrderCode, RecipientName, RecipientPhone,
+                ExternalCode, CODAmount
               } = item;
-              const rightText = 'LẤY';
               return (
                 <TouchableOpacity
                   onPress={this.onOrderPress.bind(this, item)}
@@ -161,7 +156,7 @@ class PickGroupDetail extends Component {
                       onSelectDateCase={buttonIndex => {
                         this.buttonIndex = buttonIndex;
                         this.order = order;
-                        this.setState({ modalShow: true });        
+                        this.setState({ modalShow: true });
                       }} 
                     />
                   </View>
@@ -196,4 +191,4 @@ const mapStateToProps = (state) => {
   return { sessionToken, PickItems, ReturnItems, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderInfo, getConfiguration, updateAllOrderInfoReturn, setAllStatusReturn, changeDone1, changeKeyword1 })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderInfo, updateOrderInfos, getConfiguration, changeDone1, changeKeyword1 })(PickGroupDetail);

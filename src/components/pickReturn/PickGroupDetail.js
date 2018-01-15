@@ -6,7 +6,7 @@ import { accounting } from 'accounting';
 import { 
   Content
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder } from '../../actions';
+import { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder } from '../../actions';
 import Utils from '../../libs/Utils';
 import { get3Type, getOrders } from '../../selectors';
 import { navigateOnce } from '../../libs/Common';
@@ -93,8 +93,7 @@ class PickGroupDetail extends Component {
     const timestamp = date.getTime();
     if (this.order === null) {
       const OrderInfos = _.map(this.orders, order => getUpdateOrderInfo(order, this.buttonIndex, timestamp));
-      this.props.updateAllOrderInfo(OrderInfos);
-      this.props.setAllStatus(false);
+      this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
       const { OrderID, PickDeliveryType } = this.order;
@@ -236,4 +235,4 @@ const mapStateToProps = (state) => {
   return { db, PickItems, ReturnItems, sessionToken, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateAllOrderInfo, updateOrderInfo, setAllStatus, changeDone, addOneOrder })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder })(PickGroupDetail);

@@ -156,8 +156,10 @@ class PickGroupDetail extends Component {
                 Height, Width, Weight, Length, CurrentStatus,
                 ExternalCode, CODAmount, OrderID
               } = item;
+
+              const realDone = Utils.checkPickComplete(CurrentStatus);
               const isDelivering = this.checkDelivering(order);
-              const deliverStatus = isDelivering ? 'Đã đi giao' : 'Nhận đi giao';
+              const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
               return (
                 <TouchableOpacity
                   onPress={this.onOrderPress.bind(this, item)}
@@ -183,7 +185,7 @@ class PickGroupDetail extends Component {
                     </View>
                     <View style={Styles.item2Style}>
                       <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
-                      {done ?
+                      {realDone ?
                       <FormButton
                         disabled={isDelivering}
                         theme='theme1'
@@ -193,7 +195,7 @@ class PickGroupDetail extends Component {
                       /> : null}
                     </View>
                     <ActionButtons
-                      done={Utils.checkPickComplete(CurrentStatus)}
+                      done={realDone}
                       info={order}
                       order={order}
                       onSelectDateCase={buttonIndex => {

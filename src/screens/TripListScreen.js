@@ -31,8 +31,9 @@ class TripListScreen extends Component {
     
   }
 
+  onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
   onTripPress(trip) {
-    navigateOnce(this, 'PickGroupDetail', { pickGroup: trip });
+    this.props.navigation.navigate('PickGroupDetail', { pickGroup: trip });
   }
 
   goBack() {
@@ -242,7 +243,7 @@ class TripListScreen extends Component {
                 return (
                   <View style={DeliverGroupStyles.content}>
                   <TouchableOpacity
-                    onPress={this.onTripPress.bind(this, pickGroup)}
+                    onPress={this.onTripPressOnce.bind(this, pickGroup)}
                   >
                     <View style={wrapperStyle}>
                         <View style={[Styles.itemStyle, { justifyContent: 'space-between' }]}>

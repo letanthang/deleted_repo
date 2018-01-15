@@ -25,10 +25,10 @@ class DeliveryByGroup extends Component {
     this.setState({ keyword });
   }
 
-  onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 500);
+  onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 300, { leading: true, trailing: false });
 
   onDeliveryOrderPress(OrderID) {
-    navigateOnce(this, 'DeliveryOrder', { OrderID });
+    this.props.navigation.navigate('DeliveryOrder', { OrderID });
   }
 
   renderStatusText(order) {
@@ -45,7 +45,7 @@ class DeliveryByGroup extends Component {
     
     return (
       <TouchableOpacity
-        onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
+        onPress={this.onDeliveryOrderPressOnce.bind(this, OrderID)}
       >
         <View style={wrapperStyle}>
           <View style={Styles.item2Style}>

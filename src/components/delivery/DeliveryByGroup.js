@@ -40,7 +40,7 @@ class DeliveryByGroup extends Component {
   }
 
   renderOrder(order, sectionID, rowID) {
-    const { DeliveryAddress, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder, ServiceName } = order;
+    const { DeliveryAddress, OrderCode, OrderID, DisplayOrder, ServiceName } = order;
     const wrapperStyle = rowID == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
     
     return (

@@ -260,7 +260,7 @@ class TripListScreen extends Component {
                             style={[Styles.weakColorStyle]}
                           >
                             {Address}
-                          </Text>              
+                          </Text>
                         </View>
                         
                         <View style={[Styles.item2Style, { paddingTop: 5 }]}>

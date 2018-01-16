@@ -38,19 +38,15 @@ class DeliveryByGroup extends Component {
 
   render() {
     const groups = _.clone(this.props.groups);
-    console.log(groups);
 
     const datas = _.groupBy(this.props.DeliveryItems, (item) => {
       if (Utils.checkDeliveryComplete(item.CurrentStatus)) return 'Đã xong';
       return item.group;
     });
 
-    console.log(datas);
-
     const sections = _.map(datas, (item, key) => {
       return { data: item, title: groups[key].groupName, groupIndex: key, activeSection: groups[key].isActive };
     });
-    console.log(sections);
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>

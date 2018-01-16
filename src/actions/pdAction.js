@@ -6,7 +6,7 @@ import {
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
   PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
-  PD_TOGGLE_GROUP_ACTIVE
+  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_UPDATE_ORDERS
 } from './types';
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
@@ -246,5 +246,24 @@ export const toggleGroupActive = (groupIndex) => {
   return {
     type: PD_TOGGLE_GROUP_ACTIVE,
     payload: { groupIndex }
+  };
+};
+
+export const toggleOrderGroup = (OrderID) => {
+  return {
+    type: PD_TOGGLE_ORDER_GROUP,
+    payload: { OrderID }
+  };
+};
+export const updateOrders = (orders) => {
+  return {
+    type: PD_UPDATE_ORDERS,
+    payload: { orders }
+  };
+};
+export const createGroup = (groupName) => {
+  return {
+    type: PD_CREATE_GROUP,
+    payload: { groupName }
   };
 };

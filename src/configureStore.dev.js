@@ -21,7 +21,7 @@ export default function configureStore() {
     // other store enhancers if any
   ));
   const persistor = persistStore(store);
-  //persistor.purge();
+  // persistor.purge();
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers

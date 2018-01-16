@@ -14,9 +14,13 @@ import { get3Type } from '../../selectors';
 import { pdListFetch, toggleOrderGroup, updateOrders, createGroup } from '../../actions';
 
 class DeliveryGroupCreate extends Component {
+  
   componentWillMount() {
-    const groupLength = Object.keys(this.props.groups) - 1;
-    this.state = { groupName: `Nhóm ${groupLength}` };
+    console.log(this.props.groups);
+    console.log(Object.keys(this.props.groups));
+    const groupLength = Object.keys(this.props.groups).length - 1;
+
+    this.setState({ groupName: `Nhóm ${groupLength}` });
   }
   
   onOrderChecked(OrderID) {
@@ -26,13 +30,14 @@ class DeliveryGroupCreate extends Component {
     const list = items.filter(o => o.groupChecked === true);
     const orders = {};
     list.forEach(o => {
-      orders[o.OrderID] = _.clone(o);
-      orders[o.OrderID].group = this.state.groupName;
+      const key = Utils.getKey(o.OrderID, 2);
+      orders[key] = _.clone(o);
+      orders[key].group = this.state.groupName;
     });
     this.props.createGroup(this.state.groupName);
     this.props.updateOrders(orders);
 
-    const groupLength = Object.keys(this.props.groups);
+    const groupLength = Object.keys(this.props.groups).length;
     const newGroupName = `Nhóm ${groupLength}`;
     this.setState({ groupName: newGroupName });
   }
@@ -70,6 +75,7 @@ class DeliveryGroupCreate extends Component {
         
           <FlatList
             data={items}
+            keyExtractor={(item, index) => item.OrderID}
             renderItem={({ item }) => {
               const order = item;
               const { DeliveryAddress, OrderCode, OrderID, groupChecked } = order;

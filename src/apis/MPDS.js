@@ -245,7 +245,6 @@ const sampleResponse = {
                 "ContactPhone": "01668117449",
                 "ClientHubID": 653473,
                 "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam",
-                group: 'group 1'
               },
               {
                   "OrderID": 36846901,

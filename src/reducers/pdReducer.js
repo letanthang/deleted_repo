@@ -11,20 +11,13 @@ import Utils from '../libs/Utils';
 
 const nameInitialState = {
   PDSItems: null,
+  Infos: null,
   pdsId: null,
-  currentDeliveryOrder: null,
-  pickTotal: 0,
-  pickComplete: 0,
-  deliveryTotal: 0,
-  deliveryComplete: 0,
-  returnTotal: 0,
-  returnComplete: 0,
   loading: false,
   addOrderLoading: false,
   groups: {
     'Đã xong': { groupName: 'Đã xong', isActive: false },
     undefined: { groupName: 'Mặc định', isActive: true },
-    'group 1': { groupName: 'group 1', isActive: true }
   },
   error: ''
 };
@@ -38,14 +31,26 @@ export default (state = nameInitialState, action) => {
       const pds = action.payload.pds;
       transformPDS(pds);
       const { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID } = pds;
+
+      let PDSItems = null;
+      let groups = state.groups;
       const newItems = pds.PDSItems;
-      const oldItems = state.PDSItems ? state.PDSItems[0] : null;
-      const PDSItems = mergeState(oldItems, newItems);
+      if (state.pdsId === PickDeliverySessionID) { 
+        // old trips
+        const oldItems = state.PDSItems ? state.PDSItems[0] : null;
+        PDSItems = mergeState(oldItems, newItems);
+      } else { 
+        // new trips
+        PDSItems = newItems;
+        groups = nameInitialState.groups;
+      }
+      
       return {
         ...state,
         PDSItems: [PDSItems],
         Infos: { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID },
         pdsId: PickDeliverySessionID,
+        groups,
         loading: false,
         error: '',
       };

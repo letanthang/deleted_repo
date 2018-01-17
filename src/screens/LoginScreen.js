@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import firebase from 'react-native-firebase';
 import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native';
+import Orientation from 'react-native-orientation';
 import { 
   Container, Content, Button, Text, 
   Body, Input, Form, Item, ListItem 
@@ -26,7 +27,8 @@ class LoginScreen extends Component {
   state = { showPassword: false, rememberMe: false }
 
   componentWillMount() {
-    LocalGroup.getLocalDB();
+    Orientation.lockToPortrait();
+    //LocalGroup.getLocalDB(); 
     //this.props.loadSavedUserPass();
     //this.props.loadSavedSession();
     firebase.messaging().requestPermissions();

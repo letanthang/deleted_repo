@@ -20,6 +20,7 @@ import OrderListScreen from './screens/OrderListScreen';
 import TripListScreen from './screens/TripListScreen';
 import AddOrderScreen from './screens/AddOrderScreen';
 import PickConfirmScreen from './screens/PickConfirmScreen';
+import SignatureScreen from './screens/SignatureScreen';
 
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
@@ -57,7 +58,8 @@ class App extends Component {
         ReturnList: { screen: ReturnListScreen },
         OrderList: { screen: OrderListScreen },
         AddOrder: { screen: AddOrderScreen },
-        PickConfirm: { screen: PickConfirmScreen }
+        PickConfirm: { screen: PickConfirmScreen },
+        Signature: { screen: SignatureScreen },
       },
       {
         initialRouteName: 'Login',

@@ -117,11 +117,12 @@ export const Styles = {
     borderBottomWidth: 1
   },
   signatureStyle: {
-    height: 250,
+    height: 180,
     marginLeft: 16,
     marginRight: 16,
     borderColor: Colors.rowDivider,
-    borderWidth: 1
+    borderWidth: 1,
+    backgroundColor: 'white'
   },
   rowLastStyle: {
     paddingTop: 14,

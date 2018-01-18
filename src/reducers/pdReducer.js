@@ -5,7 +5,7 @@ import {
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
-  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_UPDATE_ORDERS
+  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -249,7 +249,17 @@ export default (state = nameInitialState, action) => {
           ...state.groups,
           [groupName]: { groupName, isActive: false }
         }
-      }
+      };
+    }
+
+    case PD_RESET_GROUP: {
+      const PDSItems = _.cloneDeep(state.PDSItems);
+      _.filter(PDSItems[0], o => o.group !== undefined).forEach(o => { delete o.group; });
+      return {
+        ...state,
+        groups: nameInitialState.groups,
+        PDSItems
+      };
     }
 
     case PD_UPDATE_ORDERS: {

@@ -1,17 +1,16 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { View, TextInput, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { 
   Content, Text, 
   Button,
 } from 'native-base';
 import { CheckBox } from 'react-native-elements';
 import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
-import LocalGroup from '../../libs/LocalGroup';
 import Utils from '../../libs/Utils';
 import { get3Type } from '../../selectors';
-import { pdListFetch, toggleOrderGroup, updateOrders, createGroup } from '../../actions';
+import { pdListFetch, toggleOrderGroup, updateOrders, createGroup, resetGroup } from '../../actions';
 
 class DeliveryGroupCreate extends Component {
   
@@ -43,6 +42,11 @@ class DeliveryGroupCreate extends Component {
   }
 
   onResetGroup() {
+    Alert.alert('Xoá nhóm', 'Bạn có chắc xoá hết nhóm để tạo lại?', 
+    [
+      { text: 'Huỷ', onPress: () => {} },
+      { text: 'Đồng ý', onPress: () => this.props.resetGroup() },
+    ]);
   }
 
   render() {
@@ -117,4 +121,4 @@ const mapStateToProps = (state) => {
   return { DeliveryItems, groups };
 };
 
-export default connect(mapStateToProps, { pdListFetch, toggleOrderGroup, updateOrders, createGroup })(DeliveryGroupCreate);
+export default connect(mapStateToProps, { pdListFetch, toggleOrderGroup, updateOrders, createGroup, resetGroup })(DeliveryGroupCreate);

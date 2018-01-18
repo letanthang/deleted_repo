@@ -31,6 +31,7 @@ const FooterButton = ({ active, text, normalImage, activeImage, normalIcon, acti
   }
   return (
     <Button
+      style={{ paddingLeft: 0, paddingRight: 0 }}
       onPress={onButtonPress}
       transparent
     >

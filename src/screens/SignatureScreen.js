@@ -48,29 +48,25 @@ class SignatureScreen extends Component {
             showTitleLabel={false}
             viewMode='landscape'
         />
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 30 }}>
           <TouchableOpacity 
-            style={styles.buttonStyle}
+            style={[styles.buttonStyle, { position: 'absolute', top: 20, right: 16, width: 80 }]}
             onPress={() => { this.resetSign(); }} 
           >
-            <Text>Reset</Text>
+            <Text>Xoá</Text>
           </TouchableOpacity>
 
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 30 }}>
           <TouchableOpacity 
-            style={styles.buttonStyle}
+            style={[styles.buttonStyle, { position: 'absolute', bottom: 20, left: 16, width: 80 }]}
             onPress={() => this.props.navigation.goBack()} 
           >
-            <Text>Cancel</Text>
+            <Text>Trở về</Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            style={styles.buttonStyle}
+            style={[styles.buttonStyle, { position: 'absolute', bottom: 20, right: 16, width: 80 }]}
             onPress={() => { this.saveSign(); }} 
           >
-            <Text>Save</Text>
+            <Text>Lưu</Text>
           </TouchableOpacity>
-        </View>
       </View>
     );
   }

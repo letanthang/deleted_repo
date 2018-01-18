@@ -205,7 +205,8 @@ export default (state = nameInitialState, action) => {
     case PD_UPDATE_ORDER_INFO: {
       const { OrderID, PickDeliveryType, info } = action.payload;
       const PDSItems = _.cloneDeep(state.PDSItems);
-      Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], info);
+      const statusChangeDate = info.success === undefined ? undefined : Date.now();
+      Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], { statusChangeDate }, info);
       return { ...state, PDSItems };
     }
      
@@ -214,7 +215,8 @@ export default (state = nameInitialState, action) => {
       const PDSItems = _.cloneDeep(state.PDSItems);
       _.each(OrderInfos, info => {
         const { OrderID, PickDeliveryType } = info;
-        Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], info);
+        const statusChangeDate = info.success === undefined ? undefined : Date.now();
+        Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], { statusChangeDate }, info);
       });
       
       return { ...state, PDSItems };

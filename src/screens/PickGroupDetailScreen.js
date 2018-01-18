@@ -125,15 +125,6 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" />
           </Button>
-          <Button
-            transparent
-            onPress={() => {
-              this.props.changeDone(!this.props.done);
-              this.props.changeKeyword('');
-            }}
-          >
-            <IC name="playlist-check" size={25} color={this.props.done ? Colors.headerActive : Colors.headerNormal} />
-          </Button>
         </Right>
       </Header>
     );

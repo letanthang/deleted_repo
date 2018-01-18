@@ -19,6 +19,11 @@ export const get3Type = createSelector(
 
       const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
       group.ShopOrders = orders;
+      group.ShopOrders.sort((a, b) => {
+        const x = a.statusChangeDate ? a.statusChangeDate : 0;
+        const y = b.statusChangeDate ? b.statusChangeDate : 0;
+        return x - y;
+      });
       group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
       PickItems.push(group);
     });
@@ -32,6 +37,11 @@ export const get3Type = createSelector(
 
       const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
       group.ShopOrders = orders;
+      group.ShopOrders.sort((a, b) => {
+        const x = a.statusChangeDate ? a.statusChangeDate : 0;
+        const y = b.statusChangeDate ? b.statusChangeDate : 0;
+        return x - y;
+      });
       group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
       ReturnItems.push(group);
     });

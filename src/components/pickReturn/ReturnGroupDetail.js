@@ -33,24 +33,11 @@ class PickGroupDetail extends Component {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.ClientHubID = this.pickGroup.ClientHubID;
     this.PickDeliveryType = this.pickGroup.PickDeliveryType;
-    this.autoChangeTab();
   }
 
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
   }  
-
-  autoChangeTab() {
-    if (this.props.done) return;
-    const { done, PickItems, ReturnItems } = this.props;
-    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => Utils.checkReturnCompleteForUnsync(o) === false);
-    console.log(orders.length);
-    if (orders.length === 0) {
-      this.props.changeDone1(!done);
-    }
-  }
 
   checkRealDone() {
     const { PickItems, ReturnItems } = this.props;
@@ -95,10 +82,10 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    const { done, PickItems, ReturnItems, keyword } = this.props;
+    const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => Utils.checkReturnCompleteForUnsync(o) === done && this.checkKeywork(o));
+    const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
     const hidden = orders.length === 0 || keyword !== '' || this.checkRealDone();
 
     return (
@@ -176,9 +163,6 @@ class PickGroupDetail extends Component {
       </Content>
     );
   }
-  componentDidUpdate(prevProps) {
-    if (prevProps.ReturnItems !== this.props.ReturnItems) this.autoChangeTab();
-  }
 }
 
 const mapStateToProps = (state) => {
@@ -186,9 +170,9 @@ const mapStateToProps = (state) => {
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
   const { configuration } = other;
-  const { showDatePicker, OrderInfos, done, keyword } = returnGroup;
+  const { showDatePicker, OrderInfos, keyword } = returnGroup;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { sessionToken, PickItems, ReturnItems, pdsId, loading, configuration, showDatePicker, OrderInfos, done, keyword };
+  return { sessionToken, PickItems, ReturnItems, pdsId, loading, configuration, showDatePicker, OrderInfos, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderInfo, updateOrderInfos, getConfiguration, changeDone1, changeKeyword1 })(PickGroupDetail);

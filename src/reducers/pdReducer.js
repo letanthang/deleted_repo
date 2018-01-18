@@ -16,8 +16,8 @@ const nameInitialState = {
   loading: false,
   addOrderLoading: false,
   groups: {
-    'Đã xong': { groupName: 'Đã xong', isActive: false },
-    undefined: { groupName: 'Mặc định', isActive: true },
+    'Đã xong': { groupName: 'Đã xong', isActive: false, position: 100 },
+    undefined: { groupName: 'Mặc định', isActive: true, position: 0 },
   },
   error: ''
 };
@@ -247,14 +247,14 @@ export default (state = nameInitialState, action) => {
         ...state,
         groups: {
           ...state.groups,
-          [groupName]: { groupName, isActive: false }
+          [groupName]: { groupName, isActive: false, position: 1 }
         }
       };
     }
 
     case PD_RESET_GROUP: {
       const PDSItems = _.cloneDeep(state.PDSItems);
-      _.filter(PDSItems[0], o => o.group !== undefined).forEach(o => { delete o.group; });
+      _.filter(PDSItems[0], o => o.group !== undefined).forEach(o => { delete o.group; delete o.groupChecked; });
       return {
         ...state,
         groups: nameInitialState.groups,

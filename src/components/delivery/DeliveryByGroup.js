@@ -48,6 +48,8 @@ class DeliveryByGroup extends Component {
       return { data: item, title: groups[key].groupName, groupIndex: key, activeSection: groups[key].isActive };
     });
 
+    sections.sort((a, b) => groups[a.groupIndex].position - groups[b.groupIndex].position);
+
     return (
       <Content style={{ backgroundColor: Colors.background }}>
       <SectionList

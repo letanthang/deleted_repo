@@ -208,6 +208,7 @@ const sampleResponse = {
                   "ContactName": "Shop Dong Ho",
                   "ContactPhone": "01668117449",
                   "ClientHubID": 653473,
+                  "DeliveryAddress": "7 To Hien Thanh, Ho Chi Minh City, Ho Chi Minh, Vietnam",
                   "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
               },
               {
@@ -244,6 +245,8 @@ const sampleResponse = {
                 "ContactName": "Shop Dong Ho",
                 "ContactPhone": "01668117449",
                 "ClientHubID": 653473,
+                "DisplayOrder": 2,
+                "DeliveryAddress": "7 To Hien Thanh, Ho Chi Minh City, Ho Chi Minh, Vietnam",
                 "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam",
               },
               {
@@ -569,6 +572,7 @@ const sampleResponse = {
                 "ContactName": "Cường gửi",
                 "ContactPhone": "01668117449",
                 "ClientHubID": 653474,
+                "DeliveryAddress": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam",
                 "Address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam",
                 "DisplayOrder": 3
               },

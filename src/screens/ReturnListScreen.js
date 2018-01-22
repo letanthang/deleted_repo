@@ -211,15 +211,10 @@ class TripListScreen extends Component {
           >
             <SectionList
               renderItem={({ item, index, section }) => {
-              
                 if (!section.activeSection) return null;
-                
-
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
-                
                 const pickGroup = item;
                 const { Address, ContactName, ContactPhone, TotalServiceCost } = pickGroup;
-                
                 const ordersNum = pickGroup.ShopOrders.length;
                 const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
                 return (

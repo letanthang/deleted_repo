@@ -20,7 +20,7 @@ import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 
 class TripListScreen extends Component {
-  state = { done: false, showSearch: false, keyword: '' };
+  state = { done: false, showSearch: false, keyword: '', mode: false };
   componentWillMount() {
     console.log('here');
   }
@@ -116,18 +116,28 @@ class TripListScreen extends Component {
           >
             <Icon name="search" />
           </Button>
+          { this.state.mode === false ?
           <Button
             transparent
             onPress={() => this.setState({ done: !this.state.done })}
           >
             <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
           </Button>
-          {/* <Button
+          : null}
+          { this.state.mode ?
+          <Button 
             transparent
-            onPress={() => navigate('DeliveryGroupCreate')}
+            onPress={() => navigate('GroupPick')}
           >
-            <IC name="group" size={22} color={Colors.headerActive} />
-          </Button> */}
+            <IC name="group" size={22} color={Colors.headerNormal} />
+          </Button>
+          : null}
+          <Button 
+            transparent
+            onPress={() => this.setState({ mode: !this.state.mode })}
+          >
+            <IC name="apple-keyboard-option" size={22} color={Colors.headerNormal} />
+          </Button>
         </Right>
       </Header>
     );
@@ -201,27 +211,46 @@ class TripListScreen extends Component {
       </Button>
     );
   }
-  render() {
+
+  groupData() {
     const { PickItems } = this.props;
     if (!PickItems) return this.renderNullData();
 
-    const items = PickItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
-    const datas = _.groupBy(items, 'ClientID');
+    const key = this.state.mode ? 'shopGroup' : 'ClientID';
+    let items = null;
+    let datas = null;
+    
+    if (this.state.mode) {
+      items = PickItems.filter(trip => this.checkKeywork(trip));
+      datas = _.groupBy(items, item => {
+        return this.checkTripDone(item) ? 'Đã xong' : item.shopGroup;
+      });
+    } else {
+      items = PickItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
+      datas = _.groupBy(items, key);
+    }
     let first = true;
     const sections = _.map(datas, (item) => {
-      const ClientID = item[0].ClientID;
+      const ClientID = item[0][key];
+      const title = `${this.state.mode ? item[0].shopGroupName : item[0].ClientName} (${item.length})`;
       const activeSection = first && this.state[ClientID] === undefined ? true : this.state[ClientID];
       first = false;
-      return { data: item, title: item[0].ClientName + ' (' + item.length + ')', ClientID, activeSection };
+      return { data: item, title, ClientID, activeSection };
     });
-    const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
+    return sections;
+  }
+
+  render() {
     
+    const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
+    const sections = this.groupData();
+
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
         <Content>
           <DataEmptyCheck
-            data={items}
+            data={sections}
             message={emptyMessage}
           >
             <SectionList

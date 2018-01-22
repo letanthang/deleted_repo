@@ -6,7 +6,8 @@ import {
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
   PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
-  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS
+  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP
 } from './types';
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
@@ -270,5 +271,22 @@ export const createGroup = (groupName) => {
 export const resetGroup = () => {
   return {
     type: PD_RESET_GROUP
+  };
+};
+export const createPGroup = (groupName) => {
+  return {
+    type: PD_CREATE_PGROUP,
+    payload: { groupName }
+  };
+};
+export const updateShopPGroup = (groups, groupName) => {
+  return {
+    type: PD_UPDATE_SHOP_PGROUP,
+    payload: { groups, groupName }
+  };
+};
+export const resetPGroup = () => {
+  return {
+    type: PD_RESET_PGROUP
   };
 };

@@ -3,10 +3,12 @@ import { createSelector } from 'reselect';
 import Utils from '../libs/Utils';
 
 export const getOrders = ({ pd }) => pd.PDSItems === null ? null : pd.PDSItems[0];
+export const getShopPGroup = ({ pd }) => pd.shopPGroup;
+export const getPgroups = ({ pd }) => pd.pgroups;
 
 export const get3Type = createSelector(
-  [getOrders],
-  PDSItems => {
+  [getOrders, getShopPGroup, getPgroups],
+  (PDSItems, shopPGroup, pgroups) => {
     console.log('Get3Type');
     const DeliveryItems = _.filter(PDSItems, o => o.PickDeliveryType === 2);
     
@@ -16,8 +18,10 @@ export const get3Type = createSelector(
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
       const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
-
-      const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
+      const shopGroup = shopPGroup[ClientHubID];
+      const shopGroupName = pgroups[shopGroup].groupName;
+      console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
+      const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType, shopGroup, shopGroupName };
       group.ShopOrders = orders;
       group.ShopOrders.sort((a, b) => {
         const x = a.statusChangeDate ? a.statusChangeDate : 0;

@@ -5,7 +5,8 @@ import {
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
-  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS
+  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -19,6 +20,11 @@ const nameInitialState = {
     'Đã xong': { groupName: 'Đã xong', isActive: false, position: 100 },
     undefined: { groupName: 'Mặc định', isActive: true, position: 0 },
   },
+  pgroups: {
+    'Đã xong': { groupName: 'Đã xong', isActive: false, position: 100 },
+    undefined: { groupName: 'Mặc định', isActive: true, position: 0 },
+  },
+  shopPGroup: {},
   error: ''
 };
 
@@ -269,6 +275,39 @@ export default (state = nameInitialState, action) => {
       const PDSItems = _.cloneDeep(state.PDSItems);
       PDSItems[0] = { ...PDSItems[0], ...orders };
       return { ...state, PDSItems };
+    }
+
+    case PD_CREATE_PGROUP: {
+      const { groupName } = action.payload;
+      return {
+        ...state,
+        pgroups: {
+          ...state.pgroups,
+          [groupName]: { groupName, position: 1 }
+        }
+      };
+    }
+
+    case PD_RESET_PGROUP: {
+      return {
+        ...state,
+        pgroups: nameInitialState.pgroups,
+        shopPGroup: nameInitialState.shopPGroup
+      };
+    }
+
+    case PD_UPDATE_SHOP_PGROUP: {
+      const { groups, groupName } = action.payload;
+      console.log(groups);
+      console.log(groupName);
+      const shopPGroup = _.clone(state.shopPGroup);
+      _.each(groups, (item, key) => {
+        if (item === true) {
+          shopPGroup[key] = groupName;
+        }
+      });
+
+      return { ...state, shopPGroup };
     }
 
     default:

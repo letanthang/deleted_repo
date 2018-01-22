@@ -14,13 +14,12 @@ import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
 import { get3Type } from '../selectors';
-import { navigateOnce } from '../libs/Common';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 
 class TripListScreen extends Component {
-  state = { done: false, showSearch: false, keyword: '', activeTrip: null, activeTripShow: true };
+  state = { done: false, showSearch: false, keyword: '' };
   componentWillMount() {
     
   }
@@ -195,9 +194,7 @@ class TripListScreen extends Component {
     let first = true;
     const sections = _.map(datas, (item) => {
       const ClientID = item[0].ClientID;
-      let activeSection = false;
-      if (this.state.activeTrip === ClientID || (this.state.activeTrip === null && first)) activeSection = true;
-      activeSection = activeSection && this.state.activeTripShow;
+      const activeSection = first && this.state[ClientID] === undefined ? true : this.state[ClientID];
       first = false;
       return { data: item, title: item[0].ClientName + ' (' + item.length + ')', ClientID, activeSection };
     });
@@ -282,13 +279,7 @@ class TripListScreen extends Component {
                     style={DeliverGroupStyles.sectionHeader}
                     onPress={() => {
                       const key = section.ClientID;
-                      let activeTripShow;
-                      if (!section.activeSection) {
-                        activeTripShow = true;
-                      } else {
-                        activeTripShow = !this.state.activeTripShow;
-                      }
-                      this.setState({ activeTrip: key, activeTripShow });
+                      this.setState({ [key]: !active });
                     }}
                   >
                     <IC name={iconName} size={20} color='#808080' />

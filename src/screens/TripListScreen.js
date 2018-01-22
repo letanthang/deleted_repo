@@ -20,7 +20,7 @@ import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 
 class TripListScreen extends Component {
-  state = { done: false, showSearch: false, keyword: '', activeTrip: null, activeTripShow: true };
+  state = { done: false, showSearch: false, keyword: '' };
   componentWillMount() {
     console.log('here');
   }
@@ -118,7 +118,7 @@ class TripListScreen extends Component {
           </Button>
           <Button
             transparent
-            onPress={() => this.setState({ done: !this.state.done, activeTrip: null, activeTripShow: true })}
+            onPress={() => this.setState({ done: !this.state.done })}
           >
             <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
           </Button>
@@ -210,13 +210,10 @@ class TripListScreen extends Component {
     let first = true;
     const sections = _.map(datas, (item) => {
       const ClientID = item[0].ClientID;
-      let activeSection = false;
-      if (this.state.activeTrip === ClientID || (this.state.activeTrip === null && first)) activeSection = true;
-      activeSection = activeSection && this.state.activeTripShow;
+      const activeSection = first && this.state[ClientID] === undefined ? true : this.state[ClientID];
       first = false;
       return { data: item, title: item[0].ClientName + ' (' + item.length + ')', ClientID, activeSection };
     });
-    
     const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
     
     return (
@@ -229,15 +226,10 @@ class TripListScreen extends Component {
           >
             <SectionList
               renderItem={({ item, index, section }) => {
-              
                 if (!section.activeSection) return null;
-                
-
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
-                
                 const pickGroup = item;
                 const { Address, ContactName, ContactPhone, TotalServiceCost } = pickGroup;
-                
                 const ordersNum = pickGroup.ShopOrders.length;
                 const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
                 return (
@@ -299,13 +291,7 @@ class TripListScreen extends Component {
                     style={DeliverGroupStyles.sectionHeader}
                     onPress={() => {
                       const key = section.ClientID;
-                      let activeTripShow;
-                      if (!section.activeSection) {
-                        activeTripShow = true;
-                      } else {
-                        activeTripShow = !this.state.activeTripShow;
-                      }
-                      this.setState({ activeTrip: key, activeTripShow });
+                      this.setState({ [key]: !active });
                     }}
                   >
                     <IC name={iconName} size={20} color='#808080' />

@@ -17,15 +17,13 @@ class GroupPickScreen extends Component {
   componentWillMount() {
     console.log(this.props.pgroups);
     console.log(Object.keys(this.props.pgroups));
-    const groupLength = Object.keys(this.props.pgroups).length - 1;
+    this.calNewGroup(this.props);
+  }
 
-    this.setState({ groupName: `Nhóm ${groupLength}` });
-  }
-  componentWillUpdate() {
-    
-  }
-  componentDidUpdate() {
-    
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pgroups !== this.props.pgroups) {
+      this.calNewGroup(nextProps);
+    }
   }
 
   onOrderChecked(ID) {
@@ -37,18 +35,26 @@ class GroupPickScreen extends Component {
     const { groupName, groupCheck } = this.state;
     this.props.createPGroup(groupName);
     this.props.updateShopPGroup(groupCheck, groupName);
-
-    const groupLength = Object.keys(this.props.pgroups).length;
-    const newGroupName = `Nhóm ${groupLength}`;
-    this.setState({ groupName: newGroupName });
+    this.setState({ groupCheck: {} });
   }
 
   onResetGroup() {
     Alert.alert('Xoá nhóm', 'Bạn có chắc xoá hết nhóm để tạo lại?', 
     [
       { text: 'Huỷ', onPress: () => {} },
-      { text: 'Đồng ý', onPress: () => this.props.resetPGroup() },
+      { text: 'Đồng ý', onPress: () => this.resetGroup() },
     ]);
+  }
+
+  resetGroup() {
+    this.props.resetPGroup(); 
+    this.setState({ groupCheck: {} });
+  }
+
+  calNewGroup({ pgroups }) {
+    const groupLength = Object.keys(pgroups).length - 1;
+    this.setState({ groupName: `Nhóm ${groupLength}` });
+    console.log(groupLength);
   }
 
   checkTripDone(trip) {

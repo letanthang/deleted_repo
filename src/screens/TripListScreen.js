@@ -216,27 +216,29 @@ class TripListScreen extends Component {
     const { PickItems } = this.props;
     if (!PickItems) return this.renderNullData();
 
-    const key = this.state.mode ? 'shopGroup' : 'ClientID';
+    const key = this.state.mode ? 'shopGroupName' : 'ClientID';
     let items = null;
     let datas = null;
     
     if (this.state.mode) {
       items = PickItems.filter(trip => this.checkKeywork(trip));
-      datas = _.groupBy(items, item => {
-        return this.checkTripDone(item) ? 'Đã xong' : item.shopGroup;
-      });
     } else {
-      items = PickItems.filter(trip => this.state.done === this.checkTripDone(trip) && this.checkKeywork(trip));
-      datas = _.groupBy(items, key);
+      items = PickItems.filter(trip => this.state.done === trip.done && this.checkKeywork(trip));
     }
+    
+    datas = _.groupBy(items, key);
     let first = true;
     const sections = _.map(datas, (item) => {
       const ClientID = item[0][key];
       const title = `${this.state.mode ? item[0].shopGroupName : item[0].ClientName} (${item.length})`;
       const activeSection = first && this.state[ClientID] === undefined ? true : this.state[ClientID];
+      const position = item[0].position;
       first = false;
-      return { data: item, title, ClientID, activeSection };
+      return { data: item, title, ClientID, activeSection, position };
     });
+    if (this.state.mode) {
+      sections.sort((a, b) => a.position - b.position);
+    }
     return sections;
   }
 

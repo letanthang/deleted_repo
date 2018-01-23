@@ -18,16 +18,21 @@ export const get3Type = createSelector(
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
       const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
-      const shopGroup = shopPGroup[ClientHubID];
-      const shopGroupName = pgroups[shopGroup].groupName;
-      console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
-      const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType, shopGroup, shopGroupName };
+      
+      // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
+      const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
       group.ShopOrders = orders;
       group.ShopOrders.sort((a, b) => {
         const x = a.statusChangeDate ? a.statusChangeDate : 0;
         const y = b.statusChangeDate ? b.statusChangeDate : 0;
         return x - y;
       });
+      group.done = checkTripDone(group);
+      const shopGroup = shopPGroup[ClientHubID];
+      group.shopGroup = shopGroup;
+      group.shopGroupKey = group.done ? 'Đã xong' : shopGroup;
+      group.shopGroupName = group.done ? 'Đã xong' : pgroups[shopGroup].groupName;
+      group.position = pgroups[group.shopGroupKey].position;
       group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
       PickItems.push(group);
     });
@@ -45,7 +50,7 @@ export const get3Type = createSelector(
         const x = a.statusChangeDate ? a.statusChangeDate : 0;
         const y = b.statusChangeDate ? b.statusChangeDate : 0;
         return x - y;
-      });
+      });      
       group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
       ReturnItems.push(group);
     });
@@ -92,3 +97,8 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
   return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete };
 };
 
+const checkTripDone = trip => {
+  const ordersNum = trip.ShopOrders.length;
+  const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+  return (ordersNum === completedNum);
+};

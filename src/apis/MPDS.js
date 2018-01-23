@@ -4,12 +4,12 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = true;
+const mockOn = false;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
 // const DOMAIN = 'api.inhub-ghn.tk';
-const BASE_URL = `http://${DOMAIN}`;
+const BASE_URL = `http://${DOMAIN}/v2`;
 
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
@@ -71,7 +71,7 @@ export const UpdateOrderWeightRDC = ({
 };
 
 export const Authenticate = ({ UserID, Password }) => {
-  const URL = `${BASE_URL}/acc/pdaLogin`;
+  const URL = `http://${DOMAIN}/acc/pdaLogin`;
 
   if (mockOn) {
     mock.onPost(URL, {

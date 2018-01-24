@@ -150,7 +150,9 @@ class PickOrderScreen extends Component {
                 style={StyleSheet.absoluteFillObject}
                 source={{ uri: `data:image/png;base64,${this.state.signature.encoded}` }}
               />
-              : null}
+              :
+              <Text style={{ alignSelf: 'center', textAlign: 'center' }}>Nhấp vào để kí xác nhận</Text>
+              }
             </TouchableOpacity>
               
             <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', marginTop: 16 }}>

@@ -54,6 +54,8 @@ class PickGroupDetailScreen extends Component {
     this.props.updateOrderStatus({ OrderInfos });
   }
 
+  confirmUpdateOrderOnce = _.debounce(this.confirmUpdateOrder, 400, { leading: true, trailing: false });
+
   confirmUpdateOrder() {
     this.props.pdListFetch()
       .then(() => this.props.navigation.navigate('PickConfirm', { ClientHubID: this.ClientHubID }));
@@ -149,7 +151,7 @@ class PickGroupDetailScreen extends Component {
         <FooterTab style={{ backgroundColor: Colors.background }}>
           <TouchableOpacity 
             style={Styles.updateButtonStyle}
-            onPress={this.confirmUpdateOrder.bind(this)}
+            onPress={this.confirmUpdateOrderOnce.bind(this)}
           >
             <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>
           </TouchableOpacity>

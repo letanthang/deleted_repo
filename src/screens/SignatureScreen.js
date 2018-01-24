@@ -59,13 +59,13 @@ class SignatureScreen extends Component {
             style={[styles.buttonStyle, { position: 'absolute', bottom: 20, left: 16, width: 80 }]}
             onPress={() => this.props.navigation.goBack()} 
           >
-            <Text>Trở về</Text>
+            <Text>Huỷ</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={[styles.buttonStyle, { position: 'absolute', bottom: 20, right: 16, width: 80 }]}
             onPress={() => { this.saveSign(); }} 
           >
-            <Text>Lưu</Text>
+            <Text>Đồng ý</Text>
           </TouchableOpacity>
       </View>
     );

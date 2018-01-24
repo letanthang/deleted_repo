@@ -117,6 +117,7 @@ export const Styles = {
     borderBottomWidth: 1
   },
   signatureStyle: {
+    justifyContent: 'center',
     height: 180,
     marginLeft: 16,
     marginRight: 16,

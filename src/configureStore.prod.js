@@ -8,7 +8,8 @@ import reducers from './reducers';
 export default function configureStore() {
   const config = {
     key: 'root',
-    storage
+    storage,
+    blacklist: ['other']
   };
   const reducer = persistCombineReducers(config, reducers);
   const store = createStore(reducer, {}, applyMiddleware(ReduxThunk));

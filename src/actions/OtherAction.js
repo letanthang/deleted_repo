@@ -7,9 +7,9 @@ import {
   OTHER_CALCULATE_FEE, OTHER_CALCULATE_FEE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE,
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
-  OTHER_GET_USER_PERFORMANCE_FAIL
+  OTHER_GET_USER_PERFORMANCE_FAIL,
+  OTHER_SET_LOADED
 } from './types';
-import ShareVariables from '../libs/ShareVariables';
 import * as API from '../apis/MPDS';
 
 export const calculateServiceFee = ({ 
@@ -67,6 +67,12 @@ export const getConfiguration = () => {
       console.log('Fail to getConfiguration with error =');
       console.log(error);
     }
+  };
+};
+
+export const setLoaded = () => {
+  return {
+    type: OTHER_SET_LOADED
   };
 };
 

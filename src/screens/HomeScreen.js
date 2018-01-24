@@ -9,7 +9,7 @@ import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import SearchList from '../components/SearchList';
-import { pdListFetch } from '../actions';
+import { pdListFetch, setLoaded } from '../actions';
 import { getNumbers } from '../selectors';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -28,9 +28,12 @@ class HomeScreen extends Component {
   state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     console.log('HomeScreen');
-    // const params = this.props.navigation.state.params;
-    if (!this.props.PDSItems) {
-      this.props.pdListFetch();
+    const { loaded, PDSItems } = this.props;
+    if (!loaded || !PDSItems) {
+      this.props.pdListFetch()
+        .then(result => {
+          if (result) this.props.setLoaded();
+        });
     }
     this.listGroups();
   }
@@ -298,10 +301,11 @@ class HomeScreen extends Component {
 
 const mapStateToProps = (state) => {
   const { loading, error, PDSItems } = state.pd;
+  const { loaded } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
-  return { loading, error, user, stats, PDSItems };
+  return { loading, loaded, error, user, stats, PDSItems };
 };
 
-export default connect(mapStateToProps, { pdListFetch })(HomeScreen);
+export default connect(mapStateToProps, { pdListFetch, setLoaded })(HomeScreen);

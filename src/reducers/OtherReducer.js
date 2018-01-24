@@ -4,7 +4,8 @@ import {
   OTHER_GET_CONFIGURATION_SUCCESS,
   OTHER_GET_CONFIGURATION_FAIL,
   OTHER_CALCULATE_FEE_SUCCESS,
-  OTHER_GET_USER_PERFORMANCE_SUCCESS
+  OTHER_GET_USER_PERFORMANCE_SUCCESS,
+  OTHER_SET_LOADED
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -18,7 +19,8 @@ const nameInitialState = {
   quarter: null,
   lastWeek: null,
   lastMonth: null,
-  lastQuarter: null
+  lastQuarter: null,
+  loaded: false
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
@@ -50,6 +52,11 @@ export default (state = nameInitialState, action) => {
       };
     }
 
+    case OTHER_SET_LOADED:
+      return {
+        ...state,
+        loaded: true
+      };
     default:
       return state;
   }

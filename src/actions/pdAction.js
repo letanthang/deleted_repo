@@ -35,7 +35,7 @@ export const pdListFetch = () => {
         const json = response.data;
         if (json.status === 'OK') {
           pdListFetchSuccess(dispatch, json.data[0]);
-          return;
+          return true;
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
           console.log('khong co chuyen di, json response=');
           console.log(json);
@@ -52,6 +52,7 @@ export const pdListFetch = () => {
           console.log(json);
           pdListFetchFail(dispatch, json.message);
         }
+        return false;
       })
       .catch(error => {
         console.log('pdListFetch failed with error = ');

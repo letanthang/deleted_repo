@@ -14,13 +14,14 @@ import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
 import { get3Type } from '../selectors';
+import { toggleLayout } from '../actions';
 import { navigateOnce } from '../libs/Common';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 
 class TripListScreen extends Component {
-  state = { done: false, showSearch: false, keyword: '', mode: false };
+  state = { done: false, showSearch: false, keyword: '' };
   componentWillMount() {
     console.log('here');
   }
@@ -116,7 +117,7 @@ class TripListScreen extends Component {
           >
             <Icon name="search" />
           </Button>
-          { this.state.mode === false ?
+          { this.props.layoutMode === false ?
           <Button
             transparent
             onPress={() => this.setState({ done: !this.state.done })}
@@ -124,7 +125,7 @@ class TripListScreen extends Component {
             <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
           </Button>
           : null}
-          { this.state.mode ?
+          { this.props.layoutMode ?
           <Button 
             transparent
             onPress={() => navigate('GroupPick')}
@@ -134,7 +135,7 @@ class TripListScreen extends Component {
           : null}
           <Button 
             transparent
-            onPress={() => this.setState({ mode: !this.state.mode })}
+            onPress={() => this.props.toggleLayout()}
           >
             <IC name="apple-keyboard-option" size={22} color={Colors.headerNormal} />
           </Button>
@@ -216,11 +217,11 @@ class TripListScreen extends Component {
     const { PickItems } = this.props;
     if (!PickItems) return this.renderNullData();
 
-    const key = this.state.mode ? 'shopGroupName' : 'ClientID';
+    const key = this.props.layoutMode ? 'shopGroupName' : 'ClientID';
     let items = null;
     let datas = null;
     
-    if (this.state.mode) {
+    if (this.props.layoutMode) {
       items = PickItems.filter(trip => this.checkKeywork(trip));
     } else {
       items = PickItems.filter(trip => this.state.done === trip.done && this.checkKeywork(trip));
@@ -230,13 +231,13 @@ class TripListScreen extends Component {
     let first = true;
     const sections = _.map(datas, (item) => {
       const ClientID = item[0][key];
-      const title = `${this.state.mode ? item[0].shopGroupName : item[0].ClientName} (${item.length})`;
+      const title = `${this.props.layoutMode ? item[0].shopGroupName : item[0].ClientName} (${item.length})`;
       const activeSection = first && this.state[ClientID] === undefined ? true : this.state[ClientID];
       const position = item[0].position;
       first = false;
       return { data: item, title, ClientID, activeSection, position };
     });
-    if (this.state.mode) {
+    if (this.props.layoutMode) {
       sections.sort((a, b) => a.position - b.position);
     }
     return sections;
@@ -351,8 +352,9 @@ const styles = {
 
 
 const mapStateToProps = (state) => {
+  const { layoutMode } = state.config;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems };
+  return { PickItems, ReturnItems, layoutMode };
 };
 
-export default connect(mapStateToProps, {})(TripListScreen);
+export default connect(mapStateToProps, { toggleLayout })(TripListScreen);

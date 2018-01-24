@@ -5,6 +5,7 @@ import OtherReducer from './OtherReducer';
 import PickGroupReducer from './PickGroupReducer';
 import ReturnGroupReducer from './ReturnGroupReducer';
 import OrderAddReducer from './OrderAddReducer';
+import ConfigReducer from './ConfigReducer';
 
 const appReducer = {
   auth: AuthReducer,
@@ -12,7 +13,8 @@ const appReducer = {
   other: OtherReducer,
   pickGroup: PickGroupReducer,
   returnGroup: ReturnGroupReducer,
-  orderAdd: OrderAddReducer
+  orderAdd: OrderAddReducer,
+  config: ConfigReducer
 };
 
 // const rootReducer = (state, action) => {

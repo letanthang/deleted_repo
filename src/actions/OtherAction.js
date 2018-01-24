@@ -3,7 +3,6 @@ import moment from 'moment';
 // import accounting from 'accounting';
 
 import { 
-  OTHER_GET_CONFIGURATION, OTHER_GET_CONFIGURATION_SUCCESS,
   OTHER_CALCULATE_FEE, OTHER_CALCULATE_FEE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE,
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
@@ -43,28 +42,6 @@ export const calculateServiceFee = ({
       }
     } catch (error) {
       console.log('calculateServiceFee failed,error =');
-      console.log(error);
-    }
-  };
-};
-
-export const getConfiguration = () => {
-  return async dispatch => {
-    try {
-      dispatch({ type: OTHER_GET_CONFIGURATION });
-      const response = await API.GetConfiguration();
-      const json = response.data;
-      if (json.status === 'OK') {
-        dispatch({
-          type: OTHER_GET_CONFIGURATION_SUCCESS,
-          payload: json.data[0]
-        });
-      } else {
-        console.log('getConfiguration failed, response data=');
-        console.log(json);
-      }
-    } catch (error) {
-      console.log('Fail to getConfiguration with error =');
       console.log(error);
     }
   };

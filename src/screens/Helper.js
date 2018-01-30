@@ -33,8 +33,8 @@ export function getDeliveryDoneOrderInfo(order, NewDate = 0) {
   const Log = '';
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
-  const NextStatus = 'Delivered';
-  const success = true;     
+  const NextStatus = 'DELIVERED';
+  const success = true;
   return { OrderID, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
 }
 
@@ -46,7 +46,7 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, NewDate = 0) {
   const Log = `${StoringCode}|${reason}`;
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
-  const NextStatus = 'Storing';
+  const NextStatus = 'FAIL_TO_DELIVER';
   const NoteCode = StoringCode;
   const Note = reason;
   const success = false;

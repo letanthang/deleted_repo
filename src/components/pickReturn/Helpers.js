@@ -1,5 +1,3 @@
-import * as Communications from 'react-native-communications';
-import { phonecall } from 'react-native-communications';
 import { Alert } from 'react-native';
 import { ActionSheet } from 'native-base';
 import Utils from '../../libs/Utils';
@@ -97,7 +95,7 @@ export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
   const Log = `${StoringCode}|${reason}`;
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
-  const NextStatus = 'ReadyToPick';
+  const NextStatus = 'READY_TO_PICK';
   const NoteCode = StoringCode;
   const Note = reason;
   const success = false;
@@ -111,7 +109,7 @@ export function getUpdateOrderInfoForDone(order, NewDate = 0) {
   const Log = '';
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
-  const NextStatus = 'Storing';
+  const NextStatus = 'PICKED';
   const success = true;     
   return { OrderID, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
 }

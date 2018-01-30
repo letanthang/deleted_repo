@@ -94,7 +94,7 @@ export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
   const Log = `${StoringCode}|${reason}`;
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
-  const NextStatus = 'NotReturn';
+  const NextStatus = 'FAIL_TO_RETURN';
   const NoteCode = StoringCode;
   const Note = reason;
   const success = false;
@@ -108,7 +108,7 @@ export function getUpdateOrderInfoForDone(order, NewDate = 0) {
   const Log = '';
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
-  const NextStatus = 'Returned';
+  const NextStatus = 'RETURNED';
   const success = true;     
   return { OrderID, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
 }

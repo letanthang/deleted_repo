@@ -5,8 +5,8 @@ import { Platform } from 'react-native';
 const pickStatus = { Storing: 'Đã lấy', ReadyToPick: 'Lấy lỗi', Picking: 'Đang lấy', Progress: 'Đang xử lý' };
 const pickCompleteStatus = ['Storing', 'ReadyToPick'];
 
-const returnStatus = { Returned: 'Đã trả', Returning: 'Đang trả', NotReturn: 'Trả lỗi', Storing: 'Trả lỗi', Progress: 'Đang xử lý' };
-const returnCompleteStatus = ['Returned', 'NotReturn', 'Storing'];
+const returnStatus = { RETURNED: 'Đã trả', RETURNING: 'Đang trả', NotReturn: 'Trả lỗi', TAKING_TO_HUB: 'Trả lỗi', Storing: 'Trả lỗi', Progress: 'Đang xử lý' };
+const returnCompleteStatus = ['RETURNED', 'NotReturn', 'STORING', 'TAKING_TO_HUB'];
 
 const deliverStatus = { Delivering: 'Đang giao', Delivered: 'Đã giao', Storing: 'Giao lỗi' };
 const deliverCompleteStatus = ['Delivered', 'Storing'];
@@ -104,8 +104,7 @@ class Utils {
   }
 
   static checkReturnComplete(status) {
-    const completeList = ['WaitingToFinish', 'Returned', 'Return', 'NotReturn'];
-    if (completeList.includes(status)) {
+    if (returnCompleteStatus.includes(status)) {
       return true;
     }
     return false;

@@ -38,7 +38,7 @@ class PickOrderScreen extends Component {
   
   componentDidMount() {
     Orientation.lockToPortrait();
-    if (!this.props.configuration) this.props.getConfiguration();
+    // if (!this.props.configuration) this.props.getConfiguration();
   }
  
 

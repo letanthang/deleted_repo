@@ -209,11 +209,12 @@ class ReturnOrderScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { pd, auth } = state;
+  const { pd, auth, config } = state;
+  const { configuration } = config;
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
   const db = getOrders(state);
-  return { db, pdsId, sessionToken, loading };
+  return { db, pdsId, sessionToken, loading, configuration };
 };
 
 export default connect(

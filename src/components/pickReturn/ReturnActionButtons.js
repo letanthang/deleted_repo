@@ -81,8 +81,8 @@ class ReturnActionButtons extends Component {
   }
 }
 
-const mapStateToProps = ({ other }) => {
-  const { configuration } = other;
+const mapStateToProps = ({ config }) => {
+  const { configuration } = config;
   return { configuration };
 };
 

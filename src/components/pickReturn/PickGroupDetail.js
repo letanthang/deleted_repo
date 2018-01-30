@@ -220,10 +220,10 @@ class PickGroupDetail extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, pd, other, pickGroup } = state;
+  const { auth, pd, config, pickGroup } = state;
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
-  const { configuration } = other;
+  const { configuration } = config;
   const { showDatePicker, OrderInfos, keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
   const db = getOrders(state);

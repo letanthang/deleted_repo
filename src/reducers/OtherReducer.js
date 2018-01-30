@@ -1,8 +1,5 @@
 import _ from 'lodash';
 import { 
-  OTHER_GET_CONFIGURATION,
-  OTHER_GET_CONFIGURATION_SUCCESS,
-  OTHER_GET_CONFIGURATION_FAIL,
   OTHER_CALCULATE_FEE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
   OTHER_SET_LOADED
@@ -10,7 +7,6 @@ import {
 import Utils from '../libs/Utils';
 
 const nameInitialState = {
-  configuration: null,
   ServiceFee: null,
   stats: null,
   yesterday: null,
@@ -24,16 +20,6 @@ const nameInitialState = {
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
-    
-    case OTHER_GET_CONFIGURATION:
-      return { ...state, loading: true };
-    
-    case OTHER_GET_CONFIGURATION_SUCCESS:
-      return { ...state, loading: false, configuration: action.payload };
-    
-    case OTHER_GET_CONFIGURATION_FAIL:
-      return { ...state, loading: false, error: action.payload };
-    
     case OTHER_CALCULATE_FEE_SUCCESS: {
       return {
         ...state,

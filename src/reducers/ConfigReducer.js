@@ -1,6 +1,8 @@
 import { 
   CONFIG_GET_CONFIGURATION,
-  CONFIG_TOGGLE_LAYOUT
+  CONFIG_TOGGLE_LAYOUT,
+  CONFIG_GET_CONFIGURATION_SUCCESS,
+  CONFIG_GET_CONFIGURATION_FAIL
  } from '../actions/types';
 
 const nameInitialState = {
@@ -12,7 +14,10 @@ export default (state = nameInitialState, action) => {
     
     case CONFIG_GET_CONFIGURATION:
       return { ...state, loading: true };
-
+    case CONFIG_GET_CONFIGURATION_SUCCESS:
+      return { ...state, loading: false, configuration: action.payload };
+    case CONFIG_GET_CONFIGURATION_FAIL:
+      return { ...state, loading: false, error: action.payload };
     case CONFIG_TOGGLE_LAYOUT:
       return {
         ...state,

@@ -1,4 +1,3 @@
-import * as Communications from 'react-native-communications';
 import { Alert } from 'react-native';
 import { ActionSheet } from 'native-base';
 import Utils from '../../libs/Utils';

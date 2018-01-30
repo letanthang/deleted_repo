@@ -91,9 +91,9 @@ class ReturnActionAllButtons extends Component {
   }
 }
 
-const mapStateToProps = ({ other, returnGroup }) => {
+const mapStateToProps = ({ config, returnGroup }) => {
   const { allStatusReturn } = returnGroup;
-  const { configuration } = other;
+  const { configuration } = config;
   return { configuration, allStatusReturn };
 };
 

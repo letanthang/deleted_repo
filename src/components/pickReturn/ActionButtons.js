@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, UIManager, LayoutAnimation } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import FormButton from '../FormButton';
@@ -9,15 +9,18 @@ import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoFor
 
 class ActionButtons extends Component {
   componentWillMount() {
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
     const { OrderID, PickDeliveryType, ContactPhone, OrderCode } = this.props.order;
     let info = {};
-    if (nextStatus === undefined) { 
+    if (nextStatus === undefined) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
       info = { success: undefined, NextStatus: undefined };
       this.props.updateOrderInfo(OrderID, PickDeliveryType, info);
     } else if (nextStatus) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
       this.props.updateOrderInfo(OrderID, PickDeliveryType, info);
@@ -27,6 +30,7 @@ class ActionButtons extends Component {
       updateOrderToFailWithReason2(ContactPhone, this.props.configuration, OrderCode)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
           this.props.updateOrderInfo(OrderID, PickDeliveryType, moreInfo);
         } else if (error === 'moreCall') {

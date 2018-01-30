@@ -211,8 +211,10 @@ export default (state = nameInitialState, action) => {
     case PD_UPDATE_ORDER_INFO: {
       const { OrderID, PickDeliveryType, info } = action.payload;
       const PDSItems = _.cloneDeep(state.PDSItems);
+      const item = PDSItems[0][getKey(OrderID, PickDeliveryType)];
       const statusChangeDate = info.success === undefined ? undefined : Date.now();
-      Object.assign(PDSItems[0][getKey(OrderID, PickDeliveryType)], { statusChangeDate }, info);
+      const dateInfo = (item.success !== undefined && info.success !== undefined) ? {} : { statusChangeDate };
+      Object.assign(item, dateInfo, info);
       return { ...state, PDSItems };
     }
      

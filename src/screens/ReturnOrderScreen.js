@@ -17,18 +17,18 @@ import ActionModal from '../components/ActionModal';
 import FormButton from '../components/FormButton';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/pickReturn/ReturnHelpers';
 
-let OrderID = null;
+let OrderCode = null;
 let order = {};
 class ReturnOrderScreen extends Component {
   state = { modalShow: false } 
   componentWillMount() {
-    OrderID = this.props.navigation.state.params.OrderID;
-    order = Utils.getOrder(this.props.db, OrderID, 3);
+    OrderCode = this.props.navigation.state.params.OrderCode;
+    order = Utils.getOrder(this.props.db, OrderCode, 3);
   }
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, OrderID, 3);
+    const newOrder = Utils.getOrder(db, OrderCode, 3);
     if (order.CurrentStatus !== newOrder.CurrentStatus) {
       this.props.navigation.goBack();
     }

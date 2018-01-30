@@ -77,7 +77,7 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
   // [
   //   {  
   //     PDSDetailID,
-  //     OrderID,
+  //     OrderCode,
   //     PDSType,
   //     NextStatus,
   //     ClientHubID,
@@ -88,7 +88,7 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
   //     NoteCode,
   //   },
 export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
-  const OrderID = order.OrderID;
+  const OrderCode = order.OrderCode;
   const PickDeliveryType = order.PickDeliveryType;
   const StoringCode = codes[buttonIndex]; 
   const reason = buttons[buttonIndex];
@@ -99,11 +99,11 @@ export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
   const NoteCode = StoringCode;
   const Note = reason;
   const success = false;
-  return { OrderID, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, Note, NoteCode, success };
+  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, Note, NoteCode, success };
 }
 
 export function getUpdateOrderInfoForDone(order, NewDate = 0) {
-  const OrderID = order.OrderID;
+  const OrderCode = order.OrderCode;
   const PickDeliveryType = order.PickDeliveryType;
   const StoringCode = ''; 
   const Log = '';
@@ -111,5 +111,5 @@ export function getUpdateOrderInfoForDone(order, NewDate = 0) {
   const PDSDetailID = order.PickDeliverySessionDetailID;
   const NextStatus = 'PICKED';
   const success = true;     
-  return { OrderID, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
+  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
 }

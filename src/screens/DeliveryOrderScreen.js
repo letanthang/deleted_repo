@@ -18,12 +18,12 @@ import ActionModal from '../components/ActionModal';
 import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2 } from './Helper';
 
 let order = null;
-let OrderID = null;
+let OrderCode = null;
 class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
-    OrderID = this.props.navigation.state.params.OrderID;
-    order = Utils.getOrder(this.props.db, OrderID, 2);
+    OrderCode = this.props.navigation.state.params.OrderCode;
+    order = Utils.getOrder(this.props.db, OrderCode, 2);
   }
 
   componentDidMount() {
@@ -32,7 +32,7 @@ class DeliveryOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.db != nextProps.db) {
-      const newOrder = Utils.getOrder(nextProps.db, OrderID, 2);
+      const newOrder = Utils.getOrder(nextProps.db, OrderCode, 2);
       if (order.CurrentStatus !== newOrder.CurrentStatus) {
         this.props.navigation.goBack();
       }

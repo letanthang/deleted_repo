@@ -72,7 +72,7 @@ class Utils {
     //   return true;
     // }
     // return false;
-    const unCompleteStatus = 'Delivering';
+    const unCompleteStatus = 'DELIVERING';
     if (status === unCompleteStatus) {
       return false;
     }
@@ -81,23 +81,19 @@ class Utils {
 
 
   static checkPickComplete(status) {
-    const completeList = ['ReadyToPick', 'Storing'];
-    if (completeList.includes(status)) {
-      return true;
+    // if (pickCompleteStatus.includes(status)) {
+    //   return true;
+    // }
+    // return false;
+    const unCompleteStatus = 'PICKING';
+    if (status === unCompleteStatus) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   static checkPickCompleteForUnsync({ NextStatus, CurrentStatus }) {
     if (pickCompleteStatus.includes(CurrentStatus) || pickCompleteStatus.includes(NextStatus)) {
-      return true;
-    }
-    return false;
-  }
-
-  static checkPickDone(status) {
-    const completeList = ['Storing'];
-    if (completeList.includes(status)) {
       return true;
     }
     return false;
@@ -116,14 +112,6 @@ class Utils {
     return false;
   }
 
-  static checkReturnDone(status) {
-    const completeList = ['WaitingToFinish', 'Returned'];
-    if (completeList.includes(status)) {
-      return true;
-    }
-    return false;
-  }
-
   static checkReturnFail(status) {
     const completeList = ['Return', 'NotReturn'];
     if (completeList.includes(status)) {
@@ -132,8 +120,8 @@ class Utils {
     return false;
   }
   static getKey = (orderID, type) => `${orderID}-${type}`;
-  static getOrder(items, OrderID, PickDeliveryType) {
-    return items[Utils.getKey(OrderID, PickDeliveryType)];
+  static getOrder(items, OrderCode, PickDeliveryType) {
+    return items[Utils.getKey(OrderCode, PickDeliveryType)];
   }
 
   static getReturnGroupFromPG(ReturnItems, pickGroup) {

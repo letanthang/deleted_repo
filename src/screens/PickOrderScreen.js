@@ -22,7 +22,7 @@ import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithRea
 
 let ClientID = null;
 let ClientHubID = null;
-let OrderID = null;
+let OrderCode = null;
 let order = {};
 class PickOrderScreen extends Component {
   state = { modalShow: false }
@@ -30,8 +30,8 @@ class PickOrderScreen extends Component {
   componentWillMount() {
     ClientID = this.props.navigation.state.params.ClientID;
     ClientHubID = this.props.navigation.state.params.ClientHubID;
-    OrderID = this.props.navigation.state.params.OrderID;
-    order = Utils.getOrder(this.props.db, OrderID, 1);
+    OrderCode = this.props.navigation.state.params.OrderCode;
+    order = Utils.getOrder(this.props.db, OrderCode, 1);
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
@@ -39,7 +39,7 @@ class PickOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, OrderID, 1);
+    const newOrder = Utils.getOrder(db, OrderCode, 1);
     if (order.CurrentStatus !== newOrder.CurrentStatus) {
       this.props.navigation.goBack();
     }
@@ -76,12 +76,12 @@ class PickOrderScreen extends Component {
   
   updateOrderToDone() {
     const OrderInfos = getUpdateOrderInfoForDone(order);
-    this.props.updateOrderInfo(order.OrderID, order.PickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.OrderCode, order.PickDeliveryType, OrderInfos);
   }
 
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getUpdateOrderInfo(order, buttonIndex, NewDate);
-    this.props.updateOrderInfo(order.OrderID, order.PickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.OrderCode, order.PickDeliveryType, OrderInfos);
   }
 
   updateOrderToFailWithReason() {
@@ -180,7 +180,7 @@ class PickOrderScreen extends Component {
           <Right style={Styles.rightStyle}>
             <Button
               transparent
-              onPress={() => navigate('POUpdateWeightSize', { OrderID, ClientID, ClientHubID })}
+              onPress={() => navigate('POUpdateWeightSize', { OrderCode, ClientID, ClientHubID })}
             >
               <Icon name="create" />
             </Button>

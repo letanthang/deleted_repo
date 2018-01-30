@@ -24,8 +24,8 @@ class DeliveryByGroup extends Component {
 
   onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 300, { leading: true, trailing: false });
 
-  onDeliveryOrderPress(OrderID) {
-    this.props.navigation.navigate('DeliveryOrder', { OrderID });
+  onDeliveryOrderPress(OrderCode) {
+    this.props.navigation.navigate('DeliveryOrder', { OrderCode });
   }
 
   renderStatusText(order) {
@@ -54,17 +54,17 @@ class DeliveryByGroup extends Component {
       <Content style={{ backgroundColor: Colors.background }}>
       <SectionList
         sections={sections}
-        keyExtractor={(item, index) => item.OrderID }
+        keyExtractor={(item, index) => item.OrderCode }
         renderItem={({ item, index, section }) => {
           if (!section.activeSection) return null;
 
           const order = item;
-          const { DeliveryAddress, OrderCode, OrderID, DisplayOrder, ServiceName } = order;
+          const { DeliveryAddress, OrderCode, DisplayOrder, ServiceName } = order;
           const wrapperStyle = index === 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
           
           return (
             <TouchableOpacity
-              onPress={this.onDeliveryOrderPressOnce.bind(this, OrderID)}
+              onPress={this.onDeliveryOrderPressOnce.bind(this, OrderCode)}
             >
               <View style={wrapperStyle}>
                 <View style={Styles.item2Style}>

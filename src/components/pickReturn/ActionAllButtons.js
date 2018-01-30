@@ -20,8 +20,8 @@ class ActionAllButtons extends Component {
     const { ContactPhone } = orders[0];
     
     if (nextStatus === undefined) {
-      const OrderInfos = _.map(orders, ({ OrderID, PickDeliveryType }) => {
-        return { OrderID, PickDeliveryType, success: undefined, NextStatus: undefined };
+      const OrderInfos = _.map(orders, ({ OrderCode, PickDeliveryType }) => {
+        return { OrderCode, PickDeliveryType, success: undefined, NextStatus: undefined };
       });
       this.props.updateOrderInfos(OrderInfos);
       this.setState({ status: undefined });

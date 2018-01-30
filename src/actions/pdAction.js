@@ -80,7 +80,7 @@ export const pdListFetchFail = (dispatch, error) => {
   // [
   //   {  
   //     PDSDetailID,
-  //     OrderID,
+  //     OrderCode,
   //     PDSType,
   //     NextStatus,
   //     ClientHubID,
@@ -147,7 +147,7 @@ export const updateWeightSize = ({
   Weight,
   ClientID,
   ClientHubID,
-  OrderID,
+  OrderCode,
   PDSID,
   ServiceFee
 }) => {
@@ -162,7 +162,7 @@ export const updateWeightSize = ({
       Height,
       Weight,
       ClientID,
-      OrderID,
+      OrderCode,
       PDSID
     };
     try {
@@ -172,7 +172,7 @@ export const updateWeightSize = ({
         dispatch({
           type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
           payload: { 
-            OrderID,
+            OrderCode,
             ClientHubID, 
             ServiceCost: ServiceFee,
             Length,
@@ -182,13 +182,13 @@ export const updateWeightSize = ({
           }
         });
       } else {
-        reportBug(json.message, { OrderID, Length, Weight, Height, ServiceFee });
+        reportBug(json.message, { OrderCode, Length, Weight, Height, ServiceFee });
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
         console.log('Update weight size failed with response json =');
         console.log(json);
       }
     } catch (error) {
-      reportBug(error.message, { OrderID, Length, Weight, Height, ServiceFee });
+      reportBug(error.message, { OrderCode, Length, Weight, Height, ServiceFee });
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
       console.log('Update weight size failed with error =');
       console.log(error);
@@ -227,11 +227,11 @@ export const addOneOrder = (order) => {
   };
 };
 
-export const updateOrderInfo = (OrderID, PickDeliveryType, info) => {
+export const updateOrderInfo = (OrderCode, PickDeliveryType, info) => {
   return (dispatch, getState) => {
     dispatch({
       type: PD_UPDATE_ORDER_INFO,
-      payload: { OrderID, PickDeliveryType, info }
+      payload: { OrderCode, PickDeliveryType, info }
     });
   };
 };
@@ -251,10 +251,10 @@ export const toggleGroupActive = (groupIndex) => {
   };
 };
 
-export const toggleOrderGroup = (OrderID) => {
+export const toggleOrderGroup = (OrderCode) => {
   return {
     type: PD_TOGGLE_ORDER_GROUP,
-    payload: { OrderID }
+    payload: { OrderCode }
   };
 };
 export const updateOrders = (orders) => {

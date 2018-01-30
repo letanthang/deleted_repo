@@ -27,7 +27,7 @@ function alertMissOfCall(phoneNumber) {
 }
 
 export function getDeliveryDoneOrderInfo(order, NewDate = 0) {
-  const OrderID = order.OrderID;
+  const OrderCode = order.OrderCode;
   const PickDeliveryType = order.PickDeliveryType;
   const StoringCode = ''; 
   const Log = '';
@@ -35,11 +35,11 @@ export function getDeliveryDoneOrderInfo(order, NewDate = 0) {
   const PDSDetailID = order.PickDeliverySessionDetailID;
   const NextStatus = 'DELIVERED';
   const success = true;
-  return { OrderID, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
+  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
 }
 
 export function getDeliveryFailOrderInfo(order, buttonIndex, NewDate = 0) {
-  const OrderID = order.OrderID;
+  const OrderCode = order.OrderCode;
   const PickDeliveryType = order.PickDeliveryType;
   const StoringCode = CODES[buttonIndex]; 
   const reason = BUTTONS[buttonIndex];
@@ -50,7 +50,7 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, NewDate = 0) {
   const NoteCode = StoringCode;
   const Note = reason;
   const success = false;
-  return { OrderID, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, Note, NoteCode, success };
+  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, Note, NoteCode, success };
 }
 
 export function updateOrderToFailWithReason2(phone, configuration, OrderCode = null) {

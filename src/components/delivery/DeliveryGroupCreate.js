@@ -22,14 +22,14 @@ class DeliveryGroupCreate extends Component {
     this.setState({ groupName: `Nhóm ${groupLength}` });
   }
   
-  onOrderChecked(OrderID) {
-    this.props.toggleOrderGroup(OrderID);
+  onOrderChecked(OrderCode) {
+    this.props.toggleOrderGroup(OrderCode);
   }
   onCreateGroup(items) {
     const list = items.filter(o => o.groupChecked === true);
     const orders = {};
     list.forEach(o => {
-      const key = Utils.getKey(o.OrderID, 2);
+      const key = Utils.getKey(o.OrderCode, 2);
       orders[key] = _.clone(o);
       orders[key].group = this.state.groupName;
     });
@@ -78,13 +78,13 @@ class DeliveryGroupCreate extends Component {
         
           <FlatList
             data={items}
-            keyExtractor={(item, index) => item.OrderID}
+            keyExtractor={(item, index) => item.OrderCode}
             renderItem={({ item }) => {
               const order = item;
-              const { DeliveryAddress, OrderCode, OrderID, groupChecked } = order;
+              const { DeliveryAddress, OrderCode, groupChecked } = order;
               return (
                 <TouchableOpacity
-                  onPress={this.onOrderChecked.bind(this, OrderID)}
+                  onPress={this.onOrderChecked.bind(this, OrderCode)}
                 >
                   <View style={Styles.rowStyle}>
                     <View style={[DeliverGroupStyles.col1Style]}>
@@ -100,7 +100,7 @@ class DeliveryGroupCreate extends Component {
                     >
                       <CheckBox 
                         style={{ backgroundColor: '#fff' }}
-                        onPress={this.onOrderChecked.bind(this, OrderID)}
+                        onPress={this.onOrderChecked.bind(this, OrderCode)}
                         checked={groupChecked}
                       />
                     </View>

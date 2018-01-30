@@ -26,8 +26,8 @@ class DeliveryGroupList extends Component {
   componentDidUpdate(prevProps, prevState) {
 
   }
-  onDeliveryOrderPress(OrderID) {
-    this.props.navigation.navigate('DeliveryOrder', { OrderID });
+  onDeliveryOrderPress(OrderCode) {
+    this.props.navigation.navigate('DeliveryOrder', { OrderCode });
   }
 
   renderStatusText(order) {
@@ -39,10 +39,10 @@ class DeliveryGroupList extends Component {
   }
 
   renderOrder(order) {
-    const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount, DisplayOrder } = order;
+    const { Address, OrderCode, OrderCode, CurrentStatus, TotalCollectedAmount, DisplayOrder } = order;
     return (
       <TouchableOpacity
-        onPress={this.onDeliveryOrderPress.bind(this, OrderID)}
+        onPress={this.onDeliveryOrderPress.bind(this, OrderCode)}
       >
         <View style={Styles.orderWrapperStyle}>
           <View style={Styles.item2Style}>
@@ -67,7 +67,7 @@ class DeliveryGroupList extends Component {
     );
   }
   render() {
-    //const { Address, OrderCode, OrderID, CurrentStatus, TotalCollectedAmount }
+    //const { Address, OrderCode, OrderCode, CurrentStatus, TotalCollectedAmount }
     const deliveryList = this.props.deliveryList.filter(order => this.state.keyword === '' 
       || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase()));
 

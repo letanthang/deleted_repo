@@ -75,13 +75,13 @@ class PickGroupDetail extends Component {
 
   onOrderPress(order) {
   
-    const { OrderID } = order;
+    const { OrderCode } = order;
     const { ClientID, ClientHubID } = this.pickGroup;
     
     if (this.PickDeliveryType === 1) {
-      navigateOnce(this, 'PickOrder', { OrderID, order, ClientID, ClientHubID });
+      navigateOnce(this, 'PickOrder', { OrderCode, order, ClientID, ClientHubID });
     } else if (this.PickDeliveryType === 3) {
-      navigateOnce(this, 'ReturnOrder', { OrderID, order, ClientHubID });
+      navigateOnce(this, 'ReturnOrder', { OrderCode, order, ClientHubID });
     }
   }
 
@@ -92,8 +92,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { OrderID, PickDeliveryType } = this.order;
-      this.props.updateOrderInfo(OrderID, PickDeliveryType, moreInfo);
+      const { OrderCode, PickDeliveryType } = this.order;
+      this.props.updateOrderInfo(OrderCode, PickDeliveryType, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -111,7 +111,7 @@ class PickGroupDetail extends Component {
   }
 
   checkDelivering(order) {
-    if (Utils.getOrder(this.props.db, order.OrderID, 2)) return true;
+    if (Utils.getOrder(this.props.db, order.OrderCode, 2)) return true;
     return false;
   }
 
@@ -144,13 +144,13 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
-            keyExtractor={(item, index) => item.OrderID}
+            keyExtractor={(item, index) => item.OrderCode}
             renderItem={({ item }) => {
               const order = item;
               const { 
                 OrderCode, RecipientName, RecipientPhone,
                 Height, Width, Weight, Length, CurrentStatus,
-                ExternalCode, CODAmount, OrderID
+                ExternalCode, CODAmount
               } = item;
 
               const realDone = Utils.checkPickComplete(CurrentStatus);

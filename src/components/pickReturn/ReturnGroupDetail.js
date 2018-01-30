@@ -56,13 +56,13 @@ class PickGroupDetail extends Component {
       || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
   onOrderPress(order) {
-    const { OrderID } = order;
+    const { OrderCode } = order;
     const { ClientID, ClientHubID } = this.pickGroup;
     
     if (this.PickDeliveryType === 1) {
-      navigateOnce(this, 'PickOrder', { OrderID, order, ClientID, ClientHubID });
+      navigateOnce(this, 'PickOrder', { OrderCode, order, ClientID, ClientHubID });
     } else if (this.PickDeliveryType === 3) {
-      navigateOnce(this, 'ReturnOrder', { OrderID, order, ClientHubID });
+      navigateOnce(this, 'ReturnOrder', { OrderCode, order, ClientHubID });
     }
   }
 
@@ -73,7 +73,7 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      this.props.updateOrderInfo(this.order.OrderID, moreInfo);
+      this.props.updateOrderInfo(this.order.OrderCode, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -108,7 +108,7 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
-            keyExtractor={(item, index) => item.OrderID}
+            keyExtractor={(item, index) => item.OrderCode}
             renderItem={({ item }) => {
               const order = item;
               const { 

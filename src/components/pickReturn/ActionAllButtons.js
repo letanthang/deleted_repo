@@ -93,9 +93,9 @@ class ActionAllButtons extends Component {
   }
 }
 
-const mapStateToProps = ({ other, pickGroup }) => {
+const mapStateToProps = ({ config, pickGroup }) => {
   const { allStatus } = pickGroup;
-  const { configuration } = other;
+  const { configuration } = config;
   return { configuration, allStatus };
 };
 

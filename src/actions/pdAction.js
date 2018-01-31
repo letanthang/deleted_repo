@@ -99,6 +99,14 @@ export const updateOrderStatus = (infos) => {
   if (!(OrderInfos instanceof Array)) {
     OrderInfos = [OrderInfos];
   }
+  //transform OrderInfos
+
+  OrderInfos = OrderInfos.map(info => {
+    const { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log0, Note0, NoteCode, success } = info;
+    return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log: Log0, Note: Note0, NoteCode, success };
+  });
+
+  console.log(OrderInfos);
 
   return ((dispatch, getState) => {
     dispatch({ type: UPDATE_ORDER_STATUS, payload: { OrderInfos } });

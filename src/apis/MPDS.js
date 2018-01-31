@@ -176,7 +176,7 @@ const sampleResponse = {
           "PDSItems": [
               {
                   "OrderCode": "23RUXR4",
-                  "CurrentStatus": "Storing",
+                  "CurrentStatus": "STORING",
                   "RecipientName": "Mr Siro",
                   "RecipientPhone": "01668117449",
                   "CODAmount": 0,
@@ -354,7 +354,7 @@ const sampleResponse = {
             },
             {
                 "OrderCode": "CDENMMM",
-                "CurrentStatus": "Storing",
+                "CurrentStatus": "STORING",
                 "RecipientName": "Le Tan Thang",
                 "RecipientPhone": "01668117449",
                 "CODAmount": 71500,

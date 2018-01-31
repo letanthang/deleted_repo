@@ -39,6 +39,38 @@ class Utils {
     return status;
   }
 
+  static getStatus({ CurrentStatus, NextStatus, PickDeliveryType }) {
+    let status = '';
+    let alert = false;
+    if (PickDeliveryType === 1) {
+      if (!pickCompleteStatus.includes(CurrentStatus) && pickCompleteStatus.includes(NextStatus)) {
+        status = pickStatus[NextStatus] ? pickStatus[NextStatus] : NextStatus;
+        //status = `*${status}*`;
+        alert = true;
+      } else {
+        status = pickStatus[CurrentStatus] ? pickStatus[CurrentStatus] : CurrentStatus;
+      }
+    } else if (PickDeliveryType === 2) {
+      if (!deliverCompleteStatus.includes(CurrentStatus) && deliverCompleteStatus.includes(NextStatus)) {
+        status = deliverStatus[NextStatus] ? deliverStatus[NextStatus] : NextStatus;
+        // status = `*${status}*`;
+        alert = true;
+      } else {
+        status = deliverStatus[CurrentStatus] ? deliverStatus[CurrentStatus] : CurrentStatus;
+      }
+    } else if (PickDeliveryType === 3) {
+      if (!returnCompleteStatus.includes(CurrentStatus) && returnCompleteStatus.includes(NextStatus)) {
+        status = returnStatus[NextStatus] ? returnStatus[NextStatus] : NextStatus;
+        // status = `*${status}*`;
+        alert = true;
+      } else {
+        status = returnStatus[CurrentStatus] ? returnStatus[CurrentStatus] : CurrentStatus;
+      }
+    }
+    
+    return { status, alert };
+  }
+
   static getDisplayStatusColor({ CurrentStatus, NextStatus, PickDeliveryType }) {
     const DisplayStatus = this.getDisplayStatus({ CurrentStatus, NextStatus, PickDeliveryType });
     switch (DisplayStatus) {

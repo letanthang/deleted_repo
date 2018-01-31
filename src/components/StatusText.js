@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View, Text } from 'react-native';
 
 class StatusText extends Component {
   render() {
-    const { colorTheme, text, style, show } = this.props;
+    const { colorTheme, text, style, show, alert } = this.props;
     if (show === false) return null;
     
     let color = null;
@@ -30,9 +31,15 @@ class StatusText extends Component {
         backgroundColor = '#ccc';
     }
     return (
-      <View style={{ backgroundColor, borderWidth: 1, borderColor: color, borderRadius: 2, width: 71, alignItems: 'center', ...style }}>
-        <Text style={{ color }} >{text}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ backgroundColor, borderWidth: 1, borderColor: color, borderRadius: 2, width: 71, alignItems: 'center', ...style }}>
+          <Text style={{ color }} >{text}</Text>
+        </View>
+        {alert ?
+        <IC name='sync-alert' size={16} color='#FF5723' />
+        : null}
       </View>
+      
     );
   }
 }

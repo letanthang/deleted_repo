@@ -92,24 +92,25 @@ export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
   const PickDeliveryType = order.PickDeliveryType;
   const StoringCode = codes[buttonIndex]; 
   const reason = buttons[buttonIndex];
-  const Log = `${StoringCode}|${reason}`;
+  const Log0 = `${StoringCode}|${reason}`;
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
   const NextStatus = 'READY_TO_PICK';
   const NoteCode = StoringCode;
-  const Note = reason;
+  const Note0 = reason;
   const success = false;
-  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, Note, NoteCode, success };
+  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log0, Note0, NoteCode, success };
 }
 
 export function getUpdateOrderInfoForDone(order, NewDate = 0) {
   const OrderCode = order.OrderCode;
   const PickDeliveryType = order.PickDeliveryType;
   const StoringCode = ''; 
-  const Log = '';
+  const Log0 = '';
+  const Note0 = '';
   const PDSType = order.PickDeliveryType;
   const PDSDetailID = order.PickDeliverySessionDetailID;
   const NextStatus = 'PICKED';
   const success = true;     
-  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log, PDSType, PDSDetailID, success };
+  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log0, Note0, PDSType, PDSDetailID, success };
 }

@@ -3,10 +3,10 @@ import StatusText from './StatusText';
 import Utils from '../libs/Utils';
 
 const OrderStatusText = ({ order, style }) => {
-  const DisplayStatus = Utils.getDisplayStatus(order);
+  const { status, alert } = Utils.getStatus(order);
   const StatusColor = Utils.getDisplayStatusColor(order);
   return (
-    <StatusText text={DisplayStatus} colorTheme={StatusColor} style={style} />
+    <StatusText text={status} colorTheme={StatusColor} style={style} alert={alert} />
   );
 };
 

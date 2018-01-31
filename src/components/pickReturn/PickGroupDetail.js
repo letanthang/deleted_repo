@@ -150,7 +150,7 @@ class PickGroupDetail extends Component {
               const { 
                 OrderCode, RecipientName, RecipientPhone,
                 Height, Width, Weight, Length, CurrentStatus,
-                ExternalCode, CODAmount
+                ExternalCode, CODAmount, success, Note0
               } = item;
 
               const realDone = Utils.checkPickComplete(CurrentStatus);
@@ -171,9 +171,16 @@ class PickGroupDetail extends Component {
                       </View>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
                     </View>
+                    {success === false ?
+                    <View style={Styles.itemStyle}>
+                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{Note0}</Text>
+                    </View>
+                    : null}
+                    {ExternalCode ?
                     <View style={Styles.itemStyle}>
                       <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {ExternalCode}</Text>
                     </View>
+                    : null}
                     <View style={Styles.itemStyle}>
                       <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
 

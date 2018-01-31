@@ -16,7 +16,7 @@ import DataEmptyCheck from '../DataEmptyCheck';
 import ReturnActionButtons from './ReturnActionButtons';
 import ReturnActionAllButtons from './ReturnActionAllButtons';
 import ActionModal from '../ActionModal';
-import { getUpdateOrderInfo } from './Helpers';
+import { getUpdateOrderInfo } from './ReturnHelpers';
 import { get3Type } from '../../selectors/index';
 
 
@@ -44,7 +44,6 @@ class PickGroupDetail extends Component {
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.ShopOrders.filter(o => !Utils.checkReturnComplete(o.CurrentStatus));
-    console.log(orders.length);
     if (orders.length === 0) return true;
     return false;
   }
@@ -66,14 +65,15 @@ class PickGroupDetail extends Component {
     }
   }
 
-  onChooseDate(date) {    
+  onChooseDate(date) {
     const timestamp = date.getTime();
     if (this.order === null) {
       const OrderInfos = _.map(this.orders, order => getUpdateOrderInfo(order, this.buttonIndex, timestamp));
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      this.props.updateOrderInfo(this.order.OrderCode, moreInfo);
+      const { OrderCode, PickDeliveryType } = this.order;
+      this.props.updateOrderInfo(OrderCode, PickDeliveryType, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -113,7 +113,7 @@ class PickGroupDetail extends Component {
               const order = item;
               const { 
                 OrderCode, RecipientName, RecipientPhone,
-                ExternalCode, CODAmount
+                ExternalCode, CODAmount, success, Note0
               } = item;
               return (
                 <TouchableOpacity
@@ -130,9 +130,16 @@ class PickGroupDetail extends Component {
                       </View>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
                     </View>
+                    {success === false ?
+                    <View style={Styles.itemStyle}>
+                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{Note0}</Text>
+                    </View>
+                    : null}
+                    {ExternalCode ?
                     <View style={Styles.itemStyle}>
                       <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {ExternalCode}</Text>
                     </View>
+                    : null}
                     <View style={Styles.itemStyle}>
                       <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
                     </View>

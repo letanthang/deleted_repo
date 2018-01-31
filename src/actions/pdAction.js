@@ -236,11 +236,9 @@ export const addOneOrder = (order) => {
 };
 
 export const updateOrderInfo = (OrderCode, PickDeliveryType, info) => {
-  return (dispatch, getState) => {
-    dispatch({
-      type: PD_UPDATE_ORDER_INFO,
-      payload: { OrderCode, PickDeliveryType, info }
-    });
+  return {
+    type: PD_UPDATE_ORDER_INFO,
+    payload: { OrderCode, PickDeliveryType, info }
   };
 };
 

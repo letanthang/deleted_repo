@@ -110,17 +110,18 @@ export const updateOrderStatus = (infos) => {
 
   return ((dispatch, getState) => {
     dispatch({ type: UPDATE_ORDER_STATUS, payload: { OrderInfos } });
-    const { pdsId } = getState().pd;
-    return API.UpdatePickDeliverySession({
-      PDSID: pdsId,
+    const { psdCode, lastUpdatedTime } = getState().pd;
+    return API.UpdateStatus({
+      psdCode, 
+      lastUpdatedTime,
       OrderInfos
     })
       .then(response => {
         const json = response.data;
         console.log(json);
         if (json.status === 'OK') {
-          updateOrderStatusSuccess(dispatch, OrderInfos, json.data.failed_orders);
-          return json.data.failed_orders;
+          updateOrderStatusSuccess(dispatch, OrderInfos, json.data[0].listFail);
+          return json.data[0].listFail;
         } else {
           console.log('UpdateOrderStatus failed with response json =');
           updateOrderStatusFail(dispatch, json.message, OrderInfos);

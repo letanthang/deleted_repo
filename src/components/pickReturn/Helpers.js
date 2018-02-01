@@ -87,30 +87,24 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
   //     Note,
   //     NoteCode,
   //   },
-export function getUpdateOrderInfo(order, buttonIndex, NewDate = 0) {
+export function getUpdateOrderInfo(order, buttonIndex, nextDate = 0) {
   const OrderCode = order.OrderCode;
   const PickDeliveryType = order.PickDeliveryType;
-  const StoringCode = codes[buttonIndex]; 
-  const reason = buttons[buttonIndex];
-  const Log0 = `${StoringCode}|${reason}`;
-  const PDSType = order.PickDeliveryType;
-  const PDSDetailID = order.PickDeliverySessionDetailID;
+  const noteId = codes[buttonIndex]; 
+  const note = buttons[buttonIndex];
   const NextStatus = 'READY_TO_PICK';
-  const NoteCode = StoringCode;
-  const Note0 = reason;
+  const action = 'DO_PICK';
   const success = false;
-  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log0, Note0, NoteCode, success };
+  return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }
 
-export function getUpdateOrderInfoForDone(order, NewDate = 0) {
+export function getUpdateOrderInfoForDone(order, nextDate = 0) {
   const OrderCode = order.OrderCode;
   const PickDeliveryType = order.PickDeliveryType;
-  const StoringCode = ''; 
-  const Log0 = '';
-  const Note0 = '';
-  const PDSType = order.PickDeliveryType;
-  const PDSDetailID = order.PickDeliverySessionDetailID;
+  const noteId = ''; 
+  const note = '';
   const NextStatus = 'PICKED';
-  const success = true;     
-  return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, Log0, Note0, PDSType, PDSDetailID, success };
+  const action = 'DO_PICK_FAIL';
+  const success = false;
+  return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }

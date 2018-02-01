@@ -14,6 +14,8 @@ const nameInitialState = {
   PDSItems: null,
   Infos: null,
   pdsId: null,
+  pdsCode: null,
+  lastUpdatedTime: null,
   loading: false,
   addOrderLoading: false,
   groups: {
@@ -36,7 +38,7 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_SUCCESS: {
       const pds = action.payload.pds;
       transformPDS(pds);
-      const { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID } = pds;
+      const { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID, PDSCode, lastUpdatedTime } = pds;
 
       let PDSItems = null;
       let groups = state.groups;
@@ -56,6 +58,8 @@ export default (state = nameInitialState, action) => {
         PDSItems: [PDSItems],
         Infos: { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID },
         pdsId: PickDeliverySessionID,
+        pdsCode: PDSCode,
+        lastUpdatedTime,
         groups,
         loading: false,
         error: '',
@@ -111,7 +115,7 @@ export default (state = nameInitialState, action) => {
       const FailedOrders = action.payload.FailedOrders;
       let ids = [];
       if (FailedOrders instanceof Array && FailedOrders.length > 0) {
-        ids = FailedOrders.map(o => o.order_id);
+        ids = FailedOrders.map(o => o.orderCode);
       }
 
       const PDSItems = _.cloneDeep(state.PDSItems);

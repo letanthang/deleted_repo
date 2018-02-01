@@ -45,6 +45,23 @@ export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
   return axios.put(URL, params, config);
 };
 
+export const UpdateStatus = ({ psdCode, lastUpdatedTime, OrderInfos }) => {
+    const URL = `${BASE_URL}/doAction`;
+    const params = {
+      psdCode,
+      lastUpdatedTime,
+      orders: OrderInfos
+    };
+    const LoginHeader = Share.LoginHeader;
+    const config = { headers: LoginHeader };
+  
+    if (mockOn) {
+      mock.onPut(URL, params, config).reply(200, updateStatusResponse);
+    }
+  
+    return axios.put(URL, params, config);
+  };
+
 export const UpdateOrderWeightRDC = ({ 
   Length,
   Width,
@@ -172,6 +189,7 @@ const sampleResponse = {
           "PickDeliverySessionID": "59c252cfbae4ba02c08327ba",
           "PDSCode": "170920DVPGUN",
           "StartTime": "Sep 20, 2017 6:37:21 PM",
+          "lastUpdatedTime": "Sep 20, 2017 6:37:21 PM",
           "SType": 0,
           "PDSItems": [
               {
@@ -819,9 +837,22 @@ const performanceResponse = {
 }
 
 const updateResponse = {
-    "status": "OK",
-    "data": {
-        failed_orders: []
-    },
-    "message": "Successfull"
+  "status": "OK",
+  "data": {
+    failed_orders: []
+  },
+  "message": "Successfull"
+}
+
+const updateStatusResponse = {
+  "status": "OK",
+  "data": [
+    { 
+      "listOk":[
+        { "orderCode":"3A5D76UA","status":"DELIVERED" }
+      ],
+      "listFail":[]
+    }
+  ],
+  "message": "Successfull"
 }

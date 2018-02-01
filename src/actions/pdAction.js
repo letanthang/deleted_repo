@@ -142,11 +142,11 @@ const updateOrderStatusSuccess = (dispatch, OrderInfos, FailedOrders) => {
   });
 };
 
-const updateOrderStatusFail = (dispatch, error, info) => {
-  reportBug(error, info);
+const updateOrderStatusFail = (dispatch, error, OrderInfos) => {
+  reportBug(error, OrderInfos);
   dispatch({
     type: UPDATE_ORDER_STATUS_FAIL,
-    payload: { error }
+    payload: { error, OrderInfos }
   });
 };
 

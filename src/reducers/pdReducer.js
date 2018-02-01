@@ -88,10 +88,31 @@ export default (state = nameInitialState, action) => {
     }
 
     case UPDATE_ORDER_STATUS_FAIL: {
+      const { OrderInfos, error } = action.payload;
+
+      const PDSItems = _.cloneDeep(state.PDSItems);
+      _.each(OrderInfos, info => {
+          const order = Utils.getOrder(PDSItems[0], info.OrderCode, info.PickDeliveryType);
+          switch (info.PickDeliveryType) {
+            case 1:
+              order.CurrentStatus = 'Picking';
+              break;
+            case 2:
+              order.CurrentStatus = 'Delivering';
+              break;
+            case 3:
+              order.CurrentStatus = 'Returning';
+              break;
+            default:
+              break;
+          }
+      });
+
       return {
         ...state,
+        PDSItems,
         loading: false,
-        error: 'update status fail'
+        error
       };
     }
 

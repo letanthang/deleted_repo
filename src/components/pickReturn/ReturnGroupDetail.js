@@ -113,7 +113,7 @@ class PickGroupDetail extends Component {
               const order = item;
               const { 
                 OrderCode, RecipientName, RecipientPhone,
-                ExternalCode, CODAmount, success, Note0
+                ExternalCode, CODAmount, success, note
               } = item;
               return (
                 <TouchableOpacity
@@ -132,7 +132,7 @@ class PickGroupDetail extends Component {
                     </View>
                     {success === false ?
                     <View style={Styles.itemStyle}>
-                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{Note0}</Text>
+                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{note}</Text>
                     </View>
                     : null}
                     {ExternalCode ?

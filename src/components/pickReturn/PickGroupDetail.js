@@ -49,7 +49,6 @@ class PickGroupDetail extends Component {
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
     const orders = pickGroup.ShopOrders.filter(o => !Utils.checkPickComplete(o.CurrentStatus));
-    console.log(orders.length);
     if (orders.length === 0) return true;
     return false;
   }
@@ -116,7 +115,6 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    console.log('PickGroupDetail render!');
     const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
@@ -150,7 +148,7 @@ class PickGroupDetail extends Component {
               const { 
                 OrderCode, RecipientName, RecipientPhone,
                 Height, Width, Weight, Length, CurrentStatus,
-                ExternalCode, CODAmount, success, Note0
+                ExternalCode, CODAmount, success, note
               } = item;
 
               const realDone = Utils.checkPickComplete(CurrentStatus);
@@ -173,7 +171,7 @@ class PickGroupDetail extends Component {
                     </View>
                     {success === false ?
                     <View style={Styles.itemStyle}>
-                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{Note0}</Text>
+                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{note}</Text>
                     </View>
                     : null}
                     {ExternalCode ?

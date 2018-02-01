@@ -101,18 +101,19 @@ export const updateOrderStatus = (infos) => {
   }
   //transform OrderInfos
 
-  OrderInfos = OrderInfos.map(info => {
-    const { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log0, Note0, NoteCode, success } = info;
-    return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log: Log0, Note: Note0, NoteCode, success };
-  });
+  // OrderInfos = OrderInfos.map(info => {
+  //   const { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log0, Note0, NoteCode, success } = info;
+  //   return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log: Log0, Note: Note0, NoteCode, success };
+  // });
 
   console.log(OrderInfos);
 
   return ((dispatch, getState) => {
     dispatch({ type: UPDATE_ORDER_STATUS, payload: { OrderInfos } });
-    const { psdCode, lastUpdatedTime } = getState().pd;
+    const { pdsId, pdsCode, lastUpdatedTime } = getState().pd;
     return API.UpdateStatus({
-      psdCode, 
+      pdsId,
+      pdsCode, 
       lastUpdatedTime,
       OrderInfos
     })

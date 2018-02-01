@@ -45,22 +45,26 @@ export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
   return axios.put(URL, params, config);
 };
 
-export const UpdateStatus = ({ psdCode, lastUpdatedTime, OrderInfos }) => {
-    const URL = `${BASE_URL}/doAction`;
-    const params = {
-      psdCode,
-      lastUpdatedTime,
-      orders: OrderInfos
-    };
-    const LoginHeader = Share.LoginHeader;
-    const config = { headers: LoginHeader };
-  
-    if (mockOn) {
-      mock.onPut(URL, params, config).reply(200, updateStatusResponse);
-    }
-  
-    return axios.put(URL, params, config);
+export const UpdateStatus = (p) => {
+  const { pdsId, pdsCode, lastUpdatedTime, OrderInfos } = p;
+  console.log('new api');
+  console.log(p);
+  const URL = `${BASE_URL}/doAction`;
+  const params = {
+    pdsId,
+    pdsCode,
+    lastUpdatedTime,
+    orders: OrderInfos
   };
+  const LoginHeader = Share.LoginHeader;
+  const config = { headers: LoginHeader };
+
+  if (mockOn) {
+    mock.onPut(URL, params, config).reply(200, updateStatusResponse);
+  }
+
+  return axios.put(URL, params, config);
+};
 
 export const UpdateOrderWeightRDC = ({ 
   Length,
@@ -849,9 +853,11 @@ const updateStatusResponse = {
   "data": [
     { 
       "listOk":[
-        { "orderCode":"3A5D76UA","status":"DELIVERED" }
+        { "orderCode":"3A5D76UA", "status":"DELIVERED" }
       ],
-      "listFail":[]
+      "listFail":[
+        { "orderCode":"J888JD9", "status":"DELIVERED" }
+      ]
     }
   ],
   "message": "Successfull"

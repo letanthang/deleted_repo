@@ -9,7 +9,7 @@ export const getPgroups = ({ pd }) => pd.pgroups;
 export const get3Type = createSelector(
   [getOrders, getShopPGroup, getPgroups],
   (PDSItems, shopPGroup, pgroups) => {
-    console.log('Get3Type');
+    // console.log('Get3Type');
     const DeliveryItems = _.filter(PDSItems, o => o.PickDeliveryType === 2);
     
     let items = _.filter(PDSItems, o => o.PickDeliveryType === 1);

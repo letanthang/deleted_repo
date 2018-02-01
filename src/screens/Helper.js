@@ -44,7 +44,7 @@ export function getDeliveryDoneOrderInfo(order, nextDate = 0) {
   const note = '';
   const NextStatus = 'DELIVERED';
   const action = 'DO_DELIVER';
-  const success = false;
+  const success = true;
   return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }
 

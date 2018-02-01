@@ -91,8 +91,8 @@ export function getUpdateOrderInfo(order, buttonIndex, nextDate = 0) {
   const PickDeliveryType = order.PickDeliveryType;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
-  const NextStatus = 'RETURNED';
-  const action = 'DO_RETURN';
+  const NextStatus = 'FAIL_TO_RETURN';
+  const action = 'DO_RETURN_FAIL';
   const success = false;
   return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }
@@ -102,8 +102,8 @@ export function getUpdateOrderInfoForDone(order, nextDate = 0) {
   const PickDeliveryType = order.PickDeliveryType;
   const noteId = ''; 
   const note = '';
-  const NextStatus = 'FAIL_TO_RETURN';
-  const action = 'DO_RETURN_FAIL';
-  const success = false;
+  const NextStatus = 'RETURNED';
+  const action = 'DO_RETURN';
+  const success = true;
   return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }

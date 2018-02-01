@@ -80,24 +80,24 @@ class PickOrderScreen extends Component {
     const OrderNum = OrderInfos.length;
     if (OrderNum === 0) return;
 
-    const message = `Bạn đã lấy đủ đơn và thu tiền Shop, chắc chắn cập nhật ?`;
-    const title = 'Cập nhật toàn bộ đơn hàng ?';
+    this.updateOrder();
+
+    // const message = `Bạn đã lấy đủ đơn và thu tiền Shop, chắc chắn cập nhật ?`;
+    // const title = 'Cập nhật toàn bộ đơn hàng ?';
   
-    Alert.alert(
-      title,
-      message,
-      [
-        { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
-        { text: 'Đồng ý', onPress: () => this.updateOrder() }
-      ],
-      { cancelable: false }
-    );
+    // Alert.alert(
+    //   title,
+    //   message,
+    //   [
+    //     { text: 'Huỷ', onPress: () => console.log('Huy pressed'), style: 'cancel' },
+    //     { text: 'Đồng ý', onPress: () => this.updateOrder() }
+    //   ],
+    //   { cancelable: false }
+    // );
   }
 
   render() {
     const { navigate, goBack } = this.props.navigation;
-    console.log('pcscreen render!');
-    console.log(this.state.signature);
     const { ContactName, TotalServiceCost } = this.pickGroup;
     return (
       <Container style={{ backgroundColor: Colors.background }}>

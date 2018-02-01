@@ -49,7 +49,7 @@ export const UpdateStatus = (p) => {
   const { pdsId, pdsCode, lastUpdatedTime, OrderInfos } = p;
   console.log('new api');
   console.log(p);
-  const URL = `${BASE_URL}/doAction`;
+  const URL = `${BASE_URL}/doAction/pda`;
   const params = {
     pdsId,
     pdsCode,

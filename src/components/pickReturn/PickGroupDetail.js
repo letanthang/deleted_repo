@@ -48,7 +48,10 @@ class PickGroupDetail extends Component {
     const { PickItems, ReturnItems } = this.props;
     const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
-    const orders = pickGroup.ShopOrders.filter(o => !Utils.checkPickComplete(o.CurrentStatus));
+    const orders = pickGroup.ShopOrders.filter(o => {
+      const result = !Utils.checkPickComplete(o.CurrentStatus);
+      return result;
+    });
     if (orders.length === 0) return true;
     return false;
   }
@@ -121,7 +124,6 @@ class PickGroupDetail extends Component {
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
 
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
-
     return (
       <Content style={{ backgroundColor: Colors.background }}>
         <ActionAllButtons

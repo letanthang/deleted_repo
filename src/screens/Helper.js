@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import { ActionSheet } from 'native-base';
+import moment from 'moment';
 import { DeliveryErrors } from '../components/Constant';
 import Utils from '../libs/Utils';
 
@@ -26,26 +27,28 @@ function alertMissOfCall(phoneNumber) {
   );
 }
 
-export function getDeliveryFailOrderInfo(order, buttonIndex, nextDate = 0) {
-  const OrderCode = order.OrderCode;
-  const PickDeliveryType = order.PickDeliveryType;
+export function getDeliveryFailOrderInfo(order, buttonIndex, newDate = null) {
+  const { OrderCode, PickDeliveryType } = order;
+  const orderCode = OrderCode;
   const noteId = CODES[buttonIndex]; 
   const note = BUTTONS[buttonIndex];
   const NextStatus = 'FAIL_TO_DELIVER';
   const action = 'DO_DELIVER_FAIL';
   const success = false;
-  return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  const nextDate = newDate === null ? null : moment(newDate).format();
+  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }
 
-export function getDeliveryDoneOrderInfo(order, nextDate = 0) {
-  const OrderCode = order.OrderCode;
-  const PickDeliveryType = order.PickDeliveryType;
+export function getDeliveryDoneOrderInfo(order, newDate = 0) {
+  const { OrderCode, PickDeliveryType } = order;
+  const orderCode = OrderCode;
   const noteId = ''; 
   const note = '';
   const NextStatus = 'DELIVERED';
   const action = 'DO_DELIVER';
   const success = true;
-  return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  const nextDate = newDate === null ? null : moment(newDate).format();
+  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }
 
 export function updateOrderToFailWithReason2(phone, configuration, OrderCode = null) {

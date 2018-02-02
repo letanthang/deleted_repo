@@ -66,8 +66,8 @@ class PickOrderScreen extends Component {
     this.props.updateOrderStatus({ OrderInfos })
       .then((failOrders) => {
         console.log(failOrders);
-        this.props.navigation.goBack();
       });
+      this.props.navigation.goBack();
   }
 
   confirmUpdateOrder() {

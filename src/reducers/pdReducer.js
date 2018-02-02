@@ -95,13 +95,13 @@ export default (state = nameInitialState, action) => {
           const order = Utils.getOrder(PDSItems[0], info.OrderCode, info.PickDeliveryType);
           switch (info.PickDeliveryType) {
             case 1:
-              order.CurrentStatus = 'Picking';
+              order.CurrentStatus = 'PICKING';
               break;
             case 2:
-              order.CurrentStatus = 'Delivering';
+              order.CurrentStatus = 'DELIVERING';
               break;
             case 3:
-              order.CurrentStatus = 'Returning';
+              order.CurrentStatus = 'RETURNING';
               break;
             default:
               break;
@@ -145,13 +145,13 @@ export default (state = nameInitialState, action) => {
           if (ids.length > 0 && ids.includes(info.OrderCode)) {
             switch (info.PickDeliveryType) {
               case 1:
-                order.CurrentStatus = 'Picking';
+                order.CurrentStatus = 'PICKING';
                 break;
               case 2:
-                order.CurrentStatus = 'Delivering';
+                order.CurrentStatus = 'DELIVERING';
                 break;
               case 3:
-                order.CurrentStatus = 'Returning';
+                order.CurrentStatus = 'RETURNING';
                 break;
               default:
                 break;

@@ -99,23 +99,22 @@ export const updateOrderStatus = (infos) => {
   if (!(OrderInfos instanceof Array)) {
     OrderInfos = [OrderInfos];
   }
-  //transform OrderInfos
-
-  // OrderInfos = OrderInfos.map(info => {
-  //   const { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log0, Note0, NoteCode, success } = info;
-  //   return { OrderCode, PickDeliveryType, NextStatus, StoringCode, NewDate, PDSType, PDSDetailID, Log: Log0, Note: Note0, NoteCode, success };
-  // });
-
-  console.log(OrderInfos);
 
   return ((dispatch, getState) => {
     dispatch({ type: UPDATE_ORDER_STATUS, payload: { OrderInfos } });
     const { pdsId, pdsCode, lastUpdatedTime } = getState().pd;
+
+    //filter 
+    //transform OrderInfos
+    const filterInfos = OrderInfos.map(info => {
+      const { orderCode, nextDate, noteId, note, action } = info;
+      return { orderCode, nextDate, noteId, note, action };
+    });
     return API.UpdateStatus({
       pdsId,
       pdsCode, 
       lastUpdatedTime,
-      OrderInfos
+      OrderInfos: filterInfos
     })
       .then(response => {
         const json = response.data;

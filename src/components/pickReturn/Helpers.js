@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import { ActionSheet } from 'native-base';
+import moment from 'moment';
 import Utils from '../../libs/Utils';
 import { PickErrors, ReturnErrors } from '../Constant';
 
@@ -87,24 +88,26 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
   //     Note,
   //     NoteCode,
   //   },
-export function getUpdateOrderInfo(order, buttonIndex, nextDate = 0) {
-  const OrderCode = order.OrderCode;
-  const PickDeliveryType = order.PickDeliveryType;
+export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
+  const { OrderCode, PickDeliveryType } = order;
+  const orderCode = OrderCode;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
   const NextStatus = 'READY_TO_PICK';
   const action = 'DO_PICK_FAIL';
   const success = false;
-  return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  const nextDate = newDate === null ? null : moment(newDate).format();
+  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }
 
-export function getUpdateOrderInfoForDone(order, nextDate = 0) {
-  const OrderCode = order.OrderCode;
-  const PickDeliveryType = order.PickDeliveryType;
+export function getUpdateOrderInfoForDone(order, newDate = null) {
+  const { OrderCode, PickDeliveryType } = order;
+  const orderCode = OrderCode;
   const noteId = ''; 
   const note = '';
   const NextStatus = 'PICKED';
-  const action = 'DO_PICK';
+  const action = 'DO_PICK_SUCCESS';
   const success = true;
-  return { OrderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  const nextDate = newDate === null ? null : moment(newDate).format();
+  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
 }

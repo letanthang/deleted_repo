@@ -106,7 +106,7 @@ class PickGroupDetail extends Component {
   acceptDeliverPress(order) {
     const newOrder = _.clone(order);
     newOrder.PickDeliveryType = 2;
-    newOrder.CurrentStatus = 'Delivering';
+    newOrder.CurrentStatus = 'DELIVERING';
     newOrder.Group = null;
     console.log('acceptDeliveryPress!');
     this.props.addOneOrder(newOrder);
@@ -150,7 +150,7 @@ class PickGroupDetail extends Component {
               const { 
                 OrderCode, RecipientName, RecipientPhone,
                 Height, Width, Weight, Length, CurrentStatus,
-                ExternalCode, CODAmount, success, note
+                ExternalCode, CODAmount, success, note, PickWarehouseID, DeliverWarehouseID
               } = item;
 
               const realDone = Utils.checkPickComplete(CurrentStatus);
@@ -188,7 +188,7 @@ class PickGroupDetail extends Component {
                     </View>
                     <View style={Styles.item2Style}>
                       <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
-                      {realDone ?
+                      {realDone && PickWarehouseID === DeliverWarehouseID ?
                       <FormButton
                         disabled={isDelivering}
                         theme='theme1'

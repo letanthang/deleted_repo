@@ -184,15 +184,11 @@ export default (state = nameInitialState, action) => {
       };
     case PD_ADD_ORDER: {
       const order = action.payload.order;
+      const PDSItems = _.cloneDeep(state.PDSItems);
+      PDSItems[0][getKey(order.OrderCode, order.PickDeliveryType)] = order;
       return {
         ...state,
-        PDSItems: {
-          ...state.PDSItems,
-          0: {
-            ...state.PDSItems[0],
-            [getKey(order.OrderCode, order.PickDeliveryType)]: order
-          }
-        },
+        PDSItems,
         addOrderLoading: false,
         error: '',
       };

@@ -16,7 +16,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import LogoButton from '../components/LogoButton';
 
-class PickOrderScreen extends Component {
+class PickConfirmScreen extends Component {
   state = { modalShow: false, signature: null }
   componentWillMount() {
     // ClientID = this.props.navigation.state.params.ClientID;
@@ -98,6 +98,8 @@ class PickOrderScreen extends Component {
 
   render() {
     const { navigate, goBack } = this.props.navigation;
+
+    if (!this.pickGroup) return null;
     const { ContactName, TotalServiceCost } = this.pickGroup;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -184,4 +186,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps, 
   { updateOrderStatus, getConfiguration }
-)(PickOrderScreen);
+)(PickConfirmScreen);

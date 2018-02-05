@@ -105,7 +105,7 @@ export function getUpdateOrderInfoForDone(order, newDate = 0) {
   const noteId = ''; 
   const note = '';
   const NextStatus = 'RETURNED';
-  const action = 'DO_RETURN';
+  const action = 'DO_RETURN_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
   return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };

@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser } from '../actions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Colors } from '../Styles';
-import LocalGroup from '../libs/LocalGroup';
+import ShareVariables from '../libs/ShareVariables';
 
 
 //create comp
@@ -31,6 +31,7 @@ class LoginScreen extends Component {
     //LocalGroup.getLocalDB(); 
     //this.props.loadSavedUserPass();
     //this.props.loadSavedSession();
+    new ShareVariables().LoginHeader['X-Auth'] = this.props.sessionToken;
     firebase.messaging().requestPermissions();
     console.log(this.props.user);
     if (this.props.user) {

@@ -5,6 +5,7 @@ import { Toast } from 'native-base';
 
 const pickStatus = { STORING: 'Đã lấy', PICKED: 'Đã lấy', READY_TO_PICK: 'Lấy lỗi', PICKING: 'Đang lấy', Progress: 'Đang xử lý' };
 const pickCompleteStatus = ['PICKED', 'READY_TO_PICK', 'STORING', 'Progress'];
+const pickSuccessStatus = ['PICKED', 'STORING'];
 
 const returnStatus = { RETURNED: 'Đã trả', RETURNING: 'Đang trả', FAIL_TO_RETURN: 'Trả lỗi', STORING: 'Trả lỗi', Progress: 'Đang xử lý' };
 const returnCompleteStatus = ['RETURNED', 'STORING', 'FAIL_TO_RETURN', 'Progress'];
@@ -123,6 +124,13 @@ class Utils {
       return false;
     }
     return true;
+  }
+
+  static checkPickSuccess(status) {
+    if (pickSuccessStatus.includes(status)) {
+      return true;
+    }
+    return false;
   }
 
   static checkPickCompleteForUnsync({ NextStatus, CurrentStatus }) {

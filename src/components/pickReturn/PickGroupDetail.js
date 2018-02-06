@@ -154,6 +154,7 @@ class PickGroupDetail extends Component {
               } = item;
 
               const realDone = Utils.checkPickComplete(CurrentStatus);
+              const deliverable = realDone && PickWarehouseID === DeliverWarehouseID && Utils.checkPickSuccess(CurrentStatus);
               const isDelivering = this.checkDelivering(order);
               const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
               return (
@@ -188,7 +189,7 @@ class PickGroupDetail extends Component {
                     </View>
                     <View style={Styles.item2Style}>
                       <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
-                      {realDone && PickWarehouseID === DeliverWarehouseID ?
+                      {deliverable ?
                       <FormButton
                         disabled={isDelivering}
                         theme='theme1'

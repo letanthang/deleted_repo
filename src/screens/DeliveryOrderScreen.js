@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Alert, Button as Btn } from 'react-native';
 import { connect } from 'react-redux';
+import { accounting } from 'accounting';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
@@ -211,7 +212,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{CODAmount}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Nhà cung cấp</Text>

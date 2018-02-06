@@ -17,6 +17,7 @@ import { HomeStyles, Colors, Theme } from '../Styles';
 import LocalGroup from '../libs/LocalGroup';
 import { navigateOnce } from '../libs/Common';
 import AppFooter from '../components/AppFooter';
+import Utils from '../libs/Utils';
 import MyMenu from '../components/MyMenu';
 import LogoButton from '../components/LogoButton';
 import BarcodeReader from '../components/BarcodeReader';
@@ -33,24 +34,14 @@ class HomeScreen extends Component {
       this.props.pdListFetch()
         .then(result => {
           if (result) this.props.setLoaded();
+          Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
         });
     }
     this.listGroups();
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.error !== nextProps.error && nextProps.error !== '') {
-      //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
-      try {
-        //console.log('Toast is called');
-        Toast.show({
-          text: nextProps.error,
-          position: 'bottom',
-          type: 'warning',
-          duration: 1100
-        });
-      } catch (error) {
-
-      }
+      Utils.showToast(nextProps.error, 'warning');
     }
   }
   

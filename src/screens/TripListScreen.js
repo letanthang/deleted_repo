@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { SectionList, View, TouchableOpacity } from 'react-native';
+import { SectionList, View, TouchableOpacity, LayoutAnimation, UIManager } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
   Icon, Button, Title, Text,
@@ -23,7 +23,7 @@ import { Styles, DeliverGroupStyles, Colors } from '../Styles';
 class TripListScreen extends Component {
   state = { done: false, showSearch: false, keyword: '' };
   componentWillMount() {
-    console.log('here');
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
   componentWillUpdate() {
     
@@ -35,6 +35,13 @@ class TripListScreen extends Component {
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
   onTripPress(trip) {
     this.props.navigation.navigate('PickGroupDetail', { pickGroup: trip });
+  }
+
+  onToggleLayoutPress() {
+    const text = this.props.layoutMode === true ? 'Nhóm dữ liệu tự động' : 'Hãy tự tạo nhóm!'; 
+    Utils.showToast(text, 'warning');
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    this.props.toggleLayout();
   }
 
   goBack() {
@@ -122,7 +129,7 @@ class TripListScreen extends Component {
             transparent
             onPress={() => this.setState({ done: !this.state.done })}
           >
-            <IC name="playlist-check" size={25} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
+            <IC name="playlist-check" size={24} color={this.state.done ? Colors.headerActive : Colors.headerNormal} />
           </Button>
           : null}
           { this.props.layoutMode ?
@@ -135,7 +142,7 @@ class TripListScreen extends Component {
           : null}
           <Button 
             transparent
-            onPress={() => this.props.toggleLayout()}
+            onPress={this.onToggleLayoutPress.bind(this)}
           >
             <IC name="apple-keyboard-option" size={22} color={Colors.headerNormal} />
           </Button>

@@ -1,6 +1,7 @@
 import CallHistory from 'react-native-call-history';
 import { phonecall } from 'react-native-communications';
 import { Platform } from 'react-native';
+import { Toast } from 'native-base';
 
 const pickStatus = { STORING: 'Đã lấy', PICKED: 'Đã lấy', READY_TO_PICK: 'Lấy lỗi', PICKING: 'Đang lấy', Progress: 'Đang xử lý' };
 const pickCompleteStatus = ['PICKED', 'READY_TO_PICK', 'STORING', 'Progress'];
@@ -235,6 +236,20 @@ class Utils {
     //fix phone
     const number = Utils.fixPhoneNumber(phone);
     phonecall(number, prompt);
+  }
+  static showToast(text, type) {
+    //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
+    try {
+      //console.log('Toast is called');
+      Toast.show({
+        text,
+        position: 'bottom',
+        type,
+        duration: 1100
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

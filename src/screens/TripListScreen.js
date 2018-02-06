@@ -39,8 +39,8 @@ class TripListScreen extends Component {
 
   onToggleLayoutPress() {
     const text = this.props.layoutMode === true ? 'Nhóm dữ liệu tự động' : 'Hãy tự tạo nhóm!'; 
-    Utils.showToast(text, 'warning');
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    _.delay(() => Utils.showToast(text, 'warning'), 100);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     this.props.toggleLayout();
   }
 

@@ -212,7 +212,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Nhà cung cấp</Text>

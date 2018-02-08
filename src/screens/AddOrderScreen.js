@@ -5,15 +5,16 @@ import {
   Container, Header, Left, Body,
   Content, Icon, Button
 } from 'native-base';
-import color from 'color';
 import { changeOrderCode, getOrder } from '../actions';
-import OrderDetail from './OrderDetail';
-import { HomeStyles, Styles, Colors, Theme } from '../Styles';
+import { Styles } from '../Styles';
 
 class AddOrderScreen extends Component {
+  componentWillMount() {
+    this.props.changeOrderCode('');
+  }
   render() {
     const { goBack } = this.props.navigation;
-    const { OrderCode } = this.props;
+    const { OrderCode, PDSItems } = this.props;
     const disabled = this.props.OrderCode.length < 7;
     const style = disabled ? Styles.addButtonDisableStyle : Styles.addButtonStyle;
 
@@ -32,26 +33,34 @@ class AddOrderScreen extends Component {
           </Left>
           <Body />
         </Header>
-        <Content style={{ padding: 10 }}>
+        <Content 
+          style={{ padding: 10 }}
+          keyboardShouldPersistTaps='handled'
+        >
+          {PDSItems !== null ?
           <View>
             <View><Text>Nhập mã đơn hàng</Text></View>
-            <View>
+            <View style={{ paddingTop: 16 }}>
               <TextInput 
+                placeholder='XXXXXXXX'
                 value={OrderCode}
-                onChangeText={(text) => this.props.changeOrderCode(text.toUpperCase())}
+                onChangeText={(text) => this.props.changeOrderCode(text)}
                 autoCorrect={false}
+                autoCapitalize='characters'
               />
             </View>
+            <View style={{ paddingTop: 16 }}>
+              <TouchableOpacity
+                disabled={disabled}
+                onPress={() => this.props.getOrder(OrderCode)}
+                style={style}
+              >
+                <Text style={{ color: '#FFF' }}>Kiểm tra đơn</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View>
-            <TouchableOpacity
-              disabled={disabled}
-              onPress={() => this.props.getOrder(OrderCode)}
-              style={style}
-            >
-              <Text style={{ color: '#FFF' }}>Kiểm tra đơn</Text>
-            </TouchableOpacity>
-          </View>
+          :
+          <View><Text>Hiện chưa có chuyến đi.</Text></View>}
         </Content>
 
       </Container>
@@ -59,9 +68,11 @@ class AddOrderScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ orderAdd }) => {
+const mapStateToProps = (state) => {
+  const { orderAdd, pd } = state;
   const { OrderCode, order } = orderAdd;
-  return { OrderCode, order };
-}
+  const { PDSItems } = pd;
+  return { OrderCode, order, PDSItems };
+};
 
 export default connect(mapStateToProps, { changeOrderCode, getOrder })(AddOrderScreen);

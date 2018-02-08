@@ -10,6 +10,7 @@ import {
 } from './types';
 import { pdListFetch } from './pdAction';
 import * as API from '../apis/MPDS';
+import Utils from '../libs/Utils';
 
 const reportBug = (errorMessage, info) => {
   const message = errorMessage;
@@ -86,7 +87,7 @@ export const addOrder = (OrderCode) => {
       type: ORDER_ADD_ORDER_START,
       payload: { OrderCode }
     });
-    API.AddOrders([OrderCode], getState().pd.pdsId)
+    API.AddOrders([OrderCode], getState().pd.pdsId, 1)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
@@ -94,6 +95,7 @@ export const addOrder = (OrderCode) => {
             type: ORDER_ADD_ORDER,
             payload: { order: getState().orderAdd.order }
           });
+          Utils.showToast(`Đơn hàng ${OrderCode} đã được thêm thành công!`, 'success');
           //refresh data from server
           dispatch(pdListFetch());
         } else {

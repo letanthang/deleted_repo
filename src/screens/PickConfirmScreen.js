@@ -137,7 +137,7 @@ class PickConfirmScreen extends Component {
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{this.pickGroup.ShopOrders.length}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu COD</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(TotalServiceCost)} đ</Text>
             </View>
             <View style={Styles.rowStyle}>

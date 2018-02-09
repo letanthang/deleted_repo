@@ -44,7 +44,7 @@ class AddOrderScreen extends Component {
               <TextInput 
                 placeholder='XXXXXXXX'
                 value={OrderCode}
-                onChangeText={(text) => this.props.changeOrderCode(text)}
+                onChangeText={(text) => this.props.changeOrderCode(text.toUpperCase())}
                 autoCorrect={false}
                 autoCapitalize='characters'
               />

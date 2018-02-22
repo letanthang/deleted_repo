@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: '#238923'
   },
-  listContainer: {
+  listContainer: {rct
     borderColor: '#ccc',
     borderTopWidth: 0.5
   },

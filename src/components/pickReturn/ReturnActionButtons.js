@@ -13,26 +13,26 @@ class ReturnActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
-    const { OrderCode, PickDeliveryType, ContactPhone } = this.props.order;
+    const { orderCode, pickDeliveryType, contactPhone } = this.props.order;
     let info = {};
     if (nextStatus === undefined) { 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
-      info = { success: undefined, NextStatus: undefined };
-      this.props.updateOrderInfo(OrderCode, PickDeliveryType, info);
+      info = { success: undefined, nextStatus: undefined };
+      this.props.updateOrderInfo(orderCode, pickDeliveryType, info);
     } else if (nextStatus) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
-      this.props.updateOrderInfo(OrderCode, PickDeliveryType, info);
+      this.props.updateOrderInfo(orderCode, pickDeliveryType, info);
     } else {
       //failed to pick
       info.success = nextStatus;
-      updateOrderToFailWithReason2(ContactPhone, this.props.configuration, OrderCode)
+      updateOrderToFailWithReason2(contactPhone, this.props.configuration, orderCode)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfo(OrderCode, PickDeliveryType, moreInfo);
+          this.props.updateOrderInfo(orderCode, pickDeliveryType, moreInfo);
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {

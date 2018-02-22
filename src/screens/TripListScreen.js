@@ -158,17 +158,17 @@ class TripListScreen extends Component {
     );
   }
   
-  checkKeywork({ ClientName, ContactName, Address }) {
+  checkKeywork({ clientName, contactName, address }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
-      || ClientName.toUpperCase().includes(keyword)
-      || ContactName.toUpperCase().includes(keyword)
-      || Address.toUpperCase().includes(keyword);
+      || clientName.toUpperCase().includes(keyword)
+      || contactName.toUpperCase().includes(keyword)
+      || address.toUpperCase().includes(keyword);
   }
 
   checkTripDone(trip) {
     const ordersNum = trip.ShopOrders.length;
-    const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+    const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
     return (ordersNum === completedNum);
   }
   renderNullData() {
@@ -203,7 +203,7 @@ class TripListScreen extends Component {
     return null;
   }
   renderHasReturnWarning(pickGroup) {
-    if (pickGroup.PickDeliveryType != '1') return null;
+    if (pickGroup.pickDeliveryType != '1') return null;
     const returnGroup = Utils.getReturnGroupFromPG(this.props.ReturnItems, pickGroup);
     if (!returnGroup) return null;
     return (
@@ -224,7 +224,7 @@ class TripListScreen extends Component {
     const { PickItems } = this.props;
     if (!PickItems) return this.renderNullData();
 
-    const key = this.props.layoutMode ? 'shopGroupName' : 'ClientID';
+    const key = this.props.layoutMode ? 'shopGroupName' : 'clientId';
     let items = null;
     let datas = null;
     
@@ -237,12 +237,12 @@ class TripListScreen extends Component {
     datas = _.groupBy(items, key);
     let first = true;
     const sections = _.map(datas, (item) => {
-      const ClientID = item[0][key];
-      const title = `${this.props.layoutMode ? item[0].shopGroupName : item[0].ClientName} (${item.length})`;
-      const activeSection = first && this.state[ClientID] === undefined ? true : this.state[ClientID];
+      const clientId = item[0][key];
+      const title = `${this.props.layoutMode ? item[0].shopGroupName : item[0].clientName} (${item.length})`;
+      const activeSection = first && this.state[clientId] === undefined ? true : this.state[clientId];
       const position = item[0].position;
       first = false;
-      return { data: item, title, ClientID, activeSection, position };
+      return { data: item, title, clientId, activeSection, position };
     });
     if (this.props.layoutMode) {
       sections.sort((a, b) => a.position - b.position);
@@ -268,9 +268,9 @@ class TripListScreen extends Component {
                 if (!section.activeSection) return null;
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                 const pickGroup = item;
-                const { Address, ContactName, ContactPhone, TotalServiceCost } = pickGroup;
+                const { address, contactName, contactPhone, TotalServiceCost } = pickGroup;
                 const ordersNum = pickGroup.ShopOrders.length;
-                const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+                const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
                 return (
                   <View style={DeliverGroupStyles.content}>
                   <TouchableOpacity
@@ -282,7 +282,7 @@ class TripListScreen extends Component {
                             style={[Styles.bigTextStyle, Styles.weakColorStyle]}
                             numberOfLines={1}
                           >
-                            {ContactName}
+                            {contactName}
                           </Text>
                           {this.renderCheckedIcon(ordersNum, completedNum)}
                         </View>
@@ -290,7 +290,7 @@ class TripListScreen extends Component {
                           <Text
                             style={[Styles.weakColorStyle]}
                           >
-                            {Address}
+                            {address}
                           </Text>
                         </View>
                         
@@ -309,7 +309,7 @@ class TripListScreen extends Component {
                           <Button
                             small
                             transparent
-                            onPress={() => Utils.phoneCall(ContactPhone, true)}
+                            onPress={() => Utils.phoneCall(contactPhone, true)}
                             style={{ paddingRight: 0 }}
                           >
                             <Icon name='call' />
@@ -329,7 +329,7 @@ class TripListScreen extends Component {
                   <TouchableOpacity 
                     style={DeliverGroupStyles.sectionHeader}
                     onPress={() => {
-                      const key = section.ClientID;
+                      const key = section.clientId;
                       this.setState({ [key]: !active });
                     }}
                   >

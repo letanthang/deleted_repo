@@ -17,11 +17,11 @@ class ActionAllButtons extends Component {
   }
   changeInfo(nextStatus) {
     const orders = this.props.orders;
-    const { ContactPhone } = orders[0];
+    const { contactPhone } = orders[0];
     
     if (nextStatus === undefined) {
-      const OrderInfos = _.map(orders, ({ OrderCode, PickDeliveryType }) => {
-        return { OrderCode, PickDeliveryType, success: undefined, NextStatus: undefined };
+      const OrderInfos = _.map(orders, ({ orderCode, pickDeliveryType }) => {
+        return { orderCode, pickDeliveryType, success: undefined, nextStatus: undefined };
       });
       this.props.updateOrderInfos(OrderInfos);
       this.setState({ status: undefined });
@@ -30,7 +30,7 @@ class ActionAllButtons extends Component {
       this.props.updateOrderInfos(OrderInfos);
       this.setState({ status: nextStatus });
     } else {
-      updateOrderToFailWithReason2(ContactPhone, this.props.configuration)
+      updateOrderToFailWithReason2(contactPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));

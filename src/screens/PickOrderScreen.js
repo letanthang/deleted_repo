@@ -20,18 +20,18 @@ import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/pickReturn/Helpers';
 
-let ClientID = null;
-let ClientHubID = null;
-let OrderCode = null;
+let clientId = null;
+let clientHubId = null;
+let orderCode = null;
 let order = {};
 class PickOrderScreen extends Component {
   state = { modalShow: false }
 
   componentWillMount() {
-    ClientID = this.props.navigation.state.params.ClientID;
-    ClientHubID = this.props.navigation.state.params.ClientHubID;
-    OrderCode = this.props.navigation.state.params.OrderCode;
-    order = Utils.getOrder(this.props.db, OrderCode, 1);
+    clientId = this.props.navigation.state.params.clientId;
+    clientHubId = this.props.navigation.state.params.clientHubId;
+    orderCode = this.props.navigation.state.params.orderCode;
+    order = Utils.getOrder(this.props.db, orderCode, 1);
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
@@ -39,8 +39,8 @@ class PickOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, OrderCode, 1);
-    if (order.CurrentStatus !== newOrder.CurrentStatus) {
+    const newOrder = Utils.getOrder(db, orderCode, 1);
+    if (order.currentStatus !== newOrder.currentStatus) {
       this.props.navigation.goBack();
     }
     order = newOrder;
@@ -76,16 +76,16 @@ class PickOrderScreen extends Component {
   
   updateOrderToDone() {
     const OrderInfos = getUpdateOrderInfoForDone(order);
-    this.props.updateOrderInfo(order.OrderCode, order.PickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.orderCode, order.pickDeliveryType, OrderInfos);
   }
 
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getUpdateOrderInfo(order, buttonIndex, NewDate);
-    this.props.updateOrderInfo(order.OrderCode, order.PickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.orderCode, order.pickDeliveryType, OrderInfos);
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.ContactPhone, this.props.configuration, order.OrderCode)
+    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
@@ -154,10 +154,10 @@ class PickOrderScreen extends Component {
     } 
 
     const { 
-      RecipientName, RecipientPhone, ExternalCode,
-      ServiceName, Width, Height, OrderCode,
-      CODAmount, Weight, Length, ServiceCost,
-      Log, CurrentStatus, DeliveryAddress, SONote, RequiredNote
+      recipientName, recipientPhone, ExternalCode,
+      serviceName, width, height, orderCode,
+      codAmount, weight, length, serviceCost,
+      log, currentStatus, deliveryAddress, soNote, requiredNote
     } = order;
 
     return (
@@ -175,12 +175,12 @@ class PickOrderScreen extends Component {
           </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{OrderCode}</Title>
+            <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             <Button
               transparent
-              onPress={() => navigate('POUpdateWeightSize', { OrderCode, ClientID, ClientHubID })}
+              onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, clientHubId })}
             >
               <Icon name="create" />
             </Button>
@@ -206,15 +206,15 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Gói dịch vụ</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ServiceName}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{serviceName}</Text>
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ServiceCost} đ</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{serviceCost} đ</Text>
               </View>
 
               <View style={Styles.rowHeaderStyle}>
@@ -222,15 +222,15 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Weight} g</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{weight} g</Text>
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Kích thước</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Length}cm x {Width}cm x {Height}cm</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length}cm x {width}cm x {height}cm</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng qui đổi</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Length * Width * Height * 0.2} g</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length * width * height * 0.2} g</Text>
               </View>
 
               <View style={Styles.rowHeaderStyle}>
@@ -238,7 +238,7 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RecipientName}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -246,32 +246,32 @@ class PickOrderScreen extends Component {
                     transparent
                     iconRight
                     small
-                    onPress={() => Utils.phoneCall(RecipientPhone, true)}
+                    onPress={() => Utils.phoneCall(recipientPhone, true)}
                     style={{ paddingLeft: 0 }}
                   >
-                    <Text>{RecipientPhone}</Text>
+                    <Text>{recipientPhone}</Text>
                     <Icon name='call' />
                   </Button>
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{DeliveryAddress}</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{deliveryAddress}</Text>
               </View>
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Ghi chú</Text>
               </View>
               <View style={[Styles.rowStyle]}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{soNote}</Text>
               </View>
               <View style={[Styles.rowStyle]}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RequiredNote}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{requiredNote}</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                 <View>
                   <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Log}</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{log}</Text>
                 </View>
               </View>
             </List>

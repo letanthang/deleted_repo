@@ -18,10 +18,10 @@ class OrderDetail extends Component {
     if (order == null) return null;
 
     const { 
-      RecipientName, RecipientPhone, ExternalCode,
-      ServiceName, Width, Height,
-      CODAmount, Weight, Length, ServiceCost,
-      Note, Log, CurrentStatus, DeliveryAddress
+      recipientName, recipientPhone, ExternalCode,
+      serviceName, width, height,
+      codAmount, weight, length, serviceCost,
+      Note, log, currentStatus, deliveryAddress
     } = order;
 
     return (
@@ -43,15 +43,15 @@ class OrderDetail extends Component {
           </View>
           <View style={Styles.rowStyle}>
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Gói dịch vụ</Text>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ServiceName}</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{serviceName}</Text>
           </View>
           <View style={Styles.rowStyle}>
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
           </View>
           <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ServiceCost} đ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{serviceCost} đ</Text>
           </View>
 
           <View style={Styles.rowHeaderStyle}>
@@ -59,15 +59,15 @@ class OrderDetail extends Component {
           </View>
           <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Weight} g</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{weight} g</Text>
           </View>
           <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Kích thước</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Length}cm x {Width}cm x {Height}cm</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length}cm x {width}cm x {height}cm</Text>
           </View>
           <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng qui đổi</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Length * Width * Height * 0.2} g</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length * width * height * 0.2} g</Text>
           </View>
 
           <View style={Styles.rowHeaderStyle}>
@@ -75,7 +75,7 @@ class OrderDetail extends Component {
           </View>
           <View style={Styles.rowStyle}>
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RecipientName}</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
           </View>
           <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -83,16 +83,16 @@ class OrderDetail extends Component {
                 transparent
                 iconRight
                 small
-                onPress={() => Utils.phoneCall(RecipientPhone, true)}
+                onPress={() => Utils.phoneCall(recipientPhone, true)}
                 style={{ paddingLeft: 0 }}
               >
-                <Text>{RecipientPhone}</Text>
+                <Text>{recipientPhone}</Text>
                 <Icon name='call' />
               </Button>
           </View>
           <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{DeliveryAddress}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{deliveryAddress}</Text>
           </View>
           <View style={Styles.rowHeaderStyle}>
             <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Ghi chú</Text>
@@ -104,7 +104,7 @@ class OrderDetail extends Component {
           <View style={Styles.rowLastStyle}>
             <View>
               <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Log}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{log}</Text>
             </View>
           </View>
         </List>

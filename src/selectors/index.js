@@ -2,25 +2,25 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 import Utils from '../libs/Utils';
 
-export const getOrders = ({ pd }) => pd.PDSItems === null ? null : pd.PDSItems[0];
+export const getOrders = ({ pd }) => pd.pdsItems === null ? null : pd.pdsItems[0];
 export const getShopPGroup = ({ pd }) => pd.shopPGroup;
 export const getPgroups = ({ pd }) => pd.pgroups;
 
 export const get3Type = createSelector(
   [getOrders, getShopPGroup, getPgroups],
-  (PDSItems, shopPGroup, pgroups) => {
+  (pdsItems, shopPGroup, pgroups) => {
     // console.log('Get3Type');
-    const DeliveryItems = _.filter(PDSItems, o => o.PickDeliveryType === 2);
+    const DeliveryItems = _.filter(pdsItems, o => o.pickDeliveryType === 2);
     
-    let items = _.filter(PDSItems, o => o.PickDeliveryType === 1);
-    let groups = _.groupBy(items, 'ClientHubID');
+    let items = _.filter(pdsItems, o => o.pickDeliveryType === 1);
+    let groups = _.groupBy(items, 'clientHubId');
     const PickItems = [];
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
-      const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
+      const { address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, pickDeliveryType } = order;
       
       // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
-      const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
+      const group = { key: clientHubId, address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, pickDeliveryType };
       group.ShopOrders = orders;
       group.ShopOrders.sort((a, b) => {
         const x = a.statusChangeDate ? a.statusChangeDate : 0;
@@ -28,30 +28,30 @@ export const get3Type = createSelector(
         return x - y;
       });
       group.done = checkTripDone(group);
-      const shopGroup = shopPGroup[ClientHubID];
+      const shopGroup = shopPGroup[clientHubId];
       group.shopGroup = shopGroup;
       group.shopGroupKey = group.done ? 'Đã xong' : shopGroup;
       group.shopGroupName = group.done ? 'Đã xong' : pgroups[shopGroup].groupName;
       group.position = pgroups[group.shopGroupKey].position;
-      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
+      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.codAmount, 0);
       PickItems.push(group);
     });
 
-    items = _.filter(PDSItems, o => o.PickDeliveryType === 3);
-    groups = _.groupBy(items, 'ClientHubID');
+    items = _.filter(pdsItems, o => o.pickDeliveryType === 3);
+    groups = _.groupBy(items, 'clientHubId');
     const ReturnItems = [];
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
-      const { Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType } = order;
+      const { address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, pickDeliveryType } = order;
 
-      const group = { key: ClientHubID, Address, ClientHubID, ClientID, ClientName, ContactName, ContactPhone, DisplayOrder, Lat, Lng, PickDeliveryType };
+      const group = { key: clientHubId, address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, pickDeliveryType };
       group.ShopOrders = orders;
       group.ShopOrders.sort((a, b) => {
         const x = a.statusChangeDate ? a.statusChangeDate : 0;
         const y = b.statusChangeDate ? b.statusChangeDate : 0;
         return x - y;
       });      
-      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.CODAmount, 0);
+      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.codAmount, 0);
       ReturnItems.push(group);
     });
 
@@ -74,14 +74,14 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
       const pickComplete = pickTotal === 0 ? 0 : pickGroupList.filter(pg => {
         let isComplete = true;
         pg.ShopOrders.forEach(o => {
-          isComplete = isComplete && Utils.checkPickComplete(o.CurrentStatus);
+          isComplete = isComplete && Utils.checkPickComplete(o.currentStatus);
         });
         return isComplete;
       }).length;
 
       // delivery
       const deliveryTotal = DeliveryItems.length;
-      const deliveryComplete = deliveryTotal === 0 ? 0 : DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.CurrentStatus)).length;
+      const deliveryComplete = deliveryTotal === 0 ? 0 : DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.currentStatus)).length;
 
       // return
       const returnGroupList = ReturnItems;
@@ -89,7 +89,7 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
       const returnComplete = returnTotal === 0 ? 0 : returnGroupList.filter(pg => {
         let isComplete = true;
         pg.ShopOrders.forEach(o => {
-          isComplete = isComplete && Utils.checkReturnComplete(o.CurrentStatus);
+          isComplete = isComplete && Utils.checkReturnComplete(o.currentStatus);
         });
         return isComplete;
       }).length;
@@ -99,6 +99,6 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
 
 const checkTripDone = trip => {
   const ordersNum = trip.ShopOrders.length;
-  const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+  const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
   return (ordersNum === completedNum);
 };

@@ -29,17 +29,17 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { OrderCode, ClientHubID, ClientID, PickDeliveryType } = order;
+    const { orderCode, clientHubId, clientId, pickDeliveryType } = order;
     const navigate = this.props.navigation.navigate;
-    switch (PickDeliveryType) {
+    switch (pickDeliveryType) {
       case 1:
-        navigate('PickOrder', { OrderCode, order, ClientID, ClientHubID });
+        navigate('PickOrder', { orderCode, order, clientId, clientHubId });
         break;
       case 2:
-        navigate('DeliveryOrder', { OrderCode });
+        navigate('DeliveryOrder', { orderCode });
         break;
       case 3:
-        navigate('ReturnOrder', { OrderCode, order, ClientID, ClientHubID });
+        navigate('ReturnOrder', { orderCode, order, clientId, clientHubId });
         break;
       default:
         break;
@@ -134,10 +134,10 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ OrderCode, ExternalCode }) {
+  checkKeywork({ orderCode, ExternalCode }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
-      || OrderCode.toUpperCase().includes(keyword)
+      || orderCode.toUpperCase().includes(keyword)
       || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
   renderNullData() {
@@ -163,20 +163,20 @@ class OrderListScreen extends Component {
 
   render() {
     const { pds } = this.props;
-    if (!pds || !pds.PDSItems) return this.renderNullData();
+    if (!pds || !pds.pdsItems) return this.renderNullData();
 
-    const items = pds.PDSItems.filter(o => this.checkKeywork(o));
-    const datas = _.groupBy(items, 'Address');
+    const items = pds.pdsItems.filter(o => this.checkKeywork(o));
+    const datas = _.groupBy(items, 'address');
     const sections = _.map(datas, (item) => {
-      return { data: item, title: item[0].Address };
+      return { data: item, title: item[0].address };
     });
     
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
         {/* <FlatList
-          data={pds.PDSItems}
-          renderItem={({ item }) => <View><Text>{item.OrderCode}</Text></View>}
+          data={pds.pdsItems}
+          renderItem={({ item }) => <View><Text>{item.orderCode}</Text></View>}
         /> */}
         <Content>
         <DataEmptyCheck
@@ -185,7 +185,7 @@ class OrderListScreen extends Component {
         >
           <SectionList
             renderItem={({ item, index }) => { 
-              const { Address, OrderCode, ServiceName, CurrentStatus, TotalCollectedAmount, DisplayOrder } = item;
+              const { address, orderCode, serviceName, currentStatus, TotalCollectedAmount, displayOrder } = item;
               const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
               return (
                 <View style={DeliverGroupStyles.content}>
@@ -195,10 +195,10 @@ class OrderListScreen extends Component {
                     <View style={wrapperStyle}>
                       <View style={Styles.item2Style}>
                         <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                          {this.getDO(DisplayOrder)}{OrderCode}
+                          {this.getDO(displayOrder)}{orderCode}
                         </Text>
                         <Badge>
-                          <Text>{ServiceName}</Text>
+                          <Text>{serviceName}</Text>
                         </Badge>
                       </View>
                       
@@ -216,7 +216,7 @@ class OrderListScreen extends Component {
               </View>
             )}
             sections={sections}
-            keyExtractor={(item, index) => `${item.OrderCode}_${item.PickDeliveryType}`}
+            keyExtractor={(item, index) => `${item.orderCode}_${item.pickDeliveryType}`}
           /> 
         </DataEmptyCheck>
         </Content>
@@ -224,9 +224,9 @@ class OrderListScreen extends Component {
       </Container>
     );
   }
-  getDO(DisplayOrder) {
-    if (DisplayOrder) {
-      return `[${DisplayOrder}] `;
+  getDO(displayOrder) {
+    if (displayOrder) {
+      return `[${displayOrder}] `;
     }
     return '';
   }

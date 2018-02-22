@@ -11,7 +11,7 @@ import {
 import Utils from '../libs/Utils';
 
 const nameInitialState = {
-  PDSItems: null,
+  pdsItems: null,
   Infos: null,
   pdsId: null,
   pdsCode: null,
@@ -38,27 +38,27 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_SUCCESS: {
       const pds = action.payload.pds;
       transformPDS(pds);
-      const { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID, PDSCode, lastUpdatedTime } = pds;
+      const { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID, pdsCode, lastUpdatedTime } = pds;
 
-      let PDSItems = null;
+      let pdsItems = null;
       let groups = state.groups;
-      const newItems = pds.PDSItems;
-      if (state.pdsId === PickDeliverySessionID) { 
+      const newItems = pds.pdsItems;
+      if (state.pdsId === pickDeliverySessionID) { 
         // old trips
-        const oldItems = state.PDSItems ? state.PDSItems[0] : null;
-        PDSItems = mergeState(oldItems, newItems);
+        const oldItems = state.pdsItems ? state.pdsItems[0] : null;
+        pdsItems = mergeState(oldItems, newItems);
       } else { 
         // new trips
-        PDSItems = newItems;
+        pdsItems = newItems;
         groups = nameInitialState.groups;
       }
       
       return {
         ...state,
-        PDSItems: [PDSItems],
-        Infos: { EmployeeFullName, CoordinatorFullName, CoordinatorPhone, PickDeliverySessionID },
-        pdsId: PickDeliverySessionID,
-        pdsCode: PDSCode,
+        pdsItems: [pdsItems],
+        Infos: { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID },
+        pdsId: pickDeliverySessionID,
+        pdsCode: pdsCode,
         lastUpdatedTime,
         groups,
         loading: false,
@@ -72,17 +72,17 @@ export default (state = nameInitialState, action) => {
     
     case UPDATE_ORDER_STATUS: {
       const OrderInfos = action.payload.OrderInfos;
-      const PDSItems = _.cloneDeep(state.PDSItems);
+      const pdsItems = _.cloneDeep(state.pdsItems);
 
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(PDSItems[0], info.OrderCode, info.PickDeliveryType);
-          order.CurrentStatus = 'Progress';
+          const order = Utils.getOrder(pdsItems[0], info.orderCode, info.pickDeliveryType);
+          order.currentStatus = 'Progress';
       });
       
 
       return {
         ...state,
-        PDSItems
+        pdsItems
         //loading: true
       };
     }
@@ -90,18 +90,18 @@ export default (state = nameInitialState, action) => {
     case UPDATE_ORDER_STATUS_FAIL: {
       const { OrderInfos, error } = action.payload;
 
-      const PDSItems = _.cloneDeep(state.PDSItems);
+      const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(PDSItems[0], info.OrderCode, info.PickDeliveryType);
-          switch (info.PickDeliveryType) {
+          const order = Utils.getOrder(pdsItems[0], info.orderCode, info.pickDeliveryType);
+          switch (info.pickDeliveryType) {
             case 1:
-              order.CurrentStatus = 'PICKING';
+              order.currentStatus = 'PICKING';
               break;
             case 2:
-              order.CurrentStatus = 'DELIVERING';
+              order.currentStatus = 'DELIVERING';
               break;
             case 3:
-              order.CurrentStatus = 'RETURNING';
+              order.currentStatus = 'RETURNING';
               break;
             default:
               break;
@@ -110,7 +110,7 @@ export default (state = nameInitialState, action) => {
 
       return {
         ...state,
-        PDSItems,
+        pdsItems,
         loading: false,
         error
       };
@@ -119,13 +119,13 @@ export default (state = nameInitialState, action) => {
   // [
   //   {  
   //     PDSDetailID,
-  //     OrderCode,
+  //     orderCode,
   //     PDSType,
-  //     NextStatus,
-  //     ClientHubID,
+  //     nextStatus,
+  //     clientHubId,
   //     StoringCode,
   //     NewDate,
-  //     Log
+  //     log
   //   },
   //   ...
   // ]
@@ -139,26 +139,26 @@ export default (state = nameInitialState, action) => {
         ids = FailedOrders.map(o => o.orderCode);
       }
 
-      const PDSItems = _.cloneDeep(state.PDSItems);
+      const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(PDSItems[0], info.OrderCode, info.PickDeliveryType);
-          if (ids.length > 0 && ids.includes(info.OrderCode)) {
-            switch (info.PickDeliveryType) {
+          const order = Utils.getOrder(pdsItems[0], info.orderCode, info.pickDeliveryType);
+          if (ids.length > 0 && ids.includes(info.orderCode)) {
+            switch (info.pickDeliveryType) {
               case 1:
-                order.CurrentStatus = 'PICKING';
+                order.currentStatus = 'PICKING';
                 break;
               case 2:
-                order.CurrentStatus = 'DELIVERING';
+                order.currentStatus = 'DELIVERING';
                 break;
               case 3:
-                order.CurrentStatus = 'RETURNING';
+                order.currentStatus = 'RETURNING';
                 break;
               default:
                 break;
             }
           } else {
-            order.CurrentStatus = info.NextStatus;
-            order.NextStatus = undefined;
+            order.currentStatus = info.nextStatus;
+            order.nextStatus = undefined;
             order.success = undefined;
           }
       });
@@ -168,7 +168,7 @@ export default (state = nameInitialState, action) => {
         ...state,
         loading: false,
         error: '',
-        PDSItems,
+        pdsItems,
       };
     }
 
@@ -184,11 +184,11 @@ export default (state = nameInitialState, action) => {
       };
     case PD_ADD_ORDER: {
       const order = action.payload.order;
-      const PDSItems = _.cloneDeep(state.PDSItems);
-      PDSItems[0][getKey(order.OrderCode, order.PickDeliveryType)] = order;
+      const pdsItems = _.cloneDeep(state.pdsItems);
+      pdsItems[0][getKey(order.orderCode, order.pickDeliveryType)] = order;
       return {
         ...state,
-        PDSItems,
+        pdsItems,
         addOrderLoading: false,
         error: '',
       };
@@ -201,18 +201,18 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: false };
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
-      const PDSItems = _.cloneDeep(state.PDSItems);
-      const { OrderCode, ServiceCost, Length, Width, Height, Weight } = action.payload;
-      const order = Utils.getOrder(PDSItems[0], OrderCode, 1);
-      if (order.CODAmount != 0) {
-        order.CODAmount = ServiceCost;
+      const pdsItems = _.cloneDeep(state.pdsItems);
+      const { orderCode, serviceCost, length, width, height, weight } = action.payload;
+      const order = Utils.getOrder(pdsItems[0], orderCode, 1);
+      if (order.codAmount != 0) {
+        order.codAmount = serviceCost;
       }
       
-      order.Length = Length;
-      order.Weight = Weight;
-      order.Height = Height;
-      order.Width = Width;
-      return { ...state, PDSItems, loading: false };
+      order.length = length;
+      order.weight = weight;
+      order.height = height;
+      order.width = width;
+      return { ...state, pdsItems, loading: false };
     }
 
     case PD_UPDATE_GROUP: {
@@ -221,7 +221,7 @@ export default (state = nameInitialState, action) => {
       const orders = pds.DeliveryItems;
       const orderGroup = action.payload;
       orders.forEach((order, index) => {
-        const group = orderGroup[order.OrderCode];
+        const group = orderGroup[order.orderCode];
         if (group !== undefined) {
           orders[index].Group = group;
         } 
@@ -230,25 +230,25 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_UPDATE_ORDER_INFO: {
-      const { OrderCode, PickDeliveryType, info } = action.payload;
-      const PDSItems = _.cloneDeep(state.PDSItems);
-      const item = PDSItems[0][getKey(OrderCode, PickDeliveryType)];
+      const { orderCode, pickDeliveryType, info } = action.payload;
+      const pdsItems = _.cloneDeep(state.pdsItems);
+      const item = pdsItems[0][getKey(orderCode, pickDeliveryType)];
       const statusChangeDate = info.success === undefined ? undefined : Date.now();
       const dateInfo = (item.success !== undefined && info.success !== undefined) ? {} : { statusChangeDate };
       Object.assign(item, dateInfo, info);
-      return { ...state, PDSItems };
+      return { ...state, pdsItems };
     }
      
     case PD_UPDATE_ORDER_INFOS: {
       const { OrderInfos } = action.payload;
-      const PDSItems = _.cloneDeep(state.PDSItems);
+      const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, info => {
-        const { OrderCode, PickDeliveryType } = info;
+        const { orderCode, pickDeliveryType } = info;
         const statusChangeDate = info.success === undefined ? undefined : Date.now();
-        Object.assign(PDSItems[0][getKey(OrderCode, PickDeliveryType)], { statusChangeDate }, info);
+        Object.assign(pdsItems[0][getKey(orderCode, pickDeliveryType)], { statusChangeDate }, info);
       });
       
-      return { ...state, PDSItems };
+      return { ...state, pdsItems };
     }
 
     case PD_TOGGLE_GROUP_ACTIVE: {
@@ -265,11 +265,11 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_TOGGLE_ORDER_GROUP: {
-      const { OrderCode } = action.payload;
-      const PDSItems = _.cloneDeep(state.PDSItems);
-      const order = PDSItems[0][getKey(OrderCode, 2)];
+      const { orderCode } = action.payload;
+      const pdsItems = _.cloneDeep(state.pdsItems);
+      const order = pdsItems[0][getKey(orderCode, 2)];
       order.groupChecked = !order.groupChecked;
-      return { ...state, PDSItems };
+      return { ...state, pdsItems };
     }
 
     case PD_CREATE_GROUP: {
@@ -284,20 +284,20 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_RESET_GROUP: {
-      const PDSItems = _.cloneDeep(state.PDSItems);
-      _.filter(PDSItems[0], o => o.group !== undefined).forEach(o => { delete o.group; delete o.groupChecked; });
+      const pdsItems = _.cloneDeep(state.pdsItems);
+      _.filter(pdsItems[0], o => o.group !== undefined).forEach(o => { delete o.group; delete o.groupChecked; });
       return {
         ...state,
         groups: nameInitialState.groups,
-        PDSItems
+        pdsItems
       };
     }
 
     case PD_UPDATE_ORDERS: {
       const { orders } = action.payload;
-      const PDSItems = _.cloneDeep(state.PDSItems);
-      PDSItems[0] = { ...PDSItems[0], ...orders };
-      return { ...state, PDSItems };
+      const pdsItems = _.cloneDeep(state.pdsItems);
+      pdsItems[0] = { ...pdsItems[0], ...orders };
+      return { ...state, pdsItems };
     }
 
     case PD_CREATE_PGROUP: {
@@ -360,22 +360,23 @@ const getKey = (orderID, type) => `${orderID}-${type}`;
 
 const transformPDS = (pds) => {
   // create PickItems, DeliveryItems, ReturnItems
+  console.log(pds);
   const temp = {};
-  pds.PDSItems.forEach(item => {
-    delete item.NextStatus;
-    temp[getKey(item.OrderCode, item.PickDeliveryType)] = item;
+  pds.pdsItems.forEach(item => {
+    delete item.nextStatus;
+    temp[getKey(item.orderCode, item.pickDeliveryType)] = item;
   });
-  pds.PDSItems = temp;
+  pds.pdsItems = temp;
 };
 
 const addGroup = (pds, orderGroup) => {
   pds.DeliveryItems.forEach((order, index) => {
-    pds.DeliveryItems[index].Group = orderGroup[order.OrderCode] || null;
+    pds.DeliveryItems[index].Group = orderGroup[order.orderCode] || null;
   });
 
   //add 'key' for order
-  pds.PDSItems.forEach((order, index) => {
-    pds.PDSItems[index].key = order.OrderCode;
+  pds.pdsItems.forEach((order, index) => {
+    pds.pdsItems[index].key = order.orderCode;
   });
 };
 

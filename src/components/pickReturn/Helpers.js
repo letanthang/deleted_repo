@@ -28,10 +28,10 @@ function alertMissOfCall(phoneNumber) {
   );
 }
 
-export function updateOrderToFailWithReason2(phone, configuration, OrderCode = null) {
+export function updateOrderToFailWithReason2(phone, configuration, orderCode = null) {
   return new Promise((resolve, reject) => {
-    const ContactPhone = phone;
-    const title = OrderCode ? `Chọn lý do lỗi cho đơn ${OrderCode}` : `Chọn lý do lỗi cho tất cả các đơn này`;
+    const contactPhone = phone;
+    const title = orderCode ? `Chọn lý do lỗi cho đơn ${orderCode}` : `Chọn lý do lỗi cho tất cả các đơn này`;
     ActionSheet.show(
       {
         options: buttons,
@@ -47,23 +47,23 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
           return resolve({ error: 'chooseDate', buttonIndex });
         } else if (buttonIndex == cannotCallIndex || buttonIndex == cannotContactIndex) {
           //cannot contact
-          Utils.validateCallCannotContact(ContactPhone, configuration)
+          Utils.validateCallCannotContact(contactPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {
-                alertMissOfCall(ContactPhone);
+                alertMissOfCall(contactPhone);
                 return resolve({ error: 'moreCall', buttonIndex });
               } 
             });
         } else if (buttonIndex == notHangUpIndex) {
           //cannot contact
-          Utils.validateCallNotHangUp(ContactPhone, configuration)
+          Utils.validateCallNotHangUp(contactPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {
-                alertMissOfCall(ContactPhone);
+                alertMissOfCall(contactPhone);
                 return resolve({ error: 'moreCall', buttonIndex });
               }
             });
@@ -78,36 +78,34 @@ export function updateOrderToFailWithReason2(phone, configuration, OrderCode = n
   // [
   //   {  
   //     PDSDetailID,
-  //     OrderCode,
+  //     orderCode,
   //     PDSType,
-  //     NextStatus,
-  //     ClientHubID,
+  //     nextStatus,
+  //     clientHubId,
   //     StoringCode,
   //     NewDate,
-  //     Log
+  //     log
   //     Note,
   //     NoteCode,
   //   },
 export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
-  const { OrderCode, PickDeliveryType } = order;
-  const orderCode = OrderCode;
+  const { orderCode, pickDeliveryType } = order;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
-  const NextStatus = 'READY_TO_PICK';
+  const nextStatus = 'READY_TO_PICK';
   const action = 'DO_PICK_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
 export function getUpdateOrderInfoForDone(order, newDate = null) {
-  const { OrderCode, PickDeliveryType } = order;
-  const orderCode = OrderCode;
+  const { orderCode, pickDeliveryType } = order;
   const noteId = ''; 
   const note = '';
-  const NextStatus = 'PICKED';
+  const nextStatus = 'PICKED';
   const action = 'DO_PICK_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }

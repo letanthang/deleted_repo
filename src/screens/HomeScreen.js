@@ -29,8 +29,8 @@ class HomeScreen extends Component {
   state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     console.log('HomeScreen');
-    const { loaded, PDSItems } = this.props;
-    if (!loaded || !PDSItems) {
+    const { loaded, pdsItems } = this.props;
+    if (!loaded || !pdsItems) {
       this.props.pdListFetch()
         .then(result => {
           if (result) this.props.setLoaded();
@@ -99,7 +99,7 @@ class HomeScreen extends Component {
   }
 
   onSearchPress() {
-    if (this.state.showSearch === false && this.props.PDSItems === null) return;
+    if (this.state.showSearch === false && this.props.pdsItems === null) return;
     this.setState({ showSearch: !this.state.showSearch });
   }
 
@@ -291,12 +291,12 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { loading, error, PDSItems } = state.pd;
+  const { loading, error, pdsItems } = state.pd;
   const { loaded } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
-  return { loading, loaded, error, user, stats, PDSItems };
+  return { loading, loaded, error, user, stats, pdsItems };
 };
 
 export default connect(mapStateToProps, { pdListFetch, setLoaded })(HomeScreen);

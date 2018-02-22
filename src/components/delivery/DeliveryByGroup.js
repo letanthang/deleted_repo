@@ -24,8 +24,8 @@ class DeliveryByGroup extends Component {
 
   onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 300, { leading: true, trailing: false });
 
-  onDeliveryOrderPress(OrderCode) {
-    this.props.navigation.navigate('DeliveryOrder', { OrderCode });
+  onDeliveryOrderPress(orderCode) {
+    this.props.navigation.navigate('DeliveryOrder', { orderCode });
   }
 
   renderStatusText(order) {
@@ -40,7 +40,7 @@ class DeliveryByGroup extends Component {
     const groups = _.clone(this.props.groups);
 
     const datas = _.groupBy(this.props.DeliveryItems, (item) => {
-      if (Utils.checkDeliveryComplete(item.CurrentStatus)) return 'Đã xong';
+      if (Utils.checkDeliveryComplete(item.currentStatus)) return 'Đã xong';
       return item.group;
     });
 
@@ -54,30 +54,30 @@ class DeliveryByGroup extends Component {
       <Content style={{ backgroundColor: Colors.background }}>
       <SectionList
         sections={sections}
-        keyExtractor={(item, index) => item.OrderCode }
+        keyExtractor={(item, index) => item.orderCode }
         renderItem={({ item, index, section }) => {
           if (!section.activeSection) return null;
 
           const order = item;
-          const { DeliveryAddress, OrderCode, DisplayOrder, ServiceName } = order;
+          const { deliveryAddress, orderCode, displayOrder, serviceName } = order;
           const wrapperStyle = index === 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
           
           return (
             <TouchableOpacity
-              onPress={this.onDeliveryOrderPressOnce.bind(this, OrderCode)}
+              onPress={this.onDeliveryOrderPressOnce.bind(this, orderCode)}
             >
               <View style={wrapperStyle}>
                 <View style={Styles.item2Style}>
                   <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                    [{DisplayOrder}] {OrderCode}
+                    [{displayOrder}] {orderCode}
                   </Text>
                   <Badge>
-                    <Text>{ServiceName}</Text>
+                    <Text>{serviceName}</Text>
                   </Badge>
                 </View>
                 <View style={Styles.itemStyle}>
                   <Text style={[Styles.midTextStyle, Styles.weakColorStyle]}>
-                    {DeliveryAddress}
+                    {deliveryAddress}
                   </Text>
                 </View>
                 <View style={Styles.itemStyle}>

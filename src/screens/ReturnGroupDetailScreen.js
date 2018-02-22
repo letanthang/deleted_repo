@@ -23,15 +23,15 @@ class PickGroupDetailScreen extends Component {
 
   componentWillMount() {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-    this.ClientHubID = this.pickGroup.ClientHubID;
-    this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.clientHubId = this.pickGroup.clientHubId;
+    this.pickDeliveryType = this.pickGroup.pickDeliveryType;
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
-    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
-    this.pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
@@ -41,7 +41,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   checkRealDone() {
-    const completeNum = this.pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.CurrentStatus)).length;
+    const completeNum = this.pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.currentStatus)).length;
     return completeNum === this.totalNum;
   }
 
@@ -52,7 +52,7 @@ class PickGroupDetailScreen extends Component {
 
   confirmUpdateOrder() {
     this.props.pdListFetch()
-      .then(() => this.props.navigation.navigate('PickConfirm', { ClientHubID: this.ClientHubID, PickDeliveryType: 3 }));
+      .then(() => this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId, pickDeliveryType: 3 }));
   }
 
   renderHeader(pickGroup) {
@@ -115,7 +115,7 @@ class PickGroupDetailScreen extends Component {
         </View>
         </Left>
         <Body style={Styles.bodyStyle}>
-          <Title>{pickGroup.ClientName} - {pickGroup.ContactName}</Title>
+          <Title>{pickGroup.clientName} - {pickGroup.contactName}</Title>
         </Body>
         <Right style={Styles.rightStyle}>
           <Button
@@ -132,9 +132,9 @@ class PickGroupDetailScreen extends Component {
   render() {
     const { PickItems, ReturnItems, navigation, loading } = this.props;
     const { width } = Dimensions.get('window');
-    const { PickDeliveryType } = this.pickGroup;
-    const Items = PickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(trip => trip.ClientHubID === this.ClientHubID); 
+    const { pickDeliveryType } = this.pickGroup;
+    const Items = pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(trip => trip.clientHubId === this.clientHubId); 
     return (
       
       <Container style={{ backgroundColor: Colors.background }}>

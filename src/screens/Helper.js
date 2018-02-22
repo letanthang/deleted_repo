@@ -28,32 +28,30 @@ function alertMissOfCall(phoneNumber) {
 }
 
 export function getDeliveryFailOrderInfo(order, buttonIndex, newDate = null) {
-  const { OrderCode, PickDeliveryType } = order;
-  const orderCode = OrderCode;
+  const { orderCode, pickDeliveryType } = order;
   const noteId = CODES[buttonIndex]; 
   const note = BUTTONS[buttonIndex];
-  const NextStatus = 'FAIL_TO_DELIVER';
+  const nextStatus = 'FAIL_TO_DELIVER';
   const action = 'DO_DELIVER_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
 export function getDeliveryDoneOrderInfo(order, newDate = 0) {
-  const { OrderCode, PickDeliveryType } = order;
-  const orderCode = OrderCode;
+  const { orderCode, pickDeliveryType } = order;
   const noteId = ''; 
   const note = '';
-  const NextStatus = 'DELIVERED';
+  const nextStatus = 'DELIVERED';
   const action = 'DO_DELIVER_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
-export function updateOrderToFailWithReason2(phone, configuration, OrderCode = null) {
-  const ContactPhone = phone;
-  const title = OrderCode ? `Chọn lý do lỗi cho đơn ${OrderCode}` : `Chọn lý do lỗi cho tất cả các đơn này`;
+export function updateOrderToFailWithReason2(phone, configuration, orderCode = null) {
+  const contactPhone = phone;
+  const title = orderCode ? `Chọn lý do lỗi cho đơn ${orderCode}` : `Chọn lý do lỗi cho tất cả các đơn này`;
   return new Promise((resolve, reject) => {
     ActionSheet.show(
       {

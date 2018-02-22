@@ -19,12 +19,12 @@ import ActionModal from '../components/ActionModal';
 import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2 } from './Helper';
 
 let order = null;
-let OrderCode = null;
+let orderCode = null;
 class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
-    OrderCode = this.props.navigation.state.params.OrderCode;
-    order = Utils.getOrder(this.props.db, OrderCode, 2);
+    orderCode = this.props.navigation.state.params.orderCode;
+    order = Utils.getOrder(this.props.db, orderCode, 2);
   }
 
   componentDidMount() {
@@ -33,8 +33,8 @@ class DeliveryOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.db != nextProps.db) {
-      const newOrder = Utils.getOrder(nextProps.db, OrderCode, 2);
-      if (order.CurrentStatus !== newOrder.CurrentStatus) {
+      const newOrder = Utils.getOrder(nextProps.db, orderCode, 2);
+      if (order.currentStatus !== newOrder.currentStatus) {
         this.props.navigation.goBack();
       }
       order = newOrder;
@@ -89,7 +89,7 @@ class DeliveryOrderScreen extends Component {
     );
   }
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.RecipientPhone, this.props.configuration, order.OrderCode)
+    updateOrderToFailWithReason2(order.recipientPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.confirmUpdateOrderFail(buttonIndex);
@@ -108,7 +108,7 @@ class DeliveryOrderScreen extends Component {
   }
   
   renderButtons(order) {
-    const done = Utils.checkDeliveryComplete(order.CurrentStatus);
+    const done = Utils.checkDeliveryComplete(order.currentStatus);
     if (done) {
       return (
         <View
@@ -148,9 +148,9 @@ class DeliveryOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      RecipientName, RecipientPhone, DeliveryAddress, CODAmount,
-      ClientName, ContactPhone, RequiredNote, OrderCode,
-      DisplayOrder, SONote, Log, CurrentStatus
+      recipientName, recipientPhone, deliveryAddress, codAmount,
+      clientName, contactPhone, requiredNote,
+      displayOrder, soNote, log
     } = order;
 
 
@@ -170,7 +170,7 @@ class DeliveryOrderScreen extends Component {
             
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>[{DisplayOrder}] {OrderCode}</Title>
+            <Title>[{displayOrder}] {orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             <Button
@@ -188,7 +188,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RecipientName}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
             </View>
             <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -197,26 +197,26 @@ class DeliveryOrderScreen extends Component {
                   iconRight
                   small
                   style={{ paddingLeft: 0 }}
-                  onPress={() => Utils.phoneCall(RecipientPhone, true)}
+                  onPress={() => Utils.phoneCall(recipientPhone, true)}
                 >
-                  <Text>{RecipientPhone}</Text>
+                  <Text>{recipientPhone}</Text>
                   <Icon name='call' />
                 </Button>
             </View>
             <View style={Styles.rowLastStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{DeliveryAddress}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{deliveryAddress}</Text>
             </View>
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin đơn hàng</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Nhà cung cấp</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ClientName}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientName}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>SĐT NCC</Text>
@@ -226,23 +226,23 @@ class DeliveryOrderScreen extends Component {
                   small
                   style={{ paddingLeft: 0 }}
                 >
-                  <Text>{ContactPhone}</Text>
+                  <Text>{contactPhone}</Text>
                   <Icon name='call' />
                 </Button>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{soNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>
                 <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Log}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{log}</Text>
               </View>
             </View>
             <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RequiredNote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{requiredNote}</Text>
             </View>
           </List>
 

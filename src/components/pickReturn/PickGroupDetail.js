@@ -23,16 +23,16 @@ class PickGroupDetail extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
   
   pickGroup = null;
-  ClientHubID = null;
-  PickDeliveryType = null;
+  clientHubId = null;
+  pickDeliveryType = null;
   order = {};
   done = false;
   
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-    this.ClientHubID = this.pickGroup.ClientHubID;
-    this.PickDeliveryType = this.pickGroup.PickDeliveryType;
+    this.clientHubId = this.pickGroup.clientHubId;
+    this.pickDeliveryType = this.pickGroup.pickDeliveryType;
     this.checkDone(this.props);
   }
 
@@ -46,10 +46,10 @@ class PickGroupDetail extends Component {
 
   checkRealDone() {
     const { PickItems, ReturnItems } = this.props;
-    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => {
-      const result = !Utils.checkPickComplete(o.CurrentStatus);
+      const result = !Utils.checkPickComplete(o.currentStatus);
       return result;
     });
     if (orders.length === 0) return true;
@@ -58,8 +58,8 @@ class PickGroupDetail extends Component {
 
   checkDone(props) {
     const { PickItems, ReturnItems } = props;
-    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => Utils.checkPickCompleteForUnsync(o) === true);
     if (orders.length === 0) {
       this.done = true;
@@ -68,22 +68,22 @@ class PickGroupDetail extends Component {
     }
   }
 
-  checkKeywork({ OrderCode, ExternalCode }) {
+  checkKeywork({ orderCode, ExternalCode }) {
     const keyword = this.props.keyword.toUpperCase()
     return this.props.keyword === '' 
-      || OrderCode.toUpperCase().includes(keyword)
+      || orderCode.toUpperCase().includes(keyword)
       || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
 
   onOrderPress(order) {
   
-    const { OrderCode } = order;
-    const { ClientID, ClientHubID } = this.pickGroup;
+    const { orderCode } = order;
+    const { clientId, clientHubId } = this.pickGroup;
     
-    if (this.PickDeliveryType === 1) {
-      navigateOnce(this, 'PickOrder', { OrderCode, order, ClientID, ClientHubID });
-    } else if (this.PickDeliveryType === 3) {
-      navigateOnce(this, 'ReturnOrder', { OrderCode, order, ClientHubID });
+    if (this.pickDeliveryType === 1) {
+      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, clientHubId });
+    } else if (this.pickDeliveryType === 3) {
+      navigateOnce(this, 'ReturnOrder', { orderCode, order, clientHubId });
     }
   }
 
@@ -94,8 +94,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { OrderCode, PickDeliveryType } = this.order;
-      this.props.updateOrderInfo(OrderCode, PickDeliveryType, moreInfo);
+      const { orderCode, pickDeliveryType } = this.order;
+      this.props.updateOrderInfo(orderCode, pickDeliveryType, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -105,22 +105,22 @@ class PickGroupDetail extends Component {
 
   acceptDeliverPress(order) {
     const newOrder = _.clone(order);
-    newOrder.PickDeliveryType = 2;
-    newOrder.CurrentStatus = 'DELIVERING';
+    newOrder.pickDeliveryType = 2;
+    newOrder.currentStatus = 'DELIVERING';
     newOrder.Group = null;
     console.log('acceptDeliveryPress!');
     this.props.addOneOrder(newOrder);
   }
 
   checkDelivering(order) {
-    if (Utils.getOrder(this.props.db, order.OrderCode, 2)) return true;
+    if (Utils.getOrder(this.props.db, order.orderCode, 2)) return true;
     return false;
   }
 
   render() {
     const { PickItems, ReturnItems, keyword } = this.props;
-    const Items = this.PickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
 
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
@@ -144,17 +144,17 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
-            keyExtractor={(item, index) => item.OrderCode}
+            keyExtractor={(item, index) => item.orderCode}
             renderItem={({ item }) => {
               const order = item;
               const { 
-                OrderCode, RecipientName, RecipientPhone,
-                Height, Width, Weight, Length, CurrentStatus,
-                ExternalCode, CODAmount, success, note, PickWarehouseID, DeliverWarehouseID
+                orderCode, recipientName, recipientPhone,
+                height, width, weight, length, currentStatus,
+                ExternalCode, codAmount, success, note, pickWarehouseId, deliverWarehouseId
               } = item;
 
-              const realDone = Utils.checkPickComplete(CurrentStatus);
-              const deliverable = realDone && PickWarehouseID === DeliverWarehouseID && Utils.checkPickSuccess(CurrentStatus);
+              const realDone = Utils.checkPickComplete(currentStatus);
+              const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(currentStatus);
               const isDelivering = this.checkDelivering(order);
               const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
               return (
@@ -164,13 +164,13 @@ class PickGroupDetail extends Component {
                   <View style={[Styles.orderWrapperStyle]}>
                     <View style={Styles.item2Style}>
                       <View style={{ flexDirection: 'row' }}>
-                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{OrderCode}</Text>
+                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>
                         <OrderStatusText 
                           order={order}
                           style={{ marginLeft: 10 }}
                         />
                       </View>
-                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(CODAmount)} đ</Text>
+                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
                     </View>
                     {success === false ?
                     <View style={Styles.itemStyle}>
@@ -183,12 +183,12 @@ class PickGroupDetail extends Component {
                     </View>
                     : null}
                     <View style={Styles.itemStyle}>
-                      <Text style={Styles.weakColorStyle}>Nhận: {RecipientName} - {RecipientPhone}</Text>
+                      <Text style={Styles.weakColorStyle}>Nhận: {recipientName} - {recipientPhone}</Text>
 
                       
                     </View>
                     <View style={Styles.item2Style}>
-                      <Text style={Styles.weakColorStyle}>{Weight} g | {Length}-{Width}-{Height} (cm3)</Text>
+                      <Text style={Styles.weakColorStyle}>{weight} g | {length}-{width}-{height} (cm3)</Text>
                       {deliverable ?
                       <FormButton
                         disabled={isDelivering}

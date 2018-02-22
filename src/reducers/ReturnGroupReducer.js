@@ -18,9 +18,9 @@ const nameInitialState = {
 export default (state = nameInitialState, action) => {
   switch (action.type) {
     case RETURNGROUP_UPDATE_ORDER_INFO: {
-      const { OrderCode, info } = action.payload;
+      const { orderCode, info } = action.payload;
       const OrderInfos = _.clone(state.OrderInfos);
-      OrderInfos[OrderCode] = info;
+      OrderInfos[orderCode] = info;
       return { ...state, OrderInfos, allStatusReturn: undefined };
     }
 
@@ -28,7 +28,7 @@ export default (state = nameInitialState, action) => {
       let OrderInfos = {};
       if (action.payload instanceof Array) {
         _.each(action.payload, info => {
-          OrderInfos[info.OrderCode] = info;
+          OrderInfos[info.orderCode] = info;
         });
       } else {
         OrderInfos = action.payload;

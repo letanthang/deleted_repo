@@ -14,8 +14,8 @@ class AddOrderScreen extends Component {
   }
   render() {
     const { goBack } = this.props.navigation;
-    const { OrderCode, PDSItems } = this.props;
-    const disabled = this.props.OrderCode.length < 7;
+    const { orderCode, pdsItems } = this.props;
+    const disabled = this.props.orderCode.length < 7;
     const style = disabled ? Styles.addButtonDisableStyle : Styles.addButtonStyle;
 
     return (
@@ -37,13 +37,13 @@ class AddOrderScreen extends Component {
           style={{ padding: 10 }}
           keyboardShouldPersistTaps='handled'
         >
-          {PDSItems !== null ?
+          {pdsItems !== null ?
           <View>
             <View><Text>Nhập mã đơn hàng</Text></View>
             <View style={{ paddingTop: 16 }}>
               <TextInput 
                 placeholder='XXXXXXXX'
-                value={OrderCode}
+                value={orderCode}
                 onChangeText={(text) => this.props.changeOrderCode(text.toUpperCase())}
                 autoCorrect={false}
                 autoCapitalize='characters'
@@ -52,7 +52,7 @@ class AddOrderScreen extends Component {
             <View style={{ paddingTop: 16 }}>
               <TouchableOpacity
                 disabled={disabled}
-                onPress={() => this.props.getOrder(OrderCode)}
+                onPress={() => this.props.getOrder(orderCode)}
                 style={style}
               >
                 <Text style={{ color: '#FFF' }}>Kiểm tra đơn</Text>
@@ -70,9 +70,9 @@ class AddOrderScreen extends Component {
 
 const mapStateToProps = (state) => {
   const { orderAdd, pd } = state;
-  const { OrderCode, order } = orderAdd;
-  const { PDSItems } = pd;
-  return { OrderCode, order, PDSItems };
+  const { orderCode, order } = orderAdd;
+  const { pdsItems } = pd;
+  return { orderCode, order, pdsItems };
 };
 
 export default connect(mapStateToProps, { changeOrderCode, getOrder })(AddOrderScreen);

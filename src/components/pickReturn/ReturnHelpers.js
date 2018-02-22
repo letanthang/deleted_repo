@@ -30,7 +30,7 @@ export function alertMissOfCall(phoneNumber) {
 
 export function updateOrderToFailWithReason2(phone, configuration) {
   return new Promise((resolve, reject) => {
-    const ContactPhone = phone;
+    const contactPhone = phone;
     ActionSheet.show(
       {
         options: buttons,
@@ -46,23 +46,23 @@ export function updateOrderToFailWithReason2(phone, configuration) {
           return resolve({ error: 'chooseDate', buttonIndex });
         } else if (buttonIndex == cannotCallIndex || buttonIndex == cannotContactIndex) {
           //cannot contact
-          Utils.validateCallCannotContact(ContactPhone, configuration)
+          Utils.validateCallCannotContact(contactPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {
-                alertMissOfCall(ContactPhone);
+                alertMissOfCall(contactPhone);
                 return resolve({ error: 'moreCall', buttonIndex });
               } 
             });
         } else if (buttonIndex == notHangUpIndex) {
           //cannot contact
-          Utils.validateCallNotHangUp(ContactPhone, configuration)
+          Utils.validateCallNotHangUp(contactPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {
-                alertMissOfCall(ContactPhone);
+                alertMissOfCall(contactPhone);
                 return resolve({ error: 'moreCall', buttonIndex });
               }
             });
@@ -77,36 +77,34 @@ export function updateOrderToFailWithReason2(phone, configuration) {
   // [
   //   {  
   //     PDSDetailID,
-  //     OrderCode,
+  //     orderCode,
   //     PDSType,
-  //     NextStatus,
-  //     ClientHubID,
+  //     nextStatus,
+  //     clientHubId,
   //     StoringCode,
   //     NewDate,
-  //     Log
+  //     log
   //     Note,
   //     NoteCode,
   //   },
 export function getUpdateOrderInfo(order, buttonIndex, newDate = 0) {
-  const { OrderCode, PickDeliveryType } = order;
-  const orderCode = OrderCode;
+  const { orderCode, pickDeliveryType } = order;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
-  const NextStatus = 'FAIL_TO_RETURN';
+  const nextStatus = 'FAIL_TO_RETURN';
   const action = 'DO_RETURN_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
 export function getUpdateOrderInfoForDone(order, newDate = 0) {
-  const { OrderCode, PickDeliveryType } = order;
-  const orderCode = OrderCode;
+  const { orderCode, pickDeliveryType } = order;
   const noteId = ''; 
   const note = '';
-  const NextStatus = 'RETURNED';
+  const nextStatus = 'RETURNED';
   const action = 'DO_RETURN_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { OrderCode, orderCode, nextDate, noteId, note, action, NextStatus, PickDeliveryType, success };
+  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }

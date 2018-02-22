@@ -26,8 +26,8 @@ class DeliveryGroupList extends Component {
   componentDidUpdate(prevProps, prevState) {
 
   }
-  onDeliveryOrderPress(OrderCode) {
-    this.props.navigation.navigate('DeliveryOrder', { OrderCode });
+  onDeliveryOrderPress(orderCode) {
+    this.props.navigation.navigate('DeliveryOrder', { orderCode });
   }
 
   renderStatusText(order) {
@@ -39,15 +39,15 @@ class DeliveryGroupList extends Component {
   }
 
   renderOrder(order) {
-    const { Address, OrderCode, OrderCode, CurrentStatus, TotalCollectedAmount, DisplayOrder } = order;
+    const { address, orderCode, orderCode, currentStatus, TotalCollectedAmount, displayOrder } = order;
     return (
       <TouchableOpacity
-        onPress={this.onDeliveryOrderPress.bind(this, OrderCode)}
+        onPress={this.onDeliveryOrderPress.bind(this, orderCode)}
       >
         <View style={Styles.orderWrapperStyle}>
           <View style={Styles.item2Style}>
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-              [{DisplayOrder}] {OrderCode}
+              [{displayOrder}] {orderCode}
             </Text>
             <Badge>
               <Text>6h</Text>
@@ -55,7 +55,7 @@ class DeliveryGroupList extends Component {
           </View>
           <View style={Styles.itemStyle}>
             <Text style={[Styles.midTextStyle, Styles.weakColorStyle]}>
-              {Address}
+              {address}
             </Text>
           </View>
           <View style={Styles.itemStyle}>
@@ -67,9 +67,9 @@ class DeliveryGroupList extends Component {
     );
   }
   render() {
-    //const { Address, OrderCode, OrderCode, CurrentStatus, TotalCollectedAmount }
+    //const { address, orderCode, orderCode, currentStatus, TotalCollectedAmount }
     const deliveryList = this.props.deliveryList.filter(order => this.state.keyword === '' 
-      || order.OrderCode.toUpperCase().includes(this.state.keyword.toUpperCase()));
+      || order.orderCode.toUpperCase().includes(this.state.keyword.toUpperCase()));
 
     return (
       <Content style={{ backgroundColor: Colors.background }}>

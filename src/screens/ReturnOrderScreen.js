@@ -17,19 +17,19 @@ import ActionModal from '../components/ActionModal';
 import FormButton from '../components/FormButton';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/pickReturn/ReturnHelpers';
 
-let OrderCode = null;
+let orderCode = null;
 let order = {};
 class ReturnOrderScreen extends Component {
   state = { modalShow: false } 
   componentWillMount() {
-    OrderCode = this.props.navigation.state.params.OrderCode;
-    order = Utils.getOrder(this.props.db, OrderCode, 3);
+    orderCode = this.props.navigation.state.params.orderCode;
+    order = Utils.getOrder(this.props.db, orderCode, 3);
   }
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, OrderCode, 3);
-    if (order.CurrentStatus !== newOrder.CurrentStatus) {
+    const newOrder = Utils.getOrder(db, orderCode, 3);
+    if (order.currentStatus !== newOrder.currentStatus) {
       this.props.navigation.goBack();
     }
     order = newOrder;
@@ -72,7 +72,7 @@ class ReturnOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.ContactPhone, this.props.configuration, order.OrderCode)
+    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
@@ -126,8 +126,8 @@ class ReturnOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      RecipientName, RecipientPhone, OrderCode, DeliveryAddress,
-      SONote, RequiredNote, Log, CurrentStatus
+      recipientName, recipientPhone, orderCode, deliveryAddress,
+      soNote, requiredNote, log, currentStatus
     } = order;
 
     return (
@@ -143,7 +143,7 @@ class ReturnOrderScreen extends Component {
           </Left>
           
           <Body style={Styles.bodyStyle}>
-            <Title>{OrderCode}</Title>
+            <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             <Button
@@ -161,7 +161,7 @@ class ReturnOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RecipientName}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -170,28 +170,28 @@ class ReturnOrderScreen extends Component {
                 iconRight
                 small
                 style={{ paddingLeft: 0 }}
-                onPress={() => Utils.phoneCall(RecipientPhone, true)}
+                onPress={() => Utils.phoneCall(recipientPhone, true)}
               >
-                <Text>{RecipientPhone}</Text>
+                <Text>{recipientPhone}</Text>
                 <Icon name='call' />
               </Button>  
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{DeliveryAddress}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{deliveryAddress}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{SONote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{soNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{RequiredNote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{requiredNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>
                 <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{Log}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{log}</Text>
               </View>
             </View>
           </List>

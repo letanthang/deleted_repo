@@ -59,7 +59,7 @@ class GroupPickScreen extends Component {
 
   checkTripDone(trip) {
     const ordersNum = trip.ShopOrders.length;
-    const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.CurrentStatus)).length;
+    const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
     return (ordersNum === completedNum);
   }
 
@@ -115,22 +115,22 @@ class GroupPickScreen extends Component {
         
           <FlatList
             data={items}
-            keyExtractor={(item, index) => item.ClientHubID}
+            keyExtractor={(item, index) => item.clientHubId}
             renderItem={({ item }) => {
               const order = item;
-              const { Address, ClientHubID, ContactName } = order;
-              const groupChecked = this.state.groupCheck[ClientHubID];
+              const { address, clientHubId, contactName } = order;
+              const groupChecked = this.state.groupCheck[clientHubId];
               return (
                 <TouchableOpacity
-                  onPress={this.onOrderChecked.bind(this, ClientHubID)}
+                  onPress={this.onOrderChecked.bind(this, clientHubId)}
                 >
                   <View style={Styles.rowStyle}>
                     <View style={[DeliverGroupStyles.col1Style]}>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        {ContactName}
+                        {contactName}
                       </Text>
                       <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                        {Address}
+                        {address}
                       </Text>
                     </View>
                     <View
@@ -138,7 +138,7 @@ class GroupPickScreen extends Component {
                     >
                       <CheckBox 
                         style={{ backgroundColor: '#fff' }}
-                        onPress={this.onOrderChecked.bind(this, ClientHubID)}
+                        onPress={this.onOrderChecked.bind(this, clientHubId)}
                         checked={groupChecked}
                       />
                     </View>

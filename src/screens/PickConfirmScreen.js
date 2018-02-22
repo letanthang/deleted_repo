@@ -19,12 +19,12 @@ import LogoButton from '../components/LogoButton';
 class PickConfirmScreen extends Component {
   state = { modalShow: false, signature: null }
   componentWillMount() {
-    // ClientID = this.props.navigation.state.params.ClientID;
-    this.ClientHubID = this.props.navigation.state.params.ClientHubID;
-    this.PickDeliveryType = this.props.navigation.state.params.PickDeliveryType;
+    // clientId = this.props.navigation.state.params.clientId;
+    this.clientHubId = this.props.navigation.state.params.clientHubId;
+    this.pickDeliveryType = this.props.navigation.state.params.pickDeliveryType;
     const { PickItems, ReturnItems } = this.props;
-    const Items = this.PickDeliveryType === 3 ? ReturnItems : PickItems;
-    this.pickGroup = Items.find(g => g.ClientHubID === this.ClientHubID);
+    const Items = this.pickDeliveryType === 3 ? ReturnItems : PickItems;
+    this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     if (!this.checkDone() || this.checkRealDone()) {
       Alert.alert(
         'Không thể cập nhật',
@@ -43,14 +43,14 @@ class PickConfirmScreen extends Component {
  
 
   componentWillReceiveProps({ PickItems }) {
-    this.pickGroup = PickItems.find(g => g.ClientHubID === this.ClientHubID);
+    this.pickGroup = PickItems.find(g => g.clientHubId === this.clientHubId);
   }
 
   checkCompleteForUnsync(o) {
-    return this.PickDeliveryType === 3 ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkPickCompleteForUnsync(o);
+    return this.pickDeliveryType === 3 ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkPickCompleteForUnsync(o);
   }
   checkComplete(o) {
-    return this.PickDeliveryType === 3 ? Utils.checkReturnComplete(o) : Utils.checkPickComplete(o);
+    return this.pickDeliveryType === 3 ? Utils.checkReturnComplete(o) : Utils.checkPickComplete(o);
   }
 
   checkDone() {
@@ -58,7 +58,7 @@ class PickConfirmScreen extends Component {
   }
 
   checkRealDone() {
-    return this.pickGroup.ShopOrders.filter(o => !this.checkComplete(o.CurrentStatus)).length === 0;
+    return this.pickGroup.ShopOrders.filter(o => !this.checkComplete(o.currentStatus)).length === 0;
   }
 
   updateOrder() {
@@ -100,7 +100,7 @@ class PickConfirmScreen extends Component {
     const { navigate, goBack } = this.props.navigation;
 
     if (!this.pickGroup) return null;
-    const { ContactName, TotalServiceCost } = this.pickGroup;
+    const { contactName, TotalServiceCost } = this.pickGroup;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -116,7 +116,7 @@ class PickConfirmScreen extends Component {
           </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{this.PickDeliveryType === 3 ? 'Trả' : 'Lấy'} hàng Shop</Title>
+            <Title>{this.pickDeliveryType === 3 ? 'Trả' : 'Lấy'} hàng Shop</Title>
           </Body>
           <Right style={Styles.rightStyle}>
           </Right>
@@ -130,7 +130,7 @@ class PickConfirmScreen extends Component {
             </View>
             <View style={Styles.rowStyle}> 
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên Shop</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ContactName}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{contactName}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số lượng đơn hàng</Text>

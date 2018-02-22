@@ -80,13 +80,13 @@ export const pdListFetchFail = (dispatch, error) => {
   // [
   //   {  
   //     PDSDetailID,
-  //     OrderCode,
+  //     orderCode,
   //     PDSType,
-  //     NextStatus,
-  //     ClientHubID,
+  //     nextStatus,
+  //     clientHubId,
   //     StoringCode,
   //     NewDate,
-  //     Log,
+  //     log,
   //     Note,
   //     NoteCode,
   //   },
@@ -150,13 +150,13 @@ const updateOrderStatusFail = (dispatch, error, OrderInfos) => {
 };
 
 export const updateWeightSize = ({
-  Length, 
-  Width,
-  Height,
-  Weight,
-  ClientID,
-  ClientHubID,
-  OrderCode,
+  length, 
+  width,
+  height,
+  weight,
+  clientId,
+  clientHubId,
+  orderCode,
   PDSID,
   ServiceFee
 }) => {
@@ -166,12 +166,12 @@ export const updateWeightSize = ({
     });
     
     const params = {
-      Length,
-      Width,
-      Height,
-      Weight,
-      ClientID,
-      OrderCode,
+      length,
+      width,
+      height,
+      weight,
+      clientId,
+      orderCode,
       PDSID
     };
     try {
@@ -181,23 +181,23 @@ export const updateWeightSize = ({
         dispatch({
           type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
           payload: { 
-            OrderCode,
-            ClientHubID, 
-            ServiceCost: ServiceFee,
-            Length,
-            Width,
-            Height,
-            Weight
+            orderCode,
+            clientHubId, 
+            serviceCost: ServiceFee,
+            length,
+            width,
+            height,
+            weight
           }
         });
       } else {
-        reportBug(json.message, { OrderCode, Length, Weight, Height, ServiceFee });
+        reportBug(json.message, { orderCode, length, weight, height, ServiceFee });
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
         console.log('Update weight size failed with response json =');
         console.log(json);
       }
     } catch (error) {
-      reportBug(error.message, { OrderCode, Length, Weight, Height, ServiceFee });
+      reportBug(error.message, { orderCode, length, weight, height, ServiceFee });
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
       console.log('Update weight size failed with error =');
       console.log(error);
@@ -214,9 +214,9 @@ export const updateOrderGroup = (updateList) => {
 
 export const addOneOrder = (order) => {
   return (dispatch, getState) => {
-    const { OrderCode } = order;
+    const { orderCode } = order;
     dispatch({ type: PD_ADD_ORDER_START });
-    API.AddOrders([OrderCode], getState().pd.pdsId)
+    API.AddOrders([orderCode], getState().pd.pdsId)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
@@ -226,20 +226,20 @@ export const addOneOrder = (order) => {
           });
         } else {
           dispatch({ type: PD_ADD_ORDER_FAIL });
-          reportBug(json.message, { OrderCode });
+          reportBug(json.message, { orderCode });
         }
       })
       .catch(error => {
         dispatch({ type: PD_ADD_ORDER_FAIL });
-        reportBug(error.message, { OrderCode });
+        reportBug(error.message, { orderCode });
       });
   };
 };
 
-export const updateOrderInfo = (OrderCode, PickDeliveryType, info) => {
+export const updateOrderInfo = (orderCode, pickDeliveryType, info) => {
   return {
     type: PD_UPDATE_ORDER_INFO,
-    payload: { OrderCode, PickDeliveryType, info }
+    payload: { orderCode, pickDeliveryType, info }
   };
 };
 
@@ -258,10 +258,10 @@ export const toggleGroupActive = (groupIndex) => {
   };
 };
 
-export const toggleOrderGroup = (OrderCode) => {
+export const toggleOrderGroup = (orderCode) => {
   return {
     type: PD_TOGGLE_ORDER_GROUP,
-    payload: { OrderCode }
+    payload: { orderCode }
   };
 };
 export const updateOrders = (orders) => {

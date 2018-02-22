@@ -25,7 +25,7 @@ const reportBug = (errorMessage, info) => {
   );
 };
 
-const confirmAddOrder = (dispatch, OrderCode) => {
+const confirmAddOrder = (dispatch, orderCode) => {
   const title = 'Đơn hàng hợp lệ';
   const message = 'Đơn hàng hợp lệ. Thêm vào chuyến đi?';
   Alert.alert(
@@ -33,13 +33,13 @@ const confirmAddOrder = (dispatch, OrderCode) => {
     message,
     [
       { text: 'Huỷ' },
-      { text: 'Đồng ý', onPress: () => dispatch(addOrder(OrderCode)) }
+      { text: 'Đồng ý', onPress: () => dispatch(addOrder(orderCode)) }
     ]
   );
 };
 
-const alertNoAddOrder = (OrderCode) => {
-  const title = `Đơn hàng "${OrderCode}" không hợp lệ`;
+const alertNoAddOrder = (orderCode) => {
+  const title = `Đơn hàng "${orderCode}" không hợp lệ`;
   const message = '';
   Alert.alert(
     title,
@@ -50,13 +50,13 @@ const alertNoAddOrder = (OrderCode) => {
   );
 };
 
-export const getOrder = (OrderCode) => {
+export const getOrder = (orderCode) => {
   return (dispatch, getState) => {
     dispatch({
       type: ORDER_GET_ORDER_START,
-      payload: { OrderCode }
+      payload: { orderCode }
     });
-    API.GetOrderByCode(OrderCode)
+    API.GetOrderByCode(orderCode)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
@@ -64,30 +64,30 @@ export const getOrder = (OrderCode) => {
             type: ORDER_GET_ORDER,
             payload: { order: json.data[0] }
           });
-          confirmAddOrder(dispatch, OrderCode);
+          confirmAddOrder(dispatch, orderCode);
         } else if (json.status === 'ERROR') {
           dispatch({ type: ORDER_GET_ORDER_FAIL });
-          alertNoAddOrder(OrderCode);
+          alertNoAddOrder(orderCode);
         } else {
           dispatch({ type: ORDER_GET_ORDER_FAIL });
-          reportBug(json.message, { OrderCode });
+          reportBug(json.message, { orderCode });
         }
       })
       .catch(error => {
         dispatch({ type: ORDER_GET_ORDER_FAIL });
-        reportBug(error.message, { OrderCode });
+        reportBug(error.message, { orderCode });
       });
   };
 };
 
 
-export const addOrder = (OrderCode) => {
+export const addOrder = (orderCode) => {
   return (dispatch, getState) => {
     dispatch({
       type: ORDER_ADD_ORDER_START,
-      payload: { OrderCode }
+      payload: { orderCode }
     });
-    API.AddOrders([OrderCode], getState().pd.pdsId, 1)
+    API.AddOrders([orderCode], getState().pd.pdsId, 1)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
@@ -95,24 +95,24 @@ export const addOrder = (OrderCode) => {
             type: ORDER_ADD_ORDER,
             payload: { order: getState().orderAdd.order }
           });
-          Utils.showToast(`Đơn hàng ${OrderCode} đã được thêm thành công!`, 'success');
+          Utils.showToast(`Đơn hàng ${orderCode} đã được thêm thành công!`, 'success');
           //refresh data from server
           dispatch(pdListFetch());
         } else {
           dispatch({ type: ORDER_ADD_ORDER_FAIL });
-          reportBug(json.message, { OrderCode });
+          reportBug(json.message, { orderCode });
         }
       })
       .catch(error => {
         dispatch({ type: ORDER_ADD_ORDER_FAIL });
-        reportBug(error.message, { OrderCode });
+        reportBug(error.message, { orderCode });
       });
   };
 };
 
-export const changeOrderCode = (OrderCode) => {
+export const changeOrderCode = (orderCode) => {
   return {
     type: ORDER_CHANGE_ORDER_CODE,
-    payload: { OrderCode }
+    payload: { orderCode }
   };
 };

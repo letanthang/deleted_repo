@@ -27,17 +27,17 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { OrderCode, ClientHubID, ClientID, PickDeliveryType } = order;
+    const { orderCode, clientHubId, clientId, pickDeliveryType } = order;
     const navigate = this.props.navigation.navigate;
-    switch (PickDeliveryType) {
+    switch (pickDeliveryType) {
       case 1:
-        navigate('PickOrder', { OrderCode, order, ClientID, ClientHubID });
+        navigate('PickOrder', { orderCode, order, clientId, clientHubId });
         break;
       case 2:
-        navigate('DeliveryOrder', { OrderCode });
+        navigate('DeliveryOrder', { orderCode });
         break;
       case 3:
-        navigate('ReturnOrder', { OrderCode, order, ClientID, ClientHubID });
+        navigate('ReturnOrder', { orderCode, order, clientId, clientHubId });
         break;
       default:
         break;
@@ -68,15 +68,15 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ OrderCode, ExternalCode, ClientName, ContactName, RecipientName, Address }) {
+  checkKeywork({ orderCode, ExternalCode, clientName, contactName, recipientName, address }) {
     const keyword = this.props.keyword.toUpperCase();
     return !this.props.keyword || this.props.keyword === '' 
-    || OrderCode.toUpperCase().includes(keyword)
+    || orderCode.toUpperCase().includes(keyword)
     || (ExternalCode && ExternalCode.toUpperCase().includes(keyword))
-    || ClientName.toUpperCase().includes(keyword)
-    || ContactName.toUpperCase().includes(keyword)
-    || RecipientName.toUpperCase().includes(keyword)
-    || Address.toUpperCase().includes(keyword);
+    || clientName.toUpperCase().includes(keyword)
+    || contactName.toUpperCase().includes(keyword)
+    || recipientName.toUpperCase().includes(keyword)
+    || address.toUpperCase().includes(keyword);
   }
   renderNullData() {
     return (
@@ -129,15 +129,15 @@ class OrderListScreen extends Component {
                   <View style={[DeliverGroupStyles.col1Style]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 150 }}>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        {item.OrderCode}
+                        {item.orderCode}
                       </Text>
                       {this.renderStatusText(item)}
                     </View>
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                      {item.ClientName} - {item.ContactName} - {item.RecipientName} 
+                      {item.clientName} - {item.contactName} - {item.recipientName} 
                     </Text>
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                      {item.Address}
+                      {item.address}
                     </Text>
                   </View>
                   <View

@@ -14,22 +14,22 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { calculateServiceFee, updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
 
-let ClientHubID = null;
-let OrderCode = null;
-let ClientID = null;
+let clientHubId = null;
+let orderCode = null;
+let clientId = null;
 let waitToSave = false;
 let calculated = false;
 class POUpdateWeightSizeScreen extends Component {
-  state = { Weight: null, Height: null, Length: null, Width: null, CalculateWeight: null }
+  state = { weight: null, height: null, length: null, width: null, CalculateWeight: null }
 
   componentWillMount() {
-    OrderCode = this.props.navigation.state.params.OrderCode;
-    ClientHubID = this.props.navigation.state.params.ClientHubID;
-    ClientID = this.props.navigation.state.params.ClientID;
+    orderCode = this.props.navigation.state.params.orderCode;
+    clientHubId = this.props.navigation.state.params.clientHubId;
+    clientId = this.props.navigation.state.params.clientId;
   }
 
   componentDidUpdate() {
-    const order = Utils.getOrder(this.props.db, OrderCode, 1);
+    const order = Utils.getOrder(this.props.db, orderCode, 1);
     if (waitToSave) {
       this.showSaveDialog();
       waitToSave = false;
@@ -56,7 +56,7 @@ class POUpdateWeightSizeScreen extends Component {
   onInputChange(prop, value) {
     this.state[prop] = value;
 
-    const CW = this.state.Length * this.state.Width * this.state.Height * 0.2;
+    const CW = this.state.length * this.state.width * this.state.height * 0.2;
     calculated = false;
     this.setState({ [prop]: value, CalculateWeight: CW });
   }
@@ -70,16 +70,16 @@ class POUpdateWeightSizeScreen extends Component {
     }
   }
   onSaveWeightSize() {
-    const { Length, Weight, Width, Height } = this.state;
+    const { length, weight, width, height } = this.state;
     const { pdsId, ServiceFee } = this.props;
     const params = {
-      Length, 
-      Width,
-      Height,
-      Weight,
-      ClientID,
-      ClientHubID,
-      OrderCode,
+      length, 
+      width,
+      height,
+      weight,
+      clientId,
+      clientHubId,
+      orderCode,
       PDSID: pdsId,
       ServiceFee
     };
@@ -88,16 +88,16 @@ class POUpdateWeightSizeScreen extends Component {
   onCalculateFeePress(order) {
     if (!this.isInfoChanged(order)) return;
 
-    const { Length, Weight, Width, Height } = this.state;
-    const { ServiceID, FromDistrictID, ToDistrictID } = order;
+    const { length, weight, width, height } = this.state;
+    const { serviceId, FromDistrictID, ToDistrictID } = order;
     const params = {
-      Weight,
-      Length,
-      Width,
-      Height,
-      OrderCode,
-      ClientID,
-      ServiceID,
+      weight,
+      length,
+      width,
+      height,
+      orderCode,
+      clientId,
+      serviceId,
       FromDistrictID,
       ToDistrictID
     };
@@ -106,11 +106,11 @@ class POUpdateWeightSizeScreen extends Component {
   }
   
   isInfoChanged(order) {
-    const { Length, Weight, Width, Height } = this.state;
-    if (order.Length == Length 
-      && order.Weight == Weight 
-      && order.Height == Height 
-      && order.Width == Width) {
+    const { length, weight, width, height } = this.state;
+    if (order.length == length 
+      && order.weight == weight 
+      && order.height == height 
+      && order.width == width) {
       Alert.alert(
         'Thông báo',
         'Các giá trị khối lượng hoặc kích thước không thay đổi. Vui lòng kiểm tra và thử lại.',
@@ -138,18 +138,18 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
-    const order = Utils.getOrder(this.props.db, OrderCode, 1);
-    const { OrderCode, ServiceCost, CODAmount, Weight, Length, Width, Height } = order;
+    const order = Utils.getOrder(this.props.db, orderCode, 1);
+    const { orderCode, serviceCost, codAmount, weight, length, width, height } = order;
     
-    if (this.state.Weight === null) {
-      this.state.Weight = Weight;
-      this.state.Height = Height;
-      this.state.Length = Length;
-      this.state.Width = Width; 
-      this.state.CalculateWeight = Length * Width * Height * 0.2;
+    if (this.state.weight === null) {
+      this.state.weight = weight;
+      this.state.height = height;
+      this.state.length = length;
+      this.state.width = width; 
+      this.state.CalculateWeight = length * width * height * 0.2;
     }
 
-    const ServiceFee = this.props.ServiceFee || CODAmount;
+    const ServiceFee = this.props.ServiceFee || codAmount;
 
     const { goBack } = this.props.navigation;
     return (
@@ -164,7 +164,7 @@ class POUpdateWeightSizeScreen extends Component {
             </Button>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{OrderCode}</Title>
+            <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle} />
         </Header>
@@ -176,8 +176,8 @@ class POUpdateWeightSizeScreen extends Component {
             <Text>Khối lượng </Text>
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
-              value={this.state.Weight.toString()}
-              onChangeText={value => this.onInputChange('Weight', value)}
+              value={this.state.weight.toString()}
+              onChangeText={value => this.onInputChange('weight', value)}
               keyboardType='numeric'
             />
             <Text> g</Text>
@@ -190,22 +190,22 @@ class POUpdateWeightSizeScreen extends Component {
           
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
-              value={this.state.Length.toString()}
-              onChangeText={value => this.onInputChange('Length', value)}
+              value={this.state.length.toString()}
+              onChangeText={value => this.onInputChange('length', value)}
               keyboardType='numeric'
             />
             <Text> x </Text>
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
-              value={this.state.Width.toString()}
-              onChangeText={value => this.onInputChange('Width', value)}
+              value={this.state.width.toString()}
+              onChangeText={value => this.onInputChange('width', value)}
               keyboardType='numeric'
             />
             <Text> x </Text>
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
-              value={this.state.Height.toString()}
-              onChangeText={value => this.onInputChange('Height', value)}
+              value={this.state.height.toString()}
+              onChangeText={value => this.onInputChange('height', value)}
               keyboardType='numeric'
             />
             <Text> cm3</Text>

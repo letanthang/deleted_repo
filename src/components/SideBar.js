@@ -44,11 +44,11 @@ class SideBar extends Component {
   }
 
   render() {
-    let CoordinatorFullName = '';
-    let CoordinatorPhone = '';
-    if (this.props.PDSItems) {
-      CoordinatorFullName = this.props.Infos.CoordinatorFullName;
-      CoordinatorPhone = this.props.Infos.CoordinatorPhone;
+    let coordinatorFullName = '';
+    let coordinatorPhone = '';
+    if (this.props.pdsItems) {
+      coordinatorFullName = this.props.Infos.coordinatorFullName;
+      coordinatorPhone = this.props.Infos.coordinatorPhone;
     }
     
     const { UserID, FullName } = this.props.user;
@@ -66,18 +66,18 @@ class SideBar extends Component {
                   <IC name="account" size={20} color='#FF9504' />
                 </Left>
                 <Body>
-                  <Text>ĐP : {CoordinatorFullName}</Text>
+                  <Text>ĐP : {coordinatorFullName}</Text>
                 </Body>
             </ListItem>
             <ListItem 
               icon
-              onPress={() => Utils.phoneCall(CoordinatorPhone, true)}
+              onPress={() => Utils.phoneCall(coordinatorPhone, true)}
             >
               <Left>
                 <IC name="cellphone" size={20} color='#FF9504' />
               </Left>
               <Body>
-                <Text>SĐT ĐP : {CoordinatorPhone}</Text>
+                <Text>SĐT ĐP : {coordinatorPhone}</Text>
               </Body>
               <Right>
                 <IC name='phone' color='#FF9504' size={20} />
@@ -137,8 +137,8 @@ class SideBar extends Component {
 
 const mapStateToProps = ({ auth, pd }) => {
   const { user } = auth;
-  const { PDSItems, Infos } = pd;
-  return { user, PDSItems, Infos };
+  const { pdsItems, Infos } = pd;
+  return { user, pdsItems, Infos };
 };
 //make avai
 export default connect(mapStateToProps, { logoutUser, pdListNoTrip, pdListFetch })(SideBar);

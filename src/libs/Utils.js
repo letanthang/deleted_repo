@@ -14,67 +14,67 @@ const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', FAIL_T
 const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'Progress'];
 
 class Utils {
-  static getDisplayStatus({ CurrentStatus, NextStatus, PickDeliveryType }) {
+  static getDisplayStatus({ currentStatus, nextStatus, pickDeliveryType }) {
     let status = '';
-    if (PickDeliveryType === 1) {
-      if (!pickCompleteStatus.includes(CurrentStatus) && pickCompleteStatus.includes(NextStatus)) {
-        status = pickStatus[NextStatus] ? pickStatus[NextStatus] : NextStatus;
+    if (pickDeliveryType === 1) {
+      if (!pickCompleteStatus.includes(currentStatus) && pickCompleteStatus.includes(nextStatus)) {
+        status = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
         status = `*${status}*`;
       } else {
-        status = pickStatus[CurrentStatus] ? pickStatus[CurrentStatus] : CurrentStatus;
+        status = pickStatus[currentStatus] ? pickStatus[currentStatus] : currentStatus;
       }
-    } else if (PickDeliveryType === 2) {
-      if (!deliverCompleteStatus.includes(CurrentStatus) && deliverCompleteStatus.includes(NextStatus)) {
-        status = deliverStatus[NextStatus] ? deliverStatus[NextStatus] : NextStatus;
+    } else if (pickDeliveryType === 2) {
+      if (!deliverCompleteStatus.includes(currentStatus) && deliverCompleteStatus.includes(nextStatus)) {
+        status = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
         status = `*${status}*`;
       } else {
-        status = deliverStatus[CurrentStatus] ? deliverStatus[CurrentStatus] : CurrentStatus;
+        status = deliverStatus[currentStatus] ? deliverStatus[currentStatus] : currentStatus;
       }
-    } else if (PickDeliveryType === 3) {
-      if (!returnCompleteStatus.includes(CurrentStatus) && returnCompleteStatus.includes(NextStatus)) {
-        status = returnStatus[NextStatus] ? returnStatus[NextStatus] : NextStatus;
+    } else if (pickDeliveryType === 3) {
+      if (!returnCompleteStatus.includes(currentStatus) && returnCompleteStatus.includes(nextStatus)) {
+        status = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
         status = `*${status}*`;
       } else {
-        status = returnStatus[CurrentStatus] ? returnStatus[CurrentStatus] : CurrentStatus;
+        status = returnStatus[currentStatus] ? returnStatus[currentStatus] : currentStatus;
       }
     }
     return status;
   }
 
-  static getStatus({ CurrentStatus, NextStatus, PickDeliveryType }) {
+  static getStatus({ currentStatus, nextStatus, pickDeliveryType }) {
     let status = '';
     let alert = false;
-    if (PickDeliveryType === 1) {
-      if (!pickCompleteStatus.includes(CurrentStatus) && pickCompleteStatus.includes(NextStatus)) {
-        status = pickStatus[NextStatus] ? pickStatus[NextStatus] : NextStatus;
+    if (pickDeliveryType === 1) {
+      if (!pickCompleteStatus.includes(currentStatus) && pickCompleteStatus.includes(nextStatus)) {
+        status = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
         //status = `*${status}*`;
         alert = true;
       } else {
-        status = pickStatus[CurrentStatus] ? pickStatus[CurrentStatus] : CurrentStatus;
+        status = pickStatus[currentStatus] ? pickStatus[currentStatus] : currentStatus;
       }
-    } else if (PickDeliveryType === 2) {
-      if (!deliverCompleteStatus.includes(CurrentStatus) && deliverCompleteStatus.includes(NextStatus)) {
-        status = deliverStatus[NextStatus] ? deliverStatus[NextStatus] : NextStatus;
+    } else if (pickDeliveryType === 2) {
+      if (!deliverCompleteStatus.includes(currentStatus) && deliverCompleteStatus.includes(nextStatus)) {
+        status = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
         // status = `*${status}*`;
         alert = true;
       } else {
-        status = deliverStatus[CurrentStatus] ? deliverStatus[CurrentStatus] : CurrentStatus;
+        status = deliverStatus[currentStatus] ? deliverStatus[currentStatus] : currentStatus;
       }
-    } else if (PickDeliveryType === 3) {
-      if (!returnCompleteStatus.includes(CurrentStatus) && returnCompleteStatus.includes(NextStatus)) {
-        status = returnStatus[NextStatus] ? returnStatus[NextStatus] : NextStatus;
+    } else if (pickDeliveryType === 3) {
+      if (!returnCompleteStatus.includes(currentStatus) && returnCompleteStatus.includes(nextStatus)) {
+        status = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
         // status = `*${status}*`;
         alert = true;
       } else {
-        status = returnStatus[CurrentStatus] ? returnStatus[CurrentStatus] : CurrentStatus;
+        status = returnStatus[currentStatus] ? returnStatus[currentStatus] : currentStatus;
       }
     }
     
     return { status, alert };
   }
 
-  static getDisplayStatusColor({ CurrentStatus, NextStatus, PickDeliveryType }) {
-    const DisplayStatus = this.getDisplayStatus({ CurrentStatus, NextStatus, PickDeliveryType });
+  static getDisplayStatusColor({ currentStatus, nextStatus, pickDeliveryType }) {
+    const DisplayStatus = this.getDisplayStatus({ currentStatus, nextStatus, pickDeliveryType });
     switch (DisplayStatus) {
       case 'Giao lỗi':
       case '*Giao lỗi*':
@@ -133,8 +133,8 @@ class Utils {
     return false;
   }
 
-  static checkPickCompleteForUnsync({ NextStatus, CurrentStatus }) {
-    if (pickCompleteStatus.includes(CurrentStatus) || pickCompleteStatus.includes(NextStatus)) {
+  static checkPickCompleteForUnsync({ nextStatus, currentStatus }) {
+    if (pickCompleteStatus.includes(currentStatus) || pickCompleteStatus.includes(nextStatus)) {
       return true;
     }
     return false;
@@ -146,8 +146,8 @@ class Utils {
     }
     return false;
   }
-  static checkReturnCompleteForUnsync({ NextStatus, CurrentStatus }) {
-    if (returnCompleteStatus.includes(CurrentStatus) || returnCompleteStatus.includes(NextStatus)) {
+  static checkReturnCompleteForUnsync({ nextStatus, currentStatus }) {
+    if (returnCompleteStatus.includes(currentStatus) || returnCompleteStatus.includes(nextStatus)) {
       return true;
     }
     return false;
@@ -161,18 +161,18 @@ class Utils {
     return false;
   }
   static getKey = (orderID, type) => `${orderID}-${type}`;
-  static getOrder(items, OrderCode, PickDeliveryType) {
-    return items[Utils.getKey(OrderCode, PickDeliveryType)];
+  static getOrder(items, orderCode, pickDeliveryType) {
+    return items[Utils.getKey(orderCode, pickDeliveryType)];
   }
 
   static getReturnGroupFromPG(ReturnItems, pickGroup) {
-    const { ClientHubID } = pickGroup;
-    const returnGroup = ReturnItems.find(rg => rg.ClientHubID === ClientHubID);
+    const { clientHubId } = pickGroup;
+    const returnGroup = ReturnItems.find(rg => rg.clientHubId === clientHubId);
     return returnGroup;
   }
   static checkPickGroupHasRP(pds, pickGroup) {
-    const { ClientHubID } = pickGroup;
-    const returnGroup = pds.ReturnItems.find(rg => rg.ClientHubID === ClientHubID);
+    const { clientHubId } = pickGroup;
+    const returnGroup = pds.ReturnItems.find(rg => rg.clientHubId === clientHubId);
     if (returnGroup) return true;
     return false;
   }

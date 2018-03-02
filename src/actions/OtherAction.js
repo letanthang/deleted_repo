@@ -56,19 +56,19 @@ export const setLoaded = () => {
 const getStat = (data) => {
   if (data.length === 0) return null;
 
-  const result = { pick_succeed: 0, pick_total: 0, deliver_succeed: 0, deliver_total: 0, return_succeed: 0, return_total: 0 };
+  const result = { pickSucceed: 0, pickTotal: 0, deliverSucceed: 0, deliverTotal: 0, returnSucceed: 0, returnTotal: 0 };
   _.each(data, (item) => {
-    result.pick_total = result.pick_total + item.pick_total;
-    result.pick_succeed = result.pick_succeed + item.pick_succeed;
-    result.deliver_total = result.deliver_total + item.deliver_total;
-    result.deliver_succeed = result.deliver_succeed + item.deliver_succeed;
-    result.return_total = result.return_total + item.return_total;
-    result.return_succeed = result.return_succeed + item.return_succeed;
+    result.pickTotal = result.pickTotal + item.pickTotal;
+    result.pickSucceed = result.pickSucceed + item.pickSucceed;
+    result.deliverTotal = result.deliverTotal + item.deliverTotal;
+    result.deliverSucceed = result.deliverSucceed + item.deliverSucceed;
+    result.returnTotal = result.returnTotal + item.returnTotal;
+    result.returnSucceed = result.returnSucceed + item.returnSucceed;
   });
 
-  result.pickRate = result.pick_total == 0 ? 0 : (result.pick_succeed * 100) / result.pick_total;
-  result.deliveryRate = result.deliver_total == 0 ? 0 : (result.deliver_succeed * 100) / result.deliver_total;
-  result.returnRate = result.return_total == 0 ? 0 : (result.return_succeed * 100) / result.return_total;
+  result.pickRate = result.pickTotal == 0 ? 0 : (result.pickSucceed * 100) / result.pickTotal;
+  result.deliveryRate = result.deliverTotal == 0 ? 0 : (result.deliverSucceed * 100) / result.deliverTotal;
+  result.returnRate = result.returnTotal == 0 ? 0 : (result.returnSucceed * 100) / result.returnTotal;
 
   result.pickRate = Math.round(result.pickRate);
   result.returnRate = Math.round(result.returnRate);

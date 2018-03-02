@@ -35,26 +35,26 @@ class Performance extends Component {
   
   render() {
     if (!this.props.stats) return this.renderNullData();
-    const { pickRate, returnRate, deliveryRate, pick_total, pick_succeed, deliver_total, deliver_succeed, return_total, return_succeed } = this.props.stats;
+    const { pickRate, returnRate, deliveryRate, pickTotal, pickSucceed, deliverTotal, deliverSucceed, returnTotal, returnSucceed } = this.props.stats;
     //const monthCurrent = _.defaultTo(this.props.monthCurrent, { pick: 0, delivery: 0, return: 0 });
     return (
       <Content>
         <PDStatsCard 
           type='pick'
-          upNumber={pick_succeed}
-          downNumber={pick_total}
+          upNumber={pickSucceed}
+          downNumber={pickTotal}
           percentage={pickRate}
         />
         <PDStatsCard 
           type='delivery'
-          upNumber={deliver_succeed}
-          downNumber={deliver_total}
+          upNumber={deliverSucceed}
+          downNumber={deliverTotal}
           percentage={deliveryRate}
         />
         <PDStatsCard 
           type='return'
-          upNumber={return_succeed}
-          downNumber={return_total}
+          upNumber={returnSucceed}
+          downNumber={returnTotal}
           percentage={returnRate}
         />
       </Content>

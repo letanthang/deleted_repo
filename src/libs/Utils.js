@@ -3,15 +3,15 @@ import { phonecall } from 'react-native-communications';
 import { Platform } from 'react-native';
 import { Toast } from 'native-base';
 
-const pickStatus = { STORING: 'Đã lấy', PICKED: 'Đã lấy', READY_TO_PICK: 'Lấy lỗi', PICKING: 'Đang lấy', Progress: 'Đang xử lý' };
-const pickCompleteStatus = ['PICKED', 'READY_TO_PICK', 'STORING', 'Progress'];
+const pickStatus = { STORING: 'Đã lấy', PICKED: 'Đã lấy', COMPLETED: 'Đã lấy', READY_TO_PICK: 'Lấy lỗi', PICKING: 'Đang lấy', Progress: 'Đang xử lý' };
+const pickCompleteStatus = ['PICKED', 'COMPLETED', 'READY_TO_PICK', 'STORING', 'Progress'];
 const pickSuccessStatus = ['PICKED', 'STORING'];
 
 const returnStatus = { RETURNED: 'Đã trả', RETURNING: 'Đang trả', FAIL_TO_RETURN: 'Trả lỗi', STORING: 'Trả lỗi', Progress: 'Đang xử lý' };
 const returnCompleteStatus = ['RETURNED', 'STORING', 'FAIL_TO_RETURN', 'Progress'];
 
-const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', FAIL_TO_DELIVER: 'Giao lỗi', STORING: 'Giao lỗi' };
-const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'Progress'];
+const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', COMPLETED: 'Đã giao', FAIL_TO_DELIVER: 'Giao lỗi', STORING: 'Giao lỗi' };
+const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'COMPLETED', 'Progress'];
 
 class Utils {
   static getDisplayStatus({ currentStatus, nextStatus, pickDeliveryType }) {

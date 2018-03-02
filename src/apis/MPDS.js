@@ -153,11 +153,11 @@ export const GetOrderByCode = (orderCode) => {
         params: {
             q: { order_code: orderCode }
         }
-        };
+    };
     return axios.get(URL, config);
 };
 
-export const AddOrders = (OrderCodes, psdID, pickDeliveryType = 2) => {
+export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
     const URL = `${BASE_URL}/pds`;
     const LoginHeader = Share.LoginHeader;
 
@@ -167,8 +167,8 @@ export const AddOrders = (OrderCodes, psdID, pickDeliveryType = 2) => {
         timeout: 90000
         };
     const params = {
-        order_codes: OrderCodes,
-        pds_id: psdID,
+        orderCodes,
+        pdsId,
         type
     };
 
@@ -789,14 +789,14 @@ const performanceResponse = {
     "status": "OK",
     "data": [
         {
-            "driver_id": "210030",
-            "performance_date": "Oct 12, 2017 12:00:00 AM",
-            "pick_succeed": 0,
-            "pick_total": 1,
-            "deliver_succeed": 0,
-            "deliver_total": 0,
-            "return_succeed": 0,
-            "return_total": 0,
+            "driverId": "210030",
+            "performanceDate": "Oct 12, 2017 12:00:00 AM",
+            "pickSucceed": 0,
+            "pickTotal": 1,
+            "deliverSucceed": 0,
+            "deliverTotal": 0,
+            "returnSucceed": 0,
+            "returnTotal": 0,
             "from": 0,
             "to": 0,
             "id": "59e5808fbae4ba33ce3c4e7c",
@@ -804,14 +804,14 @@ const performanceResponse = {
             "lastUpdatedTime": "Oct 17, 2017 11:01:19 AM"
         },
         {
-            "driver_id": "210030",
-            "performance_date": "Oct 16, 2017 12:00:00 AM",
-            "pick_succeed": 6,
-            "pick_total": 10,
-            "deliver_succeed": 1,
-            "deliver_total": 1,
-            "return_succeed": 0,
-            "return_total": 0,
+            "driverId": "210030",
+            "performanceDate": "Oct 16, 2017 12:00:00 AM",
+            "pickSucceed": 6,
+            "pickTotal": 10,
+            "deliverSucceed": 1,
+            "deliverTotal": 1,
+            "returnSucceed": 0,
+            "returnTotal": 0,
             "from": 0,
             "to": 0,
             "id": "59e5808fbae4ba33ce3c4e7d",
@@ -819,14 +819,14 @@ const performanceResponse = {
             "lastUpdatedTime": "Oct 17, 2017 11:01:19 AM"
         },
         {
-            "driver_id": "210030",
-            "performance_date": "Oct 17, 2017 12:00:00 AM",
-            "pick_succeed": 0,
-            "pick_total": 2,
-            "deliver_succeed": 0,
-            "deliver_total": 0,
-            "return_succeed": 0,
-            "return_total": 0,
+            "driverId": "210030",
+            "performanceDate": "Oct 17, 2017 12:00:00 AM",
+            "pickSucceed": 0,
+            "pickTotal": 2,
+            "deliverSucceed": 0,
+            "deliverTotal": 0,
+            "returnSucceed": 0,
+            "returnTotal": 0,
             "from": 0,
             "to": 0,
             "id": "59e6c288bae4ba32d1ef263b",

@@ -172,7 +172,7 @@ class PickGroupDetail extends Component {
                       </View>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
                     </View>
-                    {success === false ?
+                    {success === false && realDone === false ?
                     <View style={Styles.itemStyle}>
                       <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{note}</Text>
                     </View>

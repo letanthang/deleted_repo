@@ -155,9 +155,9 @@ class PickOrderScreen extends Component {
 
     const { 
       recipientName, recipientPhone, ExternalCode,
-      serviceName, width, height, orderCode,
+      serviceName, width, height,
       codAmount, weight, length, serviceCost,
-      log, currentStatus, deliveryAddress, soNote, requiredNote
+      log, deliveryAddress, soNote, requiredNote
     } = order;
 
     return (
@@ -178,12 +178,12 @@ class PickOrderScreen extends Component {
             <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            <Button
+            {/* <Button
               transparent
               onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, clientHubId })}
             >
               <Icon name="create" />
-            </Button>
+            </Button> */}
           </Right>
           
         </Header>

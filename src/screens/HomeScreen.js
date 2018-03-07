@@ -247,7 +247,7 @@ class HomeScreen extends Component {
             <View style={HomeStyles.cardItemLeft}>
               <View>
                 <Text style={{ fontWeight: 'bold', color: Colors.theme }}>
-                  Thêm đơn hàng
+                  Thêm đơn hàng lấy
                 </Text>
               </View>
             </View>

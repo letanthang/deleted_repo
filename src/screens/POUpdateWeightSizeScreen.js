@@ -29,7 +29,6 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   componentDidUpdate() {
-    const order = Utils.getOrder(this.props.db, orderCode, 1);
     if (waitToSave) {
       this.showSaveDialog();
       waitToSave = false;
@@ -139,7 +138,7 @@ class POUpdateWeightSizeScreen extends Component {
 
   render() {
     const order = Utils.getOrder(this.props.db, orderCode, 1);
-    const { orderCode, serviceCost, codAmount, weight, length, width, height } = order;
+    const { codAmount, weight, length, width, height } = order;
     
     if (this.state.weight === null) {
       this.state.weight = weight;

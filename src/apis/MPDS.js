@@ -5,6 +5,7 @@ import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
+const timeout = 5000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 const DOMAIN = 'api.staging.inhubv2.ghn.vn';
@@ -20,7 +21,7 @@ export const GetUserActivePds = (UserID) => {
 
   const config = {
     headers: LoginHeader,
-    timeout: 3000
+    timeout
   };
 
   if (mockOn) {
@@ -110,7 +111,7 @@ export const GetUserPerformance = (UserID, from = null, to = null) => {
   const LoginHeader = Share.LoginHeader;
   const config = {
       headers: LoginHeader,
-      timeout: 3000,
+      timeout,
       params: {
           q: { from, to }
       }
@@ -149,7 +150,7 @@ export const GetOrderByCode = (orderCode) => {
     const LoginHeader = Share.LoginHeader;
     const config = {
         headers: LoginHeader,
-        timeout: 3000,
+        timeout,
         params: {
             q: { order_code: orderCode }
         }
@@ -164,15 +165,13 @@ export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
     const type = pickDeliveryType == 2 ? 'DELIVER' : 'PICK';
     const config = {
         headers: LoginHeader,
-        timeout: 90000
+        timeout: 10000
         };
     const params = {
         orderCodes,
         pdsId,
         type
     };
-
-    console.log(params);
 
     return axios.put(URL, params, config);
 };

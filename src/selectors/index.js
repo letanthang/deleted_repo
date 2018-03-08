@@ -33,7 +33,10 @@ export const get3Type = createSelector(
       group.shopGroupKey = group.done ? 'Đã xong' : shopGroup;
       group.shopGroupName = group.done ? 'Đã xong' : pgroups[shopGroup].groupName;
       group.position = pgroups[group.shopGroupKey].position;
-      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.codAmount, 0);
+      const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isPickSuccessedUnsynced(o));
+      group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
+      group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.codAmount, 0);
+      group.estimateTotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.codAmount, 0);
       PickItems.push(group);
     });
 
@@ -51,7 +54,10 @@ export const get3Type = createSelector(
         const y = b.statusChangeDate ? b.statusChangeDate : 0;
         return x - y;
       });      
-      group.TotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.codAmount, 0);
+      const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isReturnSuccessedUnsynced(o));
+      group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
+      group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.codAmount, 0);
+      group.estimateTotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.codAmount, 0);
       ReturnItems.push(group);
     });
 

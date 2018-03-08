@@ -71,10 +71,10 @@ class PickConfirmScreen extends Component {
   }
 
   confirmUpdateOrder() {
-    if (!this.state.signature) {
-      Alert.alert('Thông báo', 'Vui lòng kí xác nhận!');
-      return;
-    }
+    // if (!this.state.signature) {
+    //   Alert.alert('Thông báo', 'Vui lòng kí xác nhận!');
+    //   return;
+    // }
 
     const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
     const OrderNum = OrderInfos.length;
@@ -100,7 +100,7 @@ class PickConfirmScreen extends Component {
     const { navigate, goBack } = this.props.navigation;
 
     if (!this.pickGroup) return null;
-    const { contactName, TotalServiceCost } = this.pickGroup;
+    const { contactName, totalServiceCost, sucessUnsyncedNum } = this.pickGroup;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -126,21 +126,21 @@ class PickConfirmScreen extends Component {
           <List>
             <View style={Styles.rowHeaderConfirm}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>* Vui lòng kiểm tra lại thông tin đơn hàng</Text>
-              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>* Đây là số COD & số đơn cập nhật sau cùng</Text>
+              <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>* Đây là số tiền thu & số đơn cập nhật sau cùng</Text>
             </View>
             <View style={Styles.rowStyle}> 
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên Shop</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{contactName}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số lượng đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{this.pickGroup.ShopOrders.length}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số lượng đơn hàng thành công</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{sucessUnsyncedNum} / {this.pickGroup.ShopOrders.length}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(TotalServiceCost)} đ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(totalServiceCost)} đ</Text>
             </View>
-            <View style={Styles.rowStyle}>
+            {/* <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Chữ kí xác nhận</Text>
             </View>
             <TouchableOpacity 
@@ -155,7 +155,7 @@ class PickConfirmScreen extends Component {
               :
               <Text style={{ alignSelf: 'center', textAlign: 'center' }}>Nhấp vào để kí xác nhận</Text>
               }
-            </TouchableOpacity>
+            </TouchableOpacity> */}
               
             <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', marginTop: 16 }}>
               <Button 

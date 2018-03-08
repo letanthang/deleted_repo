@@ -178,12 +178,12 @@ class PickOrderScreen extends Component {
             <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            {/* <Button
+            <Button
               transparent
               onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, clientHubId })}
             >
               <Icon name="create" />
-            </Button> */}
+            </Button>
           </Right>
           
         </Header>

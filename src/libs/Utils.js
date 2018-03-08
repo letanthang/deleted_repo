@@ -9,6 +9,7 @@ const pickSuccessStatus = ['PICKED', 'STORING'];
 
 const returnStatus = { RETURNED: 'Đã trả', RETURNING: 'Đang trả', FAIL_TO_RETURN: 'Trả lỗi', STORING: 'Trả lỗi', Progress: 'Đang xử lý' };
 const returnCompleteStatus = ['RETURNED', 'STORING', 'FAIL_TO_RETURN', 'Progress'];
+const returnSuccessStatus = ['RETURNED'];
 
 const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', COMPLETED: 'Đã giao', FAIL_TO_DELIVER: 'Giao lỗi', STORING: 'Giao lỗi' };
 const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'COMPLETED', 'Progress'];
@@ -133,8 +134,22 @@ class Utils {
     return false;
   }
 
+  static isPickSuccessedUnsynced({ nextStatus, currentStatus }) {
+    if (!pickCompleteStatus.includes(currentStatus) && pickSuccessStatus.includes(nextStatus)) {
+      return true;
+    }
+    return false;
+  }
+
   static checkPickCompleteForUnsync({ nextStatus, currentStatus }) {
     if (pickCompleteStatus.includes(currentStatus) || pickCompleteStatus.includes(nextStatus)) {
+      return true;
+    }
+    return false;
+  }
+
+  static isReturnSuccessedUnsynced({ nextStatus, currentStatus }) {
+    if (!returnCompleteStatus.includes(currentStatus) && returnSuccessStatus.includes(nextStatus)) {
       return true;
     }
     return false;

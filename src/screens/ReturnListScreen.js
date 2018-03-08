@@ -214,7 +214,7 @@ class TripListScreen extends Component {
                 if (!section.activeSection) return null;
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                 const pickGroup = item;
-                const { address, contactName, contactPhone, TotalServiceCost } = pickGroup;
+                const { address, contactName, contactPhone, estimateTotalServiceCost } = pickGroup;
                 const ordersNum = pickGroup.ShopOrders.length;
                 const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.currentStatus)).length;
                 return (
@@ -245,7 +245,7 @@ class TripListScreen extends Component {
                             Đơn hàng: {completedNum}/{ordersNum}
                           </Text>
                           <Text style={[Styles.normalColorStyle]}>
-                          {accounting.formatNumber(TotalServiceCost)} đ
+                          {accounting.formatNumber(estimateTotalServiceCost)} đ
                           </Text>
                         </View>
                         <View style={[Styles.item2Style]}>

@@ -73,7 +73,7 @@ class OrderListScreen extends Component {
     return !this.props.keyword || this.props.keyword === '' 
     || orderCode.toUpperCase().includes(keyword)
     || (ExternalCode && ExternalCode.toUpperCase().includes(keyword))
-    || clientName.toUpperCase().includes(keyword)
+    || (clientName && clientName.toUpperCase().includes(keyword))
     || contactName.toUpperCase().includes(keyword)
     || recipientName.toUpperCase().includes(keyword)
     || address.toUpperCase().includes(keyword);

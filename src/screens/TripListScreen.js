@@ -161,7 +161,7 @@ class TripListScreen extends Component {
   checkKeywork({ clientName, contactName, address }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
-      || clientName.toUpperCase().includes(keyword)
+      || (clientName && clientName.toUpperCase().includes(keyword))
       || contactName.toUpperCase().includes(keyword)
       || address.toUpperCase().includes(keyword);
   }

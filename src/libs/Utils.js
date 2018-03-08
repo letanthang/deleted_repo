@@ -268,7 +268,7 @@ class Utils {
         text,
         position: 'bottom',
         type,
-        duration: 1100
+        duration: 1500
       });
     } catch (error) {
       console.log(error);

@@ -150,6 +150,7 @@ android {
 
 dependencies {
     compile project(':react-native-code-push')
+    compile project(':react-native-bluetooth-serial')
     compile project(':react-native-orientation')
     compile project(':react-native-signature-capture')
     compile(project(':react-native-firebase')) {

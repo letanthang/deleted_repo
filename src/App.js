@@ -22,6 +22,7 @@ import AddOrderScreen from './screens/AddOrderScreen';
 import PickConfirmScreen from './screens/PickConfirmScreen';
 import SignatureScreen from './screens/SignatureScreen';
 import GroupPickScreen from './screens/GroupPickScreen';
+import BluetoothExampleScreen from './screens/BluetoothExampleScreen';
 
 import getTheme from '../native-base-theme/components';
 // import material from '../native-base-theme/variables/material';
@@ -65,6 +66,7 @@ class App extends Component {
         PickConfirm: { screen: PickConfirmScreen },
         Signature: { screen: SignatureScreen },
         GroupPick: { screen: GroupPickScreen },
+        BluetoothExample: { screen: BluetoothExampleScreen },
       },
       {
         initialRouteName: 'Login',

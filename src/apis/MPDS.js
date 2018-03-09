@@ -7,16 +7,17 @@ import moment from 'moment';
 const mockOn = false;
 const timeout = 5000;
 
-const DOMAIN = 'api.inhubv2.ghn.vn';
+// const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-// const DOMAIN = 'api.inhub-ghn.tk';
-const BASE_URL = `http://${DOMAIN}/v2`;
-
+const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
+const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
+// const PDS_URL = 'http://api.staging.inhubv2.ghn.vn/pds/v2';
+// const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
 
 export const GetUserActivePds = (UserID) => {
-  const URL = `${BASE_URL}/pdaone/${UserID}`;
+  const URL = `${PDS_URL}/pdaone/${UserID}`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
@@ -31,7 +32,7 @@ export const GetUserActivePds = (UserID) => {
 };
 
 export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
-  const URL = `${BASE_URL}/pdaone/${PDSID}`;
+  const URL = `${PDS_URL}/pdaone/${PDSID}`;
   const params = {
     PDSID,
     OrderInfos
@@ -48,7 +49,7 @@ export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
 
 export const UpdateStatus = (p) => {
   const { pdsId, pdsCode, lastUpdatedTime, OrderInfos } = p;
-  const URL = `${BASE_URL}/doAction/pda`;
+  const URL = `${PDS_URL}/doAction/pda`;
   const params = {
     pdsId,
     pdsCode,
@@ -73,7 +74,7 @@ export const UpdateOrderWeightRDC = ({
   clientId,
   orderCode,
   PDSID }) => {  
-  const URL = `${BASE_URL}/fee`;
+  const URL = `${PDS_URL}/fee`;
   const LoginInfo = Share.getLoginInfo();
   const params = {
     ...LoginInfo,
@@ -91,7 +92,7 @@ export const UpdateOrderWeightRDC = ({
 };
 
 export const Authenticate = ({ UserID, Password }) => {
-  const URL = `http://${DOMAIN}/acc/pdaLogin`;
+  const URL = `${ACC_URL}/pdaLogin`;
 
   if (mockOn) {
     mock.onPost(URL, {
@@ -107,7 +108,7 @@ export const Authenticate = ({ UserID, Password }) => {
 };
 
 export const GetUserPerformance = (UserID, from = null, to = null) => {
-  const URL = `${BASE_URL}/performance/${UserID}`;
+  const URL = `${PDS_URL}/performance/${UserID}`;
   const LoginHeader = Share.LoginHeader;
   const config = {
       headers: LoginHeader,
@@ -124,7 +125,7 @@ export const GetUserPerformance = (UserID, from = null, to = null) => {
 };
 
 export const GetConfiguration = (configKey = null) => {
-  const URL = `${BASE_URL}/pdaconfig`;
+  const URL = `${PDS_URL}/pdaconfig`;
   const LoginHeader = Share.LoginHeader;
   const config = { 
       headers: LoginHeader,
@@ -139,14 +140,14 @@ export const GetConfiguration = (configKey = null) => {
 };
   
 export const CalculateServiceFee = (params) => {
-  const URL = `${BASE_URL}/fee`;
+  const URL = `${PDS_URL}/fee`;
   const LoginHeader = Share.LoginHeader;
   const config = { headers: LoginHeader };
   return axios.post(URL, params, config);
 };
 
 export const GetOrderByCode = (orderCode) => {
-    const URL = `${BASE_URL}/order`;
+    const URL = `${PDS_URL}/order`;
     const LoginHeader = Share.LoginHeader;
     const config = {
         headers: LoginHeader,
@@ -159,7 +160,7 @@ export const GetOrderByCode = (orderCode) => {
 };
 
 export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
-    const URL = `${BASE_URL}/pds`;
+    const URL = `${PDS_URL}/pds`;
     const LoginHeader = Share.LoginHeader;
 
     const type = pickDeliveryType == 2 ? 'DELIVER' : 'PICK';

@@ -5,7 +5,7 @@ import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
-const timeout = 17000;
+const timeout = 60000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
@@ -16,12 +16,29 @@ const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
 
-export const GetUserActivePds = (UserID) => {
-  const URL = `${PDS_URL}/pdaone/${UserID}`;
+export const GetUserActivePdsInfo = (tripUserId) => {
+    const URL = `${PDS_URL}/pda/pds/info`;
+    const LoginHeader = Share.LoginHeader;
+  
+    const config = {
+      headers: LoginHeader,
+      params: { tripUserId },
+      timeout
+    };
+  
+    if (mockOn) {
+      mock.onGet(URL, config).reply(200, sampleResponse);
+    }
+    return axios.get(URL, config);
+  };
+
+export const GetUserActivePds = (pdsCode, offset, limit) => {
+  const URL = `${PDS_URL}/pds/pds/orders`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
+    params: { pdsCode, offset, limit },
     timeout
   };
 

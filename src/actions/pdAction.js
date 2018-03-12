@@ -26,16 +26,20 @@ const reportBug = (errorMessage, info) => {
   );
 };
 
-export const pdListFetch = () => {
-  return (dispatch, getState) => {
-    dispatch({ type: PDLIST_FETCH });
-    const { userID } = getState().auth;
-    return API.GetUserActivePds(userID)
+
+let orders = [];
+const fetchAll = (dispatch, pdsCode, offset = 0, limit = 100) => {
+  return API.GetUserActivePds(pdsCode)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
-          pdListFetchSuccess(dispatch, json.data[0]);
-          return true;
+          orders = orders.concat(json.data);
+          if (json.data.length < limit) {
+            pdListFetchSuccess(dispatch, orders);
+            return true;
+          } else {
+            return pdListFetch((offset + 1) * limit, limit);
+          }
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
           console.log('khong co chuyen di, json response=');
           console.log(json);
@@ -59,6 +63,26 @@ export const pdListFetch = () => {
         console.log(error);
         pdListFetchFail(dispatch, error.message);
       });
+};
+
+let info = {};
+export const pdListFetch = () => {
+  info = {};
+  orders = [];
+  return (dispatch, getState) => {
+    dispatch({ type: PDLIST_FETCH });
+    const { userID } = getState().auth;
+    return API.GetUserActivePdsInfo(userID)
+      .then(response => {
+        const json = response.data;
+        if (json.status === 'OK') {
+          info = json.data;
+          return fetchAll(dispatch, json.data.pdsCode, 0, 100);
+        } else {
+          pdListFetchFail(dispatch, json.message);
+          return false;
+        }
+      });
   };
 };
 
@@ -68,7 +92,9 @@ export const pdListNoTrip = () => {
 
 export const pdListFetchSuccess = (dispatch, data) => {
   console.log('success & prepare to update home screen');
-  const payload = { pds: data, orderGroup: LocalGroup.getOrderGroups() };
+  info.pdsItems = orders;
+  const pds = info;
+  const payload = { pds, orderGroup: LocalGroup.getOrderGroups() };
   dispatch({ type: PDLIST_FETCH_SUCCESS, payload });
     // .then(() => console.log('pdlist fetch success done!'));
 };

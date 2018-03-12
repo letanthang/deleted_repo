@@ -57,8 +57,9 @@ class PickGroupDetailScreen extends Component {
   confirmUpdateOrderOnce = _.debounce(this.confirmUpdateOrder, 400, { leading: true, trailing: false });
 
   confirmUpdateOrder() {
-    this.props.pdListFetch()
-      .then(() => this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId }));
+    // this.props.pdListFetch()
+    //   .then(() => this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId }));
+    this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId });
   }
 
   renderHeader(pickGroup) {

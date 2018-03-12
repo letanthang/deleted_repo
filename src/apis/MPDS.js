@@ -5,7 +5,7 @@ import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
-const timeout = 5000;
+const timeout = 17000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
@@ -166,7 +166,7 @@ export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
     const type = pickDeliveryType == 2 ? 'DELIVER' : 'PICK';
     const config = {
         headers: LoginHeader,
-        timeout: 10000
+        timeout,
         };
     const params = {
         orderCodes,

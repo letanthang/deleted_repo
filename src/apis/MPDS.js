@@ -5,7 +5,7 @@ import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
-const timeout = 60000;
+const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
@@ -33,7 +33,7 @@ export const GetUserActivePdsInfo = (tripUserId) => {
   };
 
 export const GetUserActivePds = (pdsCode, offset, limit) => {
-  const URL = `${PDS_URL}/pds/pds/orders`;
+  const URL = `${PDS_URL}/pda/pds/orders`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {

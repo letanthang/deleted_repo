@@ -58,7 +58,7 @@ export default (state = nameInitialState, action) => {
         pdsItems: [pdsItems],
         Infos: { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID },
         pdsId: pickDeliverySessionID,
-        pdsCode: pdsCode,
+        pdsCode,
         lastUpdatedTime,
         groups,
         loading: false,

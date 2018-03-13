@@ -160,6 +160,7 @@ class PickGroupDetailScreen extends Component {
             style={{ marginLeft: 10, marginRight: 10 }}
           />
         </View>
+        {!this.checkRealDone() ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>
           <TouchableOpacity 
@@ -170,6 +171,7 @@ class PickGroupDetailScreen extends Component {
           </TouchableOpacity>
         </FooterTab>
         </Footer>
+        : null}
       </Container>
       
     );

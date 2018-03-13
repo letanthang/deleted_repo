@@ -65,7 +65,7 @@ const fetchAll = (dispatch, pdsCode, offset = 0, limit = 100) => {
 };
 
 let info = {};
-const limitNum = 100;
+const limitNum = 30;
 export const pdListFetch = () => {
   info = {};
   orders = [];

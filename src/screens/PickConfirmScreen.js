@@ -25,15 +25,15 @@ class PickConfirmScreen extends Component {
     const { PickItems, ReturnItems } = this.props;
     const Items = this.pickDeliveryType === 3 ? ReturnItems : PickItems;
     this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
-    if (!this.checkDone() || this.checkRealDone()) {
-      Alert.alert(
-        'Không thể cập nhật',
-        'Có đơn mới thêm vào hoặc chuyến đi đã được cập nhật hoàn tất',
-        [
-          { text: 'Quay về', onPress: () => this.props.navigation.goBack() }
-        ]
-      );
-    }
+    // if (!this.checkDone() || this.checkRealDone()) {
+    //   Alert.alert(
+    //     'Không thể cập nhật',
+    //     'Có đơn mới thêm vào hoặc chuyến đi đã được cập nhật hoàn tất',
+    //     [
+    //       { text: 'Quay về', onPress: () => this.props.navigation.goBack() }
+    //     ]
+    //   );
+    // }
   }
   
   componentDidMount() {
@@ -129,15 +129,15 @@ class PickConfirmScreen extends Component {
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>* Đây là số tiền thu & số đơn cập nhật sau cùng</Text>
             </View>
             <View style={Styles.rowStyle}> 
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên Shop</Text>
+              <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Tên Shop</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{contactName}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số lượng đơn hàng thành công</Text>
+              <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Số lượng đơn hàng thành công</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{sucessUnsyncedNum} / {this.pickGroup.ShopOrders.length}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
+              <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(totalServiceCost)} đ</Text>
             </View>
             {/* <View style={Styles.rowStyle}>

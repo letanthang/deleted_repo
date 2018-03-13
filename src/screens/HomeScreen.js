@@ -30,11 +30,13 @@ class HomeScreen extends Component {
   componentWillMount() {
     console.log('HomeScreen');
     const { loaded, pdsItems } = this.props;
-    if (!loaded || !pdsItems) {
+    if (!pdsItems) {
       this.props.pdListFetch()
         .then(result => {
-          if (result) this.props.setLoaded();
-          Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
+          if (result) {
+            this.props.setLoaded(); 
+            Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
+          }
         });
     }
     this.listGroups();

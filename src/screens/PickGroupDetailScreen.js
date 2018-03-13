@@ -147,19 +147,8 @@ class PickGroupDetailScreen extends Component {
         <PickGroupDetail navigation={this.props.navigation} />
         <LoadingSpinner loading={loading || addOrderLoading} />
         
-        {this.doneNum === this.totalNum && !this.checkRealDone() ?
-        <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
-        <FooterTab style={{ backgroundColor: Colors.background }}>
-          <TouchableOpacity 
-            style={Styles.updateButtonStyle}
-            onPress={this.confirmUpdateOrderOnce.bind(this)}
-          >
-            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>
-          </TouchableOpacity>
-        </FooterTab>
-        </Footer>
-        : 
-        <View style={{ flexDirection: 'row', paddingTop: 20, paddingBottom: 20 }}>
+        
+        <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2 }}>
           <Bar 
             color='blue'
             unfilledColor='#ccc'
@@ -171,7 +160,16 @@ class PickGroupDetailScreen extends Component {
             style={{ marginLeft: 10, marginRight: 10 }}
           />
         </View>
-        }
+        <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
+        <FooterTab style={{ backgroundColor: Colors.background }}>
+          <TouchableOpacity 
+            style={Styles.updateButtonStyle}
+            onPress={this.confirmUpdateOrderOnce.bind(this)}
+          >
+            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Cập Nhật</Text>
+          </TouchableOpacity>
+        </FooterTab>
+        </Footer>
       </Container>
       
     );

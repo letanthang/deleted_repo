@@ -155,6 +155,11 @@ export const Styles = {
     width: 150,
     alignSelf: 'center'
   },
+  col1ConfirmStyle: {
+    width: 150,
+    alignSelf: 'center',
+    marginRight: 16
+  },
   actionItemStyle: {
     paddingTop: 6,
     paddingLeft: 10,

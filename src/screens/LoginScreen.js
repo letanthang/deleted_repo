@@ -101,7 +101,7 @@ class LoginScreen extends Component {
         > 
             <Body>
               <Text style={{ color: '#4CAF50', fontSize: 24, fontWeight: 'bold' }}>
-                m-PDS
+                Tài xế GHN
               </Text> 
             </Body>
             <Form>

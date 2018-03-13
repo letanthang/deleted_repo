@@ -122,7 +122,7 @@ class PickGroupDetail extends Component {
     const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
-
+    const animated = orders.length < 10;
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
     return (
       <Content style={{ backgroundColor: Colors.background }}>
@@ -199,6 +199,7 @@ class PickGroupDetail extends Component {
                       /> : null}
                     </View>
                     <ActionButtons
+                      animated={animated}
                       done={realDone}
                       info={order}
                       order={order}

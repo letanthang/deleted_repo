@@ -12,15 +12,15 @@ class ActionButtons extends Component {
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
   changeInfo(nextStatus) {
-    const order = this.props.order;
+    const { order, animated } = this.props;
     const { orderCode, pickDeliveryType, contactPhone } = this.props.order;
     let info = {};
     if (nextStatus === undefined) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
+      if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
       info = { success: undefined, nextStatus: undefined };
       this.props.updateOrderInfo(orderCode, pickDeliveryType, info);
     } else if (nextStatus) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
+      if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
       this.props.updateOrderInfo(orderCode, pickDeliveryType, info);
@@ -30,7 +30,7 @@ class ActionButtons extends Component {
       updateOrderToFailWithReason2(contactPhone, this.props.configuration, orderCode)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
+          if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
           this.props.updateOrderInfo(orderCode, pickDeliveryType, moreInfo);
         } else if (error === 'moreCall') {

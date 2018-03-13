@@ -1,13 +1,17 @@
 import { 
   CONFIG_GET_CONFIGURATION,
   CONFIG_TOGGLE_LAYOUT,
+  CONFIG_TOGGLE_ANIMATED,
+  CONFIG_TOGGLE_PARTIAL_UPDATE,
   CONFIG_GET_CONFIGURATION_SUCCESS,
   CONFIG_GET_CONFIGURATION_FAIL
  } from '../actions/types';
 
 const nameInitialState = {
   configuration: null,
-  layoutMode: false
+  layoutMode: false,
+  animated: true,
+  partialUpdate: false
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
@@ -22,6 +26,16 @@ export default (state = nameInitialState, action) => {
       return {
         ...state,
         layoutMode: !state.layoutMode
+      };
+    case CONFIG_TOGGLE_ANIMATED:
+      return {
+        ...state,
+        animated: !state.animated
+      };
+    case CONFIG_TOGGLE_PARTIAL_UPDATE:
+      return {
+        ...state,
+        partialUpdate: !state.partialUpdate
       };
     default:
       return state;

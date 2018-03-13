@@ -27,14 +27,14 @@ const reportBug = (errorMessage, info) => {
 
 
 let orders = [];
-const fetchAll = (dispatch, pdsCode, offset = 0, limit = 100) => {
-  return API.GetUserActivePds(pdsCode, offset, limit)
+const fetchAll = (dispatch, pdsCode, page = 0, limit = 100) => {
+  return API.GetUserActivePds(pdsCode, page * limit, limit)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK' & json.data !== undefined) {
           orders = orders.concat(json.data);
           if (orders.length < json.total) {
-            return fetchAll(dispatch, pdsCode, (offset + 1) * limit, limit);
+            return fetchAll(dispatch, pdsCode, page + 1, limit);
           } else {
             pdListFetchSuccess(dispatch, orders);
             return true;

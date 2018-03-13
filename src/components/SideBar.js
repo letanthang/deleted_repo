@@ -115,6 +115,22 @@ class SideBar extends Component {
               </Right>
             </ListItem>
             <ListItem 
+              onPress={() => {
+                this.props.navigation.navigate('Settings');
+              }}
+              icon
+            >
+              <Left>
+                <IC name="settings" size={20} color='#8F8E93' />
+              </Left>
+              <Body>
+                <Text>Cài đặt ứng dụng</Text>
+              </Body>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
+            </ListItem>
+            <ListItem 
               icon
               onPress={this.onLogoutPress.bind(this)}
             >

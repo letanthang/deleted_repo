@@ -148,7 +148,7 @@ class DeliveryOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      recipientName, recipientPhone, deliveryAddress, codAmount,
+      recipientName, recipientPhone, deliveryAddress, receiverPay,
       clientName, contactPhone, requiredNote,
       displayOrder, soNote, log
     } = order;
@@ -212,7 +212,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(receiverPay)} đ</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Nhà cung cấp</Text>

@@ -156,7 +156,7 @@ class PickOrderScreen extends Component {
     const { 
       recipientName, recipientPhone, ExternalCode,
       serviceName, width, height,
-      codAmount, weight, length, serviceCost,
+      senderPay, weight, length, serviceCost,
       log, deliveryAddress, soNote, requiredNote
     } = order;
 
@@ -210,7 +210,7 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(senderPay)} đ</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>

@@ -86,7 +86,7 @@ class ReturnOrderScreen extends Component {
   }
 
   renderButtons() {
-    const done = Utils.checkReturnComplete(order);
+    const done = Utils.checkReturnComplete(order.currentStatus);
     if (done) {
       return (
         <View
@@ -126,8 +126,8 @@ class ReturnOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      recipientName, recipientPhone, orderCode, deliveryAddress,
-      soNote, requiredNote, log, currentStatus
+      recipientName, recipientPhone, deliveryAddress,
+      soNote, requiredNote, log
     } = order;
 
     return (

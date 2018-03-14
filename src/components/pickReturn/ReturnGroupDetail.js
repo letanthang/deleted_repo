@@ -113,7 +113,7 @@ class PickGroupDetail extends Component {
               const order = item;
               const { 
                 orderCode, recipientName, recipientPhone,
-                ExternalCode, codAmount, success, note
+                ExternalCode, returnPay, success, note
               } = item;
               return (
                 <TouchableOpacity
@@ -128,7 +128,7 @@ class PickGroupDetail extends Component {
                           style={{ marginLeft: 10 }}
                         />
                       </View>
-                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(codAmount)} đ</Text>
+                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(returnPay)} đ</Text>
                     </View>
                     {success === false ?
                     <View style={Styles.itemStyle}>

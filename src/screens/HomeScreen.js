@@ -9,7 +9,7 @@ import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import SearchList from '../components/SearchList';
-import { pdListFetch, setLoaded } from '../actions';
+import { pdListFetch, setLoaded, stopLoading } from '../actions';
 import { getNumbers } from '../selectors';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -28,7 +28,10 @@ class HomeScreen extends Component {
   state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     console.log('HomeScreen');
-    const { loaded, pdsItems } = this.props;
+    const { loaded, pdsItems, loading } = this.props;
+    if (loading) {
+      this.props.stopLoading();
+    }
     if (!pdsItems) {
       this.props.pdListFetch()
         .then(result => {
@@ -284,4 +287,4 @@ const mapStateToProps = (state) => {
   return { loading, loaded, error, user, stats, pdsItems };
 };
 
-export default connect(mapStateToProps, { pdListFetch, setLoaded })(HomeScreen);
+export default connect(mapStateToProps, { pdListFetch, setLoaded, stopLoading })(HomeScreen);

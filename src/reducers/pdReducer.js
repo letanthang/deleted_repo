@@ -6,7 +6,7 @@ import {
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
-  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -204,8 +204,8 @@ export default (state = nameInitialState, action) => {
       const pdsItems = _.cloneDeep(state.pdsItems);
       const { orderCode, serviceCost, length, width, height, weight } = action.payload;
       const order = Utils.getOrder(pdsItems[0], orderCode, 1);
-      if (order.codAmount != 0) {
-        order.codAmount = serviceCost;
+      if (order.senderPay != 0) {
+        order.senderPay = serviceCost;
       }
       
       order.length = length;
@@ -331,6 +331,13 @@ export default (state = nameInitialState, action) => {
       });
 
       return { ...state, shopPGroup };
+    }
+
+    case PD_STOP_LOADING: {
+      return {
+        ...state,
+        loading: false
+      };
     }
 
     default:

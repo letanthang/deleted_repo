@@ -14,12 +14,11 @@ import { getNumbers } from '../selectors';
 import PDCard from '../components/home/PDCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { HomeStyles, Colors, Theme } from '../Styles';
-import LocalGroup from '../libs/LocalGroup';
 import { navigateOnce } from '../libs/Common';
 import AppFooter from '../components/AppFooter';
 import Utils from '../libs/Utils';
-import MyMenu from '../components/MyMenu';
-import LogoButton from '../components/LogoButton';
+// import MyMenu from '../components/MyMenu';
+// import LogoButton from '../components/LogoButton';
 import BarcodeReader from '../components/BarcodeReader';
 
 
@@ -39,7 +38,6 @@ class HomeScreen extends Component {
           }
         });
     }
-    this.listGroups();
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.error !== nextProps.error && nextProps.error !== '') {
@@ -83,22 +81,7 @@ class HomeScreen extends Component {
     });
     dispatch(resetAction);
   }
-  async listGroups() {
-    try {
-      //await LocalGroup.getLocalDB();
-      //await LocalGroup.resetDB();
-      let groups = LocalGroup.getGroups();
-      if (groups.length === -1) {
-        await LocalGroup.addGroup('nhom1');
-        await LocalGroup.addGroup('nhom2');
-      }
-      // await LocalGroup.setGroups([]);
-      
-      groups = LocalGroup.getGroups();
-    } catch (error) {
-      // log error
-    }
-  }
+  
 
   onSearchPress() {
     if (this.state.showSearch === false && this.props.pdsItems === null) return;

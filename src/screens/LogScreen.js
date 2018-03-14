@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Switch } from 'react-native';
+import { View, TouchableOpacity, Text, Switch } from 'react-native';
 import { 
   Container, Header, Left, Body, Card, 
-  Content, Text, Button, Icon, CardItem 
+  Content, Button, Icon, CardItem 
 } from 'native-base';
 import { connect } from 'react-redux';
-import { HomeStyles, Styles, Colors, Theme } from '../Styles';
-import { goSupport } from '../actions';
+import { HomeStyles, Colors } from '../Styles';
+import { readLog } from '../libs/Log';
 
 class SettingsScreen extends Component {
-  state = { clickNum: 0, password: '', verified: false }
+  state = { logs: '' }
+  async componentWillMount() {
+    const logs = await readLog();
+    this.setState({ logs });
+  }
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
@@ -49,11 +53,8 @@ class SettingsScreen extends Component {
             <Switch value />
           </View>
           <View>
-            <TouchableOpacity
-              onPress={() => navigate('Log')}
-            >
-              <Text>API Logs</Text>
-            </TouchableOpacity>
+            <Text>Log call API</Text>
+            <Text>{this.state.logs}</Text>
           </View>
         </Content>
 
@@ -68,4 +69,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { goSupport })(SettingsScreen);
+export default connect(mapStateToProps)(SettingsScreen);

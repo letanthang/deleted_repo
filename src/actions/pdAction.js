@@ -11,6 +11,7 @@ import {
 } from './types';
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
+import { writeLog } from '../libs/Log';
 
 const reportBug = (errorMessage, info) => {
   const message = errorMessage;
@@ -108,6 +109,8 @@ export const pdListFetchSuccess = (dispatch, data) => {
   const payload = { pds };
   dispatch({ type: PDLIST_FETCH_SUCCESS, payload });
     // .then(() => console.log('pdlist fetch success done!'));
+  info = {};
+  orders = [];
 };
 
 export const pdListFetchFail = (dispatch, error) => {
@@ -147,26 +150,38 @@ export const updateOrderStatus = (infos) => {
       const { orderCode, nextDate, noteId, note, action } = info;
       return { orderCode, nextDate, noteId, note, action };
     });
-    return API.UpdateStatus({
+    const params = {
       pdsId,
       pdsCode, 
       lastUpdatedTime,
       OrderInfos: filterInfos
-    })
+    };
+    return API.UpdateStatus(params)
       .then(response => {
         const json = response.data;
-        console.log(json);
         if (json.status === 'OK') {
           updateOrderStatusSuccess(dispatch, OrderInfos, json.data[0].listFail);
+          if (json.data[0].listFail.length > 0) {
+            //write log
+            const req = API.UpdateStatusGetRequest(params);
+            writeLog({ request: req, response: json });
+          }
           return json.data[0].listFail;
         } else {
           console.log('UpdateOrderStatus failed with response json =');
           updateOrderStatusFail(dispatch, json.message, OrderInfos);
+          //write log
+          const req = API.UpdateStatusGetRequest(params);
+          writeLog({ request: req, response: json });
+          return null;
         }
       })
       .catch(error => {
         console.log('update status failed with error=');
         updateOrderStatusFail(dispatch, error.message, OrderInfos);
+        //write log
+        const req = API.UpdateStatusGetRequest(params);
+        writeLog({ request: req, error });
       });
   });
 };

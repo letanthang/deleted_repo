@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView, RefreshControl, Platform } from 'react-native';
 import { 
   Container, Header, Left,
   Right, Content, Text, Button, Icon,
@@ -25,21 +25,15 @@ import BarcodeReader from '../components/BarcodeReader';
 const efficiencyIcon = require('../../resources/ic_summary.png');
 
 class HomeScreen extends Component {
-  state = { date: new Date(), showMenu: false, showSearch: false, keyword: '', showScanner: false }
+  state = { showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     console.log('HomeScreen');
     const { loaded, pdsItems, loading } = this.props;
     if (loading) {
-      this.props.stopLoading();
+      //this.props.stopLoading();
     }
     if (!pdsItems) {
-      this.props.pdListFetch()
-        .then(result => {
-          if (result) {
-            this.props.setLoaded(); 
-            Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
-          }
-        });
+      this.reloadData();
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -48,10 +42,11 @@ class HomeScreen extends Component {
     }
   }
   
-  shouldComponentUpdate({ user, loading, loaded, stats }) {
+  shouldComponentUpdate({ user, loading, loaded, stats }, nextState) {
     if (user === null) return false;
     if (loading === this.props.loading && loaded === this.props.loaded 
-      && JSON.stringify(stats) === JSON.stringify(this.props.stats)) {
+      && JSON.stringify(stats) === JSON.stringify(this.props.stats)
+      && JSON.stringify(nextState) === JSON.stringify(this.props.state)) {
       return false;
     }
     return true;
@@ -89,11 +84,19 @@ class HomeScreen extends Component {
     });
     dispatch(resetAction);
   }
-  
 
   onSearchPress() {
     if (this.state.showSearch === false && this.props.pdsItems === null) return;
     this.setState({ showSearch: !this.state.showSearch });
+  }
+  reloadData() {
+    this.props.pdListFetch()
+        .then(result => {
+          if (result) {
+            this.props.setLoaded(); 
+            Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
+          }
+        });
   }
 
   renderHeader() {
@@ -149,6 +152,7 @@ class HomeScreen extends Component {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Button
             transparent
+            style={{ paddingRight: 12 }}
             onPress={() => navigate('DrawerOpen')}
           >          
             <Icon name="menu" />
@@ -188,8 +192,20 @@ class HomeScreen extends Component {
     }
     const { navigate } = this.props.navigation;
     const { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete } = this.props.stats;
+    const marginLeft = Platform.OS === 'ios' ? 0 : 20;
+    
+    const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
-      <Content style={{ padding: 10 }}>
+      <ScrollView 
+        style={{ padding: 10, flex: 1, marginLeft }}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.loading}
+            onRefresh={this.reloadData.bind(this)}
+            title={progressTitle}
+          />
+        }
+      >
       <PDCard
         type='pick'
         onPress={this.onTripListPress.bind(this)}
@@ -250,6 +266,7 @@ class HomeScreen extends Component {
           </CardItem>
         </Card>
       </TouchableOpacity>
+      
       {this.state.showScanner ?
           <BarcodeReader 
             onBarCodeRead={({data, bounds}) => {
@@ -257,7 +274,8 @@ class HomeScreen extends Component {
             }}
           />
           : null }
-    </Content>
+      
+    </ScrollView>
     );
   }
   renderFooter() {
@@ -275,7 +293,7 @@ class HomeScreen extends Component {
           {this.renderContent()}
           {this.renderFooter()}
           
-          <LoadingSpinner loading={this.props.loading} />
+          {/* <LoadingSpinner loading={this.props.loading} /> */}
           
         </Container>
         
@@ -286,11 +304,11 @@ class HomeScreen extends Component {
 
 const mapStateToProps = (state) => {
   const { loading, error, pdsItems } = state.pd;
-  const { loaded } = state.other;
+  const { loaded, progress } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
-  return { loading, loaded, error, user, stats, pdsItems };
+  return { loading, loaded, error, user, stats, pdsItems, progress };
 };
 
 export default connect(mapStateToProps, { pdListFetch, setLoaded, stopLoading })(HomeScreen);

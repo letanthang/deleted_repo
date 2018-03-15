@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { 
   OTHER_CALCULATE_FEE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
-  OTHER_SET_LOADED
+  OTHER_SET_LOADED,
+  OTHER_UPDATE_PROGRESS
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -16,7 +17,8 @@ const nameInitialState = {
   lastWeek: null,
   lastMonth: null,
   lastQuarter: null,
-  loaded: false
+  loaded: false,
+  progress: 0
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
@@ -37,6 +39,12 @@ export default (state = nameInitialState, action) => {
         ...result
       };
     }
+    
+    case OTHER_UPDATE_PROGRESS:
+      return {
+        ...state,
+        progress: action.payload.progress
+      };
 
     case OTHER_SET_LOADED:
       return {

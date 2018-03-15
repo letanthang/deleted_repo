@@ -7,7 +7,7 @@ import {
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
   PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
-  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_UPDATE_PROGRESS
 } from './types';
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
@@ -28,12 +28,18 @@ const reportBug = (errorMessage, info) => {
 
 
 let orders = [];
+let totalPage = 0;
+let currentPage = 0;
 const fetchAll = (dispatch, pdsCode, page = 0, limit = 100) => {
   return API.GetUserActivePds(pdsCode, page * limit, limit)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK' & json.data !== undefined) {
           orders = orders.concat(json.data);
+          totalPage = Math.ceil(json.total / limit);
+          currentPage += 1;
+          const progress = Math.ceil((currentPage / totalPage) * 100);
+          dispatch({ type: OTHER_UPDATE_PROGRESS, payload: { progress } });
           if (orders.length < json.total) {
             return fetchAll(dispatch, pdsCode, page + 1, limit);
           } else {
@@ -70,6 +76,7 @@ const limitNum = 30;
 export const pdListFetch = () => {
   info = {};
   orders = [];
+  currentPage = 0;
   return (dispatch, getState) => {
     dispatch({ type: PDLIST_FETCH });
     const { userID } = getState().auth;
@@ -111,6 +118,7 @@ export const pdListFetchSuccess = (dispatch, data) => {
     // .then(() => console.log('pdlist fetch success done!'));
   info = {};
   orders = [];
+  currentPage = 0;
 };
 
 export const pdListFetchFail = (dispatch, error) => {

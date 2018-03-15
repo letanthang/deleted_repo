@@ -13,7 +13,7 @@ import { NavigationActions } from 'react-navigation';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
-import { get3Type } from '../selectors';
+import { get3Type, getNumbers } from '../selectors';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
 import { Styles, DeliverGroupStyles, Colors } from '../Styles';
@@ -22,6 +22,13 @@ class TripListScreen extends Component {
   state = { done: false, showSearch: false, keyword: '' };
   componentWillMount() {
     
+  }
+  shouldComponentUpdate({ returnOrderComplete }, nextState) {
+    if (returnOrderComplete === this.props.returnOrderComplete
+      && JSON.stringify(nextState) === JSON.stringify(this.state)) {
+      return false;
+    } 
+    return true;
   }
   componentWillUpdate() {
     
@@ -150,7 +157,7 @@ class TripListScreen extends Component {
 
   checkTripDone(trip) {
     const ordersNum = trip.ShopOrders.length;
-    const completedNum = trip.ShopOrders.filter(o => Utils.checkReturnComplete(o.currentStatus)).length;
+    const completedNum = trip.ShopOrders.filter(o => o.done).length;
     return (ordersNum === completedNum);
   }
   renderNullData() {
@@ -186,6 +193,7 @@ class TripListScreen extends Component {
   }
   
   render() {
+    console.log('ReturnListScreen render');
     const { ReturnItems } = this.props;
     if (!ReturnItems) return this.renderNullData();
 
@@ -216,7 +224,7 @@ class TripListScreen extends Component {
                 const pickGroup = item;
                 const { address, contactName, contactPhone, estimateTotalServiceCost } = pickGroup;
                 const ordersNum = pickGroup.ShopOrders.length;
-                const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.currentStatus)).length;
+                const completedNum = pickGroup.ShopOrders.filter(o => o.done).length;
                 return (
                   <View style={DeliverGroupStyles.content}>
                   <TouchableOpacity
@@ -304,7 +312,9 @@ const styles = {
 
 const mapStateToProps = (state) => {
   const { ReturnItems } = get3Type(state);
-  return { ReturnItems };
+  const stats = getNumbers(state);
+  const { returnOrderComplete } = stats;
+  return { ReturnItems, returnOrderComplete };
 };
 
 export default connect(mapStateToProps, {})(TripListScreen);

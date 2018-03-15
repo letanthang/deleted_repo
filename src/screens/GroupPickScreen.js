@@ -59,7 +59,7 @@ class GroupPickScreen extends Component {
 
   checkTripDone(trip) {
     const ordersNum = trip.ShopOrders.length;
-    const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
+    const completedNum = trip.ShopOrders.filter(o => o.done).length;
     return (ordersNum === completedNum);
   }
 

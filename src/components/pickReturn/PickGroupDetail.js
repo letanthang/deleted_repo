@@ -49,7 +49,7 @@ class PickGroupDetail extends Component {
     const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => {
-      const result = !Utils.checkPickComplete(o.currentStatus);
+      const result = !o.done;
       return result;
     });
     if (orders.length === 0) return true;
@@ -150,10 +150,11 @@ class PickGroupDetail extends Component {
               const { 
                 orderCode, recipientName, recipientPhone,
                 height, width, weight, length, currentStatus,
-                ExternalCode, senderPay, success, note, pickWarehouseId, deliverWarehouseId
+                ExternalCode, senderPay, success, note, pickWarehouseId, 
+                deliverWarehouseId, done
               } = item;
 
-              const realDone = Utils.checkPickComplete(currentStatus);
+              const realDone = done;
               const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(currentStatus);
               const isDelivering = this.checkDelivering(order);
               const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';

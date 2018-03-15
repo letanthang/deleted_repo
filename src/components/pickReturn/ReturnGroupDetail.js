@@ -43,7 +43,7 @@ class PickGroupDetail extends Component {
     const { PickItems, ReturnItems } = this.props;
     const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
-    const orders = pickGroup.ShopOrders.filter(o => !Utils.checkReturnComplete(o.currentStatus));
+    const orders = pickGroup.ShopOrders.filter(o => !o.done);
     if (orders.length === 0) return true;
     return false;
   }
@@ -82,6 +82,7 @@ class PickGroupDetail extends Component {
   }
 
   render() {
+    console.log('ReturnGroupDetail render!');
     const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
@@ -144,7 +145,7 @@ class PickGroupDetail extends Component {
                       <Text style={Styles.weakColorStyle}>Nhận: {recipientName} - {recipientPhone}</Text>
                     </View>
                     <ReturnActionButtons
-                      done={Utils.checkReturnComplete(order.currentStatus)}
+                      done={order.done}
                       info={order}
                       order={order}
                       onSelectDateCase={buttonIndex => {

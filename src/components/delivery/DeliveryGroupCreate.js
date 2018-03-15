@@ -50,7 +50,7 @@ class DeliveryGroupCreate extends Component {
   }
 
   render() {
-    const items = this.props.DeliveryItems.filter(o => o.group === undefined && !Utils.checkDeliveryComplete(o.currentStatus));
+    const items = this.props.DeliveryItems.filter(o => o.group === undefined && !o.done);
     return (
       <Content style={{ backgroundColor: Colors.row }}>
         <View style={Styles.rowStyle}>

@@ -86,7 +86,7 @@ class ReturnOrderScreen extends Component {
   }
 
   renderButtons() {
-    const done = Utils.checkReturnComplete(order.currentStatus);
+    const done = order.done;
     if (done) {
       return (
         <View

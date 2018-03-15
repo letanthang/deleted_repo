@@ -107,8 +107,8 @@ class DeliveryOrderScreen extends Component {
     if (this.state.modalShow) this.setState({ modalShow: false });
   }
   
-  renderButtons(order) {
-    const done = Utils.checkDeliveryComplete(order.currentStatus);
+  renderButtons() {
+    const done = order.done;
     if (done) {
       return (
         <View
@@ -247,7 +247,7 @@ class DeliveryOrderScreen extends Component {
             </View>
           </List>
 
-          {this.renderButtons(order)}
+          {this.renderButtons()}
           <ActionModal
             visible={this.state.modalShow}
             onChooseDate={this.onChooseDate.bind(this)}

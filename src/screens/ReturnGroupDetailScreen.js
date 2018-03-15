@@ -41,7 +41,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   checkRealDone() {
-    const completeNum = this.pickGroup.ShopOrders.filter(o => Utils.checkReturnComplete(o.currentStatus)).length;
+    const completeNum = this.pickGroup.ShopOrders.filter(o => o.done).length;
     return completeNum === this.totalNum;
   }
 

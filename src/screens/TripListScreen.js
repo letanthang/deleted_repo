@@ -13,7 +13,7 @@ import { NavigationActions } from 'react-navigation';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
 import Utils from '../libs/Utils';
-import { get3Type } from '../selectors';
+import { get3Type, getNumbers } from '../selectors';
 import { toggleLayout } from '../actions';
 import { navigateOnce } from '../libs/Common';
 import StatusText from '../components/StatusText';
@@ -24,6 +24,13 @@ class TripListScreen extends Component {
   state = { done: false, showSearch: false, keyword: '' };
   componentWillMount() {
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+  shouldComponentUpdate({ pickOrderComplete }, nextState) {
+    // console.log(this.state)
+    if (pickOrderComplete === this.props.pickOrderComplete
+      && JSON.stringify(this.state) === JSON.stringify(nextState)
+    ) return false;
+    return true;
   }
   componentWillUpdate() {
     
@@ -168,7 +175,7 @@ class TripListScreen extends Component {
 
   checkTripDone(trip) {
     const ordersNum = trip.ShopOrders.length;
-    const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
+    const completedNum = trip.ShopOrders.filter(o => o.done).length;
     return (ordersNum === completedNum);
   }
   renderNullData() {
@@ -251,7 +258,7 @@ class TripListScreen extends Component {
   }
 
   render() {
-    
+    console.log('TripListScreen render');
     const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
     const sections = this.groupData();
 
@@ -270,7 +277,7 @@ class TripListScreen extends Component {
                 const pickGroup = item;
                 const { address, contactName, contactPhone, estimateTotalServiceCost } = pickGroup;
                 const ordersNum = pickGroup.ShopOrders.length;
-                const completedNum = pickGroup.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
+                const completedNum = pickGroup.ShopOrders.filter(o => o.done).length;
                 return (
                   <View style={DeliverGroupStyles.content}>
                   <TouchableOpacity
@@ -361,7 +368,9 @@ const styles = {
 const mapStateToProps = (state) => {
   const { layoutMode } = state.config;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems, layoutMode };
+  const stats = getNumbers(state);
+  const { pickOrderComplete } = stats;
+  return { PickItems, ReturnItems, layoutMode, pickOrderComplete };
 };
 
 export default connect(mapStateToProps, { toggleLayout })(TripListScreen);

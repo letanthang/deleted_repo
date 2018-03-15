@@ -48,8 +48,13 @@ class HomeScreen extends Component {
     }
   }
   
-  shouldComponentUpdate({ user }) {
-    return user !== null;
+  shouldComponentUpdate({ user, loading, loaded, stats }) {
+    if (user === null) return false;
+    if (loading === this.props.loading && loaded === this.props.loaded 
+      && JSON.stringify(stats) === JSON.stringify(this.props.stats)) {
+      return false;
+    }
+    return true;
   }
   componentDidUpdate() {
   }
@@ -262,6 +267,7 @@ class HomeScreen extends Component {
     );
   }
   render() {
+    console.log('HomeScreen render');
     return (
         <Container style={{ backgroundColor: Colors.background }}>
           <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />

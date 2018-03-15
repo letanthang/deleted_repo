@@ -40,7 +40,7 @@ class DeliveryByGroup extends Component {
     const groups = _.clone(this.props.groups);
 
     const datas = _.groupBy(this.props.DeliveryItems, (item) => {
-      if (Utils.checkDeliveryComplete(item.currentStatus)) return 'Đã xong';
+      if (item.done) return 'Đã xong';
       return item.group;
     });
 

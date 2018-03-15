@@ -2,9 +2,22 @@ import _ from 'lodash';
 import { createSelector } from 'reselect';
 import Utils from '../libs/Utils';
 
-export const getOrders = ({ pd }) => pd.pdsItems === null ? null : pd.pdsItems[0];
+export const getOrders = ({ pd }) => {
+  const items = pd.pdsItems === null ? null : pd.pdsItems[0];
+  _.forEach(items, order => {
+    if (order.pickDeliveryType === 1) {
+      order.done = Utils.checkPickComplete(order.currentStatus);
+    } else if (order.pickDeliveryType === 2) {
+      order.done = Utils.checkDeliveryComplete(order.currentStatus);
+    } else if (order.pickDeliveryType === 3) {
+      order.done = Utils.checkReturnComplete(order.currentStatus);
+    }
+  });
+  return items;
+};
 export const getShopPGroup = ({ pd }) => pd.shopPGroup;
 export const getPgroups = ({ pd }) => pd.pgroups;
+
 
 export const get3Type = createSelector(
   [getOrders, getShopPGroup, getPgroups],
@@ -13,6 +26,7 @@ export const get3Type = createSelector(
     const DeliveryItems = _.filter(pdsItems, o => o.pickDeliveryType === 2);
     
     let items = _.filter(pdsItems, o => o.pickDeliveryType === 1);
+    const PickOrders = items;
     let groups = _.groupBy(items, 'clientHubId');
     const PickItems = [];
     _.forEach(groups, (orders, key) => {
@@ -41,6 +55,7 @@ export const get3Type = createSelector(
     });
 
     items = _.filter(pdsItems, o => o.pickDeliveryType === 3);
+    const ReturnOrders = items;
     groups = _.groupBy(items, 'clientHubId');
     const ReturnItems = [];
     _.forEach(groups, (orders, key) => {
@@ -53,7 +68,7 @@ export const get3Type = createSelector(
         const x = a.statusChangeDate ? a.statusChangeDate : 0;
         const y = b.statusChangeDate ? b.statusChangeDate : 0;
         return x - y;
-      });      
+      });
       const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isReturnSuccessedUnsynced(o));
       group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
       group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.returnPay, 0);
@@ -61,33 +76,36 @@ export const get3Type = createSelector(
       ReturnItems.push(group);
     });
 
-    return { PickItems, DeliveryItems, ReturnItems };
+    return { PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders };
   }
 );
 
 export const getNumbers = createSelector(
   [get3Type],
-  ({ PickItems, DeliveryItems, ReturnItems }) => {
-    return calculateStatNumbers({ PickItems, DeliveryItems, ReturnItems });
+  ({ PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders }) => {
+    return calculateStatNumbers({ PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders });
   }
 );
 
 
-const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
+const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders }) => {
   // pick
       const pickGroupList = PickItems;
       const pickTotal = pickGroupList.length;
       const pickComplete = pickTotal === 0 ? 0 : pickGroupList.filter(pg => {
         let isComplete = true;
         pg.ShopOrders.forEach(o => {
-          isComplete = isComplete && Utils.checkPickComplete(o.currentStatus);
+          isComplete = isComplete && o.done;
         });
         return isComplete;
       }).length;
 
+      const pickOrderTotal = PickOrders.length;
+      const pickOrderComplete = PickOrders.filter(o => o.done).length;
+
       // delivery
       const deliveryTotal = DeliveryItems.length;
-      const deliveryComplete = deliveryTotal === 0 ? 0 : DeliveryItems.filter(o => Utils.checkDeliveryComplete(o.currentStatus)).length;
+      const deliveryComplete = deliveryTotal === 0 ? 0 : DeliveryItems.filter(o => o.done).length;
 
       // return
       const returnGroupList = ReturnItems;
@@ -95,16 +113,19 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems }) => {
       const returnComplete = returnTotal === 0 ? 0 : returnGroupList.filter(pg => {
         let isComplete = true;
         pg.ShopOrders.forEach(o => {
-          isComplete = isComplete && Utils.checkReturnComplete(o.currentStatus);
+          isComplete = isComplete && o.done;
         });
         return isComplete;
       }).length;
 
-  return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete };
+      const returnOrderTotal = ReturnOrders.length;
+      const returnOrderComplete = ReturnOrders.filter(o => o.done).length;
+
+  return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete, pickOrderTotal, pickOrderComplete, returnOrderTotal, returnOrderComplete };
 };
 
 const checkTripDone = trip => {
   const ordersNum = trip.ShopOrders.length;
-  const completedNum = trip.ShopOrders.filter(o => Utils.checkPickComplete(o.currentStatus)).length;
+  const completedNum = trip.ShopOrders.filter(o => o.done).length;
   return (ordersNum === completedNum);
 };

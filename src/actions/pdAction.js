@@ -36,6 +36,10 @@ const updateProgress = (dispatch) => {
   const progress = Math.ceil((currentPage / totalPage) * 100);
   dispatch({ type: OTHER_SET_PROPS, payload: { progress } });
 };
+const logout = (dispatch) => {
+  dispatch(logoutUser());
+  pdListFetchFail(dispatch, 'Phiên làm việc đã hết hạn. Đăng nhập lại');
+};
 
 const fetchAll = (dispatch, pdsCode, page = 0, limit = 100) => {
   return API.GetUserActivePds(pdsCode, page * limit, limit)
@@ -59,7 +63,7 @@ const fetchAll = (dispatch, pdsCode, page = 0, limit = 100) => {
         } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
           pdListFetchNoTrip(dispatch, json.message);
         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') { //Saved Session Expired: log user out
-          dispatch(logoutUser());
+          logout(dispatch);
         } else {
           pdListFetchFail(dispatch, json.message);
         }
@@ -92,9 +96,9 @@ export const pdListFetch = () => {
         } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
           pdListFetchNoTrip(dispatch, json.message);
         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
-          dispatch(logoutUser());
+          logout(dispatch);
         } else if (json.status === 'UNAUTHORIZED') {
-          dispatch(logoutUser());
+          logout(dispatch);
         } else {
           pdListFetchFail(dispatch, json.message);
         }

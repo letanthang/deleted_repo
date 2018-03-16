@@ -7,7 +7,8 @@ import {
   OTHER_GET_USER_PERFORMANCE,
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE_FAIL,
-  OTHER_SET_LOADED
+  OTHER_SET_LOADED,
+  OTHER_SET_PROPS
 } from './types';
 import * as API from '../apis/MPDS';
 
@@ -50,6 +51,13 @@ export const calculateServiceFee = ({
 export const setLoaded = () => {
   return {
     type: OTHER_SET_LOADED
+  };
+};
+
+export const setProps = (props) => {
+  return {
+    type: OTHER_SET_PROPS,
+    payload: props
   };
 };
 

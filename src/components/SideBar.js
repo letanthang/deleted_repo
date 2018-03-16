@@ -8,7 +8,7 @@ import {
   Container, Content, List, ListItem, 
   Text, Icon, Left, Body, Right 
 } from 'native-base';
-import { logoutUser, pdListNoTrip, pdListFetch } from '../actions';
+import { logoutUser, pdListFetch } from '../actions';
 import Utils from '../libs/Utils';
 
 //create cmp
@@ -157,4 +157,4 @@ const mapStateToProps = ({ auth, pd }) => {
   return { user, pdsItems, Infos };
 };
 //make avai
-export default connect(mapStateToProps, { logoutUser, pdListNoTrip, pdListFetch })(SideBar);
+export default connect(mapStateToProps, { logoutUser, pdListFetch })(SideBar);

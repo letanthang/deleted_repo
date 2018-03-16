@@ -3,7 +3,8 @@ import {
   OTHER_CALCULATE_FEE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
   OTHER_SET_LOADED,
-  OTHER_UPDATE_PROGRESS
+  OTHER_UPDATE_PROGRESS,
+  OTHER_SET_PROPS
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -18,7 +19,8 @@ const nameInitialState = {
   lastMonth: null,
   lastQuarter: null,
   loaded: false,
-  progress: 0
+  progress: 0,
+  loading: false
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
@@ -51,6 +53,11 @@ export default (state = nameInitialState, action) => {
         ...state,
         loaded: true
       };
+    case OTHER_SET_PROPS:
+    return {
+      ...state,
+      ...action.payload
+    };
     default:
       return state;
   }

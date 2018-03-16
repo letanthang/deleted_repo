@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, ScrollView, RefreshControl, Platform } from 'react-native';
+import { View, Image, TouchableOpacity, RefreshControl, Platform } from 'react-native';
 import { 
   Container, Header, Left,
   Right, Content, Text, Button, Icon,
-  Card, CardItem, Toast, Input, Item, ActionSheet
+  Card, CardItem, Input, Item, ActionSheet
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
@@ -12,7 +12,8 @@ import SearchList from '../components/SearchList';
 import { pdListFetch, setLoaded, stopLoading } from '../actions';
 import { getNumbers } from '../selectors';
 import PDCard from '../components/home/PDCard';
-import LoadingSpinner from '../components/LoadingSpinner';
+// import LoadingSpinner from '../components/LoadingSpinner';
+import ProgressBar from '../components/ProgressBar';
 import { HomeStyles, Colors, Theme } from '../Styles';
 import { navigateOnce } from '../libs/Common';
 import AppFooter from '../components/AppFooter';
@@ -27,8 +28,7 @@ const efficiencyIcon = require('../../resources/ic_summary.png');
 class HomeScreen extends Component {
   state = { showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
-    console.log('HomeScreen');
-    const { loaded, pdsItems, loading } = this.props;
+    const { pdsItems, loading } = this.props;
     if (loading) {
       //this.props.stopLoading();
     }
@@ -192,17 +192,18 @@ class HomeScreen extends Component {
     }
     const { navigate } = this.props.navigation;
     const { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete } = this.props.stats;
-    const marginLeft = Platform.OS === 'ios' ? 0 : 20;
-    
-    const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
+    const marginLeft = Platform.OS === 'ios' ? 0 : 10;
+    const marginRight = Platform.OS === 'ios' ? 0 : -10;
+
+    // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
-      <ScrollView 
-        style={{ padding: 10, flex: 1, marginLeft }}
+      <Content 
+        style={{ padding: 10, flex: 1, marginLeft, marginRight }}
         refreshControl={
           <RefreshControl
             refreshing={this.props.loading}
             onRefresh={this.reloadData.bind(this)}
-            title={progressTitle}
+            // title={progressTitle}
           />
         }
       >
@@ -275,7 +276,7 @@ class HomeScreen extends Component {
           />
           : null }
       
-    </ScrollView>
+    </Content>
     );
   }
   renderFooter() {
@@ -291,10 +292,13 @@ class HomeScreen extends Component {
           <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
           {this.renderHeader()}
           {this.renderContent()}
+          <ProgressBar
+            progress={this.props.progress}
+            loading={this.props.loading}
+          />
           {this.renderFooter()}
           
           {/* <LoadingSpinner loading={this.props.loading} /> */}
-          
         </Container>
         
       
@@ -303,8 +307,8 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { loading, error, pdsItems } = state.pd;
-  const { loaded, progress } = state.other;
+  const { error, pdsItems } = state.pd;
+  const { loaded, progress, loading } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete

@@ -7,7 +7,7 @@ import {
   PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
   PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
-  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_UPDATE_PROGRESS
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_UPDATE_PROGRESS, OTHER_SET_PROPS
 } from './types';
 import { logoutUser } from './';
 import * as API from '../apis/MPDS';
@@ -26,70 +26,71 @@ const reportBug = (errorMessage, info) => {
   );
 };
 
-
+let info = {};
+const limitNum = 30;
 let orders = [];
 let totalPage = 0;
 let currentPage = 0;
+const updateProgress = (dispatch) => {
+  currentPage += 1;
+  const progress = Math.ceil((currentPage / totalPage) * 100);
+  dispatch({ type: OTHER_SET_PROPS, payload: { progress } });
+};
+
 const fetchAll = (dispatch, pdsCode, page = 0, limit = 100) => {
   return API.GetUserActivePds(pdsCode, page * limit, limit)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK' & json.data !== undefined) {
+
+          /******** success *********/
           orders = orders.concat(json.data);
           totalPage = Math.ceil(json.total / limit);
-          currentPage += 1;
-          const progress = Math.ceil((currentPage / totalPage) * 100);
-          dispatch({ type: OTHER_UPDATE_PROGRESS, payload: { progress } });
+          updateProgress(dispatch);
           if (orders.length < json.total) {
             return fetchAll(dispatch, pdsCode, page + 1, limit);
           } else {
             pdListFetchSuccess(dispatch, orders);
             return true;
           }
+
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
-          console.log('khong co chuyen di, json response=');
-          console.log(json);
-          dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
-        } else if (json.status === 'ERROR' && json.message === 'Not found pds.') {
-          console.log('khong co chuyen di, json response=');
-          console.log(json);
-          dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
-        } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
-          console.log('Saved Session Expired: log user out');
+          pdListFetchNoTrip(dispatch, json.message);
+        } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
+          pdListFetchNoTrip(dispatch, json.message);
+        } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') { //Saved Session Expired: log user out
           dispatch(logoutUser());
         } else {
-          console.log('pdListFetch failed with response json = ');
-          console.log(json);
           pdListFetchFail(dispatch, json.message);
         }
         return false;
       })
       .catch(error => {
-        console.log('pdListFetch failed with error = ');
-        console.log(error);
         pdListFetchFail(dispatch, error.message);
       });
 };
 
-let info = {};
-const limitNum = 30;
 export const pdListFetch = () => {
   info = {};
   orders = [];
   currentPage = 0;
   return (dispatch, getState) => {
     dispatch({ type: PDLIST_FETCH });
+    dispatch({ type: OTHER_SET_PROPS, payload: { loading: true, progress: 0 } });
     const { userID } = getState().auth;
     return API.GetUserActivePdsInfo(userID)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
+
+          /******** success *********/
           info = json.data[0];
           return fetchAll(dispatch, info.pdsCode, 0, limitNum);
+
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
-          dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
+          pdListFetchNoTrip(dispatch, json.message);
         } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
-          dispatch({ type: PDLIST_NO_TRIP, payload: json.message });
+          pdListFetchNoTrip(dispatch, json.message);
         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
           dispatch(logoutUser());
         } else if (json.status === 'UNAUTHORIZED') {
@@ -105,8 +106,9 @@ export const pdListFetch = () => {
   };
 };
 
-export const pdListNoTrip = () => {
-  return { type: PDLIST_NO_TRIP };
+export const pdListFetchNoTrip = (dispatch, message) => {
+  dispatch({ type: OTHER_SET_PROPS, payload: { loading: false, progress: 0 } });
+  dispatch({ type: PDLIST_NO_TRIP, payload: message });
 };
 
 export const pdListFetchSuccess = (dispatch, data) => {
@@ -114,14 +116,15 @@ export const pdListFetchSuccess = (dispatch, data) => {
   info.pdsItems = orders;
   const pds = info;
   const payload = { pds };
-  dispatch({ type: PDLIST_FETCH_SUCCESS, payload });
-    // .then(() => console.log('pdlist fetch success done!'));
+  dispatch({ type: OTHER_SET_PROPS, payload: { loading: false, progress: 0 } });
+  dispatch({ type: PDLIST_FETCH_SUCCESS, payload }); // .then(() => console.log('pdlist fetch success done!'));
   info = {};
   orders = [];
   currentPage = 0;
 };
 
 export const pdListFetchFail = (dispatch, error) => {
+  dispatch({ type: OTHER_SET_PROPS, payload: { loading: false, progress: 0 } });
   dispatch({ type: PDLIST_FETCH_FAIL, payload: error });
 };
 

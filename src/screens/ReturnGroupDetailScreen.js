@@ -131,7 +131,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
-    const { PickItems, ReturnItems, navigation, loading } = this.props;
+    const { PickItems, ReturnItems, navigation } = this.props;
     const { width } = Dimensions.get('window');
     const { pickDeliveryType } = this.pickGroup;
     const Items = pickDeliveryType === 1 ? PickItems : ReturnItems;
@@ -142,7 +142,7 @@ class PickGroupDetailScreen extends Component {
         {this.renderHeader(pickGroup)}
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <ReturnGroupDetail navigation={navigation} />
-        <LoadingSpinner loading={loading} />
+        <LoadingSpinner loading={false} />
         <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2 }}>
           <Bar 
             color='blue'
@@ -176,10 +176,10 @@ class PickGroupDetailScreen extends Component {
 const mapStateToProps = (state) => {
   const { auth, pd, returnGroup } = state;
   const { sessionToken } = auth;
-  const { pdsId, loading } = pd;
+  const { pdsId } = pd;
   const { OrderInfos, done, keyword } = returnGroup;
   const { ReturnItems, PickItems } = get3Type(state);
-  return { ReturnItems, PickItems, sessionToken, pdsId, loading, OrderInfos, done, keyword };
+  return { ReturnItems, PickItems, sessionToken, pdsId, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { pdListFetch, changeDone1, changeKeyword1 })(PickGroupDetailScreen);

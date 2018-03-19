@@ -42,11 +42,11 @@ class HomeScreen extends Component {
     }
   }
   
-  shouldComponentUpdate({ user, loading, loaded, stats }, nextState) {
+  shouldComponentUpdate({ user, loading, loaded, stats, progress }, nextState) {
     if (user === null) return false;
-    if (loading === this.props.loading && loaded === this.props.loaded 
+    if (loading === this.props.loading && loaded === this.props.loaded && progress === this.props.progress
       && JSON.stringify(stats) === JSON.stringify(this.props.stats)
-      && JSON.stringify(nextState) === JSON.stringify(this.props.state)) {
+      && JSON.stringify(nextState) === JSON.stringify(this.state)) {
       return false;
     }
     return true;

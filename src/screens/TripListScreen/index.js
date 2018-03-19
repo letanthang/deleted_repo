@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { SectionList, View, TouchableOpacity, LayoutAnimation, UIManager, RefreshControl } from 'react-native';
+import { SectionList, TouchableOpacity, LayoutAnimation, UIManager, RefreshControl } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
   Icon, Button, Text,
@@ -8,7 +8,6 @@ import {
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
-import accounting from 'accounting';
 import { NavigationActions } from 'react-navigation';
 import AppHeader from './AppHeader';
 import AppFooter from '../../components/AppFooter';
@@ -19,7 +18,7 @@ import { toggleLayout, pdListFetch } from '../../actions';
 import DataEmptyCheck from '../../components/DataEmptyCheck';
 import ProgressBar from '../../components/ProgressBar';
 import TripItem from './TripItem';
-import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
+import { DeliverGroupStyles, Colors } from '../../Styles';
 
 class TripListScreen extends Component {
   state = { done: false, showSearch: false, keyword: '' };
@@ -226,15 +225,6 @@ class TripListScreen extends Component {
   }
 
 }
-
-const styles = {
-  rowStyle: {
-    flexDirection: 'row',
-    paddingTop: 2,
-    paddingBottom: 2
-  }
-};
-
 
 const mapStateToProps = (state) => {
   const { loading, progress } = state.other;

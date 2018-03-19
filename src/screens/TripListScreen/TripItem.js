@@ -12,7 +12,6 @@ import { Styles, DeliverGroupStyles } from '../../Styles';
 
 class TripItem extends Component {
   componentWillMount() {
-    console.log('trip item mount');
   }
   shouldComponentUpdate(nextProps) {
     if (this.props.index === nextProps.index
@@ -31,7 +30,6 @@ class TripItem extends Component {
   }
 
   componentWillUnmount() {
-    console.log('trip item will unmount');
   }
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
@@ -69,7 +67,7 @@ class TripItem extends Component {
     );
   }
   render() {
-    console.log('render trip Item');
+    console.log('trip item render');
     const { index, activeSection, address, contactName, contactPhone, estimateTotalServiceCost, ordersNum, completedNum, pickDeliveryType, clientHubId } = this.props;
     if (!activeSection) {
       return null;

@@ -30,7 +30,7 @@ class PickGroupDetail extends Component {
   
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
-    this.pickGroup = this.props.navigation.state.params.pickGroup;
+    this.pickGroup = this.props.pickGroup;
     this.clientHubId = this.pickGroup.clientHubId;
     this.pickDeliveryType = this.pickGroup.pickDeliveryType;
     this.checkDone(this.props);

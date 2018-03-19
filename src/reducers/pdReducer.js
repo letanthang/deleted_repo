@@ -83,7 +83,6 @@ export default (state = nameInitialState, action) => {
       return {
         ...state,
         pdsItems
-        //loading: true
       };
     }
 

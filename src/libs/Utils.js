@@ -180,8 +180,7 @@ class Utils {
     return items[Utils.getKey(orderCode, pickDeliveryType)];
   }
 
-  static getReturnGroupFromPG(ReturnItems, pickGroup) {
-    const { clientHubId } = pickGroup;
+  static getReturnGroup(ReturnItems, clientHubId) {
     const returnGroup = ReturnItems.find(rg => rg.clientHubId === clientHubId);
     return returnGroup;
   }

@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
-  Button, Icon, Tabs, Tab, Footer, FooterTab,
+  Button, Icon, Footer, FooterTab,
   Title, Input, Item, Text, ActionSheet
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -22,18 +22,13 @@ class PickGroupDetailScreen extends Component {
   state = { showSearch: false };
 
   componentWillMount() {
-    this.pickGroup = this.props.navigation.state.params.pickGroup;
-    this.clientHubId = this.pickGroup.clientHubId;
-    this.pickDeliveryType = this.pickGroup.pickDeliveryType;
-    this.totalNum = this.pickGroup.ShopOrders.length;
-    this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
+    const { clientHubId, pickDeliveryType } = this.props.navigation.state.params;
+    this.clientHubId = clientHubId;
+    this.pickDeliveryType = pickDeliveryType;
   }
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
-    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
-    this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
-    this.totalNum = this.pickGroup.ShopOrders.length;
-    this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
+    
   }
 
   componentWillUnmount() {
@@ -135,18 +130,21 @@ class PickGroupDetailScreen extends Component {
 
   render() {
     console.log('PickGroupDetailScreen render');
-    const { loading, addOrderLoading, PickItems, ReturnItems } = this.props;
+    const { addOrderLoading, PickItems, ReturnItems } = this.props;
     const { width } = Dimensions.get('window');
-    const { pickDeliveryType } = this.pickGroup;
+    const pickDeliveryType = this.pickDeliveryType;
     const Items = pickDeliveryType === 1 ? PickItems : ReturnItems;
-    const pickGroup = Items.find(trip => trip.clientHubId === this.clientHubId); 
+    const pickGroup = Items.find(trip => trip.clientHubId === this.clientHubId);
+    this.pickGroup = pickGroup;
+    this.totalNum = this.pickGroup.ShopOrders.length;
+    this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
     return (
       
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <PickGroupDetail navigation={this.props.navigation} />
-        <LoadingSpinner loading={loading || addOrderLoading} />
+        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} />
+        <LoadingSpinner loading={addOrderLoading} />
         
         
         <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2 }}>

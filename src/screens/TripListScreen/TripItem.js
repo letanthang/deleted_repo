@@ -67,7 +67,6 @@ class TripItem extends Component {
     );
   }
   render() {
-    console.log('trip item render');
     const { index, activeSection, address, contactName, contactPhone, estimateTotalServiceCost, ordersNum, completedNum, pickDeliveryType, clientHubId } = this.props;
     if (!activeSection) {
       return null;

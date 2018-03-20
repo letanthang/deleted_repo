@@ -41,7 +41,7 @@ class AboutScreen extends Component {
                   </View>
                 </View>
                 <View style={HomeStyles.cardItemRight}>
-                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>18/03 - 6pm</Text>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>20/03 - 6pm</Text>
                 </View>
               </CardItem>
             </Card>

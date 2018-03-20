@@ -140,6 +140,13 @@ class Utils {
     }
     return false;
   }
+  
+  static isPickCompletedUnsynced({ nextStatus, currentStatus }) {
+    if (!pickCompleteStatus.includes(currentStatus) && pickCompleteStatus.includes(nextStatus)) {
+      return true;
+    }
+    return false;
+  }
 
   static checkPickCompleteForUnsync({ nextStatus, currentStatus }) {
     if (pickCompleteStatus.includes(currentStatus) || pickCompleteStatus.includes(nextStatus)) {
@@ -150,6 +157,13 @@ class Utils {
 
   static isReturnSuccessedUnsynced({ nextStatus, currentStatus }) {
     if (!returnCompleteStatus.includes(currentStatus) && returnSuccessStatus.includes(nextStatus)) {
+      return true;
+    }
+    return false;
+  }
+
+  static isReturnCompletedUnsynced({ nextStatus, currentStatus }) {
+    if (!returnCompleteStatus.includes(currentStatus) && returnCompleteStatus.includes(nextStatus)) {
       return true;
     }
     return false;

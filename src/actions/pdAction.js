@@ -116,7 +116,6 @@ export const pdListFetchNoTrip = (dispatch, message) => {
 };
 
 export const pdListFetchSuccess = (dispatch, data) => {
-  console.log('success & prepare to update home screen');
   info.pdsItems = orders;
   const pds = info;
   const payload = { pds };
@@ -183,7 +182,6 @@ export const updateOrderStatus = (infos) => {
           }
           return json.data[0].listFail;
         } else {
-          console.log('UpdateOrderStatus failed with response json =');
           updateOrderStatusFail(dispatch, json.message, OrderInfos);
           //write log
           const req = API.UpdateStatusGetRequest(params);
@@ -192,7 +190,6 @@ export const updateOrderStatus = (infos) => {
         }
       })
       .catch(error => {
-        console.log('update status failed with error=');
         updateOrderStatusFail(dispatch, error.message, OrderInfos);
         //write log
         const req = API.UpdateStatusGetRequest(params);
@@ -260,14 +257,10 @@ export const updateWeightSize = ({
       } else {
         reportBug(json.message, { orderCode, length, weight, height, ServiceFee });
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
-        console.log('Update weight size failed with response json =');
-        console.log(json);
       }
     } catch (error) {
       reportBug(error.message, { orderCode, length, weight, height, ServiceFee });
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
-      console.log('Update weight size failed with error =');
-      console.log(error);
     }
   };
 };

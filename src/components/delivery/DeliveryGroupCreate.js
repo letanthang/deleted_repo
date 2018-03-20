@@ -15,10 +15,7 @@ import { pdListFetch, toggleOrderGroup, updateOrders, createGroup, resetGroup } 
 class DeliveryGroupCreate extends Component {
   
   componentWillMount() {
-    console.log(this.props.groups);
-    console.log(Object.keys(this.props.groups));
     const groupLength = Object.keys(this.props.groups).length - 1;
-
     this.setState({ groupName: `Nhóm ${groupLength}` });
   }
   

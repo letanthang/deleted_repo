@@ -34,7 +34,6 @@ class TripItem extends Component {
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
   onTripPress({ pickDeliveryType, clientHubId }) {
-    console.log({ pickDeliveryType, clientHubId });
     this.props.navigation.navigate('PickGroupDetail', { pickDeliveryType, clientHubId });
   }
 

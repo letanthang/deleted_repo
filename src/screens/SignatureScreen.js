@@ -14,14 +14,12 @@ class SignatureScreen extends Component {
   onSaveEvent(result) {
       //result.encoded - for the base64 encoded png
       //result.pathName - for the file path name
-      console.log(result);
       const pcScreen = this.props.navigation.state.params.pcScreen;
       pcScreen.setState({ signature: result });
       this.props.navigation.goBack();
   }
   onDragEvent() {
       // This callback will be called when the user enters signature
-      console.log('dragged');
       this.signed = true;
   }
 

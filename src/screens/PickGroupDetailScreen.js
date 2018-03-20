@@ -57,6 +57,12 @@ class PickGroupDetailScreen extends Component {
     this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId });
   }
 
+  hasUnsynced(pickGroup) {
+    const found = pickGroup.ShopOrders.find(o => Utils.isPickCompletedUnsynced(o));
+    if (found) return true;
+    return false;
+  }
+
   renderHeader(pickGroup) {
     const { goBack } = this.props.navigation;
     if (this.state.showSearch) {
@@ -159,7 +165,7 @@ class PickGroupDetailScreen extends Component {
             style={{ marginLeft: 10, marginRight: 10 }}
           />
         </View>
-        {!this.checkRealDone() ?
+        {!this.checkRealDone() && this.hasUnsynced(pickGroup) ?
         <Footer style={{ backgroundColor: Colors.background, borderTopWidth: 0 }}>
         <FooterTab style={{ backgroundColor: Colors.background }}>
           <TouchableOpacity 

@@ -13,7 +13,6 @@ class ActionAllButtons extends Component {
   componentWillMount() {
   }
   componentWillUnmount() {
-    console.log('ActionAllButtons will unmounted');
   }
   changeInfo(nextStatus) {
     const orders = this.props.orders;

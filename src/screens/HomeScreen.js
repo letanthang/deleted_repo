@@ -5,6 +5,7 @@ import {
   Right, Content, Text, Button, Icon,
   Card, CardItem, Input, Item, ActionSheet
 } from 'native-base';
+import moment from 'moment';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -194,6 +195,9 @@ class HomeScreen extends Component {
     const { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete } = this.props.stats;
     const marginLeft = Platform.OS === 'ios' ? 0 : 10;
     const marginRight = Platform.OS === 'ios' ? 0 : -10;
+    const { pdsItems, lastUpdatedTime } = this.props;
+    const showTime = moment(lastUpdatedTime).format('LT DD/MM ');
+    const ordersNum = Object.keys(pdsItems[0]).length;
 
     // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
@@ -207,6 +211,18 @@ class HomeScreen extends Component {
           />
         }
       >
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }} >
+        <View style={{ }}>
+          <Text style={{ fontWeight: 'bold' }}>
+            Tổng số đơn {ordersNum}
+          </Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ fontWeight: '400', fontSize: 16 }}>{showTime} </Text>
+          <IC name='update' size={16} />
+        </View>
+      </View>
+      
       <PDCard
         type='pick'
         onPress={this.onTripListPress.bind(this)}
@@ -307,12 +323,12 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { error, pdsItems } = state.pd;
+  const { error, pdsItems, lastUpdatedTime } = state.pd;
   const { loaded, progress, loading } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
-  return { loading, loaded, error, user, stats, pdsItems, progress };
+  return { loading, loaded, error, user, stats, pdsItems, progress, lastUpdatedTime };
 };
 
 export default connect(mapStateToProps, { pdListFetch, setLoaded, stopLoading })(HomeScreen);

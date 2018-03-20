@@ -15,8 +15,6 @@ import Utils from '../libs/Utils';
 class GroupPickScreen extends Component {
   state = { showSearch: false, keyword: '', groupCheck: {} };
   componentWillMount() {
-    console.log(this.props.pgroups);
-    console.log(Object.keys(this.props.pgroups));
     this.calNewGroup(this.props);
   }
 

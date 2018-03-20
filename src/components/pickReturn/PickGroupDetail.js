@@ -108,7 +108,6 @@ class PickGroupDetail extends Component {
     newOrder.pickDeliveryType = 2;
     newOrder.currentStatus = 'DELIVERING';
     newOrder.Group = null;
-    console.log('acceptDeliveryPress!');
     this.props.addOneOrder(newOrder);
   }
 

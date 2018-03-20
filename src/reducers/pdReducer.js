@@ -320,8 +320,6 @@ export default (state = nameInitialState, action) => {
 
     case PD_UPDATE_SHOP_PGROUP: {
       const { groups, groupName } = action.payload;
-      console.log(groups);
-      console.log(groupName);
       const shopPGroup = _.clone(state.shopPGroup);
       _.each(groups, (item, key) => {
         if (item === true) {

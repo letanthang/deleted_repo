@@ -1,3 +1,4 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">PLAdrlvdIGqqVUMamiNFD1cbq34V9a1cb264-95ba-4387-b6b3-8033c4a98d03</string>
     <string name="app_name">Tài xế GHN</string>
 </resources>

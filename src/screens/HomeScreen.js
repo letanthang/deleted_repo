@@ -196,8 +196,8 @@ class HomeScreen extends Component {
     const marginLeft = Platform.OS === 'ios' ? 0 : 10;
     const marginRight = Platform.OS === 'ios' ? 0 : -10;
     const { pdsItems, lastUpdatedTime } = this.props;
-    const showTime = moment(lastUpdatedTime).format('LT DD/MM ');
-    const ordersNum = Object.keys(pdsItems[0]).length;
+    const showTime = lastUpdatedTime ? moment(lastUpdatedTime).format('LT DD/MM ') : '';
+    const ordersNum = pdsItems ? Object.keys(pdsItems[0]).length : 0;
 
     // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (

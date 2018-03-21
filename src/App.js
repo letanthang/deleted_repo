@@ -1,3 +1,4 @@
+import codePush from 'react-native-code-push';
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Root, StyleProvider } from 'native-base';
@@ -40,6 +41,9 @@ const { store, persistor } = configureStore();
 
 //export const store = configureStore();
 class App extends Component {
+  componentDidMount() {
+    codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+  }
   render() {
     console.log('Root render');
     // const { store } = this.props;
@@ -87,5 +91,5 @@ class App extends Component {
 //   store,
 //   persistor
 // };
-
-export default App;
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
+export default codePush(codePushOptions)(App);

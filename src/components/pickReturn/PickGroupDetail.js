@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity, Text, FlatList } from 'react-native';
+import { View, Alert, TouchableOpacity, Text, FlatList, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
   Content
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder } from '../../actions';
+import { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder, pdListFetch } from '../../actions';
 import Utils from '../../libs/Utils';
 import { get3Type, getOrders } from '../../selectors';
 import { navigateOnce } from '../../libs/Common';
@@ -116,6 +116,16 @@ class PickGroupDetail extends Component {
     return false;
   }
 
+  reloadData() {
+    this.props.pdListFetch(false, 1)
+        .then(result => {
+          if (result) {
+            //this.props.setLoaded(); 
+            Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
+          }
+        });
+  }
+
   render() {
     const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
@@ -124,7 +134,15 @@ class PickGroupDetail extends Component {
     const animated = orders.length < 10;
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
     return (
-      <Content style={{ backgroundColor: Colors.background }}>
+      <Content
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.loading}
+            onRefresh={this.reloadData.bind(this)}
+          />
+        } 
+        style={{ backgroundColor: Colors.background }}
+      >
         <ActionAllButtons
           done={hidden}
           orders={orders}
@@ -229,9 +247,10 @@ class PickGroupDetail extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, pd, config, pickGroup } = state;
+  const { auth, pd, config, pickGroup, other } = state;
   const { sessionToken } = auth;
-  const { pdsId, loading } = pd;
+  const { pdsId } = pd;
+  const { loading } = other;
   const { configuration } = config;
   const { showDatePicker, OrderInfos, keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
@@ -239,4 +258,4 @@ const mapStateToProps = (state) => {
   return { db, PickItems, ReturnItems, sessionToken, pdsId, loading, configuration, showDatePicker, OrderInfos, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder, pdListFetch })(PickGroupDetail);

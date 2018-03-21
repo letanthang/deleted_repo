@@ -36,7 +36,7 @@ export default (state = nameInitialState, action) => {
       // turn on spinner
       return { ...state, loading: true, error: '' };
     case PDLIST_FETCH_SUCCESS: {
-      const pds = action.payload.pds;
+      const { pds, all } = action.payload;
       transformPDS(pds);
       const { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID, pdsCode, lastUpdatedTime } = pds;
 
@@ -46,7 +46,7 @@ export default (state = nameInitialState, action) => {
       if (state.pdsId === pickDeliverySessionID) { 
         // old trips
         const oldItems = state.pdsItems ? state.pdsItems[0] : null;
-        pdsItems = mergeState(oldItems, newItems);
+        pdsItems = mergeState(oldItems, newItems, all);
       } else { 
         // new trips
         pdsItems = newItems;
@@ -384,9 +384,9 @@ const addGroup = (pds, orderGroup) => {
   });
 };
 
-const mergeState = (oldState, newState) => {
+const mergeState = (oldState, newState, all) => {
   if (oldState === null) return newState;
-  const temp = {};
+  const temp = all ? {} : oldState;
   _.each(newState, (item, key) => {
     temp[key] = Object.assign({}, oldState[key], item);
   });

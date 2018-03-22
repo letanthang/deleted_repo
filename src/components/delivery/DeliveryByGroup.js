@@ -19,6 +19,7 @@ class DeliveryByGroup extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { keyword } = nextProps;
+    console.log(keyword);
     this.setState({ keyword });
   }
 
@@ -35,11 +36,18 @@ class DeliveryByGroup extends Component {
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
   }
+  checkKeywork({ clientName, contactName, address }) {
+    const keyword = this.state.keyword.toUpperCase();
+    return this.state.keyword === '' 
+      || (clientName && clientName.toUpperCase().includes(keyword))
+      || contactName.toUpperCase().includes(keyword)
+      || address.toUpperCase().includes(keyword);
+  }
 
   render() {
     const groups = _.clone(this.props.groups);
-
-    const datas = _.groupBy(this.props.DeliveryItems, (item) => {
+    const orders = _.filter(this.props.DeliveryItems, o => this.checkKeywork(o));
+    const datas = _.groupBy(orders, (item) => {
       if (item.done) return 'Đã xong';
       return item.group;
     });

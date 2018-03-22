@@ -41,18 +41,19 @@ const logout = (dispatch) => {
   pdListFetchFail(dispatch, 'Phiên làm việc đã hết hạn. Đăng nhập lại');
 };
 
-const fetchAll = (dispatch, pdsCode, page = 0, limit = 100, all) => {
-  return API.GetUserActivePds(pdsCode, page * limit, limit)
+const fetchAll = (dispatch, pdsCode, page, limit, all, timeServer, clientHubId) => {
+  return API.GetUserActivePds(pdsCode, page * limit, limit, timeServer, clientHubId)
       .then(response => {
         const json = response.data;
+        
         if (json.status === 'OK' & json.data !== undefined) {
 
           /******** success *********/
           orders = orders.concat(json.data);
           totalPage = Math.ceil(json.total / limit);
           updateProgress(dispatch);
-          if (orders.length < json.total) {
-            return fetchAll(dispatch, pdsCode, page + 1, limit);
+          if (orders.length < json.total && (page * limit) + json.data.length < json.total && json.data.length === limit) {
+            return fetchAll(dispatch, pdsCode, page + 1, limit, all, timeServer, clientHubId);
           } else {
             pdListFetchSuccess(dispatch, orders, all);
             return true;
@@ -64,6 +65,8 @@ const fetchAll = (dispatch, pdsCode, page = 0, limit = 100, all) => {
           pdListFetchNoTrip(dispatch, json.message);
         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') { //Saved Session Expired: log user out
           logout(dispatch);
+        } else if (json.status === 'NOT_FOUND') {
+          pdListFetchFail(dispatch, 'CĐ không không có đơn mới / cập nhật.');
         } else {
           pdListFetchFail(dispatch, json.message);
         }
@@ -74,7 +77,7 @@ const fetchAll = (dispatch, pdsCode, page = 0, limit = 100, all) => {
       });
 };
 
-export const pdListFetch = (all = true, limit = limitNum) => {
+export const pdListFetch = ({ all = true, page = 0, limit = limitNum, timeServer = null, clientHubId = null }) => {
   info = {};
   orders = [];
   currentPage = 0;
@@ -82,6 +85,8 @@ export const pdListFetch = (all = true, limit = limitNum) => {
     dispatch({ type: PDLIST_FETCH });
     dispatch({ type: OTHER_SET_PROPS, payload: { loading: true, progress: 0 } });
     const { userID } = getState().auth;
+    const { pdsCode } = getState().pd;
+    
     return API.GetUserActivePdsInfo(userID)
       .then(response => {
         const json = response.data;
@@ -89,7 +94,8 @@ export const pdListFetch = (all = true, limit = limitNum) => {
 
           /******** success *********/
           info = json.data[0];
-          return fetchAll(dispatch, info.pdsCode, 0, limit, all);
+          const updateTime = pdsCode === info.pdsCode ? timeServer : null; //no timeServer for the first time
+          return fetchAll(dispatch, info.pdsCode, page, limit, all, updateTime, clientHubId);
 
         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
           pdListFetchNoTrip(dispatch, json.message);

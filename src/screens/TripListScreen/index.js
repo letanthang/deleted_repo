@@ -130,7 +130,7 @@ class TripListScreen extends Component {
   }
 
   reloadData() {
-    this.props.pdListFetch()
+    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer })
         .then(result => {
           if (result) {
             //this.props.setLoaded(); 
@@ -227,12 +227,13 @@ class TripListScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const { timeServer } = state.pd;
   const { loading, progress } = state.other;
   const { layoutMode } = state.config;
   const { PickItems, ReturnItems } = get3Type(state);
   const stats = getNumbers(state);
   const { pickOrderComplete } = stats;
-  return { PickItems, ReturnItems, layoutMode, pickOrderComplete, loading, progress };
+  return { PickItems, ReturnItems, layoutMode, pickOrderComplete, loading, progress, timeServer };
 };
 
 export default connect(mapStateToProps, { toggleLayout, pdListFetch })(TripListScreen);

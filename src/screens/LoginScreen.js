@@ -24,11 +24,11 @@ class LoginScreen extends Component {
   //   header: null
   // };
 
-  state = { showPassword: false, rememberMe: false }
+  state = { showPassword: false, rememberMe: false, loading: false }
 
   componentWillMount() {
     Orientation.lockToPortrait();
-    //LocalGroup.getLocalDB(); 
+    //LocalGroup.getLocalDB();
     //this.props.loadSavedUserPass();
     //this.props.loadSavedSession();
     new ShareVariables().LoginHeader['X-Auth'] = this.props.sessionToken;
@@ -82,7 +82,7 @@ class LoginScreen extends Component {
   }
 
   renderSpinner() {
-    if (this.props.loading) {
+    if (this.props.loading && this.state.loading) {
       return (
         <View style={styles.loading}>
           <ActivityIndicator size='large' />
@@ -139,7 +139,10 @@ class LoginScreen extends Component {
             <Button 
               block
               success
-              onPress={() => this.props.loginUser({ userID, password, rememberMe })}
+              onPress={() => { 
+                this.setState({ loading: true });
+                this.props.loginUser({ userID, password, rememberMe });
+              }}
             >
               <Text>ĐĂNG NHẬP</Text>
             </Button>

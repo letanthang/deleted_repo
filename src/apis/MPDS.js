@@ -32,13 +32,13 @@ export const GetUserActivePdsInfo = (tripUserId) => {
     return axios.get(URL, config);
   };
 
-export const GetUserActivePds = (pdsCode, offset, limit) => {
+export const GetUserActivePds = (pdsCode, offset, limit, timeServer, clientHubId) => {
   const URL = `${PDS_URL}/pda/pds/orders`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
-    params: { pdsCode, offset, limit },
+    params: { pdsCode, offset, limit, timeServer, clientHubId },
     timeout
   };
 

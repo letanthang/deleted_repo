@@ -16,6 +16,7 @@ const nameInitialState = {
   pdsId: null,
   pdsCode: null,
   lastUpdatedTime: null,
+  timeServer: null,
   loading: false,
   addOrderLoading: false,
   groups: {
@@ -38,7 +39,7 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_SUCCESS: {
       const { pds, all } = action.payload;
       transformPDS(pds);
-      const { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID, pdsCode, lastUpdatedTime } = pds;
+      const { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID, pdsCode, lastUpdatedTime, timeServer } = pds;
 
       let pdsItems = null;
       let groups = state.groups;
@@ -60,6 +61,7 @@ export default (state = nameInitialState, action) => {
         pdsId: pickDeliverySessionID,
         pdsCode,
         lastUpdatedTime,
+        timeServer,
         groups,
         loading: false,
         error: '',
@@ -387,6 +389,7 @@ const addGroup = (pds, orderGroup) => {
 const mergeState = (oldState, newState, all) => {
   if (oldState === null) return newState;
   const temp = all ? {} : oldState;
+  console.log(temp);
   _.each(newState, (item, key) => {
     temp[key] = Object.assign({}, oldState[key], item);
   });

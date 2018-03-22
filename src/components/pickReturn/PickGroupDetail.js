@@ -117,7 +117,7 @@ class PickGroupDetail extends Component {
   }
 
   reloadData() {
-    this.props.pdListFetch(false, 1)
+    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer })
         .then(result => {
           if (result) {
             //this.props.setLoaded(); 
@@ -249,13 +249,13 @@ class PickGroupDetail extends Component {
 const mapStateToProps = (state) => {
   const { auth, pd, config, pickGroup, other } = state;
   const { sessionToken } = auth;
-  const { pdsId } = pd;
+  const { pdsId, timeServer } = pd;
   const { loading } = other;
   const { configuration } = config;
   const { showDatePicker, OrderInfos, keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
   const db = getOrders(state);
-  return { db, PickItems, ReturnItems, sessionToken, pdsId, loading, configuration, showDatePicker, OrderInfos, keyword };
+  return { db, PickItems, ReturnItems, sessionToken, pdsId, loading, configuration, showDatePicker, OrderInfos, keyword, timeServer };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder, pdListFetch })(PickGroupDetail);

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, SectionList } from 'react-native';
+import { View, TouchableOpacity, SectionList, RefreshControl } from 'react-native';
 // import Accordion from 'react-native-collapsible/Accordion';
 import { 
   Content, Text, Badge
@@ -8,7 +8,7 @@ import {
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import Utils from '../../libs/Utils';
-import { toggleGroupActive } from '../../actions';
+import { toggleGroupActive, pdListFetch } from '../../actions';
 import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 import StatusText from '../StatusText';
 import { get3Type } from '../../selectors';
@@ -43,6 +43,15 @@ class DeliveryByGroup extends Component {
       || contactName.toUpperCase().includes(keyword)
       || address.toUpperCase().includes(keyword);
   }
+  reloadData() {
+    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer })
+        .then(result => {
+          if (result) {
+            //this.props.setLoaded(); 
+            Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
+          }
+        });
+  }
 
   render() {
     const groups = _.clone(this.props.groups);
@@ -59,7 +68,16 @@ class DeliveryByGroup extends Component {
     sections.sort((a, b) => groups[a.groupIndex].position - groups[b.groupIndex].position);
 
     return (
-      <Content style={{ backgroundColor: Colors.background }}>
+      <Content 
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.loading}
+            onRefresh={this.reloadData.bind(this)}
+            // title={progressTitle}
+          />
+        }
+        style={{ backgroundColor: Colors.background }}
+      >
       <SectionList
         sections={sections}
         keyExtractor={(item, index) => item.orderCode }
@@ -119,10 +137,11 @@ class DeliveryByGroup extends Component {
 
 
 const mapStateToProps = (state) => {
-  const { pd } = state;
-  const { groups } = pd;
+  const { pd, other } = state;
+  const { groups, timeServer } = pd;
+  const { loading } = other;
   const { DeliveryItems } = get3Type(state);
-  return { DeliveryItems, groups };
+  return { DeliveryItems, groups, loading, timeServer };
 };
 
-export default connect(mapStateToProps, { toggleGroupActive })(DeliveryByGroup);
+export default connect(mapStateToProps, { toggleGroupActive, pdListFetch })(DeliveryByGroup);

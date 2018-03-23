@@ -12,6 +12,7 @@ import { NavigationActions } from 'react-navigation';
 import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
 import AppFooter from '../components/AppFooter';
 import LogoButton from '../components/LogoButton';
+import ProgressBar from '../components/ProgressBar';
 import Utils from '../libs/Utils';
 import { get3Type, getNumbers } from '../selectors';
 import { Colors, Styles } from '../Styles';
@@ -149,6 +150,10 @@ class DeliveryListScreen extends Component {
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
         <DeliveryByGroup navigation={this.props.navigation} keyword={this.state.keyword} />
+        <ProgressBar
+          progress={this.props.progress}
+          loading={this.props.loading}
+        />
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );
@@ -159,7 +164,8 @@ class DeliveryListScreen extends Component {
 const mapStateToProps = (state) => {
   const { DeliveryItems } = get3Type(state);
   const stats = getNumbers(state);
-  return { DeliveryItems, stats };
+  const { loading, progress } = state.other;
+  return { DeliveryItems, stats, loading, progress };
 };
 
 export default connect(mapStateToProps, {})(DeliveryListScreen);

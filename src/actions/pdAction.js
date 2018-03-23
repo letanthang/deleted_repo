@@ -183,23 +183,29 @@ export const updateOrderStatus = (infos) => {
           updateOrderStatusSuccess(dispatch, OrderInfos, json.data[0].listFail);
           if (json.data[0].listFail.length > 0) {
             //write log
-            const req = API.UpdateStatusGetRequest(params);
-            writeLog({ request: req, response: json });
+            // const req = API.UpdateStatusGetRequest(params);
+            // writeLog({ request: req, response: json });
           }
           return json.data[0].listFail;
+        } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
+          updateOrderStatusFail(dispatch, json.message, OrderInfos, false);
+          logout(dispatch);
+        } else if (json.status === 'UNAUTHORIZED') {
+          updateOrderStatusFail(dispatch, json.message, OrderInfos, false);
+          logout(dispatch);
         } else {
           updateOrderStatusFail(dispatch, json.message, OrderInfos);
           //write log
-          const req = API.UpdateStatusGetRequest(params);
-          writeLog({ request: req, response: json });
+          // const req = API.UpdateStatusGetRequest(params);
+          // writeLog({ request: req, response: json });
           return null;
         }
       })
       .catch(error => {
         updateOrderStatusFail(dispatch, error.message, OrderInfos);
         //write log
-        const req = API.UpdateStatusGetRequest(params);
-        writeLog({ request: req, error });
+        // const req = API.UpdateStatusGetRequest(params);
+        // writeLog({ request: req, error });
       });
   });
 };
@@ -211,8 +217,8 @@ const updateOrderStatusSuccess = (dispatch, OrderInfos, FailedOrders) => {
   });
 };
 
-const updateOrderStatusFail = (dispatch, error, OrderInfos) => {
-  reportBug(error, OrderInfos);
+const updateOrderStatusFail = (dispatch, error, OrderInfos, report = true) => {
+  if (report) reportBug(error, OrderInfos);
   dispatch({
     type: UPDATE_ORDER_STATUS_FAIL,
     payload: { error, OrderInfos }

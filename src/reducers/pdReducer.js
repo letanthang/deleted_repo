@@ -366,7 +366,6 @@ const getKey = (orderID, type) => `${orderID}-${type}`;
 
 const transformPDS = (pds) => {
   // create PickItems, DeliveryItems, ReturnItems
-  console.log(pds);
   const temp = {};
   pds.pdsItems.forEach(item => {
     delete item.nextStatus;
@@ -389,7 +388,6 @@ const addGroup = (pds, orderGroup) => {
 const mergeState = (oldState, newState, all) => {
   if (oldState === null) return newState;
   const temp = all ? {} : oldState;
-  console.log(temp);
   _.each(newState, (item, key) => {
     temp[key] = Object.assign({}, oldState[key], item);
   });

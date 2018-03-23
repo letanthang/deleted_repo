@@ -66,7 +66,7 @@ const fetchAll = (dispatch, pdsCode, page, limit, all, timeServer, clientHubId) 
         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') { //Saved Session Expired: log user out
           logout(dispatch);
         } else if (json.status === 'NOT_FOUND') {
-          pdListFetchFail(dispatch, 'CĐ không không có đơn mới / cập nhật.');
+          pdListFetchFail(dispatch, 'CĐ không có cập nhật.');
         } else {
           pdListFetchFail(dispatch, json.message);
         }

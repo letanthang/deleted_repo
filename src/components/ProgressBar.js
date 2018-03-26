@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Platform } from 'react-native';
 import { Bar } from 'react-native-progress';
 
 class ProgressBar extends PureComponent {
@@ -13,8 +13,9 @@ class ProgressBar extends PureComponent {
   render() {
     const { width } = Dimensions.get('window');
     const { progress } = this.props;
+    const top = Platform.OS === 'ios' ? 66 : 56;
     return (
-      <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2, height: 10 }}>
+      <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2, height: 10, position: 'absolute', top, left: 0, zIndex: 100 }}>
         {this.state.show ?
         <Bar
           color='blue'

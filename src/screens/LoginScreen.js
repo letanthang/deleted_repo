@@ -109,9 +109,10 @@ class LoginScreen extends Component {
               <Item style={{ marginRight: 20 }}>
                 <IconFA name="user-o" size={20} />
                 <Input 
-                  placeholder="Mã số" 
+                  placeholder="Mã số"
                   value={userID}
                   onChangeText={(text) => this.props.userIDChanged(text)}
+                  keyboardType='numeric'
                 />
               </Item>
               <Item style={{ marginRight: 20 }}>

@@ -149,16 +149,16 @@ class PickGroupDetailScreen extends Component {
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <ReturnGroupDetail navigation={navigation} />
         <LoadingSpinner loading={false} />
-        <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2 }}>
+        <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2, height: 13 }}>
           <Bar 
             color='blue'
             unfilledColor='#ccc'
             borderRadius={2}
             progress={this.doneNum / this.totalNum}
-            height={10}
-            width={width - 20}
+            height={9}
+            width={width - 4}
             indeterminate={false}
-            style={{ marginLeft: 10, marginRight: 10 }}
+            style={{ marginLeft: 2, marginRight: 2 }}
           />
         </View>
         {!this.checkRealDone() && this.hasUnsynced(pickGroup) ?

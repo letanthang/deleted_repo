@@ -19,8 +19,7 @@ class PerformanceScreen extends Component {
     
   }
   render() {
-
-    const { navigate, goBack } = this.props.navigation;
+    const { goBack } = this.props.navigation;
     const { yesterday, week, month } = this.props;
     return (
       <Container style={{ backgroundColor: Colors.background }}>

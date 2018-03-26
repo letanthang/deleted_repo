@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { View, UIManager, LayoutAnimation } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import FormButton from '../FormButton';
+import FormButton from '../../components/FormButton';
 import { Colors } from '../../Styles';
 import { updateOrderInfo } from '../../actions';
-import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './Helpers';
+import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from '../../components/Helpers';
 
 class ActionButtons extends Component {
   componentWillMount() {

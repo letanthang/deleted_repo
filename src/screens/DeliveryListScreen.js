@@ -29,17 +29,18 @@ class DeliveryListScreen extends Component {
     
   }
   goBack() {
-    const dispatch = this.props.navigation.dispatch;
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ 
-          routeName: 'Drawer', 
-          action: NavigationActions.navigate({ routeName: 'Home' }) 
-        })
-      ]
-    });
-    dispatch(resetAction);
+    this.props.navigation.goBack();
+    // const dispatch = this.props.navigation.dispatch;
+    // const resetAction = NavigationActions.reset({
+    //   index: 0,
+    //   actions: [
+    //     NavigationActions.navigate({ 
+    //       routeName: 'Drawer', 
+    //       action: NavigationActions.navigate({ routeName: 'Home' }) 
+    //     })
+    //   ]
+    // });
+    // dispatch(resetAction);
   }
 
   renderHeader() {

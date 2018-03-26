@@ -54,6 +54,9 @@ class HomeScreen extends Component {
   }
   componentDidUpdate() {
   }
+  componentWillUnmount() {
+    //console.log('HomeScreen unmount!');
+  }
   onTripListPress() {
     if (this.props.pickTotal === 0) return;
     
@@ -195,6 +198,7 @@ class HomeScreen extends Component {
     const { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete } = this.props.stats;
     const marginLeft = Platform.OS === 'ios' ? 0 : 10;
     const marginRight = Platform.OS === 'ios' ? 0 : -10;
+    const paddingTop = Platform.OS === 'ios' ? 4 : 8;
     const { pdsItems, timeServer } = this.props;
     const showTime = timeServer ? moment(timeServer).format('LT DD/MM ') : '';
     const ordersNum = pdsItems ? Object.keys(pdsItems[0]).length : 0;
@@ -202,7 +206,7 @@ class HomeScreen extends Component {
     // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
       <Content 
-        style={{ padding: 10, flex: 1, marginLeft, marginRight }}
+        style={{ padding: 10, flex: 1, marginLeft, marginRight, position: 'relative' }}
         refreshControl={
           <RefreshControl
             refreshing={this.props.loading}
@@ -211,88 +215,88 @@ class HomeScreen extends Component {
           />
         }
       >
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }} >
-        <View style={{ }}>
-          <Text style={{ fontWeight: 'bold' }}>
-            Tổng số đơn {ordersNum}
-          </Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 4, paddingTop }} >
+          <View style={{ }}>
+            <Text style={{ fontWeight: 'bold' }}>
+              Tổng số đơn {ordersNum}
+            </Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={{ fontWeight: '400', fontSize: 16 }}>{showTime} </Text>
+            <IC name='update' size={16} />
+          </View>
         </View>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={{ fontWeight: '400', fontSize: 16 }}>{showTime} </Text>
-          <IC name='update' size={16} />
-        </View>
-      </View>
-      
-      <PDCard
-        type='pick'
-        onPress={this.onTripListPress.bind(this)}
-        upNumber={pickComplete}
-        downNumber={pickTotal}
-        color='#12cd72'
-        delay={false}
-      />
-      <PDCard
-        type='delivery'
-        onPress={this.onDeliveryPress.bind(this)}
-        upNumber={deliveryComplete}
-        downNumber={deliveryTotal}
-        color='#ff6e40'
-        delay={false}
-      />
-      <PDCard
-        type='return'
-        onPress={this.onReturnPress.bind(this)}
-        upNumber={returnComplete}
-        downNumber={returnTotal}
-        color='#606060'
-        delay={false}
-      />
-      <TouchableOpacity
-        onPress={() => navigate('Performance')}
-      >
-        <Card>
-          <CardItem style={{ backgroundColor: Colors.row }}>
-            <View style={HomeStyles.cardItemLeft}>
-              <View>
-                <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
-                  Năng suất làm việc
-                </Text>
+        
+        <PDCard
+          type='pick'
+          onPress={this.onTripListPress.bind(this)}
+          upNumber={pickComplete}
+          downNumber={pickTotal}
+          color='#12cd72'
+          delay={false}
+        />
+        <PDCard
+          type='delivery'
+          onPress={this.onDeliveryPress.bind(this)}
+          upNumber={deliveryComplete}
+          downNumber={deliveryTotal}
+          color='#ff6e40'
+          delay={false}
+        />
+        <PDCard
+          type='return'
+          onPress={this.onReturnPress.bind(this)}
+          upNumber={returnComplete}
+          downNumber={returnTotal}
+          color='#606060'
+          delay={false}
+        />
+        <TouchableOpacity
+          onPress={() => navigate('Performance')}
+        >
+          <Card>
+            <CardItem style={{ backgroundColor: Colors.row }}>
+              <View style={HomeStyles.cardItemLeft}>
+                <View>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>
+                    Năng suất làm việc
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View style={HomeStyles.cardItemRight}>
-              <Image source={efficiencyIcon} />
-            </View>
-          </CardItem>
-        </Card>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigate('AddOrder')}
-      >
-        <Card>
-          <CardItem style={{ backgroundColor: Colors.row }}>
-            <View style={HomeStyles.cardItemLeft}>
-              <View>
-                <Text style={{ fontWeight: 'bold', color: Colors.theme }}>
-                  Thêm đơn hàng lấy
-                </Text>
+              <View style={HomeStyles.cardItemRight}>
+                <Image source={efficiencyIcon} />
               </View>
-            </View>
-            <View style={HomeStyles.cardItemRight}>
-              <IC name='plus' size={30} /><IC name='plus' size={30} /><IC name='plus' size={30} />
-            </View>
-          </CardItem>
-        </Card>
-      </TouchableOpacity>
-      
-      {this.state.showScanner ?
-          <BarcodeReader 
-            onBarCodeRead={({data, bounds}) => {
-              //this.setState({ showScanner: false });
-            }}
-          />
-          : null }
-      
-    </Content>
+            </CardItem>
+          </Card>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('AddOrder')}
+        >
+          <Card>
+            <CardItem style={{ backgroundColor: Colors.row }}>
+              <View style={HomeStyles.cardItemLeft}>
+                <View>
+                  <Text style={{ fontWeight: 'bold', color: Colors.theme }}>
+                    Thêm đơn hàng lấy
+                  </Text>
+                </View>
+              </View>
+              <View style={HomeStyles.cardItemRight}>
+                <IC name='plus' size={30} /><IC name='plus' size={30} /><IC name='plus' size={30} />
+              </View>
+            </CardItem>
+          </Card>
+        </TouchableOpacity>
+        
+        {this.state.showScanner ?
+            <BarcodeReader 
+              onBarCodeRead={({data, bounds}) => {
+                //this.setState({ showScanner: false });
+              }}
+            />
+            : null }
+        
+      </Content>
     );
   }
   renderFooter() {
@@ -304,16 +308,15 @@ class HomeScreen extends Component {
   render() {
     console.log('HomeScreen render');
     return (
-        <Container style={{ backgroundColor: Colors.background }}>
+        <Container style={{ backgroundColor: Colors.background, position: 'relative' }}>
           <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
           {this.renderHeader()}
-          {this.renderContent()}
           <ProgressBar
             progress={this.props.progress}
             loading={this.props.loading}
           />
+          {this.renderContent()}
           {this.renderFooter()}
-          
           {/* <LoadingSpinner loading={this.props.loading} /> */}
         </Container>
         

@@ -50,17 +50,18 @@ class TripListScreen extends Component {
   }
 
   goBack() {
-    const dispatch = this.props.navigation.dispatch;
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ 
-          routeName: 'Drawer', 
-          action: NavigationActions.navigate({ routeName: 'Home' }) 
-        })
-      ]
-    });
-    dispatch(resetAction);
+    this.props.navigation.goBack();
+    // const dispatch = this.props.navigation.dispatch;
+    // const resetAction = NavigationActions.reset({
+    //   index: 0,
+    //   actions: [
+    //     NavigationActions.navigate({ 
+    //       routeName: 'Drawer', 
+    //       action: NavigationActions.navigate({ routeName: 'Home' }) 
+    //     })
+    //   ]
+    // });
+    // dispatch(resetAction);
   }
   
   checkKeywork({ clientName, contactName, address }) {
@@ -156,6 +157,10 @@ class TripListScreen extends Component {
           onGoBack={this.goBack.bind(this)}
           onToggleLayoutPress={() => this.onToggleLayoutPress()}
         />
+        <ProgressBar
+          progress={this.props.progress}
+          loading={this.props.loading}
+        />
         <Content 
           style={{ flex: 1 }}
           refreshControl={
@@ -215,10 +220,6 @@ class TripListScreen extends Component {
             /> 
           </DataEmptyCheck>
         </Content>
-        <ProgressBar
-          progress={this.props.progress}
-          loading={this.props.loading}
-        />
         <AppFooter navigation={this.props.navigation} />
       </Container>
     );

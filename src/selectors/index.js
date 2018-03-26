@@ -36,11 +36,11 @@ export const get3Type = createSelector(
       // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
       const group = { key: clientHubId, address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, pickDeliveryType };
       group.ShopOrders = orders;
-      group.ShopOrders.sort((a, b) => {
-        const x = a.statusChangeDate ? a.statusChangeDate : 0;
-        const y = b.statusChangeDate ? b.statusChangeDate : 0;
-        return x - y;
-      });
+      // group.ShopOrders.sort((a, b) => {
+      //   const x = a.statusChangeDate ? a.statusChangeDate : 0;
+      //   const y = b.statusChangeDate ? b.statusChangeDate : 0;
+      //   return x - y;
+      // });
       group.done = checkTripDone(group);
       const shopGroup = shopPGroup[clientHubId];
       group.shopGroup = shopGroup;

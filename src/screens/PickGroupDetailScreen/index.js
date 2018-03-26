@@ -9,13 +9,14 @@ import {
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
-import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch } from '../actions';
-import { get3Type } from '../selectors';
-import Utils from '../libs/Utils';
-import { Styles, Colors } from '../Styles';
-import PickGroupDetail from '../components/pickReturn/PickGroupDetail';
-import LoadingSpinner from '../components/LoadingSpinner';
-import LogoButton from '../components/LogoButton';
+import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch } from '../../actions';
+import { get3Type } from '../../selectors';
+import Utils from '../../libs/Utils';
+import { Styles, Colors } from '../../Styles';
+import PickGroupDetail from './PickGroupDetail';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import ProgressBar from '../../components/ProgressBar';
+import LogoButton from '../../components/LogoButton';
 
 
 class PickGroupDetailScreen extends Component {
@@ -148,21 +149,25 @@ class PickGroupDetailScreen extends Component {
       
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
+        <ProgressBar
+          progress={this.props.progress}
+          loading={this.props.loading}
+        />
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} />
         <LoadingSpinner loading={addOrderLoading} />
         
         
-        <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2 }}>
+        <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2, height: 13 }}>
           <Bar 
             color='blue'
             unfilledColor='#ccc'
             borderRadius={2}
             progress={this.doneNum / this.totalNum}
-            height={10}
-            width={width - 20}
+            height={9}
+            width={width - 4}
             indeterminate={false}
-            style={{ marginLeft: 10, marginRight: 10 }}
+            style={{ marginLeft: 2, marginRight: 2 }}
           />
         </View>
         {!this.checkRealDone() && this.hasUnsynced(pickGroup) ?
@@ -184,12 +189,13 @@ class PickGroupDetailScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, pd, pickGroup } = state;
+  const { auth, pd, pickGroup, other } = state;
+  const { progress, loading } = other;
   const { sessionToken } = auth;
-  const { pdsId, loading, addOrderLoading } = pd;
+  const { pdsId, addOrderLoading } = pd;
   const { OrderInfos, done, keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems, sessionToken, pdsId, state, loading, addOrderLoading, OrderInfos, done, keyword };
+  return { PickItems, ReturnItems, sessionToken, pdsId, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch })(PickGroupDetailScreen);

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity, Text, FlatList, RefreshControl } from 'react-native';
+import { View, Alert, FlatList, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
-import { accounting } from 'accounting';
+
 import { 
   Content
 } from 'native-base';
@@ -11,13 +11,11 @@ import Utils from '../../libs/Utils';
 import { get3Type, getOrders } from '../../selectors';
 import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
-import OrderStatusText from '../OrderStatusText';
-import DataEmptyCheck from '../DataEmptyCheck';
-import ActionButtons from './ActionButtons';
+import DataEmptyCheck from '../../components/DataEmptyCheck';
 import ActionAllButtons from './ActionAllButtons';
-import ActionModal from '../ActionModal';
-import { getUpdateOrderInfo } from './Helpers';
-import FormButton from '../FormButton';
+import ActionModal from '../../components/ActionModal';
+import { getUpdateOrderInfo } from '../../components/Helpers';
+import OrderItem from './OrderItem';
 
 class PickGroupDetail extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
@@ -35,8 +33,6 @@ class PickGroupDetail extends Component {
     this.pickDeliveryType = this.pickGroup.pickDeliveryType;
     this.checkDone(this.props);
   }
-
-
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
   }
@@ -87,7 +83,7 @@ class PickGroupDetail extends Component {
     }
   }
 
-  onChooseDate(date) {    
+  onChooseDate(date) {
     const timestamp = date.getTime();
     if (this.order === null) {
       const OrderInfos = _.map(this.orders, order => getUpdateOrderInfo(order, this.buttonIndex, timestamp));
@@ -101,6 +97,11 @@ class PickGroupDetail extends Component {
   }
   onCancelDate() {
     this.setState({ modalShow: !this.state.modalShow });
+  }
+  onSelectDateCase(buttonIndex, order) {
+    this.buttonIndex = buttonIndex;
+    this.order = order;
+    this.setState({ modalShow: true });
   }
 
   acceptDeliverPress(order) {
@@ -131,7 +132,7 @@ class PickGroupDetail extends Component {
     const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
-    const animated = orders.length < 10;
+    const animated = true; //const animated = orders.length < 10;
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
     return (
       <Content
@@ -162,75 +163,15 @@ class PickGroupDetail extends Component {
           <FlatList 
             data={orders}
             keyExtractor={(item, index) => item.orderCode}
-            renderItem={({ item }) => {
-              const order = item;
-              const { 
-                orderCode, recipientName, recipientPhone,
-                height, width, weight, length, currentStatus,
-                ExternalCode, senderPay, success, note, pickWarehouseId, 
-                deliverWarehouseId, done
-              } = item;
-
-              const realDone = done;
-              const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(currentStatus);
-              const isDelivering = this.checkDelivering(order);
-              const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
-              return (
-                <TouchableOpacity
-                  onPress={this.onOrderPress.bind(this, item)}
-                >
-                  <View style={[Styles.orderWrapperStyle]}>
-                    <View style={Styles.item2Style}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>
-                        <OrderStatusText 
-                          order={order}
-                          style={{ marginLeft: 10 }}
-                        />
-                      </View>
-                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(senderPay)} đ</Text>
-                    </View>
-                    {success === false && realDone === false ?
-                    <View style={Styles.itemStyle}>
-                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{note}</Text>
-                    </View>
-                    : null}
-                    {ExternalCode ?
-                    <View style={Styles.itemStyle}>
-                      <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {ExternalCode}</Text>
-                    </View>
-                    : null}
-                    <View style={Styles.itemStyle}>
-                      <Text style={Styles.weakColorStyle}>Nhận: {recipientName} - {recipientPhone}</Text>
-
-                      
-                    </View>
-                    <View style={Styles.item2Style}>
-                      <Text style={Styles.weakColorStyle}>{weight} g | {length}-{width}-{height} (cm3)</Text>
-                      {deliverable ?
-                      <FormButton
-                        disabled={isDelivering}
-                        theme='theme1'
-                        text={deliverStatus}
-                        width={100}
-                        onPress={this.acceptDeliverPress.bind(this, order)}
-                      /> : null}
-                    </View>
-                    <ActionButtons
-                      animated={animated}
-                      done={realDone}
-                      info={order}
-                      order={order}
-                      onSelectDateCase={buttonIndex => {
-                        this.buttonIndex = buttonIndex;
-                        this.order = order;
-                        this.setState({ modalShow: true });
-                      }} 
-                    />
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
+            renderItem={({ item }) => 
+            <OrderItem 
+              order={item}
+              animated={animated}
+              acceptDeliverPress={this.acceptDeliverPress.bind(this)}
+              onOrderPress={this.onOrderPress.bind(this)}
+              checkDelivering={this.checkDelivering.bind(this)}
+              onSelectDateCase={this.onSelectDateCase.bind(this)}
+            />}
           />
           </View>
         </DataEmptyCheck>

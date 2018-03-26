@@ -153,12 +153,14 @@ export const getUserPerformance = (statType = 'yesterday') => {
           });
         }
       } else {
-        console.log('getUserPerformance failed, response data=');
-        console.log(json);
+        dispatch({
+          type: OTHER_GET_USER_PERFORMANCE_FAIL,
+        });
       }
     } catch (error) {
-      console.log('getUserPerformance failed with error =');
-      console.log(error);
+      dispatch({
+        type: OTHER_GET_USER_PERFORMANCE_FAIL,
+      });
     }
   };
 };

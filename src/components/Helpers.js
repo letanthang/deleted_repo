@@ -1,8 +1,8 @@
 import { Alert } from 'react-native';
 import { ActionSheet } from 'native-base';
 import moment from 'moment';
-import Utils from '../../libs/Utils';
-import { PickErrors, ReturnErrors } from '../Constant';
+import Utils from '../libs/Utils';
+import { PickErrors, ReturnErrors } from './Constant';
 
 const buttons = Object.values(PickErrors);
 buttons.push('Cancel');

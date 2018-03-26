@@ -18,7 +18,7 @@ import LogoButton from '../components/LogoButton';
 import FormButton from '../components/FormButton';
 import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
-import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/pickReturn/Helpers';
+import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/Helpers';
 
 let clientId = null;
 let clientHubId = null;

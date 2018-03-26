@@ -17,8 +17,9 @@ const accountIconActive = require('../../resources/account_active.png');
 
 const navigate = (dispatch, routeName) => {
   const resetAction = NavigationActions.reset({
-    index: 0,
+    index: 1,
     actions: [
+      NavigationActions.navigate({ routeName: 'Drawer' }),
       NavigationActions.navigate({ routeName })
     ]
   });

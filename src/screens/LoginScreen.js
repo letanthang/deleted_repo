@@ -81,15 +81,6 @@ class LoginScreen extends Component {
     }
   }
 
-  renderSpinner() {
-    if (this.props.loading && this.state.loading) {
-      return (
-        <View style={styles.loading}>
-          <ActivityIndicator size='large' />
-        </View>
-      );
-    }
-  }
 
   render() {
     const { userID, password, rememberMe } = this.props;
@@ -148,7 +139,7 @@ class LoginScreen extends Component {
               <Text>ĐĂNG NHẬP</Text>
             </Button>
         </Content>
-        <LoadingSpinner loading={this.props.loading} />
+        <LoadingSpinner loading={this.props.loading && this.state.loading} />
       </Container>
     );
   }

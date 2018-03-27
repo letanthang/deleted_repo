@@ -97,7 +97,7 @@ export const addOrder = (orderCode) => {
           });
           Utils.showToast(`Đơn hàng ${orderCode} đã được thêm thành công!`, 'success');
           //refresh data from server
-          dispatch(pdListFetch());
+          dispatch(pdListFetch({}));
         } else {
           dispatch({ type: ORDER_ADD_ORDER_FAIL });
           reportBug(json.message, { orderCode });

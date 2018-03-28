@@ -387,7 +387,7 @@ const addGroup = (pds, orderGroup) => {
 
 const mergeState = (oldState, newState, all) => {
   if (oldState === null) return newState;
-  const temp = all ? {} : oldState;
+  const temp = all ? {} : _.clone(oldState);
   _.each(newState, (item, key) => {
     temp[key] = Object.assign({}, oldState[key], item);
   });

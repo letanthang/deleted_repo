@@ -1,15 +1,16 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, SectionList, RefreshControl } from 'react-native';
+import { TouchableOpacity, SectionList, RefreshControl } from 'react-native';
 // import Accordion from 'react-native-collapsible/Accordion';
 import { 
-  Content, Text, Badge
+  Content, Text
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
+import DeliveryItem from './DeliveryItem';
 import Utils from '../../libs/Utils';
 import { toggleGroupActive, pdListFetch } from '../../actions';
-import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
+import { DeliverGroupStyles, Colors } from '../../Styles';
 import StatusText from '../StatusText';
 import { get3Type } from '../../selectors';
 
@@ -83,34 +84,13 @@ class DeliveryByGroup extends Component {
         keyExtractor={(item, index) => item.orderCode }
         renderItem={({ item, index, section }) => {
           if (!section.activeSection) return null;
-
-          const order = item;
-          const { deliveryAddress, orderCode, displayOrder, serviceName } = order;
-          const wrapperStyle = index === 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
-          
           return (
-            <TouchableOpacity
-              onPress={this.onDeliveryOrderPressOnce.bind(this, orderCode)}
-            >
-              <View style={wrapperStyle}>
-                <View style={Styles.item2Style}>
-                  <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                    [{displayOrder}] {orderCode}
-                  </Text>
-                  <Badge>
-                    <Text>{serviceName}</Text>
-                  </Badge>
-                </View>
-                <View style={Styles.itemStyle}>
-                  <Text style={[Styles.midTextStyle, Styles.weakColorStyle]}>
-                    {deliveryAddress}
-                  </Text>
-                </View>
-                <View style={Styles.itemStyle}>
-                  {this.renderStatusText(order)}
-                </View>
-              </View>
-            </TouchableOpacity>
+            <DeliveryItem 
+              index={index}
+              order={item}
+              renderStatusText={this.renderStatusText.bind(this)}
+              onDeliveryOrderPressOnce={this.onDeliveryOrderPressOnce.bind(this)}
+            />
           );
         }}
         renderSectionHeader={({ section }) => {

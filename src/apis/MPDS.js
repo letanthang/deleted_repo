@@ -4,7 +4,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = false;
+const mockOn = true;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';

@@ -345,7 +345,7 @@ class BluetoothSerialExample extends Component {
       BluetoothSerial.write('+++hihi \n');
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/arrow_up_20180307_145909.jpg');
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/barcode1_20180307_154043.jpg');
-      BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/barcode4_20180307_154752.jpg');
+      BluetoothSerial.writeImage('/storage/emulated/0/Pictures/order-label-s.png');
       // this.write(`Order: ${orderCode} \n`);
       // this.write(`Fullname: ${recipientName} \n`);
       // this.write(`Address:  ${deliveryAddress} \n`);

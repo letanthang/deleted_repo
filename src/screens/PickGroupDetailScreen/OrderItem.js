@@ -4,7 +4,7 @@ import { accounting } from 'accounting';
 import OrderStatusText from '../../components/OrderStatusText';
 import ActionButtons from './ActionButtons';
 import FormButton from '../../components/FormButton';
-import { Styles } from '../../Styles';
+import { Styles, Colors } from '../../Styles';
 import Utils from '../../libs/Utils';
 
 class OrderItem extends Component {
@@ -28,6 +28,8 @@ class OrderItem extends Component {
     } = order;
 
     const realDone = done;
+    const nearDone = Utils.checkPickCompleteForUnsync(order);
+    const backgroundColor = nearDone ? '#DFDFEF' : Colors.row;
     const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(currentStatus);
     const isDelivering = checkDelivering(order);
     const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
@@ -35,7 +37,7 @@ class OrderItem extends Component {
       <TouchableOpacity
         onPress={onOrderPress.bind(this, order)}
       >
-        <View style={[Styles.orderWrapperStyle]}>
+        <View style={[Styles.orderWrapperStyle, { backgroundColor }]}>
           <View style={Styles.item2Style}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>

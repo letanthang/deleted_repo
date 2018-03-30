@@ -25,6 +25,7 @@ const nameInitialState = {
   progress: 0,
   loading: false,
   orderHistory: {},
+  imageUri: null
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {

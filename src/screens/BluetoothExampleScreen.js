@@ -10,8 +10,8 @@ import {
   View,
   ActivityIndicator,
   Image
-} from 'react-native'
-
+} from 'react-native';
+import { connect } from 'react-redux';
 import BluetoothSerial from 'react-native-bluetooth-serial';
 import { Buffer } from 'buffer';
 import Utils from '../libs/Utils';
@@ -265,6 +265,14 @@ class BluetoothSerialExample extends Component {
     const activeTabStyle = { borderBottomWidth: 6, borderColor: '#009688' }
     return (
       <View style={{ flex: 1 }}>
+        {this.props.imageUri ?
+        <View style={styles.orderLabel}>
+          <Image 
+            style={{ width: 350, height: 250 }}
+            source={{ uri: this.props.imageUri }}
+          />
+        </View>
+        : null }
         <View style={styles.topBar}>
           <TouchableOpacity
             onPress={() => this.printOrder()}
@@ -342,10 +350,15 @@ class BluetoothSerialExample extends Component {
       // if (order) {
       //   const { orderCode, deliveryAddress, recipientName } = order;
       //   }
-      BluetoothSerial.write('+++hihi \n');
+      // BluetoothSerial.write('+++hihi \n');
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/arrow_up_20180307_145909.jpg');
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/barcode1_20180307_154043.jpg');
-      BluetoothSerial.writeImage('/storage/emulated/0/Pictures/order-label-s.png');
+      // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/label-new-m.png');
+      // BluetoothSerial.writeImage('/storage/emulated/0/DCIM/ReactNative-snapshot-image358725536.png');
+      const uri = this.props.imageUri.substring(7);
+      BluetoothSerial.writeImage(uri);
+      console.log(uri);
+
       // this.write(`Order: ${orderCode} \n`);
       // this.write(`Fullname: ${recipientName} \n`);
       // this.write(`Address:  ${deliveryAddress} \n`);
@@ -356,6 +369,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 0.9,
     backgroundColor: '#F5FCFF'
+  },
+  orderLabel: {
+    height: 250,
+    alignItems: 'center'
   },
   topBar: { 
     height: 56, 
@@ -436,4 +453,12 @@ const styles = StyleSheet.create({
   }
 })
 
-export default BluetoothSerialExample
+
+const mapStateToProps = (state) => {
+  const { other } = state;
+  const { imageUri } = other;
+  return { imageUri };
+};
+
+
+export default connect(mapStateToProps, null)(BluetoothSerialExample);

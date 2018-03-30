@@ -20,7 +20,8 @@ const nameInitialState = {
   lastQuarter: null,
   loaded: false,
   progress: 0,
-  loading: false
+  loading: false,
+  imageUri: null
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {

@@ -8,6 +8,7 @@ import {
   Header, Button, Left, Right, Body,
   List 
 } from 'native-base';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { updateOrderInfo, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
@@ -184,6 +185,12 @@ class PickOrderScreen extends Component {
             >
               <Icon name="create" />
             </Button> */}
+            <Button
+              transparent
+              onPress={() => navigate('OrderLabel', { orderCode })}
+            >
+              <IC name="printer" size={28} />
+            </Button>
           </Right>
           
         </Header>

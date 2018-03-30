@@ -23,12 +23,13 @@ import PickConfirmScreen from './screens/PickConfirmScreen';
 import SignatureScreen from './screens/SignatureScreen';
 import GroupPickScreen from './screens/GroupPickScreen';
 import BluetoothExampleScreen from './screens/BluetoothExampleScreen';
+import OrderLabelScreen from './screens/OrderLabelScreen';
 
 import getTheme from '../native-base-theme/components';
 // import material from '../native-base-theme/variables/material';
 import platform from '../native-base-theme/variables/platform';
 
-if (true || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
+if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
   // disable console. log in production
   console.log = function () {};
   console.info = function () {};
@@ -67,6 +68,7 @@ class App extends Component {
         Signature: { screen: SignatureScreen },
         GroupPick: { screen: GroupPickScreen },
         BluetoothExample: { screen: BluetoothExampleScreen },
+        OrderLabel: { screen: OrderLabelScreen },
       },
       {
         initialRouteName: 'Login',

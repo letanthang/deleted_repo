@@ -306,6 +306,24 @@ class HomeScreen extends Component {
             </CardItem>
           </Card>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('OrderLabel', { orderCode: '23ABCN9' })}
+        >
+          <Card>
+            <CardItem style={{ backgroundColor: Colors.row }}>
+              <View style={HomeStyles.cardItemLeft}>
+                <View>
+                  <Text style={{ fontWeight: 'bold', color: Colors.theme }}>
+                    In đơn hàng
+                  </Text>
+                </View>
+              </View>
+              <View style={HomeStyles.cardItemRight}>
+                <IC name='printer' size={30} /><IC name='printer' size={30} /><IC name='printer' size={30} />
+              </View>
+            </CardItem>
+          </Card>
+        </TouchableOpacity>
         {this.state.showScanner ?
             <BarcodeReader 
               onBarCodeRead={({data, bounds}) => {

@@ -278,7 +278,8 @@ const orderResponse = {
       "contactName": "Shop Dong Ho",
       "contactPhone": "01668117449",
       "clientHubId": 653473,
-      "address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
+      "address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam",
+      "deliveryAddress": "70 Lu Gia, Phuong mot nam, Ho Chi Minh City, Vietnam"
     },
     {
       "orderCode": "CDENNH9",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, CameraRoll } from 'react-native';
+import { View, TouchableOpacity, Image, ImageEditor } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import Barcode from 'react-native-barcode-builder';
 import ViewShot from 'react-native-view-shot';
@@ -15,16 +15,24 @@ import Utils from '../../libs/Utils';
 
 
 class OrderLabelScreen extends Component {
+  state = { bcUri: null }
   componentWillMount() {
   }
 
   onCapture = uri => {
     this.props.setProps({ imageUri: uri });
-    CameraRoll.saveToCameraRoll(uri, 'photo')
-      .then(result => console.log('save succeeded', result))
-      .catch(error => console.log('error', error));
+    ImageEditor.cropImage(uri, { offset: { x: 0, y: 0 }, size: { width: 362, height: 250 } }
+    , u => { this.props.setProps({ imageUri1: u }); console.log(u); }
+    , error => console.log(error));
+
+    ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
+      u => this.props.setProps({ imageUri2: u }), error => console.log(error));
 
     console.log('Image is save to', uri);
+  }
+
+  onCaptureBarCode = uri => {
+    this.setState({ bcUri: uri });
   }
 
   render() {
@@ -56,17 +64,41 @@ class OrderLabelScreen extends Component {
           keyboardShouldPersistTaps='handled'
           style={{ padding: 10 }}
         >
+          <TouchableOpacity
+            onPress={() => {
+              this.refs.vsBC.capture().then(this.onCaptureBarCode.bind(this));
+            }}
+          >
+            <ViewShot
+              // onCapture={this.onCaptureBarCode}
+              // captureMode="mount"
+              ref="vsBC"
+              style={{
+                width: 360,
+                height: 100,
+                alignSelf: 'center',
+                backgroundColor: 'white'
+              }}
+            >
+              <Barcode 
+                value={orderCode}
+                format="CODE128"
+                height={100}
+                // background='blue'
+              />
+            </ViewShot>
+          </TouchableOpacity>
+          
           <ViewShot
             // onCapture={this.onCapture}
-            // captureMode="mount"
+            // captureMode="update"
             ref="viewShot"
             style={{
               borderWidth: 2,
               padding: 2,
-              width: 360,
-              height: 300,
+              width: 362,
+              height: 500,
               alignSelf: 'center',
-              marginTop: 50,
               backgroundColor: 'white'
             }}
           >
@@ -84,16 +116,16 @@ class OrderLabelScreen extends Component {
                 flex: 1
               }}
             >
-              <View style={{ width: 100, borderRightWidth: 2 }}>
+              <View style={{ position: 'relative', width: 110, borderRightWidth: 2 }}>
                 <View
-                  style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -90 }, { translateY: 120 }, { rotate: '90deg' }] }}
+                  style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -124 }, { translateY: 120 }, { rotate: '90deg' }] }}
                 >
-                  <Barcode 
-                    value={orderCode}
-                    format="CODE128"
-                    height={110}
-                    // background='blue'
+                  {this.state.bcUri ?
+                  <Image 
+                    style={{ width: 360, height: 100 }}
+                    source={{ uri: this.state.bcUri }}
                   />
+                  : null}
                 </View>
               </View>
               <View style={{ flex: 1 }}>
@@ -111,7 +143,7 @@ class OrderLabelScreen extends Component {
                   <View style={{ width: 45, backgroundColor: 'black' }}>
                     <Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>24</Text>
                   </View>
-                  <View style={{ padding: 2, justifyContent: 'flex-end' }}>
+                  <View style={{ padding: 2, paddingBottom: 16, paddingRight: 16, justifyContent: 'flex-end' }}>
                     <QRCode
                       style={{ alignSelf: 'center' }}
                       value={orderCode}
@@ -120,10 +152,7 @@ class OrderLabelScreen extends Component {
                       fgColor='white'
                     />
                   </View>
-                  
                 </View>
-                
-                
               </View>
             </View>
             
@@ -135,6 +164,20 @@ class OrderLabelScreen extends Component {
           >
             <Text>Capture</Text>
           </TouchableOpacity>
+          {this.props.imageUri ?
+          <View 
+            style={{
+              width: 362,
+              height: 500,
+              alignSelf: 'center'
+            }}
+          >
+            <Image 
+              style={{ width: 362, height: 500 }}
+              source={{ uri: this.props.imageUri }}
+            />
+          </View>
+          : null }
         </Content>
 
       </Container>
@@ -143,7 +186,8 @@ class OrderLabelScreen extends Component {
 }
 const mapStateToProps = (state) => {
   const db = getOrders(state);
-  return { db };
+  const { imageUri } = state.other;
+  return { db, imageUri };
 };
 
 

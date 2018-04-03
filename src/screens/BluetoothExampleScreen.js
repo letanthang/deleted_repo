@@ -262,13 +262,14 @@ class BluetoothSerialExample extends Component {
   }
 
   render () {
+    console.log(this.props.imageUri);
     const activeTabStyle = { borderBottomWidth: 6, borderColor: '#009688' }
     return (
       <View style={{ flex: 1 }}>
         {this.props.imageUri ?
         <View style={styles.orderLabel}>
           <Image 
-            style={{ width: 350, height: 250 }}
+            style={{ width: 360, height: 500 }}
             source={{ uri: this.props.imageUri }}
           />
         </View>
@@ -346,7 +347,7 @@ class BluetoothSerialExample extends Component {
     )
   }
 
-  printOrder() {
+  async printOrder() {
       // if (order) {
       //   const { orderCode, deliveryAddress, recipientName } = order;
       //   }
@@ -355,8 +356,13 @@ class BluetoothSerialExample extends Component {
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/barcode1_20180307_154043.jpg');
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/label-new-m.png');
       // BluetoothSerial.writeImage('/storage/emulated/0/DCIM/ReactNative-snapshot-image358725536.png');
-      const uri = this.props.imageUri.substring(7);
-      BluetoothSerial.writeImage(uri);
+      let uri = this.props.imageUri1.substring(7);
+      console.log(uri);
+      await BluetoothSerial.writeImage(uri);
+      uri = this.props.imageUri2.substring(7);
+      await BluetoothSerial.writeImage(uri);
+      await BluetoothSerial.write('\n');
+      await BluetoothSerial.write('\n');
       console.log(uri);
 
       // this.write(`Order: ${orderCode} \n`);
@@ -371,7 +377,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   orderLabel: {
-    height: 250,
+    height: 500,
     alignItems: 'center'
   },
   topBar: { 
@@ -456,8 +462,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   const { other } = state;
-  const { imageUri } = other;
-  return { imageUri };
+  const { imageUri, imageUri1, imageUri2, imageUri3 } = other;
+  return { imageUri, imageUri1, imageUri2, imageUri3 };
 };
 
 

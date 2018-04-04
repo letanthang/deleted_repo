@@ -8,7 +8,8 @@ import {
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
   OTHER_GET_USER_PERFORMANCE_FAIL,
   OTHER_SET_LOADED,
-  OTHER_SET_PROPS
+  OTHER_SET_PROPS,
+  OTHER_GET_ORDER_HISTORY
 } from './types';
 import * as API from '../apis/MPDS';
 
@@ -162,5 +163,12 @@ export const getUserPerformance = (statType = 'yesterday') => {
         type: OTHER_GET_USER_PERFORMANCE_FAIL,
       });
     }
+  };
+};
+
+export const getOrderHistory = (orderCode) => {
+  return {
+    type: OTHER_GET_ORDER_HISTORY,
+    payload: { orderCode }
   };
 };

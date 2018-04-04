@@ -4,7 +4,10 @@ import {
   OTHER_GET_USER_PERFORMANCE_SUCCESS,
   OTHER_SET_LOADED,
   OTHER_UPDATE_PROGRESS,
-  OTHER_SET_PROPS
+  OTHER_SET_PROPS,
+  OTHER_GET_ORDER_HISTORY,
+  OTHER_GET_ORDER_HISTORY_SUCCESS,
+  OTHER_GET_ORDER_HISTORY_FAIL
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -20,7 +23,8 @@ const nameInitialState = {
   lastQuarter: null,
   loaded: false,
   progress: 0,
-  loading: false
+  loading: false,
+  orderHistory: null,
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
@@ -54,10 +58,29 @@ export default (state = nameInitialState, action) => {
         loaded: true
       };
     case OTHER_SET_PROPS:
-    return {
-      ...state,
-      ...action.payload
-    };
+      return {
+        ...state,
+        ...action.payload
+      };
+    case OTHER_GET_ORDER_HISTORY: {
+      return {
+        ...state,
+        historyLoading: true
+      };
+    }
+    case OTHER_GET_ORDER_HISTORY_SUCCESS: {
+      return {
+        ...state,
+        orderHistory: action.payload.orderHistory,
+        historyLoading: false
+      };
+    }
+    case OTHER_GET_ORDER_HISTORY_FAIL: {
+      return {
+        ...state,
+        historyLoading: false
+      };
+    }
     default:
       return state;
   }

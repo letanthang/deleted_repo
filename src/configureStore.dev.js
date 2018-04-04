@@ -5,7 +5,9 @@ import { persistStore, persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import ReduxThunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
+import mySaga from './sagas';
 
 export default function configureStore() {
   const config = {
@@ -14,15 +16,17 @@ export default function configureStore() {
     blacklist: ['other']
   };
   const reducer = persistCombineReducers(config, reducers);
-
+  const sagaMiddleware = createSagaMiddleware();
+  const middlewares = [ReduxThunk, sagaMiddleware];
   //devTool options
   const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
   const store = createStore(reducer, /* preloadedState, */ composeEnhancers(
-    applyMiddleware(ReduxThunk),
+    applyMiddleware(...middlewares),
     // other store enhancers if any
   ));
   const persistor = persistStore(store);
   // persistor.purge();
+  sagaMiddleware.run(mySaga);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers

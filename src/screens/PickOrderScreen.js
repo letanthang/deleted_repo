@@ -8,7 +8,7 @@ import {
   Header, Button, Left, Right, Body,
   List 
 } from 'native-base';
-import { updateOrderInfo, getConfiguration } from '../actions';
+import { updateOrderInfo, getConfiguration, getOrderHistory } from '../actions';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -32,6 +32,7 @@ class PickOrderScreen extends Component {
     clientHubId = this.props.navigation.state.params.clientHubId;
     orderCode = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, orderCode, 1);
+    this.props.getOrderHistory();
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
@@ -300,5 +301,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, 
-  { updateOrderInfo, getConfiguration }
+  { updateOrderInfo, getConfiguration, getOrderHistory }
 )(PickOrderScreen);

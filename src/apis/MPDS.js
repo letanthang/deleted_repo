@@ -4,7 +4,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = false;
+const mockOn = true;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
@@ -206,6 +206,21 @@ export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
     };
 
     return axios.put(URL, params, config);
+};
+
+export const GetOrderHistory = (orderCode) => {
+  const URL = `${PDS_URL}/history/order/{orderCode}`;
+  const LoginHeader = Share.LoginHeader;
+
+  const config = {
+    headers: LoginHeader,
+    timeout
+  };
+
+  if (mockOn) {
+    mock.onGet(URL, config).reply(200, orderHistoryResponse);
+  }
+  return axios.get(URL, config);
 };
 
 const infoResponse = {
@@ -558,13 +573,13 @@ const performanceResponse = {
     "message": "Query performance successfully."
 }
 
-const updateResponse = {
-  "status": "OK",
-  "data": {
-    failed_orders: []
-  },
-  "message": "Successfull"
-}
+// const updateResponse = {
+//   "status": "OK",
+//   "data": {
+//     failed_orders: []
+//   },
+//   "message": "Successfull"
+// }
 
 const updateStatusResponse = {
   "status": "OK",
@@ -580,3 +595,22 @@ const updateStatusResponse = {
   ],
   "message": "Successfull"
 }
+
+const orderHistoryResponse = {
+  "status":"OK",
+  "data":[
+    {
+      "orderCode":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
+      "description":"Tạo CĐ 1803168D9FFW","succeed":true,"source":"BROWSER",
+      "data":"{\"orderId\":305839,\"orderCode\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"READY_TO_PICK\",\"audited\":false,\"isCompleted\":false,\"moneyCollected\":false,\"senderPay\":31900.0,\"receiverPay\":48000.0,\"returnPay\":0.0,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"createdUserid\":\"210030\",\"createdUsername\":\"Lê Tấn Thắng\",\"sortIndex\":129,\"partnerCode\":\"Giaohangnhanh\",\"tripUserid\":\"210030\",\"tripUsername\":\"Lê Tấn Thắng\",\"warehouseId\":1220,\"note\":\"Không cho xem hàng\",\"noteContent\":\"\",\"clientId\":193041}",
+      "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
+    },
+    {
+      "orderCode":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
+      "description":"Cập nhật trạng thái đơn hàng PICKING\u003d\u003eSTORING","succeed":true,"source":"BROWSER",
+      "data":"{\"orderId\":305839,\"orderCode\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"STORING\",\"audited\":false,\"isCompleted\":true,\"moneyCollected\":false,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"sortIndex\":129,\"tripUserid\":\"210030\",\"partnerCode\":\"Giaohangnhanh\",\"date\":\"2018-03-16T04:39:42.322Z\",\"id\":\"5aab4a8ee81ce7e88f00004b\",\"createdTime\":\"2018-03-16T04:39:42.322Z\",\"lastUpdatedTime\":\"2018-03-16T04:39:42.322Z\"}",
+      "date":"2018-03-23T04:20:11.608Z","id":"5ab4807be8347c2a1c000004","createdTime":"2018-03-23T04:20:11.610Z","lastUpdatedTime":"2018-03-23T04:20:11.610Z"
+    }
+  ],
+  "message":""
+};

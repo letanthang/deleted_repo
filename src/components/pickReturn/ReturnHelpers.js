@@ -100,7 +100,7 @@ export function getUpdateOrderInfo(order, buttonIndex, newDate = 0) {
 
 export function getUpdateOrderInfoForDone(order, newDate = 0) {
   const { orderCode, pickDeliveryType } = order;
-  const noteId = ''; 
+  const noteId = 'Returned'; 
   const note = '';
   const nextStatus = 'RETURNED';
   const action = 'DO_RETURN_SUCCESS';

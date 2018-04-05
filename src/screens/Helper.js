@@ -40,7 +40,7 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, newDate = null) {
 
 export function getDeliveryDoneOrderInfo(order, newDate = 0) {
   const { orderCode, pickDeliveryType } = order;
-  const noteId = ''; 
+  const noteId = 'POD'; 
   const note = '';
   const nextStatus = 'DELIVERED';
   const action = 'DO_DELIVER_SUCCESS';

@@ -101,7 +101,7 @@ export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
 
 export function getUpdateOrderInfoForDone(order, newDate = null) {
   const { orderCode, pickDeliveryType } = order;
-  const noteId = ''; 
+  const noteId = 'Storing'; 
   const note = '';
   const nextStatus = 'PICKED';
   const action = 'DO_PICK_SUCCESS';

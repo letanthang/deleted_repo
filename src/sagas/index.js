@@ -4,7 +4,6 @@ import { OTHER_GET_ORDER_HISTORY, OTHER_GET_ORDER_HISTORY_SUCCESS, OTHER_GET_ORD
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getOrderHistory(action) {
-  console.log(action);
    try {
       const response = yield call(Api.GetOrderHistory, action.payload.orderCode);
       const json = response.data;
@@ -20,7 +19,7 @@ function* getOrderHistory(action) {
 }
 
 /*
-  Starts fetchUser on each dispatched `OTHER_GET_ORDER_HISTORY` action.
+  Starts getOrderHistory on each dispatched `OTHER_GET_ORDER_HISTORY` action.
   Allows concurrent getOrderHistory.
 */
 function* mySaga() {
@@ -33,8 +32,8 @@ function* mySaga() {
   dispatched while a fetch is already pending, that pending fetch is cancelled
   and only the latest one will be run.
 */
-function* mySaga() {
-  yield takeLatest(OTHER_GET_ORDER_HISTORY, getOrderHistory);
-}
+// function* mySaga() {
+//   yield takeLatest(OTHER_GET_ORDER_HISTORY, getOrderHistory);
+// }
 
 export default mySaga;

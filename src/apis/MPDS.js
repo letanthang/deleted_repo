@@ -4,7 +4,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = true;
+const mockOn = false;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
@@ -209,7 +209,7 @@ export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
 };
 
 export const GetOrderHistory = (orderCode) => {
-  const URL = `${PDS_URL}/history/order/{orderCode}`;
+  const URL = `${PDS_URL}/history/order/${orderCode}`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {

@@ -32,7 +32,7 @@ class PickOrderScreen extends Component {
     clientHubId = this.props.navigation.state.params.clientHubId;
     orderCode = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, orderCode, 1);
-    this.props.getOrderHistory();
+    this.props.getOrderHistory(orderCode);
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
@@ -153,13 +153,17 @@ class PickOrderScreen extends Component {
       goBack();
       return this.renderNullData();
     } 
-
+    const history = this.props.orderHistory[orderCode];
+    const historyString = Utils.getHistoryString(history);
+    console.log('render order', history);
     const { 
       recipientName, recipientPhone, ExternalCode,
       serviceName, width, height,
       senderPay, weight, length, serviceCost,
-      log, deliveryAddress, soNote, requiredNote
+      deliveryAddress, soNote, requiredNote
     } = order;
+
+
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -272,7 +276,7 @@ class PickOrderScreen extends Component {
               <View style={Styles.rowLastStyle}>
                 <View>
                   <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{log}</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{historyString}</Text>
                 </View>
               </View>
             </List>
@@ -291,11 +295,12 @@ class PickOrderScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { pd, auth } = state;
+  const { pd, auth, other } = state;
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
+  const { orderHistory } = other;
   const db = getOrders(state);
-  return { db, pdsId, sessionToken, loading };
+  return { db, pdsId, sessionToken, loading, orderHistory };
 };
 
 

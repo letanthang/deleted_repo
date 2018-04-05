@@ -2,6 +2,7 @@ import CallHistory from 'react-native-call-history';
 import { phonecall } from 'react-native-communications';
 import { Platform } from 'react-native';
 import { Toast } from 'native-base';
+import moment from 'moment';
 
 const pickStatus = { STORING: 'Đã lấy', PICKED: 'Đã lấy', COMPLETED: 'Lấy lỗi', READY_TO_PICK: 'Lấy lỗi', PICKING: 'Đang lấy', Progress: 'Đang xử lý' };
 const pickCompleteStatus = ['PICKED', 'COMPLETED', 'READY_TO_PICK', 'STORING', 'Progress'];
@@ -286,6 +287,14 @@ class Utils {
     } catch (error) {
       console.log(error);
     }
+  }
+  static getHistoryString(history) {
+    if (!history) return '';
+    return history.reduce((accum, item) => {
+      const { date, description } = item;
+      const newLine = moment(date).format('DD/MM H:mm') + '   ' + description;
+      return accum + '\n' + newLine;
+    }, '');
   }
 }
 

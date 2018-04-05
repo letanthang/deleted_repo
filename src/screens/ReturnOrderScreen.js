@@ -7,7 +7,7 @@ import {
   List 
 } from 'native-base';
 import { phonecall } from 'react-native-communications';
-import { updateOrderStatus } from '../actions';
+import { updateOrderStatus, getOrderHistory } from '../actions';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -24,6 +24,7 @@ class ReturnOrderScreen extends Component {
   componentWillMount() {
     orderCode = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, orderCode, 3);
+    this.props.getOrderHistory(orderCode);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -127,8 +128,10 @@ class ReturnOrderScreen extends Component {
     const { goBack } = this.props.navigation;
     const { 
       recipientName, recipientPhone, deliveryAddress,
-      soNote, requiredNote, log
+      soNote, requiredNote
     } = order;
+
+    const historyString = Utils.getOrderHistory(this.props.orderHistory[orderCode]);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -191,7 +194,7 @@ class ReturnOrderScreen extends Component {
             <View style={Styles.rowStyle}>
               <View>
                 <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{log}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{historyString}</Text>
               </View>
             </View>
           </List>
@@ -209,15 +212,16 @@ class ReturnOrderScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { pd, auth, config } = state;
+  const { pd, auth, config, other } = state;
   const { configuration } = config;
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
+  const { orderHistory } = other;
   const db = getOrders(state);
-  return { db, pdsId, sessionToken, loading, configuration };
+  return { db, pdsId, sessionToken, loading, configuration, orderHistory };
 };
 
 export default connect(
   mapStateToProps, 
-  { updateOrderStatus }
+  { updateOrderStatus, getOrderHistory }
 )(ReturnOrderScreen);

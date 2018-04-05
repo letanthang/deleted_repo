@@ -4,9 +4,16 @@ import { OTHER_GET_ORDER_HISTORY, OTHER_GET_ORDER_HISTORY_SUCCESS, OTHER_GET_ORD
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getOrderHistory(action) {
+  console.log(action);
    try {
-      const orderHistory = yield call(Api.GetOrderHistory, action.payload.orderCode);
-      yield put({ type: OTHER_GET_ORDER_HISTORY_SUCCESS, payload: { orderHistory } });
+      const response = yield call(Api.GetOrderHistory, action.payload.orderCode);
+      const json = response.data;
+      if (json.status === 'OK') {
+        const orderHistory = json.data.map(({ date, userName, description }) => ({ date, userName, description }));
+        yield put({ type: OTHER_GET_ORDER_HISTORY_SUCCESS, payload: { [action.payload.orderCode]: orderHistory } });
+      } else {
+        yield put({ type: OTHER_GET_ORDER_HISTORY_FAIL, payload: { error: json.message } });  
+      }
    } catch (e) {
       yield put({ type: OTHER_GET_ORDER_HISTORY_FAIL, payload: { error: e.message } });
    }
@@ -16,9 +23,9 @@ function* getOrderHistory(action) {
   Starts fetchUser on each dispatched `OTHER_GET_ORDER_HISTORY` action.
   Allows concurrent getOrderHistory.
 */
-// function* mySaga() {
-//   yield takeEvery(OTHER_GET_ORDER_HISTORY, getOrderHistory);
-// }
+function* mySaga() {
+  yield takeEvery(OTHER_GET_ORDER_HISTORY, getOrderHistory);
+}
 /*
   Alternatively you may use takeLatest.
 

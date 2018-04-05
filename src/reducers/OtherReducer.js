@@ -24,7 +24,7 @@ const nameInitialState = {
   loaded: false,
   progress: 0,
   loading: false,
-  orderHistory: null,
+  orderHistory: {},
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {
@@ -71,7 +71,10 @@ export default (state = nameInitialState, action) => {
     case OTHER_GET_ORDER_HISTORY_SUCCESS: {
       return {
         ...state,
-        orderHistory: action.payload.orderHistory,
+        orderHistory: {
+          ...state.orderHistory,
+          ...action.payload
+        },
         historyLoading: false
       };
     }

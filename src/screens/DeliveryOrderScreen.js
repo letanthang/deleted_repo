@@ -7,7 +7,7 @@ import {
   Header, Button, Left, Right, Body,
   List, ActionSheet
 } from 'native-base';
-import { updateOrderStatus, getConfiguration } from '../actions';
+import { updateOrderStatus, getConfiguration, getOrderHistory } from '../actions';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -25,6 +25,7 @@ class DeliveryOrderScreen extends Component {
   componentWillMount() {
     orderCode = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, orderCode, 2);
+    this.props.getOrderHistory(orderCode);
   }
 
   componentDidMount() {
@@ -150,9 +151,10 @@ class DeliveryOrderScreen extends Component {
     const { 
       recipientName, recipientPhone, deliveryAddress, receiverPay,
       clientName, contactPhone, requiredNote,
-      displayOrder, soNote, log
+      displayOrder, soNote
     } = order;
 
+    const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -238,7 +240,7 @@ class DeliveryOrderScreen extends Component {
             <View style={Styles.rowStyle}>
               <View>
                 <Text style={[Styles.weakColorStyle]}>Lịch sử đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{log}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{historyString}</Text>
               </View>
             </View>
             <View style={Styles.rowLastStyle}>
@@ -261,16 +263,17 @@ class DeliveryOrderScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { pd, auth, config } = state;
+  const { pd, auth, config, other } = state;
   const { sessionToken } = auth;
   const { pdsId, loading } = pd;
-  const db = getOrders(state);
   const { configuration } = config;
-  return { db, pdsId, sessionToken, loading, configuration };
+  const { orderHistory } = other;
+  const db = getOrders(state);
+  return { db, pdsId, sessionToken, loading, configuration, orderHistory };
 };
 
 
 export default connect(
   mapStateToProps, 
-  { updateOrderStatus, getConfiguration }
+  { updateOrderStatus, getConfiguration, getOrderHistory }
 )(DeliveryOrderScreen);

@@ -62,98 +62,100 @@ class OrderLabelScreen extends Component {
         </Header>
         <Content
           keyboardShouldPersistTaps='handled'
-          style={{ padding: 10 }}
+          style={{ paddingTop: 20 }}
         >
           <TouchableOpacity
             onPress={() => {
-              this.refs.vsBC.capture().then(this.onCaptureBarCode.bind(this));
+              this.refs.vsUpper.capture().then(this.onCaptureBarCode.bind(this));
             }}
           >
             <ViewShot
               // onCapture={this.onCaptureBarCode}
               // captureMode="mount"
-              ref="vsBC"
+              ref="vsUpper"
               style={{
-                width: 360,
-                height: 100,
+                width: 440,
+                height: 360,
                 alignSelf: 'center',
                 backgroundColor: 'white'
               }}
             >
-              <Barcode 
-                value={orderCode}
-                format="CODE128"
-                height={100}
-                // background='blue'
-              />
+              <View style={{ flexDirection: 'row' }}>
+                <QRCode 
+                  value={orderCode}
+                  size={165}
+                />
+                <View style={{ paddingLeft: 15 }}>
+                  <View style={{ flexDirection: 'row', borderWidth: 4, borderColor: 'black', padding: 10, marginBottom: 10, width: 220 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 26 }}>24 | </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 24 }}>CUNG KHO</Text>
+                  </View>
+                  <Text style={{ width: 220, fontSize: 22, fontWeight: 'bold' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
+                <Text style={{ fontSize: 22, fontWeight: 'bold', width: 100 }} numberOfLines={2}>NGUOI NHAN:</Text>
+                <View>
+                  <Text style={{ fontSize: 22, fontWeight: 'bold' }}>NGUYEN HAI</Text>
+                  <Text>0909090909</Text>
+                  <Text style={{ width: 300 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, , HUYEN HAI HA - QUANG NINH</Text>
+                </View>
+              </View>
+              <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
+              <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>GHI CHU: </Text>
+                <Text style={{ fontSize: 21 }}>CHO XEM HANG KHONG CHO THU</Text>
+              </View>
+              
             </ViewShot>
           </TouchableOpacity>
+          {/* <View style={{ marginBottom: 40, transform: [{ translateY: 120 }, { rotate: '90deg' }] }} >
+          {this.state.bcUri ?
+                <Image 
+                  style={{ width: 420, height: 360 }}
+                  source={{ uri: this.state.bcUri }}
+                />
+                : null}
+          </View> */}
+          
           
           <ViewShot
             // onCapture={this.onCapture}
             // captureMode="update"
             ref="viewShot"
             style={{
-              borderWidth: 2,
+             
               padding: 2,
               width: 362,
-              height: 500,
+              height: 600,
               alignSelf: 'center',
               backgroundColor: 'white'
             }}
           >
-            <View 
-              style={{ height: 120, padding: 14 }}
-            >
-              <Text style={{ fontWeight: 'bold' }}>{recipientName.toUpperCase()}</Text>
-              <Text style={{ }}>{recipientPhone}</Text>
-              <Text style={{ }}>{deliveryAddress}</Text>
+            <View style={{ position: 'relative', height: 450 }}>
+              <View
+                style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -32 }, { translateY: 40 }, { rotate: '-90deg' }] }}
+              >
+                {this.state.bcUri ?
+                <Image 
+                  style={{ width: 440, height: 360 }}
+                  source={{ uri: this.state.bcUri }}
+                />
+                : null}
+              </View>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
-            <View
-              style={{
-                flexDirection: 'row',
-                flex: 1
-              }}
-            >
-              <View style={{ position: 'relative', width: 110, borderRightWidth: 2 }}>
-                <View
-                  style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -124 }, { translateY: 120 }, { rotate: '90deg' }] }}
-                >
-                  {this.state.bcUri ?
-                  <Image 
-                    style={{ width: 360, height: 100 }}
-                    source={{ uri: this.state.bcUri }}
-                  />
-                  : null}
-                </View>
-              </View>
-              <View style={{ flex: 1 }}>
-                <View style={{ height: 80, padding: 8 }}>
-                  <Text style={{ fontWeight: 'bold' }}>PHƯỜNG 15 QUẬN 11 HỒ CHÍ MINH</Text>
-                </View>
-                <View style={{ height: 0, marginBottom: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
-                <View style={{ height: 70, padding: 8 }}>
-                  <Text>CHO XEM HÀNG KHÔNG CHO THỬ</Text>
-                </View>
-                <View style={{ height: 65, backgroundColor: 'black', marginBottom: 2 }}>
-                  <Text style={{ color: 'white', fontSize: 44, textAlign: 'center' }}>44-44-44</Text>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
-                  <View style={{ width: 45, backgroundColor: 'black' }}>
-                    <Text style={{ color: 'white', fontSize: 30, textAlign: 'center' }}>24</Text>
-                  </View>
-                  <View style={{ padding: 2, paddingBottom: 16, paddingRight: 16, justifyContent: 'flex-end' }}>
-                    <QRCode
-                      style={{ alignSelf: 'center' }}
-                      value={orderCode}
-                      size={120}
-                      bgColor='black'
-                      fgColor='white'
-                    />
-                  </View>
-                </View>
-              </View>
+            <View style={{ backgroundColor: 'green', padding: 0, alignItems: 'center' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 34 }}>44-44-44</Text>
+            </View>
+            <View style={{ marginTop: 15, height: 130 }}>
+              <Barcode 
+                value='GHNMP0000018085VN'
+                format="CODE128"
+                height={130}
+                width={1.86}
+                // background='blue'
+              />
             </View>
             
           </ViewShot>

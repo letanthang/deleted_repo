@@ -38,7 +38,7 @@ const updateProgress = (dispatch) => {
 };
 const logout = (dispatch) => {
   dispatch(logoutUser());
-  pdListFetchFail(dispatch, 'Phiên làm việc đã hết hạn. Đăng nhập lại');
+  pdListFetchFail(dispatch, 'Phiên làm việc hết hạn. Vui lòng đăng nhập.');
 };
 
 const fetchAll = (dispatch, pdsCode, page, limit, all, timeServer, clientHubId) => {
@@ -160,69 +160,25 @@ export const updateOrderStatus = (infos) => {
     OrderInfos = [OrderInfos];
   }
 
-  return ((dispatch, getState) => {
-    dispatch({ type: UPDATE_ORDER_STATUS, payload: { OrderInfos } });
-    const { pdsId, pdsCode, lastUpdatedTime } = getState().pd;
-
-    //filter 
-    //transform OrderInfos
-    const filterInfos = OrderInfos.map(info => {
-      const { orderCode, nextDate, noteId, note, action } = info;
-      return { orderCode, nextDate, noteId, note, action };
-    });
-    const params = {
-      pdsId,
-      pdsCode, 
-      lastUpdatedTime,
-      OrderInfos: filterInfos
-    };
-    return API.UpdateStatus(params)
-      .then(response => {
-        const json = response.data;
-        if (json.status === 'OK') {
-          updateOrderStatusSuccess(dispatch, OrderInfos, json.data[0].listFail);
-          if (json.data[0].listFail.length > 0) {
-            //write log
-            // const req = API.UpdateStatusGetRequest(params);
-            // writeLog({ request: req, response: json });
-          }
-          return json.data[0].listFail;
-        } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
-          updateOrderStatusFail(dispatch, json.message, OrderInfos, false);
-          logout(dispatch);
-        } else if (json.status === 'UNAUTHORIZED') {
-          updateOrderStatusFail(dispatch, json.message, OrderInfos, false);
-          logout(dispatch);
-        } else {
-          updateOrderStatusFail(dispatch, json.message, OrderInfos);
-          //write log
-          // const req = API.UpdateStatusGetRequest(params);
-          // writeLog({ request: req, response: json });
-          return null;
-        }
-      })
-      .catch(error => {
-        updateOrderStatusFail(dispatch, error.message, OrderInfos);
-        //write log
-        // const req = API.UpdateStatusGetRequest(params);
-        // writeLog({ request: req, error });
-      });
-  });
+  return { 
+    type: UPDATE_ORDER_STATUS, 
+    payload: { OrderInfos } 
+  };
 };
 
-const updateOrderStatusSuccess = (dispatch, OrderInfos, FailedOrders) => {
-  dispatch({
+export const updateOrderStatusSuccess = (OrderInfos, FailedOrders) => {
+  return {
     type: UPDATE_ORDER_STATUS_SUCCESS,
     payload: { OrderInfos, FailedOrders }
-  });
+  };
 };
 
-const updateOrderStatusFail = (dispatch, error, OrderInfos, report = true) => {
+export const updateOrderStatusFail = (error, OrderInfos, report = true) => {
   if (report) reportBug(error, OrderInfos);
-  dispatch({
+  return {
     type: UPDATE_ORDER_STATUS_FAIL,
     payload: { error, OrderInfos }
-  });
+  };
 };
 
 export const updateWeightSize = ({

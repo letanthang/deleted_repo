@@ -87,7 +87,7 @@ export function updateOrderToFailWithReason2(phone, configuration) {
   //     Note,
   //     NoteCode,
   //   },
-export function getUpdateOrderInfo(order, buttonIndex, newDate = 0) {
+export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
   const { orderCode, pickDeliveryType } = order;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
@@ -98,7 +98,7 @@ export function getUpdateOrderInfo(order, buttonIndex, newDate = 0) {
   return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
-export function getUpdateOrderInfoForDone(order, newDate = 0) {
+export function getUpdateOrderInfoForDone(order, newDate = null) {
   const { orderCode, pickDeliveryType } = order;
   const noteId = 'Returned';
   const note = '';

@@ -35,10 +35,10 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, newDate = null) {
   const action = 'DO_DELIVER_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
-export function getDeliveryDoneOrderInfo(order, newDate = 0) {
+export function getDeliveryDoneOrderInfo(order, newDate = null) {
   const { orderCode, pickDeliveryType } = order;
   const noteId = 'POD'; 
   const note = '';
@@ -46,7 +46,7 @@ export function getDeliveryDoneOrderInfo(order, newDate = 0) {
   const action = 'DO_DELIVER_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
 export function updateOrderToFailWithReason2(phone, configuration, orderCode = null) {

@@ -114,8 +114,9 @@ class PickGroupDetail extends Component {
               const order = item;
               const { 
                 orderCode, recipientName, recipientPhone,
-                ExternalCode, returnPay, success, note
+                ExternalCode, returnPay, success, note, newDate
               } = item;
+              const fullNote = Utils.getFullNote(note, newDate);
               return (
                 <TouchableOpacity
                   onPress={this.onOrderPress.bind(this, item)}
@@ -133,7 +134,7 @@ class PickGroupDetail extends Component {
                     </View>
                     {success === false ?
                     <View style={Styles.itemStyle}>
-                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{note}</Text>
+                      <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
                     </View>
                     : null}
                     {ExternalCode ?

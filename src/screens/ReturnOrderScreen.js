@@ -131,7 +131,7 @@ class ReturnOrderScreen extends Component {
       soNote, requiredNote
     } = order;
 
-    const historyString = Utils.getOrderHistory(this.props.orderHistory[orderCode]);
+    const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>

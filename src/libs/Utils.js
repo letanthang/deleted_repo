@@ -296,6 +296,16 @@ class Utils {
       return accum + '\n' + newLine;
     }, '');
   }
+  static getFullNote(note, newDate) {
+    console.log(newDate);
+    if (newDate == null || newDate == 0) { return note; }
+     
+    const strDate = moment(newDate).format('DD/MM ');
+    if (new Date(newDate).getHours() > 1) {
+      return `${note} ${strDate} Chiều`;
+    } 
+    return `${note} ${strDate} Sáng`;
+  }
 }
 
 export default Utils;

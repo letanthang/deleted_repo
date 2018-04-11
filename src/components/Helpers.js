@@ -96,7 +96,7 @@ export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
   const action = 'DO_PICK_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
 export function getUpdateOrderInfoForDone(order, newDate = null) {
@@ -107,5 +107,5 @@ export function getUpdateOrderInfoForDone(order, newDate = null) {
   const action = 'DO_PICK_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }

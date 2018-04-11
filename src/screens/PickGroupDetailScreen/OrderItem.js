@@ -17,13 +17,14 @@ class OrderItem extends Component {
     }
     return true;
   }
+
   render() {
     // console.log('OrderItem render!');
     const { order, animated, acceptDeliverPress, onOrderPress, checkDelivering, onSelectDateCase } = this.props;
     const { 
       orderCode, recipientName, recipientPhone,
       height, width, weight, length, currentStatus,
-      ExternalCode, senderPay, success, note, pickWarehouseId, 
+      ExternalCode, senderPay, success, note, newDate, pickWarehouseId, 
       deliverWarehouseId, done
     } = order;
 
@@ -33,6 +34,7 @@ class OrderItem extends Component {
     const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(currentStatus);
     const isDelivering = checkDelivering(order);
     const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
+    const fullNote = Utils.getFullNote(note, newDate);
     return (
       <TouchableOpacity
         onPress={onOrderPress.bind(this, order)}
@@ -50,7 +52,7 @@ class OrderItem extends Component {
           </View>
           {success === false && realDone === false ?
           <View style={Styles.itemStyle}>
-            <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{note}</Text>
+            <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
           </View>
           : null}
           {ExternalCode ?

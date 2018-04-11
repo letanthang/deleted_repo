@@ -361,6 +361,8 @@ class BluetoothSerialExample extends Component {
       await BluetoothSerial.writeImage(uri);
       uri = this.props.imageUri2.substring(7);
       await BluetoothSerial.writeImage(uri);
+      uri = this.props.imageUri3.substring(7);
+      await BluetoothSerial.writeImage(uri);
       await BluetoothSerial.write('\n');
       await BluetoothSerial.write('\n');
       console.log(uri);

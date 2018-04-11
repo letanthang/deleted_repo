@@ -31,35 +31,34 @@ class ActionModal extends Component {
             backgroundColor: '#000000aa'
           }}
         >
-          <View style={{ backgroundColor: 'white', borderRadius: 20, margin: 10 }} >
+          <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 10 }} >
             <Text
-              style={{ alignSelf: 'center', color: 'black', fontWeight: 'bold', margin: 20 }}
+              style={{ alignSelf: 'center', color: 'black', fontWeight: 'bold', marginTop: 10 }}
             >
               Chọn ngày
             </Text>
-            <DatePicker
-              date={this.state.date}
-              androidDPShow={this.state.androidDPShow}
-              mode='date'
-              onDateChange={(date) => {
-                this.setState({ date });
-                }}
-            />
-            <View
-                style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
-            >
-                <Button
-                  onPress={this.onChooseDate.bind(this)}
-                  title='ĐỒNG Ý'
-                  color='#057AFF'
-                />
+            <View style={{ padding: 10 }}>
+              <DatePicker
+                date={this.state.date}
+                androidDPShow={this.state.androidDPShow}
+                mode='date'
+                onDateChange={(date) => {
+                  this.setState({ date });
+                  }}
+              />
             </View>
             <View
-                style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+                style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1, padding: 10 }}
             >
                 <Button
                   onPress={this.onCancelDate.bind(this)}
                   title='HUỶ'
+                  color='#057AFF'
+                />
+                <View style={{ width: 20 }} />
+                <Button
+                  onPress={this.onChooseDate.bind(this)}
+                  title='ĐỒNG Ý'
                   color='#057AFF'
                 />
             </View>

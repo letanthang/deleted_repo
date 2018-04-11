@@ -28,6 +28,9 @@ class OrderLabelScreen extends Component {
     ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
       u => this.props.setProps({ imageUri2: u }), error => console.log(error));
 
+    ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 200 } }, 
+      u => this.props.setProps({ imageUri3: u }), error => console.log(error));
+
     console.log('Image is save to', uri);
   }
 
@@ -87,24 +90,24 @@ class OrderLabelScreen extends Component {
                 />
                 <View style={{ paddingLeft: 15 }}>
                   <View style={{ flexDirection: 'row', borderWidth: 4, borderColor: 'black', padding: 10, marginBottom: 10, width: 220 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 26 }}>24 | </Text>
-                    <Text style={{ fontWeight: 'bold', fontSize: 24 }}>CUNG KHO</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 25 }}>24 | </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 23 }}>CUNG KHO</Text>
                   </View>
-                  <Text style={{ width: 220, fontSize: 22, fontWeight: 'bold' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
+                  <Text style={{ width: 220, fontSize: 21, fontWeight: 'bold' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
                 </View>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
-                <Text style={{ fontSize: 22, fontWeight: 'bold', width: 100 }} numberOfLines={2}>NGUOI NHAN:</Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', width: 100 }} numberOfLines={2}>NGUOI NHAN:</Text>
                 <View>
-                  <Text style={{ fontSize: 22, fontWeight: 'bold' }}>NGUYEN HAI</Text>
-                  <Text>0909090909</Text>
-                  <Text style={{ width: 300 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, , HUYEN HAI HA - QUANG NINH</Text>
+                  <Text style={{ fontSize: 20, fontWeight: 'bold' }}>NGUYEN HAI</Text>
+                  <Text style={{ fontSize: 18 }}>0909090909</Text>
+                  <Text style={{ width: 300, fontSize: 18 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, , HUYEN HAI HA - QUANG NINH</Text>
                 </View>
               </View>
               <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
-              <View style={{ flexDirection: 'row', marginTop: 15 }}>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>GHI CHU: </Text>
-                <Text style={{ fontSize: 21 }}>CHO XEM HANG KHONG CHO THU</Text>
+              <View style={{ flexDirection: 'row', marginTop: 8 }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>GHI CHU: </Text>
+                <Text style={{ fontSize: 18 }}>CHO XEM HANG KHONG CHO THU</Text>
               </View>
               
             </ViewShot>
@@ -127,7 +130,7 @@ class OrderLabelScreen extends Component {
              
               padding: 2,
               width: 362,
-              height: 600,
+              height: 700,
               alignSelf: 'center',
               backgroundColor: 'white'
             }}
@@ -145,14 +148,17 @@ class OrderLabelScreen extends Component {
               </View>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
-            <View style={{ backgroundColor: 'green', padding: 0, alignItems: 'center' }}>
-              <Text style={{ fontWeight: 'bold', fontSize: 34 }}>44-44-44</Text>
+            <View style={{ alignItems: 'center', padding: 0 }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 24 }}>EXT : 1380909897789AF</Text>
             </View>
-            <View style={{ marginTop: 15, height: 130 }}>
+            <View style={{ borderWidth: 2, padding: 0, alignItems: 'center' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 34, color: 'white', backgroundColor: 'black' }}>44-44-44</Text>
+            </View>
+            <View style={{ marginTop: 4, height: 130 }}>
               <Barcode 
                 value='GHNMP0000018085VN'
                 format="CODE128"
-                height={130}
+                height={125}
                 width={1.86}
                 // background='blue'
               />
@@ -160,6 +166,7 @@ class OrderLabelScreen extends Component {
             
           </ViewShot>
           <TouchableOpacity
+            style={{ alignSelf: 'center', alignItems: 'center', padding: 8, backgroundColor: 'blue', width: 362 }}
             onPress={() => {
               this.refs.viewShot.capture().then(this.onCapture.bind(this));
             }}
@@ -170,12 +177,12 @@ class OrderLabelScreen extends Component {
           <View 
             style={{
               width: 362,
-              height: 500,
+              height: 700,
               alignSelf: 'center'
             }}
           >
             <Image 
-              style={{ width: 362, height: 500 }}
+              style={{ width: 362, height: 700 }}
               source={{ uri: this.props.imageUri }}
             />
           </View>

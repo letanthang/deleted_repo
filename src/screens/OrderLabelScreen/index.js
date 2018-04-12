@@ -78,7 +78,7 @@ class OrderLabelScreen extends Component {
               ref="vsUpper"
               style={{
                 width: 440,
-                height: 360,
+                height: 362,
                 alignSelf: 'center',
                 backgroundColor: 'white'
               }}
@@ -141,7 +141,7 @@ class OrderLabelScreen extends Component {
               >
                 {this.state.bcUri ?
                 <Image 
-                  style={{ width: 440, height: 360 }}
+                  style={{ width: 440, height: 362 }}
                   source={{ uri: this.state.bcUri }}
                 />
                 : null}
@@ -156,10 +156,10 @@ class OrderLabelScreen extends Component {
             </View>
             <View style={{ marginTop: 4, height: 130 }}>
               <Barcode 
-                value='GHNMP0000018085VN'
+                value='GHN1234567890'
                 format="CODE128"
                 height={125}
-                width={1.86}
+                width={2}
                 // background='blue'
               />
             </View>

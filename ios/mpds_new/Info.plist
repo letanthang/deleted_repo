@@ -68,7 +68,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Ứng dụng cần truy xuất camera để quét mã đơn hàng</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

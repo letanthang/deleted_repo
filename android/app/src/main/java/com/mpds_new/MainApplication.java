@@ -3,7 +3,9 @@ package com.mpds_new;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import com.microsoft.codepush.react.CodePush;
+import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.rssignaturecapture.RSSignatureCapturePackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -38,7 +40,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNViewShotPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
+            new RCTBluetoothSerialPackage(),
             new OrientationPackage(),
             new RSSignatureCapturePackage(),
             new RNFirebasePackage(),

@@ -11,12 +11,12 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
 import { pdListFetch, changeDone1, changeKeyword1 } from '../actions';
-import { get3Type } from '../selectors';
-import Utils from '../libs/Utils';
-import { Styles, Colors } from '../Styles';
-import ReturnGroupDetail from '../components/pickReturn/ReturnGroupDetail';
-import LoadingSpinner from '../components/LoadingSpinner';
-import LogoButton from '../components/LogoButton';
+import { get3Type } from '../../selectors';
+import Utils from '../../libs/Utils';
+import { Styles, Colors } from '../../Styles';
+import ReturnGroupDetail from './ReturnGroupDetail';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import LogoButton from '../../components/LogoButton';
 
 class PickGroupDetailScreen extends Component {
   state = { showSearch: false };

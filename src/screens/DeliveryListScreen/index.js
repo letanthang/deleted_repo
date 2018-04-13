@@ -9,13 +9,13 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import DeliveryByGroup from '../components/delivery/DeliveryByGroup';
-import AppFooter from '../components/AppFooter';
-import LogoButton from '../components/LogoButton';
-import ProgressBar from '../components/ProgressBar';
-import Utils from '../libs/Utils';
-import { get3Type, getNumbers } from '../selectors';
-import { Colors, Styles } from '../Styles';
+import DeliveryByGroup from './DeliveryByGroup';
+import AppFooter from '../../components/AppFooter';
+import LogoButton from '../../components/LogoButton';
+import ProgressBar from '../../components/ProgressBar';
+import Utils from '../../libs/Utils';
+import { get3Type, getNumbers } from '../../selectors';
+import { Colors, Styles } from '../../Styles';
 
 class DeliveryListScreen extends Component {
   state = { showSearch: false, keyword: '' };

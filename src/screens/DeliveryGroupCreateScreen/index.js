@@ -3,8 +3,8 @@ import {
   Container, Right, Left, Body, 
   Icon, Button, Title, Header
 } from 'native-base';
-import DeliveryGroupCreate from '../components/delivery/DeliveryGroupCreate';
-import { Colors, Styles } from '../Styles';
+import DeliveryGroupCreate from './DeliveryGroupCreate';
+import { Colors, Styles } from '../../Styles';
 
 class DeliveryGroupCreateScreen extends Component {
   state = { showSearch: false, keyword: '' };

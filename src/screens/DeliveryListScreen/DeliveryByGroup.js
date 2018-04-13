@@ -11,7 +11,7 @@ import DeliveryItem from './DeliveryItem';
 import Utils from '../../libs/Utils';
 import { toggleGroupActive, pdListFetch } from '../../actions';
 import { DeliverGroupStyles, Colors } from '../../Styles';
-import StatusText from '../StatusText';
+import StatusText from '../../components/StatusText';
 import { get3Type } from '../../selectors';
 
 class DeliveryByGroup extends Component {

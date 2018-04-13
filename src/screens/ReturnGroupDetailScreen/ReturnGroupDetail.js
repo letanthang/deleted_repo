@@ -11,12 +11,12 @@ import { updateOrderInfo, updateOrderInfos, getConfiguration, changeDone1, chang
 import Utils from '../../libs/Utils';
 import { navigateOnce } from '../../libs/Common';
 import { Styles, Colors } from '../../Styles';
-import OrderStatusText from '../OrderStatusText';
-import DataEmptyCheck from '../DataEmptyCheck';
+import OrderStatusText from '../../components/OrderStatusText';
+import DataEmptyCheck from '../../components/DataEmptyCheck';
 import ReturnActionButtons from './ReturnActionButtons';
 import ReturnActionAllButtons from './ReturnActionAllButtons';
-import ActionModal from '../ActionModal';
-import { getUpdateOrderInfo } from './ReturnHelpers';
+import ActionModal from '../../components/ActionModal';
+import { getUpdateOrderInfo } from '../../components/ReturnHelpers';
 import { get3Type } from '../../selectors/index';
 
 

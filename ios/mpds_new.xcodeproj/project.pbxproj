@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -59,6 +60,7 @@
 		8DF0B2A49DF54241BD996BC4 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 088DC0A15AE64F0885C4FFDA /* rubicon-icon-font.ttf */; };
 		904A8903C6EE4EA3AE56254F /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CFF542DD07F425986033D56 /* SimpleLineIcons.ttf */; };
 		AA77B3524D4B4EDC975D116D /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDDA7F7F191242258EB09025 /* Zocial.ttf */; };
+		AC7CBBAE19264D92A128079D /* libRCTBluetoothSerial.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B5C443D4A24250B1FD61E1 /* libRCTBluetoothSerial.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B45AC160A0384FF7BC6C6FFB /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47627062339F42EF9FBE6172 /* Octicons.ttf */; };
 		BA7180FCF652DE832796CF92 /* libPods-mpds_new.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8BAB3527B2C25F35B53134C /* libPods-mpds_new.a */; };
@@ -70,10 +72,9 @@
 		E6F226859EE8415FA9A838BB /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E297005969A8431ABF28E1C1 /* Roboto.ttf */; };
 		E74B3DDBF984405C8BEEC5F5 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D346B2773AC466CB68EFC76 /* MaterialCommunityIcons.ttf */; };
 		E86BD651BA6B44FAA3DDD9F8 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC3008D19F144876A1BD9691 /* EvilIcons.ttf */; };
+		EDA36C80631A49B7B3DB39E7 /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2373A510867C4511A0C47FA8 /* libRNViewShot.a */; };
 		FA74C2B5DC9349B5B5FDB69F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92E2A17BF12E4B9F815D5531 /* Ionicons.ttf */; };
 		FD1D7A40ED6740E89F3FB386 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 719E9797706D4DB0B523DE4E /* libCodePush.a */; };
-		AC7CBBAE19264D92A128079D /* libRCTBluetoothSerial.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B5C443D4A24250B1FD61E1 /* libRCTBluetoothSerial.a */; };
-		EDA36C80631A49B7B3DB39E7 /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2373A510867C4511A0C47FA8 /* libRNViewShot.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,6 +182,48 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
+		};
+		3D50D4502080726A00B9DA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
+			remoteInfo = jsinspector;
+		};
+		3D50D4522080726A00B9DA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
+			remoteInfo = "jsinspector-tvOS";
+		};
+		3D50D4542080726A00B9DA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
+			remoteInfo = privatedata;
+		};
+		3D50D4562080726A00B9DA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
+			remoteInfo = "privatedata-tvOS";
+		};
+		3D50D4602080726A00B9DA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60E50B2A576C4D8C93B3DADF /* RCTBluetoothSerial.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 69CA06031CC43C2900AF6479;
+			remoteInfo = RCTBluetoothSerial;
+		};
+		3D50D4632080726A00B9DA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30BE4B1DF8714B02946D1D78 /* RNViewShot.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNViewShot;
 		};
 		3D54ECBA2010939400E0E87A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -411,9 +454,11 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mpds_new/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		182446B9DCA54FADB2C8559B /* libRSSignatureCapture.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRSSignatureCapture.a; sourceTree = "<group>"; };
+		2373A510867C4511A0C47FA8 /* libRNViewShot.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNViewShot.a; sourceTree = "<group>"; };
 		260219C74460348AD1CD33DE /* Pods-mpds_new-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_new-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_new-tvOS/Pods-mpds_new-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* mpds_new-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mpds_new-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* mpds_new-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mpds_new-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		30BE4B1DF8714B02946D1D78 /* RNViewShot.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNViewShot.xcodeproj; path = "../node_modules/react-native-view-shot/ios/RNViewShot.xcodeproj"; sourceTree = "<group>"; };
 		3ADE64750E72768DE345AF57 /* Pods-mpds_newTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_newTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_newTests/Pods-mpds_newTests.release.xcconfig"; sourceTree = "<group>"; };
 		3DD8991D1F384D4900F7A4F4 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		3DE030281FE8FBB600E366BA /* mpds_new.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mpds_new.entitlements; path = mpds_new/mpds_new.entitlements; sourceTree = "<group>"; };
@@ -424,6 +469,7 @@
 		530D57CE080E4E37BBB5D0FA /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		5BD2F18C878147129BC4686A /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		60E50B2A576C4D8C93B3DADF /* RCTBluetoothSerial.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTBluetoothSerial.xcodeproj; path = "../node_modules/react-native-bluetooth-serial/ios/RCTBluetoothSerial.xcodeproj"; sourceTree = "<group>"; };
 		664CB606E1554B43804B0EE7 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		6D346B2773AC466CB68EFC76 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		719E9797706D4DB0B523DE4E /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
@@ -436,6 +482,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8C8E732123124D66A4D8F79E /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		92E2A17BF12E4B9F815D5531 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		A0B5C443D4A24250B1FD61E1 /* libRCTBluetoothSerial.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBluetoothSerial.a; sourceTree = "<group>"; };
 		A4B48225D88B473595A3D8EC /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AF99D3385A054998393A83BB /* Pods-mpds_newTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_newTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_newTests/Pods-mpds_newTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -464,10 +511,6 @@
 		F650203C10FA41F48E8E98C3 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FB3C0F967F63E2432F3D37CA /* Pods-mpds_new-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_new-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_new-tvOS/Pods-mpds_new-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		FDD8752FBFD8A1C25FAC3023 /* libPods-mpds_new-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mpds_new-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		60E50B2A576C4D8C93B3DADF /* RCTBluetoothSerial.xcodeproj */ = {isa = PBXFileReference; name = "RCTBluetoothSerial.xcodeproj"; path = "../node_modules/react-native-bluetooth-serial/ios/RCTBluetoothSerial.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		A0B5C443D4A24250B1FD61E1 /* libRCTBluetoothSerial.a */ = {isa = PBXFileReference; name = "libRCTBluetoothSerial.a"; path = "libRCTBluetoothSerial.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		30BE4B1DF8714B02946D1D78 /* RNViewShot.xcodeproj */ = {isa = PBXFileReference; name = "RNViewShot.xcodeproj"; path = "../node_modules/react-native-view-shot/ios/RNViewShot.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		2373A510867C4511A0C47FA8 /* libRNViewShot.a */ = {isa = PBXFileReference; name = "libRNViewShot.a"; path = "libRNViewShot.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -643,10 +686,14 @@
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
+				3D50D4512080726A00B9DA7B /* libjsinspector.a */,
+				3D50D4532080726A00B9DA7B /* libjsinspector-tvOS.a */,
 				3D197A0F1F332B5300932918 /* libthird-party.a */,
 				3D197A111F332B5300932918 /* libthird-party.a */,
 				3D197A131F332B5300932918 /* libdouble-conversion.a */,
 				3D197A151F332B5300932918 /* libdouble-conversion.a */,
+				3D50D4552080726A00B9DA7B /* libprivatedata.a */,
+				3D50D4572080726A00B9DA7B /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -655,6 +702,22 @@
 			isa = PBXGroup;
 			children = (
 				3D197A181F332B5300932918 /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3D50D45B2080726A00B9DA7B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3D50D4612080726A00B9DA7B /* libRCTBluetoothSerial.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3D50D45D2080726A00B9DA7B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3D50D4642080726A00B9DA7B /* libRNViewShot.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -701,6 +764,8 @@
 				182446B9DCA54FADB2C8559B /* libRSSignatureCapture.a */,
 				5BD2F18C878147129BC4686A /* libRCTOrientation.a */,
 				719E9797706D4DB0B523DE4E /* libCodePush.a */,
+				A0B5C443D4A24250B1FD61E1 /* libRCTBluetoothSerial.a */,
+				2373A510867C4511A0C47FA8 /* libRNViewShot.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1035,6 +1100,10 @@
 					ProjectRef = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
 				},
 				{
+					ProductGroup = 3D50D45B2080726A00B9DA7B /* Products */;
+					ProjectRef = 60E50B2A576C4D8C93B3DADF /* RCTBluetoothSerial.xcodeproj */;
+				},
+				{
 					ProductGroup = 3DBB87D61F8B7D58006FA321 /* Products */;
 					ProjectRef = 530D57CE080E4E37BBB5D0FA /* RCTCamera.xcodeproj */;
 				},
@@ -1085,6 +1154,10 @@
 				{
 					ProductGroup = 3D1979EF1F332B5200932918 /* Products */;
 					ProjectRef = 8C8E732123124D66A4D8F79E /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = 3D50D45D2080726A00B9DA7B /* Products */;
+					ProjectRef = 30BE4B1DF8714B02946D1D78 /* RNViewShot.xcodeproj */;
 				},
 				{
 					ProductGroup = 3D7D5A6C2005B1E800EC22E9 /* Products */;
@@ -1191,6 +1264,48 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 3D197A171F332B5300932918 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D50D4512080726A00B9DA7B /* libjsinspector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsinspector.a;
+			remoteRef = 3D50D4502080726A00B9DA7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D50D4532080726A00B9DA7B /* libjsinspector-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsinspector-tvOS.a";
+			remoteRef = 3D50D4522080726A00B9DA7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D50D4552080726A00B9DA7B /* libprivatedata.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libprivatedata.a;
+			remoteRef = 3D50D4542080726A00B9DA7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D50D4572080726A00B9DA7B /* libprivatedata-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libprivatedata-tvOS.a";
+			remoteRef = 3D50D4562080726A00B9DA7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D50D4612080726A00B9DA7B /* libRCTBluetoothSerial.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTBluetoothSerial.a;
+			remoteRef = 3D50D4602080726A00B9DA7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D50D4642080726A00B9DA7B /* libRNViewShot.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNViewShot.a;
+			remoteRef = 3D50D4632080726A00B9DA7B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3D54ECBB2010939400E0E87A /* libRCTOrientation.a */ = {

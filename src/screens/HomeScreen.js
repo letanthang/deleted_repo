@@ -301,7 +301,7 @@ class HomeScreen extends Component {
                 </View>
               </View>
               <View style={HomeStyles.cardItemRight}>
-                <IC name='printer' size={30} /><IC name='printer' size={30} /><IC name='printer' size={30} />
+                <IC name='printer' size={29} /><IC name='printer' size={29} /><IC name='printer' size={29} />
               </View>
             </CardItem>
           </Card>
@@ -314,12 +314,12 @@ class HomeScreen extends Component {
               <View style={HomeStyles.cardItemLeft}>
                 <View>
                   <Text style={{ fontWeight: 'bold', color: Colors.theme }}>
-                    In đơn hàng
+                    Xuất label
                   </Text>
                 </View>
               </View>
               <View style={HomeStyles.cardItemRight}>
-                <IC name='printer' size={30} /><IC name='printer' size={30} /><IC name='printer' size={30} />
+                <IC name='drawing-box' size={28} /><IC name='drawing-box' size={28} /><IC name='drawing-box' size={28} />
               </View>
             </CardItem>
           </Card>

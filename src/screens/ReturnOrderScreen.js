@@ -15,7 +15,7 @@ import { Styles, Colors } from '../Styles';
 import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
 import FormButton from '../components/FormButton';
-import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/pickReturn/ReturnHelpers';
+import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/ReturnHelpers';
 
 let orderCode = null;
 let order = {};

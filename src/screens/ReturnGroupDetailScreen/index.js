@@ -10,7 +10,7 @@ import {
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
-import { pdListFetch, changeDone1, changeKeyword1 } from '../actions';
+import { pdListFetch, changeDone1, changeKeyword1 } from '../../actions';
 import { get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';

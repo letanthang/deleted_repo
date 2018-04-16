@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import FormButton from '../FormButton';
+import FormButton from '../../components/FormButton';
 import { Colors, Styles } from '../../Styles';
 import { updateOrderInfos, setAllStatusReturn } from '../../actions';
-import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from './ReturnHelpers';
+import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from '../../components/ReturnHelpers';
 
 class ReturnActionAllButtons extends Component {
   state = { status: undefined }

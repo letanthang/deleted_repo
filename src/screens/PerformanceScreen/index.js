@@ -5,9 +5,9 @@ import {
   Tab, Header 
 } from 'native-base';
 import { connect } from 'react-redux';
-import Performance from '../components/performance/Performance';
-import All from '../components/performance/All';
-import { Styles, Colors } from '../Styles';
+import Performance from './Performance';
+import All from './All';
+import { Colors } from '../../Styles';
 
 class PerformanceScreen extends Component {
   componentWillMount() {

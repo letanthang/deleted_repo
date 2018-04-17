@@ -1,19 +1,15 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 import { 
   Content,
-  List
 } from 'native-base';
 import {
-  Card 
 } from 'react-native-elements';
 
-import Utils from '../../libs/Utils';
 import { Styles } from '../../Styles';
 import { getUserPerformance } from '../../actions';
-import PDStatsCard from '.././home/PDStatsCard';
+import PDStatsCard from '../HomeScreen/PDStatsCard';
 
 class Performance extends Component {
   componentWillMount() {

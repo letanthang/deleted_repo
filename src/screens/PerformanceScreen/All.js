@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, Picker, View } from 'react-native';

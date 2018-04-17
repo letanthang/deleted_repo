@@ -9,22 +9,21 @@ import moment from 'moment';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import SearchList from '../components/SearchList';
-import { pdListFetch, setLoaded, stopLoading } from '../actions';
-import { getNumbers } from '../selectors';
-import PDCard from '../components/home/PDCard';
+import SearchList from '../../components/SearchList';
+import { pdListFetch, setLoaded, stopLoading } from '../../actions';
+import { getNumbers } from '../../selectors';
+import PDCard from './PDCard';
 // import LoadingSpinner from '../components/LoadingSpinner';
-import ProgressBar from '../components/ProgressBar';
-import { HomeStyles, Colors, Theme } from '../Styles';
-import { navigateOnce } from '../libs/Common';
-import AppFooter from '../components/AppFooter';
-import Utils from '../libs/Utils';
+import ProgressBar from '../../components/ProgressBar';
+import { HomeStyles, Colors, Theme } from '../../Styles';
+import { navigateOnce } from '../../libs/Common';
+import AppFooter from '../../components/AppFooter';
+import Utils from '../../libs/Utils';
 // import MyMenu from '../components/MyMenu';
 // import LogoButton from '../components/LogoButton';
-import BarcodeReader from '../components/BarcodeReader';
+import BarcodeReader from '../../components/BarcodeReader';
 
-
-const efficiencyIcon = require('../../resources/ic_summary.png');
+const efficiencyIcon = require('../../../resources/ic_summary.png');
 
 class HomeScreen extends Component {
   state = { showSearch: false, keyword: '', showScanner: false }

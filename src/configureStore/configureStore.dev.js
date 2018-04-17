@@ -6,8 +6,11 @@ import storage from 'redux-persist/lib/storage';
 
 import ReduxThunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
-import reducers from './reducers';
-import mySaga from './sagas';
+import { createEpicMiddleware } from 'redux-observable';
+
+import mySaga from '../sagas';
+import myEpic from '../epics';
+import reducers from '../reducers';
 
 export default function configureStore() {
   const config = {
@@ -17,7 +20,8 @@ export default function configureStore() {
   };
   const reducer = persistCombineReducers(config, reducers);
   const sagaMiddleware = createSagaMiddleware();
-  const middlewares = [ReduxThunk, sagaMiddleware];
+  const epicMiddleware = createEpicMiddleware(myEpic);
+  const middlewares = [ReduxThunk, sagaMiddleware, epicMiddleware];
   //devTool options
   const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
   const store = createStore(reducer, /* preloadedState, */ composeEnhancers(
@@ -32,7 +36,7 @@ export default function configureStore() {
     // Enable Webpack hot module replacement for reducers
     const acceptCallback = () => {
       //const nextRootReducer = require('./reducers/index').default;
-      const nextRootReducer = require('./reducers/index').default; 
+      const nextRootReducer = require('../reducers/index').default; 
       store.replaceReducer(nextRootReducer);
     };
     module.hot.accept(acceptCallback);

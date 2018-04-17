@@ -1,5 +1,8 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/dom/ajax';
+
 import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
@@ -48,6 +51,20 @@ export const GetUserActivePds = (pdsCode, offset, limit, timeServer, clientHubId
   return axios.get(URL, config);
 };
 
+export const GetUserTrips = (pdsCode, offset, limit, timeServer, clientHubId) => {
+  const URL = `${PDS_URL}/pda/pds/orders`;
+  const LoginHeader = Share.LoginHeader;
+
+  return Observable.ajax({
+    method: 'GET',
+    url: URL,
+    headers: {
+      ...LoginHeader,
+      'Content-Type': 'application/json',
+    },
+    body: { pdsCode, offset, limit, timeServer, clientHubId }
+  });
+};
 // export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
 //   const URL = `${PDS_URL}/pdaone/${PDSID}`;
 //   const params = {
@@ -122,20 +139,36 @@ export const UpdateOrderWeightRDC = ({
   return axios.put(URL, params, config);
 };
 
-export const Authenticate = ({ UserID, Password }) => {
+// export const Authenticate = ({ UserID, Password }) => {
+//   const URL = `${ACC_URL}/pdaLogin`;
+
+//   if (mockOn) {
+//     mock.onPost(URL, {
+//         userid: UserID,
+//         password: Password
+//       }).reply(200, loginResponse);
+//   }
+
+//   return axios.post(URL, {
+//       userid: UserID,
+//       password: Password
+//     });
+// };
+
+export const LoginUser = (userid, password ) => {
   const URL = `${ACC_URL}/pdaLogin`;
 
-  if (mockOn) {
-    mock.onPost(URL, {
-        userid: UserID,
-        password: Password
-      }).reply(200, loginResponse);
-  }
-
-  return axios.post(URL, {
-      userid: UserID,
-      password: Password
-    });
+  return Observable.ajax({
+    method: 'post',
+    url: URL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: {
+      userid,
+      password
+    }
+  });
 };
 
 export const GetUserPerformance = (UserID, from = null, to = null) => {

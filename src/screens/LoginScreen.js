@@ -33,7 +33,7 @@ class LoginScreen extends Component {
     //this.props.loadSavedSession();
     new ShareVariables().LoginHeader['X-Auth'] = this.props.sessionToken;
     firebase.messaging().requestPermissions();
-    console.log(this.props.user);
+    // console.log(this.props.user);
     if (this.props.user) {
       console.log('navigate away2!');
       this.goToHome();
@@ -133,7 +133,7 @@ class LoginScreen extends Component {
               success
               onPress={() => { 
                 this.setState({ loading: true });
-                this.props.loginUser({ userID, password, rememberMe });
+                this.props.loginUser(userID, password, rememberMe);
               }}
             >
               <Text>ĐĂNG NHẬP</Text>

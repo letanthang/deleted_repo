@@ -102,42 +102,42 @@ export const loadSavedSession = () => {
 };
 
 
-export const loginUser = ({ userID, password, rememberMe }) => {
-  return (dispatch) => {
-    dispatch({ type: LOGIN_USER });
-    API.Authenticate({ UserID: userID, Password: password })
-      .then(response => {
-        const json = response.data;
+export const loginUser = (userid, password, rememberMe) => {
+  return { type: LOGIN_USER, payload: { userid, password, rememberMe } };
+  // return (dispatch) => {
+  //   dispatch({ type: LOGIN_USER });
+  //   API.Authenticate({ UserID: userID, Password: password })
+  //     .then(response => {
+  //       const json = response.data;
 
-        if (json.status === 'OK') {
-          loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
-        } else {
-          console.log('loginUser fail with response json =');
-          console.log(json);
-          loginUserFail(dispatch, json.message);
-        }
-      })
-      .catch(error => {
-        console.log('loginUser fail with error =');
-        console.log(error);
-        loginUserFail(dispatch, error.message);
-      });
+  //       if (json.status === 'OK') {
+  //         loginUserSucess(dispatch, json.data, { userID, password, rememberMe });
+  //       } else {
+  //         console.log('loginUser fail with response json =');
+  //         console.log(json);
+  //         loginUserFail(dispatch, json.message);
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log('loginUser fail with error =');
+  //       console.log(error);
+  //       loginUserFail(dispatch, error.message);
+  //     });
+  // };
+};
+
+export const loginUserSucess = (userInfo, session, rememberMe) => {
+  return {
+    type: LOGIN_USER_SUCCESS,
+    payload: { userInfo, session, rememberMe }
   };
 };
 
-const loginUserSucess = (dispatch, { userInfo, session }, { userID, password, rememberMe }) => {
-  dispatch({
-    type: LOGIN_USER_SUCCESS,
-    payload: { userInfo, session, rememberMe }
-  });
-  
-};
-
-const loginUserFail = (dispatch, errorMsg) => {
-  dispatch({
+export const loginUserFail = (error) => {
+  return {
     type: LOGIN_USER_FAIL,
-    payload: errorMsg
-  });
+    payload: { error }
+  };
 };
 
 export const logoutUser = () => {

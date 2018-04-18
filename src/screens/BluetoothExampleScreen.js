@@ -356,6 +356,7 @@ class BluetoothSerialExample extends Component {
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/barcode1_20180307_154043.jpg');
       // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/label-new-m.png');
       // BluetoothSerial.writeImage('/storage/emulated/0/DCIM/ReactNative-snapshot-image358725536.png');
+      await BluetoothSerial.write('\n');
       let uri = this.props.imageUri1.substring(7);
       console.log(uri);
       await BluetoothSerial.writeImage(uri);

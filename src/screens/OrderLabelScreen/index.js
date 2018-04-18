@@ -28,7 +28,7 @@ class OrderLabelScreen extends Component {
     ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
       u => this.props.setProps({ imageUri2: u }), error => console.log(error));
 
-    ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 200 } }, 
+    ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 250 } }, 
       u => this.props.setProps({ imageUri3: u }), error => console.log(error));
 
     console.log('Image is save to', uri);
@@ -77,7 +77,7 @@ class OrderLabelScreen extends Component {
               // captureMode="mount"
               ref="vsUpper"
               style={{
-                width: 440,
+                width: 560,
                 height: 362,
                 alignSelf: 'center',
                 backgroundColor: 'white'
@@ -86,30 +86,53 @@ class OrderLabelScreen extends Component {
               <View style={{ flexDirection: 'row' }}>
                 <QRCode 
                   value={orderCode}
-                  size={165}
+                  size={120}
                 />
                 <View style={{ paddingLeft: 15 }}>
                   <View style={{ flexDirection: 'row', borderWidth: 4, borderColor: 'black', padding: 10, marginBottom: 10, width: 220 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 25 }}>24 | </Text>
-                    <Text style={{ fontWeight: 'bold', fontSize: 23 }}>CUNG KHO</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 23 }}>24 | </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 21 }}>CUNG KHO</Text>
                   </View>
-                  <Text style={{ width: 220, fontSize: 21, fontWeight: 'bold' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
+                  <Text style={{ width: 220, fontSize: 19, fontWeight: 'bold' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
                 </View>
               </View>
-              <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 15 }}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', width: 100 }} numberOfLines={2}>NGUOI NHAN:</Text>
+              <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 4 }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', width: 100 }} numberOfLines={2}>NGUOI NHAN:</Text>
                 <View>
-                  <Text style={{ fontSize: 20, fontWeight: 'bold' }}>NGUYEN HAI</Text>
-                  <Text style={{ fontSize: 18 }}>0909090909</Text>
-                  <Text style={{ width: 300, fontSize: 18 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, , HUYEN HAI HA - QUANG NINH</Text>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold' }}>NGUYEN HAI</Text>
+                  <Text style={{ fontSize: 16 }}>0909090909</Text>
+                  <Text style={{ width: 300, fontSize: 16 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, , HUYEN HAI HA - QUANG NINH</Text>
                 </View>
               </View>
               <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
-              <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>GHI CHU: </Text>
-                <Text style={{ fontSize: 18 }}>CHO XEM HANG KHONG CHO THU</Text>
+              <View style={{ flexDirection: 'row', marginTop: 2 }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>GHI CHU: </Text>
+                <Text style={{ fontSize: 16 }}>CHO XEM HANG KHONG CHO THU</Text>
               </View>
-              
+              <View>
+                <View style={{ height: 35 }}>
+                <Barcode 
+                  value='MPDS-12345-6780-ABC'
+                  format="CODE128"
+                  height={25}
+                  width={2}
+                  // background='blue'
+                  
+                />
+                </View>
+                <View style={{ marginTop: -9 }}>
+                <Barcode 
+                  value='MPDS-12345-6780-ABC'
+                  format="CODE128"
+                  height={25}
+                  width={2}
+                  //background='blue'
+                  
+                />
+                </View>
+               
+                
+              </View>
             </ViewShot>
           </TouchableOpacity>
           {/* <View style={{ marginBottom: 40, transform: [{ translateY: 120 }, { rotate: '90deg' }] }} >
@@ -130,27 +153,24 @@ class OrderLabelScreen extends Component {
              
               padding: 2,
               width: 362,
-              height: 700,
+              height: 750,
               alignSelf: 'center',
               backgroundColor: 'white'
             }}
           >
-            <View style={{ position: 'relative', height: 450 }}>
+            <View style={{ position: 'relative', height: 570 }}>
               <View
-                style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -32 }, { translateY: 40 }, { rotate: '-90deg' }] }}
+                style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -95 }, { translateY: 100 }, { rotate: '-90deg' }] }}
               >
                 {this.state.bcUri ?
                 <Image 
-                  style={{ width: 440, height: 362 }}
+                  style={{ width: 560, height: 362 }}
                   source={{ uri: this.state.bcUri }}
                 />
                 : null}
               </View>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
-            <View style={{ alignItems: 'center', padding: 0 }}>
-              <Text style={{ fontWeight: 'bold', fontSize: 24 }}>EXT : 1380909897789AF</Text>
-            </View>
             <View style={{ borderWidth: 2, padding: 0, alignItems: 'center' }}>
               <Text style={{ fontWeight: 'bold', fontSize: 34, color: 'white', backgroundColor: 'black' }}>44-44-44</Text>
             </View>
@@ -158,7 +178,7 @@ class OrderLabelScreen extends Component {
               <Barcode 
                 value='GHN1234567890'
                 format="CODE128"
-                height={125}
+                height={100}
                 width={2}
                 // background='blue'
               />

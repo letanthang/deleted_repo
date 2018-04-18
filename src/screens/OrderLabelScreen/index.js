@@ -112,26 +112,22 @@ class OrderLabelScreen extends Component {
               <View>
                 <View style={{ height: 35 }}>
                 <Barcode 
-                  value='MPDS-12345-6780-ABC'
+                  value='MPDS-338498581-8029'
                   format="CODE128"
                   height={25}
                   width={2}
                   // background='blue'
-                  
                 />
                 </View>
                 <View style={{ marginTop: -9 }}>
                 <Barcode 
-                  value='MPDS-12345-6780-ABC'
+                  value='MPDS-338498581-8029'
                   format="CODE128"
                   height={25}
                   width={2}
                   //background='blue'
-                  
                 />
                 </View>
-               
-                
               </View>
             </ViewShot>
           </TouchableOpacity>

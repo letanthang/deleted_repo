@@ -1,21 +1,22 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { Observable } from 'rxjs/Observable';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = true;
+const mockOn = false;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
-const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
-// const PDS_URL = 'http://api.staging.inhubv2.ghn.vn/pds/v2';
-// const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
+// const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
+// const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
+const PDS_URL = 'http://api.staging.inhubv2.ghn.vn/pds/v2';
+const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
 
@@ -35,6 +36,22 @@ export const GetUserActivePdsInfo = (tripUserId) => {
     return axios.get(URL, config);
   };
 
+export const fetchTripInfo = (tripUserId) => {
+  const URL = `${PDS_URL}/pda/pds/info`;
+  const LoginHeader = Share.LoginHeader;
+
+  return Observable.ajax({
+    method: 'get',
+    url: `${URL}?tripUserId=${tripUserId}`,
+    headers: {
+      ...LoginHeader,
+      'Content-Type': 'application/json',
+    }
+  });
+
+  // return fromPromise(GetUserActivePdsInfo(tripUserId));
+};  
+
 export const GetUserActivePds = (pdsCode, offset, limit, timeServer, clientHubId) => {
   const URL = `${PDS_URL}/pda/pds/orders`;
   const LoginHeader = Share.LoginHeader;
@@ -51,19 +68,20 @@ export const GetUserActivePds = (pdsCode, offset, limit, timeServer, clientHubId
   return axios.get(URL, config);
 };
 
-export const GetUserTrips = (pdsCode, offset, limit, timeServer, clientHubId) => {
-  const URL = `${PDS_URL}/pda/pds/orders`;
-  const LoginHeader = Share.LoginHeader;
+export const fetchTrip = (pdsCode, offset, limit, timeServer, clientHubId) => {
+  // const URL = `${PDS_URL}/pda/pds/orders`;
+  // const LoginHeader = Share.LoginHeader;
 
-  return Observable.ajax({
-    method: 'GET',
-    url: URL,
-    headers: {
-      ...LoginHeader,
-      'Content-Type': 'application/json',
-    },
-    body: { pdsCode, offset, limit, timeServer, clientHubId }
-  });
+  // return Observable.ajax({
+  //   method: 'GET',
+  //   url: URL,
+  //   headers: {
+  //     ...LoginHeader,
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: { pdsCode, offset, limit, timeServer, clientHubId }
+  // });
+  return fromPromise(GetUserActivePds(pdsCode, offset, limit, timeServer));
 };
 // export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
 //   const URL = `${PDS_URL}/pdaone/${PDSID}`;

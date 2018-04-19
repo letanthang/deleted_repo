@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import Utils from '../libs/Utils';
 
 export const getOrders = ({ pd }) => {
-  const items = pd.pdsItems === null ? null : pd.pdsItems[0];
+  const items = pd.pdsItems === null ? null : pd.pdsItems;
   _.forEach(items, order => {
     if (order.pickDeliveryType === 1) {
       order.done = Utils.checkPickComplete(order.currentStatus);

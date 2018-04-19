@@ -38,9 +38,9 @@ class SideBar extends Component {
     
     this.props.navigation.navigate('DrawerClose');
     this.props.pdListFetch({})
-      .then(result => {
-        if (result) Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
-      });
+      // .then(result => {
+      //   if (result) Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
+      // });
   }
 
   render() {

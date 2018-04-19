@@ -4,7 +4,7 @@ import {
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
-  PD_UPDATE_GROUP, PD_UPDATE_GROUP_FAIL, PD_UPDATE_GROUP_SUCCESS, 
+  PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS, PD_FETCH_TRIP_INFO_FAIL, 
   PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
   PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_UPDATE_PROGRESS, OTHER_SET_PROPS
@@ -26,115 +26,93 @@ const reportBug = (errorMessage, info) => {
   );
 };
 
-let info = {};
-const limitNum = 30;
-let orders = [];
-let totalPage = 0;
-let currentPage = 0;
-const updateProgress = (dispatch) => {
-  currentPage += 1;
-  const progress = Math.ceil((currentPage / totalPage) * 100);
-  dispatch({ type: OTHER_SET_PROPS, payload: { progress } });
-};
-const logout = (dispatch) => {
-  dispatch(logoutUser());
-  pdListFetchFail(dispatch, 'Phiên làm việc hết hạn. Vui lòng đăng nhập.');
+export const updateProgress = (progress) => {
+  return { type: OTHER_SET_PROPS, payload: { progress } };
 };
 
-const fetchAll = (dispatch, pdsCode, page, limit, all, timeServer, clientHubId) => {
-  return API.GetUserActivePds(pdsCode, page * limit, limit, timeServer, clientHubId)
-      .then(response => {
-        const json = response.data;
+// const fetchAll = (dispatch, pdsCode, page, limit, all, timeServer, clientHubId) => {
+//   return API.GetUserActivePds(pdsCode, page * limit, limit, timeServer, clientHubId)
+//       .then(response => {
+//         const json = response.data;
         
-        if (json.status === 'OK' & json.data !== undefined) {
+//         if (json.status === 'OK' & json.data !== undefined) {
 
-          /******** success *********/
-          orders = orders.concat(json.data);
-          totalPage = Math.ceil(json.total / limit);
-          updateProgress(dispatch);
-          if (orders.length < json.total && (page * limit) + json.data.length < json.total && json.data.length === limit) {
-            return fetchAll(dispatch, pdsCode, page + 1, limit, all, timeServer, clientHubId);
-          } else {
-            pdListFetchSuccess(dispatch, orders, all);
-            return true;
-          }
+//           /******** success *********/
+//           orders = orders.concat(json.data);
+//           totalPage = Math.ceil(json.total / limit);
+//           updateProgress(dispatch);
+//           if (orders.length < json.total && (page * limit) + json.data.length < json.total && json.data.length === limit) {
+//             return fetchAll(dispatch, pdsCode, page + 1, limit, all, timeServer, clientHubId);
+//           } else {
+//             pdListFetchSuccess(dispatch, orders, all);
+//             return true;
+//           }
 
-        } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
-          pdListFetchNoTrip(dispatch, json.message);
-        } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
-          pdListFetchNoTrip(dispatch, json.message);
-        } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') { //Saved Session Expired: log user out
-          logout(dispatch);
-        } else if (json.status === 'NOT_FOUND') {
-          pdListFetchFail(dispatch, 'CĐ không có cập nhật.');
-        } else {
-          pdListFetchFail(dispatch, json.message);
-        }
-        return false;
-      })
-      .catch(error => {
-        pdListFetchFail(dispatch, error.message);
-      });
+//         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
+//           pdListFetchNoTrip(dispatch, json.message);
+//         } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
+//           pdListFetchNoTrip(dispatch, json.message);
+//         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') { //Saved Session Expired: log user out
+//           logout(dispatch);
+//         } else if (json.status === 'NOT_FOUND') {
+//           pdListFetchFail(dispatch, 'CĐ không có cập nhật.');
+//         } else {
+//           pdListFetchFail(dispatch, json.message);
+//         }
+//         return false;
+//       })
+//       .catch(error => {
+//         pdListFetchFail(dispatch, error.message);
+//       });
+// };
+const limitNum = 30;
+export const pdListFetch = ({ all = true, page = 0, limit = limitNum, timeServer = null, clientHubId = null }) => {
+  
+  return { type: PDLIST_FETCH };
+  // return (dispatch, getState) => {
+  //   dispatch({ type: PDLIST_FETCH });
+  //   dispatch({ type: OTHER_SET_PROPS, payload: { loading: true, progress: 0 } });
+  //   const { userID } = getState().auth;
+  //   const { pdsCode } = getState().pd;
+    
+  //   return API.GetUserActivePdsInfo(userID)
+  //     .then(response => {
+  //       const json = response.data;
+  //       if (json.status === 'OK') {
+
+  //         /******** success *********/
+  //         info = json.data[0];
+  //         const updateTime = pdsCode === info.pdsCode ? timeServer : null; //no timeServer for the first time
+  //         return fetchAll(dispatch, info.pdsCode, page, limit, all, updateTime, clientHubId);
+  // };
 };
 
-export const pdListFetch = ({ all = true, page = 0, limit = limitNum, timeServer = null, clientHubId = null }) => {
-  info = {};
-  orders = [];
-  currentPage = 0;
-  return (dispatch, getState) => {
-    dispatch({ type: PDLIST_FETCH });
-    dispatch({ type: OTHER_SET_PROPS, payload: { loading: true, progress: 0 } });
-    const { userID } = getState().auth;
-    const { pdsCode } = getState().pd;
-    
-    return API.GetUserActivePdsInfo(userID)
-      .then(response => {
-        const json = response.data;
-        if (json.status === 'OK') {
+export const pdListFetchNoTrip = (message) => {
+  return { type: PDLIST_NO_TRIP, payload: message };
+};
 
-          /******** success *********/
-          info = json.data[0];
-          const updateTime = pdsCode === info.pdsCode ? timeServer : null; //no timeServer for the first time
-          return fetchAll(dispatch, info.pdsCode, page, limit, all, updateTime, clientHubId);
 
-        } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
-          pdListFetchNoTrip(dispatch, json.message);
-        } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
-          pdListFetchNoTrip(dispatch, json.message);
-        } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') {
-          logout(dispatch);
-        } else if (json.status === 'UNAUTHORIZED') {
-          logout(dispatch);
-        } else {
-          pdListFetchFail(dispatch, json.message);
-        }
-        return false;
-      })
-      .catch(error => {
-        pdListFetchFail(dispatch, error.message);
-      });
+export const fetchTripDataSuccess = (response, all) => {
+  const pdsItems = response.data;
+  return { type: PDLIST_FETCH_SUCCESS, payload: { pdsItems, all } };
+};
+
+export const fetchTripDataFail = (error) => {
+  return { type: PDLIST_FETCH_FAIL, payload: error };
+};
+
+export const fetchTripInfoSuccess = (response) => {
+  return { 
+    type: PD_FETCH_TRIP_INFO_SUCCESS, 
+    payload: { info: response.data[0] }
   };
 };
 
-export const pdListFetchNoTrip = (dispatch, message) => {
-  dispatch({ type: OTHER_SET_PROPS, payload: { loading: false, progress: 0 } });
-  dispatch({ type: PDLIST_NO_TRIP, payload: message });
-};
-
-export const pdListFetchSuccess = (dispatch, data, all) => {
-  info.pdsItems = orders;
-  const pds = info;
-  const payload = { pds, all };
-  dispatch({ type: OTHER_SET_PROPS, payload: { loading: false, progress: 0 } });
-  dispatch({ type: PDLIST_FETCH_SUCCESS, payload }); // .then(() => console.log('pdlist fetch success done!'));
-  info = {};
-  orders = [];
-  currentPage = 0;
-};
-
-export const pdListFetchFail = (dispatch, error) => {
-  dispatch({ type: OTHER_SET_PROPS, payload: { loading: false, progress: 0 } });
-  dispatch({ type: PDLIST_FETCH_FAIL, payload: error });
+export const fetchTripInfoFail = (error) => {
+  return { 
+    type: PD_FETCH_TRIP_INFO_FAIL, 
+    payload: { error }
+  };
 };
 
   // [

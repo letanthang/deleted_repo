@@ -7,7 +7,7 @@ import { persistStore, persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import reducers from '../reducers';
 import mySaga from '../sagas';
-import myEpic from '../epics';
+import rootEpic from '../epics';
 
 export default function configureStore() {
   const config = {
@@ -17,7 +17,7 @@ export default function configureStore() {
   };
   const reducer = persistCombineReducers(config, reducers);
   const sagaMiddleware = createSagaMiddleware();
-  const epicMiddleware = createEpicMiddleware(myEpic);
+  const epicMiddleware = createEpicMiddleware(rootEpic);
   const middlewares = [ReduxThunk, sagaMiddleware, epicMiddleware];
 
   const store = createStore(reducer, {}, applyMiddleware(...middlewares));

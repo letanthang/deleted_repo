@@ -29,6 +29,7 @@ class HomeScreen extends Component {
   state = { showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     const { pdsItems, loading } = this.props;
+    console.log(this.props.stats);
     if (loading) {
       //this.props.stopLoading();
     }
@@ -93,13 +94,13 @@ class HomeScreen extends Component {
     this.setState({ showSearch: !this.state.showSearch });
   }
   reloadData() {
-    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer })
-        .then(result => {
-          if (result) {
-            this.props.setLoaded(); 
-            Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
-          }
-        });
+    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer });
+        // .then(result => {
+        //   if (result) {
+        //     this.props.setLoaded(); 
+        //     Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
+        //   }
+        // });
   }
 
   renderHeader() {
@@ -200,7 +201,7 @@ class HomeScreen extends Component {
     const paddingTop = Platform.OS === 'ios' ? 4 : 8;
     const { pdsItems, timeServer } = this.props;
     const showTime = timeServer ? moment(timeServer).format('LT DD/MM ') : '';
-    const ordersNum = pdsItems ? Object.keys(pdsItems[0]).length : 0;
+    const ordersNum = pdsItems ? Object.keys(pdsItems).length : 0;
 
     // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
@@ -353,8 +354,6 @@ class HomeScreen extends Component {
           {this.renderFooter()}
           {/* <LoadingSpinner loading={this.props.loading} /> */}
         </Container>
-        
-      
     );
   }
 }

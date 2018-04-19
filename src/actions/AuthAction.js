@@ -126,7 +126,8 @@ export const loginUser = (userid, password, rememberMe) => {
   // };
 };
 
-export const loginUserSucess = (userInfo, session, rememberMe) => {
+export const loginUserSucess = (response, rememberMe) => {
+  const { userInfo, session } = response.data;
   return {
     type: LOGIN_USER_SUCCESS,
     payload: { userInfo, session, rememberMe }

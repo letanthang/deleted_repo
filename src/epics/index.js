@@ -1,5 +1,8 @@
+import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+
 
 import { PDLIST_FETCH, LOGIN_USER } from '../actions/types';
 import { loginUserSucess, loginUserFail } from '../actions';
@@ -15,15 +18,18 @@ const loginUserEpic = action$ =>
     .map(action => action.payload)
     .mergeMap(({ userid, password, rememberMe }) =>
       API.LoginUser(userid, password)
-        .map(res => {
-          const response = res.response;
+        .map(({ response }) => {
           console.log(response);
-          if (response.status === 'OK') {
-            const { userInfo, session } = response.data;
-            return loginUserSucess(userInfo, session, rememberMe);
+          switch (response.status) {
+            case 'OK':
+              return loginUserSucess(response, rememberMe);
+            case 'NOT_FOUND':
+              return loginUserFail('SERVICE NOT FOUND');
+            default:
+              return loginUserFail(response.message);
           }
-          return loginUserFail(response.message);
         })
+        .catch(error => of(loginUserFail(error.message)))
     );
 
 export default loginUserEpic;

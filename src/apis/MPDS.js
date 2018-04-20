@@ -13,10 +13,10 @@ const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-// const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
-// const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
-const PDS_URL = 'http://api.staging.inhubv2.ghn.vn/pds/v2';
-const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
+const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
+const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
+// const PDS_URL = 'http://api.staging.inhubv2.ghn.vn/pds/v2';
+// const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
 

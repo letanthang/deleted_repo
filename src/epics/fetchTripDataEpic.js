@@ -96,7 +96,7 @@ const fetchAlertEpic = (action$) =>
 const fetchAlertFailEpic = (action$) =>
   action$
     .filter(action => action.type === PDLIST_FETCH_FAIL || action.type === PDLIST_NO_TRIP)
-    .do((action) => Utils.showToast(action.payload.error))
+    .do((action) => Utils.showToast(action.payload.error, 'warning'))
     .ignoreElements();
 
 export default combineEpics(

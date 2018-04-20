@@ -21,12 +21,12 @@ const fetchTripInfoEpic = (action$, store) =>
               return fetchTripInfoSuccess(response);
             case 'NOT_FOUND': {
               if (response.message === 'Not found pds.') {
-                return pdListFetchNoTrip('Not found pds.');
+                return pdListFetchNoTrip();
               }
               return fetchTripInfoFail('SERVICE NOT FOUND');
             }
             case 'UNAUTHORIZED':
-              return logoutUser();
+              return logoutUser('Phiên làm việc hết hạn. Hãy đăng nhập lại. ');
             default:
               return fetchTripInfoFail(response.message);
           }

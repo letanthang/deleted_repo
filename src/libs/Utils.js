@@ -274,7 +274,7 @@ class Utils {
     const number = Utils.fixPhoneNumber(phone);
     phonecall(number, prompt);
   }
-  static showToast(text, type) {
+  static showToast(text, type = 'success') {
     //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
     try {
       //console.log('Toast is called');

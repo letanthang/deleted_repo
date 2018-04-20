@@ -1,17 +1,17 @@
+
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/ignoreElements';
 
+import { combineEpics } from 'redux-observable';
 
-import { PDLIST_FETCH, LOGIN_USER } from '../actions/types';
-import { loginUserSucess, loginUserFail } from '../actions';
+import { LOGIN_USER, LOGOUT_USER } from '../actions/types';
+import { loginUserSucess, loginUserFail, logoutUser } from '../actions';
 import * as API from '../apis/MPDS';
-
-// export const fetchDataEpic = action$ => 
-//   action$.ofType(PDLIST_FETCH)
-//     .map(action => action.payload)
-//     .mergeMap(() => )
+import Utils from '../libs/Utils';
 
 const loginUserEpic = action$ =>
   action$.ofType(LOGIN_USER)
@@ -32,4 +32,14 @@ const loginUserEpic = action$ =>
         .catch(error => of(loginUserFail(error.message)))
     );
 
-export default loginUserEpic;
+const logoutUserAlertEpic = action$ =>
+  action$.ofType(LOGOUT_USER)
+    .filter(action => action.payload.message !== undefined)
+    .do(action => Utils.showToast(action.payload.message, 'warning'))
+    .ignoreElements();
+    
+
+export default combineEpics(
+  loginUserEpic,
+  logoutUserAlertEpic
+);

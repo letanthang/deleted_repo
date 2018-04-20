@@ -3,7 +3,6 @@ import {
   PASSWORD_CHANGED,
   REMEMBER_ME_CHANGED,
   LOAD_SAVED_USER_PASS,
-  LOAD_SAVED_SESSION,
   LOGIN_USER, 
   LOGIN_USER_SUCCESS, 
   LOGIN_USER_FAIL,
@@ -36,14 +35,6 @@ export default (state = INITIAL_STATE, action) => {
         userID: action.payload.userID,
         password: action.payload.password,
         rememberMe: action.payload.rememberMe,
-      };
-    case LOAD_SAVED_SESSION:
-      new ShareVariables().LoginHeader['X-Auth'] = action.payload.session;
-      return { 
-        ...state,
-        error: '', 
-        sessionToken: action.payload.sessionToken,
-        user: action.payload.user
       };
     case LOGIN_USER_SUCCESS: {
       const { session, userInfo, rememberMe } = action.payload;

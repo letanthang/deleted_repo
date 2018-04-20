@@ -21,7 +21,7 @@ class ProgressBar extends PureComponent {
           color='blue'
           unfilledColor='#ccc'
           borderRadius={2}
-          progress={progress / 100}
+          progress={progress}
           height={10}
           width={width - 20}
           indeterminate={false}

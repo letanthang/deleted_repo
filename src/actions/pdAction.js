@@ -9,7 +9,6 @@ import {
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
   PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_UPDATE_PROGRESS, OTHER_SET_PROPS
 } from './types';
-import { logoutUser } from './';
 import * as API from '../apis/MPDS';
 import { writeLog } from '../libs/Log';
 
@@ -26,79 +25,26 @@ const reportBug = (errorMessage, info) => {
   );
 };
 
-export const updateProgress = (progress) => {
-  return { type: OTHER_SET_PROPS, payload: { progress } };
+export const updateProgress = (progress, loading) => {
+  return { type: OTHER_SET_PROPS, payload: { progress, loading } };
 };
 
-// const fetchAll = (dispatch, pdsCode, page, limit, all, timeServer, clientHubId) => {
-//   return API.GetUserActivePds(pdsCode, page * limit, limit, timeServer, clientHubId)
-//       .then(response => {
-//         const json = response.data;
-        
-//         if (json.status === 'OK' & json.data !== undefined) {
-
-//           /******** success *********/
-//           orders = orders.concat(json.data);
-//           totalPage = Math.ceil(json.total / limit);
-//           updateProgress(dispatch);
-//           if (orders.length < json.total && (page * limit) + json.data.length < json.total && json.data.length === limit) {
-//             return fetchAll(dispatch, pdsCode, page + 1, limit, all, timeServer, clientHubId);
-//           } else {
-//             pdListFetchSuccess(dispatch, orders, all);
-//             return true;
-//           }
-
-//         } else if (json.status === 'ERROR' && json.message === 'Không tìm thấy CĐ hoặc CĐ đã bị xóa.') {
-//           pdListFetchNoTrip(dispatch, json.message);
-//         } else if (json.status === 'NOT_FOUND' && json.message === 'Not found pds.') {
-//           pdListFetchNoTrip(dispatch, json.message);
-//         } else if (json.status === 'NOT_FOUND' && json.message === 'Permission denied, no User is found.') { //Saved Session Expired: log user out
-//           logout(dispatch);
-//         } else if (json.status === 'NOT_FOUND') {
-//           pdListFetchFail(dispatch, 'CĐ không có cập nhật.');
-//         } else {
-//           pdListFetchFail(dispatch, json.message);
-//         }
-//         return false;
-//       })
-//       .catch(error => {
-//         pdListFetchFail(dispatch, error.message);
-//       });
-// };
-const limitNum = 30;
-export const pdListFetch = ({ all = true, page = 0, limit = limitNum, timeServer = null, clientHubId = null }) => {
-  
-  return { type: PDLIST_FETCH };
-  // return (dispatch, getState) => {
-  //   dispatch({ type: PDLIST_FETCH });
-  //   dispatch({ type: OTHER_SET_PROPS, payload: { loading: true, progress: 0 } });
-  //   const { userID } = getState().auth;
-  //   const { pdsCode } = getState().pd;
-    
-  //   return API.GetUserActivePdsInfo(userID)
-  //     .then(response => {
-  //       const json = response.data;
-  //       if (json.status === 'OK') {
-
-  //         /******** success *********/
-  //         info = json.data[0];
-  //         const updateTime = pdsCode === info.pdsCode ? timeServer : null; //no timeServer for the first time
-  //         return fetchAll(dispatch, info.pdsCode, page, limit, all, updateTime, clientHubId);
-  // };
+export const pdListFetch = ({ all = true, timeServer = null, clientHubId = null }) => {
+  return { type: PDLIST_FETCH, payload: { all, timeServer, clientHubId } }; 
 };
 
-export const pdListFetchNoTrip = (message) => {
-  return { type: PDLIST_NO_TRIP, payload: message };
+export const pdListFetchNoTrip = () => {
+  return { type: PDLIST_NO_TRIP, payload: { error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.' } };
 };
 
 
-export const fetchTripDataSuccess = (response, all) => {
+export const fetchTripDataSuccess = (response, all, page, totalPage, more) => {
   const pdsItems = response.data;
-  return { type: PDLIST_FETCH_SUCCESS, payload: { pdsItems, all } };
+  return { type: PDLIST_FETCH_SUCCESS, payload: { pdsItems, all, page, totalPage, more } };
 };
 
 export const fetchTripDataFail = (error) => {
-  return { type: PDLIST_FETCH_FAIL, payload: error };
+  return { type: PDLIST_FETCH_FAIL, payload: { error } };
 };
 
 export const fetchTripInfoSuccess = (response) => {

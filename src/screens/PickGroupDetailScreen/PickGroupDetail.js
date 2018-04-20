@@ -118,13 +118,7 @@ class PickGroupDetail extends Component {
   }
 
   reloadData() {
-    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer })
-        .then(result => {
-          if (result) {
-            //this.props.setLoaded(); 
-            Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
-          }
-        });
+    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer });
   }
 
   render() {

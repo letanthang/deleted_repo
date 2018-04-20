@@ -48,7 +48,7 @@ export default (state = nameInitialState, action) => {
         timeServer
       };
 
-      if (state.pdsId === pickDeliverySessionID) { 
+      if (state.pdsId !== pickDeliverySessionID) { 
         newState = {
           ...newState,
           pdsItems: null,
@@ -74,9 +74,9 @@ export default (state = nameInitialState, action) => {
       };
     }
     case PDLIST_FETCH_FAIL:
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload.error };
     case PDLIST_NO_TRIP:
-      return { ...nameInitialState, error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.' };
+      return { ...nameInitialState, error: action.payload.error };
     
     case UPDATE_ORDER_STATUS: {
       const OrderInfos = action.payload.OrderInfos;

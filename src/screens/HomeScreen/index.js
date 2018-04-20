@@ -37,11 +37,6 @@ class HomeScreen extends Component {
       this.reloadData();
     }
   }
-  componentWillReceiveProps(nextProps) {
-    if (this.props.error !== nextProps.error && nextProps.error !== '') {
-      Utils.showToast(nextProps.error, 'warning');
-    }
-  }
   
   shouldComponentUpdate({ user, loading, loaded, stats, progress }, nextState) {
     if (user === null) return false;
@@ -95,12 +90,6 @@ class HomeScreen extends Component {
   }
   reloadData() {
     this.props.pdListFetch({ all: false, timeServer: this.props.timeServer });
-        // .then(result => {
-        //   if (result) {
-        //     this.props.setLoaded(); 
-        //     Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
-        //   }
-        // });
   }
 
   renderHeader() {

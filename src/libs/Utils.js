@@ -297,7 +297,6 @@ class Utils {
     }, '');
   }
   static getFullNote(note, newDate) {
-    console.log(newDate);
     if (newDate == null || newDate == 0) { return note; }
      
     const strDate = moment(newDate).format('DD/MM ');

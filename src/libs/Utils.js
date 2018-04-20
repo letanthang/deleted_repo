@@ -16,67 +16,67 @@ const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', COMPLE
 const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'COMPLETED', 'Progress'];
 
 class Utils {
-  static getDisplayStatus({ currentStatus, nextStatus, pickDeliveryType }) {
-    let status = '';
+  static getDisplayStatus({ status, nextStatus, pickDeliveryType }) {
+    let displayStatus = '';
     if (pickDeliveryType === 1) {
-      if (!pickCompleteStatus.includes(currentStatus) && pickCompleteStatus.includes(nextStatus)) {
-        status = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
-        status = `*${status}*`;
+      if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
+        displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
+        displayStatus = `*${displayStatus}*`;
       } else {
-        status = pickStatus[currentStatus] ? pickStatus[currentStatus] : currentStatus;
+        displayStatus = pickStatus[status] ? pickStatus[status] : status;
       }
     } else if (pickDeliveryType === 2) {
-      if (!deliverCompleteStatus.includes(currentStatus) && deliverCompleteStatus.includes(nextStatus)) {
-        status = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
-        status = `*${status}*`;
+      if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
+        displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
+        displayStatus = `*${displayStatus}*`;
       } else {
-        status = deliverStatus[currentStatus] ? deliverStatus[currentStatus] : currentStatus;
+        displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
       }
     } else if (pickDeliveryType === 3) {
-      if (!returnCompleteStatus.includes(currentStatus) && returnCompleteStatus.includes(nextStatus)) {
-        status = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
-        status = `*${status}*`;
+      if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
+        displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
+        displayStatus = `*${displayStatus}*`;
       } else {
-        status = returnStatus[currentStatus] ? returnStatus[currentStatus] : currentStatus;
+        displayStatus = returnStatus[status] ? returnStatus[status] : status;
       }
     }
-    return status;
+    return displayStatus;
   }
 
-  static getStatus({ currentStatus, nextStatus, pickDeliveryType }) {
-    let status = '';
+  static getStatus({ status, nextStatus, pickDeliveryType }) {
+    let displayStatus = '';
     let alert = false;
     if (pickDeliveryType === 1) {
-      if (!pickCompleteStatus.includes(currentStatus) && pickCompleteStatus.includes(nextStatus)) {
-        status = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
-        //status = `*${status}*`;
+      if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
+        displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
+        //displayStatus = `*${displayStatus}*`;
         alert = true;
       } else {
-        status = pickStatus[currentStatus] ? pickStatus[currentStatus] : currentStatus;
+        displayStatus = pickStatus[status] ? pickStatus[status] : status;
       }
     } else if (pickDeliveryType === 2) {
-      if (!deliverCompleteStatus.includes(currentStatus) && deliverCompleteStatus.includes(nextStatus)) {
-        status = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
-        // status = `*${status}*`;
+      if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
+        displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
+        // displayStatus = `*${displayStatus}*`;
         alert = true;
       } else {
-        status = deliverStatus[currentStatus] ? deliverStatus[currentStatus] : currentStatus;
+        displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
       }
     } else if (pickDeliveryType === 3) {
-      if (!returnCompleteStatus.includes(currentStatus) && returnCompleteStatus.includes(nextStatus)) {
-        status = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
-        // status = `*${status}*`;
+      if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
+        displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
+        // displayStatus = `*${displayStatus}*`;
         alert = true;
       } else {
-        status = returnStatus[currentStatus] ? returnStatus[currentStatus] : currentStatus;
+        displayStatus = returnStatus[status] ? returnStatus[status] : status;
       }
     }
     
-    return { status, alert };
+    return { displayStatus, alert };
   }
 
-  static getDisplayStatusColor({ currentStatus, nextStatus, pickDeliveryType }) {
-    const DisplayStatus = this.getDisplayStatus({ currentStatus, nextStatus, pickDeliveryType });
+  static getDisplayStatusColor({ status, nextStatus, pickDeliveryType }) {
+    const DisplayStatus = this.getDisplayStatus({ status, nextStatus, pickDeliveryType });
     switch (DisplayStatus) {
       case 'Giao lỗi':
       case '*Giao lỗi*':
@@ -135,36 +135,36 @@ class Utils {
     return false;
   }
 
-  static isPickSuccessedUnsynced({ nextStatus, currentStatus }) {
-    if (!pickCompleteStatus.includes(currentStatus) && pickSuccessStatus.includes(nextStatus)) {
+  static isPickSuccessedUnsynced({ nextStatus, status }) {
+    if (!pickCompleteStatus.includes(status) && pickSuccessStatus.includes(nextStatus)) {
       return true;
     }
     return false;
   }
   
-  static isPickCompletedUnsynced({ nextStatus, currentStatus }) {
-    if (!pickCompleteStatus.includes(currentStatus) && pickCompleteStatus.includes(nextStatus)) {
+  static isPickCompletedUnsynced({ nextStatus, status }) {
+    if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
       return true;
     }
     return false;
   }
 
-  static checkPickCompleteForUnsync({ nextStatus, currentStatus }) {
-    if (pickCompleteStatus.includes(currentStatus) || pickCompleteStatus.includes(nextStatus)) {
+  static checkPickCompleteForUnsync({ nextStatus, status }) {
+    if (pickCompleteStatus.includes(status) || pickCompleteStatus.includes(nextStatus)) {
       return true;
     }
     return false;
   }
 
-  static isReturnSuccessedUnsynced({ nextStatus, currentStatus }) {
-    if (!returnCompleteStatus.includes(currentStatus) && returnSuccessStatus.includes(nextStatus)) {
+  static isReturnSuccessedUnsynced({ nextStatus, status }) {
+    if (!returnCompleteStatus.includes(status) && returnSuccessStatus.includes(nextStatus)) {
       return true;
     }
     return false;
   }
 
-  static isReturnCompletedUnsynced({ nextStatus, currentStatus }) {
-    if (!returnCompleteStatus.includes(currentStatus) && returnCompleteStatus.includes(nextStatus)) {
+  static isReturnCompletedUnsynced({ nextStatus, status }) {
+    if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
       return true;
     }
     return false;
@@ -176,8 +176,8 @@ class Utils {
     }
     return false;
   }
-  static checkReturnCompleteForUnsync({ nextStatus, currentStatus }) {
-    if (returnCompleteStatus.includes(currentStatus) || returnCompleteStatus.includes(nextStatus)) {
+  static checkReturnCompleteForUnsync({ nextStatus, status }) {
+    if (returnCompleteStatus.includes(status) || returnCompleteStatus.includes(nextStatus)) {
       return true;
     }
     return false;
@@ -191,8 +191,8 @@ class Utils {
     return false;
   }
   static getKey = (orderID, type) => `${orderID}-${type}`;
-  static getOrder(items, orderCode, pickDeliveryType) {
-    return items[Utils.getKey(orderCode, pickDeliveryType)];
+  static getOrder(items, code, pickDeliveryType) {
+    return items[Utils.getKey(code, pickDeliveryType)];
   }
 
   static getReturnGroup(ReturnItems, clientHubId) {

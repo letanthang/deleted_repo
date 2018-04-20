@@ -14,7 +14,7 @@ import {
 import * as API from '../apis/MPDS';
 
 export const calculateServiceFee = ({ 
-  length, width, height, weight, orderCode, clientId, serviceId, FromDistrictID, ToDistrictID 
+  length, width, height, weight, code, clientId, serviceId, FromDistrictID, ToDistrictID 
 }) => {
   return async dispatch => {
     dispatch({ type: OTHER_CALCULATE_FEE });
@@ -23,7 +23,7 @@ export const calculateServiceFee = ({
       width,
       height,
       weight,
-      orderCode,
+      code,
       clientId,
       serviceId,
       FromDistrictID,
@@ -166,9 +166,9 @@ export const getUserPerformance = (statType = 'yesterday') => {
   };
 };
 
-export const getOrderHistory = (orderCode) => {
+export const getOrderHistory = (code) => {
   return {
     type: OTHER_GET_ORDER_HISTORY,
-    payload: { orderCode }
+    payload: { code }
   };
 };

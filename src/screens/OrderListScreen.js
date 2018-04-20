@@ -29,17 +29,17 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { orderCode, clientHubId, clientId, pickDeliveryType } = order;
+    const { code, clientHubId, clientId, pickDeliveryType } = order;
     const navigate = this.props.navigation.navigate;
     switch (pickDeliveryType) {
       case 1:
-        navigate('PickOrder', { orderCode, order, clientId, clientHubId });
+        navigate('PickOrder', { code, order, clientId, clientHubId });
         break;
       case 2:
-        navigate('DeliveryOrder', { orderCode });
+        navigate('DeliveryOrder', { code });
         break;
       case 3:
-        navigate('ReturnOrder', { orderCode, order, clientId, clientHubId });
+        navigate('ReturnOrder', { code, order, clientId, clientHubId });
         break;
       default:
         break;
@@ -135,10 +135,10 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ orderCode, ExternalCode }) {
+  checkKeywork({ code, ExternalCode }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
-      || orderCode.toUpperCase().includes(keyword)
+      || code.toUpperCase().includes(keyword)
       || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
   renderNullData() {
@@ -177,7 +177,7 @@ class OrderListScreen extends Component {
         {this.renderHeader()}
         {/* <FlatList
           data={pds.pdsItems}
-          renderItem={({ item }) => <View><Text>{item.orderCode}</Text></View>}
+          renderItem={({ item }) => <View><Text>{item.code}</Text></View>}
         /> */}
         <Content>
         <DataEmptyCheck
@@ -186,7 +186,7 @@ class OrderListScreen extends Component {
         >
           <SectionList
             renderItem={({ item, index }) => { 
-              const { address, orderCode, serviceName, currentStatus, TotalCollectedAmount, displayOrder } = item;
+              const { address, code, serviceName, status, TotalCollectedAmount, displayOrder } = item;
               const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
               return (
                 <View style={DeliverGroupStyles.content}>
@@ -196,7 +196,7 @@ class OrderListScreen extends Component {
                     <View style={wrapperStyle}>
                       <View style={Styles.item2Style}>
                         <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                          {this.getDO(displayOrder)}{orderCode}
+                          {this.getDO(displayOrder)}{code}
                         </Text>
                         <Badge>
                           <Text>{serviceName}</Text>
@@ -217,7 +217,7 @@ class OrderListScreen extends Component {
               </View>
             )}
             sections={sections}
-            keyExtractor={(item, index) => `${item.orderCode}_${item.pickDeliveryType}`}
+            keyExtractor={(item, index) => `${item.code}_${item.pickDeliveryType}`}
           /> 
         </DataEmptyCheck>
         </Content>

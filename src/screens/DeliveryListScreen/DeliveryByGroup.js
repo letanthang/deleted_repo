@@ -26,8 +26,8 @@ class DeliveryByGroup extends Component {
 
   onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 300, { leading: true, trailing: false });
 
-  onDeliveryOrderPress(orderCode) {
-    this.props.navigation.navigate('DeliveryOrder', { orderCode });
+  onDeliveryOrderPress(code) {
+    this.props.navigation.navigate('DeliveryOrder', { code });
   }
 
   renderStatusText(order) {
@@ -75,7 +75,7 @@ class DeliveryByGroup extends Component {
       >
       <SectionList
         sections={sections}
-        keyExtractor={(item, index) => item.orderCode }
+        keyExtractor={(item, index) => item.code }
         renderItem={({ item, index, section }) => {
           if (!section.activeSection) return null;
           return (

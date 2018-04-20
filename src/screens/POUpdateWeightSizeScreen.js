@@ -15,7 +15,7 @@ import { calculateServiceFee, updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
 
 let clientHubId = null;
-let orderCode = null;
+let code = null;
 let clientId = null;
 let waitToSave = false;
 let calculated = false;
@@ -23,7 +23,7 @@ class POUpdateWeightSizeScreen extends Component {
   state = { weight: null, height: null, length: null, width: null, CalculateWeight: null }
 
   componentWillMount() {
-    orderCode = this.props.navigation.state.params.orderCode;
+    code = this.props.navigation.state.params.code;
     clientHubId = this.props.navigation.state.params.clientHubId;
     clientId = this.props.navigation.state.params.clientId;
   }
@@ -78,7 +78,7 @@ class POUpdateWeightSizeScreen extends Component {
       weight,
       clientId,
       clientHubId,
-      orderCode,
+      code,
       PDSID: pdsId,
       ServiceFee
     };
@@ -94,7 +94,7 @@ class POUpdateWeightSizeScreen extends Component {
       length,
       width,
       height,
-      orderCode,
+      code,
       clientId,
       serviceId,
       FromDistrictID,
@@ -137,7 +137,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
-    const order = Utils.getOrder(this.props.db, orderCode, 1);
+    const order = Utils.getOrder(this.props.db, code, 1);
     const { senderPay, weight, length, width, height } = order;
     
     if (this.state.weight === null) {
@@ -163,7 +163,7 @@ class POUpdateWeightSizeScreen extends Component {
             </Button>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{orderCode}</Title>
+            <Title>{code}</Title>
           </Body>
           <Right style={Styles.rightStyle} />
         </Header>

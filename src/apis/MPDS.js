@@ -13,20 +13,20 @@ const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
-const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
-// const PDS_URL = 'http://api.staging.inhubv2.ghn.vn/pds/v2';
-// const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
+// const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
+// const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
+const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
 
 export const GetUserActivePdsInfo = (tripUserId) => {
-    const URL = `${PDS_URL}/pda/pds/info`;
+    const URL = `${PDS_URL}/trip/search`;
     const LoginHeader = Share.LoginHeader;
   
     const config = {
       headers: LoginHeader,
-      params: { tripUserId },
+      params: { fromDate: '2018-04-01T00:00:00.000Z', toDate: '2018-04-030T00:00:00.000Z', q: { driverId: tripUserId } },
       timeout
     };
   
@@ -37,19 +37,19 @@ export const GetUserActivePdsInfo = (tripUserId) => {
   };
 
 export const fetchTripInfo = (tripUserId) => {
-  const URL = `${PDS_URL}/pda/pds/info`;
-  const LoginHeader = Share.LoginHeader;
+  // const URL = `${PDS_URL}/order/text-search`;
+  // const LoginHeader = Share.LoginHeader;
 
-  return Observable.ajax({
-    method: 'get',
-    url: `${URL}?tripUserId=${tripUserId}`,
-    headers: {
-      ...LoginHeader,
-      'Content-Type': 'application/json',
-    }
-  });
+  // return Observable.ajax({
+  //   method: 'get',
+  //   url: `${URL}?tripUserId=${tripUserId}`,
+  //   headers: {
+  //     ...LoginHeader,
+  //     'Content-Type': 'application/json',
+  //   }
+  // });
 
-  // return fromPromise(GetUserActivePdsInfo(tripUserId));
+  return fromPromise(GetUserActivePdsInfo(tripUserId));
 };  
 
 export const GetUserActivePds = (pdsCode, offset, limit, timeServer, clientHubId) => {
@@ -138,7 +138,7 @@ export const UpdateOrderWeightRDC = ({
   height,
   weight,
   clientId,
-  orderCode,
+  code,
   PDSID }) => {  
   const URL = `${PDS_URL}/fee`;
   const LoginInfo = Share.getLoginInfo();
@@ -149,7 +149,7 @@ export const UpdateOrderWeightRDC = ({
     height,
     weight,
     clientId,
-    orderCode,
+    code,
     PDSID
   };
   const LoginHeader = Share.LoginHeader;
@@ -228,20 +228,20 @@ export const CalculateServiceFee = (params) => {
   return axios.post(URL, params, config);
 };
 
-export const GetOrderByCode = (orderCode) => {
+export const GetOrderByCode = (code) => {
     const URL = `${PDS_URL}/order`;
     const LoginHeader = Share.LoginHeader;
     const config = {
         headers: LoginHeader,
         timeout,
         params: {
-            q: { order_code: orderCode }
+            q: { order_code: code }
         }
     };
     return axios.get(URL, config);
 };
 
-export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
+export const AddOrders = (codes, pdsId, pickDeliveryType = 2) => {
     const URL = `${PDS_URL}/pds`;
     const LoginHeader = Share.LoginHeader;
 
@@ -251,7 +251,7 @@ export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
         timeout,
         };
     const params = {
-        orderCodes,
+        codes,
         pdsId,
         type
     };
@@ -259,8 +259,8 @@ export const AddOrders = (orderCodes, pdsId, pickDeliveryType = 2) => {
     return axios.put(URL, params, config);
 };
 
-export const GetOrderHistory = (orderCode) => {
-  const URL = `${PDS_URL}/history/order/${orderCode}`;
+export const GetOrderHistory = (code) => {
+  const URL = `${PDS_URL}/history/order/${code}`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
@@ -278,14 +278,19 @@ const infoResponse = {
   "status": "OK",
   "data": [
     {
-        "employeeFullName": "Võ Đức Đạt",
-        "coordinatorFullName": "Trần Chí Cường",
-        "coordinatorPhone": "0939006988",
-        "pickDeliverySessionID": "59c252cfbae4ba02c08327ba",
-        "pdsCode": "170920DVPGUN",
-        "StartTime": "Sep 20, 2017 6:37:21 PM",
-        "lastUpdatedTime": "Sep 20, 2017 6:37:21 PM",
-        "SType": 0,
+      "code": "184122056HC7B",
+      "status": "NEW",
+      "hubId": "1220",
+      "createdById": "1006",
+      "createdByName": "Nguyễn Trịnh Khánh Tường",
+      "lastUpdatedById": "1006",
+      "lastUpdatedByName": "Nguyễn Trịnh Khánh Tường",
+      "amountCollected": 0,
+      "amountCollect": 0,
+      "date": "2018-04-20T07:48:00.653Z",
+      "id": "5ad99b30e893788f8f000003",
+      "createdTime": "2018-04-20T07:48:00.653Z",
+      "lastUpdatedTime": "2018-04-20T07:48:00.653Z"
     }
   ]
 };
@@ -295,46 +300,25 @@ const orderResponse = {
   "status": "OK",
   "data": [
     {
-      "orderCode": "23ABCN9",
-      "currentStatus": "PICKING",
-      "recipientName": "Ng Van A",
-      "recipientPhone": "01668117449",
-      "senderPay": 61500,
-      "receiverPay": 1500,
-      "returnPay": 71500,
-      "serviceCost": 0,
-      "Note": "",
-      "log": "",
-      "pickDeliverySessionDetailId": "59c252cfe5c882d9f512581c",
-      "PaymentTypeID": 0,
-      "TotalExtraFee": 0,
-      "weight": 500,
-      "serviceId": 53320,
-      "serviceName": "1 Ngày",
-      "TotalCollectedAmount": 0,
-      "nextStatus": "",
-      "length": 10,
-      "width": 10,
-      "height": 10,
-      "FromDistrictID": 1453,
-      "ToDistrictID": 2086,
-      "Lat": 0,
-      "Lng": 0,
-      "districtCode": "0211",
-      "districtName": "Quận 11",
-      "IsTrial": 0,
-      "pickDeliveryType": 1,
-      "clientId": 1,
-      "clientName": 'Sendo.vn',
-      "contactName": "Shop Dong Ho",
-      "contactPhone": "01668117449",
-      "clientHubId": 653473,
-      "address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam",
-      "deliveryAddress": "70 Lu Gia, Phuong mot nam, Ho Chi Minh City, Vietnam"
+      "code": "3D91AAQK",
+      "tripCode": "18412200TBFPF",
+      "type": "PICK",
+      "status": "PICKING",
+      "isUpdatedStatus": false,
+      "isCancel": false,
+      "isOutstock": false,
+      "clientAddress": "2 Ngô Đức Kế, Bến Nghé, Quận 1, Hồ Chí Minh",
+      "clientAddressRemoveAccent": "2 Ngo Duc Ke, Ben Nghe, Quan 1, Ho Chi Minh",
+      "clientPhone": "01644143456",
+      "isCollected": false,
+      "date": "2018-04-16T11:08:30.826Z",
+      "id": "5ad4842ee888bdb1f2000012",
+      "createdTime": "2018-04-17T03:29:09.278Z",
+      "lastUpdatedTime": "2018-04-17T03:29:09.278Z"
     },
     {
-      "orderCode": "CDENNH9",
-      "currentStatus": "PICKING",
+      "code": "CDENNH9",
+      "status": "PICKING",
       "recipientName": "Bui Van Muc",
       "recipientPhone": "01668117449",
       "senderPay": 71500,
@@ -370,8 +354,8 @@ const orderResponse = {
       "address": "70 Ngo Gia Tu, Ho Chi Minh City, Ho Chi Minh, Vietnam"
     },
     {
-      "orderCode": "CDENMMM",
-      "currentStatus": "STORING",
+      "code": "CDENMMM",
+      "status": "STORING",
       "recipientName": "Le Tan Thang",
       "recipientPhone": "01668117449",
       "senderPay": 71500,
@@ -407,8 +391,8 @@ const orderResponse = {
       "address": "70 Ngo Gia Tu, Ho Chi Minh City, Ho Chi Minh, Vietnam"
     },
     {
-      "orderCode": "123NNH9",
-      "currentStatus": "PICKING",
+      "code": "123NNH9",
+      "status": "PICKING",
       "recipientName": "Nguoi nhan",
       "recipientPhone": "01668117449",
       "senderPay": 71500,
@@ -444,8 +428,8 @@ const orderResponse = {
       "address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
     },
     {
-      "orderCode": "JJAAJAA",
-      "currentStatus": "RETURNING",
+      "code": "JJAAJAA",
+      "status": "RETURNING",
       "recipientName": "Cường gửi",
       "recipientPhone": "01668117449",
       "senderPay": 71500,
@@ -638,10 +622,10 @@ const updateStatusResponse = {
   "data": [
     { 
       "listOk":[
-        { "orderCode":"3A5D76UA", "status":"DELIVERED" }
+        { "code":"3A5D76UA", "status":"DELIVERED" }
       ],
       "listFail":[
-        { "orderCode":"J888JD9", "status":"DELIVERED" }
+        { "code":"J888JD9", "status":"DELIVERED" }
       ]
     }
   ],
@@ -652,15 +636,15 @@ const orderHistoryResponse = {
   "status":"OK",
   "data":[
     {
-      "orderCode":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
+      "code":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
       "description":"Tạo CĐ 1803168D9FFW","succeed":true,"source":"BROWSER",
-      "data":"{\"orderId\":305839,\"orderCode\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"READY_TO_PICK\",\"audited\":false,\"isCompleted\":false,\"moneyCollected\":false,\"senderPay\":31900.0,\"receiverPay\":48000.0,\"returnPay\":0.0,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"createdUserid\":\"210030\",\"createdUsername\":\"Lê Tấn Thắng\",\"sortIndex\":129,\"partnerCode\":\"Giaohangnhanh\",\"tripUserid\":\"210030\",\"tripUsername\":\"Lê Tấn Thắng\",\"warehouseId\":1220,\"note\":\"Không cho xem hàng\",\"noteContent\":\"\",\"clientId\":193041}",
+      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"READY_TO_PICK\",\"audited\":false,\"isCompleted\":false,\"moneyCollected\":false,\"senderPay\":31900.0,\"receiverPay\":48000.0,\"returnPay\":0.0,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"createdUserid\":\"210030\",\"createdUsername\":\"Lê Tấn Thắng\",\"sortIndex\":129,\"partnerCode\":\"Giaohangnhanh\",\"tripUserid\":\"210030\",\"tripUsername\":\"Lê Tấn Thắng\",\"warehouseId\":1220,\"note\":\"Không cho xem hàng\",\"noteContent\":\"\",\"clientId\":193041}",
       "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
     },
     {
-      "orderCode":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
+      "code":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
       "description":"Cập nhật trạng thái đơn hàng PICKING\u003d\u003eSTORING","succeed":true,"source":"BROWSER",
-      "data":"{\"orderId\":305839,\"orderCode\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"STORING\",\"audited\":false,\"isCompleted\":true,\"moneyCollected\":false,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"sortIndex\":129,\"tripUserid\":\"210030\",\"partnerCode\":\"Giaohangnhanh\",\"date\":\"2018-03-16T04:39:42.322Z\",\"id\":\"5aab4a8ee81ce7e88f00004b\",\"createdTime\":\"2018-03-16T04:39:42.322Z\",\"lastUpdatedTime\":\"2018-03-16T04:39:42.322Z\"}",
+      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"STORING\",\"audited\":false,\"isCompleted\":true,\"moneyCollected\":false,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"sortIndex\":129,\"tripUserid\":\"210030\",\"partnerCode\":\"Giaohangnhanh\",\"date\":\"2018-03-16T04:39:42.322Z\",\"id\":\"5aab4a8ee81ce7e88f00004b\",\"createdTime\":\"2018-03-16T04:39:42.322Z\",\"lastUpdatedTime\":\"2018-03-16T04:39:42.322Z\"}",
       "date":"2018-03-23T04:20:11.608Z","id":"5ab4807be8347c2a1c000004","createdTime":"2018-03-23T04:20:11.610Z","lastUpdatedTime":"2018-03-23T04:20:11.610Z"
     }
   ],

@@ -39,8 +39,8 @@ class OrderLabelScreen extends Component {
   }
 
   render() {
-    const orderCode = this.props.navigation.state.params.orderCode;
-    const order = Utils.getOrder(this.props.db, orderCode, 1);
+    const code = this.props.navigation.state.params.code;
+    const order = Utils.getOrder(this.props.db, code, 1);
     console.log('OrderLabel render');
     const { navigate, goBack } = this.props.navigation;
     const { recipientName, deliveryAddress, recipientPhone } = order;
@@ -60,7 +60,7 @@ class OrderLabelScreen extends Component {
             </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{orderCode}</Title>
+            <Title>{code}</Title>
           </Body>
         </Header>
         <Content
@@ -85,7 +85,7 @@ class OrderLabelScreen extends Component {
             >
               <View style={{ flexDirection: 'row' }}>
                 <QRCode 
-                  value={orderCode}
+                  value={code}
                   size={120}
                 />
                 <View style={{ paddingLeft: 15 }}>

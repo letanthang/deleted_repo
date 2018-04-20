@@ -27,17 +27,17 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { orderCode, clientHubId, clientId, pickDeliveryType } = order;
+    const { code, clientHubId, clientId, pickDeliveryType } = order;
     const navigate = this.props.navigation.navigate;
     switch (pickDeliveryType) {
       case 1:
-        navigate('PickOrder', { orderCode, order, clientId, clientHubId });
+        navigate('PickOrder', { code, order, clientId, clientHubId });
         break;
       case 2:
-        navigate('DeliveryOrder', { orderCode });
+        navigate('DeliveryOrder', { code });
         break;
       case 3:
-        navigate('ReturnOrder', { orderCode, order, clientId, clientHubId });
+        navigate('ReturnOrder', { code, order, clientId, clientHubId });
         break;
       default:
         break;
@@ -69,10 +69,10 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ orderCode, ExternalCode, clientName, contactName, recipientName, address }) {
+  checkKeywork({ code, ExternalCode, clientName, contactName, recipientName, address }) {
     const keyword = this.props.keyword.toUpperCase();
     return !this.props.keyword || this.props.keyword === '' 
-    || orderCode.toUpperCase().includes(keyword)
+    || code.toUpperCase().includes(keyword)
     || (ExternalCode && ExternalCode.toUpperCase().includes(keyword))
     || (clientName && clientName.toUpperCase().includes(keyword))
     || contactName.toUpperCase().includes(keyword)
@@ -130,7 +130,7 @@ class OrderListScreen extends Component {
                   <View style={[DeliverGroupStyles.col1Style]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 150 }}>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        {item.orderCode}
+                        {item.code}
                       </Text>
                       {this.renderStatusText(item)}
                     </View>

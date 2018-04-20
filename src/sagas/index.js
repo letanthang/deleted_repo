@@ -6,11 +6,11 @@ import { OTHER_GET_ORDER_HISTORY, OTHER_GET_ORDER_HISTORY_SUCCESS, OTHER_GET_ORD
 // worker Saga: will be fired on OTHER_GET_ORDER_HISTORY actions
 function* getOrderHistory(action) {
    try {
-      const response = yield call(Api.GetOrderHistory, action.payload.orderCode);
+      const response = yield call(Api.GetOrderHistory, action.payload.code);
       const json = response.data;
       if (json.status === 'OK') {
         const orderHistory = json.data.map(({ date, userName, description }) => ({ date, userName, description }));
-        yield put({ type: OTHER_GET_ORDER_HISTORY_SUCCESS, payload: { [action.payload.orderCode]: orderHistory } });
+        yield put({ type: OTHER_GET_ORDER_HISTORY_SUCCESS, payload: { [action.payload.code]: orderHistory } });
       } else {
         yield put({ type: OTHER_GET_ORDER_HISTORY_FAIL, payload: { error: json.message } });  
       }
@@ -28,8 +28,8 @@ function* updateOrderStatus(act) {
     //filter 
     //transform OrderInfos
     const filterInfos = OrderInfos.map(info => {
-      const { orderCode, nextDate, noteId, note, action } = info;
-      return { orderCode, nextDate, noteId, note, action };
+      const { code, nextDate, noteId, note, action } = info;
+      return { code, nextDate, noteId, note, action };
     });
     const params = {
       pdsId,

@@ -6,11 +6,11 @@ export const getOrders = ({ pd }) => {
   const items = pd.pdsItems === null ? null : pd.pdsItems;
   _.forEach(items, order => {
     if (order.pickDeliveryType === 1) {
-      order.done = Utils.checkPickComplete(order.currentStatus);
+      order.done = Utils.checkPickComplete(order.status);
     } else if (order.pickDeliveryType === 2) {
-      order.done = Utils.checkDeliveryComplete(order.currentStatus);
+      order.done = Utils.checkDeliveryComplete(order.status);
     } else if (order.pickDeliveryType === 3) {
-      order.done = Utils.checkReturnComplete(order.currentStatus);
+      order.done = Utils.checkReturnComplete(order.status);
     }
   });
   return items;

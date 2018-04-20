@@ -14,8 +14,9 @@ const fetchTripInfoEpic = (action$, store) =>
     .map(action => action.payload)
     .mergeMap(() =>
       API.fetchTripInfo(store.getState().auth.userID)
-        .map(({ response }) => {
-          console.log(response);
+        .map(({ data }) => {
+          const response = data;
+          //console.log(response);
           switch (response.status) {
             case 'OK':
               return fetchTripInfoSuccess(response);

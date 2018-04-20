@@ -19,13 +19,13 @@ import ActionModal from '../components/ActionModal';
 import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2 } from './Helper';
 
 let order = null;
-let orderCode = null;
+let code = null;
 class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
-    orderCode = this.props.navigation.state.params.orderCode;
-    order = Utils.getOrder(this.props.db, orderCode, 2);
-    this.props.getOrderHistory(orderCode);
+    code = this.props.navigation.state.params.code;
+    order = Utils.getOrder(this.props.db, code, 2);
+    this.props.getOrderHistory(code);
   }
 
   componentDidMount() {
@@ -34,8 +34,8 @@ class DeliveryOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.db != nextProps.db) {
-      const newOrder = Utils.getOrder(nextProps.db, orderCode, 2);
-      if (order.currentStatus !== newOrder.currentStatus) {
+      const newOrder = Utils.getOrder(nextProps.db, code, 2);
+      if (order.status !== newOrder.status) {
         this.props.navigation.goBack();
       }
       order = newOrder;
@@ -90,7 +90,7 @@ class DeliveryOrderScreen extends Component {
     );
   }
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.recipientPhone, this.props.configuration, order.orderCode)
+    updateOrderToFailWithReason2(order.recipientPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.confirmUpdateOrderFail(buttonIndex);
@@ -154,7 +154,7 @@ class DeliveryOrderScreen extends Component {
       displayOrder, soNote
     } = order;
 
-    const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
+    const historyString = Utils.getHistoryString(this.props.orderHistory[code]);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -172,7 +172,7 @@ class DeliveryOrderScreen extends Component {
             
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>[{displayOrder}] {orderCode}</Title>
+            <Title>[{displayOrder}] {code}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             <Button

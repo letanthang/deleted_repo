@@ -58,7 +58,7 @@ class PickConfirmScreen extends Component {
   }
 
   checkRealDone() {
-    return this.pickGroup.ShopOrders.filter(o => !this.checkComplete(o.currentStatus)).length === 0;
+    return this.pickGroup.ShopOrders.filter(o => !this.checkComplete(o.status)).length === 0;
   }
 
   updateOrder() {

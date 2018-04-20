@@ -24,7 +24,7 @@ import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithRea
 
 let clientId = null;
 let clientHubId = null;
-let orderCode = null;
+let code = null;
 let order = {};
 class PickOrderScreen extends Component {
   state = { modalShow: false }
@@ -32,9 +32,9 @@ class PickOrderScreen extends Component {
   componentWillMount() {
     clientId = this.props.navigation.state.params.clientId;
     clientHubId = this.props.navigation.state.params.clientHubId;
-    orderCode = this.props.navigation.state.params.orderCode;
-    order = Utils.getOrder(this.props.db, orderCode, 1);
-    this.props.getOrderHistory(orderCode);
+    code = this.props.navigation.state.params.code;
+    order = Utils.getOrder(this.props.db, code, 1);
+    this.props.getOrderHistory(code);
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
@@ -42,8 +42,8 @@ class PickOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, orderCode, 1);
-    if (order.currentStatus !== newOrder.currentStatus) {
+    const newOrder = Utils.getOrder(db, code, 1);
+    if (order.status !== newOrder.status) {
       this.props.navigation.goBack();
     }
     order = newOrder;
@@ -79,16 +79,16 @@ class PickOrderScreen extends Component {
   
   updateOrderToDone() {
     const OrderInfos = getUpdateOrderInfoForDone(order);
-    this.props.updateOrderInfo(order.orderCode, order.pickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.code, order.pickDeliveryType, OrderInfos);
   }
 
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getUpdateOrderInfo(order, buttonIndex, NewDate);
-    this.props.updateOrderInfo(order.orderCode, order.pickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.code, order.pickDeliveryType, OrderInfos);
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.orderCode)
+    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
@@ -155,7 +155,7 @@ class PickOrderScreen extends Component {
       goBack();
       return this.renderNullData();
     } 
-    const history = this.props.orderHistory[orderCode];
+    const history = this.props.orderHistory[code];
     const historyString = Utils.getHistoryString(history);
     console.log('render order', history);
     const { 
@@ -182,18 +182,18 @@ class PickOrderScreen extends Component {
           </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{orderCode}</Title>
+            <Title>{code}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             {/* <Button
               transparent
-              onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, clientHubId })}
+              onPress={() => navigate('POUpdateWeightSize', { code, clientId, clientHubId })}
             >
               <Icon name="create" />
             </Button> */}
             <Button
               transparent
-              onPress={() => navigate('OrderLabel', { orderCode })}
+              onPress={() => navigate('OrderLabel', { code })}
             >
               <IC name="printer" size={28} />
             </Button>

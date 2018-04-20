@@ -21,7 +21,7 @@ class OrderDetail extends Component {
       recipientName, recipientPhone, ExternalCode,
       serviceName, width, height,
       senderPay, weight, length, serviceCost,
-      Note, log, currentStatus, deliveryAddress
+      Note, log, status, deliveryAddress
     } = order;
 
     return (

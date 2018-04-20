@@ -296,7 +296,7 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate('OrderLabel', { orderCode: '23ABCN9' })}
+          onPress={() => navigate('OrderLabel', { code: '23ABCN9' })}
         >
           <Card>
             <CardItem style={{ backgroundColor: Colors.row }}>

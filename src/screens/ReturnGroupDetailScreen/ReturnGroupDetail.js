@@ -48,20 +48,20 @@ class PickGroupDetail extends Component {
     return false;
   }
 
-  checkKeywork({ orderCode, ExternalCode }) {
+  checkKeywork({ code, ExternalCode }) {
     const keyword = this.props.keyword.toUpperCase(); 
     return this.props.keyword === '' 
-      || orderCode.toUpperCase().includes(keyword)
+      || code.toUpperCase().includes(keyword)
       || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
   onOrderPress(order) {
-    const { orderCode } = order;
+    const { code } = order;
     const { clientId, clientHubId } = this.pickGroup;
     
     if (this.pickDeliveryType === 1) {
-      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, clientHubId });
+      navigateOnce(this, 'PickOrder', { code, order, clientId, clientHubId });
     } else if (this.pickDeliveryType === 3) {
-      navigateOnce(this, 'ReturnOrder', { orderCode, order, clientHubId });
+      navigateOnce(this, 'ReturnOrder', { code, order, clientHubId });
     }
   }
 
@@ -72,8 +72,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { orderCode, pickDeliveryType } = this.order;
-      this.props.updateOrderInfo(orderCode, pickDeliveryType, moreInfo);
+      const { code, pickDeliveryType } = this.order;
+      this.props.updateOrderInfo(code, pickDeliveryType, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -109,11 +109,11 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
-            keyExtractor={(item, index) => item.orderCode}
+            keyExtractor={(item, index) => item.code}
             renderItem={({ item }) => {
               const order = item;
               const { 
-                orderCode, recipientName, recipientPhone,
+                code, recipientName, recipientPhone,
                 ExternalCode, returnPay, success, note, newDate
               } = item;
               const fullNote = Utils.getFullNote(note, newDate);
@@ -124,7 +124,7 @@ class PickGroupDetail extends Component {
                   <View style={[Styles.orderWrapperStyle]}>
                     <View style={Styles.item2Style}>
                       <View style={{ flexDirection: 'row' }}>
-                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>
+                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{code}</Text>
                         <OrderStatusText 
                           order={order}
                           style={{ marginLeft: 10 }}

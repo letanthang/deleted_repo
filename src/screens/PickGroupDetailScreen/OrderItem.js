@@ -10,7 +10,7 @@ import Utils from '../../libs/Utils';
 class OrderItem extends Component {
   shouldComponentUpdate({ order }) {
     const old = this.props.order;
-    if (order.currentStatus === old.currentStatus
+    if (order.status === old.status
       && order.nextStatus === old.nextStatus
       && order.note === old.note) {
       return false;
@@ -22,8 +22,8 @@ class OrderItem extends Component {
     // console.log('OrderItem render!');
     const { order, animated, acceptDeliverPress, onOrderPress, checkDelivering, onSelectDateCase } = this.props;
     const { 
-      orderCode, recipientName, recipientPhone,
-      height, width, weight, length, currentStatus,
+      code, recipientName, recipientPhone,
+      height, width, weight, length, status,
       ExternalCode, senderPay, success, note, newDate, pickWarehouseId, 
       deliverWarehouseId, done
     } = order;
@@ -31,7 +31,7 @@ class OrderItem extends Component {
     const realDone = done;
     const nearDone = Utils.checkPickCompleteForUnsync(order);
     const backgroundColor = nearDone ? '#DFDFEF' : Colors.row;
-    const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(currentStatus);
+    const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(status);
     const isDelivering = checkDelivering(order);
     const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
     const fullNote = Utils.getFullNote(note, newDate);
@@ -42,7 +42,7 @@ class OrderItem extends Component {
         <View style={[Styles.orderWrapperStyle, { backgroundColor }]}>
           <View style={Styles.item2Style}>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>
+              <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{code}</Text>
               <OrderStatusText 
                 order={order}
                 style={{ marginLeft: 10 }}

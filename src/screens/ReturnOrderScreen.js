@@ -17,20 +17,20 @@ import ActionModal from '../components/ActionModal';
 import FormButton from '../components/FormButton';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/ReturnHelpers';
 
-let orderCode = null;
+let code = null;
 let order = {};
 class ReturnOrderScreen extends Component {
   state = { modalShow: false } 
   componentWillMount() {
-    orderCode = this.props.navigation.state.params.orderCode;
-    order = Utils.getOrder(this.props.db, orderCode, 3);
-    this.props.getOrderHistory(orderCode);
+    code = this.props.navigation.state.params.code;
+    order = Utils.getOrder(this.props.db, code, 3);
+    this.props.getOrderHistory(code);
   }
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, orderCode, 3);
-    if (order.currentStatus !== newOrder.currentStatus) {
+    const newOrder = Utils.getOrder(db, code, 3);
+    if (order.status !== newOrder.status) {
       this.props.navigation.goBack();
     }
     order = newOrder;
@@ -73,7 +73,7 @@ class ReturnOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.orderCode)
+    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
@@ -131,7 +131,7 @@ class ReturnOrderScreen extends Component {
       soNote, requiredNote
     } = order;
 
-    const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
+    const historyString = Utils.getHistoryString(this.props.orderHistory[code]);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -146,7 +146,7 @@ class ReturnOrderScreen extends Component {
           </Left>
           
           <Body style={Styles.bodyStyle}>
-            <Title>{orderCode}</Title>
+            <Title>{code}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             <Button

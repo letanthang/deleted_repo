@@ -83,8 +83,8 @@ export default (state = nameInitialState, action) => {
       const pdsItems = _.cloneDeep(state.pdsItems);
 
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pdsItems, info.orderCode, info.pickDeliveryType);
-          order.currentStatus = 'Progress';
+          const order = Utils.getOrder(pdsItems, info.code, info.pickDeliveryType);
+          order.status = 'Progress';
       });
       
 
@@ -99,16 +99,16 @@ export default (state = nameInitialState, action) => {
 
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pdsItems, info.orderCode, info.pickDeliveryType);
+          const order = Utils.getOrder(pdsItems, info.code, info.pickDeliveryType);
           switch (info.pickDeliveryType) {
             case 1:
-              order.currentStatus = 'PICKING';
+              order.status = 'PICKING';
               break;
             case 2:
-              order.currentStatus = 'DELIVERING';
+              order.status = 'DELIVERING';
               break;
             case 3:
-              order.currentStatus = 'RETURNING';
+              order.status = 'RETURNING';
               break;
             default:
               break;
@@ -126,7 +126,7 @@ export default (state = nameInitialState, action) => {
   // [
   //   {  
   //     PDSDetailID,
-  //     orderCode,
+  //     code,
   //     PDSType,
   //     nextStatus,
   //     clientHubId,
@@ -143,28 +143,28 @@ export default (state = nameInitialState, action) => {
       const FailedOrders = action.payload.FailedOrders;
       let ids = [];
       if (FailedOrders instanceof Array && FailedOrders.length > 0) {
-        ids = FailedOrders.map(o => o.orderCode);
+        ids = FailedOrders.map(o => o.code);
       }
 
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pdsItems, info.orderCode, info.pickDeliveryType);
-          if (ids.length > 0 && ids.includes(info.orderCode)) {
+          const order = Utils.getOrder(pdsItems, info.code, info.pickDeliveryType);
+          if (ids.length > 0 && ids.includes(info.code)) {
             switch (info.pickDeliveryType) {
               case 1:
-                order.currentStatus = 'PICKING';
+                order.status = 'PICKING';
                 break;
               case 2:
-                order.currentStatus = 'DELIVERING';
+                order.status = 'DELIVERING';
                 break;
               case 3:
-                order.currentStatus = 'RETURNING';
+                order.status = 'RETURNING';
                 break;
               default:
                 break;
             }
           } else {
-            order.currentStatus = info.nextStatus;
+            order.status = info.nextStatus;
             order.nextStatus = undefined;
             order.success = undefined;
           }
@@ -192,7 +192,7 @@ export default (state = nameInitialState, action) => {
     case PD_ADD_ORDER: {
       const order = action.payload.order;
       const pdsItems = _.cloneDeep(state.pdsItems);
-      pdsItems[getKey(order.orderCode, order.pickDeliveryType)] = order;
+      pdsItems[getKey(order.code, order.pickDeliveryType)] = order;
       return {
         ...state,
         pdsItems,
@@ -209,8 +209,8 @@ export default (state = nameInitialState, action) => {
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const { orderCode, serviceCost, length, width, height, weight } = action.payload;
-      const order = Utils.getOrder(pdsItems, orderCode, 1);
+      const { code, serviceCost, length, width, height, weight } = action.payload;
+      const order = Utils.getOrder(pdsItems, code, 1);
       if (order.senderPay != 0) {
         order.senderPay = serviceCost;
       }
@@ -228,7 +228,7 @@ export default (state = nameInitialState, action) => {
       const orders = pds.DeliveryItems;
       const orderGroup = action.payload;
       orders.forEach((order, index) => {
-        const group = orderGroup[order.orderCode];
+        const group = orderGroup[order.code];
         if (group !== undefined) {
           orders[index].Group = group;
         } 
@@ -237,9 +237,9 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_UPDATE_ORDER_INFO: {
-      const { orderCode, pickDeliveryType, info } = action.payload;
+      const { code, pickDeliveryType, info } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const item = pdsItems[getKey(orderCode, pickDeliveryType)];
+      const item = pdsItems[getKey(code, pickDeliveryType)];
       const statusChangeDate = info.success === undefined ? undefined : Date.now();
       const dateInfo = (item.success !== undefined && info.success !== undefined) ? {} : { statusChangeDate };
       Object.assign(item, dateInfo, info);
@@ -250,9 +250,9 @@ export default (state = nameInitialState, action) => {
       const { OrderInfos } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, info => {
-        const { orderCode, pickDeliveryType } = info;
+        const { code, pickDeliveryType } = info;
         const statusChangeDate = info.success === undefined ? undefined : Date.now();
-        Object.assign(pdsItems[getKey(orderCode, pickDeliveryType)], { statusChangeDate }, info);
+        Object.assign(pdsItems[getKey(code, pickDeliveryType)], { statusChangeDate }, info);
       });
       
       return { ...state, pdsItems };
@@ -272,9 +272,9 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_TOGGLE_ORDER_GROUP: {
-      const { orderCode } = action.payload;
+      const { code } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const order = pdsItems[getKey(orderCode, 2)];
+      const order = pdsItems[getKey(code, 2)];
       order.groupChecked = !order.groupChecked;
       return { ...state, pdsItems };
     }
@@ -374,19 +374,19 @@ const transformPDS = (pdsItems) => {
   const temp = {};
   pdsItems.forEach(item => {
     delete item.nextStatus;
-    temp[getKey(item.orderCode, item.pickDeliveryType)] = item;
+    temp[getKey(item.code, item.pickDeliveryType)] = item;
   });
   return temp;
 };
 
 const addGroup = (pds, orderGroup) => {
   pds.DeliveryItems.forEach((order, index) => {
-    pds.DeliveryItems[index].Group = orderGroup[order.orderCode] || null;
+    pds.DeliveryItems[index].Group = orderGroup[order.code] || null;
   });
 
   //add 'key' for order
   pds.pdsItems.forEach((order, index) => {
-    pds.pdsItems[index].key = order.orderCode;
+    pds.pdsItems[index].key = order.code;
   });
 };
 

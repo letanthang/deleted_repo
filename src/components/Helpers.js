@@ -28,10 +28,10 @@ function alertMissOfCall(phoneNumber) {
   );
 }
 
-export function updateOrderToFailWithReason2(phone, configuration, orderCode = null) {
+export function updateOrderToFailWithReason2(phone, configuration, code = null) {
   return new Promise((resolve, reject) => {
     const contactPhone = phone;
-    const title = orderCode ? `Chọn lý do lỗi cho đơn ${orderCode}` : `Chọn lý do lỗi cho tất cả các đơn này`;
+    const title = code ? `Chọn lý do lỗi cho đơn ${code}` : `Chọn lý do lỗi cho tất cả các đơn này`;
     ActionSheet.show(
       {
         options: buttons,
@@ -78,7 +78,7 @@ export function updateOrderToFailWithReason2(phone, configuration, orderCode = n
   // [
   //   {  
   //     PDSDetailID,
-  //     orderCode,
+  //     code,
   //     PDSType,
   //     nextStatus,
   //     clientHubId,
@@ -89,23 +89,23 @@ export function updateOrderToFailWithReason2(phone, configuration, orderCode = n
   //     NoteCode,
   //   },
 export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
-  const { orderCode, pickDeliveryType } = order;
+  const { code, pickDeliveryType } = order;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
   const nextStatus = 'READY_TO_PICK';
   const action = 'DO_PICK_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { code, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
 export function getUpdateOrderInfoForDone(order, newDate = null) {
-  const { orderCode, pickDeliveryType } = order;
+  const { code, pickDeliveryType } = order;
   const noteId = 'Storing'; 
   const note = '';
   const nextStatus = 'PICKED';
   const action = 'DO_PICK_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { code, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }

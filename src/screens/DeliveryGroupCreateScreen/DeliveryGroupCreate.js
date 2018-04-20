@@ -19,14 +19,14 @@ class DeliveryGroupCreate extends Component {
     this.setState({ groupName: `Nhóm ${groupLength}` });
   }
   
-  onOrderChecked(orderCode) {
-    this.props.toggleOrderGroup(orderCode);
+  onOrderChecked(code) {
+    this.props.toggleOrderGroup(code);
   }
   onCreateGroup(items) {
     const list = items.filter(o => o.groupChecked === true);
     const orders = {};
     list.forEach(o => {
-      const key = Utils.getKey(o.orderCode, 2);
+      const key = Utils.getKey(o.code, 2);
       orders[key] = _.clone(o);
       orders[key].group = this.state.groupName;
     });
@@ -75,18 +75,18 @@ class DeliveryGroupCreate extends Component {
         
           <FlatList
             data={items}
-            keyExtractor={(item, index) => item.orderCode}
+            keyExtractor={(item, index) => item.code}
             renderItem={({ item }) => {
               const order = item;
-              const { deliveryAddress, orderCode, groupChecked } = order;
+              const { deliveryAddress, code, groupChecked } = order;
               return (
                 <TouchableOpacity
-                  onPress={this.onOrderChecked.bind(this, orderCode)}
+                  onPress={this.onOrderChecked.bind(this, code)}
                 >
                   <View style={Styles.rowStyle}>
                     <View style={[DeliverGroupStyles.col1Style]}>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        {orderCode}
+                        {code}
                       </Text>
                       <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
                         {deliveryAddress}
@@ -97,7 +97,7 @@ class DeliveryGroupCreate extends Component {
                     >
                       <CheckBox 
                         style={{ backgroundColor: '#fff' }}
-                        onPress={this.onOrderChecked.bind(this, orderCode)}
+                        onPress={this.onOrderChecked.bind(this, code)}
                         checked={groupChecked}
                       />
                     </View>

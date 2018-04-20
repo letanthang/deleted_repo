@@ -14,8 +14,8 @@ class AddOrderScreen extends Component {
   }
   render() {
     const { goBack } = this.props.navigation;
-    const { orderCode, pdsItems } = this.props;
-    const disabled = this.props.orderCode.length < 7;
+    const { code, pdsItems } = this.props;
+    const disabled = this.props.code.length < 7;
     const style = disabled ? Styles.addButtonDisableStyle : Styles.addButtonStyle;
 
     return (
@@ -43,7 +43,7 @@ class AddOrderScreen extends Component {
             <View style={{ paddingTop: 16 }}>
               <TextInput 
                 placeholder='XXXXXXXX'
-                value={orderCode}
+                value={code}
                 onChangeText={(text) => this.props.changeOrderCode(text.toUpperCase())}
                 autoCorrect={false}
                 autoCapitalize='characters'
@@ -52,7 +52,7 @@ class AddOrderScreen extends Component {
             <View style={{ paddingTop: 16 }}>
               <TouchableOpacity
                 disabled={disabled}
-                onPress={() => this.props.getOrder(orderCode)}
+                onPress={() => this.props.getOrder(code)}
                 style={style}
               >
                 <Text style={{ color: '#FFF' }}>Kiểm tra đơn</Text>
@@ -70,9 +70,9 @@ class AddOrderScreen extends Component {
 
 const mapStateToProps = (state) => {
   const { orderAdd, pd } = state;
-  const { orderCode, order } = orderAdd;
+  const { code, order } = orderAdd;
   const { pdsItems } = pd;
-  return { orderCode, order, pdsItems };
+  return { code, order, pdsItems };
 };
 
 export default connect(mapStateToProps, { changeOrderCode, getOrder })(AddOrderScreen);

@@ -77,7 +77,7 @@ export function updateOrderToFailWithReason2(phone, configuration) {
   // [
   //   {  
   //     PDSDetailID,
-  //     orderCode,
+  //     code,
   //     PDSType,
   //     nextStatus,
   //     clientHubId,
@@ -88,23 +88,23 @@ export function updateOrderToFailWithReason2(phone, configuration) {
   //     NoteCode,
   //   },
 export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
-  const { orderCode, pickDeliveryType } = order;
+  const { code, pickDeliveryType } = order;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
   const nextStatus = 'FAIL_TO_RETURN';
   const action = 'DO_RETURN_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { code, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }
 
 export function getUpdateOrderInfoForDone(order, newDate = null) {
-  const { orderCode, pickDeliveryType } = order;
+  const { code, pickDeliveryType } = order;
   const noteId = 'Returned';
   const note = '';
   const nextStatus = 'RETURNED';
   const action = 'DO_RETURN_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
+  return { code, nextDate, newDate, noteId, note, action, nextStatus, pickDeliveryType, success };
 }

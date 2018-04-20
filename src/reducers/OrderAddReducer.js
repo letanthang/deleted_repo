@@ -9,7 +9,7 @@ import {
 } from '../actions/types';
 
 const nameInitialState = {
-  orderCode: '',
+  code: '',
   loading: false,
   order: null
 };
@@ -18,7 +18,7 @@ export default (state = nameInitialState, action) => {
   switch (action.type) {
     
     case ORDER_CHANGE_ORDER_CODE:
-      return { ...state, orderCode: action.payload.orderCode };
+      return { ...state, code: action.payload.code };
     
     case ORDER_GET_ORDER_START:
       return { ...state, loading: true };

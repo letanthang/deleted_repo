@@ -64,7 +64,7 @@ export const fetchTripInfoFail = (error) => {
   // [
   //   {  
   //     PDSDetailID,
-  //     orderCode,
+  //     code,
   //     PDSType,
   //     nextStatus,
   //     clientHubId,
@@ -112,7 +112,7 @@ export const updateWeightSize = ({
   weight,
   clientId,
   clientHubId,
-  orderCode,
+  code,
   PDSID,
   ServiceFee
 }) => {
@@ -127,7 +127,7 @@ export const updateWeightSize = ({
       height,
       weight,
       clientId,
-      orderCode,
+      code,
       PDSID
     };
     try {
@@ -137,7 +137,7 @@ export const updateWeightSize = ({
         dispatch({
           type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
           payload: { 
-            orderCode,
+            code,
             clientHubId, 
             serviceCost: ServiceFee,
             length,
@@ -147,11 +147,11 @@ export const updateWeightSize = ({
           }
         });
       } else {
-        reportBug(json.message, { orderCode, length, weight, height, ServiceFee });
+        reportBug(json.message, { code, length, weight, height, ServiceFee });
         dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
       }
     } catch (error) {
-      reportBug(error.message, { orderCode, length, weight, height, ServiceFee });
+      reportBug(error.message, { code, length, weight, height, ServiceFee });
       dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
     }
   };
@@ -166,9 +166,9 @@ export const updateOrderGroup = (updateList) => {
 
 export const addOneOrder = (order) => {
   return (dispatch, getState) => {
-    const { orderCode } = order;
+    const { code } = order;
     dispatch({ type: PD_ADD_ORDER_START });
-    API.AddOrders([orderCode], getState().pd.pdsId)
+    API.AddOrders([code], getState().pd.pdsId)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
@@ -178,20 +178,20 @@ export const addOneOrder = (order) => {
           });
         } else {
           dispatch({ type: PD_ADD_ORDER_FAIL });
-          reportBug(json.message, { orderCode });
+          reportBug(json.message, { code });
         }
       })
       .catch(error => {
         dispatch({ type: PD_ADD_ORDER_FAIL });
-        reportBug(error.message, { orderCode });
+        reportBug(error.message, { code });
       });
   };
 };
 
-export const updateOrderInfo = (orderCode, pickDeliveryType, info) => {
+export const updateOrderInfo = (code, pickDeliveryType, info) => {
   return {
     type: PD_UPDATE_ORDER_INFO,
-    payload: { orderCode, pickDeliveryType, info }
+    payload: { code, pickDeliveryType, info }
   };
 };
 
@@ -210,10 +210,10 @@ export const toggleGroupActive = (groupIndex) => {
   };
 };
 
-export const toggleOrderGroup = (orderCode) => {
+export const toggleOrderGroup = (code) => {
   return {
     type: PD_TOGGLE_ORDER_GROUP,
-    payload: { orderCode }
+    payload: { code }
   };
 };
 export const updateOrders = (orders) => {

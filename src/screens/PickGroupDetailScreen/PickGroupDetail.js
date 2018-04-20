@@ -64,22 +64,22 @@ class PickGroupDetail extends Component {
     }
   }
 
-  checkKeywork({ orderCode, ExternalCode }) {
+  checkKeywork({ code, ExternalCode }) {
     const keyword = this.props.keyword.toUpperCase()
     return this.props.keyword === '' 
-      || orderCode.toUpperCase().includes(keyword)
+      || code.toUpperCase().includes(keyword)
       || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
   }
 
   onOrderPress(order) {
   
-    const { orderCode } = order;
+    const { code } = order;
     const { clientId, clientHubId } = this.pickGroup;
     
     if (this.pickDeliveryType === 1) {
-      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, clientHubId });
+      navigateOnce(this, 'PickOrder', { code, order, clientId, clientHubId });
     } else if (this.pickDeliveryType === 3) {
-      navigateOnce(this, 'ReturnOrder', { orderCode, order, clientHubId });
+      navigateOnce(this, 'ReturnOrder', { code, order, clientHubId });
     }
   }
 
@@ -90,8 +90,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { orderCode, pickDeliveryType } = this.order;
-      this.props.updateOrderInfo(orderCode, pickDeliveryType, moreInfo);
+      const { code, pickDeliveryType } = this.order;
+      this.props.updateOrderInfo(code, pickDeliveryType, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -107,13 +107,13 @@ class PickGroupDetail extends Component {
   acceptDeliverPress(order) {
     const newOrder = _.clone(order);
     newOrder.pickDeliveryType = 2;
-    newOrder.currentStatus = 'DELIVERING';
+    newOrder.status = 'DELIVERING';
     newOrder.Group = null;
     this.props.addOneOrder(newOrder);
   }
 
   checkDelivering(order) {
-    if (Utils.getOrder(this.props.db, order.orderCode, 2)) return true;
+    if (Utils.getOrder(this.props.db, order.code, 2)) return true;
     return false;
   }
 
@@ -156,7 +156,7 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
-            keyExtractor={(item, index) => item.orderCode}
+            keyExtractor={(item, index) => item.code}
             renderItem={({ item }) => 
             <OrderItem 
               order={item}

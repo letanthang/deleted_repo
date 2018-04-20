@@ -70,7 +70,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
   onSaveWeightSize() {
     const { length, weight, width, height } = this.state;
-    const { pdsId, ServiceFee } = this.props;
+    const { tripCode, ServiceFee } = this.props;
     const params = {
       length, 
       width,
@@ -79,7 +79,7 @@ class POUpdateWeightSizeScreen extends Component {
       clientId,
       clientHubId,
       code,
-      PDSID: pdsId,
+      tripCode,
       ServiceFee
     };
     this.props.updateWeightSize(params);
@@ -253,10 +253,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   const { pd, auth, other } = state;
   const { sessionToken } = auth;
-  const { pdsId, loading } = pd;
+  const { tripCode, loading } = pd;
   const { ServiceFee } = other;
   const db = getOrders(state);
-  return { db, sessionToken, ServiceFee, pdsId, loading };
+  return { db, sessionToken, ServiceFee, tripCode, loading };
 };
 
 

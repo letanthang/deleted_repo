@@ -168,7 +168,7 @@ export const addOneOrder = (order) => {
   return (dispatch, getState) => {
     const { code } = order;
     dispatch({ type: PD_ADD_ORDER_START });
-    API.AddOrders([code], getState().pd.pdsId)
+    API.AddOrders([code], getState().pd.tripCode)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {

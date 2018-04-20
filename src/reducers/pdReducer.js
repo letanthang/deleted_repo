@@ -13,8 +13,7 @@ import Utils from '../libs/Utils';
 const nameInitialState = {
   pdsItems: null,
   Infos: null,
-  pdsId: null,
-  pdsCode: null,
+  tripCode: null,
   lastUpdatedTime: null,
   timeServer: null,
   loading: false,
@@ -37,18 +36,17 @@ export default (state = nameInitialState, action) => {
       // turn on spinner
       return { ...state, loading: true, error: '' };
     case PD_FETCH_TRIP_INFO_SUCCESS: {
-      const { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID, pdsCode, lastUpdatedTime, timeServer } = action.payload.info;
+      const { driverName, createdByName, createdByPhone, code, lastUpdatedTime, timeServer } = action.payload.info;
       
       let newState = {
         ...state,
-        Infos: { employeeFullName, coordinatorFullName, coordinatorPhone, pickDeliverySessionID },
-        pdsId: pickDeliverySessionID,
-        pdsCode,
+        Infos: { driverName, createdByName, createdByPhone },
+        tripCode: code,
         lastUpdatedTime,
         timeServer
       };
 
-      if (state.pdsId !== pickDeliverySessionID) { 
+      if (state.tripCode !== newState.tripCode) { 
         newState = {
           ...newState,
           pdsItems: null,

@@ -24,7 +24,7 @@ function* updateOrderStatus(act) {
   const OrderInfos = act.payload.OrderInfos;
   try {
     const state = yield select();
-    const { pdsId, pdsCode, lastUpdatedTime } = state.pd;
+    const { tripCode, lastUpdatedTime } = state.pd;
     //filter 
     //transform OrderInfos
     const filterInfos = OrderInfos.map(info => {
@@ -32,8 +32,7 @@ function* updateOrderStatus(act) {
       return { code, nextDate, noteId, note, action };
     });
     const params = {
-      pdsId,
-      pdsCode, 
+      tripCode,
       lastUpdatedTime,
       OrderInfos: filterInfos
     };

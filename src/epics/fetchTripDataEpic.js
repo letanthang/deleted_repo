@@ -24,7 +24,7 @@ const fetchTripsEpic = (action$, store) =>
   action$.ofType(PD_FETCH_TRIP_INFO_SUCCESS)
     .map(action => action.payload)
     .mergeMap((payload) =>
-      API.fetchTrip(store.getState().pd.pdsCode, 0, limitNum)
+      API.fetchTrip(store.getState().pd.tripCode, 0, limitNum)
         .map(({ data }) => {
           const response = data;
           // console.log(response);
@@ -53,7 +53,7 @@ const fetchTripsMoreEpic = (action$, store) =>
     .filter(payload => payload.more === true)
     .mergeMap((payload) => {
       const page = payload.page + 1;
-      return API.fetchTrip(store.getState().pd.pdsCode, (page - 1) * limitNum, limitNum)
+      return API.fetchTrip(store.getState().pd.tripCode, (page - 1) * limitNum, limitNum)
         .map(({ data }) => {
           const response = data;
           const total = response.total;

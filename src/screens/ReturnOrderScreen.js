@@ -215,10 +215,10 @@ const mapStateToProps = (state) => {
   const { pd, auth, config, other } = state;
   const { configuration } = config;
   const { sessionToken } = auth;
-  const { pdsId, loading } = pd;
+  const { tripCode, loading } = pd;
   const { orderHistory } = other;
   const db = getOrders(state);
-  return { db, pdsId, sessionToken, loading, configuration, orderHistory };
+  return { db, tripCode, sessionToken, loading, configuration, orderHistory };
 };
 
 export default connect(

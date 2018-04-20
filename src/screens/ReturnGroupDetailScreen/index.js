@@ -182,10 +182,10 @@ class PickGroupDetailScreen extends Component {
 const mapStateToProps = (state) => {
   const { auth, pd, returnGroup } = state;
   const { sessionToken } = auth;
-  const { pdsId } = pd;
+  const { tripCode } = pd;
   const { OrderInfos, done, keyword } = returnGroup;
   const { ReturnItems, PickItems } = get3Type(state);
-  return { ReturnItems, PickItems, sessionToken, pdsId, OrderInfos, done, keyword };
+  return { ReturnItems, PickItems, sessionToken, tripCode, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { pdListFetch, changeDone1, changeKeyword1 })(PickGroupDetailScreen);

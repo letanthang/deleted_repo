@@ -177,9 +177,9 @@ class PickConfirmScreen extends Component {
 const mapStateToProps = (state) => {
   const { pd, auth } = state;
   const { sessionToken } = auth;
-  const { pdsId, loading } = pd;
+  const { tripCode, loading } = pd;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems, pdsId, sessionToken, loading };
+  return { PickItems, ReturnItems, tripCode, sessionToken, loading };
 };
 
 

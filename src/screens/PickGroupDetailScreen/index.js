@@ -192,10 +192,10 @@ const mapStateToProps = (state) => {
   const { auth, pd, pickGroup, other } = state;
   const { progress, loading } = other;
   const { sessionToken } = auth;
-  const { pdsId, addOrderLoading } = pd;
+  const { tripCode, addOrderLoading } = pd;
   const { OrderInfos, done, keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems, sessionToken, pdsId, loading, progress, addOrderLoading, OrderInfos, done, keyword };
+  return { PickItems, ReturnItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch })(PickGroupDetailScreen);

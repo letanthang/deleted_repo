@@ -44,11 +44,11 @@ class SideBar extends Component {
   }
 
   render() {
-    let coordinatorFullName = '';
-    let coordinatorPhone = '';
+    let createdByName = '';
+    let createdByPhone = '';
     if (this.props.pdsItems) {
-      coordinatorFullName = this.props.Infos.coordinatorFullName;
-      coordinatorPhone = this.props.Infos.coordinatorPhone;
+      createdByName = this.props.Infos.createdByName;
+      createdByPhone = this.props.Infos.createdByPhone;
     }
     
     const { UserID, FullName } = this.props.user;
@@ -66,18 +66,18 @@ class SideBar extends Component {
                   <IC name="account" size={20} color='#FF9504' />
                 </Left>
                 <Body>
-                  <Text>ĐP : {coordinatorFullName}</Text>
+                  <Text>ĐP : {createdByName}</Text>
                 </Body>
             </ListItem>
             <ListItem 
               icon
-              onPress={() => Utils.phoneCall(coordinatorPhone, true)}
+              onPress={() => Utils.phoneCall(createdByPhone, true)}
             >
               <Left>
                 <IC name="cellphone" size={20} color='#FF9504' />
               </Left>
               <Body>
-                <Text>SĐT ĐP : {coordinatorPhone}</Text>
+                <Text>SĐT ĐP : {createdByPhone}</Text>
               </Body>
               <Right>
                 <IC name='phone' color='#FF9504' size={20} />

@@ -52,13 +52,13 @@ export const fetchTripInfo = (tripUserId) => {
   return fromPromise(GetUserActivePdsInfo(tripUserId));
 };  
 
-export const GetUserActivePds = (pdsCode, offset, limit, timeServer, clientHubId) => {
+export const GetUserActivePds = (tripCode, offset, limit, timeServer, clientHubId) => {
   const URL = `${PDS_URL}/pda/pds/orders`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
-    params: { pdsCode, offset, limit, timeServer, clientHubId },
+    params: { tripCode, offset, limit, timeServer, clientHubId },
     timeout
   };
 
@@ -68,7 +68,7 @@ export const GetUserActivePds = (pdsCode, offset, limit, timeServer, clientHubId
   return axios.get(URL, config);
 };
 
-export const fetchTrip = (pdsCode, offset, limit, timeServer, clientHubId) => {
+export const fetchTrip = (tripCode, offset, limit, timeServer, clientHubId) => {
   // const URL = `${PDS_URL}/pda/pds/orders`;
   // const LoginHeader = Share.LoginHeader;
 
@@ -79,9 +79,9 @@ export const fetchTrip = (pdsCode, offset, limit, timeServer, clientHubId) => {
   //     ...LoginHeader,
   //     'Content-Type': 'application/json',
   //   },
-  //   body: { pdsCode, offset, limit, timeServer, clientHubId }
+  //   body: { tripCode, offset, limit, timeServer, clientHubId }
   // });
-  return fromPromise(GetUserActivePds(pdsCode, offset, limit, timeServer));
+  return fromPromise(GetUserActivePds(tripCode, offset, limit, timeServer));
 };
 // export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
 //   const URL = `${PDS_URL}/pdaone/${PDSID}`;
@@ -100,11 +100,10 @@ export const fetchTrip = (pdsCode, offset, limit, timeServer, clientHubId) => {
 // };
 
 export const UpdateStatusGetRequest = (p) => {
-    const { pdsId, pdsCode, lastUpdatedTime, OrderInfos } = p;
+    const { tripCode, tripCode, lastUpdatedTime, OrderInfos } = p;
     const URL = `${PDS_URL}/doAction/pda`;
     const params = {
-      pdsId,
-      pdsCode,
+      tripCode,
       lastUpdatedTime,
       orders: OrderInfos
     };
@@ -114,11 +113,10 @@ export const UpdateStatusGetRequest = (p) => {
   };
 
 export const UpdateStatus = (p) => {
-  const { pdsId, pdsCode, lastUpdatedTime, OrderInfos } = p;
+  const { tripCode, tripCode, lastUpdatedTime, OrderInfos } = p;
   const URL = `${PDS_URL}/doAction/pda`;
   const params = {
-    pdsId,
-    pdsCode,
+    tripCode,
     lastUpdatedTime,
     orders: OrderInfos
   };
@@ -241,7 +239,7 @@ export const GetOrderByCode = (code) => {
     return axios.get(URL, config);
 };
 
-export const AddOrders = (codes, pdsId, pickDeliveryType = 2) => {
+export const AddOrders = (codes, tripCode, pickDeliveryType = 2) => {
     const URL = `${PDS_URL}/pds`;
     const LoginHeader = Share.LoginHeader;
 
@@ -252,7 +250,7 @@ export const AddOrders = (codes, pdsId, pickDeliveryType = 2) => {
         };
     const params = {
         codes,
-        pdsId,
+        tripCode,
         type
     };
 
@@ -638,13 +636,13 @@ const orderHistoryResponse = {
     {
       "code":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
       "description":"Tạo CĐ 1803168D9FFW","succeed":true,"source":"BROWSER",
-      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"READY_TO_PICK\",\"audited\":false,\"isCompleted\":false,\"moneyCollected\":false,\"senderPay\":31900.0,\"receiverPay\":48000.0,\"returnPay\":0.0,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"createdUserid\":\"210030\",\"createdUsername\":\"Lê Tấn Thắng\",\"sortIndex\":129,\"partnerCode\":\"Giaohangnhanh\",\"tripUserid\":\"210030\",\"tripUsername\":\"Lê Tấn Thắng\",\"warehouseId\":1220,\"note\":\"Không cho xem hàng\",\"noteContent\":\"\",\"clientId\":193041}",
+      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"READY_TO_PICK\",\"audited\":false,\"isCompleted\":false,\"moneyCollected\":false,\"senderPay\":31900.0,\"receiverPay\":48000.0,\"returnPay\":0.0,\"tripCode\":\"5aab4a8dad494e0f4095a28a\",\"tripCode\":\"1803168D9FFW\",\"createdUserid\":\"210030\",\"createdUsername\":\"Lê Tấn Thắng\",\"sortIndex\":129,\"partnerCode\":\"Giaohangnhanh\",\"tripUserid\":\"210030\",\"tripUsername\":\"Lê Tấn Thắng\",\"warehouseId\":1220,\"note\":\"Không cho xem hàng\",\"noteContent\":\"\",\"clientId\":193041}",
       "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
     },
     {
       "code":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
       "description":"Cập nhật trạng thái đơn hàng PICKING\u003d\u003eSTORING","succeed":true,"source":"BROWSER",
-      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"STORING\",\"audited\":false,\"isCompleted\":true,\"moneyCollected\":false,\"pdsId\":\"5aab4a8dad494e0f4095a28a\",\"pdsCode\":\"1803168D9FFW\",\"sortIndex\":129,\"tripUserid\":\"210030\",\"partnerCode\":\"Giaohangnhanh\",\"date\":\"2018-03-16T04:39:42.322Z\",\"id\":\"5aab4a8ee81ce7e88f00004b\",\"createdTime\":\"2018-03-16T04:39:42.322Z\",\"lastUpdatedTime\":\"2018-03-16T04:39:42.322Z\"}",
+      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"STORING\",\"audited\":false,\"isCompleted\":true,\"moneyCollected\":false,\"tripCode\":\"5aab4a8dad494e0f4095a28a\",\"tripCode\":\"1803168D9FFW\",\"sortIndex\":129,\"tripUserid\":\"210030\",\"partnerCode\":\"Giaohangnhanh\",\"date\":\"2018-03-16T04:39:42.322Z\",\"id\":\"5aab4a8ee81ce7e88f00004b\",\"createdTime\":\"2018-03-16T04:39:42.322Z\",\"lastUpdatedTime\":\"2018-03-16T04:39:42.322Z\"}",
       "date":"2018-03-23T04:20:11.608Z","id":"5ab4807be8347c2a1c000004","createdTime":"2018-03-23T04:20:11.610Z","lastUpdatedTime":"2018-03-23T04:20:11.610Z"
     }
   ],

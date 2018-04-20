@@ -265,11 +265,11 @@ class DeliveryOrderScreen extends Component {
 const mapStateToProps = (state) => {
   const { pd, auth, config, other } = state;
   const { sessionToken } = auth;
-  const { pdsId, loading } = pd;
+  const { tripCode, loading } = pd;
   const { configuration } = config;
   const { orderHistory } = other;
   const db = getOrders(state);
-  return { db, pdsId, sessionToken, loading, configuration, orderHistory };
+  return { db, tripCode, sessionToken, loading, configuration, orderHistory };
 };
 
 

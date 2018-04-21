@@ -8,7 +8,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = false;
+const mockOn = true;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
@@ -232,7 +232,15 @@ export const getOrderDetail = (code) => {
   return fromPromise(GetOrderByCode(code));
 }
 
-export const AddOrders = (codes, tripCode, type) => {
+// {
+// 	"orders": [
+// 		{
+// 			"code": "3DANFHXU",
+// 			"type": "PICK"
+// 		}
+// 	]
+// }
+export const AddOrders = (orders) => {
     const URL = `${PDS_URL}/pds`;
     const LoginHeader = Share.LoginHeader;
 
@@ -241,9 +249,7 @@ export const AddOrders = (codes, tripCode, type) => {
         timeout,
         };
     const params = {
-        codes,
-        tripCode,
-        type
+        orders
     };
 
     return axios.put(URL, params, config);

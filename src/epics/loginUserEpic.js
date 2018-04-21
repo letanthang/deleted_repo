@@ -18,8 +18,9 @@ const loginUserEpic = action$ =>
     .map(action => action.payload)
     .mergeMap(({ userid, password, rememberMe }) =>
       API.loginUser(userid, password)
-        .map(({ response }) => {
-          console.log(response);
+        .map(({ data }) => {
+          const response = data;
+          //console.log(response);
           switch (response.status) {
             case 'OK':
               return loginUserSucess(response, rememberMe);

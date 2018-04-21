@@ -3,9 +3,6 @@ import {
   ORDER_GET_ORDER_START,
   ORDER_GET_ORDER,
   ORDER_GET_ORDER_FAIL,
-  ORDER_ADD_ORDER_START,
-  ORDER_ADD_ORDER,
-  ORDER_ADD_ORDER_FAIL
 } from '../actions/types';
 
 const nameInitialState = {

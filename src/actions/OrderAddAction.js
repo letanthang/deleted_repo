@@ -56,7 +56,7 @@ export const getOrder = (code) => {
       type: ORDER_GET_ORDER_START,
       payload: { code }
     });
-    API.GetOrderByCode(code)
+    API.getOrderDetail(code)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {
@@ -87,7 +87,9 @@ export const addOrder = (code) => {
       type: ORDER_ADD_ORDER_START,
       payload: { code }
     });
-    API.AddOrders([code], getState().pd.tripCode, 1)
+    const tripCode = getState().pd.tripCode;
+    const orders = [{ code, type: 'PICK', tripCode }]
+    API.AddOrders(orders)
       .then(response => {
         const json = response.data;
         if (json.status === 'OK') {

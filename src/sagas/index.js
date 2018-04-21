@@ -24,20 +24,15 @@ function* updateOrderStatus(act) {
   const OrderInfos = act.payload.OrderInfos;
   try {
     const state = yield select();
-    const { tripCode, lastUpdatedTime } = state.pd;
+    const { tripCode } = state.pd;
     //filter 
     //transform OrderInfos
     const filterInfos = OrderInfos.map(info => {
       const { code, nextDate, noteId, note, action } = info;
-      return { code, nextDate, noteId, note, action };
+      return { code, tripCode, nextDate, failCode: noteId, failNote: note, action };
     });
-    const params = {
-      tripCode,
-      lastUpdatedTime,
-      OrderInfos: filterInfos
-    };
 
-    const response = yield call(Api.UpdateStatus, params);
+    const response = yield call(Api.updateOrderStatus, filterInfos);
     const json = response.data;
     if (json.status === 'OK') {
       yield put(updateOrderStatusSuccess(OrderInfos, json.data[0].listFail));

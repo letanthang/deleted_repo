@@ -26,7 +26,7 @@ export const GetUserActivePdsInfo = (tripUserId) => {
   
     const config = {
       headers: LoginHeader,
-      params: { fromDate: '2018-04-01T00:00:00.000Z', toDate: '2018-04-030T00:00:00.000Z', q: { driverId: tripUserId } },
+      params: { q: { driverId: tripUserId } },
       timeout
     };
   
@@ -53,12 +53,12 @@ export const fetchTripInfo = (tripUserId) => {
 };  
 
 export const GetUserActivePds = (tripCode, offset, limit, timeServer, clientHubId) => {
-  const URL = `${PDS_URL}/pda/pds/orders`;
+  const URL = `${PDS_URL}/order/search`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
-    params: { tripCode, offset, limit, timeServer, clientHubId },
+    params: { offset, limit, fromDate: timeServer, q: { tripCode } },
     timeout
   };
 
@@ -99,25 +99,9 @@ export const fetchTrip = (tripCode, offset, limit, timeServer, clientHubId) => {
 //   return axios.put(URL, params, config);
 // };
 
-export const UpdateStatusGetRequest = (p) => {
-    const { tripCode, tripCode, lastUpdatedTime, OrderInfos } = p;
-    const URL = `${PDS_URL}/doAction/pda`;
-    const params = {
-      tripCode,
-      lastUpdatedTime,
-      orders: OrderInfos
-    };
-    const LoginHeader = Share.LoginHeader;
-    const config = { headers: LoginHeader };
-    return { URL, config, params };
-  };
-
-export const UpdateStatus = (p) => {
-  const { tripCode, tripCode, lastUpdatedTime, OrderInfos } = p;
+export const DoAction = (OrderInfos) => {
   const URL = `${PDS_URL}/doAction/pda`;
   const params = {
-    tripCode,
-    lastUpdatedTime,
     orders: OrderInfos
   };
   const LoginHeader = Share.LoginHeader;
@@ -129,6 +113,10 @@ export const UpdateStatus = (p) => {
 
   return axios.put(URL, params, config);
 };
+
+export const updateOrderStatus = (OrderInfos) => {
+  return fromPromise(DoAction(OrderInfos));
+}
 
 export const UpdateOrderWeightRDC = ({ 
   length,
@@ -155,36 +143,34 @@ export const UpdateOrderWeightRDC = ({
   return axios.put(URL, params, config);
 };
 
-// export const Authenticate = ({ UserID, Password }) => {
-//   const URL = `${ACC_URL}/pdaLogin`;
-
-//   if (mockOn) {
-//     mock.onPost(URL, {
-//         userid: UserID,
-//         password: Password
-//       }).reply(200, loginResponse);
-//   }
-
-//   return axios.post(URL, {
-//       userid: UserID,
-//       password: Password
-//     });
-// };
-
-export const LoginUser = (userid, password ) => {
+export const Authenticate = (userid, password) => {
   const URL = `${ACC_URL}/pdaLogin`;
+  const params = {
+    userid,
+    password
+  };
+  if (mockOn) {
+    mock.onPost(URL, params).reply(200, loginResponse);
+  }
 
-  return Observable.ajax({
-    method: 'post',
-    url: URL,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: {
-      userid,
-      password
-    }
-  });
+  return axios.post(URL, params);
+};
+
+export const loginUser = (userid, password ) => {
+  // const URL = `${ACC_URL}/pdaLogin`;
+
+  // return Observable.ajax({
+  //   method: 'post',
+  //   url: URL,
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: {
+  //     userid,
+  //     password
+  //   }
+  // });
+  return fromPromise(Authenticate(userid, password))
 };
 
 export const GetUserPerformance = (UserID, from = null, to = null) => {
@@ -227,17 +213,24 @@ export const CalculateServiceFee = (params) => {
 };
 
 export const GetOrderByCode = (code) => {
-    const URL = `${PDS_URL}/order`;
-    const LoginHeader = Share.LoginHeader;
-    const config = {
-        headers: LoginHeader,
-        timeout,
-        params: {
-            q: { order_code: code }
-        }
-    };
-    return axios.get(URL, config);
+  const URL = `${PDS_URL}/order`;
+  const LoginHeader = Share.LoginHeader;
+  const config = {
+      headers: LoginHeader,
+      timeout,
+      params: {
+          q: { order_code: code }
+      }
+  };
+  if (mockOn) {
+    mock.onGet(URL, config).reply(200, orderDetailResponse);
+  }
+  return axios.get(URL, config);
 };
+
+export const getOrderDetail = (code) => {
+  return fromPromise(GetOrderByCode(code));
+}
 
 export const AddOrders = (codes, tripCode, type) => {
     const URL = `${PDS_URL}/pds`;
@@ -272,6 +265,27 @@ export const GetOrderHistory = (code) => {
 };
 
 const infoResponse = {
+  "status": "OK",
+  "data": [
+    {
+      "code": "184122056HC7B",
+      "status": "NEW",
+      "hubId": "1220",
+      "createdById": "1006",
+      "createdByName": "Nguyễn Trịnh Khánh Tường",
+      "lastUpdatedById": "1006",
+      "lastUpdatedByName": "Nguyễn Trịnh Khánh Tường",
+      "amountCollected": 0,
+      "amountCollect": 0,
+      "date": "2018-04-20T07:48:00.653Z",
+      "id": "5ad99b30e893788f8f000003",
+      "createdTime": "2018-04-20T07:48:00.653Z",
+      "lastUpdatedTime": "2018-04-20T07:48:00.653Z"
+    }
+  ]
+};
+
+const orderDetailResponse = {
   "status": "OK",
   "data": [
     {
@@ -610,11 +624,13 @@ const updateStatusResponse = {
   "status": "OK",
   "data": [
     { 
-      "listOk":[
-        { "code":"3A5D76UA", "status":"DELIVERED" }
-      ],
-      "listFail":[
-        { "code":"J888JD9", "status":"DELIVERED" }
+      "listSuccess": [],
+      "listFail": [
+          {
+              "code": "3DKX99HK",
+              "type": "DELIVER",
+              "message": "Order is not valid"
+          }
       ]
     }
   ],

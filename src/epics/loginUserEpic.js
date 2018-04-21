@@ -17,7 +17,7 @@ const loginUserEpic = action$ =>
   action$.ofType(LOGIN_USER)
     .map(action => action.payload)
     .mergeMap(({ userid, password, rememberMe }) =>
-      API.LoginUser(userid, password)
+      API.loginUser(userid, password)
         .map(({ response }) => {
           console.log(response);
           switch (response.status) {

@@ -149,13 +149,13 @@ export default (state = nameInitialState, action) => {
           const order = Utils.getOrder(pdsItems, info.code, info.type);
           if (ids.length > 0 && ids.includes(info.code)) {
             switch (info.type) {
-              case 1:
+              case 'PICK':
                 order.status = 'PICKING';
                 break;
-              case 2:
+              case 'DELIVER':
                 order.status = 'DELIVERING';
                 break;
-              case 3:
+              case 'RETURN':
                 order.status = 'RETURNING';
                 break;
               default:

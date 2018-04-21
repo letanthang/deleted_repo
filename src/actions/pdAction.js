@@ -188,10 +188,10 @@ export const addOneOrder = (order) => {
   };
 };
 
-export const updateOrderInfo = (code, pickDeliveryType, info) => {
+export const updateOrderInfo = (code, type, info) => {
   return {
     type: PD_UPDATE_ORDER_INFO,
-    payload: { code, pickDeliveryType, info }
+    payload: { code, type, info }
   };
 };
 

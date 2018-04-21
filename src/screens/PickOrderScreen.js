@@ -79,12 +79,12 @@ class PickOrderScreen extends Component {
   
   updateOrderToDone() {
     const OrderInfos = getUpdateOrderInfoForDone(order);
-    this.props.updateOrderInfo(order.code, order.pickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.code, order.type, OrderInfos);
   }
 
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getUpdateOrderInfo(order, buttonIndex, NewDate);
-    this.props.updateOrderInfo(order.code, order.pickDeliveryType, OrderInfos);
+    this.props.updateOrderInfo(order.code, order.type, OrderInfos);
   }
 
   updateOrderToFailWithReason() {
@@ -159,9 +159,9 @@ class PickOrderScreen extends Component {
     const historyString = Utils.getHistoryString(history);
     console.log('render order', history);
     const { 
-      recipientName, recipientPhone, ExternalCode,
+      receiverName, receiverPhone, ExternalCode,
       serviceName, width, height,
-      senderPay, weight, length, serviceCost,
+      moneyCollect, weight, length, serviceCost,
       deliveryAddress, soNote, requiredNote
     } = order;
 
@@ -223,7 +223,7 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(senderPay)} đ</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>
@@ -251,7 +251,7 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{receiverName}</Text>
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -259,10 +259,10 @@ class PickOrderScreen extends Component {
                     transparent
                     iconRight
                     small
-                    onPress={() => Utils.phoneCall(recipientPhone, true)}
+                    onPress={() => Utils.phoneCall(receiverPhone, true)}
                     style={{ paddingLeft: 0 }}
                   >
-                    <Text>{recipientPhone}</Text>
+                    <Text>{receiverPhone}</Text>
                     <Icon name='call' />
                   </Button>
               </View>

@@ -27,9 +27,9 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { code, clientHubId, clientId, pickDeliveryType } = order;
+    const { code, clientHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
-    switch (pickDeliveryType) {
+    switch (type) {
       case 1:
         navigate('PickOrder', { code, order, clientId, clientHubId });
         break;
@@ -69,14 +69,14 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ code, ExternalCode, clientName, contactName, recipientName, address }) {
+  checkKeywork({ code, ExternalCode, clientName, contactName, receiverName, address }) {
     const keyword = this.props.keyword.toUpperCase();
     return !this.props.keyword || this.props.keyword === '' 
     || code.toUpperCase().includes(keyword)
     || (ExternalCode && ExternalCode.toUpperCase().includes(keyword))
     || (clientName && clientName.toUpperCase().includes(keyword))
     || contactName.toUpperCase().includes(keyword)
-    || recipientName.toUpperCase().includes(keyword)
+    || receiverName.toUpperCase().includes(keyword)
     || address.toUpperCase().includes(keyword);
   }
   renderNullData() {
@@ -135,7 +135,7 @@ class OrderListScreen extends Component {
                       {this.renderStatusText(item)}
                     </View>
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                      {item.clientName} - {item.contactName} - {item.recipientName} 
+                      {item.clientName} - {item.contactName} - {item.receiverName} 
                     </Text>
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
                       {item.address}

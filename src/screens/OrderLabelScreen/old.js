@@ -40,7 +40,7 @@ class OrderLabelScreen extends Component {
     const order = Utils.getOrder(this.props.db, code, 1);
     console.log('OrderLabel render');
     const { navigate, goBack } = this.props.navigation;
-    const { recipientName, deliveryAddress, recipientPhone } = order;
+    const { receiverName, deliveryAddress, receiverPhone } = order;
     console.log(order);
     
     return (
@@ -105,8 +105,8 @@ class OrderLabelScreen extends Component {
             <View 
               style={{ height: 120, padding: 14 }}
             >
-              <Text style={{ fontWeight: 'bold' }}>{recipientName.toUpperCase()}</Text>
-              <Text style={{ }}>{recipientPhone}</Text>
+              <Text style={{ fontWeight: 'bold' }}>{receiverName.toUpperCase()}</Text>
+              <Text style={{ }}>{receiverPhone}</Text>
               <Text style={{ }}>{deliveryAddress}</Text>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />

@@ -173,7 +173,7 @@ class TripListScreen extends Component {
               onPressItem
               renderItem={({ item, index, section }) => {
                 const { activeSection } = section;
-                const { address, contactName, contactPhone, estimateTotalServiceCost, pickDeliveryType, clientHubId } = item;
+                const { address, contactName, contactPhone, estimateTotalServiceCost, type, clientHubId } = item;
                 const ordersNum = item.ShopOrders.length;
                 const completedNum = item.ShopOrders.filter(o => o.done).length;
                 return (
@@ -186,7 +186,7 @@ class TripListScreen extends Component {
                     estimateTotalServiceCost={estimateTotalServiceCost}
                     ordersNum={ordersNum}
                     completedNum={completedNum}
-                    pickDeliveryType={pickDeliveryType}
+                    type={type}
                     clientHubId={clientHubId}
                     ReturnItems={this.props.ReturnItems}
                     navigation={this.props.navigation}

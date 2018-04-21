@@ -21,9 +21,9 @@ class PickConfirmScreen extends Component {
   componentWillMount() {
     // clientId = this.props.navigation.state.params.clientId;
     this.clientHubId = this.props.navigation.state.params.clientHubId;
-    this.pickDeliveryType = this.props.navigation.state.params.pickDeliveryType;
+    this.type = this.props.navigation.state.params.type;
     const { PickItems, ReturnItems } = this.props;
-    const Items = this.pickDeliveryType === 3 ? ReturnItems : PickItems;
+    const Items = this.type === 'RETURN' ? ReturnItems : PickItems;
     this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     // if (!this.checkDone() || this.checkRealDone()) {
     //   Alert.alert(
@@ -47,7 +47,7 @@ class PickConfirmScreen extends Component {
   }
 
   checkCompleteForUnsync(o) {
-    return this.pickDeliveryType === 3 ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkPickCompleteForUnsync(o);
+    return this.type === 'RETURN' ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkPickCompleteForUnsync(o);
   }
   checkComplete(o) {
     return o.done;
@@ -116,7 +116,7 @@ class PickConfirmScreen extends Component {
           </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{this.pickDeliveryType === 3 ? 'Trả' : 'Lấy'} hàng Shop</Title>
+            <Title>{this.type === 'RETURN' ? 'Trả' : 'Lấy'} hàng Shop</Title>
           </Body>
           <Right style={Styles.rightStyle}>
           </Right>

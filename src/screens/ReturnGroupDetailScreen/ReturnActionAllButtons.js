@@ -18,8 +18,8 @@ class ReturnActionAllButtons extends Component {
     
     if (nextStatus === undefined) { 
       const OrderInfos = _.map(orders, order => { 
-        const { code, pickDeliveryType } = order; 
-        return { code, pickDeliveryType, success: undefined, nextStatus: undefined }; 
+        const { code, type } = order; 
+        return { code, type, success: undefined, nextStatus: undefined }; 
       }); 
       this.props.updateOrderInfos(OrderInfos);
       this.setState({ status: undefined });

@@ -14,7 +14,7 @@ import {
 import * as API from '../apis/MPDS';
 
 export const calculateServiceFee = ({ 
-  length, width, height, weight, code, clientId, serviceId, FromDistrictID, ToDistrictID 
+  length, width, height, weight, code, clientId, serviceId, fromDistrictId, toDistrictId 
 }) => {
   return async dispatch => {
     dispatch({ type: OTHER_CALCULATE_FEE });
@@ -26,8 +26,8 @@ export const calculateServiceFee = ({
       code,
       clientId,
       serviceId,
-      FromDistrictID,
-      ToDistrictID
+      fromDistrictId,
+      toDistrictId
     };
 
     try {

@@ -29,9 +29,9 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { code, clientHubId, clientId, pickDeliveryType } = order;
+    const { code, clientHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
-    switch (pickDeliveryType) {
+    switch (type) {
       case 1:
         navigate('PickOrder', { code, order, clientId, clientHubId });
         break;
@@ -217,7 +217,7 @@ class OrderListScreen extends Component {
               </View>
             )}
             sections={sections}
-            keyExtractor={(item, index) => `${item.code}_${item.pickDeliveryType}`}
+            keyExtractor={(item, index) => `${item.code}_${item.type}`}
           /> 
         </DataEmptyCheck>
         </Content>

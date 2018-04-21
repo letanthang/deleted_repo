@@ -23,9 +23,9 @@ class PickGroupDetailScreen extends Component {
   state = { showSearch: false };
 
   componentWillMount() {
-    const { clientHubId, pickDeliveryType } = this.props.navigation.state.params;
+    const { clientHubId, type } = this.props.navigation.state.params;
     this.clientHubId = clientHubId;
-    this.pickDeliveryType = pickDeliveryType;
+    this.type = type;
   }
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
@@ -139,8 +139,8 @@ class PickGroupDetailScreen extends Component {
     console.log('PickGroupDetailScreen render');
     const { addOrderLoading, PickItems, ReturnItems } = this.props;
     const { width } = Dimensions.get('window');
-    const pickDeliveryType = this.pickDeliveryType;
-    const Items = pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const type = this.type;
+    const Items = type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(trip => trip.clientHubId === this.clientHubId);
     this.pickGroup = pickGroup;
     this.totalNum = this.pickGroup.ShopOrders.length;

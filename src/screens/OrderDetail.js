@@ -18,9 +18,9 @@ class OrderDetail extends Component {
     if (order == null) return null;
 
     const { 
-      recipientName, recipientPhone, ExternalCode,
+      receiverName, receiverPhone, ExternalCode,
       serviceName, width, height,
-      senderPay, weight, length, serviceCost,
+      moneyCollect, weight, length, serviceCost,
       Note, log, status, deliveryAddress
     } = order;
 
@@ -47,7 +47,7 @@ class OrderDetail extends Component {
           </View>
           <View style={Styles.rowStyle}>
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(senderPay)} đ</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
           </View>
           <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>
@@ -75,7 +75,7 @@ class OrderDetail extends Component {
           </View>
           <View style={Styles.rowStyle}>
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{receiverName}</Text>
           </View>
           <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -83,10 +83,10 @@ class OrderDetail extends Component {
                 transparent
                 iconRight
                 small
-                onPress={() => Utils.phoneCall(recipientPhone, true)}
+                onPress={() => Utils.phoneCall(receiverPhone, true)}
                 style={{ paddingLeft: 0 }}
               >
-                <Text>{recipientPhone}</Text>
+                <Text>{receiverPhone}</Text>
                 <Icon name='call' />
               </Button>
           </View>

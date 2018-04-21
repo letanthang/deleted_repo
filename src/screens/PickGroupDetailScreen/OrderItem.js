@@ -22,9 +22,9 @@ class OrderItem extends Component {
     // console.log('OrderItem render!');
     const { order, animated, acceptDeliverPress, onOrderPress, checkDelivering, onSelectDateCase } = this.props;
     const { 
-      code, recipientName, recipientPhone,
+      code, receiverName, receiverPhone,
       height, width, weight, length, status,
-      ExternalCode, senderPay, success, note, newDate, pickWarehouseId, 
+      ExternalCode, moneyCollect, success, note, newDate, pickWarehouseId, 
       deliverWarehouseId, done
     } = order;
 
@@ -48,7 +48,7 @@ class OrderItem extends Component {
                 style={{ marginLeft: 10 }}
               />
             </View>
-            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(senderPay)} đ</Text>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
           </View>
           {success === false && realDone === false ?
           <View style={Styles.itemStyle}>
@@ -61,7 +61,7 @@ class OrderItem extends Component {
           </View>
           : null}
           <View style={Styles.itemStyle}>
-            <Text style={Styles.weakColorStyle}>Nhận: {recipientName} - {recipientPhone}</Text>
+            <Text style={Styles.weakColorStyle}>Nhận: {receiverName} - {receiverPhone}</Text>
 
             
           </View>

@@ -24,13 +24,13 @@ class PickGroupDetailScreen extends Component {
   componentWillMount() {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.clientHubId = this.pickGroup.clientHubId;
-    this.pickDeliveryType = this.pickGroup.pickDeliveryType;
+    this.type = this.pickGroup.type;
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
-    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
@@ -52,8 +52,8 @@ class PickGroupDetailScreen extends Component {
 
   confirmUpdateOrder() {
     // this.props.pdListFetch({})
-    //   .then(() => this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId, pickDeliveryType: 3 }));
-    this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId, pickDeliveryType: 3 });
+    //   .then(() => this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId, type: 'RETURN' }));
+    this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId, type: 'RETURN' });
   }
 
   hasUnsynced(pickGroup) {
@@ -139,8 +139,8 @@ class PickGroupDetailScreen extends Component {
   render() {
     const { PickItems, ReturnItems, navigation } = this.props;
     const { width } = Dimensions.get('window');
-    const { pickDeliveryType } = this.pickGroup;
-    const Items = pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const { type } = this.pickGroup;
+    const Items = type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(trip => trip.clientHubId === this.clientHubId); 
     return (
       

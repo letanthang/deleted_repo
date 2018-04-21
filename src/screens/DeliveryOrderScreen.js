@@ -90,7 +90,7 @@ class DeliveryOrderScreen extends Component {
     );
   }
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.recipientPhone, this.props.configuration, order.code)
+    updateOrderToFailWithReason2(order.receiverPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.confirmUpdateOrderFail(buttonIndex);
@@ -149,7 +149,7 @@ class DeliveryOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      recipientName, recipientPhone, deliveryAddress, receiverPay,
+      receiverName, receiverPhone, deliveryAddress, moneyCollect,
       clientName, contactPhone, requiredNote,
       displayOrder, soNote
     } = order;
@@ -190,7 +190,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{receiverName}</Text>
             </View>
             <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -199,9 +199,9 @@ class DeliveryOrderScreen extends Component {
                   iconRight
                   small
                   style={{ paddingLeft: 0 }}
-                  onPress={() => Utils.phoneCall(recipientPhone, true)}
+                  onPress={() => Utils.phoneCall(receiverPhone, true)}
                 >
-                  <Text>{recipientPhone}</Text>
+                  <Text>{receiverPhone}</Text>
                   <Icon name='call' />
                 </Button>
             </View>
@@ -214,7 +214,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(receiverPay)} đ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Nhà cung cấp</Text>

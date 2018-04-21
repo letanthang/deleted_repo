@@ -22,7 +22,7 @@ class PickGroupDetail extends Component {
   
   pickGroup = null;
   clientHubId = null;
-  pickDeliveryType = null;
+  type = null;
   order = {};
   done = false;
   
@@ -30,7 +30,7 @@ class PickGroupDetail extends Component {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.pickGroup;
     this.clientHubId = this.pickGroup.clientHubId;
-    this.pickDeliveryType = this.pickGroup.pickDeliveryType;
+    this.type = this.pickGroup.type;
     this.checkDone(this.props);
   }
   componentDidMount() {
@@ -42,7 +42,7 @@ class PickGroupDetail extends Component {
 
   checkRealDone() {
     const { PickItems, ReturnItems } = this.props;
-    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const Items = this.type === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => {
       const result = !o.done;
@@ -54,7 +54,7 @@ class PickGroupDetail extends Component {
 
   checkDone(props) {
     const { PickItems, ReturnItems } = props;
-    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const Items = this.type === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => Utils.checkPickCompleteForUnsync(o) === true);
     if (orders.length === 0) {
@@ -76,9 +76,9 @@ class PickGroupDetail extends Component {
     const { code } = order;
     const { clientId, clientHubId } = this.pickGroup;
     
-    if (this.pickDeliveryType === 1) {
+    if (this.type === 1) {
       navigateOnce(this, 'PickOrder', { code, order, clientId, clientHubId });
-    } else if (this.pickDeliveryType === 3) {
+    } else if (this.type === 3) {
       navigateOnce(this, 'ReturnOrder', { code, order, clientHubId });
     }
   }
@@ -90,8 +90,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { code, pickDeliveryType } = this.order;
-      this.props.updateOrderInfo(code, pickDeliveryType, moreInfo);
+      const { code, type } = this.order;
+      this.props.updateOrderInfo(code, type, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -106,7 +106,7 @@ class PickGroupDetail extends Component {
 
   acceptDeliverPress(order) {
     const newOrder = _.clone(order);
-    newOrder.pickDeliveryType = 2;
+    newOrder.type = 2;
     newOrder.status = 'DELIVERING';
     newOrder.Group = null;
     this.props.addOneOrder(newOrder);
@@ -123,7 +123,7 @@ class PickGroupDetail extends Component {
 
   render() {
     const { PickItems, ReturnItems, keyword } = this.props;
-    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const Items = this.type === 1 ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
     const animated = true; //const animated = orders.length < 10;

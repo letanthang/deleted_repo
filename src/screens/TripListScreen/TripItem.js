@@ -22,7 +22,7 @@ class TripItem extends Component {
       && this.props.estimateTotalServiceCost === this.props.estimateTotalServiceCost
       && this.props.ordersNum === nextProps.ordersNum
       && this.props.completedNum === nextProps.completedNum
-      && this.props.pickDeliveryType === nextProps.pickDeliveryType
+      && this.props.type === nextProps.type
       && this.props.clientHubId === nextProps.clientHubId) {
       return false;
     }
@@ -33,8 +33,8 @@ class TripItem extends Component {
   }
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
-  onTripPress({ pickDeliveryType, clientHubId }) {
-    this.props.navigation.navigate('PickGroupDetail', { pickDeliveryType, clientHubId });
+  onTripPress({ type, clientHubId }) {
+    this.props.navigation.navigate('PickGroupDetail', { type, clientHubId });
   }
 
   renderCheckedIcon(orderNum, completedNum) {
@@ -48,8 +48,8 @@ class TripItem extends Component {
       navigateOnce(this, 'ReturnGroupDetail', { pickGroup: returnGroup });
     }
   }
-  renderHasReturnWarning({ pickDeliveryType, clientHubId }) {
-    if (pickDeliveryType !== 1) return null;
+  renderHasReturnWarning({ type, clientHubId }) {
+    if (type !== 'PICK') return null;
     const returnGroup = Utils.getReturnGroup(this.props.ReturnItems, clientHubId);
     if (!returnGroup) return null;
     return (
@@ -66,7 +66,7 @@ class TripItem extends Component {
     );
   }
   render() {
-    const { index, activeSection, address, contactName, contactPhone, estimateTotalServiceCost, ordersNum, completedNum, pickDeliveryType, clientHubId } = this.props;
+    const { index, activeSection, address, contactName, contactPhone, estimateTotalServiceCost, ordersNum, completedNum, type, clientHubId } = this.props;
     if (!activeSection) {
       return null;
     } 
@@ -74,7 +74,7 @@ class TripItem extends Component {
     
     return (
       <TouchableOpacity
-        onPress={this.onTripPressOnce.bind(this, { pickDeliveryType, clientHubId })}
+        onPress={this.onTripPressOnce.bind(this, { type, clientHubId })}
         style={DeliverGroupStyles.content}
       >
         <View style={wrapperStyle}>
@@ -105,7 +105,7 @@ class TripItem extends Component {
           </View>
           <View style={[Styles.item2Style]}>
             <View>
-              {this.renderHasReturnWarning({ pickDeliveryType, clientHubId })}
+              {this.renderHasReturnWarning({ type, clientHubId })}
             </View>
             <Button
               small

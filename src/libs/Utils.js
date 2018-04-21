@@ -16,23 +16,23 @@ const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', COMPLE
 const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'COMPLETED', 'Progress'];
 
 class Utils {
-  static getDisplayStatus({ status, nextStatus, pickDeliveryType }) {
+  static getDisplayStatus({ status, nextStatus, type }) {
     let displayStatus = '';
-    if (pickDeliveryType === 1) {
+    if (type === 1) {
       if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
         displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
         displayStatus = `*${displayStatus}*`;
       } else {
         displayStatus = pickStatus[status] ? pickStatus[status] : status;
       }
-    } else if (pickDeliveryType === 2) {
+    } else if (type === 2) {
       if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
         displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
         displayStatus = `*${displayStatus}*`;
       } else {
         displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
       }
-    } else if (pickDeliveryType === 3) {
+    } else if (type === 3) {
       if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
         displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
         displayStatus = `*${displayStatus}*`;
@@ -43,10 +43,10 @@ class Utils {
     return displayStatus;
   }
 
-  static getStatus({ status, nextStatus, pickDeliveryType }) {
+  static getStatus({ status, nextStatus, type }) {
     let displayStatus = '';
     let alert = false;
-    if (pickDeliveryType === 1) {
+    if (type === 1) {
       if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
         displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
         //displayStatus = `*${displayStatus}*`;
@@ -54,7 +54,7 @@ class Utils {
       } else {
         displayStatus = pickStatus[status] ? pickStatus[status] : status;
       }
-    } else if (pickDeliveryType === 2) {
+    } else if (type === 2) {
       if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
         displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
         // displayStatus = `*${displayStatus}*`;
@@ -62,7 +62,7 @@ class Utils {
       } else {
         displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
       }
-    } else if (pickDeliveryType === 3) {
+    } else if (type === 3) {
       if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
         displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
         // displayStatus = `*${displayStatus}*`;
@@ -75,8 +75,8 @@ class Utils {
     return { displayStatus, alert };
   }
 
-  static getDisplayStatusColor({ status, nextStatus, pickDeliveryType }) {
-    const DisplayStatus = this.getDisplayStatus({ status, nextStatus, pickDeliveryType });
+  static getDisplayStatusColor({ status, nextStatus, type }) {
+    const DisplayStatus = this.getDisplayStatus({ status, nextStatus, type });
     switch (DisplayStatus) {
       case 'Giao lỗi':
       case '*Giao lỗi*':
@@ -191,8 +191,8 @@ class Utils {
     return false;
   }
   static getKey = (orderID, type) => `${orderID}-${type}`;
-  static getOrder(items, code, pickDeliveryType) {
-    return items[Utils.getKey(code, pickDeliveryType)];
+  static getOrder(items, code, type) {
+    return items[Utils.getKey(code, type)];
   }
 
   static getReturnGroup(ReturnItems, clientHubId) {

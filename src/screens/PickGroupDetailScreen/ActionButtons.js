@@ -13,17 +13,17 @@ class ActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const { order, animated } = this.props;
-    const { code, pickDeliveryType, contactPhone } = this.props.order;
+    const { code, type, contactPhone } = this.props.order;
     let info = {};
     if (nextStatus === undefined) {
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
       info = { success: undefined, nextStatus: undefined };
-      this.props.updateOrderInfo(code, pickDeliveryType, info);
+      this.props.updateOrderInfo(code, type, info);
     } else if (nextStatus) {
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
-      this.props.updateOrderInfo(code, pickDeliveryType, info);
+      this.props.updateOrderInfo(code, type, info);
     } else {
       //failed to pick
       info.success = nextStatus;
@@ -32,7 +32,7 @@ class ActionButtons extends Component {
         if (error === null) {
           if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfo(code, pickDeliveryType, moreInfo);
+          this.props.updateOrderInfo(code, type, moreInfo);
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {

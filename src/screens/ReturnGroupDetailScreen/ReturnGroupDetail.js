@@ -25,14 +25,14 @@ class PickGroupDetail extends Component {
   
   pickGroup = null;
   clientHubId = null;
-  pickDeliveryType = null;
+  type = null;
   order = {};
   
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
     this.clientHubId = this.pickGroup.clientHubId;
-    this.pickDeliveryType = this.pickGroup.pickDeliveryType;
+    this.type = this.pickGroup.type;
   }
 
   componentDidMount() {
@@ -41,7 +41,7 @@ class PickGroupDetail extends Component {
 
   checkRealDone() {
     const { PickItems, ReturnItems } = this.props;
-    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => !o.done);
     if (orders.length === 0) return true;
@@ -58,9 +58,9 @@ class PickGroupDetail extends Component {
     const { code } = order;
     const { clientId, clientHubId } = this.pickGroup;
     
-    if (this.pickDeliveryType === 1) {
+    if (this.type === 'PICK') {
       navigateOnce(this, 'PickOrder', { code, order, clientId, clientHubId });
-    } else if (this.pickDeliveryType === 3) {
+    } else if (this.type === 'RETURN') {
       navigateOnce(this, 'ReturnOrder', { code, order, clientHubId });
     }
   }
@@ -72,8 +72,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { code, pickDeliveryType } = this.order;
-      this.props.updateOrderInfo(code, pickDeliveryType, moreInfo);
+      const { code, type } = this.order;
+      this.props.updateOrderInfo(code, type, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -84,7 +84,7 @@ class PickGroupDetail extends Component {
   render() {
     console.log('ReturnGroupDetail render!');
     const { PickItems, ReturnItems, keyword } = this.props;
-    const Items = this.pickDeliveryType === 1 ? PickItems : ReturnItems;
+    const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
     const hidden = orders.length === 0 || keyword !== '' || this.checkRealDone();
@@ -113,8 +113,8 @@ class PickGroupDetail extends Component {
             renderItem={({ item }) => {
               const order = item;
               const { 
-                code, recipientName, recipientPhone,
-                ExternalCode, returnPay, success, note, newDate
+                code, receiverName, receiverPhone,
+                ExternalCode, moneyCollect, success, note, newDate
               } = item;
               const fullNote = Utils.getFullNote(note, newDate);
               return (
@@ -130,7 +130,7 @@ class PickGroupDetail extends Component {
                           style={{ marginLeft: 10 }}
                         />
                       </View>
-                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(returnPay)} đ</Text>
+                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
                     </View>
                     {success === false ?
                     <View style={Styles.itemStyle}>
@@ -143,7 +143,7 @@ class PickGroupDetail extends Component {
                     </View>
                     : null}
                     <View style={Styles.itemStyle}>
-                      <Text style={Styles.weakColorStyle}>Nhận: {recipientName} - {recipientPhone}</Text>
+                      <Text style={Styles.weakColorStyle}>Nhận: {receiverName} - {receiverPhone}</Text>
                     </View>
                     <ReturnActionButtons
                       done={order.done}

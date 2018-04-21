@@ -127,7 +127,7 @@ class ReturnOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      recipientName, recipientPhone, deliveryAddress,
+      receiverName, receiverPhone, deliveryAddress,
       soNote, requiredNote
     } = order;
 
@@ -164,7 +164,7 @@ class ReturnOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tên khách hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{recipientName}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{receiverName}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
@@ -173,9 +173,9 @@ class ReturnOrderScreen extends Component {
                 iconRight
                 small
                 style={{ paddingLeft: 0 }}
-                onPress={() => Utils.phoneCall(recipientPhone, true)}
+                onPress={() => Utils.phoneCall(receiverPhone, true)}
               >
-                <Text>{recipientPhone}</Text>
+                <Text>{receiverPhone}</Text>
                 <Icon name='call' />
               </Button>  
             </View>

@@ -106,7 +106,8 @@ class PickGroupDetail extends Component {
 
   acceptDeliverPress(order) {
     const newOrder = _.clone(order);
-    newOrder.type = 2;
+    newOrder.hasDetail = false;
+    newOrder.type = 'DELIVER';
     newOrder.status = 'DELIVERING';
     newOrder.Group = null;
     this.props.addOneOrder(newOrder);

@@ -105,55 +105,9 @@ export const updateOrderStatusFail = (error, OrderInfos, report = true) => {
   };
 };
 
-export const updateWeightSize = ({
-  length, 
-  width,
-  height,
-  weight,
-  clientId,
-  clientHubId,
-  code,
-  PDSID,
-  ServiceFee
-}) => {
-  return async dispatch => {
-    dispatch({
-      type: PD_UPDATE_WEIGHT_SIZE
-    });
-    
-    const params = {
-      length,
-      width,
-      height,
-      weight,
-      clientId,
-      code,
-      PDSID
-    };
-    try {
-      const response = await API.UpdateOrderWeightRDC(params);      
-      const json = response.data;
-      if (json.status === 'OK') {
-        dispatch({
-          type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-          payload: { 
-            code,
-            clientHubId, 
-            serviceCost: ServiceFee,
-            length,
-            width,
-            height,
-            weight
-          }
-        });
-      } else {
-        reportBug(json.message, { code, length, weight, height, ServiceFee });
-        dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
-      }
-    } catch (error) {
-      reportBug(error.message, { code, length, weight, height, ServiceFee });
-      dispatch({ type: PD_UPDATE_WEIGHT_SIZE_FAIL });
-    }
+export const updateWeightSize = ({ length, width, height, weight, clientId, clientHubId, code, PDSID,ServiceFee}) => {
+  return {
+    type: PD_UPDATE_WEIGHT_SIZE
   };
 };
 
@@ -165,27 +119,7 @@ export const updateOrderGroup = (updateList) => {
 };
 
 export const addOneOrder = (order) => {
-  return (dispatch, getState) => {
-    const { code } = order;
-    dispatch({ type: PD_ADD_ORDER_START });
-    API.AddOrders([code], getState().pd.tripCode)
-      .then(response => {
-        const json = response.data;
-        if (json.status === 'OK') {
-          dispatch({
-            type: PD_ADD_ORDER,
-            payload: { order }
-          });
-        } else {
-          dispatch({ type: PD_ADD_ORDER_FAIL });
-          reportBug(json.message, { code });
-        }
-      })
-      .catch(error => {
-        dispatch({ type: PD_ADD_ORDER_FAIL });
-        reportBug(error.message, { code });
-      });
-  };
+  return { type: PD_ADD_ORDER, payload: { order } };
 };
 
 export const updateOrderInfo = (code, type, info) => {

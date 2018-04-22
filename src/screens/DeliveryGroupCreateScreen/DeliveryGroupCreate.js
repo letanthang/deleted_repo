@@ -78,7 +78,7 @@ class DeliveryGroupCreate extends Component {
             keyExtractor={(item, index) => item.code}
             renderItem={({ item }) => {
               const order = item;
-              const { deliveryAddress, code, groupChecked } = order;
+              const { receiverAddress, code, groupChecked } = order;
               return (
                 <TouchableOpacity
                   onPress={this.onOrderChecked.bind(this, code)}
@@ -89,7 +89,7 @@ class DeliveryGroupCreate extends Component {
                         {code}
                       </Text>
                       <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                        {deliveryAddress}
+                        {receiverAddress}
                       </Text>
                     </View>
                     <View

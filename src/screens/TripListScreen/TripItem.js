@@ -16,7 +16,7 @@ class TripItem extends Component {
   shouldComponentUpdate(nextProps) {
     if (this.props.index === nextProps.index
       && this.props.activeSection === nextProps.activeSection
-      && this.props.address === this.props.address
+      && this.props.senderAddress === this.props.senderAddress
       && this.props.senderName === nextProps.senderName
       && this.props.senderPhone === this.props.senderPhone
       && this.props.estimateTotalServiceCost === this.props.estimateTotalServiceCost
@@ -66,7 +66,7 @@ class TripItem extends Component {
     );
   }
   render() {
-    const { index, activeSection, address, senderName, senderPhone, estimateTotalServiceCost, ordersNum, completedNum, type, senderHubId } = this.props;
+    const { index, activeSection, senderAddress, senderName, senderPhone, estimateTotalServiceCost, ordersNum, completedNum, type, senderHubId } = this.props;
     if (!activeSection) {
       return null;
     } 
@@ -91,7 +91,7 @@ class TripItem extends Component {
             <Text
               style={[Styles.weakColorStyle]}
             >
-              {address}
+              {senderAddress}
             </Text>
           </View>
           

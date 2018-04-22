@@ -149,7 +149,7 @@ class DeliveryOrderScreen extends Component {
 
     const { goBack } = this.props.navigation;
     const { 
-      receiverName, receiverPhone, deliveryAddress, moneyCollect,
+      receiverName, receiverPhone, receiverAddress, moneyCollect,
       clientName, senderPhone, requiredNote,
       displayOrder, soNote
     } = order;
@@ -207,7 +207,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowLastStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{deliveryAddress}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{receiverAddress}</Text>
             </View>
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin đơn hàng</Text>

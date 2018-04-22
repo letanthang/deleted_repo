@@ -148,12 +148,12 @@ class TripListScreen extends Component {
     );
   }
   
-  checkKeywork({ clientName, senderName, address }) {
+  checkKeywork({ clientName, senderName, senderAddress }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
       || (clientName && clientName.toUpperCase().includes(keyword))
       || senderName.toUpperCase().includes(keyword)
-      || address.toUpperCase().includes(keyword);
+      || senderAddress.toUpperCase().includes(keyword);
   }
 
   checkTripDone(trip) {
@@ -223,7 +223,7 @@ class TripListScreen extends Component {
                 if (!section.activeSection) return null;
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                 const pickGroup = item;
-                const { address, senderName, senderPhone, estimateTotalServiceCost } = pickGroup;
+                const { senderAddress, senderName, senderPhone, estimateTotalServiceCost } = pickGroup;
                 const ordersNum = pickGroup.ShopOrders.length;
                 const completedNum = pickGroup.ShopOrders.filter(o => o.done).length;
                 return (
@@ -245,7 +245,7 @@ class TripListScreen extends Component {
                           <Text
                             style={[Styles.weakColorStyle]}
                           >
-                            {address}
+                            {senderAddress}
                           </Text>
                         </View>
                         

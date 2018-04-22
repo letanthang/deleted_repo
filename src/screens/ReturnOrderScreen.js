@@ -73,7 +73,7 @@ class ReturnOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.code)
+    updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);

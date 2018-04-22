@@ -27,17 +27,17 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { code, clientHubId, clientId, type } = order;
+    const { code, senderHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
     switch (type) {
       case 1:
-        navigate('PickOrder', { code, order, clientId, clientHubId });
+        navigate('PickOrder', { code, order, clientId, senderHubId });
         break;
       case 2:
         navigate('DeliveryOrder', { code });
         break;
       case 3:
-        navigate('ReturnOrder', { code, order, clientId, clientHubId });
+        navigate('ReturnOrder', { code, order, clientId, senderHubId });
         break;
       default:
         break;
@@ -69,13 +69,13 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ code, ExternalCode, clientName, contactName, receiverName, address }) {
+  checkKeywork({ code, ExternalCode, clientName, senderName, receiverName, address }) {
     const keyword = this.props.keyword.toUpperCase();
     return !this.props.keyword || this.props.keyword === '' 
     || code.toUpperCase().includes(keyword)
     || (ExternalCode && ExternalCode.toUpperCase().includes(keyword))
     || (clientName && clientName.toUpperCase().includes(keyword))
-    || contactName.toUpperCase().includes(keyword)
+    || senderName.toUpperCase().includes(keyword)
     || receiverName.toUpperCase().includes(keyword)
     || address.toUpperCase().includes(keyword);
   }
@@ -135,7 +135,7 @@ class OrderListScreen extends Component {
                       {this.renderStatusText(item)}
                     </View>
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                      {item.clientName} - {item.contactName} - {item.receiverName} 
+                      {item.clientName} - {item.senderName} - {item.receiverName} 
                     </Text>
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
                       {item.address}

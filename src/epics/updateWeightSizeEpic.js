@@ -16,7 +16,7 @@ import Utils from '../libs/Utils';
 export const updateWeightSizeEpic = action$ =>
   action$.ofType(PD_UPDATE_WEIGHT_SIZE)
     .map(action => action.payload)
-    .mergeMap(({ length, width, height, weight, clientId, clientHubId, code, tripCode, ServiceFee }) =>
+    .mergeMap(({ length, width, height, weight, clientId, senderHubId, code, tripCode, ServiceFee }) =>
       API.UpdateOrderWeightRDC(length, width, height, weight, clientId, code, tripCode, ServiceFee)
       .map(({ data }) => {
         const response = data;
@@ -24,7 +24,7 @@ export const updateWeightSizeEpic = action$ =>
           case 'OK':
             return {
               type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-              payload: { code, clientHubId, serviceCost: ServiceFee, length, width, height, weight }
+              payload: { code, senderHubId, serviceCost: ServiceFee, length, width, height, weight }
             };
           default:
             return { type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: response.message } };

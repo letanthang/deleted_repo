@@ -30,7 +30,7 @@ function alertMissOfCall(phoneNumber) {
 
 export function updateOrderToFailWithReason2(phone, configuration, code = null) {
   return new Promise((resolve, reject) => {
-    const contactPhone = phone;
+    const senderPhone = phone;
     const title = code ? `Chọn lý do lỗi cho đơn ${code}` : `Chọn lý do lỗi cho tất cả các đơn này`;
     ActionSheet.show(
       {
@@ -47,23 +47,23 @@ export function updateOrderToFailWithReason2(phone, configuration, code = null) 
           return resolve({ error: 'chooseDate', buttonIndex });
         } else if (buttonIndex == cannotCallIndex || buttonIndex == cannotContactIndex) {
           //cannot contact
-          Utils.validateCallCannotContact(contactPhone, configuration)
+          Utils.validateCallCannotContact(senderPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {
-                alertMissOfCall(contactPhone);
+                alertMissOfCall(senderPhone);
                 return resolve({ error: 'moreCall', buttonIndex });
               } 
             });
         } else if (buttonIndex == notHangUpIndex) {
           //cannot contact
-          Utils.validateCallNotHangUp(contactPhone, configuration)
+          Utils.validateCallNotHangUp(senderPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
               } else {
-                alertMissOfCall(contactPhone);
+                alertMissOfCall(senderPhone);
                 return resolve({ error: 'moreCall', buttonIndex });
               }
             });
@@ -81,7 +81,7 @@ export function updateOrderToFailWithReason2(phone, configuration, code = null) 
   //     code,
   //     PDSType,
   //     nextStatus,
-  //     clientHubId,
+  //     senderHubId,
   //     StoringCode,
   //     NewDate,
   //     log

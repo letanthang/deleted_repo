@@ -29,8 +29,8 @@ export const updateProgress = (progress, loading) => {
   return { type: OTHER_SET_PROPS, payload: { progress, loading } };
 };
 
-export const pdListFetch = ({ all = true, timeServer = null, clientHubId = null }) => {
-  return { type: PDLIST_FETCH, payload: { all, timeServer, clientHubId } }; 
+export const pdListFetch = ({ all = true, timeServer = null, senderHubId = null }) => {
+  return { type: PDLIST_FETCH, payload: { all, timeServer, senderHubId } }; 
 };
 
 export const pdListFetchNoTrip = () => {
@@ -67,7 +67,7 @@ export const fetchTripInfoFail = (error) => {
   //     code,
   //     PDSType,
   //     nextStatus,
-  //     clientHubId,
+  //     senderHubId,
   //     StoringCode,
   //     NewDate,
   //     log,
@@ -105,7 +105,7 @@ export const updateOrderStatusFail = (error, OrderInfos, report = true) => {
   };
 };
 
-export const updateWeightSize = ({ length, width, height, weight, clientId, clientHubId, code, PDSID,ServiceFee}) => {
+export const updateWeightSize = ({ length, width, height, weight, clientId, senderHubId, code, PDSID,ServiceFee}) => {
   return {
     type: PD_UPDATE_WEIGHT_SIZE
   };

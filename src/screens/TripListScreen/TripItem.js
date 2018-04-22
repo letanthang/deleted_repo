@@ -17,13 +17,13 @@ class TripItem extends Component {
     if (this.props.index === nextProps.index
       && this.props.activeSection === nextProps.activeSection
       && this.props.address === this.props.address
-      && this.props.contactName === nextProps.contactName
-      && this.props.contactPhone === this.props.contactPhone
+      && this.props.senderName === nextProps.senderName
+      && this.props.senderPhone === this.props.senderPhone
       && this.props.estimateTotalServiceCost === this.props.estimateTotalServiceCost
       && this.props.ordersNum === nextProps.ordersNum
       && this.props.completedNum === nextProps.completedNum
       && this.props.type === nextProps.type
-      && this.props.clientHubId === nextProps.clientHubId) {
+      && this.props.senderHubId === nextProps.senderHubId) {
       return false;
     }
     return true;
@@ -33,8 +33,8 @@ class TripItem extends Component {
   }
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
-  onTripPress({ type, clientHubId }) {
-    this.props.navigation.navigate('PickGroupDetail', { type, clientHubId });
+  onTripPress({ type, senderHubId }) {
+    this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
   }
 
   renderCheckedIcon(orderNum, completedNum) {
@@ -48,9 +48,9 @@ class TripItem extends Component {
       navigateOnce(this, 'ReturnGroupDetail', { pickGroup: returnGroup });
     }
   }
-  renderHasReturnWarning({ type, clientHubId }) {
+  renderHasReturnWarning({ type, senderHubId }) {
     if (type !== 'PICK') return null;
-    const returnGroup = Utils.getReturnGroup(this.props.ReturnItems, clientHubId);
+    const returnGroup = Utils.getReturnGroup(this.props.ReturnItems, senderHubId);
     if (!returnGroup) return null;
     return (
       <Button
@@ -66,7 +66,7 @@ class TripItem extends Component {
     );
   }
   render() {
-    const { index, activeSection, address, contactName, contactPhone, estimateTotalServiceCost, ordersNum, completedNum, type, clientHubId } = this.props;
+    const { index, activeSection, address, senderName, senderPhone, estimateTotalServiceCost, ordersNum, completedNum, type, senderHubId } = this.props;
     if (!activeSection) {
       return null;
     } 
@@ -74,7 +74,7 @@ class TripItem extends Component {
     
     return (
       <TouchableOpacity
-        onPress={this.onTripPressOnce.bind(this, { type, clientHubId })}
+        onPress={this.onTripPressOnce.bind(this, { type, senderHubId })}
         style={DeliverGroupStyles.content}
       >
         <View style={wrapperStyle}>
@@ -83,7 +83,7 @@ class TripItem extends Component {
               style={[Styles.bigTextStyle, Styles.weakColorStyle]}
               numberOfLines={1}
             >
-              {contactName}
+              {senderName}
             </Text>
             {this.renderCheckedIcon(ordersNum, completedNum)}
           </View>
@@ -105,12 +105,12 @@ class TripItem extends Component {
           </View>
           <View style={[Styles.item2Style]}>
             <View>
-              {this.renderHasReturnWarning({ type, clientHubId })}
+              {this.renderHasReturnWarning({ type, senderHubId })}
             </View>
             <Button
               small
               transparent
-              onPress={() => Utils.phoneCall(contactPhone, true)}
+              onPress={() => Utils.phoneCall(senderPhone, true)}
               style={{ paddingRight: 0 }}
             >
               <Icon name='call' />

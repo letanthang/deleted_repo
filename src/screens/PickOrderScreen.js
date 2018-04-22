@@ -23,7 +23,7 @@ import ActionModal from '../components/ActionModal';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/Helpers';
 
 let clientId = null;
-let clientHubId = null;
+let senderHubId = null;
 let code = null;
 let order = {};
 class PickOrderScreen extends Component {
@@ -31,7 +31,7 @@ class PickOrderScreen extends Component {
 
   componentWillMount() {
     clientId = this.props.navigation.state.params.clientId;
-    clientHubId = this.props.navigation.state.params.clientHubId;
+    senderHubId = this.props.navigation.state.params.senderHubId;
     code = this.props.navigation.state.params.code;
     order = Utils.getOrder(this.props.db, code, 1);
     this.props.getOrderHistory(code);
@@ -88,7 +88,7 @@ class PickOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.contactPhone, this.props.configuration, order.code)
+    updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
@@ -187,7 +187,7 @@ class PickOrderScreen extends Component {
           <Right style={Styles.rightStyle}>
             {/* <Button
               transparent
-              onPress={() => navigate('POUpdateWeightSize', { code, clientId, clientHubId })}
+              onPress={() => navigate('POUpdateWeightSize', { code, clientId, senderHubId })}
             >
               <Icon name="create" />
             </Button> */}

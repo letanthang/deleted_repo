@@ -23,8 +23,8 @@ class PickGroupDetailScreen extends Component {
   state = { showSearch: false };
 
   componentWillMount() {
-    const { clientHubId, type } = this.props.navigation.state.params;
-    this.clientHubId = clientHubId;
+    const { senderHubId, type } = this.props.navigation.state.params;
+    this.senderHubId = senderHubId;
     this.type = type;
   }
 
@@ -54,8 +54,8 @@ class PickGroupDetailScreen extends Component {
 
   confirmUpdateOrder() {
     // this.props.pdListFetch({})
-    //   .then(() => this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId }));
-    this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId });
+    //   .then(() => this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId }));
+    this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId });
   }
 
   hasUnsynced(pickGroup) {
@@ -121,7 +121,7 @@ class PickGroupDetailScreen extends Component {
         </View>
         </Left>
         <Body style={Styles.bodyStyle}>
-          <Title>{pickGroup.clientName} - {pickGroup.contactName}</Title>
+          <Title>{pickGroup.clientName} - {pickGroup.senderName}</Title>
         </Body>
         <Right style={Styles.rightStyle}>
           <Button
@@ -141,7 +141,7 @@ class PickGroupDetailScreen extends Component {
     const { width } = Dimensions.get('window');
     const type = this.type;
     const Items = type === 'PICK' ? PickItems : ReturnItems;
-    const pickGroup = Items.find(trip => trip.clientHubId === this.clientHubId);
+    const pickGroup = Items.find(trip => trip.senderHubId === this.senderHubId);
     this.pickGroup = pickGroup;
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;

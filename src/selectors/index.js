@@ -5,11 +5,11 @@ import Utils from '../libs/Utils';
 export const getOrders = ({ pd }) => {
   const items = pd.pdsItems === null ? null : pd.pdsItems;
   _.forEach(items, order => {
-    if (order.type === 1) {
+    if (order.type === 'PICK') {
       order.done = Utils.checkPickComplete(order.status);
-    } else if (order.type === 2) {
+    } else if (order.type === 'DELIVER') {
       order.done = Utils.checkDeliveryComplete(order.status);
-    } else if (order.type === 3) {
+    } else if (order.type === 'RETURN') {
       order.done = Utils.checkReturnComplete(order.status);
     }
   });
@@ -23,18 +23,18 @@ export const get3Type = createSelector(
   [getOrders, getShopPGroup, getPgroups],
   (pdsItems, shopPGroup, pgroups) => {
     // console.log('Get3Type');
-    const DeliveryItems = _.filter(pdsItems, o => o.type === 2);
+    const DeliveryItems = _.filter(pdsItems, o => o.type === 'DELIVER');
     
-    let items = _.filter(pdsItems, o => o.type === 1);
+    let items = _.filter(pdsItems, o => o.type === 'PICK');
     const PickOrders = items;
-    let groups = _.groupBy(items, 'clientHubId');
+    let groups = _.groupBy(items, 'senderHubId');
     const PickItems = [];
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
-      const { address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, type } = order;
+      const { address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type } = order;
       
       // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
-      const group = { key: clientHubId, address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, type };
+      const group = { key: senderHubId, address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
       group.ShopOrders = orders;
       // group.ShopOrders.sort((a, b) => {
       //   const x = a.statusChangeDate ? a.statusChangeDate : 0;
@@ -42,7 +42,7 @@ export const get3Type = createSelector(
       //   return x - y;
       // });
       group.done = checkTripDone(group);
-      const shopGroup = shopPGroup[clientHubId];
+      const shopGroup = shopPGroup[senderHubId];
       group.shopGroup = shopGroup;
       group.shopGroupKey = group.done ? 'Đã xong' : shopGroup;
       group.shopGroupName = group.done ? 'Đã xong' : pgroups[shopGroup].groupName;
@@ -54,15 +54,15 @@ export const get3Type = createSelector(
       PickItems.push(group);
     });
 
-    items = _.filter(pdsItems, o => o.type === 3);
+    items = _.filter(pdsItems, o => o.type === 'RETURN');
     const ReturnOrders = items;
-    groups = _.groupBy(items, 'clientHubId');
+    groups = _.groupBy(items, 'senderHubId');
     const ReturnItems = [];
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
-      const { address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, type } = order;
+      const { address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type } = order;
 
-      const group = { key: clientHubId, address, clientHubId, clientId, clientName, contactName, contactPhone, displayOrder, Lat, Lng, type };
+      const group = { key: senderHubId, address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
       group.ShopOrders = orders;
       group.ShopOrders.sort((a, b) => {
         const x = a.statusChangeDate ? a.statusChangeDate : 0;

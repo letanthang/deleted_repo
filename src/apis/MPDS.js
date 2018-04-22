@@ -52,7 +52,7 @@ export const fetchTripInfo = (tripUserId) => {
   return fromPromise(GetUserActivePdsInfo(tripUserId));
 };  
 
-export const GetUserActivePds = (tripCode, offset, limit, timeServer, clientHubId) => {
+export const GetUserActivePds = (tripCode, offset, limit, timeServer) => {
   const URL = `${PDS_URL}/order/search`;
   const LoginHeader = Share.LoginHeader;
 
@@ -63,12 +63,12 @@ export const GetUserActivePds = (tripCode, offset, limit, timeServer, clientHubI
   };
 
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, orderResponse);
+    mock.onGet(URL, config).reply(200, ordersResponse);
   }
   return axios.get(URL, config);
 };
 
-export const fetchTrip = (tripCode, offset, limit, timeServer, clientHubId) => {
+export const fetchTrip = (tripCode, offset, limit, timeServer) => {
   // const URL = `${PDS_URL}/pda/pds/orders`;
   // const LoginHeader = Share.LoginHeader;
 
@@ -79,25 +79,10 @@ export const fetchTrip = (tripCode, offset, limit, timeServer, clientHubId) => {
   //     ...LoginHeader,
   //     'Content-Type': 'application/json',
   //   },
-  //   body: { tripCode, offset, limit, timeServer, clientHubId }
+  //   body: { tripCode, offset, limit, timeServer, senderHubId }
   // });
   return fromPromise(GetUserActivePds(tripCode, offset, limit, timeServer));
 };
-// export const UpdatePickDeliverySession = ({ PDSID, OrderInfos }) => {
-//   const URL = `${PDS_URL}/pdaone/${PDSID}`;
-//   const params = {
-//     PDSID,
-//     OrderInfos
-//   };
-//   const LoginHeader = Share.LoginHeader;
-//   const config = { headers: LoginHeader };
-
-//   if (mockOn) {
-//     mock.onPut(URL, params, config).reply(200, updateResponse);
-//   }
-
-//   return axios.put(URL, params, config);
-// };
 
 export const DoAction = (OrderInfos) => {
   const URL = `${PDS_URL}/doAction/pda`;
@@ -240,8 +225,8 @@ export const getOrderDetail = (code) => {
 // 		}
 // 	]
 // }
-export const AddOrders = (orders) => {
-    const URL = `${PDS_URL}/pds`;
+export const AddOrders = (orders, tripCode) => {
+    const URL = `${PDS_URL}/trip/${tripCode}/add-order`;
     const LoginHeader = Share.LoginHeader;
 
     const config = {
@@ -251,17 +236,25 @@ export const AddOrders = (orders) => {
     const params = {
         orders
     };
+    if (mockOn) {
+      mock.onPut(URL, params, config).reply(200, addOrdersResponse);
+    }
 
     return axios.put(URL, params, config);
 };
 
+export const addOrders = (orders, tripCode) => {
+  return fromPromise(AddOrders(orders, tripCode));
+};
+
 export const GetOrderHistory = (code) => {
-  const URL = `${PDS_URL}/history/order/${code}`;
+  const URL = `${PDS_URL}/order-history/search`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
-    timeout
+    timeout,
+    params: { offset: 0, limit: 100, q: { code } }
   };
 
   if (mockOn) {
@@ -295,188 +288,124 @@ const orderDetailResponse = {
   "status": "OK",
   "data": [
     {
-      "code": "184122056HC7B",
-      "status": "NEW",
-      "hubId": "1220",
-      "createdById": "1006",
-      "createdByName": "Nguyễn Trịnh Khánh Tường",
-      "lastUpdatedById": "1006",
-      "lastUpdatedByName": "Nguyễn Trịnh Khánh Tường",
-      "amountCollected": 0,
-      "amountCollect": 0,
-      "date": "2018-04-20T07:48:00.653Z",
-      "id": "5ad99b30e893788f8f000003",
-      "createdTime": "2018-04-20T07:48:00.653Z",
-      "lastUpdatedTime": "2018-04-20T07:48:00.653Z"
+      "externalCode": "MDHKHDUNGTHU",
+      "driverId": "206353",
+      "driverName": "Nguyễn Trương Quý",
+      "moneyCollect": 0,
+      "length": 1,
+      "width": 1,
+      "height": 1,
+      "weight": 2,
+      "fromDistrictId": "1324",
+      "fromDistrictCode": "70",
+      "fromDistrictName": "GHN TEST LẤY",
+      "toDistrictId": "1324",
+      "toDistrictCode": "71",
+      "toDistrictName": "GHN TEST NHẬN",
+      "senderHubId": "70123",
+      "senderId": "7071",
+      "senderName": "Võ Đức Đạt",
+      "senderPhone": "01674951343",
+      "senderAddress": "70 Địa chỉ lấy test",
+      "receiverId": "",
+      "receiverName": "Dương Ngọc Hằng",
+      "receiverPhone": "01283377234",
+      "receiverAddress": "01283377234",
+      "clientExtraNote": "Mã SP: 9057382729348000914, Tên SP: Sách Ngược Đời Xuôi, Số lượng: 2 Quyển; ",
+      "clientRequiredNote": ""
     }
   ]
 };
 
 
-const orderResponse = {
+const ordersResponse = {
   "status": "OK",
   "data": [
     {
-      "code": "3D91AAQK",
-      "tripCode": "18412200TBFPF",
+      "code": "GHN-TEST-27032018-102",
+      "tripCode": "18414164VNDP8",
       "type": "PICK",
       "status": "PICKING",
       "isUpdatedStatus": false,
       "isCancel": false,
-      "isOutstock": false,
-      "clientAddress": "2 Ngô Đức Kế, Bến Nghé, Quận 1, Hồ Chí Minh",
-      "clientAddressRemoveAccent": "2 Ngo Duc Ke, Ben Nghe, Quan 1, Ho Chi Minh",
-      "clientPhone": "01644143456",
-      "isCollected": false,
-      "date": "2018-04-16T11:08:30.826Z",
-      "id": "5ad4842ee888bdb1f2000012",
-      "createdTime": "2018-04-17T03:29:09.278Z",
-      "lastUpdatedTime": "2018-04-17T03:29:09.278Z"
+      "isScanImport": false,
+      "isOutstock": true,
+      "clientId": "7071",
+      "clientName": "Shopee",
+      "senderAddress": "70 Địa chỉ lấy test",
+      "senderHubId": "12",
+      "receiverAddress": "30 Địa chỉ giao test",
+      "receiverName": "Le Nghia",
+      "receiverPhone": "0908345008",
+      "clientAddressRemoveAccent": "70 Dia chi lay test",
+      "clientPhone": "01674951343",
+      "isCollected": true,
+      "orderId": "270327102",
+      "date": "2018-04-22T01:50:58.248Z",
+      "id": "5adbea82e89962bc3a00000c",
+      "createdTime": "2018-04-22T01:51:02.859Z",
+      "lastUpdatedTime": "2018-04-22T01:51:02.859Z",
+      moneyCollect: 20000
     },
     {
-      "code": "CDENNH9",
+      "code": "GHN-TEST-27032018-100",
+      "tripCode": "18414164VNDP8",
+      "type": "PICK",
       "status": "PICKING",
-      "receiverName": "Bui Van Muc",
-      "receiverPhone": "01668117449",
-      "moneyCollect": 71500,
-      "serviceCost": 0,
-      "Note": "",
-      "log": "",
-      "pickDeliverySessionDetailId": "59c252cfe5c882d9f512581c",
-      "PaymentTypeID": 0,
-      "TotalExtraFee": 0,
-      "weight": 500,
-      "serviceId": 53320,
-      "serviceName": "1 Ngày",
-      "TotalCollectedAmount": 0,
-      "nextStatus": "",
-      "length": 10,
-      "width": 10,
-      "height": 10,
-      "fromDistrictId": 1453,
-      "toDistrictId": 2086,
-      "Lat": 0,
-      "Lng": 0,
-      "fromDistrictCode": "0211",
-      "fromDistrictName": "Quận 11",
-      "IsTrial": 0,
-      "type": 'PICK',
-      "clientId": 1,
-      "clientName": 'Sendo.vn',
-      "contactName": "Cau be vang",
-      "contactPhone": "01668117449",
-      "clientHubId": 653473,
-      "address": "70 Ngo Gia Tu, Ho Chi Minh City, Ho Chi Minh, Vietnam"
+      "isUpdatedStatus": false,
+      "isCancel": false,
+      "isScanImport": false,
+      "isOutstock": true,
+      "clientId": "7071",
+      "clientName": "Shopee",
+      "senderAddress": "70 Địa chỉ lấy test",
+      "senderHubId": "12",
+      "receiverAddress": "40 Địa chỉ giao test",
+      "receiverName": "Van Toan",
+      "receiverPhone": "0933345123",
+      "clientAddressRemoveAccent": "70 Dia chi lay test",
+      "clientPhone": "01674951343",
+      "isCollected": true,
+      "orderId": "270327100",
+      "date": "2018-04-22T01:50:58.248Z",
+      "id": "5adbea82e89962bc3a00000a",
+      "createdTime": "2018-04-22T01:51:02.852Z",
+      "lastUpdatedTime": "2018-04-22T01:51:02.852Z",
+      moneyCollect: 30000
     },
     {
-      "code": "CDENMMM",
-      "status": "STORING",
-      "receiverName": "Le Tan Thang",
-      "receiverPhone": "01668117449",
-      "moneyCollect": 71500,
-      "serviceCost": 0,
-      "Note": "",
-      "log": "",
-      "pickDeliverySessionDetailId": "59c252cfe5c882d9f512581c",
-      "PaymentTypeID": 0,
-      "TotalExtraFee": 0,
-      "weight": 500,
-      "serviceId": 53320,
-      "serviceName": "1 Ngày",
-      "TotalCollectedAmount": 0,
-      "nextStatus": "",
-      "length": 10,
-      "width": 10,
-      "height": 10,
-      "fromDistrictId": 1453,
-      "toDistrictId": 2086,
-      "Lat": 0,
-      "Lng": 0,
-      "fromDistrictCode": "0211",
-      "fromDistrictName": "Quận 11",
-      "IsTrial": 0,
-      "type": 'DELIVER',
-      "clientId": 1,
-      "clientName": 'Sendo.vn',
-      "contactName": "Vi Tinh Ngoi Sao",
-      "contactPhone": "01662777777",
-      "clientHubId": 652273,
-      "address": "70 Ngo Gia Tu, Ho Chi Minh City, Ho Chi Minh, Vietnam"
+      "code": "GHN-TEST-27032018-101",
+      "tripCode": "18414164VNDP8",
+      "type": "DELIVER",
+      "status": "DELIVERING",
+      "isUpdatedStatus": false,
+      "isCancel": false,
+      "isScanImport": false,
+      "isOutstock": true,
+      "clientId": "6000",
+      "senderAddress": "80 Địa chỉ lấy test",
+      "senderHubId": "12",
+      "receiverAddress": "50 Địa chỉ giao test",
+      "clientAddressRemoveAccent": "70 Dia chi lay test",
+      "clientPhone": "01674951343",
+      "isCollected": true,
+      "orderId": "270327101",
+      "date": "2018-04-22T01:50:58.248Z",
+      "id": "5adbea82e89962bc3a000008",
+      "createdTime": "2018-04-22T01:51:02.845Z",
+      "lastUpdatedTime": "2018-04-22T01:51:02.845Z",
+      moneyCollect: 40000
     },
-    {
-      "code": "123NNH9",
-      "status": "PICKING",
-      "receiverName": "Nguoi nhan",
-      "receiverPhone": "01668117449",
-      "moneyCollect": 71500,
-      "serviceCost": 0,
-      "Note": "",
-      "log": "",
-      "pickDeliverySessionDetailId": "59c252cfe5c882d9f512581c",
-      "PaymentTypeID": 0,
-      "TotalExtraFee": 0,
-      "weight": 500,
-      "serviceId": 53320,
-      "serviceName": "1 Ngày",
-      "TotalCollectedAmount": 0,
-      "nextStatus": "",
-      "length": 10,
-      "width": 10,
-      "height": 10,
-      "fromDistrictId": 1453,
-      "toDistrictId": 2086,
-      "Lat": 0,
-      "Lng": 0,
-      "fromDistrictCode": "0211",
-      "fromDistrictName": "Quận 11",
-      "IsTrial": 0,
-      "type": 'PICK',
-      "clientId": 2,
-      "clientName": 'Shoppee',
-      "contactName": "Shop B",
-      "contactPhone": "01668117449",
-      "clientHubId": 653474,
-      "address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
-    },
-    {
-      "code": "JJAAJAA",
-      "status": "RETURNING",
-      "receiverName": "Cường gửi",
-      "receiverPhone": "01668117449",
-      "moneyCollect": 71500,
-      "serviceCost": 0,
-      "Note": "",
-      "log": "",
-      "pickDeliverySessionDetailId": "59c252cfe5c882d9f512581c",
-      "PaymentTypeID": 0,
-      "TotalExtraFee": 0,
-      "weight": 500,
-      "serviceId": 53320,
-      "serviceName": "1 Ngày",
-      "TotalCollectedAmount": 0,
-      "nextStatus": "",
-      "length": 10,
-      "width": 10,
-      "height": 10,
-      "fromDistrictId": 1453,
-      "toDistrictId": 2086,
-      "Lat": 0,
-      "Lng": 0,
-      "fromDistrictCode": "0211",
-      "fromDistrictName": "Quận 11",
-      "IsTrial": 0,
-      "type": 'RETURN',
-      "clientId": 2,
-      "clientName": 'Shoppee',
-      "contactName": "Cường gửi",
-      "contactPhone": "01668555555",
-      "clientHubId": 653474,
-      "address": "70 Lu Gia, Ho Chi Minh City, Ho Chi Minh, Vietnam"
-    }
   ],
   total: 5,
   "message": ""
 }
+
+const addOrdersResponse = {
+  "status": "OK",
+  "data": [
+  ]
+};
 
 
 const configResponse = {

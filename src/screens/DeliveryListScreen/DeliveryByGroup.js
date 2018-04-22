@@ -37,11 +37,11 @@ class DeliveryByGroup extends Component {
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
   }
-  checkKeywork({ clientName, contactName, address }) {
+  checkKeywork({ clientName, senderName, address }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
       || (clientName && clientName.toUpperCase().includes(keyword))
-      || contactName.toUpperCase().includes(keyword)
+      || senderName.toUpperCase().includes(keyword)
       || address.toUpperCase().includes(keyword);
   }
   reloadData() {

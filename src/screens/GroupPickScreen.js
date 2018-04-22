@@ -113,19 +113,19 @@ class GroupPickScreen extends Component {
         
           <FlatList
             data={items}
-            keyExtractor={(item, index) => item.clientHubId}
+            keyExtractor={(item, index) => item.senderHubId}
             renderItem={({ item }) => {
               const order = item;
-              const { address, clientHubId, contactName } = order;
-              const groupChecked = this.state.groupCheck[clientHubId];
+              const { address, senderHubId, senderName } = order;
+              const groupChecked = this.state.groupCheck[senderHubId];
               return (
                 <TouchableOpacity
-                  onPress={this.onOrderChecked.bind(this, clientHubId)}
+                  onPress={this.onOrderChecked.bind(this, senderHubId)}
                 >
                   <View style={Styles.rowStyle}>
                     <View style={[DeliverGroupStyles.col1Style]}>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        {contactName}
+                        {senderName}
                       </Text>
                       <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
                         {address}
@@ -136,7 +136,7 @@ class GroupPickScreen extends Component {
                     >
                       <CheckBox 
                         style={{ backgroundColor: '#fff' }}
-                        onPress={this.onOrderChecked.bind(this, clientHubId)}
+                        onPress={this.onOrderChecked.bind(this, senderHubId)}
                         checked={groupChecked}
                       />
                     </View>

@@ -127,7 +127,7 @@ export default (state = nameInitialState, action) => {
   //     code,
   //     PDSType,
   //     nextStatus,
-  //     clientHubId,
+  //     senderHubId,
   //     StoringCode,
   //     NewDate,
   //     log

@@ -18,21 +18,21 @@ const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'COMPL
 class Utils {
   static getDisplayStatus({ status, nextStatus, type }) {
     let displayStatus = '';
-    if (type === 1) {
+    if (type === 'PICK') {
       if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
         displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
         displayStatus = `*${displayStatus}*`;
       } else {
         displayStatus = pickStatus[status] ? pickStatus[status] : status;
       }
-    } else if (type === 2) {
+    } else if (type === 'DELIVER') {
       if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
         displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
         displayStatus = `*${displayStatus}*`;
       } else {
         displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
       }
-    } else if (type === 3) {
+    } else if (type === 'RETURN') {
       if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
         displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
         displayStatus = `*${displayStatus}*`;
@@ -46,7 +46,7 @@ class Utils {
   static getStatus({ status, nextStatus, type }) {
     let displayStatus = '';
     let alert = false;
-    if (type === 1) {
+    if (type === 'PICK') {
       if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
         displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
         //displayStatus = `*${displayStatus}*`;
@@ -54,7 +54,7 @@ class Utils {
       } else {
         displayStatus = pickStatus[status] ? pickStatus[status] : status;
       }
-    } else if (type === 2) {
+    } else if (type === 'DELIVER') {
       if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
         displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
         // displayStatus = `*${displayStatus}*`;
@@ -62,7 +62,7 @@ class Utils {
       } else {
         displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
       }
-    } else if (type === 3) {
+    } else if (type === 'RETURN') {
       if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
         displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
         // displayStatus = `*${displayStatus}*`;
@@ -195,13 +195,13 @@ class Utils {
     return items[Utils.getKey(code, type)];
   }
 
-  static getReturnGroup(ReturnItems, clientHubId) {
-    const returnGroup = ReturnItems.find(rg => rg.clientHubId === clientHubId);
+  static getReturnGroup(ReturnItems, senderHubId) {
+    const returnGroup = ReturnItems.find(rg => rg.senderHubId === senderHubId);
     return returnGroup;
   }
   static checkPickGroupHasRP(pds, pickGroup) {
-    const { clientHubId } = pickGroup;
-    const returnGroup = pds.ReturnItems.find(rg => rg.clientHubId === clientHubId);
+    const { senderHubId } = pickGroup;
+    const returnGroup = pds.ReturnItems.find(rg => rg.senderHubId === senderHubId);
     if (returnGroup) return true;
     return false;
   }

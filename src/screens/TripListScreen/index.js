@@ -64,11 +64,11 @@ class TripListScreen extends Component {
     // dispatch(resetAction);
   }
   
-  checkKeywork({ clientName, contactName, address }) {
+  checkKeywork({ clientName, senderName, address }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
       || (clientName && clientName.toUpperCase().includes(keyword))
-      || contactName.toUpperCase().includes(keyword)
+      || senderName.toUpperCase().includes(keyword)
       || address.toUpperCase().includes(keyword);
   }
 
@@ -173,7 +173,7 @@ class TripListScreen extends Component {
               onPressItem
               renderItem={({ item, index, section }) => {
                 const { activeSection } = section;
-                const { address, contactName, contactPhone, estimateTotalServiceCost, type, clientHubId } = item;
+                const { address, senderName, senderPhone, estimateTotalServiceCost, type, senderHubId } = item;
                 const ordersNum = item.ShopOrders.length;
                 const completedNum = item.ShopOrders.filter(o => o.done).length;
                 return (
@@ -181,13 +181,13 @@ class TripListScreen extends Component {
                     index={index}
                     activeSection={activeSection}
                     address={address}
-                    contactName={contactName}
-                    contactPhone={contactPhone}
+                    senderName={senderName}
+                    senderPhone={senderPhone}
                     estimateTotalServiceCost={estimateTotalServiceCost}
                     ordersNum={ordersNum}
                     completedNum={completedNum}
                     type={type}
-                    clientHubId={clientHubId}
+                    senderHubId={senderHubId}
                     ReturnItems={this.props.ReturnItems}
                     navigation={this.props.navigation}
                   />

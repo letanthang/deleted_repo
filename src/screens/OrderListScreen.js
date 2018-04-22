@@ -29,17 +29,17 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { code, clientHubId, clientId, type } = order;
+    const { code, senderHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
     switch (type) {
       case 1:
-        navigate('PickOrder', { code, order, clientId, clientHubId });
+        navigate('PickOrder', { code, order, clientId, senderHubId });
         break;
       case 2:
         navigate('DeliveryOrder', { code });
         break;
       case 3:
-        navigate('ReturnOrder', { code, order, clientId, clientHubId });
+        navigate('ReturnOrder', { code, order, clientId, senderHubId });
         break;
       default:
         break;

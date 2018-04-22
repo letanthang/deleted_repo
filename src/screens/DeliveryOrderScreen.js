@@ -150,7 +150,7 @@ class DeliveryOrderScreen extends Component {
     const { goBack } = this.props.navigation;
     const { 
       receiverName, receiverPhone, deliveryAddress, moneyCollect,
-      clientName, contactPhone, requiredNote,
+      clientName, senderPhone, requiredNote,
       displayOrder, soNote
     } = order;
 
@@ -227,9 +227,9 @@ class DeliveryOrderScreen extends Component {
                   iconRight
                   small
                   style={{ paddingLeft: 0 }}
-                  onPress={() => Utils.phoneCall(contactPhone, true)}
+                  onPress={() => Utils.phoneCall(senderPhone, true)}
                 >
-                  <Text>{contactPhone}</Text>
+                  <Text>{senderPhone}</Text>
                   <Icon name='call' />
                 </Button>
             </View>

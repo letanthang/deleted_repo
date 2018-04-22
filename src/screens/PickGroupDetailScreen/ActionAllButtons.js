@@ -16,7 +16,7 @@ class ActionAllButtons extends Component {
   }
   changeInfo(nextStatus) {
     const orders = this.props.orders;
-    const { contactPhone } = orders[0];
+    const { senderPhone } = orders[0];
     
     if (nextStatus === undefined) {
       const OrderInfos = _.map(orders, ({ code, type }) => {
@@ -29,7 +29,7 @@ class ActionAllButtons extends Component {
       this.props.updateOrderInfos(OrderInfos);
       this.setState({ status: nextStatus });
     } else {
-      updateOrderToFailWithReason2(contactPhone, this.props.configuration)
+      updateOrderToFailWithReason2(senderPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           const OrderInfos = _.map(orders, order => getUpdateOrderInfo(order, buttonIndex));

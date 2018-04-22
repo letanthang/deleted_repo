@@ -148,11 +148,11 @@ class TripListScreen extends Component {
     );
   }
   
-  checkKeywork({ clientName, contactName, address }) {
+  checkKeywork({ clientName, senderName, address }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
       || (clientName && clientName.toUpperCase().includes(keyword))
-      || contactName.toUpperCase().includes(keyword)
+      || senderName.toUpperCase().includes(keyword)
       || address.toUpperCase().includes(keyword);
   }
 
@@ -223,7 +223,7 @@ class TripListScreen extends Component {
                 if (!section.activeSection) return null;
                 const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
                 const pickGroup = item;
-                const { address, contactName, contactPhone, estimateTotalServiceCost } = pickGroup;
+                const { address, senderName, senderPhone, estimateTotalServiceCost } = pickGroup;
                 const ordersNum = pickGroup.ShopOrders.length;
                 const completedNum = pickGroup.ShopOrders.filter(o => o.done).length;
                 return (
@@ -237,7 +237,7 @@ class TripListScreen extends Component {
                             style={[Styles.bigTextStyle, Styles.weakColorStyle]}
                             numberOfLines={1}
                           >
-                            {contactName}
+                            {senderName}
                           </Text>
                           {this.renderCheckedIcon(ordersNum, completedNum)}
                         </View>
@@ -262,7 +262,7 @@ class TripListScreen extends Component {
                           <Button
                             small
                             transparent
-                            onPress={() => Utils.phoneCall(contactPhone, true)}
+                            onPress={() => Utils.phoneCall(senderPhone, true)}
                             style={{ paddingRight: 0 }}
                           >
                             <Icon name='call' />

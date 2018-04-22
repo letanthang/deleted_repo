@@ -14,7 +14,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { calculateServiceFee, updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
 
-let clientHubId = null;
+let senderHubId = null;
 let code = null;
 let clientId = null;
 let waitToSave = false;
@@ -24,7 +24,7 @@ class POUpdateWeightSizeScreen extends Component {
 
   componentWillMount() {
     code = this.props.navigation.state.params.code;
-    clientHubId = this.props.navigation.state.params.clientHubId;
+    senderHubId = this.props.navigation.state.params.senderHubId;
     clientId = this.props.navigation.state.params.clientId;
   }
 
@@ -77,7 +77,7 @@ class POUpdateWeightSizeScreen extends Component {
       height,
       weight,
       clientId,
-      clientHubId,
+      senderHubId,
       code,
       tripCode,
       ServiceFee

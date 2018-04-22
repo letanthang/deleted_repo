@@ -20,11 +20,11 @@ class PickConfirmScreen extends Component {
   state = { modalShow: false, signature: null }
   componentWillMount() {
     // clientId = this.props.navigation.state.params.clientId;
-    this.clientHubId = this.props.navigation.state.params.clientHubId;
+    this.senderHubId = this.props.navigation.state.params.senderHubId;
     this.type = this.props.navigation.state.params.type;
     const { PickItems, ReturnItems } = this.props;
     const Items = this.type === 'RETURN' ? ReturnItems : PickItems;
-    this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
+    this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     // if (!this.checkDone() || this.checkRealDone()) {
     //   Alert.alert(
     //     'Không thể cập nhật',
@@ -43,7 +43,7 @@ class PickConfirmScreen extends Component {
  
 
   componentWillReceiveProps({ PickItems }) {
-    this.pickGroup = PickItems.find(g => g.clientHubId === this.clientHubId);
+    this.pickGroup = PickItems.find(g => g.senderHubId === this.senderHubId);
   }
 
   checkCompleteForUnsync(o) {
@@ -100,7 +100,7 @@ class PickConfirmScreen extends Component {
     const { navigate, goBack } = this.props.navigation;
 
     if (!this.pickGroup) return null;
-    const { contactName, totalServiceCost, sucessUnsyncedNum } = this.pickGroup;
+    const { senderName, totalServiceCost, sucessUnsyncedNum } = this.pickGroup;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -130,7 +130,7 @@ class PickConfirmScreen extends Component {
             </View>
             <View style={Styles.rowStyle}> 
               <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Tên Shop</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{contactName}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{senderName}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Số lượng đơn hàng thành công</Text>

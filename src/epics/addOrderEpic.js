@@ -13,11 +13,11 @@ import { } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 
-export const updateWeightSizeEpic = action$ =>
-  action$.ofType(PD_UPDATE_WEIGHT_SIZE)
+export const addOrderEpic = (action$, store) =>
+  action$.ofType(PD_ADD_ORDER)
     .map(action => action.payload)
-    .mergeMap(({ length, width, height, weight, clientId, clientHubId, code, tripCode, ServiceFee }) =>
-      API.AddOrders([code], getState().pd.tripCode)
+    .mergeMap(({ order }) =>
+      API.addOrders([order], store.getState().pd.tripCode)
         .map(({ data }) => {
           const response = data;
           switch (response.status) {
@@ -25,7 +25,7 @@ export const updateWeightSizeEpic = action$ =>
               return {
                 type: PD_ADD_ORDER_SUCCESS,
                 payload: { order }
-              }
+              };
             default:
               return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message } };
           }

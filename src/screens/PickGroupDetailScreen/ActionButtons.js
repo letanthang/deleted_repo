@@ -13,7 +13,7 @@ class ActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const { order, animated } = this.props;
-    const { code, type, contactPhone } = this.props.order;
+    const { code, type, senderPhone } = this.props.order;
     let info = {};
     if (nextStatus === undefined) {
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
@@ -27,7 +27,7 @@ class ActionButtons extends Component {
     } else {
       //failed to pick
       info.success = nextStatus;
-      updateOrderToFailWithReason2(contactPhone, this.props.configuration, code)
+      updateOrderToFailWithReason2(senderPhone, this.props.configuration, code)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation

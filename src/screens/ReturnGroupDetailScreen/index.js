@@ -23,7 +23,7 @@ class PickGroupDetailScreen extends Component {
 
   componentWillMount() {
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-    this.clientHubId = this.pickGroup.clientHubId;
+    this.senderHubId = this.pickGroup.senderHubId;
     this.type = this.pickGroup.type;
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
@@ -31,7 +31,7 @@ class PickGroupDetailScreen extends Component {
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
-    this.pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
+    this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
@@ -52,8 +52,8 @@ class PickGroupDetailScreen extends Component {
 
   confirmUpdateOrder() {
     // this.props.pdListFetch({})
-    //   .then(() => this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId, type: 'RETURN' }));
-    this.props.navigation.navigate('PickConfirm', { clientHubId: this.clientHubId, type: 'RETURN' });
+    //   .then(() => this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId, type: 'RETURN' }));
+    this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId, type: 'RETURN' });
   }
 
   hasUnsynced(pickGroup) {
@@ -122,7 +122,7 @@ class PickGroupDetailScreen extends Component {
         </View>
         </Left>
         <Body style={Styles.bodyStyle}>
-          <Title>{pickGroup.clientName} - {pickGroup.contactName}</Title>
+          <Title>{pickGroup.clientName} - {pickGroup.senderName}</Title>
         </Body>
         <Right style={Styles.rightStyle}>
           <Button
@@ -141,7 +141,7 @@ class PickGroupDetailScreen extends Component {
     const { width } = Dimensions.get('window');
     const { type } = this.pickGroup;
     const Items = type === 'PICK' ? PickItems : ReturnItems;
-    const pickGroup = Items.find(trip => trip.clientHubId === this.clientHubId); 
+    const pickGroup = Items.find(trip => trip.senderHubId === this.senderHubId); 
     return (
       
       <Container style={{ backgroundColor: Colors.background }}>

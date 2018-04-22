@@ -24,14 +24,14 @@ class PickGroupDetail extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
   
   pickGroup = null;
-  clientHubId = null;
+  senderHubId = null;
   type = null;
   order = {};
   
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
     this.pickGroup = this.props.navigation.state.params.pickGroup;
-    this.clientHubId = this.pickGroup.clientHubId;
+    this.senderHubId = this.pickGroup.senderHubId;
     this.type = this.pickGroup.type;
   }
 
@@ -42,7 +42,7 @@ class PickGroupDetail extends Component {
   checkRealDone() {
     const { PickItems, ReturnItems } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
+    const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     const orders = pickGroup.ShopOrders.filter(o => !o.done);
     if (orders.length === 0) return true;
     return false;
@@ -56,12 +56,12 @@ class PickGroupDetail extends Component {
   }
   onOrderPress(order) {
     const { code } = order;
-    const { clientId, clientHubId } = this.pickGroup;
+    const { clientId, senderHubId } = this.pickGroup;
     
     if (this.type === 'PICK') {
-      navigateOnce(this, 'PickOrder', { code, order, clientId, clientHubId });
+      navigateOnce(this, 'PickOrder', { code, order, clientId, senderHubId });
     } else if (this.type === 'RETURN') {
-      navigateOnce(this, 'ReturnOrder', { code, order, clientHubId });
+      navigateOnce(this, 'ReturnOrder', { code, order, senderHubId });
     }
   }
 
@@ -85,7 +85,7 @@ class PickGroupDetail extends Component {
     console.log('ReturnGroupDetail render!');
     const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
-    const pickGroup = Items.find(g => g.clientHubId === this.clientHubId);
+    const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
     const hidden = orders.length === 0 || keyword !== '' || this.checkRealDone();
 

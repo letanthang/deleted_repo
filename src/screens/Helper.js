@@ -50,7 +50,7 @@ export function getDeliveryDoneOrderInfo(order, newDate = null) {
 }
 
 export function updateOrderToFailWithReason2(phone, configuration, code = null) {
-  const contactPhone = phone;
+  const senderPhone = phone;
   const title = code ? `Chọn lý do lỗi cho đơn ${code}` : `Chọn lý do lỗi cho tất cả các đơn này`;
   return new Promise((resolve, reject) => {
     ActionSheet.show(

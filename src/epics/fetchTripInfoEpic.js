@@ -12,14 +12,14 @@ import * as API from '../apis/MPDS';
 const fetchTripInfoEpic = (action$, store) =>
   action$.ofType(PDLIST_FETCH)
     .map(action => action.payload)
-    .mergeMap(() =>
+    .mergeMap(({ all }) =>
       API.fetchTripInfo(store.getState().auth.userID)
         .map(({ data }) => {
           const response = data;
           //console.log(response);
           switch (response.status) {
             case 'OK':
-              return fetchTripInfoSuccess(response);
+              return fetchTripInfoSuccess(response, all);
             case 'NOT_FOUND': {
               if (response.message === 'Not found pds.') {
                 return pdListFetchNoTrip();

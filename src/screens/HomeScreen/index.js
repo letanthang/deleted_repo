@@ -89,7 +89,7 @@ class HomeScreen extends Component {
     this.setState({ showSearch: !this.state.showSearch });
   }
   reloadData() {
-    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer });
+    this.props.pdListFetch({});
   }
 
   renderHeader() {

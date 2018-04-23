@@ -29,8 +29,8 @@ export const updateProgress = (progress, loading) => {
   return { type: OTHER_SET_PROPS, payload: { progress, loading } };
 };
 
-export const pdListFetch = ({ all = true, timeServer = null, senderHubId = null }) => {
-  return { type: PDLIST_FETCH, payload: { all, timeServer, senderHubId } }; 
+export const pdListFetch = ({ all, senderHubId = null }) => {
+  return { type: PDLIST_FETCH, payload: { all, senderHubId } }; 
 };
 
 export const pdListFetchNoTrip = () => {
@@ -47,10 +47,10 @@ export const fetchTripDataFail = (error) => {
   return { type: PDLIST_FETCH_FAIL, payload: { error } };
 };
 
-export const fetchTripInfoSuccess = (response) => {
+export const fetchTripInfoSuccess = (response, all) => {
   return { 
     type: PD_FETCH_TRIP_INFO_SUCCESS, 
-    payload: { info: response.data[0] }
+    payload: { info: response.data[0], all }
   };
 };
 
@@ -118,8 +118,8 @@ export const updateOrderGroup = (updateList) => {
   };
 };
 
-export const addOneOrder = (order) => {
-  return { type: PD_ADD_ORDER, payload: { order } };
+export const addOneOrder = (code, type) => {
+  return { type: PD_ADD_ORDER, payload: { order: { code, type } } };
 };
 
 export const updateOrderInfo = (code, type, info) => {

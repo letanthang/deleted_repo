@@ -45,7 +45,7 @@ class DeliveryByGroup extends Component {
       || receiverAddress.toUpperCase().includes(keyword);
   }
   reloadData() {
-    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer });
+    this.props.pdListFetch({});
   }
 
   render() {

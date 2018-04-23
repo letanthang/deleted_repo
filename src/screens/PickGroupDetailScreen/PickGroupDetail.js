@@ -119,7 +119,7 @@ class PickGroupDetail extends Component {
   }
 
   reloadData() {
-    this.props.pdListFetch({ all: false, timeServer: this.props.timeServer });
+    this.props.pdListFetch({});
   }
 
   render() {

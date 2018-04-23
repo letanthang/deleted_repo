@@ -5,7 +5,7 @@ import {
   Container, Header, Left, Body,
   Content, Icon, Button
 } from 'native-base';
-import { changeOrderCode, getOrder } from '../actions';
+import { changeOrderCode, addOneOrder } from '../actions';
 import { Styles } from '../Styles';
 
 class AddOrderScreen extends Component {
@@ -17,7 +17,7 @@ class AddOrderScreen extends Component {
     const { code, pdsItems } = this.props;
     const disabled = this.props.code.length < 7;
     const style = disabled ? Styles.addButtonDisableStyle : Styles.addButtonStyle;
-
+    console.log(disabled);
     return (
       <Container>
         <Header>
@@ -52,17 +52,16 @@ class AddOrderScreen extends Component {
             <View style={{ paddingTop: 16 }}>
               <TouchableOpacity
                 disabled={disabled}
-                onPress={() => this.props.getOrder(code)}
+                onPress={() => this.props.addOneOrder(code, 'PICK')}
                 style={style}
               >
-                <Text style={{ color: '#FFF' }}>Kiểm tra đơn</Text>
+                <Text style={{ color: '#FFF' }}>Thêm đơn</Text>
               </TouchableOpacity>
             </View>
           </View>
           :
           <View><Text>Hiện chưa có chuyến đi.</Text></View>}
         </Content>
-
       </Container>
     );
   }
@@ -75,4 +74,4 @@ const mapStateToProps = (state) => {
   return { code, order, pdsItems };
 };
 
-export default connect(mapStateToProps, { changeOrderCode, getOrder })(AddOrderScreen);
+export default connect(mapStateToProps, { changeOrderCode, addOneOrder })(AddOrderScreen);

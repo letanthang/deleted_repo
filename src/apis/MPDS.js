@@ -52,13 +52,13 @@ export const fetchTripInfo = (tripUserId) => {
   return fromPromise(GetUserActivePdsInfo(tripUserId));
 };  
 
-export const GetUserActivePds = (tripCode, offset, limit, timeServer) => {
+export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime) => {
   const URL = `${PDS_URL}/order/search`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
-    params: { offset, limit, fromDate: timeServer, q: { tripCode } },
+    params: { offset, limit, fromDate: lastUpdatedTime, q: { tripCode } },
     timeout
   };
 
@@ -68,7 +68,7 @@ export const GetUserActivePds = (tripCode, offset, limit, timeServer) => {
   return axios.get(URL, config);
 };
 
-export const fetchTrip = (tripCode, offset, limit, timeServer) => {
+export const fetchTrip = (tripCode, offset, limit, lastUpdatedTime) => {
   // const URL = `${PDS_URL}/pda/pds/orders`;
   // const LoginHeader = Share.LoginHeader;
 
@@ -81,7 +81,7 @@ export const fetchTrip = (tripCode, offset, limit, timeServer) => {
   //   },
   //   body: { tripCode, offset, limit, timeServer, senderHubId }
   // });
-  return fromPromise(GetUserActivePds(tripCode, offset, limit, timeServer));
+  return fromPromise(GetUserActivePds(tripCode, offset, limit, lastUpdatedTime));
 };
 
 export const DoAction = (OrderInfos) => {
@@ -426,7 +426,7 @@ const ordersResponse = {
       }
     },
   ],
-  total: 5,
+  total: 3,
   "message": ""
 }
 

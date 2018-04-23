@@ -9,11 +9,11 @@ import 'rxjs/add/operator/ignoreElements';
 import { combineEpics } from 'redux-observable';
 
 import { PD_ADD_ORDER, PD_ADD_ORDER_SUCCESS, PD_ADD_ORDER_FAIL } from '../actions/types';
-import { } from '../actions';
+import { pdListFetch } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 
-export const addOrderEpic = (action$, store) =>
+const addOrderEpic = (action$, store) =>
   action$.ofType(PD_ADD_ORDER)
     .map(action => action.payload)
     .mergeMap(({ order }) =>
@@ -32,9 +32,15 @@ export const addOrderEpic = (action$, store) =>
         }) 
         .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } }))
     );
-    
 
-// export default combineEpics(
-//   loginUserEpic,
-//   logoutUserAlertEpic
-// );
+const reloadEpic = (action$) =>
+  action$.ofType(PD_ADD_ORDER_SUCCESS)
+    .map(action => action.payload)
+    .do(({ order }) => Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success'))
+    .delay(100)
+    .mergeMap(() => of(pdListFetch({})));
+
+export default combineEpics(
+  addOrderEpic,
+  reloadEpic
+);

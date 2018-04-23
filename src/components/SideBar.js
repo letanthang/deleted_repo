@@ -37,7 +37,7 @@ class SideBar extends Component {
     //this.props.navigation.navigate('Home', { needUpdateData: true });
     
     this.props.navigation.navigate('DrawerClose');
-    this.props.pdListFetch({})
+    this.props.pdListFetch({ all: true });
       // .then(result => {
       //   if (result) Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
       // });

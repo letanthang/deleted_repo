@@ -13,7 +13,7 @@ import { } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 
-export const updateWeightSizeEpic = action$ =>
+const updateWeightSizeEpic = action$ =>
   action$.ofType(PD_UPDATE_WEIGHT_SIZE)
     .map(action => action.payload)
     .mergeMap(({ length, width, height, weight, clientId, senderHubId, code, tripCode, ServiceFee }) =>
@@ -32,7 +32,8 @@ export const updateWeightSizeEpic = action$ =>
       })
       .catch(error => of({ type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: error.message } }))
     );
-    
+
+export default updateWeightSizeEpic;
 
 // export default combineEpics(
 //   loginUserEpic,

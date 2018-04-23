@@ -6,7 +6,7 @@ import {
   PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
-  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, PD_ADD_ORDER_SUCCESS
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -36,14 +36,12 @@ export default (state = nameInitialState, action) => {
       // turn on spinner
       return { ...state, loading: true, error: '' };
     case PD_FETCH_TRIP_INFO_SUCCESS: {
-      const { driverName, createdByName, createdByPhone, code, lastUpdatedTime, timeServer } = action.payload.info;
-      
+      const { driverName, createdByName, createdByPhone, code } = action.payload.info;
       let newState = {
         ...state,
         Infos: { driverName, createdByName, createdByPhone },
         tripCode: code,
-        lastUpdatedTime,
-        timeServer
+        lastUpdatedTime: new Date().toISOString()
       };
 
       if (state.tripCode !== newState.tripCode) { 
@@ -177,7 +175,7 @@ export default (state = nameInitialState, action) => {
       };
     }
 
-    case PD_ADD_ORDER_START:
+    case PD_ADD_ORDER:
       return {
         ...state,
         addOrderLoading: true
@@ -187,13 +185,13 @@ export default (state = nameInitialState, action) => {
         ...state,
         addOrderLoading: false
       };
-    case PD_ADD_ORDER: {
-      const order = action.payload.order;
-      const pdsItems = _.cloneDeep(state.pdsItems);
-      pdsItems[getKey(order.code, order.type)] = order;
+    case PD_ADD_ORDER_SUCCESS: {
+      // const order = action.payload.order;
+      // const pdsItems = _.cloneDeep(state.pdsItems);
+      // pdsItems[getKey(order.code, order.type)] = order;
       return {
         ...state,
-        pdsItems,
+        // pdsItems,
         addOrderLoading: false,
         error: '',
       };

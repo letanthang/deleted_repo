@@ -29,7 +29,7 @@ export const updateProgress = (progress, loading) => {
   return { type: OTHER_SET_PROPS, payload: { progress, loading } };
 };
 
-export const pdListFetch = ({ all, senderHubId = null }) => {
+export const pdListFetch = ({ all, senderHubId }) => {
   return { type: PDLIST_FETCH, payload: { all, senderHubId } }; 
 };
 
@@ -38,19 +38,19 @@ export const pdListFetchNoTrip = () => {
 };
 
 
-export const fetchTripDataSuccess = (response, all, page, totalPage, more) => {
+export const fetchTripDataSuccess = (response, all, senderHubId, page, totalPage, more) => {
   const pdsItems = response.data;
-  return { type: PDLIST_FETCH_SUCCESS, payload: { pdsItems, all, page, totalPage, more } };
+  return { type: PDLIST_FETCH_SUCCESS, payload: { pdsItems, all, senderHubId, page, totalPage, more } };
 };
 
 export const fetchTripDataFail = (error) => {
   return { type: PDLIST_FETCH_FAIL, payload: { error } };
 };
 
-export const fetchTripInfoSuccess = (response, all) => {
+export const fetchTripInfoSuccess = (response, all, senderHubId) => {
   return { 
     type: PD_FETCH_TRIP_INFO_SUCCESS, 
-    payload: { info: response.data[0], all }
+    payload: { info: response.data[0], all, senderHubId }
   };
 };
 
@@ -118,8 +118,8 @@ export const updateOrderGroup = (updateList) => {
   };
 };
 
-export const addOneOrder = (code, type) => {
-  return { type: PD_ADD_ORDER, payload: { order: { code, type } } };
+export const addOneOrder = (code, type, senderHubId) => {
+  return { type: PD_ADD_ORDER, payload: { order: { code, type, senderHubId } } };
 };
 
 export const updateOrderInfo = (code, type, info) => {

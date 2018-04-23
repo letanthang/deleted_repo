@@ -23,9 +23,9 @@ const limitNum = 30;
 const fetchTripsEpic = (action$, store) =>
   action$.ofType(PD_FETCH_TRIP_INFO_SUCCESS)
     .map(action => action.payload)
-    .mergeMap(({ all }) => {
+    .mergeMap(({ all, senderHubId }) => {
       const lastUpdatedTime = all === true ? null : store.getState().pd.lastUpdatedTime;
-      return API.fetchTrip(store.getState().pd.tripCode, 0, limitNum, lastUpdatedTime)
+      return API.fetchTrip(store.getState().pd.tripCode, 0, limitNum, lastUpdatedTime, senderHubId)
         .map(({ data }) => {
           const response = data;
           // console.log(response);
@@ -35,7 +35,7 @@ const fetchTripsEpic = (action$, store) =>
               const total = response.total;
               const more = (total > limitNum);
               const totalPage = Math.ceil(total / limitNum);
-              return fetchTripDataSuccess(response, all, 1, totalPage, more);
+              return fetchTripDataSuccess(response, all, senderHubId, 1, totalPage, more);
             }
               
             case 'NOT_FOUND':
@@ -52,9 +52,9 @@ const fetchTripsMoreEpic = (action$, store) =>
   action$.ofType(PDLIST_FETCH_SUCCESS)
     .map(action => action.payload)
     .filter(payload => payload.more === true)
-    .mergeMap(({ all, page }) => {
+    .mergeMap(({ all, page, senderHubId }) => {
       const lastUpdatedTime = all === true ? null : store.getState().pd.lastUpdatedTime;
-      return API.fetchTrip(store.getState().pd.tripCode, page * limitNum, limitNum, lastUpdatedTime)
+      return API.fetchTrip(store.getState().pd.tripCode, page * limitNum, limitNum, lastUpdatedTime, senderHubId)
         .map(({ data }) => {
           const response = data;
           const total = response.total;
@@ -63,7 +63,7 @@ const fetchTripsMoreEpic = (action$, store) =>
           
           switch (response.status) {
             case 'OK':
-              return fetchTripDataSuccess(response, all, page + 1, totalPage, more);
+              return fetchTripDataSuccess(response, all, senderHubId, page + 1, totalPage, more);
             case 'NOT_FOUND':
               return fetchTripDataFail('SERVICE NOT FOUND');
             default:

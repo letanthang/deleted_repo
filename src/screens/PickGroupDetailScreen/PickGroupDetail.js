@@ -110,7 +110,8 @@ class PickGroupDetail extends Component {
     newOrder.type = 'DELIVER';
     newOrder.status = 'DELIVERING';
     newOrder.Group = null;
-    this.props.addOneOrder(newOrder);
+    const { code, type, senderHubId } = newOrder;
+    this.props.addOneOrder(code, type, senderHubId);
   }
 
   checkDelivering(order) {

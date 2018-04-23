@@ -31,10 +31,10 @@ export const get3Type = createSelector(
     const PickItems = [];
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
-      const { address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type } = order;
+      const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type } = order;
       
       // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
-      const group = { key: senderHubId, address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
+      const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
       group.ShopOrders = orders;
       // group.ShopOrders.sort((a, b) => {
       //   const x = a.statusChangeDate ? a.statusChangeDate : 0;
@@ -60,9 +60,9 @@ export const get3Type = createSelector(
     const ReturnItems = [];
     _.forEach(groups, (orders, key) => {
       const order = orders[0];
-      const { address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type } = order;
+      const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type } = order;
 
-      const group = { key: senderHubId, address, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
+      const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
       group.ShopOrders = orders;
       group.ShopOrders.sort((a, b) => {
         const x = a.statusChangeDate ? a.statusChangeDate : 0;

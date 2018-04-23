@@ -137,7 +137,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
-    const order = Utils.getOrder(this.props.db, code, 1);
+    const order = Utils.getOrder(this.props.db, code, 'PICK');
     const { moneyCollect, weight, length, width, height } = order;
     
     if (this.state.weight === null) {

@@ -23,13 +23,13 @@ class ReturnOrderScreen extends Component {
   state = { modalShow: false } 
   componentWillMount() {
     code = this.props.navigation.state.params.code;
-    order = Utils.getOrder(this.props.db, code, 3);
+    order = Utils.getOrder(this.props.db, code, 'RETURN');
     this.props.getOrderHistory(code);
   }
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, code, 3);
+    const newOrder = Utils.getOrder(db, code, 'RETURN');
     if (order.status !== newOrder.status) {
       this.props.navigation.goBack();
     }

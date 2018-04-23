@@ -29,7 +29,7 @@ export default function configureStore() {
     // other store enhancers if any
   ));
   const persistor = persistStore(store);
-  //persistor.purge();
+  // persistor.purge();
   sagaMiddleware.run(mySaga);
 
   if (module.hot) {

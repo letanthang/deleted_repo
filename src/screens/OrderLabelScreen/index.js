@@ -40,7 +40,7 @@ class OrderLabelScreen extends Component {
 
   render() {
     const code = this.props.navigation.state.params.code;
-    const order = Utils.getOrder(this.props.db, code, 1);
+    const order = Utils.getOrder(this.props.db, code, 'PICK');
     console.log('OrderLabel render');
     const { navigate, goBack } = this.props.navigation;
     const { receiverName, receiverAddress, receiverPhone } = order;

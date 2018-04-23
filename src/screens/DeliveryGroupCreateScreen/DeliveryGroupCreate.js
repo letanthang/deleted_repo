@@ -26,7 +26,7 @@ class DeliveryGroupCreate extends Component {
     const list = items.filter(o => o.groupChecked === true);
     const orders = {};
     list.forEach(o => {
-      const key = Utils.getKey(o.code, 2);
+      const key = Utils.getKey(o.code, 'DELIVER');
       orders[key] = _.clone(o);
       orders[key].group = this.state.groupName;
     });

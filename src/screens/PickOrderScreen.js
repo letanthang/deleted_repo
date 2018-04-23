@@ -33,7 +33,7 @@ class PickOrderScreen extends Component {
     clientId = this.props.navigation.state.params.clientId;
     senderHubId = this.props.navigation.state.params.senderHubId;
     code = this.props.navigation.state.params.code;
-    order = Utils.getOrder(this.props.db, code, 1);
+    order = Utils.getOrder(this.props.db, code, 'PICK');
     this.props.getOrderHistory(code);
   }
   componentDidMount() {
@@ -42,7 +42,7 @@ class PickOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, code, 1);
+    const newOrder = Utils.getOrder(db, code, 'PICK');
     if (order.status !== newOrder.status) {
       this.props.navigation.goBack();
     }

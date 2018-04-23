@@ -37,12 +37,12 @@ class DeliveryByGroup extends Component {
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
   }
-  checkKeywork({ clientName, senderName, address }) {
+  checkKeywork({ clientName, senderName, receiverAddress }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
       || (clientName && clientName.toUpperCase().includes(keyword))
       || senderName.toUpperCase().includes(keyword)
-      || address.toUpperCase().includes(keyword);
+      || receiverAddress.toUpperCase().includes(keyword);
   }
   reloadData() {
     this.props.pdListFetch({ all: false, timeServer: this.props.timeServer });

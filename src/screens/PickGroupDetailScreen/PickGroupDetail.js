@@ -114,7 +114,7 @@ class PickGroupDetail extends Component {
   }
 
   checkDelivering(order) {
-    if (Utils.getOrder(this.props.db, order.code, 2)) return true;
+    if (Utils.getOrder(this.props.db, order.code, 'DELIVER')) return true;
     return false;
   }
 

@@ -208,7 +208,7 @@ export default (state = nameInitialState, action) => {
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
       const pdsItems = _.cloneDeep(state.pdsItems);
       const { code, serviceCost, length, width, height, weight } = action.payload;
-      const order = Utils.getOrder(pdsItems, code, 1);
+      const order = Utils.getOrder(pdsItems, code, 'PICK');
       if (order.moneyCollect != 0) {
         order.moneyCollect = serviceCost;
       }
@@ -272,7 +272,7 @@ export default (state = nameInitialState, action) => {
     case PD_TOGGLE_ORDER_GROUP: {
       const { code } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const order = pdsItems[getKey(code, 2)];
+      const order = pdsItems[getKey(code, 'DELIVER')];
       order.groupChecked = !order.groupChecked;
       return { ...state, pdsItems };
     }
@@ -371,8 +371,11 @@ const getKey = (orderID, type) => `${orderID}-${type}`;
 const transformPDS = (pdsItems) => {
   const temp = {};
   pdsItems.forEach(item => {
-    delete item.nextStatus;
-    temp[getKey(item.code, item.type)] = item;
+    const key = getKey(item.code, item.type);
+    temp[key] = { ...item, ...item.extraInfo };
+    temp[key].address = temp[key].type === 'DELIVER' ? temp[key].receiverAddress : temp[key].senderAddress;
+    delete temp[key].nextStatus;
+    delete temp[key].extraInfo;
   });
   return temp;
 };

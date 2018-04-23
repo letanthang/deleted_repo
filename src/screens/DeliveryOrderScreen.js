@@ -24,7 +24,7 @@ class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
     code = this.props.navigation.state.params.code;
-    order = Utils.getOrder(this.props.db, code, 2);
+    order = Utils.getOrder(this.props.db, code, 'DELIVER');
     this.props.getOrderHistory(code);
   }
 
@@ -34,7 +34,7 @@ class DeliveryOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.db != nextProps.db) {
-      const newOrder = Utils.getOrder(nextProps.db, code, 2);
+      const newOrder = Utils.getOrder(nextProps.db, code, 'DELIVER');
       if (order.status !== newOrder.status) {
         this.props.navigation.goBack();
       }

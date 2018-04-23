@@ -32,7 +32,7 @@ function* updateOrderStatus(act) {
       return { code, tripCode, nextDate, failCode: noteId, failNote: note, action };
     });
 
-    const response = yield call(Api.updateOrderStatus, filterInfos);
+    const response = yield call(Api.DoAction, filterInfos);
     const json = response.data;
     if (json.status === 'OK') {
       yield put(updateOrderStatusSuccess(OrderInfos, json.data[0].listFail));

@@ -29,7 +29,7 @@ function* updateOrderStatus(act) {
     //transform OrderInfos
     const filterInfos = OrderInfos.map(info => {
       const { code, nextDate, noteId, note, action } = info;
-      return { code, tripCode, nextDate, failCode: noteId, failNote: note, action };
+      return { code, tripCode, nextRedoTime: nextDate, failCode: noteId, failNote: note, action };
     });
 
     const response = yield call(Api.DoAction, filterInfos);

@@ -32,7 +32,7 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, newDate = null) {
   const noteId = CODES[buttonIndex]; 
   const note = BUTTONS[buttonIndex];
   const nextStatus = 'FAIL_TO_DELIVER';
-  const action = 'DO_DELIVER_FAIL';
+  const action = 'DELIVER_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
   return { code, nextDate, newDate, noteId, note, action, nextStatus, type, success };
@@ -43,7 +43,7 @@ export function getDeliveryDoneOrderInfo(order, newDate = null) {
   const noteId = 'POD'; 
   const note = '';
   const nextStatus = 'DELIVERED';
-  const action = 'DO_DELIVER_SUCCESS';
+  const action = 'DELIVER_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
   return { code, nextDate, newDate, noteId, note, action, nextStatus, type, success };

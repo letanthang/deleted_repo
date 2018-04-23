@@ -188,10 +188,10 @@ class HomeScreen extends Component {
     const marginLeft = Platform.OS === 'ios' ? 0 : 10;
     const marginRight = Platform.OS === 'ios' ? 0 : -10;
     const paddingTop = Platform.OS === 'ios' ? 4 : 8;
-    const { pdsItems, timeServer } = this.props;
-    const showTime = timeServer ? moment(timeServer).format('LT DD/MM ') : '';
+    const { pdsItems, lastUpdatedTime } = this.props;
+    const showTime = lastUpdatedTime ? moment(lastUpdatedTime).format('LT DD/MM ') : '';
     const ordersNum = pdsItems ? Object.keys(pdsItems).length : 0;
-
+    console.log(lastUpdatedTime);
     // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
       <Content 
@@ -348,12 +348,12 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { error, pdsItems, timeServer } = state.pd;
+  const { error, pdsItems, lastUpdatedTime } = state.pd;
   const { loaded, progress, loading } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
-  return { loading, loaded, error, user, stats, pdsItems, progress, timeServer };
+  return { loading, loaded, error, user, stats, pdsItems, progress, lastUpdatedTime };
 };
 
 export default connect(mapStateToProps, { pdListFetch, setLoaded, stopLoading })(HomeScreen);

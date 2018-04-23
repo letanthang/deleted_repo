@@ -16,7 +16,7 @@ import Utils from '../libs/Utils';
 const addOrderEpic = (action$, store) =>
   action$.ofType(PD_ADD_ORDER)
     .map(action => action.payload)
-    .mergeMap(({ order }) =>
+    .mergeMap(({ order, senderHubId }) =>
       API.addOrders([order], store.getState().pd.tripCode)
         .map(({ data }) => {
           const response = data;
@@ -24,7 +24,7 @@ const addOrderEpic = (action$, store) =>
             case 'OK':
               return {
                 type: PD_ADD_ORDER_SUCCESS,
-                payload: { order }
+                payload: { order, senderHubId }
               };
             default:
               return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message } };
@@ -38,7 +38,7 @@ const reloadEpic = (action$) =>
     .map(action => action.payload)
     .do(({ order }) => Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success'))
     .delay(100)
-    .mergeMap(({ order }) => of(pdListFetch({ senderHubId: order.senderHubId })));
+    .mergeMap(({ senderHubId }) => of(pdListFetch({ senderHubId })));
 
 export default combineEpics(
   addOrderEpic,

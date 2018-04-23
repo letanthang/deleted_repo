@@ -8,7 +8,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = true;
+const mockOn = false;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
@@ -16,6 +16,7 @@ const timeout = 20000;
 // const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
 // const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
 const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
 const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
@@ -26,7 +27,7 @@ export const GetUserActivePdsInfo = (tripUserId) => {
   
     const config = {
       headers: LoginHeader,
-      params: { q: { driverId: tripUserId } },
+      params: { q: { driverId: tripUserId, status: 'ON_TRIP' } },
       timeout
     };
   
@@ -52,13 +53,13 @@ export const fetchTripInfo = (tripUserId) => {
   return fromPromise(GetUserActivePdsInfo(tripUserId));
 };  
 
-export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime) => {
-  const URL = `${PDS_URL}/order/search`;
+export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime, senderHubId) => {
+  const URL = `${PDS_URL}/order/pda-search`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
-    params: { offset, limit, fromDate: lastUpdatedTime, q: { tripCode } },
+    params: { offset, limit, lastUpdatedTime, q: { tripCode, senderHubId } },
     timeout
   };
 
@@ -68,7 +69,7 @@ export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime) => {
   return axios.get(URL, config);
 };
 
-export const fetchTrip = (tripCode, offset, limit, lastUpdatedTime) => {
+export const fetchTrip = (tripCode, offset, limit, lastUpdatedTime, senderHubId) => {
   // const URL = `${PDS_URL}/pda/pds/orders`;
   // const LoginHeader = Share.LoginHeader;
 
@@ -81,11 +82,11 @@ export const fetchTrip = (tripCode, offset, limit, lastUpdatedTime) => {
   //   },
   //   body: { tripCode, offset, limit, timeServer, senderHubId }
   // });
-  return fromPromise(GetUserActivePds(tripCode, offset, limit, lastUpdatedTime));
+  return fromPromise(GetUserActivePds(tripCode, offset, limit, lastUpdatedTime, senderHubId));
 };
 
 export const DoAction = (OrderInfos) => {
-  const URL = `${PDS_URL}/doAction/pda`;
+  const URL = `${PDS_URL}/order/action`;
   const params = {
     orders: OrderInfos
   };

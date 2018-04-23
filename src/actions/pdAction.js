@@ -119,7 +119,7 @@ export const updateOrderGroup = (updateList) => {
 };
 
 export const addOneOrder = (code, type, senderHubId) => {
-  return { type: PD_ADD_ORDER, payload: { order: { code, type, senderHubId } } };
+  return { type: PD_ADD_ORDER, payload: { order: { code, type }, senderHubId } };
 };
 
 export const updateOrderInfo = (code, type, info) => {

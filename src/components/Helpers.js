@@ -93,7 +93,7 @@ export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
   const nextStatus = 'READY_TO_PICK';
-  const action = 'DO_PICK_FAIL';
+  const action = 'PICK_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
   return { code, nextDate, newDate, noteId, note, action, nextStatus, type, success };
@@ -104,7 +104,7 @@ export function getUpdateOrderInfoForDone(order, newDate = null) {
   const noteId = 'Storing'; 
   const note = '';
   const nextStatus = 'PICKED';
-  const action = 'DO_PICK_SUCCESS';
+  const action = 'PICK_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
   return { code, nextDate, newDate, noteId, note, action, nextStatus, type, success };

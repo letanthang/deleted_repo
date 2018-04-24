@@ -19,6 +19,9 @@ const fetchTripInfoEpic = (action$, store) =>
           //console.log(response);
           switch (response.status) {
             case 'OK':
+              if (response.total === 0) {
+                return pdListFetchNoTrip();
+              }
               return fetchTripInfoSuccess(response, all, senderHubId);
             case 'NOT_FOUND': {
               if (response.message === 'Not found pds.') {

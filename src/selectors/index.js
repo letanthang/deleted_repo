@@ -49,6 +49,8 @@ export const get3Type = createSelector(
       group.position = pgroups[group.shopGroupKey].position;
       const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isPickSuccessedUnsynced(o));
       group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
+      const failUnsyncedOrders = group.ShopOrders.filter(o => Utils.isFailedUnsynced(o));
+      group.failUnsyncedNum = failUnsyncedOrders.length;
       group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.moneyCollect, 0);
       group.estimateTotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.moneyCollect, 0);
       PickItems.push(group);
@@ -71,6 +73,8 @@ export const get3Type = createSelector(
       });
       const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isReturnSuccessedUnsynced(o));
       group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
+      const failUnsyncedOrders = group.ShopOrders.filter(o => Utils.isReturnFailedUnsynced(o));
+      group.failUnsyncedNum = failUnsyncedOrders.length;
       group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.moneyCollect, 0);
       group.estimateTotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.moneyCollect, 0);
       ReturnItems.push(group);

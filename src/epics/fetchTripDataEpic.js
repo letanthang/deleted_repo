@@ -39,7 +39,7 @@ const fetchTripsEpic = (action$, store) =>
             }
               
             case 'NOT_FOUND':
-              return fetchTripDataFail('SERVICE NOT FOUND');
+              return fetchTripDataFail('Không có đơn hàng mới');
             default:
               return fetchTripDataFail(response.message);
           }

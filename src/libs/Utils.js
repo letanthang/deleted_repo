@@ -7,10 +7,12 @@ import moment from 'moment';
 const pickStatus = { STORING: 'Đã lấy', PICKED: 'Đã lấy', COMPLETED: 'Lấy lỗi', READY_TO_PICK: 'Lấy lỗi', PICKING: 'Đang lấy', Progress: 'Đang xử lý' };
 const pickCompleteStatus = ['PICKED', 'COMPLETED', 'READY_TO_PICK', 'STORING', 'Progress'];
 const pickSuccessStatus = ['PICKED', 'STORING'];
+const pickFailStatus = ['READY_TO_PICK', 'COMPLETED'];
 
 const returnStatus = { RETURNED: 'Đã trả', RETURNING: 'Đang trả', FAIL_TO_RETURN: 'Trả lỗi', STORING: 'Trả lỗi', Progress: 'Đang xử lý' };
 const returnCompleteStatus = ['RETURNED', 'STORING', 'FAIL_TO_RETURN', 'Progress'];
 const returnSuccessStatus = ['RETURNED'];
+const returnFailStatus = ['FAIL_TO_RETURN', 'STORING'];
 
 const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', COMPLETED: 'Đã giao', FAIL_TO_DELIVER: 'Giao lỗi', STORING: 'Giao lỗi' };
 const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'COMPLETED', 'Progress'];
@@ -142,6 +144,13 @@ class Utils {
     return false;
   }
   
+  static isFailedUnsynced({ nextStatus, status }) {
+    if (!pickCompleteStatus.includes(status) && pickFailStatus.includes(nextStatus)) {
+      return true;
+    }
+    return false;
+  }
+
   static isPickCompletedUnsynced({ nextStatus, status }) {
     if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
       return true;
@@ -158,6 +167,13 @@ class Utils {
 
   static isReturnSuccessedUnsynced({ nextStatus, status }) {
     if (!returnCompleteStatus.includes(status) && returnSuccessStatus.includes(nextStatus)) {
+      return true;
+    }
+    return false;
+  }
+
+  static isReturnFailedUnsynced({ nextStatus, status }) {
+    if (!returnCompleteStatus.includes(status) && returnFailStatus.includes(nextStatus)) {
       return true;
     }
     return false;

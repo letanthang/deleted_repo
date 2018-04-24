@@ -36,12 +36,12 @@ export default (state = nameInitialState, action) => {
       // turn on spinner
       return { ...state, loading: true, error: '' };
     case PD_FETCH_TRIP_INFO_SUCCESS: {
+      // console.log(action.payload);
       const { driverName, createdByName, createdByPhone, code } = action.payload.info;
       let newState = {
         ...state,
         Infos: { driverName, createdByName, createdByPhone },
         tripCode: code,
-        lastUpdatedTime: new Date().toISOString()
       };
 
       if (state.tripCode !== newState.tripCode) { 
@@ -55,18 +55,24 @@ export default (state = nameInitialState, action) => {
       return newState;
     }
     case PDLIST_FETCH_SUCCESS: {
-      //const { pdsItems, all } = action.payload;
       const all = action.payload.all;
+      const more = action.payload.more;
       let pdsItems = transformPDS(action.payload.pdsItems);
-      
       pdsItems = mergeState(state.pdsItems, pdsItems, all);
-      
+
+      let data = {};
+      if (more === false) {
+        const nowTime = new Date();
+        nowTime.setMinutes(nowTime.getMinutes() - 1);
+        data = { lastUpdatedTime: nowTime.toISOString() };
+      }
       
       return {
         ...state,
         pdsItems,
         loading: false,
         error: '',
+        ...data
       };
     }
     case PDLIST_FETCH_FAIL:
@@ -183,7 +189,8 @@ export default (state = nameInitialState, action) => {
     case PD_ADD_ORDER_FAIL:
       return {
         ...state,
-        addOrderLoading: false
+        addOrderLoading: false,
+        error: action.payload.error
       };
     case PD_ADD_ORDER_SUCCESS: {
       // const order = action.payload.order;

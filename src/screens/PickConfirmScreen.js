@@ -100,7 +100,7 @@ class PickConfirmScreen extends Component {
     const { navigate, goBack } = this.props.navigation;
 
     if (!this.pickGroup) return null;
-    const { senderName, totalServiceCost, sucessUnsyncedNum } = this.pickGroup;
+    const { senderName, totalServiceCost, sucessUnsyncedNum, failUnsyncedNum } = this.pickGroup;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -133,8 +133,8 @@ class PickConfirmScreen extends Component {
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{senderName}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Số lượng đơn hàng thành công</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{sucessUnsyncedNum} / {this.pickGroup.ShopOrders.length}</Text>
+              <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Số lượng đơn hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{sucessUnsyncedNum} lấy / {failUnsyncedNum} lỗi / {this.pickGroup.ShopOrders.length}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Tổng thu người gởi</Text>

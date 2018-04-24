@@ -7,6 +7,7 @@ import {
 } from 'native-base';
 import { changeOrderCode, addOneOrder } from '../actions';
 import { Styles } from '../Styles';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 class AddOrderScreen extends Component {
   componentWillMount() {
@@ -62,6 +63,7 @@ class AddOrderScreen extends Component {
           :
           <View><Text>Hiện chưa có chuyến đi.</Text></View>}
         </Content>
+        <LoadingSpinner loading={this.props.addOrderLoading} />
       </Container>
     );
   }
@@ -70,8 +72,8 @@ class AddOrderScreen extends Component {
 const mapStateToProps = (state) => {
   const { orderAdd, pd } = state;
   const { code, order } = orderAdd;
-  const { pdsItems } = pd;
-  return { code, order, pdsItems };
+  const { pdsItems, addOrderLoading } = pd;
+  return { code, order, pdsItems, addOrderLoading };
 };
 
 export default connect(mapStateToProps, { changeOrderCode, addOneOrder })(AddOrderScreen);

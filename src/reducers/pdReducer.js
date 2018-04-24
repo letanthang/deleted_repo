@@ -4,6 +4,7 @@ import {
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
   PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS,
+  PD_FETCH_DETAIL, PD_FETCH_DETAIL_FAIL, PD_FETCH_DETAIL_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
   PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, PD_ADD_ORDER_SUCCESS
@@ -66,7 +67,7 @@ export default (state = nameInitialState, action) => {
         nowTime.setMinutes(nowTime.getMinutes() - 1);
         data = { lastUpdatedTime: nowTime.toISOString() };
       }
-      
+
       return {
         ...state,
         pdsItems,
@@ -103,13 +104,13 @@ export default (state = nameInitialState, action) => {
       _.each(OrderInfos, info => {
           const order = Utils.getOrder(pdsItems, info.code, info.type);
           switch (info.type) {
-            case 1:
+            case 'PICK':
               order.status = 'PICKING';
               break;
-            case 2:
+            case 'DELIVER':
               order.status = 'DELIVERING';
               break;
-            case 3:
+            case 'RETURN':
               order.status = 'RETURNING';
               break;
             default:
@@ -347,7 +348,36 @@ export default (state = nameInitialState, action) => {
         loading: false
       };
     }
-
+    case PD_FETCH_DETAIL:
+      return {
+        ...state,
+        detailLoading: true
+      };
+    case PD_FETCH_DETAIL_SUCCESS: {
+      const { data, code, type } = action.payload;
+      delete data.senderHubId;
+      delete data.clientId;
+      const key = getKey(code, type);
+      return {
+        ...state,
+        detailLoading: false,
+        pdsItems: {
+          ...state.pdsItems,
+          [key]: {
+            ...state.pdsItems[key],
+            ...data,
+            hasDetail: true
+          }
+        },
+        error: ''
+      };
+    }
+    case PD_FETCH_DETAIL_FAIL:
+      return {
+        ...state,
+        detailLoading: false,
+        error: action.payload.error
+      };
     default:
       return state;
   }

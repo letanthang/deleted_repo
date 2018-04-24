@@ -4,12 +4,12 @@ import {
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
-  PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS, PD_FETCH_TRIP_INFO_FAIL, 
-  PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_ADD_ORDER_START, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
+  PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS, PD_FETCH_TRIP_INFO_FAIL,
+  PD_FETCH_DETAIL, PD_FETCH_DETAIL_FAIL, PD_FETCH_DETAIL_SUCCESS,
+  PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
-  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_UPDATE_PROGRESS, OTHER_SET_PROPS
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_SET_PROPS
 } from './types';
-import * as API from '../apis/MPDS';
 import { writeLog } from '../libs/Log';
 
 const reportBug = (errorMessage, info) => {
@@ -36,7 +36,6 @@ export const pdListFetch = ({ all, senderHubId }) => {
 export const pdListFetchNoTrip = () => {
   return { type: PDLIST_NO_TRIP, payload: { error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.' } };
 };
-
 
 export const fetchTripDataSuccess = (response, all, senderHubId, page, totalPage, more) => {
   const pdsItems = response.data;
@@ -105,9 +104,10 @@ export const updateOrderStatusFail = (error, OrderInfos, report = true) => {
   };
 };
 
-export const updateWeightSize = ({ length, width, height, weight, clientId, senderHubId, code, PDSID,ServiceFee}) => {
+export const updateWeightSize = ({ length, width, height, weight, clientId, senderHubId, code, PDSID, ServiceFee }) => {
   return {
-    type: PD_UPDATE_WEIGHT_SIZE
+    type: PD_UPDATE_WEIGHT_SIZE,
+    payload: { length, width, height, weight, clientId, senderHubId, code, PDSID, ServiceFee }
   };
 };
 
@@ -188,4 +188,16 @@ export const stopLoading = () => {
   return {
     type: PD_STOP_LOADING
   };
+};
+
+export const fetchOrderDetail = (code, type) => {
+  return { type: PD_FETCH_DETAIL, payload: { code, type } };
+};
+
+export const fetchOrderDetailFail = (error) => {
+  return { type: PD_FETCH_DETAIL_FAIL, payload: { error } };
+};
+
+export const fetchOrderDetailSuccess = (response, code, type) => {
+  return { type: PD_FETCH_DETAIL_SUCCESS, payload: { data: response.data[0], code, type } };
 };

@@ -40,7 +40,14 @@ const reloadEpic = (action$) =>
     .delay(100)
     .mergeMap(({ senderHubId }) => of(pdListFetch({ senderHubId })));
 
+const failEpic = (action$) =>
+  action$.ofType(PD_ADD_ORDER_FAIL)
+    .map(action => action.payload)
+    .do(({ error }) => Utils.showToast(`Không thể thêm đơn ${error}`, 'danger'))
+    .ignoreElements();
+
 export default combineEpics(
   addOrderEpic,
-  reloadEpic
+  reloadEpic,
+  failEpic
 );

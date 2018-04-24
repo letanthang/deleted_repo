@@ -135,11 +135,11 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ code, ExternalCode }) {
+  checkKeywork({ code, externalCode }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
       || code.toUpperCase().includes(keyword)
-      || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
+      || (externalCode && externalCode.toUpperCase().includes(keyword));
   }
   renderNullData() {
     return (

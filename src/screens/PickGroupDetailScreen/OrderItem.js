@@ -24,7 +24,7 @@ class OrderItem extends Component {
     const { 
       code, receiverName, receiverPhone,
       height, width, weight, length, status,
-      ExternalCode, moneyCollect, success, note, newDate, pickWarehouseId, 
+      externalCode, moneyCollect, success, note, newDate, pickWarehouseId, 
       deliverWarehouseId, done
     } = order;
 
@@ -55,9 +55,9 @@ class OrderItem extends Component {
             <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
           </View>
           : null}
-          {ExternalCode ?
+          {externalCode ?
           <View style={Styles.itemStyle}>
-            <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {ExternalCode}</Text>
+            <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {externalCode}</Text>
           </View>
           : null}
           <View style={Styles.itemStyle}>

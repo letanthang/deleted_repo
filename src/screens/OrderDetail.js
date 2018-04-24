@@ -18,7 +18,7 @@ class OrderDetail extends Component {
     if (order == null) return null;
 
     const { 
-      receiverName, receiverPhone, ExternalCode,
+      receiverName, receiverPhone, externalCode,
       serviceName, width, height,
       moneyCollect, weight, length, serviceCost,
       Note, log, status, receiverAddress
@@ -35,11 +35,11 @@ class OrderDetail extends Component {
           </View>
           <View style={Styles.rowStyle}> 
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Mã nhận hàng</Text>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ExternalCode || 'Không có'}</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{externalCode || 'Không có'}</Text>
           </View>
           <View style={Styles.rowStyle}>
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Mã đơn hàng shop</Text>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ExternalCode || 'Không có'}</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{externalCode || 'Không có'}</Text>
           </View>
           <View style={Styles.rowStyle}>
             <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Gói dịch vụ</Text>

@@ -7,7 +7,7 @@ import {
   Header, Button, Left, Right, Body,
   List, ActionSheet
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, getOrderHistory } from '../actions';
+import { updateOrderStatus, getConfiguration, getOrderHistory, fetchOrderDetail } from '../actions';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -25,6 +25,9 @@ class DeliveryOrderScreen extends Component {
   componentWillMount() {
     code = this.props.navigation.state.params.code;
     order = Utils.getOrder(this.props.db, code, 'DELIVER');
+    if (order.hasDetail !== true) {
+      this.props.fetchOrderDetail(code, 'DELIVER');
+    }
     this.props.getOrderHistory(code);
   }
 
@@ -150,8 +153,8 @@ class DeliveryOrderScreen extends Component {
     const { goBack } = this.props.navigation;
     const { 
       receiverName, receiverPhone, receiverAddress, moneyCollect,
-      clientName, senderPhone, requiredNote,
-      displayOrder, soNote
+      clientName, senderPhone, clientRequiredNote,
+      displayOrder, clientExtraNote
     } = order;
 
     const historyString = Utils.getHistoryString(this.props.orderHistory[code]);
@@ -235,7 +238,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{soNote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientExtraNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>
@@ -245,7 +248,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{requiredNote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
             </View>
           </List>
 
@@ -275,5 +278,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, 
-  { updateOrderStatus, getConfiguration, getOrderHistory }
+  { updateOrderStatus, getConfiguration, getOrderHistory, fetchOrderDetail }
 )(DeliveryOrderScreen);

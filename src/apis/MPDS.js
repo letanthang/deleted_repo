@@ -8,7 +8,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = false;
+const mockOn = true;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
@@ -198,25 +198,28 @@ export const CalculateServiceFee = (params) => {
   return axios.post(URL, params, config);
 };
 
-export const GetOrderByCode = (code) => {
+export const GetOrderDetailInfo = (code, type, tripCode) => {
   const URL = `${PDS_URL}/order`;
   const LoginHeader = Share.LoginHeader;
-  const config = {
-      headers: LoginHeader,
-      timeout,
-      params: {
-          q: { order_code: code }
-      }
+
+  const params = {
+    orders: [{ code, tripCode, type, objType: ['ORDER_DETAIL'] }]
   };
+  const config = {
+    headers: LoginHeader,
+    timeout
+  };
+
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, orderDetailResponse);
+    mock.onPost(URL, params, config).reply(200, orderDetailResponse);
   }
-  return axios.get(URL, config);
+
+  return axios.post(URL, params, config);
 };
 
-export const getOrderDetail = (code) => {
-  return fromPromise(GetOrderByCode(code));
-}
+export const getOrderDetail = (code, type, tripCode) => {
+  return fromPromise(GetOrderDetailInfo(code, type, tripCode));
+};
 
 // {
 // 	"orders": [
@@ -313,7 +316,7 @@ const orderDetailResponse = {
       "receiverPhone": "01283377234",
       "receiverAddress": "01283377234",
       "clientExtraNote": "Mã SP: 9057382729348000914, Tên SP: Sách Ngược Đời Xuôi, Số lượng: 2 Quyển; ",
-      "clientRequiredNote": ""
+      "clientRequiredNote": "Cho xem hàng. Không cho thử"
     }
   ]
 };

@@ -9,7 +9,7 @@ import {
   List 
 } from 'native-base';
 
-import { updateOrderInfo, getConfiguration, getOrderHistory } from '../actions';
+import { updateOrderInfo, getConfiguration, getOrderHistory, fetchOrderDetail } from '../actions';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
@@ -34,6 +34,9 @@ class PickOrderScreen extends Component {
     senderHubId = this.props.navigation.state.params.senderHubId;
     code = this.props.navigation.state.params.code;
     order = Utils.getOrder(this.props.db, code, 'PICK');
+    if (order.hasDetail !== true) {
+      this.props.fetchOrderDetail(code, 'PICK');
+    }
     this.props.getOrderHistory(code);
   }
   componentDidMount() {
@@ -159,10 +162,10 @@ class PickOrderScreen extends Component {
     const historyString = Utils.getHistoryString(history);
     console.log('render order', history);
     const { 
-      receiverName, receiverPhone, ExternalCode,
+      receiverName, receiverPhone, externalCode,
       serviceName, width, height,
       moneyCollect, weight, length, serviceCost,
-      receiverAddress, soNote, requiredNote
+      receiverAddress, clientExtraNote, clientRequiredNote
     } = order;
 
 
@@ -209,13 +212,13 @@ class PickOrderScreen extends Component {
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Tổng quan</Text>
               </View>
-              <View style={Styles.rowStyle}> 
+              {/* <View style={Styles.rowStyle}> 
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Mã nhận hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ExternalCode || 'Không có'}</Text>
-              </View>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{externalCode || 'Không có'}</Text>
+              </View> */}
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Mã đơn hàng shop</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{ExternalCode || 'Không có'}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{externalCode || 'Không có'}</Text>
               </View>
               <View style={Styles.rowStyle}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Gói dịch vụ</Text>
@@ -275,11 +278,11 @@ class PickOrderScreen extends Component {
               </View>
               <View style={[Styles.rowStyle]}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{soNote}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientExtraNote}</Text>
               </View>
               <View style={[Styles.rowStyle]}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{requiredNote}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                 <View>
@@ -314,5 +317,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, 
-  { updateOrderInfo, getConfiguration, getOrderHistory }
+  { updateOrderInfo, getConfiguration, getOrderHistory, fetchOrderDetail }
 )(PickOrderScreen);

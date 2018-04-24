@@ -62,7 +62,7 @@ class PickConfirmScreen extends Component {
   }
 
   updateOrder() {
-    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined && !o.done);
     this.props.updateOrderStatus({ OrderInfos });
       // .then((failOrders) => {
       //   console.log(failOrders);

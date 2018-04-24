@@ -6,7 +6,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
-import { goSupport } from '../actions';
+import { pdListFetchNoTrip } from '../actions';
 
 class SettingsScreen extends Component {
   state = { clickNum: 0, password: '', verified: false }
@@ -55,6 +55,13 @@ class SettingsScreen extends Component {
               <Text>API Logs</Text>
             </TouchableOpacity>
           </View>
+          <View>
+            <TouchableOpacity
+              onPress={() => this.props.pdListFetchNoTrip()}
+            >
+              <Text>Reset Trip -> lost Data !</Text>
+            </TouchableOpacity>
+          </View>
         </Content>
 
       </Container>
@@ -68,4 +75,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, { goSupport })(SettingsScreen);
+export default connect(mapStateToProps, { pdListFetchNoTrip })(SettingsScreen);

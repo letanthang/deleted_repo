@@ -48,11 +48,11 @@ class PickGroupDetail extends Component {
     return false;
   }
 
-  checkKeywork({ code, ExternalCode }) {
+  checkKeywork({ code, externalCode }) {
     const keyword = this.props.keyword.toUpperCase(); 
     return this.props.keyword === '' 
       || code.toUpperCase().includes(keyword)
-      || (ExternalCode && ExternalCode.toUpperCase().includes(keyword));
+      || (externalCode && externalCode.toUpperCase().includes(keyword));
   }
   onOrderPress(order) {
     const { code } = order;
@@ -114,7 +114,7 @@ class PickGroupDetail extends Component {
               const order = item;
               const { 
                 code, receiverName, receiverPhone,
-                ExternalCode, moneyCollect, success, note, newDate
+                externalCode, moneyCollect, success, note, newDate
               } = item;
               const fullNote = Utils.getFullNote(note, newDate);
               return (
@@ -137,9 +137,9 @@ class PickGroupDetail extends Component {
                       <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
                     </View>
                     : null}
-                    {ExternalCode ?
+                    {externalCode ?
                     <View style={Styles.itemStyle}>
-                      <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {ExternalCode}</Text>
+                      <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {externalCode}</Text>
                     </View>
                     : null}
                     <View style={Styles.itemStyle}>

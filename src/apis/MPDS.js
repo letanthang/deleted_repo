@@ -8,7 +8,7 @@ import ShareVariables from '../libs/ShareVariables';
 import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
-const mockOn = true;
+const mockOn = false;
 const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';

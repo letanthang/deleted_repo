@@ -277,7 +277,7 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity>
         
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigate('BluetoothExample')}
         >
           <Card>
@@ -312,14 +312,14 @@ class HomeScreen extends Component {
               </View>
             </CardItem>
           </Card>
-        </TouchableOpacity>
-        {this.state.showScanner ?
+        </TouchableOpacity> */}
+        {/* {this.state.showScanner ?
             <BarcodeReader 
               onBarCodeRead={({data, bounds}) => {
                 //this.setState({ showScanner: false });
               }}
             />
-            : null }
+            : null } */}
       </Content>
     );
   }

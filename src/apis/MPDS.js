@@ -5,7 +5,6 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import moment from 'moment';
 
 //!!!!!!!!! turn on mock data!!!!!!!!!!
 const mockOn = false;
@@ -16,8 +15,8 @@ const timeout = 20000;
 // const PDS_URL = 'http://api.inhubv2.ghn.vn/pds/v2';
 // const ACC_URL = 'http://api.inhubv2.ghn.vn/acc/v2';
 const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
-const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
+const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+// const ACC_URL = 'http://api.staging.inhubv2.ghn.vn/acc/v2';
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
 
@@ -203,7 +202,7 @@ export const GetOrderDetailInfo = (code, type, tripCode) => {
   const LoginHeader = Share.LoginHeader;
 
   const params = {
-    orders: [{ code, tripCode, type, objType: ['ORDER_DETAIL'] }]
+    orders: [{ code, tripCode, type, objectType: ['ORDER_DETAIL'] }]
   };
   const config = {
     headers: LoginHeader,
@@ -213,7 +212,7 @@ export const GetOrderDetailInfo = (code, type, tripCode) => {
   if (mockOn) {
     mock.onPost(URL, params, config).reply(200, orderDetailResponse);
   }
-
+  
   return axios.post(URL, params, config);
 };
 

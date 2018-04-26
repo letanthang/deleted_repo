@@ -198,7 +198,7 @@ export const CalculateServiceFee = (params) => {
 };
 
 export const GetOrderDetailInfo = (code, type, tripCode) => {
-  const URL = `${PDS_URL}/order`;
+  const URL = `${PDS_URL}/order/multi`;
   const LoginHeader = Share.LoginHeader;
 
   const params = {

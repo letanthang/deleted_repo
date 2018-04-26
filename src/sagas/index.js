@@ -10,7 +10,7 @@ function* getOrderHistory(action) {
       const json = response.data;
       console.log(json);
       if (json.status === 'OK') {
-        const orderHistory = json.data.map(({ date, userName, description }) => ({ date, userName, description }));
+        const orderHistory = json.data.map(({ date, historyType, createdById, createdByName }) => ({ date, historyType, createdById, createdByName }));
         yield put({ type: OTHER_GET_ORDER_HISTORY_SUCCESS, payload: { [action.payload.code]: orderHistory } });
       } else {
         yield put({ type: OTHER_GET_ORDER_HISTORY_FAIL, payload: { error: json.message } });  

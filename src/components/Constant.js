@@ -33,3 +33,17 @@ export const ReturnErrors = {
   // 'GHN-RCF3DE': 'KHÁCH CÓ YÊU CẦU VƯỢT KHẢ NĂNG ĐÁP ỨNG',
   // 'GHN-RC5B4F': 'NGƯỜI GỬI YÊU CẦU TRẢ HÀNG',
 };
+
+export const HistoryActions = {
+  'CREATE_TRIP': 'tạo chuyến đi',
+  'ADD_TO_TRIP': 'thêm đơn vào chuyến đi',
+  'REMOVE_FROM_TRIP': 'xóa đơn ra khỏi chuyến đi',
+  'UPDATE_TRIP_ACTION': 'cập nhật trạng thái',
+  'AUDITED': 'bắn kiểm',
+  'OUTSTOCK': 'xuất kho',
+  'CANCEL_TRIP': 'hủy chuyến đi',
+  'ASSIGN_DRIVER': 'thay đổi thông tin tài xế',
+  'START_TRIP': 'bắt đầu chuyến đi',
+  'COMPLETE_TRIP': 'hoàn thành chuyến đi',
+  'COLLECT_MONEY': 'thu tiền'
+};

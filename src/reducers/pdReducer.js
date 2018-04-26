@@ -355,8 +355,14 @@ export default (state = nameInitialState, action) => {
       };
     case PD_FETCH_DETAIL_SUCCESS: {
       const { data, code, type } = action.payload;
-      delete data.senderHubId;
-      delete data.clientId;
+
+      if (data.code !== code || data.type !== type) {
+        return state;
+      }
+
+      const orderDetail = data.orderDetail;
+      delete orderDetail.senderHubId;
+      delete orderDetail.clientId;
       const key = getKey(code, type);
       return {
         ...state,
@@ -365,7 +371,7 @@ export default (state = nameInitialState, action) => {
           ...state.pdsItems,
           [key]: {
             ...state.pdsItems[key],
-            ...data,
+            ...orderDetail,
             hasDetail: true
           }
         },

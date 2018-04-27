@@ -179,9 +179,9 @@ const mapStateToProps = (state) => {
   const { sessionToken } = auth;
   const { tripCode, loading } = pd;
   const { configuration } = config;
-  const { showDatePicker, OrderInfos, keyword } = returnGroup;
+  const { keyword } = returnGroup;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { sessionToken, PickItems, ReturnItems, tripCode, loading, configuration, showDatePicker, OrderInfos, keyword };
+  return { sessionToken, PickItems, ReturnItems, tripCode, loading, configuration, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderInfo, updateOrderInfos, getConfiguration, changeDone1, changeKeyword1 })(PickGroupDetail);

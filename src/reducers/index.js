@@ -2,8 +2,8 @@
 import AuthReducer from './AuthReducer';
 import pdReducer from './pdReducer';
 import OtherReducer from './OtherReducer';
-// import PickGroupReducer from './PickGroupReducer';
-// import ReturnGroupReducer from './ReturnGroupReducer';
+import PickGroupReducer from './PickGroupReducer';
+import ReturnGroupReducer from './ReturnGroupReducer';
 // import OrderAddReducer from './OrderAddReducer';
 import ConfigReducer from './ConfigReducer';
 
@@ -11,8 +11,8 @@ const appReducer = {
   auth: AuthReducer,
   pd: pdReducer,
   other: OtherReducer,
-  // pickGroup: PickGroupReducer,
-  // returnGroup: ReturnGroupReducer,
+  pickGroup: PickGroupReducer,
+  returnGroup: ReturnGroupReducer,
   // orderAdd: OrderAddReducer,
   config: ConfigReducer
 };

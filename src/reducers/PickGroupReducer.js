@@ -10,10 +10,8 @@ import {
 
 const nameInitialState = {
   allStatus: undefined,
-  showDatePicker: false,
   done: false,
   keyword: '',
-  OrderInfos: {}
 };
 export default (state = nameInitialState, action) => {
   switch (action.type) {

@@ -44,7 +44,7 @@ const { store, persistor } = configureStore();
 //export const store = configureStore();
 class App extends Component {
   componentDidMount() {
-    //codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+    codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
   }
   render() {
     console.log('Root render');

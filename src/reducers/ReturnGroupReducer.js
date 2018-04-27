@@ -10,8 +10,6 @@ import {
 
 const nameInitialState = {
   allStatusReturn: undefined,
-  showDatePicker: false,
-  OrderInfos: {},
   done: false,
   keyword: ''
 };

@@ -7,6 +7,8 @@ import {
   Container, Header, Left, Body, Title,
   Content, Text, Button, Icon
 } from 'native-base';
+import IC from 'react-native-vector-icons/MaterialCommunityIcons';
+import BluetoothSerial from 'react-native-bluetooth-serial';
 import { connect } from 'react-redux';
 import { Styles } from '../../Styles';
 import { setProps } from '../../actions';
@@ -16,7 +18,8 @@ import Utils from '../../libs/Utils';
 
 class OrderLabelScreen extends Component {
   state = { bcUri: null, fullUri: null }
-  componentWillMount() {
+  componentDidMount() {
+    console.log('heheheheheh 9900');
     setTimeout(this.onCaptureUpper.bind(this), 500);
   }
   onCaptureAll() {
@@ -33,25 +36,43 @@ class OrderLabelScreen extends Component {
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 250 } }, 
           u => this.props.setProps({ imageUri3: u }), error => console.log(error));
         this.setState({ fullUri: uri });
-        console.log('Image is save to', uri);
+        console.log('Full Image is save to', uri);
       });
   }
 
   onCaptureUpper = () => {
     this.refs.vsUpper.capture()
       .then(uri => {
+        console.log('Upper Image is save to', uri);
         this.setState({ bcUri: uri });
-        setTimeout(this.onCaptureAll.bind(this), 300);
+        setTimeout(this.onCaptureAll.bind(this), 400);
       });
   }
+  async printOrder() {
+    try {
+      await BluetoothSerial.write('\n');
+      let uri = this.props.imageUri1.substring(7);
+      console.log(uri);
+      await BluetoothSerial.writeImage(uri);
+      uri = this.props.imageUri2.substring(7);
+      await BluetoothSerial.writeImage(uri);
+      uri = this.props.imageUri3.substring(7);
+      await BluetoothSerial.writeImage(uri);
+      await BluetoothSerial.write('\n');
+      await BluetoothSerial.write('\n');
+      console.log(uri);
+    } catch (error) {
+      this.props.navigation.navigate('BluetoothExample');
+    }
+}
 
   render() {
     const code = this.props.navigation.state.params.code;
     const order = Utils.getOrder(this.props.db, code, 'PICK');
-    console.log('OrderLabel render');
+    // console.log('OrderLabel render');
     const { navigate, goBack } = this.props.navigation;
     const { receiverName, receiverAddress, receiverPhone } = order;
-    console.log(order);
+    // console.log(order);
     
     return (
       <Container>
@@ -195,14 +216,22 @@ class OrderLabelScreen extends Component {
           <View 
             style={{
               width: 362,
-              height: 700,
-              alignSelf: 'center'
+              height: 740,
+              alignSelf: 'center',
+              alignItems: 'center',
             }}
           >
             <Image 
               style={{ width: 362, height: 700 }}
               source={{ uri: this.props.imageUri }}
             />
+            <TouchableOpacity 
+              style={{ flexDirection: 'row', marginTop: 20 }}
+              onPress={this.printOrder.bind(this)}
+            >
+              <IC name="printer" size={32} />
+              <Text style={{ fontWeight: 'bold' }}> Print</Text>
+            </TouchableOpacity>
           </View>
           : null }
         </Content>
@@ -213,8 +242,8 @@ class OrderLabelScreen extends Component {
 }
 const mapStateToProps = (state) => {
   const db = getOrders(state);
-  const { imageUri } = state.other;
-  return { db, imageUri };
+  const { imageUri, imageUri1, imageUri2, imageUri3 } = state.other;
+  return { db, imageUri, imageUri1, imageUri2, imageUri3 };
 };
 
 

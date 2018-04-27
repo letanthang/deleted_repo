@@ -189,10 +189,10 @@ const mapStateToProps = (state) => {
   const { tripCode, timeServer } = pd;
   const { loading } = other;
   const { configuration } = config;
-  const { showDatePicker, OrderInfos, keyword } = pickGroup;
+  const { keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
   const db = getOrders(state);
-  return { db, PickItems, ReturnItems, sessionToken, tripCode, loading, configuration, showDatePicker, OrderInfos, keyword, timeServer };
+  return { db, PickItems, ReturnItems, sessionToken, tripCode, loading, configuration, keyword, timeServer };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder, pdListFetch })(PickGroupDetail);

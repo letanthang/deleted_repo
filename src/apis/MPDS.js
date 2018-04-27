@@ -229,7 +229,7 @@ export const getOrderDetail = (code, type, tripCode) => {
 // 	]
 // }
 export const AddOrders = (orders, tripCode) => {
-    const URL = `${PDS_URL}/trip/${tripCode}/add-order`;
+    const URL = `${PDS_URL}/trip/${tripCode}/order`;
     const LoginHeader = Share.LoginHeader;
 
     const config = {
@@ -615,14 +615,16 @@ const orderHistoryResponse = {
   "data":[
     {
       "code":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
-      "description":"Tạo CĐ 1803168D9FFW","succeed":true,"source":"BROWSER",
-      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"READY_TO_PICK\",\"audited\":false,\"isCompleted\":false,\"moneyCollected\":false,\"moneyCollect\":31900.0,\"moneyCollect\":48000.0,\"moneyCollect\":0.0,\"tripCode\":\"5aab4a8dad494e0f4095a28a\",\"tripCode\":\"1803168D9FFW\",\"createdUserid\":\"210030\",\"createdUsername\":\"Lê Tấn Thắng\",\"sortIndex\":129,\"partnerCode\":\"Giaohangnhanh\",\"tripUserid\":\"210030\",\"tripUsername\":\"Lê Tấn Thắng\",\"warehouseId\":1220,\"note\":\"Không cho xem hàng\",\"noteContent\":\"\",\"clientId\":193041}",
+      historyType: 'CREATE_TRIP', 
+      createdById: 1006, 
+      createdByName: 'Nguyen Khanh Tuong',
       "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
     },
     {
       "code":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
-      "description":"Cập nhật trạng thái đơn hàng PICKING\u003d\u003eSTORING","succeed":true,"source":"BROWSER",
-      "data":"{\"orderId\":305839,\"code\":\"3C5DFSAK\",\"type\":\"PICK\",\"status\":\"STORING\",\"audited\":false,\"isCompleted\":true,\"moneyCollected\":false,\"tripCode\":\"5aab4a8dad494e0f4095a28a\",\"tripCode\":\"1803168D9FFW\",\"sortIndex\":129,\"tripUserid\":\"210030\",\"partnerCode\":\"Giaohangnhanh\",\"date\":\"2018-03-16T04:39:42.322Z\",\"id\":\"5aab4a8ee81ce7e88f00004b\",\"createdTime\":\"2018-03-16T04:39:42.322Z\",\"lastUpdatedTime\":\"2018-03-16T04:39:42.322Z\"}",
+      historyType: 'ADD_TO_TRIP', 
+      createdById: 210030, 
+      createdByName: 'Le Tan Thang',
       "date":"2018-03-23T04:20:11.608Z","id":"5ab4807be8347c2a1c000004","createdTime":"2018-03-23T04:20:11.610Z","lastUpdatedTime":"2018-03-23T04:20:11.610Z"
     }
   ],

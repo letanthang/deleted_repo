@@ -277,7 +277,7 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity>
         
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() => navigate('BluetoothExample')}
         >
           <Card>
@@ -296,7 +296,7 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate('OrderLabel', { code: '23ABCN9' })}
+          onPress={() => navigate('OrderLabel', { code: 'GHN-TEST-102' })}
         >
           <Card>
             <CardItem style={{ backgroundColor: Colors.row }}>
@@ -312,7 +312,7 @@ class HomeScreen extends Component {
               </View>
             </CardItem>
           </Card>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         {/* {this.state.showScanner ?
             <BarcodeReader 
               onBarCodeRead={({data, bounds}) => {

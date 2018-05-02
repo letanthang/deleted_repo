@@ -19,7 +19,6 @@ import Utils from '../../libs/Utils';
 class OrderLabelScreen extends Component {
   state = { bcUri: null, fullUri: null }
   componentDidMount() {
-    console.log('heheheheheh 9900');
     setTimeout(this.onCaptureUpper.bind(this), 500);
   }
   onCaptureAll() {
@@ -212,25 +211,32 @@ class OrderLabelScreen extends Component {
           >
             <Text>Capture</Text>
           </TouchableOpacity> */}
-          {this.props.imageUri ?
+          { this.state.fullUri && this.props.imageUri ?
           <View 
             style={{
               width: 362,
-              height: 740,
+              height: 780,
               alignSelf: 'center',
               alignItems: 'center',
             }}
           >
+            <TouchableOpacity 
+              style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}
+              onPress={this.printOrder.bind(this)}
+            >
+              <IC name="printer" size={32} color='#006FFF' />
+              <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}> Print</Text>
+            </TouchableOpacity>
             <Image 
-              style={{ width: 362, height: 700 }}
+              style={{ width: 362 * 0.8, height: 700 * 0.8 }}
               source={{ uri: this.props.imageUri }}
             />
             <TouchableOpacity 
-              style={{ flexDirection: 'row', marginTop: 20 }}
+              style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}
               onPress={this.printOrder.bind(this)}
             >
-              <IC name="printer" size={32} />
-              <Text style={{ fontWeight: 'bold' }}> Print</Text>
+              <IC name="printer" size={32} color='#006FFF' />
+              <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}> Print</Text>
             </TouchableOpacity>
           </View>
           : null }

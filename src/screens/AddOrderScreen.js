@@ -5,18 +5,17 @@ import {
   Container, Header, Left, Body,
   Content, Icon, Button
 } from 'native-base';
-import { changeOrderCode, addOneOrder } from '../actions';
+import { addOneOrder } from '../actions';
 import { Styles } from '../Styles';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 class AddOrderScreen extends Component {
-  componentWillMount() {
-    this.props.changeOrderCode('');
-  }
+  state = { code: '' }
   render() {
     const { goBack } = this.props.navigation;
-    const { code, pdsItems } = this.props;
-    const disabled = this.props.code.length < 7;
+    const { pdsItems } = this.props;
+    const { code } = this.state;
+    const disabled = code.length < 7;
     const style = disabled ? Styles.addButtonDisableStyle : Styles.addButtonStyle;
     console.log(disabled);
     return (
@@ -45,7 +44,7 @@ class AddOrderScreen extends Component {
               <TextInput 
                 placeholder='XXXXXXXX'
                 value={code}
-                onChangeText={(text) => this.props.changeOrderCode(text.toUpperCase())}
+                onChangeText={(text) => this.setState({ code: text.toUpperCase() })}
                 autoCorrect={false}
                 autoCapitalize='characters'
               />
@@ -70,10 +69,9 @@ class AddOrderScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { orderAdd, pd } = state;
-  const { code, order } = orderAdd;
+  const { pd } = state;
   const { pdsItems, addOrderLoading } = pd;
-  return { code, order, pdsItems, addOrderLoading };
+  return { pdsItems, addOrderLoading };
 };
 
-export default connect(mapStateToProps, { changeOrderCode, addOneOrder })(AddOrderScreen);
+export default connect(mapStateToProps, { addOneOrder })(AddOrderScreen);

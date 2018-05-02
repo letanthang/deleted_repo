@@ -27,7 +27,7 @@ const addOrderEpic = (action$, store) =>
                 payload: { order, senderHubId }
               };
             default:
-              return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message } };
+              return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
           }
         }) 
         .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } }))

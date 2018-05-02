@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
@@ -11,6 +11,7 @@ import {
 
 import { updateOrderInfo, getConfiguration, getOrderHistory, fetchOrderDetail } from '../actions';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
+import ICO from 'react-native-vector-icons/Ionicons';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -258,16 +259,13 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
-                  <Button
-                    transparent
-                    iconRight
-                    small
+                  <TouchableOpacity
                     onPress={() => Utils.phoneCall(receiverPhone, true)}
-                    style={{ paddingLeft: 0 }}
+                    style={{ flexDirection: 'row', alignItems: 'center' }}
                   >
-                    <Text>{receiverPhone}</Text>
-                    <Icon name='call' />
-                  </Button>
+                    <Text style={{ color: '#00b0ff', marginRight: 8 }}>{receiverPhone}</Text>
+                    <ICO name='ios-call-outline' size={25} color='#006FFF' />
+                  </TouchableOpacity>
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>

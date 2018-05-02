@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, TouchableOpacity } from 'react-native';
+import ICO from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
@@ -168,16 +169,13 @@ class ReturnOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Số điện thoại</Text>
-              <Button
-                transparent
-                iconRight
-                small
-                style={{ paddingLeft: 0 }}
+              <TouchableOpacity
                 onPress={() => Utils.phoneCall(receiverPhone, true)}
+                style={{ flexDirection: 'row', alignItems: 'center' }}
               >
-                <Text>{receiverPhone}</Text>
-                <Icon name='call' />
-              </Button>  
+                <Text style={{ color: '#00b0ff', marginRight: 8 }}>{receiverPhone}</Text>
+                <ICO name='ios-call-outline' size={25} color='#006FFF' />
+              </TouchableOpacity>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>

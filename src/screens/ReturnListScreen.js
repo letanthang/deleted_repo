@@ -7,6 +7,7 @@ import {
   Header, Item, Input
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
+import ICO from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import accounting from 'accounting';
 import { NavigationActions } from 'react-navigation';
@@ -259,15 +260,14 @@ class TripListScreen extends Component {
                         </View>
                         <View style={[Styles.item2Style]}>
                           <View></View>
-                          <Button
-                            small
-                            transparent
+                          <TouchableOpacity
                             onPress={() => Utils.phoneCall(senderPhone, true)}
-                            style={{ paddingRight: 0 }}
+                            style={{ flexDirection: 'row', alignItems: 'center' }}
                           >
-                            <Icon name='call' />
-                            <Text style={{ color: '#00b0ff', fontSize: 13, fontWeight: '600' }}>SHOP</Text>
-                          </Button>
+                            <ICO name='ios-call-outline' size={25} color='#006FFF' />
+                            <Text style={{ color: '#00b0ff', fontSize: 13, fontWeight: '600', marginLeft: 8 }}>SHOP</Text>
+                          </TouchableOpacity>
+                          
                         </View>
                       </View>
                   </TouchableOpacity>

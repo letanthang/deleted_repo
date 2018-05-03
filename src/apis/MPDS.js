@@ -240,10 +240,10 @@ export const AddOrders = (orders, tripCode) => {
         orders
     };
     if (mockOn) {
-      mock.onPut(URL, params, config).reply(200, addOrdersResponse);
+      mock.onPost(URL, params, config).reply(200, addOrdersResponse);
     }
 
-    return axios.put(URL, params, config);
+    return axios.post(URL, params, config);
 };
 
 export const addOrders = (orders, tripCode) => {

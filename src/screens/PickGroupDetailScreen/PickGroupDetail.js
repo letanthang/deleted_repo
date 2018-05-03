@@ -159,15 +159,19 @@ class PickGroupDetail extends Component {
           <FlatList 
             data={orders}
             keyExtractor={(item, index) => item.code}
-            renderItem={({ item }) => 
-            <OrderItem 
-              order={item}
-              animated={animated}
-              acceptDeliverPress={this.acceptDeliverPress.bind(this)}
-              onOrderPress={this.onOrderPress.bind(this)}
-              checkDelivering={this.checkDelivering.bind(this)}
-              onSelectDateCase={this.onSelectDateCase.bind(this)}
-            />}
+            renderItem={({ item }) => {
+              const isDelivering = this.checkDelivering(item);
+              return (
+                <OrderItem 
+                  order={item}
+                  animated={animated}
+                  acceptDeliverPress={this.acceptDeliverPress.bind(this)}
+                  onOrderPress={this.onOrderPress.bind(this)}
+                  isDelivering={isDelivering}
+                  onSelectDateCase={this.onSelectDateCase.bind(this)}
+                />
+              );
+            }}
           />
           </View>
         </DataEmptyCheck>

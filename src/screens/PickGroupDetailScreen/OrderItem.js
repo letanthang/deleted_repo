@@ -8,11 +8,12 @@ import { Styles, Colors } from '../../Styles';
 import Utils from '../../libs/Utils';
 
 class OrderItem extends Component {
-  shouldComponentUpdate({ order }) {
+  shouldComponentUpdate({ order, isDelivering }) {
     const old = this.props.order;
     if (order.status === old.status
       && order.nextStatus === old.nextStatus
-      && order.note === old.note) {
+      && order.note === old.note 
+      && isDelivering === this.props.isDelivering) {
       return false;
     }
     return true;
@@ -20,7 +21,7 @@ class OrderItem extends Component {
 
   render() {
     // console.log('OrderItem render!');
-    const { order, animated, acceptDeliverPress, onOrderPress, checkDelivering, onSelectDateCase } = this.props;
+    const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase } = this.props;
     const { 
       code, receiverName, receiverPhone,
       height, width, weight, length, status,
@@ -32,7 +33,6 @@ class OrderItem extends Component {
     const nearDone = Utils.checkPickCompleteForUnsync(order);
     const backgroundColor = nearDone ? '#DFDFEF' : Colors.row;
     const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(status);
-    const isDelivering = checkDelivering(order);
     const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
     const fullNote = Utils.getFullNote(note, newDate);
     return (

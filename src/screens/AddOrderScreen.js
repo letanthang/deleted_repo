@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Keyboard, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Left, Body,
@@ -11,6 +11,10 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 class AddOrderScreen extends Component {
   state = { code: '' }
+  addOrder() {
+    Keyboard.dismiss();
+    this.props.addOneOrder(this.state.code, 'PICK');
+  }
   render() {
     const { goBack } = this.props.navigation;
     const { pdsItems } = this.props;
@@ -52,7 +56,7 @@ class AddOrderScreen extends Component {
             <View style={{ paddingTop: 16 }}>
               <TouchableOpacity
                 disabled={disabled}
-                onPress={() => this.props.addOneOrder(code, 'PICK')}
+                onPress={this.addOrder.bind(this)}
                 style={style}
               >
                 <Text style={{ color: '#FFF' }}>Thêm đơn</Text>

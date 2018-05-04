@@ -7,7 +7,6 @@ import {
 import { connect } from 'react-redux';
 import md5 from 'md5';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
-import { goSupport } from '../actions';
 
 class AboutScreen extends Component {
   state = { clickNum: 0, password: '', verified: false }
@@ -52,42 +51,6 @@ class AboutScreen extends Component {
           >
             <View style={{ flex: 1, height: 44 }}></View>
           </TouchableOpacity>
-          {this.state.clickNum > 6 && !this.state.verified ?
-          <View>
-            <TextInput
-              secureTextEntry
-              placeholder='password'
-              value={this.state.password}
-              onChangeText={(text) => this.setState({ password: text })}
-            />
-            <Btn 
-              title="Verify"
-              onPress={() => {
-                if (md5(this.state.password) === 'ee9b4ea92c81bfcee752e0bcda322350') {
-                  this.setState({ verified: true });
-                } else {
-                  alert('wrong password');
-                  this.setState({ password: '' });
-                }
-              }}
-            />
-            <Text>{this.props.userID}</Text>
-          </View>
-          : null}
-          {this.state.clickNum > 6 && this.state.verified ?
-          <View>
-            <TextInput
-              placeholder='USER ID'
-              value={this.state.UserID}
-              onChangeText={(text) => this.setState({ UserID: text })}
-            />
-            <Btn 
-              title="Go support"
-              onPress={() => this.props.goSupport(this.state.UserID)}
-            />
-            <Text>{this.props.userID}</Text>
-          </View>
-          : null}
         </Content>
 
       </Container>
@@ -99,4 +62,4 @@ const mapStateToProps = ({ auth }) => {
   return { userID };
 };
 
-export default connect(mapStateToProps, { goSupport })(AboutScreen);
+export default connect(mapStateToProps, {})(AboutScreen);

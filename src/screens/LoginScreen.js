@@ -94,7 +94,7 @@ class LoginScreen extends Component {
               <Text style={{ color: '#4CAF50', fontSize: 24, fontWeight: 'bold' }}>
                 Tài xế GHN
               </Text>
-              <Text style={{ color: '#dd0000', fontSize: 24, fontWeight: 'bold' }}>29/03</Text>
+              <Text style={{ color: '#dd0000', fontSize: 24, fontWeight: 'bold' }}>05/05</Text>
             </Body>
             <Form>
               <Item style={{ marginRight: 20 }}>

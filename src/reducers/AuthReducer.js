@@ -1,24 +1,23 @@
-import { 
-  USERID_CHANGED, 
+import {
+  USERID_CHANGED,
   PASSWORD_CHANGED,
   REMEMBER_ME_CHANGED,
   LOAD_SAVED_USER_PASS,
-  LOGIN_USER, 
-  LOGIN_USER_SUCCESS, 
+  LOGIN_USER,
+  LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGOUT_USER,
-  GO_SUPPORT 
 } from '../actions/types';
 import ShareVariables from '../libs/ShareVariables';
 
-const INITIAL_STATE = { 
-  userID: '', 
+const INITIAL_STATE = {
+  userID: '',
   password: '',
   rememberMe: false,
   loading: false,
   error: '',
   user: null,
-  sessionToken: null
+  sessionToken: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,8 +29,8 @@ export default (state = INITIAL_STATE, action) => {
     case REMEMBER_ME_CHANGED:
       return { ...state, rememberMe: !state.rememberMe };
     case LOAD_SAVED_USER_PASS:
-      return { 
-        ...state, 
+      return {
+        ...state,
         userID: action.payload.userID,
         password: action.payload.password,
         rememberMe: action.payload.rememberMe,
@@ -42,33 +41,31 @@ export default (state = INITIAL_STATE, action) => {
       const user = userInfo;
       user.UserID = user.ssoId;
       user.FullName = user.fullname;
-      return { ...state,
+      return {
+        ...state,
         password: rememberMe ? state.password : '',
         loading: false,
-        error: '', 
+        error: '',
         sessionToken: action.payload.session,
-        user 
+        user,
       };
     }
     case LOGIN_USER_FAIL:
-      return { ...state,
-        loading: false, 
-        error: action.payload.error 
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
       };
     case LOGIN_USER:
-      return { ...state,
+      return {
+        ...state,
         loading: true,
-        error: ''
+        error: '',
       };
     case LOGOUT_USER:
       return {
         ...state,
-        user: null
-      };
-    case GO_SUPPORT: 
-      return {
-        ...state,
-        userID: action.payload.UserID
+        user: null,
       };
     default:
       return state;

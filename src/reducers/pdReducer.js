@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
-  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
+  UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
   PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS,
   PD_FETCH_DETAIL, PD_FETCH_DETAIL_FAIL, PD_FETCH_DETAIL_SUCCESS,
@@ -81,19 +81,19 @@ export default (state = nameInitialState, action) => {
     case PDLIST_NO_TRIP:
       return { ...nameInitialState, error: action.payload.error };
     
-    case UPDATE_ORDER_STATUS: {
+    case UPDATE_ORDER_STATUS_START: {
       const OrderInfos = action.payload.OrderInfos;
       const pdsItems = _.cloneDeep(state.pdsItems);
 
-      _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pdsItems, info.code, info.type);
-          order.status = 'Progress';
+      _.each(OrderInfos, (info) => {
+        const order = Utils.getOrder(pdsItems, info.code, info.type);
+        order.status = 'Progress';
       });
       
 
       return {
         ...state,
-        pdsItems
+        pdsItems,
       };
     }
 
@@ -101,28 +101,28 @@ export default (state = nameInitialState, action) => {
       const { OrderInfos, error } = action.payload;
 
       const pdsItems = _.cloneDeep(state.pdsItems);
-      _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pdsItems, info.code, info.type);
-          switch (info.type) {
-            case 'PICK':
-              order.status = 'PICKING';
-              break;
-            case 'DELIVER':
-              order.status = 'DELIVERING';
-              break;
-            case 'RETURN':
-              order.status = 'RETURNING';
-              break;
-            default:
-              break;
-          }
+      _.each(OrderInfos, (info) => {
+        const order = Utils.getOrder(pdsItems, info.code, info.type);
+        switch (info.type) {
+          case 'PICK':
+            order.status = 'PICKING';
+            break;
+          case 'DELIVER':
+            order.status = 'DELIVERING';
+            break;
+          case 'RETURN':
+            order.status = 'RETURNING';
+            break;
+          default:
+            break;
+        }
       });
 
       return {
         ...state,
         pdsItems,
         loading: false,
-        error
+        error,
       };
     }
 
@@ -141,36 +141,34 @@ export default (state = nameInitialState, action) => {
   // ]
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
-
-      const OrderInfos = action.payload.OrderInfos;
-      const FailedOrders = action.payload.FailedOrders;
+      const { OrderInfos, FailedOrders } = action.payload;
       let ids = [];
       if (FailedOrders instanceof Array && FailedOrders.length > 0) {
         ids = FailedOrders.map(o => o.code);
       }
 
       const pdsItems = _.cloneDeep(state.pdsItems);
-      _.each(OrderInfos, info => {
-          const order = Utils.getOrder(pdsItems, info.code, info.type);
-          if (ids.length > 0 && ids.includes(info.code)) {
-            switch (info.type) {
-              case 'PICK':
-                order.status = 'PICKING';
-                break;
-              case 'DELIVER':
-                order.status = 'DELIVERING';
-                break;
-              case 'RETURN':
-                order.status = 'RETURNING';
-                break;
-              default:
-                break;
-            }
-          } else {
-            order.status = info.nextStatus;
-            order.nextStatus = undefined;
-            order.success = undefined;
+      _.each(OrderInfos, (info) => {
+        const order = Utils.getOrder(pdsItems, info.code, info.type);
+        if (ids.length > 0 && ids.includes(info.code)) {
+          switch (info.type) {
+            case 'PICK':
+              order.status = 'PICKING';
+              break;
+            case 'DELIVER':
+              order.status = 'DELIVERING';
+              break;
+            case 'RETURN':
+              order.status = 'RETURNING';
+              break;
+            default:
+              break;
           }
+        } else {
+          order.status = info.nextStatus;
+          order.nextStatus = undefined;
+          order.success = undefined;
+        }
       });
       
 
@@ -185,13 +183,13 @@ export default (state = nameInitialState, action) => {
     case PD_ADD_ORDER:
       return {
         ...state,
-        addOrderLoading: true
+        addOrderLoading: true,
       };
     case PD_ADD_ORDER_FAIL:
       return {
         ...state,
         addOrderLoading: false,
-        error: action.payload.error
+        error: action.payload.error,
       };
     case PD_ADD_ORDER_SUCCESS: {
       // const order = action.payload.order;
@@ -253,7 +251,7 @@ export default (state = nameInitialState, action) => {
     case PD_UPDATE_ORDER_INFOS: {
       const { OrderInfos } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
-      _.each(OrderInfos, info => {
+      _.each(OrderInfos, (info) => {
         const { code, type } = info;
         const statusChangeDate = info.success === undefined ? undefined : Date.now();
         Object.assign(pdsItems[getKey(code, type)], { statusChangeDate }, info);

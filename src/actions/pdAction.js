@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Alert, Clipboard } from 'react-native';
 import { 
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
-  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
+  UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
   PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS, PD_FETCH_TRIP_INFO_FAIL,
   PD_FETCH_DETAIL, PD_FETCH_DETAIL_FAIL, PD_FETCH_DETAIL_SUCCESS,
@@ -83,24 +83,24 @@ export const updateOrderStatus = (infos) => {
     OrderInfos = [OrderInfos];
   }
 
-  return { 
-    type: UPDATE_ORDER_STATUS, 
-    payload: { OrderInfos } 
+  return {
+    type: UPDATE_ORDER_STATUS_START,
+    payload: { OrderInfos },
   };
 };
 
 export const updateOrderStatusSuccess = (OrderInfos, FailedOrders) => {
   return {
     type: UPDATE_ORDER_STATUS_SUCCESS,
-    payload: { OrderInfos, FailedOrders }
+    payload: { OrderInfos, FailedOrders },
   };
 };
 
 export const updateOrderStatusFail = (error, OrderInfos, report = true) => {
-  if (report) reportBug(error, OrderInfos);
+  //if (report) reportBug(error, OrderInfos);
   return {
     type: UPDATE_ORDER_STATUS_FAIL,
-    payload: { error, OrderInfos }
+    payload: { error, OrderInfos },
   };
 };
 

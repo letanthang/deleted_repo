@@ -44,6 +44,9 @@ class PickGroupDetail extends Component {
     const { PickItems, ReturnItems } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
+    if (pickGroup == null) {
+      this.props.navigation.popToTop();
+    }
     const orders = pickGroup.ShopOrders.filter(o => {
       const result = !o.done;
       return result;

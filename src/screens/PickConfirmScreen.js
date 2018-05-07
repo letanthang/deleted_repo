@@ -134,7 +134,7 @@ class PickConfirmScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Số lượng đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{sucessUnsyncedNum} lấy / {failUnsyncedNum} lỗi / {this.pickGroup.ShopOrders.length}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{sucessUnsyncedNum} lấy / {failUnsyncedNum} lỗi / {this.pickGroup.ShopOrders.length} tổng đơn</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Tổng thu người gởi</Text>

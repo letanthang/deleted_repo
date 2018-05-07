@@ -26,9 +26,9 @@ function* updateOrderStatus(act) {
   try {
     const state = yield select();
     const { tripCode } = state.pd;
-    //filter 
-    //transform OrderInfos
-    const filterInfos = OrderInfos.map(info => {
+    // filter
+    // transform OrderInfos
+    const filterInfos = OrderInfos.map((info) => {
       const { code, nextDate, noteId, note, action } = info;
       return { code, tripCode, nextRedoTime: nextDate, failCode: noteId, failNote: note, action };
     });
@@ -57,7 +57,7 @@ function* updateOrderStatus(act) {
 */
 function* mySaga() {
   yield takeEvery(OTHER_GET_ORDER_HISTORY, getOrderHistory);
-  yield takeEvery(UPDATE_ORDER_STATUS, updateOrderStatus);
+  // yield takeEvery(UPDATE_ORDER_STATUS, updateOrderStatus);
 }
 /*
   Alternatively you may use takeLatest.

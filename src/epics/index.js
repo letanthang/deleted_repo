@@ -4,6 +4,7 @@ import fetchTripInfoEpic from './fetchTripInfoEpic';
 import fetchTripDataEpic from './fetchTripDataEpic';
 import addOrderEpic from './addOrderEpic';
 import fetchOrderDetailEpic from './fetchOrderDetailEpic';
+import updateOrderEpic from './updateOrderEpic';
 import updateWeightSizeEpic from './updateWeightSizeEpic';
 
 export default combineEpics(
@@ -11,5 +12,6 @@ export default combineEpics(
   fetchTripInfoEpic,
   fetchTripDataEpic,
   addOrderEpic,
-  fetchOrderDetailEpic
+  fetchOrderDetailEpic,
+  updateOrderEpic,
 );

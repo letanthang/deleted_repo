@@ -56,10 +56,9 @@ export default (state = nameInitialState, action) => {
       return newState;
     }
     case PDLIST_FETCH_SUCCESS: {
-      const all = action.payload.all;
-      const more = action.payload.more;
+      const { more } = action.payload;
       let pdsItems = transformPDS(action.payload.pdsItems);
-      pdsItems = mergeState(state.pdsItems, pdsItems, all);
+      pdsItems = mergeState(state.pdsItems, pdsItems);
 
       let data = {};
       if (more === false) {
@@ -73,7 +72,7 @@ export default (state = nameInitialState, action) => {
         pdsItems,
         loading: false,
         error: '',
-        ...data
+        ...data,
       };
     }
     case PDLIST_FETCH_FAIL:
@@ -409,10 +408,20 @@ const getKey = (orderID, type) => `${orderID}-${type}`;
 
 const transformPDS = (pdsItems) => {
   const temp = {};
-  pdsItems.forEach(item => {
+  pdsItems.forEach((item) => {
     const key = getKey(item.code, item.type);
     temp[key] = { ...item, ...item.extraInfo };
     temp[key].address = temp[key].type === 'DELIVER' ? temp[key].receiverAddress : temp[key].senderAddress;
+    if (temp[key].isCancel === true) {
+      switch (temp[key].status) {
+        case 'PICKING':
+          temp[key].status = 'COMPLETED';
+          break;
+        default:
+          break;
+      }
+    }
+    
     delete temp[key].nextStatus;
     delete temp[key].extraInfo;
   });
@@ -430,9 +439,9 @@ const addGroup = (pds, orderGroup) => {
   });
 };
 
-const mergeState = (oldState, newState, all) => {
+const mergeState = (oldState, newState) => {
   if (oldState === null) return newState;
-  const temp = all ? {} : _.clone(oldState);
+  const temp = _.clone(oldState);
   _.each(newState, (item, key) => {
     temp[key] = Object.assign({}, oldState[key], item);
   });

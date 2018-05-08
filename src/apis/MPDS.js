@@ -272,5 +272,3 @@ export const GetOrderHistory = (code) => {
   }
   return axios.get(URL, config);
 };
-
-

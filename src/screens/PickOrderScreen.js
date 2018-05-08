@@ -161,7 +161,6 @@ class PickOrderScreen extends Component {
     } 
     const history = this.props.orderHistory[code];
     const historyString = Utils.getHistoryString(history);
-    console.log('render order', history);
     const { 
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,

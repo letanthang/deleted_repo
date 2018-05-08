@@ -288,6 +288,10 @@ class Utils {
   }
 
   static phoneCall(phone, prompt) {
+    if (!phone) {
+      alert('Không có số điện thoại!');
+      return;
+    }
     //fix phone
     const number = Utils.fixPhoneNumber(phone);
     phonecall(number, prompt);

@@ -10,9 +10,10 @@ import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoFor
 
 class ActionAllButtons extends Component {
   state = { status: undefined }
-  componentWillMount() {
-  }
-  componentWillUnmount() {
+  componentWillReceiveProps({ notify }) {
+    if (notify !== this.props.notify) {
+      this.setState({ status: undefined });
+    }
   }
   changeInfo(nextStatus) {
     const orders = this.props.orders;

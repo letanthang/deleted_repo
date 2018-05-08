@@ -18,7 +18,7 @@ import { getUpdateOrderInfo } from '../../components/Helpers';
 import OrderItem from './OrderItem';
 
 class PickGroupDetail extends Component {
-  state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
+  state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false, notify: 0 };
   
   pickGroup = null;
   senderHubId = null;
@@ -125,6 +125,9 @@ class PickGroupDetail extends Component {
   reloadData() {
     this.props.pdListFetch({});
   }
+  resetAllButton() {
+    this.setState({ notify: this.state.notify + 1 });
+  }
 
   render() {
     const { PickItems, ReturnItems, keyword } = this.props;
@@ -146,6 +149,7 @@ class PickGroupDetail extends Component {
         <ActionAllButtons
           done={hidden}
           orders={orders}
+          notify={this.state.notify}
           onSelectDateCase={buttonIndex => {
             this.buttonIndex = buttonIndex;
             this.order = null;
@@ -172,6 +176,7 @@ class PickGroupDetail extends Component {
                   onOrderPress={this.onOrderPress.bind(this)}
                   isDelivering={isDelivering}
                   onSelectDateCase={this.onSelectDateCase.bind(this)}
+                  resetAllButton={this.resetAllButton.bind(this)}
                 />
               );
             }}

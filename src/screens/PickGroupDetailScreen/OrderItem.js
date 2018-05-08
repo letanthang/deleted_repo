@@ -21,12 +21,12 @@ class OrderItem extends Component {
 
   render() {
     // console.log('OrderItem render!');
-    const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase } = this.props;
+    const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase, resetAllButton } = this.props;
     const { 
       code, receiverName, receiverPhone,
       height, width, weight, length, status,
-      externalCode, moneyCollect, success, note, newDate, pickWarehouseId, 
-      deliverWarehouseId, done
+      externalCode, moneyCollect, success, note, newDate, pickWarehouseId,
+      deliverWarehouseId, done,
     } = order;
 
     const realDone = done;
@@ -43,7 +43,7 @@ class OrderItem extends Component {
           <View style={Styles.item2Style}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{code}</Text>
-              <OrderStatusText 
+              <OrderStatusText
                 order={order}
                 style={{ marginLeft: 10 }}
               />
@@ -83,7 +83,8 @@ class OrderItem extends Component {
             order={order}
             onSelectDateCase={buttonIndex => {
               onSelectDateCase(buttonIndex, order);
-            }} 
+            }}
+            resetAllButton={resetAllButton}
           />
         </View>
       </TouchableOpacity>

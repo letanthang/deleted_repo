@@ -12,6 +12,7 @@ class ActionButtons extends Component {
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
   changeInfo(nextStatus) {
+    this.props.resetAllButton();
     const { order, animated } = this.props;
     const { code, type, senderPhone } = this.props.order;
     let info = {};

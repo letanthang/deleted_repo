@@ -30,13 +30,13 @@ class OrderListScreen extends Component {
     const { code, senderHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
     switch (type) {
-      case 1:
+      case 'PICK':
         navigate('PickOrder', { code, order, clientId, senderHubId });
         break;
-      case 2:
+      case 'DELIVER':
         navigate('DeliveryOrder', { code });
         break;
-      case 3:
+      case 'RETURN':
         navigate('ReturnOrder', { code, order, clientId, senderHubId });
         break;
       default:

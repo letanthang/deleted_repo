@@ -21,7 +21,8 @@ import Utils from '../libs/Utils';
 const limitNum = 30;
 
 const fetchTripsEpic = (action$, store) =>
-  action$.ofType(PD_FETCH_TRIP_INFO_SUCCESS)
+  action$.ofType(PD_FETCH_TRIP_INFO_SUCCESS, PDLIST_NO_TRIP)
+    .filter(({ type }) => type === PD_FETCH_TRIP_INFO_SUCCESS || store.getState().pd.tripCode)
     .map(action => action.payload)
     .mergeMap(({ all, senderHubId }) => {
       const lastUpdatedTime = all === true ? null : store.getState().pd.lastUpdatedTime;
@@ -73,14 +74,14 @@ const fetchTripsMoreEpic = (action$, store) =>
         .catch(error => of(fetchTripDataFail(error.message)));
     });
 
-const fetchProgressEpic = (action$) =>
+const fetchProgressEpic = action$ =>
   action$.ofType(PDLIST_FETCH_SUCCESS)
     .map(action => action.payload)
     .mergeMap(({ page, totalPage }) =>
       of(updateProgress(page / totalPage, true)));
 
 
-const fetchProgressResetEpic = (action$) =>
+const fetchProgressResetEpic = action$ =>
   action$.ofType(OTHER_SET_PROPS)
     .map(action => action.payload)
     .filter(payload => payload.progress === 1)
@@ -88,16 +89,16 @@ const fetchProgressResetEpic = (action$) =>
     .mergeMap(() =>
       of(updateProgress(0, false)));
 
-const fetchAlertEpic = (action$) =>
+const fetchAlertEpic = action$ =>
   action$.ofType(PDLIST_FETCH_SUCCESS)
     .filter(action => action.payload.more === false)
     .do(() => Utils.showToast('Cập nhật chuyến đi thành công.', 'success'))
     .ignoreElements();
 
-const fetchAlertFailEpic = (action$) =>
+const fetchAlertFailEpic = action$ =>
   action$
     .filter(action => action.type === PDLIST_FETCH_FAIL || action.type === PDLIST_NO_TRIP)
-    .do((action) => Utils.showToast(action.payload.error, 'warning'))
+    .do(action => Utils.showToast(action.payload.error, 'warning'))
     .ignoreElements();
 
 export default combineEpics(
@@ -106,5 +107,5 @@ export default combineEpics(
   fetchProgressEpic,
   fetchProgressResetEpic,
   fetchAlertEpic,
-  fetchAlertFailEpic
+  fetchAlertFailEpic,
 );

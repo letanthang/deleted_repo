@@ -38,9 +38,9 @@ class HomeScreen extends Component {
     }
   }
   
-  shouldComponentUpdate({ user, loading, loaded, stats, progress }, nextState) {
+  shouldComponentUpdate({ user, loading, loaded, stats, progress, isTripDone }, nextState) {
     if (user === null) return false;
-    if (loading === this.props.loading && loaded === this.props.loaded && progress === this.props.progress
+    if (loading === this.props.loading && loaded === this.props.loaded && progress === this.props.progress && isTripDone === this.props.isTripDone
       && JSON.stringify(stats) === JSON.stringify(this.props.stats)
       && JSON.stringify(nextState) === JSON.stringify(this.state)) {
       return false;
@@ -188,7 +188,7 @@ class HomeScreen extends Component {
     const marginLeft = Platform.OS === 'ios' ? 0 : 10;
     const marginRight = Platform.OS === 'ios' ? 0 : -10;
     const paddingTop = Platform.OS === 'ios' ? 4 : 8;
-    const { pdsItems, lastUpdatedTime } = this.props;
+    const { pdsItems, lastUpdatedTime, isTripDone } = this.props;
     const showTime = lastUpdatedTime ? moment(lastUpdatedTime).format('LT DD/MM ') : '';
     const ordersNum = pdsItems ? Object.keys(pdsItems).length : 0;
     console.log(lastUpdatedTime);
@@ -211,7 +211,9 @@ class HomeScreen extends Component {
             </Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={{ fontWeight: '400', fontSize: 16 }}>{showTime} </Text>
+            {isTripDone? 
+              <Text style={{ fontWeight: '600', fontSize: 16, color: 'green' }}>Chuyến đi đã kết thúc</Text>
+            : <Text style={{ fontWeight: '400', fontSize: 16 }}>{showTime} </Text>}
             <IC name='update' size={16} />
           </View>
         </View>
@@ -348,12 +350,12 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { error, pdsItems, lastUpdatedTime } = state.pd;
+  const { error, pdsItems, lastUpdatedTime, isTripDone } = state.pd;
   const { loaded, progress, loading } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
-  return { loading, loaded, error, user, stats, pdsItems, progress, lastUpdatedTime };
+  return { loading, loaded, error, user, stats, pdsItems, progress, lastUpdatedTime, isTripDone };
 };
 
 export default connect(mapStateToProps, { pdListFetch, setLoaded, stopLoading })(HomeScreen);

@@ -12,7 +12,7 @@ import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS } from '../actions/types
 import { updateOrderStatusSuccess, updateOrderStatusFail } from '../actions';
 import * as API from '../apis/MPDS';
 // import Utils from '../libs/Utils';
-const limit = 25;
+const limit = 20;
 const updateOrderStartEpic = (action$, store) =>
   action$.ofType(UPDATE_ORDER_STATUS_START)
     .map(action => action.payload)
@@ -25,7 +25,7 @@ const updateOrderMoreEpic = (action$, store) =>
   action$.ofType(UPDATE_ORDER_STATUS)
     .map(action => action.payload)
     .filter(({ OrderInfos }) => OrderInfos.length > limit)
-    .delay(500)
+    .delay(650)
     .mergeMap(({ OrderInfos }) => of({
       type: 'UPDATE_ORDER_STATUS',
       payload: { OrderInfos: OrderInfos.slice(limit, 10000) },

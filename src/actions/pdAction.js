@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Alert, Clipboard } from 'react-native';
 import { 
-  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP, PDLIST_CLEAR_TRIP,
   UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
   PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS, PD_FETCH_TRIP_INFO_FAIL,
@@ -33,8 +33,12 @@ export const pdListFetch = ({ all, senderHubId }) => {
   return { type: PDLIST_FETCH, payload: { all, senderHubId } }; 
 };
 
-export const pdListFetchNoTrip = () => {
-  return { type: PDLIST_NO_TRIP, payload: { error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.' } };
+export const pdListFetchNoTrip = (all) => {
+  return { type: PDLIST_NO_TRIP, payload: { error: 'Không tìm thấy CĐ hoặc CĐ đã kết thúc.', all } };
+};
+
+export const pdListClearTrip = () => {
+  return { type: PDLIST_CLEAR_TRIP, payload: { error: 'Đã xoá dữ liệu chuyến đi trên điện thoại.' } };
 };
 
 export const fetchTripDataSuccess = (response, all, senderHubId, page, totalPage, more) => {

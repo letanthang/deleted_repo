@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { 
-  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP,
+  PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP, PDLIST_CLEAR_TRIP,
   UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
   PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS,
@@ -15,6 +15,7 @@ const nameInitialState = {
   pdsItems: null,
   Infos: null,
   tripCode: null,
+  isTripDone: false,
   lastUpdatedTime: null,
   timeServer: null,
   loading: false,
@@ -39,21 +40,19 @@ export default (state = nameInitialState, action) => {
     case PD_FETCH_TRIP_INFO_SUCCESS: {
       // console.log(action.payload);
       const { driverName, createdByName, createdByPhone, code } = action.payload.info;
-      let newState = {
+      
+      const data = state.tripCode === code ? {} : {
+        pdsItems: null,
+        groups: nameInitialState.groups,
+      };
+
+      return {
         ...state,
         Infos: { driverName, createdByName, createdByPhone },
         tripCode: code,
+        isTripDone: false,
+        ...data,
       };
-
-      if (state.tripCode !== newState.tripCode) { 
-        newState = {
-          ...newState,
-          pdsItems: null,
-          groups: nameInitialState.groups
-        };
-      }
-
-      return newState;
     }
     case PDLIST_FETCH_SUCCESS: {
       const { more } = action.payload;
@@ -78,8 +77,9 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH_FAIL:
       return { ...state, loading: false, error: action.payload.error };
     case PDLIST_NO_TRIP:
+      return { ...state, isTripDone: true, error: action.payload.error };
+    case PDLIST_CLEAR_TRIP:
       return { ...nameInitialState, error: action.payload.error };
-    
     case UPDATE_ORDER_STATUS_START: {
       const OrderInfos = action.payload.OrderInfos;
       const pdsItems = _.cloneDeep(state.pdsItems);

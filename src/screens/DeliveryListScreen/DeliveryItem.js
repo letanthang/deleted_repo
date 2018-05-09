@@ -29,9 +29,11 @@ class DeliveryItem extends Component {
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
               [{displayOrder}] {code}
             </Text>
-            <Badge>
-              <Text>{serviceName}</Text>
-            </Badge>
+            {serviceName ?
+              <Badge>
+                <Text>{serviceName}</Text>
+              </Badge>
+            : null}
           </View>
           <View style={Styles.itemStyle}>
             <Text style={[Styles.midTextStyle, Styles.weakColorStyle]}>

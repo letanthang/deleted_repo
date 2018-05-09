@@ -13,7 +13,8 @@ import { updateOrderStatusSuccess, updateOrderStatusFail } from '../actions';
 import * as API from '../apis/MPDS';
 // import Utils from '../libs/Utils';
 const limit = 20;
-const updateOrderStartEpic = (action$, store) =>
+const delayTime = 710;
+const updateOrderStartEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS_START)
     .map(action => action.payload)
     .mergeMap(({ OrderInfos }) => of({
@@ -21,11 +22,11 @@ const updateOrderStartEpic = (action$, store) =>
       payload: { OrderInfos },
     }));
 
-const updateOrderMoreEpic = (action$, store) =>
+const updateOrderMoreEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS)
     .map(action => action.payload)
     .filter(({ OrderInfos }) => OrderInfos.length > limit)
-    .delay(650)
+    .delay(delayTime)
     .mergeMap(({ OrderInfos }) => of({
       type: 'UPDATE_ORDER_STATUS',
       payload: { OrderInfos: OrderInfos.slice(limit, 10000) },

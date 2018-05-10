@@ -144,7 +144,7 @@ class PickGroupDetailScreen extends Component {
     const pickGroup = Items.find(trip => trip.senderHubId === this.senderHubId);
     if (pickGroup == null) {
       this.props.navigation.popToTop();
-      return;
+      return null;
     }
     this.pickGroup = pickGroup;
     this.totalNum = this.pickGroup.ShopOrders.length;

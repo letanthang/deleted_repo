@@ -20,7 +20,7 @@ class OrderItem extends Component {
   }
 
   render() {
-    // console.log('OrderItem render!');
+    console.log('OrderItem render!');
     const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase, resetAllButton } = this.props;
     const { 
       code, receiverName, receiverPhone,
@@ -51,14 +51,14 @@ class OrderItem extends Component {
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
           </View>
           {success === false && realDone === false ?
-          <View style={Styles.itemStyle}>
-            <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
-          </View>
+            <View style={Styles.itemStyle}>
+              <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
+            </View>
           : null}
           {externalCode ?
-          <View style={Styles.itemStyle}>
-            <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {externalCode}</Text>
-          </View>
+            <View style={Styles.itemStyle}>
+              <Text style={[Styles.weakColorStyle]}>Mã ĐH shop: {externalCode}</Text>
+            </View>
           : null}
           <View style={Styles.itemStyle}>
             <Text style={Styles.weakColorStyle}>Nhận: {receiverName} - {receiverPhone}</Text>
@@ -68,13 +68,13 @@ class OrderItem extends Component {
           <View style={Styles.item2Style}>
             <Text style={Styles.weakColorStyle}>{weight} g | {length}-{width}-{height} (cm3)</Text>
             {deliverable ?
-            <FormButton
-              disabled={isDelivering}
-              theme='theme1'
-              text={deliverStatus}
-              width={100}
-              onPress={acceptDeliverPress.bind(this, order)}
-            /> : null}
+              <FormButton
+                disabled={isDelivering}
+                theme='theme1'
+                text={deliverStatus}
+                width={100}
+                onPress={acceptDeliverPress.bind(this, order)}
+              /> : null}
           </View>
           <ActionButtons
             animated={animated}

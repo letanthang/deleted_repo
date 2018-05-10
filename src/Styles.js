@@ -222,7 +222,23 @@ export const Styles = {
     borderColor: '#555',
     borderWidth: 1,
     borderRadius: 5,
-  }
+  },
+  sectionHeader: {
+    backgroundColor: Colors.background,
+    padding: 10,
+    paddingBottom: 6,
+    flexDirection: 'row',
+  },
+  headerText0: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: Colors.theme,
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#808080'
+  },
 };
 
 export const HomeStyles = {

@@ -4,7 +4,7 @@ import Utils from '../libs/Utils';
 
 export const getOrders = ({ pd }) => {
   const items = pd.pdsItems === null ? null : pd.pdsItems;
-  _.forEach(items, order => {
+  _.forEach(items, (order) => {
     if (order.type === 'PICK') {
       order.done = Utils.checkPickComplete(order.status);
     } else if (order.type === 'DELIVER') {

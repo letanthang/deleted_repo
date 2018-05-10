@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, FlatList, RefreshControl } from 'react-native';
+import { View, Alert, FlatList, SectionList, RefreshControl, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { 
@@ -133,7 +133,10 @@ class PickGroupDetail extends Component {
     const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
+    const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && !o.done) || [];
+    const ordersDone = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && o.done) || [];
+    const sections = [{ data: orders, title: 'Đơn đang chạy', index: 0 }, { data: ordersDone, title: 'Đơn đã xong', index: 1 }];
+    console.log(sections);
     const animated = true; //const animated = orders.length < 10;
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
     return (
@@ -159,12 +162,12 @@ class PickGroupDetail extends Component {
           style={Styles.actionAllWrapperStyle}
         />
         <DataEmptyCheck
-          data={orders}
+          data={sections}
           message='Không có dữ liệu'
         >
           <View>
-          <FlatList 
-            data={orders}
+          <SectionList 
+            sections={sections}
             keyExtractor={(item, index) => item.code}
             renderItem={({ item }) => {
               const isDelivering = this.checkDelivering(item);
@@ -178,6 +181,15 @@ class PickGroupDetail extends Component {
                   onSelectDateCase={this.onSelectDateCase.bind(this)}
                   resetAllButton={this.resetAllButton.bind(this)}
                 />
+              );
+            }}
+            renderSectionHeader={({ section }) => {
+              if (section.data.length === 0) return null
+              const style = section.index === 0 ? Styles.headerText0 : Styles.headerText;
+              return (
+                <View style={Styles.sectionHeader}>
+                  <Text style={style}>{section.title}</Text>
+                </View>
               );
             }}
           />

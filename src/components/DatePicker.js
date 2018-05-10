@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { View, DatePickerAndroid, DatePickerIOS, Platform } from 'react-native';
 import { Button, Text } from 'native-base';
+import { min } from 'moment';
 
 
 const minimumDate = new Date();
 const maximumDate = new Date();
+minimumDate.setHours(minimumDate.getHours() + 12);
 maximumDate.setDate(maximumDate.getDate() + 5);
 class DatePicker extends Component {
   

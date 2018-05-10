@@ -5,11 +5,13 @@ import DatePicker from './DatePicker';
 class ActionModal extends Component {
   state = { date: new Date(), androidDPShow: false, pmSwitch: false }
   onChooseDate() {
-    const date = this.state.date;
+    const date = new Date(this.state.date);
     if (this.state.pmSwitch) {
-      date.setHours(date.getHours() + 12);
+      date.setHours(13);
+    } else {
+      date.setHours(1);
     }
-    console.log(date);
+    // console.log(date);
     this.props.onChooseDate(date);
     this.setState({ buttonIndex: null, androidDPShow: false, pmSwitch: false });
   }

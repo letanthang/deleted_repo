@@ -321,9 +321,9 @@ class Utils {
   }
   static getFullNote(note, newDate) {
     if (newDate == null || newDate == 0) { return note; }
-     
+    console.log(new Date(newDate));
     const strDate = moment(newDate).format('DD/MM ');
-    if (new Date(newDate).getHours() > 1) {
+    if (new Date(newDate).getHours() > 12) {
       return `${note} ${strDate} Chiều`;
     } 
     return `${note} ${strDate} Sáng`;

@@ -1,11 +1,10 @@
 //import libs
 import React, { Component } from 'react';
 import firebase from 'react-native-firebase';
-import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Alert, TextInput } from 'react-native';
 import Orientation from 'react-native-orientation';
 import { 
-  Container, Content, Button, Text, 
-  Body, Input, Form, Item, ListItem 
+  Container, Content, Button, Text, Body
 } from 'native-base';
 import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
@@ -13,7 +12,7 @@ import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser } from '../actions';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { Colors } from '../Styles';
+import { Colors, Styles } from '../Styles';
 import ShareVariables from '../libs/ShareVariables';
 
 
@@ -96,26 +95,28 @@ class LoginScreen extends Component {
               </Text>
               <Text style={{ color: '#dd0000', fontSize: 24, fontWeight: 'bold' }}>09/05</Text>
             </Body>
-            <Form>
-              <Item style={{ marginRight: 20 }}>
-                <IconFA name="user-o" size={20} />
-                <Input 
+            <View style={{ paddingLeft: 10, paddingTop: 32 }}>
+              <View style={{ marginRight: 20, marginBottom: 14, paddingBottom: 14, flexDirection: 'row', alignItems: 'center', borderBottomColor: '#E9E7EB', borderBottomWidth: 1 }}>
+                <IconFA name="user-o" size={18} style={{ width: 32 }}/>
+                <TextInput 
                   placeholder="Mã số"
                   value={userId}
                   onChangeText={(text) => this.props.userIDChanged(text)}
                   keyboardType='numeric'
+                  style={Styles.midTextStyle}
                 />
-              </Item>
-              <Item style={{ marginRight: 20 }}>
-                <IconFA name="lock" size={20} />
-                <Input 
+              </View>
+              <View style={{ marginRight: 20, marginBottom: 14, paddingBottom: 14, flexDirection: 'row', alignItems: 'center', borderBottomColor: '#E9E7EB', borderBottomWidth: 1 }}>
+                <IconFA name="lock" size={21}  style={{ width: 32 }} />
+                <TextInput 
                   placeholder="Mật khẩu" 
                   secureTextEntry={!this.state.showPassword}
                   value={password}
                   onChangeText={(text) => this.props.passwordChanged(text)}
+                  style={Styles.midTextStyle}
                 />
-              </Item>
-            </Form>
+              </View>
+            </View>
             <CheckBox
               style={{ flex: 1, padding: 10 }} 
               checked={this.state.showPassword} 

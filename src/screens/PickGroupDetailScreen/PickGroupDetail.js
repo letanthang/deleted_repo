@@ -136,7 +136,6 @@ class PickGroupDetail extends Component {
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && !o.done) || [];
     const ordersDone = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && o.done) || [];
     const sections = [{ data: orders, title: 'Đơn đang chạy', index: 0 }, { data: ordersDone, title: 'Đơn đã xong', index: 1 }];
-    console.log(sections);
     const animated = true; //const animated = orders.length < 10;
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
     return (

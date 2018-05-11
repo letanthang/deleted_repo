@@ -58,8 +58,8 @@ class AboutScreen extends Component {
   }
 }
 const mapStateToProps = ({ auth }) => {
-  const { userID } = auth;
-  return { userID };
+  const { userId } = auth;
+  return { userId };
 };
 
 export default connect(mapStateToProps, {})(AboutScreen);

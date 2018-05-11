@@ -50,10 +50,10 @@ export const fetchTripDataFail = (error) => {
   return { type: PDLIST_FETCH_FAIL, payload: { error } };
 };
 
-export const fetchTripInfoSuccess = (response, all, senderHubId) => {
+export const fetchTripInfoSuccess = (response, userId, all, senderHubId) => {
   return { 
     type: PD_FETCH_TRIP_INFO_SUCCESS, 
-    payload: { info: response.data[0], all, senderHubId }
+    payload: { info: response.data[0], all, senderHubId, userId }
   };
 };
 

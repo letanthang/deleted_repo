@@ -135,7 +135,7 @@ export const getUserPerformance = (statType = 'yesterday') => {
     dispatch({ type: OTHER_GET_USER_PERFORMANCE });
     
     try {
-      const UserID = getState().auth.userID;
+      const UserID = getState().auth.userId;
       const { from, to } = getQuery(statType);
       console.log({ from, to });
       const response = await API.GetUserPerformance(UserID, from.valueOf(), to.valueOf());

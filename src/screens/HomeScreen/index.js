@@ -33,9 +33,9 @@ class HomeScreen extends Component {
     if (loading) {
       //this.props.stopLoading();
     }
-    if (!pdsItems) {
-      this.reloadData();
-    }
+    // if (!pdsItems) {
+    //   this.reloadData();
+    // }
   }
   
   shouldComponentUpdate({ user, loading, loaded, stats, progress, isTripDone }, nextState) {

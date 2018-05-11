@@ -11,7 +11,7 @@ import {
 import ShareVariables from '../libs/ShareVariables';
 
 const INITIAL_STATE = {
-  userID: '',
+  userId: '',
   password: '',
   rememberMe: false,
   loading: false,
@@ -23,7 +23,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USERID_CHANGED:
-      return { ...state, userID: action.payload };
+      return { ...state, userId: action.payload };
     case PASSWORD_CHANGED:
       return { ...state, password: action.payload };
     case REMEMBER_ME_CHANGED:
@@ -31,7 +31,7 @@ export default (state = INITIAL_STATE, action) => {
     case LOAD_SAVED_USER_PASS:
       return {
         ...state,
-        userID: action.payload.userID,
+        userId: action.payload.userId,
         password: action.payload.password,
         rememberMe: action.payload.rememberMe,
       };

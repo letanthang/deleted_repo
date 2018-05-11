@@ -16,6 +16,7 @@ const nameInitialState = {
   Infos: null,
   tripCode: null,
   isTripDone: false,
+  userId: null,
   lastUpdatedTime: null,
   timeServer: null,
   loading: false,
@@ -39,7 +40,8 @@ export default (state = nameInitialState, action) => {
       return { ...state, loading: true, error: '' };
     case PD_FETCH_TRIP_INFO_SUCCESS: {
       // console.log(action.payload);
-      const { driverName, createdByName, createdByPhone, code } = action.payload.info;
+      const { info, userId } = action.payload;
+      const { driverName, createdByName, createdByPhone, code } = info;
       
       const data = state.tripCode === code ? {} : {
         pdsItems: null,
@@ -51,6 +53,7 @@ export default (state = nameInitialState, action) => {
         Infos: { driverName, createdByName, createdByPhone },
         tripCode: code,
         isTripDone: false,
+        userId,
         ...data,
       };
     }

@@ -8,8 +8,8 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { LOGIN_USER, LOGOUT_USER } from '../actions/types';
-import { loginUserSucess, loginUserFail, logoutUser } from '../actions';
+import { LOGIN_USER, LOGOUT_USER, LOGIN_USER_SUCCESS } from '../actions/types';
+import { loginUserSucess, loginUserFail, logoutUser, pdListFetch } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 
@@ -38,9 +38,14 @@ const logoutUserAlertEpic = action$ =>
     .filter(action => action.payload.message !== undefined)
     .do(action => Utils.showToast(action.payload.message, 'warning'))
     .ignoreElements();
-    
 
+const autoReloadEpic = (action$, store) =>
+  action$.ofType(LOGIN_USER_SUCCESS)
+    .filter(() => !store.getState().pd.pdsItems || store.getState().auth.userId !== store.getState().pd.userId)
+    .mergeMap(() => of(pdListFetch({ all: true })));
+  
 export default combineEpics(
   loginUserEpic,
-  logoutUserAlertEpic
+  logoutUserAlertEpic,
+  autoReloadEpic,
 );

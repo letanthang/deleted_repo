@@ -13,16 +13,16 @@ const fetchTripInfoEpic = (action$, store) =>
   action$.ofType(PDLIST_FETCH)
     .map(action => action.payload)
     .mergeMap(({ all, senderHubId }) =>
-      API.fetchTripInfo(store.getState().auth.userID)
+      API.fetchTripInfo(store.getState().auth.userId)
         .map(({ data }) => {
           const response = data;
-          //console.log(response);
+          // console.log(response);
           switch (response.status) {
             case 'OK':
               if (response.total === 0) {
                 return pdListFetchNoTrip(all);
               }
-              return fetchTripInfoSuccess(response, all, senderHubId);
+              return fetchTripInfoSuccess(response, store.getState().auth.userId, all, senderHubId);
             case 'NOT_FOUND': {
               if (response.message === 'Not found pds.') {
                 return pdListFetchNoTrip(all);

@@ -83,7 +83,7 @@ class LoginScreen extends Component {
 
 
   render() {
-    const { userID, password, rememberMe } = this.props;
+    const { userId, password, rememberMe } = this.props;
     return ( 
       <Container style={{ backgroundColor: Colors.background }}>
         <Content
@@ -101,7 +101,7 @@ class LoginScreen extends Component {
                 <IconFA name="user-o" size={20} />
                 <Input 
                   placeholder="Mã số"
-                  value={userID}
+                  value={userId}
                   onChangeText={(text) => this.props.userIDChanged(text)}
                   keyboardType='numeric'
                 />
@@ -133,7 +133,7 @@ class LoginScreen extends Component {
               success
               onPress={() => { 
                 this.setState({ loading: true });
-                this.props.loginUser(userID, password, rememberMe);
+                this.props.loginUser(userId, password, rememberMe);
               }}
             >
               <Text>ĐĂNG NHẬP</Text>
@@ -179,8 +179,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth }) => {
-  const { userID, password, rememberMe, user, error, loading, sessionToken } = auth;
-  return { userID, password, rememberMe, user, error, loading, sessionToken };
+  const { userId, password, rememberMe, user, error, loading, sessionToken } = auth;
+  return { userId, password, rememberMe, user, error, loading, sessionToken };
 };
 
 //make it available

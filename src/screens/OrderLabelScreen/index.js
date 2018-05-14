@@ -100,10 +100,11 @@ class OrderLabelScreen extends Component {
             // captureMode="mount"
             ref="vsUpper"
             style={{
-              width: 560,
+              width: 550,
               height: 362,
               alignSelf: 'center',
-              backgroundColor: 'white'
+              backgroundColor: 'white',
+              paddingLeft: 16,
             }}
           >
             <View style={{ flexDirection: 'row' }}>
@@ -135,7 +136,7 @@ class OrderLabelScreen extends Component {
             <View>
               <View style={{ height: 35 }}>
               <Barcode 
-                value='MPDS-338498581-8029'
+                value={code}
                 format="CODE128"
                 height={25}
                 width={2}
@@ -144,7 +145,7 @@ class OrderLabelScreen extends Component {
               </View>
               <View style={{ marginTop: -9 }}>
               <Barcode 
-                value='MPDS-338498581-8029'
+                value={code}
                 format="CODE128"
                 height={25}
                 width={2}
@@ -177,13 +178,13 @@ class OrderLabelScreen extends Component {
               backgroundColor: 'white'
             }}
           >
-            <View style={{ position: 'relative', height: 570 }}>
+            <View style={{ position: 'relative', height: 555 }}>
               <View
-                style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -95 }, { translateY: 100 }, { rotate: '-90deg' }] }}
+                style={{ position: 'absolute', top: 0, left: 0, zIndex: 100, transform: [{ translateX: -80 }, { translateY: 100 }, { rotate: '-90deg' }] }}
               >
                 {this.state.bcUri ?
                 <Image 
-                  style={{ width: 560, height: 362 }}
+                  style={{ width: 550, height: 362 }}
                   source={{ uri: this.state.bcUri }}
                 />
                 : null}
@@ -193,16 +194,14 @@ class OrderLabelScreen extends Component {
             <View style={{ borderWidth: 2, padding: 0, alignItems: 'center' }}>
               <Text style={{ fontWeight: 'bold', fontSize: 34, color: 'white', backgroundColor: 'black' }}>44-44-44</Text>
             </View>
-            <View style={{ marginTop: 4, height: 130 }}>
+            <View style={{ marginTop: 4, height: 135 }}>
               <Barcode 
-                value='GHN1234567890'
+                value={code}
                 format="CODE128"
-                height={100}
+                height={82}
                 width={2}
-                // background='blue'
               />
             </View>
-            
           </ViewShot>
           : null}
           {/* <TouchableOpacity
@@ -228,7 +227,7 @@ class OrderLabelScreen extends Component {
               <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}> Print</Text>
             </TouchableOpacity>
             <Image 
-              style={{ width: 362 * 0.8, height: 700 * 0.8 }}
+              style={{ width: 362 * 0.8, height: 750 * 0.8 }}
               source={{ uri: this.props.imageUri }}
             />
             <TouchableOpacity 

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, RefreshControl, Platform } from 'react-native';
 import { 
@@ -298,7 +299,10 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate('OrderLabel', { code: 'GHN-TEST-102' })}
+          onPress={() => {
+            const { code } = _.find(this.props.pdsItems, o => o.type === 'PICK')
+            navigate('OrderLabel', { code })}
+          }
         >
           <Card>
             <CardItem style={{ backgroundColor: Colors.row }}>

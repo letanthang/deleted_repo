@@ -15,17 +15,19 @@ import { connect } from 'react-redux';
 import BluetoothSerial from 'react-native-bluetooth-serial';
 import { Buffer } from 'buffer';
 import Utils from '../libs/Utils';
+import { printerStyles as styles } from '../Styles';
 
 global.Buffer = Buffer
 const iconv = require('iconv-lite')
 
-const Button = ({ title, onPress, style, textStyle }) =>
+const Button = ({ title, onPress, style, textStyle }) => (
   <TouchableOpacity style={[ styles.button, style ]} onPress={onPress}>
     <Text style={[ styles.buttonText, textStyle ]}>{title.toUpperCase()}</Text>
   </TouchableOpacity>
+);
 
 
-const DeviceList = ({ devices, connectedId, showConnectedIcon, onDevicePress }) =>
+const DeviceList = ({ devices, connectedId, showConnectedIcon, onDevicePress }) => (
   <ScrollView style={styles.container}>
     <View style={styles.listContainer}>
       {devices.map((device, i) => {
@@ -54,10 +56,12 @@ const DeviceList = ({ devices, connectedId, showConnectedIcon, onDevicePress }) 
       })}
     </View>
   </ScrollView>
+);
+  
 
 let order = null;
 class BluetoothSerialExample extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isEnabled: false,
@@ -69,21 +73,21 @@ class BluetoothSerialExample extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     //order = this.props.navigation.state.params.order;
     //console.log(order);
     Promise.all([
       BluetoothSerial.isEnabled(),
-      BluetoothSerial.list()
+      BluetoothSerial.list(),
     ])
-    .then((values) => {
-      const [ isEnabled, devices ] = values
-      this.setState({ isEnabled, devices })
-    })
+      .then((values) => {
+        const [ isEnabled, devices ] = values;
+        this.setState({ isEnabled, devices });
+      });
 
     BluetoothSerial.on('bluetoothEnabled', () => Utils.showToast('Bluetooth enabled'))
     BluetoothSerial.on('bluetoothDisabled', () => Utils.showToast('Bluetooth disabled'))
-    BluetoothSerial.on('error', (err) => console.log(`Error: ${err.message}`))
+    BluetoothSerial.on('error', err => console.log(`Error: ${err.message}`))
     BluetoothSerial.on('connectionLost', () => {
       if (this.state.device) {
         Utils.showToast(`Connection to device ${this.state.device.name} has been lost`)
@@ -96,7 +100,7 @@ class BluetoothSerialExample extends Component {
    * [android]
    * request enable of bluetooth from user
    */
-  requestEnable () {
+  requestEnable() {
     BluetoothSerial.requestEnable()
     .then((res) => this.setState({ isEnabled: true }))
     .catch((err) => Utils.showToast(err.message))
@@ -106,27 +110,27 @@ class BluetoothSerialExample extends Component {
    * [android]
    * enable bluetooth on device
    */
-  enable () {
+  enable() {
     BluetoothSerial.enable()
-    .then((res) => this.setState({ isEnabled: true }))
-    .catch((err) => Utils.showToast(err.message))
+      .then(res => this.setState({ isEnabled: true }))
+      .catch(err => Utils.showToast(err.message))
   }
 
   /**
    * [android]
    * disable bluetooth on device
    */
-  disable () {
+  disable() {
     BluetoothSerial.disable()
-    .then((res) => this.setState({ isEnabled: false }))
-    .catch((err) => Utils.showToast(err.message))
+      .then((res) => this.setState({ isEnabled: false }))
+      .catch(err => Utils.showToast(err.message))
   }
 
   /**
    * [android]
    * toggle bluetooth
    */
-  toggleBluetooth (value) {
+  toggleBluetooth(value) {
     if (value === true) {
       this.enable()
     } else {
@@ -138,17 +142,16 @@ class BluetoothSerialExample extends Component {
    * [android]
    * Discover unpaired devices, works only in android
    */
-  discoverUnpaired () {
+  discoverUnpaired() {
     if (this.state.discovering) {
-      return false
-    } else {
-      this.setState({ discovering: true })
-      BluetoothSerial.discoverUnpairedDevices()
+      return false;
+    }
+    this.setState({ discovering: true });
+    BluetoothSerial.discoverUnpairedDevices()
       .then((unpairedDevices) => {
         this.setState({ unpairedDevices, discovering: false })
       })
-      .catch((err) => Utils.showToast(err.message))
-    }
+    .catch(err => Utils.showToast(err.message))
   }
 
   /**
@@ -158,10 +161,10 @@ class BluetoothSerialExample extends Component {
   cancelDiscovery () {
     if (this.state.discovering) {
       BluetoothSerial.cancelDiscovery()
-      .then(() => {
-        this.setState({ discovering: false })
-      })
-      .catch((err) => Utils.showToast(err.message))
+        .then(() => {
+          this.setState({ discovering: false });
+        })
+        .catch(err => Utils.showToast(err.message));
     }
   }
 
@@ -171,17 +174,17 @@ class BluetoothSerialExample extends Component {
    */
   pairDevice (device) {
     BluetoothSerial.pairDevice(device.id)
-    .then((paired) => {
-      if (paired) {
-        Utils.showToast(`Device ${device.name} paired successfully`)
-        const devices = this.state.devices
-        devices.push(device)
-        this.setState({ devices, unpairedDevices: this.state.unpairedDevices.filter((d) => d.id !== device.id) })
-      } else {
-        Utils.showToast(`Device ${device.name} pairing failed`)
-      }
-    })
-    .catch((err) => Utils.showToast(err.message))
+      .then((paired) => {
+        if (paired) {
+          Utils.showToast(`Device ${device.name} paired successfully`)
+          const devices = this.state.devices
+          devices.push(device)
+          this.setState({ devices, unpairedDevices: this.state.unpairedDevices.filter((d) => d.id !== device.id) })
+        } else {
+          Utils.showToast(`Device ${device.name} pairing failed`)
+        }
+      })
+      .catch(err => Utils.showToast(err.message))
   }
 
   /**
@@ -229,22 +232,22 @@ class BluetoothSerialExample extends Component {
     }
 
     BluetoothSerial.write(message)
-    .then((res) => {
-      Utils.showToast('Successfuly wrote to device')
-      this.setState({ connected: true })
-    })
-    .catch((err) => Utils.showToast(err.message))
+      .then((res) => {
+        Utils.showToast('Successfuly wrote to device')
+        this.setState({ connected: true })
+      })
+      .catch(err => Utils.showToast(err.message))
   }
 
-  onDevicePress (device) {
+  onDevicePress(device) {
     if (this.state.section === 0) {
       this.connect(device)
     } else {
       this.pairDevice(device)
     }
   }
-
-  writePackets (message, packetSize = 64) {
+  /*
+  writePackets(message, packetSize = 64) {
     const toWrite = iconv.encode(message, 'cp852')
     const writePromises = []
     const packetCount = Math.ceil(toWrite.length / packetSize)
@@ -257,22 +260,23 @@ class BluetoothSerialExample extends Component {
     }
 
     Promise.all(writePromises)
-    .then((result) => {
-    })
+      .then((result) => {
+      })
   }
+  */
 
-  render () {
+  render() {
     console.log(this.props.imageUri);
     const activeTabStyle = { borderBottomWidth: 6, borderColor: '#009688' }
     return (
       <View style={{ flex: 1 }}>
         {this.props.imageUri ?
-        <View style={styles.orderLabel}>
-          <Image 
-            style={{ width: 360, height: 500 }}
-            source={{ uri: this.props.imageUri }}
-          />
-        </View>
+          <View style={styles.orderLabel}>
+            <Image
+              style={{ width: 362 * 0.3, height: 750 * 0.3 }}
+              source={{ uri: this.props.imageUri }}
+            />
+          </View>
         : null }
         <View style={styles.topBar}>
           <TouchableOpacity
@@ -348,120 +352,31 @@ class BluetoothSerialExample extends Component {
   }
 
   async printOrder() {
-      // if (order) {
-      //   const { code, receiverAddress, receiverName } = order;
-      //   }
-      // BluetoothSerial.write('+++hihi \n');
-      // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/arrow_up_20180307_145909.jpg');
-      // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/barcode1_20180307_154043.jpg');
-      // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/label-new-m.png');
-      // BluetoothSerial.writeImage('/storage/emulated/0/DCIM/ReactNative-snapshot-image358725536.png');
-      await BluetoothSerial.write('\n');
-      let uri = this.props.imageUri1.substring(7);
-      console.log(uri);
-      await BluetoothSerial.writeImage(uri);
-      uri = this.props.imageUri2.substring(7);
-      await BluetoothSerial.writeImage(uri);
-      uri = this.props.imageUri3.substring(7);
-      await BluetoothSerial.writeImage(uri);
-      await BluetoothSerial.write('\n');
-      await BluetoothSerial.write('\n');
-      console.log(uri);
+    // if (order) {
+    //   const { code, receiverAddress, receiverName } = order;
+    //   }
+    // BluetoothSerial.write('+++hihi \n');
+    // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/arrow_up_20180307_145909.jpg');
+    // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/barcode1_20180307_154043.jpg');
+    // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/label-new-m.png');
+    // BluetoothSerial.writeImage('/storage/emulated/0/DCIM/ReactNative-snapshot-image358725536.png');
+    // await BluetoothSerial.write('\n');
+    let uri = this.props.imageUri1.substring(7);
+    console.log(uri);
+    await BluetoothSerial.writeImage(uri);
+    uri = this.props.imageUri2.substring(7);
+    await BluetoothSerial.writeImage(uri);
+    uri = this.props.imageUri3.substring(7);
+    await BluetoothSerial.writeImage(uri);
+    await BluetoothSerial.write('\n');
+    await BluetoothSerial.write('\n');
+    console.log(uri);
 
-      // this.write(`Order: ${code} \n`);
-      // this.write(`Fullname: ${receiverName} \n`);
-      // this.write(`Address:  ${receiverAddress} \n`);
+    // this.write(`Order: ${code} \n`);
+    // this.write(`Fullname: ${receiverName} \n`);
+    // this.write(`Address:  ${receiverAddress} \n`);
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 0.9,
-    backgroundColor: '#F5FCFF'
-  },
-  orderLabel: {
-    height: 500,
-    alignItems: 'center'
-  },
-  topBar: { 
-    height: 56, 
-    paddingHorizontal: 16,
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center' ,
-    elevation: 6,
-    backgroundColor: '#7B1FA2'
-  },
-  heading: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    alignSelf: 'center',
-    color: '#FFFFFF'
-  },
-  enableInfoWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  tab: { 
-    alignItems: 'center', 
-    flex: 0.5, 
-    height: 56, 
-    justifyContent: 'center', 
-    borderBottomWidth: 6, 
-    borderColor: 'transparent' 
-  },
-  connectionInfoWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 25
-  },
-  connectionInfo: {
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    fontSize: 18,
-    marginVertical: 10,
-    color: '#238923'
-  },
-  listContainer: {
-    borderColor: '#ccc',
-    borderTopWidth: 0.5
-  },
-  listItem: {
-    flex: 1,
-    height: 48,
-    paddingHorizontal: 16,
-    borderColor: '#ccc',
-    borderBottomWidth: 0.5,
-    justifyContent: 'center'
-  },
-  fixedFooter: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#ddd'
-  },
-  button: {
-    height: 36,
-    margin: 5,
-    paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  buttonText: {
-    color: '#7B1FA2',
-    fontWeight: 'bold',
-    fontSize: 14
-  },
-  buttonRaised: {
-    backgroundColor: '#7B1FA2',
-    borderRadius: 2,
-    elevation: 2
-  }
-})
-
 
 const mapStateToProps = (state) => {
   const { other } = state;

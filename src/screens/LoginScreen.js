@@ -103,6 +103,7 @@ class LoginScreen extends Component {
                   value={userId}
                   onChangeText={(text) => this.props.userIDChanged(text)}
                   keyboardType='numeric'
+                  underlineColorAndroid='transparent'
                   style={Styles.midTextStyle}
                 />
               </View>
@@ -113,6 +114,7 @@ class LoginScreen extends Component {
                   secureTextEntry={!this.state.showPassword}
                   value={password}
                   onChangeText={(text) => this.props.passwordChanged(text)}
+                  underlineColorAndroid='transparent'
                   style={Styles.midTextStyle}
                 />
               </View>

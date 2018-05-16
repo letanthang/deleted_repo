@@ -6,7 +6,7 @@ import { accounting } from 'accounting';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List, ActionSheet
+  List, ActionSheet, Footer
 } from 'native-base';
 import { updateOrderStatus, getConfiguration, getOrderHistory, fetchOrderDetail } from '../actions';
 import Utils from '../libs/Utils';
@@ -246,14 +246,15 @@ class DeliveryOrderScreen extends Component {
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
             </View>
           </List>
-
-          {this.renderButtons()}
           <ActionModal
             visible={this.state.modalShow}
             onChooseDate={this.onChooseDate.bind(this)}
             onCancelDate={this.onCancelDate.bind(this)} 
           />
         </Content>
+        <Footer style={{ backgroundColor: 'transparent', borderTopWidth: 0, alignItems: 'center' }}>
+          {this.renderButtons()}
+        </Footer>
         <LoadingSpinner loading={this.props.loading} />
       </Container>
     );

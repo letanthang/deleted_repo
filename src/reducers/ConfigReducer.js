@@ -8,7 +8,7 @@ import {
  } from '../actions/types';
 
 const nameInitialState = {
-  configuration: null,
+  configuration: {},
   layoutMode: false,
   animated: true,
   partialUpdate: false

@@ -6,7 +6,7 @@ import { accounting } from 'accounting';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List 
+  List, Footer 
 } from 'native-base';
 
 import { updateOrderInfo, getConfiguration, getOrderHistory, fetchOrderDetail } from '../actions';
@@ -288,9 +288,12 @@ class PickOrderScreen extends Component {
                 </View>
               </View>
             </List>
-            {this.renderButtons()}
+            
           </DataEmptyCheck>
         </Content>
+        <Footer style={{ backgroundColor: 'transparent', borderTopWidth: 0, alignItems: 'center' }}>
+          {this.renderButtons()}
+        </Footer>
         <LoadingSpinner loading={this.props.loading} />
         <ActionModal
           visible={this.state.modalShow}

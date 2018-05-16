@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
   Header, Button, Left, Right, Body,
-  List 
+  List, Footer
 } from 'native-base';
 import { phonecall } from 'react-native-communications';
 import { updateOrderStatus, getOrderHistory } from '../actions';
@@ -196,8 +196,10 @@ class ReturnOrderScreen extends Component {
               </View>
             </View>
           </List>
-          {this.renderButtons()}
         </Content>
+        <Footer style={{ backgroundColor: 'transparent', borderTopWidth: 0, alignItems: 'center' }}>
+          {this.renderButtons()}
+        </Footer>
         <LoadingSpinner loading={this.props.loading} />
         <ActionModal
           visible={this.state.modalShow}

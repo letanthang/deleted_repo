@@ -165,7 +165,7 @@ class PickOrderScreen extends Component {
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
       moneyCollect, weight, length, serviceCost,
-      receiverAddress, clientExtraNote, clientRequiredNote
+      receiverAddress, clientExtraNote
     } = order;
 
 
@@ -274,12 +274,8 @@ class PickOrderScreen extends Component {
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Ghi chú</Text>
               </View>
               <View style={[Styles.rowStyle]}>
-                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
+                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú khách hàng</Text>
                 <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientExtraNote}</Text>
-              </View>
-              <View style={[Styles.rowStyle]}>
-                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                 <View>

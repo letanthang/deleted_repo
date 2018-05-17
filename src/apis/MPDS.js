@@ -264,7 +264,7 @@ export const GetOrderHistory = (code) => {
   const config = {
     headers: LoginHeader,
     timeout,
-    params: { offset: 0, limit: 100, q: { code } },
+    params: { offset: 0, limit: 100, q: { code, historyType: 'UPDATE_TRIP_ACTION' } },
   };
 
   if (mockOn) {

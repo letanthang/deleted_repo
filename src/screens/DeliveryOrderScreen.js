@@ -227,7 +227,7 @@ class DeliveryOrderScreen extends Component {
               </TouchableOpacity>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú khách hàng</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientExtraNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
@@ -237,7 +237,7 @@ class DeliveryOrderScreen extends Component {
               </View>
             </View>
             <View style={Styles.rowLastStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú bắt buộc</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
             </View>
           </List>

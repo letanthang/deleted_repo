@@ -47,3 +47,12 @@ export const HistoryActions = {
   'COMPLETE_TRIP': 'hoàn thành chuyến đi',
   'COLLECT_MONEY': 'thu tiền'
 };
+
+export const HistoryStatus = {
+  'PICK_FAIL': 'lấy thất bại',
+  'PICK_SUCCESS': 'lấy thành công',
+  'RETURN_FAIL': 'trả thất bại',
+  'RETURN_SUCCESS': 'trả thành công',
+  'DELIVER_FAIL': 'giao thất bại',
+  'DELIVER_SUCCESS': 'giao thành công',
+};

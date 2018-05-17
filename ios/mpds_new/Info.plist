@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>CodePushDeploymentKey</key>
 	<string>EWEFSgpRfWVfRceiGz5UK-X36LDD9a1cb264-95ba-4387-b6b3-8033c4a98d03</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -62,8 +62,10 @@
 	<string>Ứng dụng cần bluetooth để kết nối máy in nhãn đơn hàng</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Ứng dụng cần truy xuất camera để quét mã đơn hàng</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Ứng dụng cần thông tin vị trí để định vị</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Ứng dụng cần thông tin vị trí</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

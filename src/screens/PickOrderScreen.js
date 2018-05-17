@@ -193,13 +193,13 @@ class PickOrderScreen extends Component {
               onPress={() => navigate('POUpdateWeightSize', { code, clientId, senderHubId })}
             >
               <Icon name="create" />
-            </Button> */}
+            </Button> 
             <Button
               transparent
               onPress={() => navigate('OrderLabel', { code })}
             >
               <IC name="printer" size={28} />
-            </Button>
+            </Button>*/}
           </Right>
           
         </Header>

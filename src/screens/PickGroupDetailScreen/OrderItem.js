@@ -67,21 +67,21 @@ class OrderItem extends Component {
           </View>
           <View style={Styles.item2Style}>
             <Text style={Styles.weakColorStyle}>{weight} g | {length}-{width}-{height} (cm3)</Text>
-            {deliverable ?
+            {/* {deliverable ?
               <FormButton
                 disabled={isDelivering}
                 theme='theme1'
                 text={deliverStatus}
                 width={100}
                 onPress={acceptDeliverPress.bind(this, order)}
-              /> : null}
+              /> : null} */}
           </View>
           <ActionButtons
             animated={animated}
             done={realDone}
             info={order}
             order={order}
-            onSelectDateCase={buttonIndex => {
+            onSelectDateCase={(buttonIndex) => {
               onSelectDateCase(buttonIndex, order);
             }}
             resetAllButton={resetAllButton}

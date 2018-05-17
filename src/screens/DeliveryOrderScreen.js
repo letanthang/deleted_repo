@@ -152,10 +152,10 @@ class DeliveryOrderScreen extends Component {
   render() {
 
     const { goBack } = this.props.navigation;
+    // remove displayOrder
     const { 
       receiverName, receiverPhone, receiverAddress, moneyCollect,
-      clientName, senderPhone, clientRequiredNote,
-      displayOrder, clientExtraNote
+      clientName, senderPhone, clientRequiredNote, clientExtraNote
     } = order;
 
     const historyString = Utils.getHistoryString(this.props.orderHistory[code]);
@@ -176,14 +176,9 @@ class DeliveryOrderScreen extends Component {
             
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>[{displayOrder}] {code}</Title>
+            <Title>{code}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            <Button
-              transparent
-            >
-              <Icon name="notifications" />
-            </Button>
           </Right>
         </Header>
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />

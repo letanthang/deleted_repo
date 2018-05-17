@@ -29,18 +29,18 @@ const addOrderEpic = (action$, store) =>
             default:
               return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
           }
-        }) 
+        })
         .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } }))
     );
 
-const reloadEpic = (action$) =>
+const reloadEpic = action$ =>
   action$.ofType(PD_ADD_ORDER_SUCCESS)
     .map(action => action.payload)
     .do(({ order }) => Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success'))
     .delay(100)
     .mergeMap(({ senderHubId }) => of(pdListFetch({ senderHubId })));
 
-const failEpic = (action$) =>
+const failEpic = action$ =>
   action$.ofType(PD_ADD_ORDER_FAIL)
     .map(action => action.payload)
     .do(({ error }) => Utils.showToast(`Không thể thêm đơn ${error}`, 'danger'))
@@ -49,5 +49,5 @@ const failEpic = (action$) =>
 export default combineEpics(
   addOrderEpic,
   reloadEpic,
-  failEpic
+  failEpic,
 );

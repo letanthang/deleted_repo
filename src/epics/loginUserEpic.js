@@ -41,8 +41,10 @@ const logoutUserAlertEpic = action$ =>
 
 const autoReloadEpic = (action$, store) =>
   action$.ofType(LOGIN_USER_SUCCESS)
-    .filter(() => !store.getState().pd.pdsItems || store.getState().auth.userId !== store.getState().pd.userId)
-    .mergeMap(() => of(pdListFetch({ all: true })));
+    .mergeMap(() => {
+      const reset = store.getState().auth.userId !== store.getState().pd.userId
+      return of(pdListFetch({ all: reset, reset }));
+    });
   
 export default combineEpics(
   loginUserEpic,

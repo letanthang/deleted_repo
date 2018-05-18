@@ -29,8 +29,8 @@ export const updateProgress = (progress, loading) => {
   return { type: OTHER_SET_PROPS, payload: { progress, loading } };
 };
 
-export const pdListFetch = ({ all, senderHubId }) => {
-  return { type: PDLIST_FETCH, payload: { all, senderHubId } }; 
+export const pdListFetch = ({ all, senderHubId, reset }) => {
+  return { type: PDLIST_FETCH, payload: { all, senderHubId, reset } }; 
 };
 
 export const pdListFetchNoTrip = (all) => {

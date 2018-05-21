@@ -116,6 +116,7 @@ class LoginScreen extends Component {
                   onChangeText={(text) => this.props.passwordChanged(text)}
                   underlineColorAndroid='transparent'
                   style={Styles.midTextStyle}
+                  autoCapitalize='none'
                 />
               </View>
             </View>

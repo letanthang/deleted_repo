@@ -13,11 +13,11 @@ const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
-const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
+// const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
 
-// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
 
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;

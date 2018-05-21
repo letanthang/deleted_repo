@@ -6,7 +6,7 @@ import { min } from 'moment';
 
 const minimumDate = new Date();
 const maximumDate = new Date();
-minimumDate.setHours(minimumDate.getHours() + 12);
+minimumDate.setHours(minimumDate.getHours() + 10);
 maximumDate.setDate(maximumDate.getDate() + 5);
 class DatePicker extends Component {
   

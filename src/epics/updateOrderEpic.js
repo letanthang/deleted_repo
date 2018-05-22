@@ -11,6 +11,7 @@ import { combineEpics } from 'redux-observable';
 import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS } from '../actions/types';
 import { updateOrderStatusSuccess, updateOrderStatusFail } from '../actions';
 import * as API from '../apis/MPDS';
+import Utils from '../libs/Utils';
 // import Utils from '../libs/Utils';
 const limit = 20;
 const delayTime = 710;
@@ -41,7 +42,8 @@ const updateOrderEpic = (action$, store) =>
       // transform OrderInfos
       const filterInfos = OrderInfos.map((info) => {
         const { code, nextDate, noteId, note, action } = info;
-        return { code, tripCode, nextRedoTime: nextDate, failCode: noteId, failNote: note, action };
+        const nextRedoTime = Utils.getDateForNote(noteId, nextDate);
+        return { code, tripCode, nextRedoTime, failCode: noteId, failNote: note, action };
       });
       return API.updateOrderStatus(filterInfos.slice(0, limit))
         .map(({ data }) => {

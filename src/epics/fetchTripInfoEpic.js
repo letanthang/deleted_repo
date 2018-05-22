@@ -29,6 +29,7 @@ const fetchTripInfoEpic = (action$, store) =>
               }
               return fetchTripInfoFail('SERVICE NOT FOUND');
             }
+            case 'FORBIDDEN':
             case 'UNAUTHORIZED':
               return logoutUser('Phiên làm việc hết hạn. Hãy đăng nhập lại. ');
             default:

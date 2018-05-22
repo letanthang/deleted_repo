@@ -16,7 +16,7 @@ export const PickErrors = {
   'GHN-PC8KA1': 'KHÁCH KHÔNG NGHE MÁY',
   'GHN-PCA940': 'KHÔNG LẤY HÀNG KỊP',
   'GHN-PCC9T0': 'KHÁCH HÀNG MUỐN GỬI HÀNG TẠI ĐIỂM',
-  'NO-CODE': 'BÀN GIAO TÀI XẾ KHÁC',
+  // 'NO-CODE': 'BÀN GIAO TÀI XẾ KHÁC',
 };
 
 export const ReturnErrors = {

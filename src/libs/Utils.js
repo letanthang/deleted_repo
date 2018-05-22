@@ -330,6 +330,28 @@ class Utils {
     } 
     return `${note} ${strDate} Sáng`;
   }
+  static getDateForNote(noteId, newDate) {
+    if (!newDate) {
+      switch (noteId) {
+        case 'GHN-PCA940':
+          return new Date();
+        case 'GHN-PC8D3E':
+        case 'GHN-PC8KA0': 
+        case 'GHN-PC8KA1': {
+          const now = new Date();
+          if (now.getHours <= 14) {
+            now.setHours(13);
+          } else {
+            now.setHours(25);
+          }
+          return now;
+        }
+        default:
+          return newDate;
+      }
+    }
+    return newDate;
+  }
 }
 
 export default Utils;

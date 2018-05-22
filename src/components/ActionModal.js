@@ -7,7 +7,7 @@ class ActionModal extends Component {
   onChooseDate() {
     const date = new Date(this.state.date);
     if (this.state.pmSwitch) {
-      date.setHours(14);
+      date.setHours(13);
     } else {
       date.setHours(1);
     }

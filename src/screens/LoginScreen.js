@@ -93,7 +93,7 @@ class LoginScreen extends Component {
               <Text style={{ color: '#4CAF50', fontSize: 24, fontWeight: 'bold' }}>
                 Tài xế GHN
               </Text>
-              <Text style={{ color: '#dd0000', fontSize: 24, fontWeight: 'bold' }}>18/05</Text>
+              <Text style={{ color: '#dd0000', fontSize: 24, fontWeight: 'bold' }}>22/05</Text>
             </Body>
             <View style={{ paddingLeft: 10, paddingTop: 32 }}>
               <View style={{ marginRight: 20, marginBottom: 14, paddingBottom: 14, flexDirection: 'row', alignItems: 'center', borderBottomColor: '#E9E7EB', borderBottomWidth: 1 }}>

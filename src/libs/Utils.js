@@ -316,10 +316,13 @@ class Utils {
     if (!history) return '';
     return history.reduce((accum, item) => {
       const { date, createdByName, createdById, historyType, data } = item;
-
-      const { action, failNote, nextRedoTime } = JSON.parse(data);
-      const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
-      const newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryActions[historyType] + ' ' + HistoryStatus[action] + ' ' + failNote + ' - ' + nextDate;
+      // 
+      //   const { action, failNote, nextRedoTime } = JSON.parse(data);
+      //   const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
+      //   const newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryActions[historyType] + ' ' + HistoryStatus[action] + ' ' + failNote + ' - ' + nextDate;
+      // 
+      const newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryActions[historyType] + ' : ' + HistoryStatus[data];
+      // 
       return accum + '\n' + newLine;
     }, '');
   }

@@ -317,7 +317,9 @@ class Utils {
     return history.reduce((accum, item) => {
       const { date, createdByName, createdById, historyType, data } = item;
 
-      const newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryActions[historyType] + ' : ' + HistoryStatus[data];
+      const { action, failNote, nextRedoTime } = JSON.parse(data);
+      const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
+      const newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryActions[historyType] + ' ' + HistoryStatus[action] + ' ' + failNote + ' - ' + nextDate;
       return accum + '\n' + newLine;
     }, '');
   }
@@ -339,10 +341,14 @@ class Utils {
         case 'GHN-PC8KA0': 
         case 'GHN-PC8KA1': {
           const now = new Date();
-          if (now.getHours <= 14) {
-            now.setHours(13);
+          if (now.getHours() <= 14) {
+            console.log('sang');
+            now.setHours(12);
+            now.setMinutes(30);
+            console.log(now);
           } else {
             now.setHours(25);
+            console.log(now);
           }
           return now;
         }

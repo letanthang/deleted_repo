@@ -20,7 +20,7 @@ class OrderItem extends Component {
   }
 
   render() {
-    console.log('OrderItem render!');
+    // console.log('OrderItem render!');
     const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase, resetAllButton } = this.props;
     const { 
       code, receiverName, receiverPhone,

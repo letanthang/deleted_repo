@@ -121,15 +121,16 @@ class Utils {
 
 
   static checkPickComplete(status) {
-    // if (pickCompleteStatus.includes(status)) {
-    //   return true;
-    // }
-    // return false;
-    const unCompleteStatus = 'PICKING';
-    if (status === unCompleteStatus) {
+    const unCompleteStatus = ['PICKING', 'Progress'];
+    if (unCompleteStatus.includes(status)) {
       return false;
     }
     return true;
+    // const unCompleteStatus = 'PICKING';
+    // if (status === unCompleteStatus) {
+    //   return false;
+    // }
+    // return true;
   }
 
   static checkPickSuccess(status) {

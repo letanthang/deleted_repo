@@ -43,6 +43,7 @@ export default (state = INITIAL_STATE, action) => {
       user.FullName = user.fullname;
       return {
         ...state,
+        userId: user.ssoId,
         password: rememberMe ? state.password : '',
         loading: false,
         error: '',

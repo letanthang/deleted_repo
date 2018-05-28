@@ -3,6 +3,7 @@ package com.mpds_new;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.psykar.cookiemanager.CookieManagerPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CookieManagerPackage(),
             new RNViewShotPackage(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RCTBluetoothSerialPackage(),

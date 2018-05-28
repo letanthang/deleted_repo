@@ -23,8 +23,8 @@ export const rememberMeChanged = () => {
   };
 };
 
-export const loginUser = (userid, password, rememberMe) => {
-  return { type: LOGIN_USER, payload: { userid, password, rememberMe } };
+export const loginUser = (t62) => {
+  return { type: LOGIN_USER, payload: { t62 } };
 };
 
 export const loginUserSucess = (response, rememberMe) => {

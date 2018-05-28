@@ -16,14 +16,14 @@ import Utils from '../libs/Utils';
 const loginUserEpic = action$ =>
   action$.ofType(LOGIN_USER)
     .map(action => action.payload)
-    .mergeMap(({ userid, password, rememberMe }) =>
-      API.loginUser(userid, password)
+    .mergeMap(({ t62 }) =>
+      API.loginT62(t62)
         .map(({ data }) => {
           const response = data;
           //console.log(response);
           switch (response.status) {
             case 'OK':
-              return loginUserSucess(response, rememberMe);
+              return loginUserSucess(response);
             case 'NOT_FOUND':
               return loginUserFail('SERVICE NOT FOUND');
             default:

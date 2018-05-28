@@ -44,7 +44,21 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
-			<key>inhub.vn</key>
+			<key>staging.lastmile.ghn.vn</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>lastmile.ghn.vn</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>103.20.148.181:8099</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>

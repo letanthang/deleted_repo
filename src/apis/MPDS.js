@@ -13,11 +13,11 @@ const timeout = 20000;
 
 // const DOMAIN = 'api.inhubv2.ghn.vn';
 // const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
-const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
+// const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
 
-// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
 
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
@@ -163,6 +163,19 @@ export const loginUser = (userid, password ) => {
   return fromPromise(Authenticate(userid, password))
 };
 
+export const LoginT62 = (t62) => {
+  const URL = `${ACC_URL}/login-t62?t62=${t62}`;
+  if (mockOn) {
+    mock.onGet(URL).reply(200, loginResponse);
+  }
+
+  return axios.get(URL);
+};
+
+export const loginT62 = (t62) => {
+  return fromPromise(LoginT62(t62));  
+};
+
 export const GetUserPerformance = (UserID, from = null, to = null) => {
   const URL = `${PDS_URL}/performance/${UserID}`;
   const LoginHeader = Share.LoginHeader;
@@ -183,7 +196,7 @@ export const GetUserPerformance = (UserID, from = null, to = null) => {
 export const GetConfiguration = (configKey = null) => {
   const URL = `${PDS_URL}/pdaconfig`;
   const LoginHeader = Share.LoginHeader;
-  const config = { 
+  const config = {
     headers: LoginHeader,
     params: { configKey },
   };

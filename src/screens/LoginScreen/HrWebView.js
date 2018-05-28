@@ -3,9 +3,9 @@ import { WebView } from 'react-native';
 import CookieManager from 'react-native-cookies';
 
 //staging
-const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=FjDA32C152Y49845801B597B4D4BC10809C3D&returnUrl=http://staging.lastmile.ghn.vn/sso-login';
+// const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=FjDA32C152Y49845801B597B4D4BC10809C3D&returnUrl=http://staging.lastmile.ghn.vn/sso-login';
 //prod
-// const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
+const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://staging.lastmile.ghn.vn/sso-login';
 
 class HrWebView extends Component {
   state = {

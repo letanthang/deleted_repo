@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
-import { 
-  Container, Content, List, ListItem, 
-  Text, Icon, Left, Body, Right 
+import {
+  Container, Content, List, ListItem,
+  Text, Icon, Left, Body, Right,
 } from 'native-base';
 import { logoutUser, pdListFetch } from '../actions';
 import Utils from '../libs/Utils';
@@ -34,13 +34,8 @@ class SideBar extends Component {
   }
 
   onUpdateDataPress() {
-    //this.props.navigation.navigate('Home', { needUpdateData: true });
-    
     this.props.navigation.navigate('DrawerClose');
     this.props.pdListFetch({ all: true });
-      // .then(result => {
-      //   if (result) Utils.showToast('Cập nhật chuyến đi thành công.', 'success');
-      // });
   }
 
   render() {
@@ -62,14 +57,14 @@ class SideBar extends Component {
 
           <List>
             <ListItem icon>
-                <Left>
-                  <IC name="account" size={20} color='#FF9504' />
-                </Left>
-                <Body>
-                  <Text>ĐP : {createdByName}</Text>
-                </Body>
+              <Left>
+                <IC name="account" size={20} color='#FF9504' />
+              </Left>
+              <Body>
+                <Text>ĐP : {createdByName}</Text>
+              </Body>
             </ListItem>
-            <ListItem 
+            <ListItem
               icon
               onPress={() => Utils.phoneCall(createdByPhone, true)}
             >
@@ -77,14 +72,14 @@ class SideBar extends Component {
                 <IC name="cellphone" size={20} color='#FF9504' />
               </Left>
               <Body>
-                <Text>SĐT ĐP : {createdByPhone}</Text>
+                <Text>{createdByPhone}</Text>
               </Body>
               <Right>
                 <IC name='phone' color='#FF9504' size={20} />
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            <ListItem 
+            <ListItem
               onPress={this.onUpdateDataPress.bind(this)}
               icon
             >
@@ -98,7 +93,7 @@ class SideBar extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            <ListItem 
+            <ListItem
               onPress={() => {
                 this.props.navigation.navigate('About');
               }}

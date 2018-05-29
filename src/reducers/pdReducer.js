@@ -30,6 +30,7 @@ const nameInitialState = {
     undefined: { groupName: 'Mặc định', isActive: true, position: 0 },
   },
   shopPGroup: {},
+  requireReload: false,
   error: ''
 };
 
@@ -38,7 +39,7 @@ export default (state = nameInitialState, action) => {
     case PDLIST_FETCH: {
       const data = action.payload.reset !== true ? {} : nameInitialState;
       // turn on spinner
-      return { ...state, ...data, loading: true, error: '' };
+      return { ...state, ...data, loading: true, requireReload: false, error: '' };
     }
       
     case PD_FETCH_TRIP_INFO_SUCCESS: {
@@ -87,7 +88,7 @@ export default (state = nameInitialState, action) => {
     case PDLIST_CLEAR_TRIP:
       return { ...nameInitialState, error: action.payload.error };
     case UPDATE_ORDER_STATUS_START: {
-      const OrderInfos = action.payload.OrderInfos;
+      const { OrderInfos } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
 
       _.each(OrderInfos, (info) => {
@@ -146,7 +147,7 @@ export default (state = nameInitialState, action) => {
   // ]
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
-      const { OrderInfos, FailedOrders } = action.payload;
+      const { OrderInfos, FailedOrders, requireReload } = action.payload;
       let ids = [];
       if (FailedOrders instanceof Array && FailedOrders.length > 0) {
         ids = FailedOrders.map(o => o.code);
@@ -176,12 +177,17 @@ export default (state = nameInitialState, action) => {
         }
       });
       
+      let data = {};
+      if (requireReload) {
+        data = { requireReload };
+      }
 
       return {
         ...state,
         loading: false,
         error: '',
         pdsItems,
+        ...data,
       };
     }
 

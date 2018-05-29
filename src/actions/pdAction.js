@@ -93,10 +93,10 @@ export const updateOrderStatus = (infos) => {
   };
 };
 
-export const updateOrderStatusSuccess = (OrderInfos, FailedOrders) => {
+export const updateOrderStatusSuccess = (OrderInfos, FailedOrders, requireReload) => {
   return {
     type: UPDATE_ORDER_STATUS_SUCCESS,
-    payload: { OrderInfos, FailedOrders },
+    payload: { OrderInfos, FailedOrders, requireReload },
   };
 };
 

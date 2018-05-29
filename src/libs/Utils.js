@@ -299,6 +299,7 @@ class Utils {
     const number = Utils.fixPhoneNumber(phone);
     phonecall(number, prompt);
   }
+  // type?: "danger" | "success" | "warning";
   static showToast(text, type = 'success') {
     //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
     try {

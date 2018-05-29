@@ -8,13 +8,13 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS } from '../actions/types';
-import { updateOrderStatusSuccess, updateOrderStatusFail } from '../actions';
+import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS } from '../actions/types';
+import { updateOrderStatusSuccess, updateOrderStatusFail, pdListFetch } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 // import Utils from '../libs/Utils';
-const limit = 20;
-const delayTime = 710;
+const limit = 15;
+const delayTime = 735;
 const updateOrderStartEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS_START)
     .map(action => action.payload)
@@ -55,7 +55,7 @@ const updateOrderEpic = (action$, store) =>
               return updateOrderStatusSuccess(OrderInfos, response.data[0].listFail);
             default:
               if (response.message === 'Fail to call endpoint API.') {
-                return updateOrderStatusSuccess(OrderInfos, []);
+                return updateOrderStatusSuccess(OrderInfos, [], true);
                 // return { type: 'REQUEST_RELOAD' };
               }
               return updateOrderStatusFail(response.message, OrderInfos);
@@ -64,12 +64,13 @@ const updateOrderEpic = (action$, store) =>
         .catch(error => of(updateOrderStatusFail(error.message, OrderInfos)))
     });
 
-// const reloadEpic = (action$) =>
-//   action$.ofType(PD_ADD_ORDER_SUCCESS)
-//     .map(action => action.payload)
-//     .do(({ order }) => Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success'))
-//     .delay(100)
-//     .mergeMap(({ senderHubId }) => of(pdListFetch({ senderHubId })));
+const reloadEpic = (action$, store) =>
+  action$.ofType(UPDATE_ORDER_STATUS_SUCCESS)
+    .map(action => action.payload)
+    .filter(({ OrderInfos }) => (OrderInfos.length <= limit && store.getState().pd.requireReload))
+    .do(() => Utils.showToast('Tự động cập nhật dữ liệu mới nhất. Vui lòng chờ...', 'warning'))
+    .delay(2300)
+    .mergeMap(() => of(pdListFetch({ })));
 
 // const failEpic = (action$) =>
 //   action$.ofType(PD_ADD_ORDER_FAIL)
@@ -81,4 +82,5 @@ export default combineEpics(
   updateOrderStartEpic,
   updateOrderMoreEpic,
   updateOrderEpic,
+  reloadEpic,
 );

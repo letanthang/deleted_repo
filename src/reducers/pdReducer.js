@@ -63,15 +63,15 @@ export default (state = nameInitialState, action) => {
     }
     case PDLIST_FETCH_SUCCESS: {
       const { more } = action.payload;
-      let pdsItems = transformPDS(action.payload.pdsItems);
-      pdsItems = mergeState(state.pdsItems, pdsItems);
 
       let data = {};
       if (more === false) {
-        const nowTime = new Date();
-        nowTime.setMinutes(nowTime.getMinutes() - 1);
-        data = { lastUpdatedTime: nowTime.toISOString() };
+        const { serverTime } = action.payload.pdsItems[0].extraInfo;
+        data = { lastUpdatedTime: serverTime };
       }
+
+      let pdsItems = transformPDS(action.payload.pdsItems);
+      pdsItems = mergeState(state.pdsItems, pdsItems);
 
       return {
         ...state,

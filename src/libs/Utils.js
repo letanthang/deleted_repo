@@ -318,13 +318,16 @@ class Utils {
     if (!history) return '';
     return history.reduce((accum, item) => {
       const { date, createdByName, createdById, historyType, data } = item;
-      // 
-      //   const { action, failNote, nextRedoTime } = JSON.parse(data);
-      //   const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
-      //   const newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryActions[historyType] + ' ' + HistoryStatus[action] + ' ' + failNote + ' - ' + nextDate;
-      // 
-      const newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryActions[historyType] + ' : ' + HistoryStatus[data];
-      // 
+      let newLine = '';
+      if (data.length > 50) {
+        const { action, failNote, nextRedoTime } = JSON.parse(data);
+        const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
+        newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action];
+        newLine += failNote ? ' - ' + failNote : '';
+        newLine += nextDate ? ' - ' + nextDate : '';
+      } else {
+        newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[data];
+      }
       return accum + '\n' + newLine;
     }, '');
   }

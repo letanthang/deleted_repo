@@ -37,7 +37,7 @@ const reloadEpic = action$ =>
   action$.ofType(PD_ADD_ORDER_SUCCESS)
     .map(action => action.payload)
     .do(({ order }) => Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success'))
-    .delay(100)
+    .delay(500)
     .mergeMap(() => of(pdListFetch({})));
 
 const failEpic = action$ =>

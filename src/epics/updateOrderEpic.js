@@ -8,12 +8,12 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS } from '../actions/types';
+import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL } from '../actions/types';
 import { updateOrderStatusSuccess, updateOrderStatusFail, pdListFetch } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 // import Utils from '../libs/Utils';
-const limit = 15;
+const limit = 14;
 const delayTime = 735;
 const updateOrderStartEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS_START)
@@ -68,19 +68,28 @@ const reloadEpic = (action$, store) =>
   action$.ofType(UPDATE_ORDER_STATUS_SUCCESS)
     .map(action => action.payload)
     .filter(({ OrderInfos }) => (OrderInfos.length <= limit && store.getState().pd.requireReload))
-    .do(() => Utils.showToast('Tự động cập nhật dữ liệu mới nhất. Vui lòng chờ...', 'warning'))
+    .do(() => Utils.showToast('Thao tác đã hoàn tất. Vui lòng chờ lấy dữ liệu từ server...', 'warning'))
     .delay(2300)
     .mergeMap(() => of(pdListFetch({ })));
 
-// const failEpic = (action$) =>
-//   action$.ofType(PD_ADD_ORDER_FAIL)
-//     .map(action => action.payload)
-//     .do(({ error }) => Utils.showToast(`Không thể thêm đơn ${error}`, 'danger'))
-//     .ignoreElements();
+const alertSuccessEpic = (action$, store) =>
+  action$.ofType(UPDATE_ORDER_STATUS_SUCCESS)
+    .map(action => action.payload)
+    .filter(({ OrderInfos }) => (OrderInfos.length <= limit && store.getState().pd.requireReload === false))
+    .do(() => Utils.showToast('Thao tác hoàn tất thành công!', 'success'))
+    .ignoreElements();
+
+const alertFailEpic = action$ =>
+  action$.ofType(UPDATE_ORDER_STATUS_FAIL)
+    .map(action => action.payload)
+    .do(({ error }) => Utils.showToast(`Không thể chuyển TH đơn ${error}`, 'danger'))
+    .ignoreElements();
 
 export default combineEpics(
   updateOrderStartEpic,
   updateOrderMoreEpic,
   updateOrderEpic,
   reloadEpic,
+  alertSuccessEpic,
+  alertFailEpic,
 );

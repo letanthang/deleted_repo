@@ -39,7 +39,7 @@ export const HistoryActions = {
   'CREATE_TRIP': 'tạo chuyến đi',
   'ADD_TO_TRIP': 'thêm đơn vào chuyến đi',
   'REMOVE_FROM_TRIP': 'xóa đơn ra khỏi chuyến đi',
-  'UPDATE_TRIP_ACTION': 'cập nhật trạng thái',
+  'UPDATE_TRIP_ACTION': 'cập nhật',
   'AUDITED': 'bắn kiểm',
   'OUTSTOCK': 'xuất kho',
   'CANCEL_TRIP': 'hủy chuyến đi',

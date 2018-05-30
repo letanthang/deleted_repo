@@ -67,7 +67,10 @@ export default (state = nameInitialState, action) => {
       let data = {};
       if (more === false) {
         const { serverTime } = action.payload.pdsItems[0].extraInfo;
-        data = { lastUpdatedTime: serverTime };
+        const nowTime = new Date();
+        nowTime.setMinutes(nowTime.getMinutes() - 1);
+        const lastUpdatedTime = serverTime || nowTime.toISOString();
+        data = { lastUpdatedTime };
       }
 
       let pdsItems = transformPDS(action.payload.pdsItems);

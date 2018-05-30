@@ -69,12 +69,14 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ code, externalCode, clientName, senderName, receiverName, address }) {
+  checkKeywork({ code, externalCode, clientName, senderName, receiverName, address, senderPhone, receiverPhone }) {
     const keyword = this.props.keyword.toUpperCase();
     return !this.props.keyword || this.props.keyword === '' 
     || code.toUpperCase().includes(keyword)
     || (externalCode && externalCode.toUpperCase().includes(keyword))
     || (clientName && clientName.toUpperCase().includes(keyword))
+    || (senderPhone && senderPhone.toUpperCase().includes(keyword))
+    || (receiverPhone && receiverPhone.toUpperCase().includes(keyword))
     || senderName.toUpperCase().includes(keyword)
     || receiverName.toUpperCase().includes(keyword)
     || address.toUpperCase().includes(keyword);

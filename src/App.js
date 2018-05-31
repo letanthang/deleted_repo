@@ -96,5 +96,5 @@ class App extends Component {
 //   store,
 //   persistor
 // };
-const codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 export default codePush(codePushOptions)(App);

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { SectionList, TouchableOpacity, LayoutAnimation, UIManager, RefreshControl } from 'react-native';
+import { SectionList, TouchableOpacity, LayoutAnimation, UIManager, RefreshControl, Platform } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
   Icon, Button, Text,
@@ -40,12 +40,12 @@ class TripListScreen extends Component {
   }
   componentDidUpdate() {
     
-  }
+  onToggleLayoutPressOnce = _.throttle(this.onToggleLayoutPress, 250, { leading: true, trailing: true });
 
   onToggleLayoutPress() {
     const text = this.props.layoutMode === true ? 'Nhóm dữ liệu tự động' : 'Hãy tự tạo nhóm!'; 
     _.delay(() => Utils.showToast(text, 'warning'), 100);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    if (Platform.OS === 'ios') LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     this.props.toggleLayout();
   }
 
@@ -149,7 +149,7 @@ class TripListScreen extends Component {
           onGroup={() => this.props.navigation.navigate('GroupPick')}
           onChange={props => this.setState(props)}
           onGoBack={this.goBack.bind(this)}
-          onToggleLayoutPress={() => this.onToggleLayoutPress()}
+          onToggleLayoutPress={() => this.onToggleLayoutPressOnce()}
         />
         <ProgressBar
           progress={this.props.progress}

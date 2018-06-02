@@ -35,10 +35,6 @@ class TripListScreen extends Component {
     ) return false;
     return true;
   }
-  componentWillUpdate() {
-    
-  }
-  componentDidUpdate() {
     
   onToggleLayoutPressOnce = _.throttle(this.onToggleLayoutPress, 250, { leading: true, trailing: true });
 

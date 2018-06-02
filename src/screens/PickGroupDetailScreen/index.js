@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Dimensions, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -64,6 +64,12 @@ class PickGroupDetailScreen extends Component {
     return false;
   }
 
+  refresh() {
+    if (this.myInput) {
+      this.myInput.focus();
+    }
+  }
+
   renderHeader(pickGroup) {
     const { goBack } = this.props.navigation;
     if (this.state.showSearch) {
@@ -73,7 +79,8 @@ class PickGroupDetailScreen extends Component {
             style={{ borderRadius: 4, backgroundColor: Colors.background }} 
           >
             <Icon name="search" size={10} />
-            <Input 
+            <TextInput
+              style={{ flex: 1 }}
               placeholder="Tìm đơn hàng ..." value={this.props.keyword} 
               onChangeText={(text) => { 
                   this.props.changeKeyword(text);
@@ -81,6 +88,7 @@ class PickGroupDetailScreen extends Component {
               autoFocus
               selectTextOnFocus
               autoCorrect={false}
+              ref={input => this.myInput = input}
             />
             <TouchableOpacity
               onPress={() => this.props.changeKeyword('')}
@@ -159,7 +167,7 @@ class PickGroupDetailScreen extends Component {
           loading={this.props.loading}
         />
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} />
+        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} refresh={this.refresh.bind(this)} />
         <LoadingSpinner loading={addOrderLoading} />
         
         

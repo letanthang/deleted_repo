@@ -48,9 +48,15 @@ class PickOrderScreen extends Component {
     const { db } = nextProps;
     const newOrder = Utils.getOrder(db, code, 'PICK');
     if (order.status !== newOrder.status) {
-      this.props.navigation.goBack();
+      this.goBack()
     }
     order = newOrder;
+  }
+  goBack() {
+    this.props.navigation.goBack();
+    if (this.props.navigation.state.params.refresh) {
+      this.props.navigation.state.params.refresh();
+    }
   }
 
   componentDidUpdate() {
@@ -154,9 +160,9 @@ class PickOrderScreen extends Component {
   }
   
   render() {
-    const { navigate, goBack } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     if (!order) {
-      goBack();
+      this.goBack();
       return this.renderNullData();
     } 
     const history = this.props.orderHistory[code];
@@ -177,7 +183,7 @@ class PickOrderScreen extends Component {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Button
               transparent
-              onPress={() => goBack()}
+              onPress={() => this.goBack()}
             >
               <Icon name="arrow-back" />
             </Button>

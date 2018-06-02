@@ -80,9 +80,9 @@ class PickGroupDetail extends Component {
     const { clientId, senderHubId } = this.pickGroup;
     
     if (this.type === 'PICK') {
-      navigateOnce(this, 'PickOrder', { code, order, clientId, senderHubId });
+      navigateOnce(this, 'PickOrder', { code, order, clientId, senderHubId, refresh: this.props.refresh });
     } else if (this.type === 'RETURN') {
-      navigateOnce(this, 'ReturnOrder', { code, order, senderHubId });
+      navigateOnce(this, 'ReturnOrder', { code, order, senderHubId, refresh: this.props.refresh });
     }
   }
 
@@ -140,6 +140,7 @@ class PickGroupDetail extends Component {
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();
     return (
       <Content
+        keyboardShouldPersistTaps='handled'
         refreshControl={
           <RefreshControl
             refreshing={this.props.loading}
@@ -165,7 +166,8 @@ class PickGroupDetail extends Component {
           message='Không có dữ liệu'
         >
           <View>
-          <SectionList 
+          <SectionList
+            keyboardShouldPersistTaps='handled'
             sections={sections}
             keyExtractor={(item, index) => item.code}
             renderItem={({ item }) => {

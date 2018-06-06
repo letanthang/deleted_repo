@@ -80,7 +80,8 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" size={10} />
             <TextInput
-              style={{ flex: 1 }}
+              style={{ flex: 1, fontSize: 16 }}
+              underlineColorAndroid='transparent'
               placeholder="Tìm đơn hàng ..." value={this.props.keyword} 
               onChangeText={(text) => { 
                   this.props.changeKeyword(text);

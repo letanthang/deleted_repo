@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, FlatList, SectionList, RefreshControl, Text } from 'react-native';
+import { View, Alert, FlatList, SectionList, RefreshControl, Text, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
 import { 
@@ -78,7 +78,7 @@ class PickGroupDetail extends Component {
   
     const { code } = order;
     const { clientId, senderHubId } = this.pickGroup;
-    
+    Keyboard.dismiss();
     if (this.type === 'PICK') {
       navigateOnce(this, 'PickOrder', { code, order, clientId, senderHubId, refresh: this.props.refresh });
     } else if (this.type === 'RETURN') {

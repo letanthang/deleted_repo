@@ -1,5 +1,6 @@
 import codePush from 'react-native-code-push';
 import React, { Component } from 'react';
+import { BackHandler } from 'react-native';
 import { Root, StyleProvider } from 'native-base';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
@@ -40,12 +41,34 @@ if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
 }
 
 const { store, persistor } = configureStore();
+let currentScreen = '';
+
+function getActiveRouteName(navigationState) {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  // dive into nested navigators
+  if (route.routes) {
+    return getActiveRouteName(route);
+  }
+  return route.routeName;
+}
+function backPress() {
+  console.log(currentScreen);
+  if (currentScreen === 'Home') {
+    return true;
+  }
+  return false;
+}
 
 //export const store = configureStore();
 class App extends Component {
   componentDidMount() {
     codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+    BackHandler.addEventListener('hardwareBackPress', backPress);
   }
+
   render() {
     console.log('Root render');
     // const { store } = this.props;
@@ -82,7 +105,11 @@ class App extends Component {
         <PersistGate persistor={persistor}>
           <Root>
             <StyleProvider style={getTheme(platform)}>
-              <AppNavigator />
+              <AppNavigator
+                onNavigationStateChange={(prevState, currentState) => {
+                  currentScreen = getActiveRouteName(currentState);
+                }}
+              />
             </StyleProvider>
           </Root>
         </PersistGate>

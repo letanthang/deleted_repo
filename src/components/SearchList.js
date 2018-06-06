@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { FlatList, View, TouchableOpacity } from 'react-native';
+import { FlatList, View, TouchableOpacity, Keyboard } from 'react-native';
 import { 
   Container, Right, Left, Body, Content,
   Icon, Button, Text,
@@ -29,20 +29,21 @@ class OrderListScreen extends Component {
   onDeliveryOrderPress(order) {
     const { code, senderHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
+    Keyboard.dismiss();
     switch (type) {
       case 'PICK':
-        navigate('PickOrder', { code, order, clientId, senderHubId });
+        navigate('PickOrder', { code, order, clientId, senderHubId, refresh: this.props.refresh });
         break;
       case 'DELIVER':
-        navigate('DeliveryOrder', { code });
+        navigate('DeliveryOrder', { code, refresh: this.props.refresh });
         break;
       case 'RETURN':
-        navigate('ReturnOrder', { code, order, clientId, senderHubId });
+        navigate('ReturnOrder', { code, order, clientId, senderHubId, refresh: this.props.refresh });
         break;
       default:
         break;
     }
-    this.props.cancelSearch();
+    //this.props.cancelSearch();
   }
 
   goBack() {
@@ -116,14 +117,18 @@ class OrderListScreen extends Component {
     if (!db || !items) return this.renderNullData();
 
     return (
-        <Content style={{ backgroundColor: Colors.row }}>
+        <Content 
+          style={{ backgroundColor: Colors.row }}
+          keyboardShouldPersistTaps='handled'
+        >
           <DataEmptyCheck
             data={items}
             message="Không có dữ liệu"
           >
             <FlatList
+              keyboardShouldPersistTaps='handled'
               data={items}
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) =>  item.code + index}
               renderItem={({ item }) =>
               <TouchableOpacity
               onPress={this.onDeliveryOrderPress.bind(this, item)}

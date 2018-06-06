@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import codePush from 'react-native-code-push';
 import { View, TouchableOpacity, TextInput, Button as Btn } from 'react-native';
 import { 
   Container, Header, Left, Body, Card, 
@@ -9,6 +10,9 @@ import md5 from 'md5';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 
 class AboutScreen extends Component {
+  componentDidMount() {
+    codePush.sync({ updateDialog: false, installMode: codePush.InstallMode.IMMEDIATE });
+  }
   state = { clickNum: 0, password: '', verified: false }
   render() {
     const { navigate, goBack } = this.props.navigation;
@@ -40,7 +44,7 @@ class AboutScreen extends Component {
                   </View>
                 </View>
                 <View style={HomeStyles.cardItemRight}>
-                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>29/03 8am</Text>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>01/06</Text>
                 </View>
               </CardItem>
             </Card>

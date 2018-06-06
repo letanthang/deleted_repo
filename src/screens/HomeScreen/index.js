@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, RefreshControl, Platform } from 'react-native';
+import { View, Image, TouchableOpacity, RefreshControl, Platform, TextInput } from 'react-native';
 import { 
   Container, Header, Left,
   Right, Content, Text, Button, Icon,
@@ -104,16 +104,20 @@ class HomeScreen extends Component {
           iosBarStyle={iosBarStyle}
         >
           <Item
-            style={{ borderRadius: 4, backgroundColor: Colors.background, padding: 4 }} 
+            style={{ borderRadius: 4, backgroundColor: Colors.background, paddingLeft: 4, paddingRight: 4 }} 
           >
             <IC name='magnify' size={25} color={Colors.normal} />
-            <Input 
+            <TextInput
+              style={{ flex: 1, fontSize: 16 }}
+              underlineColorAndroid='transparent'
               placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
               onChangeText={(keyword) => { 
                   this.setState({ keyword });
               }}
               autoFocus
+              selectTextOnFocus
               autoCorrect={false}
+              ref={input => this.myInput = input}
             />
             <TouchableOpacity
               onPress={() => this.setState({ keyword: '' })}
@@ -174,13 +178,21 @@ class HomeScreen extends Component {
       </Header>
     );
   }
+
+  autoFocusInput() {
+    if (this.myInput) {
+      this.myInput.focus();
+    }
+  }
+
   renderContent() {
     if (this.state.showSearch) {
       return (
-        <SearchList 
-          keyword={this.state.keyword} 
-          navigation={this.props.navigation} 
-          cancelSearch={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })} 
+        <SearchList
+          refresh={this.autoFocusInput.bind(this)}
+          keyword={this.state.keyword}
+          navigation={this.props.navigation}
+          cancelSearch={() => this.setState({ showSearch: !this.state.showSearch, keyword: '' })}
         />
       );
     }
@@ -195,7 +207,8 @@ class HomeScreen extends Component {
     console.log(lastUpdatedTime);
     // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
-      <Content 
+      <Content
+        keyboardShouldPersistTaps='handled'
         style={{ padding: 10, flex: 1, marginLeft, marginRight, position: 'relative' }}
         refreshControl={
           <RefreshControl

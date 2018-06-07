@@ -39,9 +39,8 @@ class OrderLabelScreen extends Component {
       console.log('hehe print ne')
       console.log(this.props.imageUri);
       await BluetoothSerial.writeImage(this.props.imageUri);
-      // await BluetoothSerial.write('\n');
-      // await BluetoothSerial.write('\n');
-      // console.log(uri);
+      await BluetoothSerial.write('\n');
+      
     } catch (error) {
       console.log(error);
       this.props.navigation.navigate('BluetoothExample');
@@ -86,63 +85,63 @@ class OrderLabelScreen extends Component {
              
               padding: 2,
               width: 300,
-              height: 200,
+              height: 250,
               alignSelf: 'center',
               backgroundColor: 'white'
             }}
           >
             <View
               style={{
-                width: 380,
-                height: 200,
+                width: 300,
+                height: 250,
                 padding: 8,
                 alignSelf: 'center',
                 backgroundColor: 'white',
               }}
             >
               <View style={{ flexDirection: 'row' }}>
-                <QRCode 
-                  value={code}
-                  size={60}
-                />
-                <View style={{ paddingLeft: 15,  }}>
+                <View>
+                  <QRCode 
+                    value={code}
+                    size={50}
+                  />
+                </View>
+                
+                <View style={{ paddingLeft: 15, width:  220 }}>
                   <View style={{ flexDirection: 'row', borderWidth: 4, borderColor: 'black', padding: 8, marginBottom: 8 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>24 | </Text>
-                    <Text style={{ fontWeight: 'bold', fontSize: 18, width: 140 }}>CUNG KHO</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>24 | </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>CUNG KHO</Text>
                   </View>
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', width: 300 }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
+                  <Text style={{ fontSize: 14, fontWeight: 'bold' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
                 </View>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 4 }}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold', width: 60 }} numberOfLines={2}>NGUOI NHAN:</Text>
                 <View style={{ paddingLeft: 8 }} >
-                  <Text style={{ fontSize: 15, fontWeight: 'bold' }}>NGUYEN HAI</Text>
+                  <Text style={{ fontSize: 13, fontWeight: 'bold' }}>NGUYEN HAI</Text>
                   <Text style={{ fontSize: 13 }}>0909090909</Text>
                   <Text style={{ fontSize: 13, fontWeight: 'bold', width: 300 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, , HUYEN HAI HA - QUANG NINH</Text>
                 </View>
               </View>
               <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
               <View style={{ flexDirection: 'row', marginTop: 2 }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>GHI CHU: </Text>
+                <Text style={{ fontSize: 13, fontWeight: 'bold' }}>GHI CHU: </Text>
                 <Text style={{ fontSize: 13 }}>CHO XEM HANG KHONG CHO THU</Text>
               </View>
-            </View>
-            <View style={{ marginTop: 4, height: 70, alignItems: 'center' }}>
-              <Barcode
-                value={code}
-                format="CODE128"
-                height={50}
-                width={2}
-              />
+              <View style={{ marginTop: 2, height: 50, alignItems: 'center' }}>
+                <Barcode
+                  value={code}
+                  format="CODE128"
+                  height={35}
+                  width={2}
+                  color='black'
+                />
+              </View>
             </View>
           </ViewShot>
           : null}
-          {/* <TouchableOpacity
-            style={{ alignSelf: 'center', alignItems: 'center', padding: 8, backgroundColor: 'blue', width: 362 }}
-            onPress={this.onCaptureAll.bind(this)}
-          >
-            <Text>Capture</Text>
-          </TouchableOpacity> */}
+  
+          
           { this.state.fullUri && this.props.imageUri ?
           <View 
             style={{
@@ -160,7 +159,7 @@ class OrderLabelScreen extends Component {
               <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}> Print</Text>
             </TouchableOpacity>
             <Image 
-              style={{ width: 412 * 0.8, height: 270 * 0.8 }}
+              style={{ width: 300 * 0.8, height: 250 * 0.8 }}
               source={{ uri: this.props.imageUri }}
             />
             <TouchableOpacity 

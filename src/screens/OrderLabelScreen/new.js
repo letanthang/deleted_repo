@@ -26,6 +26,7 @@ class OrderLabelScreen extends Component {
     this.refs.viewShot.capture()
       .then(uri => {
         this.props.setProps({ imageUri: uri });
+        this.props.setProps({ imageUri1: uri });
         this.setState({ fullUri: uri });
         console.log('Full Image is save to', uri);
       });
@@ -34,11 +35,9 @@ class OrderLabelScreen extends Component {
   async printOrder() {
     try {
       // await BluetoothSerial.write('\n');
-      // let uri = this.props.imageUri1.substring(7);
-      console.log(this.props.imageUri);
-      console.log('hehe print ne')
-      console.log(this.props.imageUri);
-      await BluetoothSerial.writeImage(this.props.imageUri);
+      let uri = this.props.imageUri1.substring(7);
+      
+      await BluetoothSerial.writeImage(uri);
       await BluetoothSerial.write('\n');
       
     } catch (error) {

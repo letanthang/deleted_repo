@@ -273,7 +273,7 @@ class BluetoothSerialExample extends Component {
         {this.props.imageUri ?
           <View style={styles.orderLabel}>
             <Image
-              style={{ width: 300, height: 400, resizeMode: 'contain' }}
+              style={{ width: 300, height: 300, resizeMode: 'contain' }}
               source={{ uri: this.props.imageUri }}
             />
           </View>

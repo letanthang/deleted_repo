@@ -316,7 +316,7 @@ export const printerStyles = {
     backgroundColor: '#F5FCFF'
   },
   orderLabel: {
-    margin: 16,
+    margin: 8,
     alignItems: 'center'
   },
   topBar: { 

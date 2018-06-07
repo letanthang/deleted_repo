@@ -9,7 +9,7 @@ import 'rxjs/add/operator/ignoreElements';
 import { combineEpics } from 'redux-observable';
 
 import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL } from '../actions/types';
-import { updateOrderStatusSuccess, updateOrderStatusFail, pdListFetch } from '../actions';
+import { updateOrderStatusSuccess, updateOrderStatusFail, pdListFetch, logoutUser } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 // import Utils from '../libs/Utils';
@@ -51,8 +51,9 @@ const updateOrderEpic = (action$, store) =>
           switch (response.status) {
             case 'OK':
               return updateOrderStatusSuccess(OrderInfos, response.data[0].listFail);
+            case 'FORBIDDEN':
             case 'UNAUTHORIZED':
-              return updateOrderStatusSuccess(OrderInfos, response.data[0].listFail);
+              return logoutUser('Phiên làm việc hết hạn. Hãy đăng nhập lại. ');
             default:
               if (response.message === 'Fail to call endpoint API.') {
                 return updateOrderStatusSuccess(OrderInfos, [], true);

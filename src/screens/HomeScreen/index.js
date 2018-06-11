@@ -293,7 +293,7 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity>
         
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() => navigate('BluetoothExample')}
         >
           <Card>
@@ -314,7 +314,7 @@ class HomeScreen extends Component {
         <TouchableOpacity
           onPress={() => {
             const { code } = _.find(this.props.pdsItems, o => o.type === 'PICK')
-            navigate('OrderLabel', { code })}
+            navigate('OrderLabelNew', { code })}
           }
         >
           <Card>
@@ -331,7 +331,7 @@ class HomeScreen extends Component {
               </View>
             </CardItem>
           </Card>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         {/* {this.state.showScanner ?
             <BarcodeReader 
               onBarCodeRead={({data, bounds}) => {

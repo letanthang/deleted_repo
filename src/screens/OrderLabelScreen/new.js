@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image, ImageEditor } from 'react-native';
+import { View, TouchableOpacity, Image, ImageEditor, CameraRoll, PixelRatio } from 'react-native';
 import QRCode from 'react-native-qrcode';
 import Barcode from 'react-native-barcode-builder';
 import ViewShot from 'react-native-view-shot';
@@ -25,18 +25,31 @@ class OrderLabelScreen extends Component {
   onCaptureAll() {
     this.refs.viewShot.capture()
       .then(uri => {
+        console.log(uri)
+        this.setState({ fullUri: uri })
         this.props.setProps({ imageUri: uri });
-        this.props.setProps({ imageUri1: uri });
-        this.setState({ fullUri: uri });
-        console.log('Full Image is save to', uri);
+        ImageEditor.cropImage(uri, { offset: { x: 0, y: 0 }, size: { width: 362, height: 250 } }
+          , u => { this.props.setProps({ imageUri1: u }); console.log(u); }
+          , error => console.log(error));
+  
+        ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 120 } }, 
+          u => this.props.setProps({ imageUri2: u }), error => console.log(error));
+        
+        
+        // CameraRoll.saveToCameraRoll(uri, 'photo')
+        //   .then(u => {
+        //     console.log('Perist Image is save to', u);
+        //   });
       });
+      
   }
 
   async printOrder() {
     try {
       // await BluetoothSerial.write('\n');
-      let uri = this.props.imageUri1.substring(7);
-      
+      let uri = this.props.imageUri1.substring(7);   
+      await BluetoothSerial.writeImage(uri);
+      uri = this.props.imageUri2.substring(7);   
       await BluetoothSerial.writeImage(uri);
       await BluetoothSerial.write('\n');
       
@@ -80,64 +93,64 @@ class OrderLabelScreen extends Component {
           {this.state.fullUri === null ?
           <ViewShot
             ref="viewShot"
+            options={{ format: "jpg", quality: 0.9, width: 362 / PixelRatio.get(), height: 370 / PixelRatio.get() }}
             style={{
-             
-              padding: 2,
-              width: 300,
-              height: 250,
+              width: 362,
+              height: 370,
               alignSelf: 'center',
               backgroundColor: 'white'
             }}
           >
             <View
               style={{
-                width: 300,
+                width: 362,
                 height: 250,
-                padding: 8,
+                padding: 2,
                 alignSelf: 'center',
                 backgroundColor: 'white',
               }}
             >
               <View style={{ flexDirection: 'row' }}>
-                <View>
+                <View style={{ width: 95, height: 95, paddingLeft: 4, paddingTop: 4 }}>
                   <QRCode 
                     value={code}
-                    size={50}
+                    size={90}
                   />
                 </View>
                 
-                <View style={{ paddingLeft: 15, width:  220 }}>
-                  <View style={{ flexDirection: 'row', borderWidth: 4, borderColor: 'black', padding: 8, marginBottom: 8 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>24 | </Text>
-                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>CUNG KHO</Text>
+                <View style={{ paddingLeft: 10, flex: 1 }}>
+                  <View style={{ flexDirection: 'row', borderWidth: 3, borderColor: 'black', padding: 8, marginBottom: 8 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>24 | </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>CUNG KHO</Text>
                   </View>
-                  <Text style={{ fontSize: 14, fontWeight: 'bold' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA QUANG NINH</Text>
+                  <Text style={{ fontSize: 17 }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA NAM HAI QUANG NINH</Text>
                 </View>
               </View>
               <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 4 }}>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', width: 60 }} numberOfLines={2}>NGUOI NHAN:</Text>
-                <View style={{ paddingLeft: 8 }} >
-                  <Text style={{ fontSize: 13, fontWeight: 'bold' }}>NGUYEN HAI</Text>
-                  <Text style={{ fontSize: 13 }}>0909090909</Text>
-                  <Text style={{ fontSize: 13, fontWeight: 'bold', width: 300 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, , HUYEN HAI HA - QUANG NINH</Text>
-                </View>
+                  <Text style={{ fontSize: 16, fontWeight: 'bold', width: 95 }} numberOfLines={2}>NGUOI NHAN:</Text>
+                  <View style={{ paddingLeft: 8, width: 260 }} >
+                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>NGUYEN HAI</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>0909090909</Text>
+                  </View>
               </View>
-              <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1 }} />
-              <View style={{ flexDirection: 'row', marginTop: 2 }}>
-                <Text style={{ fontSize: 13, fontWeight: 'bold' }}>GHI CHU: </Text>
-                <Text style={{ fontSize: 13 }}>CHO XEM HANG KHONG CHO THU</Text>
-              </View>
-              <View style={{ marginTop: 2, height: 50, alignItems: 'center' }}>
-                <Barcode
-                  value={code}
-                  format="CODE128"
-                  height={35}
-                  width={2}
-                  color='black'
-                />
+              <Text style={{ fontSize: 17 }} numberOfLines={3}>SO 56 THON NAM, XA PHU HAI, ABCD , HUYEN HAI HA - QUANG NINH</Text>
+              <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
+              <View style={{ flexDirection: 'row'}}>
+                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>GHI CHU: </Text>
+                <Text style={{ fontSize: 17 }}>CHO XEM HANG KHONG CHO THU</Text>
               </View>
             </View>
+            <View style={{ marginTop: 6, height: 100, alignItems: 'center' }}>
+              <Barcode
+                value={code}
+                format="CODE128"
+                height={80}
+                width={2}
+                color='black'
+              />
+            </View>
           </ViewShot>
+          
           : null}
   
           
@@ -145,7 +158,7 @@ class OrderLabelScreen extends Component {
           <View 
             style={{
               width: 380,
-              height: 350,
+              height: 370,
               alignSelf: 'center',
               alignItems: 'center',
             }}
@@ -158,7 +171,7 @@ class OrderLabelScreen extends Component {
               <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}> Print</Text>
             </TouchableOpacity>
             <Image 
-              style={{ width: 300 * 0.8, height: 250 * 0.8 }}
+              style={{ width: 362, height: 362, resizeMode: 'contain' }}
               source={{ uri: this.props.imageUri }}
             />
             <TouchableOpacity 

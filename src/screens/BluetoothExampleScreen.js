@@ -266,7 +266,7 @@ class BluetoothSerialExample extends Component {
   */
 
   render() {
-    console.log(this.props.imageUri);
+    //console.log(this.props.imageUri);
     const activeTabStyle = { borderBottomWidth: 6, borderColor: '#009688' }
     return (
       <View style={{ flex: 1 }}>
@@ -362,15 +362,16 @@ class BluetoothSerialExample extends Component {
     // BluetoothSerial.writeImage('/storage/emulated/0/DCIM/ReactNative-snapshot-image358725536.png');
     // await BluetoothSerial.write('\n');
     let uri = this.props.imageUri1.substring(7);
-    console.log(uri);
     await BluetoothSerial.writeImage(uri);
     uri = this.props.imageUri2.substring(7);
     await BluetoothSerial.writeImage(uri);
-    uri = this.props.imageUri3.substring(7);
-    await BluetoothSerial.writeImage(uri);
-    await BluetoothSerial.write('\n');
-    await BluetoothSerial.write('\n');
-    console.log(uri);
+    await BluetoothSerial.write('\n\n');
+    // await BluetoothSerial.write('\n');
+    // uri = this.props.imageUri3.substring(7);
+    // await BluetoothSerial.writeImage(uri);
+    // await BluetoothSerial.write('\n');
+    // await BluetoothSerial.write('\n');
+    // console.log(uri);
 
     // this.write(`Order: ${code} \n`);
     // this.write(`Fullname: ${receiverName} \n`);

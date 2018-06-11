@@ -66,7 +66,7 @@ function backPress() {
 //export const store = configureStore();
 class App extends Component {
   componentDidMount() {
-    codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+    // codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
     BackHandler.addEventListener('hardwareBackPress', backPress);
   }
 
@@ -125,5 +125,5 @@ class App extends Component {
 //   store,
 //   persistor
 // };
-const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 export default codePush(codePushOptions)(App);

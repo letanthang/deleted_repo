@@ -9,27 +9,15 @@ import {
   OTHER_GET_USER_PERFORMANCE_FAIL,
   OTHER_SET_LOADED,
   OTHER_SET_PROPS,
-  OTHER_GET_ORDER_HISTORY
+  OTHER_GET_ORDER_HISTORY,
 } from './types';
 import * as API from '../apis/MPDS';
 
-export const calculateServiceFee = ({ 
-  length, width, height, weight, code, clientId, serviceId, fromDistrictId, toDistrictId 
-}) => {
-  return async dispatch => {
+export const calculateServiceFee = (params) => {
+  // const params = { length, width, height, weight, code, clientId, serviceId, fromDistrictId, toDistrictId };
+  return async (dispatch) => {
     dispatch({ type: OTHER_CALCULATE_FEE });
-    const params = {
-      length,
-      width,
-      height,
-      weight,
-      code,
-      clientId,
-      serviceId,
-      fromDistrictId,
-      toDistrictId
-    };
-
+    
     try {
       const response = await API.CalculateServiceFee(params);
       const json = response.data;
@@ -51,14 +39,14 @@ export const calculateServiceFee = ({
 
 export const setLoaded = () => {
   return {
-    type: OTHER_SET_LOADED
+    type: OTHER_SET_LOADED,
   };
 };
 
 export const setProps = (props) => {
   return {
     type: OTHER_SET_PROPS,
-    payload: props
+    payload: props,
   };
 };
 
@@ -67,12 +55,12 @@ const getStat = (data) => {
 
   const result = { pickSucceed: 0, pickTotal: 0, deliverSucceed: 0, deliverTotal: 0, returnSucceed: 0, returnTotal: 0 };
   _.each(data, (item) => {
-    result.pickTotal = result.pickTotal + item.pickTotal;
-    result.pickSucceed = result.pickSucceed + item.pickSucceed;
-    result.deliverTotal = result.deliverTotal + item.deliverTotal;
-    result.deliverSucceed = result.deliverSucceed + item.deliverSucceed;
-    result.returnTotal = result.returnTotal + item.returnTotal;
-    result.returnSucceed = result.returnSucceed + item.returnSucceed;
+    result.pickTotal += item.pickTotal;
+    result.pickSucceed += item.pickSucceed;
+    result.deliverTotal += item.deliverTotal;
+    result.deliverSucceed += item.deliverSucceed;
+    result.returnTotal += item.returnTotal;
+    result.returnSucceed += item.returnSucceed;
   });
 
   result.pickRate = result.pickTotal == 0 ? 0 : (result.pickSucceed * 100) / result.pickTotal;

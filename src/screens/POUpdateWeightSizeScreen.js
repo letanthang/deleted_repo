@@ -61,12 +61,13 @@ class POUpdateWeightSizeScreen extends Component {
   }
   onSaveWeightSizePress(order) {
     if (!this.isInfoChanged(order)) return;
-    if (calculated) {
-      this.showSaveDialog();
-    } else {
-      waitToSave = true;
-      this.onCalculateFeePress(order);
-    }
+    this.onSaveWeightSize();
+    // if (calculated) {
+    //   this.showSaveDialog();
+    // } else {
+    //   waitToSave = true;
+    //   this.onCalculateFeePress(order);
+    // }
   }
   onSaveWeightSize() {
     const { length, weight, width, height } = this.state;
@@ -76,12 +77,9 @@ class POUpdateWeightSizeScreen extends Component {
       width,
       height,
       weight,
-      clientId,
-      senderHubId,
-      code,
-      tripCode,
-      ServiceFee
+      orderCode: code,
     };
+    console.log('onSaveWeightSize');
     this.props.updateWeightSize(params);
   } 
   onCalculateFeePress(order) {
@@ -89,17 +87,7 @@ class POUpdateWeightSizeScreen extends Component {
 
     const { length, weight, width, height } = this.state;
     const { serviceId, fromDistrictId, toDistrictId } = order;
-    const params = {
-      weight,
-      length,
-      width,
-      height,
-      code,
-      clientId,
-      serviceId,
-      fromDistrictId,
-      toDistrictId
-    };
+    const params = {  weight, length, width, height, code, clientId, serviceId, fromDistrictId, toDistrictId };
     calculated = true;
     this.props.calculateServiceFee(params);
   }
@@ -233,7 +221,7 @@ class POUpdateWeightSizeScreen extends Component {
             </Button>
           </View>
         </Content>
-        <LoadingSpinner loading={this.props.loading} />
+        <LoadingSpinner loading={false && this.props.loading} />
       </Container>
     );
   }

@@ -16,26 +16,38 @@ import Utils from '../libs/Utils';
 const updateWeightSizeEpic = action$ =>
   action$.ofType(PD_UPDATE_WEIGHT_SIZE)
     .map(action => action.payload)
-    .mergeMap(({ length, width, height, weight, clientId, senderHubId, code, tripCode, ServiceFee }) =>
-      API.UpdateOrderWeightRDC(length, width, height, weight, clientId, code, tripCode, ServiceFee)
-      .map(({ data }) => {
-        const response = data;
-        switch (response.status) {
-          case 'OK':
-            return {
-              type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-              payload: { code, senderHubId, serviceCost: ServiceFee, length, width, height, weight }
-            };
-          default:
-            return { type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: response.message } };
-        }
-      })
-      .catch(error => of({ type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: error.message } }))
-    );
+    .mergeMap((params) => {
+      const { length, width, height, weight, orderCode } = params;
+      return API.updateOrderWeightRDC(params)
+        .map(({ data }) => {
+          const response = data;
+          switch (response.status) {
+            case 'OK':
+              return {
+                type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
+                payload: { code: orderCode, length, width, height, weight }
+              };
+            default:
+              return { type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: response.message } };
+          }
+        })
+        .catch(error => of({ type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: error.message } }))
+    });
 
-export default updateWeightSizeEpic;
+const failEpic = action$ =>
+  action$.ofType(PD_UPDATE_WEIGHT_SIZE_FAIL)
+    .map(action => action.payload)
+    .do(({ error }) => Utils.showToast(`Không thể cập nhật kích thước. ${error}`, 'danger'))
+    .ignoreElements();
 
-// export default combineEpics(
-//   loginUserEpic,
-//   logoutUserAlertEpic
-// );
+const successEpic = action$ =>
+  action$.ofType(PD_UPDATE_WEIGHT_SIZE_SUCCESS)
+    .map(action => action.payload)
+    .do(() => Utils.showToast('Cập nhật kích thước thành công', 'success'))
+    .ignoreElements();
+
+export default combineEpics(
+  updateWeightSizeEpic,
+  failEpic,
+  successEpic,
+);

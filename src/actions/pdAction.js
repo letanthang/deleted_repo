@@ -108,10 +108,10 @@ export const updateOrderStatusFail = (error, OrderInfos, report = true) => {
   };
 };
 
-export const updateWeightSize = ({ length, width, height, weight, clientId, senderHubId, code, PDSID, ServiceFee }) => {
+export const updateWeightSize = (params) => {
   return {
     type: PD_UPDATE_WEIGHT_SIZE,
-    payload: { length, width, height, weight, clientId, senderHubId, code, PDSID, ServiceFee }
+    payload: params,
   };
 };
 

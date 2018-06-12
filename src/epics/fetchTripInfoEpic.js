@@ -24,10 +24,10 @@ const fetchTripInfoEpic = (action$, store) =>
               }
               return fetchTripInfoSuccess(response, store.getState().auth.userId, all, senderHubId);
             case 'NOT_FOUND': {
-              if (response.message === 'Not found pds.') {
-                return pdListFetchNoTrip(all);
+              if (response.message == null) {
+                return fetchTripInfoFail('SERVICE NOT FOUND');
               }
-              return fetchTripInfoFail('SERVICE NOT FOUND');
+              return pdListFetchNoTrip(all);
             }
             case 'FORBIDDEN':
             case 'UNAUTHORIZED':

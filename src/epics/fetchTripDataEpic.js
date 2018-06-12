@@ -8,7 +8,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
-import { PD_FETCH_TRIP_INFO_SUCCESS, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, OTHER_SET_PROPS, PDLIST_NO_TRIP } from '../actions/types';
+import { PD_FETCH_TRIP_INFO_SUCCESS, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, OTHER_SET_PROPS, PDLIST_NO_TRIP, PD_FETCH_TRIP_INFO_FAIL } from '../actions/types';
 import { fetchTripDataSuccess, fetchTripDataFail, updateProgress } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
@@ -97,7 +97,7 @@ const fetchAlertEpic = action$ =>
 
 const fetchAlertFailEpic = action$ =>
   action$
-    .filter(action => action.type === PDLIST_FETCH_FAIL || action.type === PDLIST_NO_TRIP)
+    .filter(action => action.type === PDLIST_FETCH_FAIL || action.type === PD_FETCH_TRIP_INFO_FAIL || action.type === PDLIST_NO_TRIP)
     .do(action => Utils.showToast(action.payload.error, 'warning'))
     .ignoreElements();
 

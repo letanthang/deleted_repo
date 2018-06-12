@@ -12,12 +12,11 @@ import {
 import { updateOrderStatus, getConfiguration } from '../actions';
 import Utils from '../libs/Utils';
 import { get3Type } from '../selectors';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { Styles, Colors } from '../Styles';
 import LogoButton from '../components/LogoButton';
 
 class PickConfirmScreen extends Component {
-  state = { modalShow: false, signature: null }
+  state = { modalShow: false, signature: null, disabled: false }
   componentWillMount() {
     // clientId = this.props.navigation.state.params.clientId;
     this.senderHubId = this.props.navigation.state.params.senderHubId;
@@ -64,9 +63,7 @@ class PickConfirmScreen extends Component {
   updateOrder() {
     const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined && !o.done);
     this.props.updateOrderStatus({ OrderInfos });
-      // .then((failOrders) => {
-      //   console.log(failOrders);
-      // });
+    this.setState({ disabled: true })
     this.props.navigation.goBack();
   }
 
@@ -162,13 +159,13 @@ class PickConfirmScreen extends Component {
                 onPress={() => this.confirmUpdateOrder()}
                 block 
                 style={{ flex: 0.3, margin: 2 }}
+                disabled={this.state.disabled}
               >
                 <Text>Xác nhận</Text>
               </Button>
             </View>
           </List>
         </Content>
-        <LoadingSpinner loading={this.props.loading} />
       </Container>
     );
   }
@@ -177,9 +174,9 @@ class PickConfirmScreen extends Component {
 const mapStateToProps = (state) => {
   const { pd, auth } = state;
   const { sessionToken } = auth;
-  const { tripCode, loading } = pd;
+  const { tripCode } = pd;
   const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems, tripCode, sessionToken, loading };
+  return { PickItems, ReturnItems, tripCode, sessionToken };
 };
 
 

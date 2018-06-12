@@ -71,7 +71,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   renderHeader(pickGroup) {
-    const { goBack } = this.props.navigation;
+    const { goBack, navigate } = this.props.navigation;
     if (this.state.showSearch) {
       return (
         <Header searchBar>
@@ -140,6 +140,13 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" />
           </Button>
+          <Button
+            transparent
+            onPress={() => navigate('OrderLabels', { senderHubId: this.senderHubId})}
+          >
+            <Icon name="print" />
+          </Button>
+
         </Right>
       </Header>
     );

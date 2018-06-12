@@ -27,6 +27,7 @@ import BluetoothExampleScreen from './screens/BluetoothExampleScreen';
 import OrderLabelScreen from './screens/OrderLabelScreen';
 import OrderLabelOldScreen from './screens/OrderLabelScreen/old';
 import OrderLabelNewScreen from './screens/OrderLabelScreen/new';
+import OrderLabelsScreen from './screens/OrderLabelScreen/multi';
 
 import getTheme from '../native-base-theme/components';
 // import material from '../native-base-theme/variables/material';
@@ -96,6 +97,7 @@ class App extends Component {
         OrderLabel: { screen: OrderLabelScreen },
         OrderLabelOld: { screen: OrderLabelOldScreen },
         OrderLabelNew: { screen: OrderLabelNewScreen },
+        OrderLabels: { screen: OrderLabelsScreen },
       },
       {
         initialRouteName: 'Login',

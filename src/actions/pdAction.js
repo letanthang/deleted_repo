@@ -8,7 +8,8 @@ import {
   PD_FETCH_DETAIL, PD_FETCH_DETAIL_FAIL, PD_FETCH_DETAIL_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
-  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_SET_PROPS
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_SET_PROPS, 
+  PD_SET_ORDER_PROPS,
 } from './types';
 import { writeLog } from '../libs/Log';
 
@@ -204,4 +205,11 @@ export const fetchOrderDetailFail = (error) => {
 
 export const fetchOrderDetailSuccess = (response, code, type) => {
   return { type: PD_FETCH_DETAIL_SUCCESS, payload: { data: response.data[0], code, type } };
+};
+
+export const setOrder = (code, props) => {
+  return {
+    type: PD_SET_ORDER_PROPS,
+    payload: { code, props },
+  };
 };

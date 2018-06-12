@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {
   Platform,
   ScrollView,
-  StyleSheet,
   Switch,
   Text,
   TouchableOpacity,
@@ -19,6 +18,7 @@ import { printerStyles as styles } from '../Styles';
 
 global.Buffer = Buffer
 const iconv = require('iconv-lite')
+const connectIcon = require('../../resources/ic_phone.png');
 
 const Button = ({ title, onPress, style, textStyle }) => (
   <TouchableOpacity style={[ styles.button, style ]} onPress={onPress}>
@@ -42,7 +42,7 @@ const DeviceList = ({ devices, connectedId, showConnectedIcon, onDevicePress }) 
                 <View style={{ width: 48, height: 48, opacity: 0.4 }}>
                   {connectedId === device.id
                   ? (
-                    <Image style={{ resizeMode: 'contain', width: 24, height: 24, flex: 1 }} source={require('../../resources/ic_phone.png')} />
+                    <Image style={{ resizeMode: 'contain', width: 24, height: 24, flex: 1 }} source={connectIcon} />
                   ) : null}
                 </View>
               ) : null}

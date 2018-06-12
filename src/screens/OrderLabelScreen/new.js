@@ -51,7 +51,7 @@ class OrderLabelScreen extends Component {
       await BluetoothSerial.writeImage(uri);
       uri = this.props.imageUri2.substring(7);   
       await BluetoothSerial.writeImage(uri);
-      await BluetoothSerial.write('\n');
+      await BluetoothSerial.write('\n\n');
       
     } catch (error) {
       console.log(error);

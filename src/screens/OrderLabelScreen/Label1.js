@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Text, ImageEditor, CameraRoll, PixelRatio } from 'react-native';
-import QRCode from 'react-native-qrcode';
+// import QRCode from 'react-native-qrcode';
 import Barcode from 'react-native-barcode-builder';
 import ViewShot from 'react-native-view-shot';
 import BluetoothSerial from 'react-native-bluetooth-serial';
@@ -46,12 +46,12 @@ class Label1 extends Component {
 
   async printOrder() {
     try {
-      // await BluetoothSerial.write('\n');
-      let uri = this.props.imageUri1.substring(7);   
+      const { imageUri1, imageUri2 } = this.props.order;
+      let uri = imageUri1.substring(7);   
       await BluetoothSerial.writeImage(uri);
-      uri = this.props.imageUri2.substring(7);   
+      uri = imageUri2.substring(7);   
       await BluetoothSerial.writeImage(uri);
-      await BluetoothSerial.write('\n');
+      await BluetoothSerial.write('\n\n');
       
     } catch (error) {
       console.log(error);
@@ -68,7 +68,7 @@ class Label1 extends Component {
         { imageUri == null ?
         <ViewShot
           ref="viewShot"
-          options={{ format: "jpg", quality: 0.9, width: 362 / PixelRatio.get(), height: 370 / PixelRatio.get() }}
+          options={{ format: "png", quality: 1, width: 362 / PixelRatio.get(), height: 370 / PixelRatio.get() }}
           style={{
             width: 362,
             height: 370,
@@ -87,10 +87,7 @@ class Label1 extends Component {
           >
             <View style={{ flexDirection: 'row' }}>
               <View style={{ width: 95, height: 95, paddingLeft: 4, paddingTop: 4 }}>
-                <QRCode 
-                  value={code}
-                  size={90}
-                />
+                
               </View>
               
               <View style={{ paddingLeft: 10, flex: 1 }}>
@@ -112,7 +109,7 @@ class Label1 extends Component {
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
             <View style={{ flexDirection: 'row'}}>
               <Text style={{ fontSize: 16, fontWeight: 'bold' }}>GHI CHU: </Text>
-              <Text style={{ fontSize: 17 }}>CHO XEM HANG KHONG CHO THU {code}</Text>
+              <Text style={{ fontSize: 17 }}>CHO XEM HANG KHONG CHO THU</Text>
             </View>
           </View>
           <View style={{ marginTop: 6, height: 100, alignItems: 'center' }}>

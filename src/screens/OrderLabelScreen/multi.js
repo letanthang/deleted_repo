@@ -39,7 +39,6 @@ class OrderLabelsScreen extends Component {
       uri = imageUri2.substring(7);   
       await BluetoothSerial.writeImage(uri);
       return BluetoothSerial.write('\n\n\n');
-      
     } catch (error) {
       console.log(error);
       this.props.navigation.navigate('BluetoothExample');
@@ -92,13 +91,13 @@ class OrderLabelsScreen extends Component {
             style={{ padding: 8, backgroundColor: '#000044', justifyContent: 'center' }}
             onPress={this.nextOrder.bind(this)}
           >
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>1Next1</Text>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Next</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ padding: 8, backgroundColor: '#004400', justifyContent: 'center' }}
             onPress={() => this.printAll()}
           >
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Print All</Text>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Print All</Text>
           </TouchableOpacity>
           <Label1
             order={order}

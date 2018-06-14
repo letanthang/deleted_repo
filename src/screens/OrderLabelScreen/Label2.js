@@ -13,13 +13,13 @@ class Label1 extends Component {
   componentDidMount() {
     if (this.props.order.imageUri == null) {
       console.log(this.props.order.imageUri)
-      setTimeout(this.onCaptureAll.bind(this), 20);
+      setTimeout(this.onCaptureAll.bind(this), 70);
     }
   }
   componentDidUpdate() {
     if (this.props.order.imageUri == null) {
       console.log(this.props.order.imageUri)
-      setTimeout(this.onCaptureAll.bind(this), 20);
+      setTimeout(this.onCaptureAll.bind(this), 70);
     }
   }
 
@@ -55,7 +55,7 @@ class Label1 extends Component {
       await BluetoothSerial.writeImage(uri);
       uri = imageUri2.substring(7);   
       await BluetoothSerial.writeImage(uri);
-      await BluetoothSerial.write('\n\n\n');
+      await BluetoothSerial.write('\n\n\n\n');
       
     } catch (error) {
       console.log(error);

@@ -6,6 +6,7 @@ export const LOAD_SAVED_SESSION = 'LOAD_SAVED_SESSION';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
 export const LOGIN_USER = 'LOGIN_USER';
+export const LOGIN_USERT62 = 'LOGIN_USERT62';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const LOGOUT = 'LOGOUT';
 export const GO_SUPPORT = 'GO_SUPPORT';

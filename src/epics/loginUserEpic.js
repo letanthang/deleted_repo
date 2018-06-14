@@ -8,13 +8,33 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { LOGIN_USER, LOGOUT_USER, LOGIN_USER_SUCCESS } from '../actions/types';
+import { LOGIN_USER, LOGIN_USERT62, LOGOUT_USER, LOGIN_USER_SUCCESS } from '../actions/types';
 import { loginUserSucess, loginUserFail, logoutUser, pdListFetch } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 
 const loginUserEpic = action$ =>
   action$.ofType(LOGIN_USER)
+    .map(action => action.payload)
+    .mergeMap(({ userid, password, rememberMe }) =>
+      API.loginUser(userid, password)
+        .map(({ data }) => {
+          const response = data;
+          //console.log(response);
+          switch (response.status) {
+            case 'OK':
+              return loginUserSucess(response, rememberMe);
+            case 'NOT_FOUND':
+              return loginUserFail('SERVICE NOT FOUND');
+            default:
+              return loginUserFail(response.message);
+          }
+        })
+        .catch(error => of(loginUserFail(error.message)))
+    );
+
+const loginUserT62Epic = action$ =>
+  action$.ofType(LOGIN_USERT62)
     .map(action => action.payload)
     .mergeMap(({ t62 }) =>
       API.loginT62(t62)
@@ -48,6 +68,7 @@ const autoReloadEpic = (action$, store) =>
   
 export default combineEpics(
   loginUserEpic,
+  loginUserT62Epic,
   logoutUserAlertEpic,
   autoReloadEpic,
 );

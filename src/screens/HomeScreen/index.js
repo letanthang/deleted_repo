@@ -274,7 +274,7 @@ class HomeScreen extends Component {
             </CardItem>
           </Card>
         </TouchableOpacity> */}
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() => navigate('AddOrder')}
         >
           <Card>
@@ -293,7 +293,7 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity>
         
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigate('BluetoothExample')}
         >
           <Card>

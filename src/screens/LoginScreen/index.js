@@ -10,7 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser } from '../../actions';
+import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUserT62, logoutUser } from '../../actions';
 import HrWebView from './HrWebView';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Colors, Styles } from '../../Styles';
@@ -30,6 +30,7 @@ class LoginScreen extends Component {
     Orientation.lockToPortrait();
     new ShareVariables().LoginHeader['X-Auth'] = this.props.sessionToken;
     firebase.messaging().requestPermissions();
+    console.log('Login begin')
     // console.log(this.props.user);
     if (this.props.user) {
       console.log('navigate away2!');
@@ -81,7 +82,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <HrWebView
-        loginSuccess={t62 => this.props.loginUser(t62)}
+        loginSuccess={t62 => this.props.loginUserT62(t62)}
       />
     );
   }
@@ -128,5 +129,5 @@ const mapStateToProps = ({ auth }) => {
 //make it available
 export default connect(
   mapStateToProps, 
-  { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser }
+  { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUserT62, logoutUser }
 )(LoginScreen);

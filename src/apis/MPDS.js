@@ -9,15 +9,17 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 
 // ---------turn on mock data----------
 const mockOn = false;
-const timeout = 20000;
+const timeout = 10000;
+export const appVersionName = "19/06";
+export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
-// const DOMAIN = 'api.inhubv2.ghn.vn';
-// const DOMAIN = 'api.staging.inhubv2.ghn.vn';
-const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
-const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
+// const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
 
-// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+
+const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://staging.lastmile.ghn.vn/sso-login';
 
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
@@ -277,7 +279,7 @@ export const GetOrderHistory = (code) => {
   const config = {
     headers: LoginHeader,
     timeout,
-    params: { offset: 0, limit: 100, q: { code, historyType: 'UPDATE_TRIP_ACTION' } },
+    params: { offset: 0, limit: 200, q: { code, historyType: 'UPDATE_TRIP_ACTION' } },
   };
 
   if (mockOn) {

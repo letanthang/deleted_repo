@@ -335,7 +335,7 @@ class Utils {
     if (newDate == null || newDate == 0) { return note; }
     console.log(new Date(newDate));
     const strDate = moment(newDate).format('DD/MM ');
-    if (new Date(newDate).getHours() > 12) {
+    if (new Date(newDate).getHours() >= 14) {
       return `${note} ${strDate} Chiều`;
     } 
     return `${note} ${strDate} Sáng`;
@@ -349,10 +349,10 @@ class Utils {
         case 'GHN-PC8KA0': 
         case 'GHN-PC8KA1': {
           const now = new Date();
-          if (now.getHours() <= 14) {
+          if (now.getHours() < 14) {
             console.log('sang');
-            now.setHours(12);
-            now.setMinutes(30);
+            now.setHours(14);
+            now.setMinutes(0);
             console.log(now);
           } else {
             now.setHours(25);

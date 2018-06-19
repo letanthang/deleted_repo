@@ -6,7 +6,7 @@ import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import configureStore from './configureStore';
-import LoginScreen from './screens/LoginScreen/old';
+import LoginScreen from './screens/LoginScreen';
 import Drawer from './Drawer';
 import PickGroupDetailScreen from './screens/PickGroupDetailScreen';
 import ReturnGroupDetailScreen from './screens/ReturnGroupDetailScreen';
@@ -67,7 +67,7 @@ function backPress() {
 //export const store = configureStore();
 class App extends Component {
   componentDidMount() {
-    codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+    // codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
     BackHandler.addEventListener('hardwareBackPress', backPress);
   }
 
@@ -127,5 +127,5 @@ class App extends Component {
 //   store,
 //   persistor
 // };
-const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+const codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 export default codePush(codePushOptions)(App);

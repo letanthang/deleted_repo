@@ -174,8 +174,6 @@ class PickOrderScreen extends Component {
       receiverAddress, clientExtraNote
     } = order;
 
-
-
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -201,12 +199,12 @@ class PickOrderScreen extends Component {
               <Icon name="create" />
             </Button> */}
 
-            {/* <Button
+            <Button
               transparent
               onPress={() => navigate('OrderLabelNew', { code })}
             >
               <IC name="printer" size={28} color="white" />
-            </Button> */}
+            </Button>
           </Right>
           
         </Header>

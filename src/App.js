@@ -6,7 +6,7 @@ import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import configureStore from './configureStore';
-import LoginScreen from './screens/LoginScreen';
+import LoginScreen from './screens/LoginScreen/old';
 import Drawer from './Drawer';
 import PickGroupDetailScreen from './screens/PickGroupDetailScreen';
 import ReturnGroupDetailScreen from './screens/ReturnGroupDetailScreen';

@@ -55,7 +55,7 @@ class Label1 extends Component {
       await BluetoothSerial.writeImage(uri);
       uri = imageUri2.substring(7);   
       await BluetoothSerial.writeImage(uri);
-      await BluetoothSerial.write('\n\n\n\n');
+      await BluetoothSerial.write('\n\n');
       
     } catch (error) {
       console.log(error);
@@ -64,7 +64,7 @@ class Label1 extends Component {
 }
 
   render() {
-    const { receiverName, receiverAddress, receiverPhone, imageUri, code } = this.props.order;
+    const { receiverName, receiverAddress, receiverPhone, imageUri, code, senderAddress, clientRequiredNote, externalCode } = this.props.order;
     // console.log(order);
     
     return (
@@ -92,7 +92,7 @@ class Label1 extends Component {
           >
             <View style={{ flexDirection: 'row' }}>
               <View style={{ width: 200, height: 77 }}>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={3} >XA PHU HAI, HUYEN HAI HA NAM HAI QUANG NINH</Text>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={3} >{senderAddress}</Text>
               </View>
               
               <View style={{ paddingLeft: 10, flex: 1 }}>
@@ -105,16 +105,16 @@ class Label1 extends Component {
               <Text style={{ fontSize: 19, color: 'black' }}>{receiverPhone.toUpperCase()}</Text>
             </View>
             <View style={{height: 77}}>
-              <Text style={{ fontSize: 19, color: 'black' }} numberOfLines={3}>{receiverAddress.toUpperCase()} 11/3A TAN HOA TAN HIEP HOC MON, LU GIA, p15, Q11,LU GIA, p15, Q11, HCM HCM HCM</Text>
+              <Text style={{ fontSize: 19, color: 'black' }} numberOfLines={3}>{receiverAddress.toUpperCase()}</Text>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
             <View style={{ flexDirection: 'row', height: 50 }}>
-              <Text style={{ fontSize: 19, color: 'black' }}  numberOfLines={3}>CHO XEM HANG KHONG CHO THU, KHONG CHO XE</Text>
+              <Text style={{ fontSize: 19, color: 'black' }}  numberOfLines={3}>{clientRequiredNote.toUpperCase()}</Text>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
             <View style={{ flexDirection: 'row', paddingLeft: 4 }}>
               <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black'}}>EXT: </Text>
-              <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black'}}>82398472938472734UVD1</Text>
+              <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black'}}>{externalCode.toUpperCase()}</Text>
             </View>
             
             <View style={{ flexDirection: 'row', borderTopWidth: 3, borderBottomWidth: 3  }}>

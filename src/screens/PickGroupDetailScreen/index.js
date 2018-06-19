@@ -140,12 +140,12 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" />
           </Button>
-          {/* <Button
+          <Button
             transparent
             onPress={() => navigate('OrderLabels', { senderHubId: this.senderHubId})}
           >
             <Icon name="print" />
-          </Button> */}
+          </Button>
 
         </Right>
       </Header>

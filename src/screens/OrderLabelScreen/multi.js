@@ -13,7 +13,7 @@ import { Styles } from '../../Styles';
 import { setOrder } from '../../actions';
 import { getOrders, get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
-import Label1 from './Label2';
+import Label from './Label2';
 
 class OrderLabelsScreen extends Component {
   constructor() {
@@ -21,9 +21,16 @@ class OrderLabelsScreen extends Component {
     this.state = { index: 0 };
   }
   componentWillMount() {
-    this.senderHubId = this.props.navigation.state.params.senderHubId;
-    
-    console.log('OrderLabelsScreen mount');
+    this.senderHubId = this.props.navigation.state.params.senderHubId;    
+    const pickGroup = this.props.PickItems.find(g => g.senderHubId === this.senderHubId);
+    this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkPickSuccess(o.status));
+    if (this.orders.length === 0) {
+      this.props.navigation.goBack();
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    const pickGroup = nextProps.PickItems.find(g => g.senderHubId === this.senderHubId);
+    this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkPickSuccess(o.status));
   }
   nextOrder() {
     if (this.state.index < this.orders.length - 1) {
@@ -51,9 +58,6 @@ class OrderLabelsScreen extends Component {
   }
 
   render() {
-    console.log('render');
-    const pickGroup = this.props.PickItems.find(g => g.senderHubId === this.senderHubId);
-    this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkPickSuccess(o.status));
     const order = this.orders[this.state.index];
     const { code } = order;
     const { goBack, navigate } = this.props.navigation;
@@ -99,7 +103,7 @@ class OrderLabelsScreen extends Component {
           >
             <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Print All</Text>
           </TouchableOpacity>
-          <Label1
+          <Label
             order={order}
             setOrder={this.props.setOrder}
             nextOrder={this.nextOrder.bind(this)}

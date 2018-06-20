@@ -66,7 +66,7 @@ export const ordersResponse = {
     "code": "GHN-TEST-102",
     "tripCode": "18414164VNDP8",
     "type": "PICK",
-    "status": "PICKING",
+    "status": "PICKED",
     "isUpdatedStatus": false,
     "isCancel": false,
     "isScanImport": false,
@@ -103,7 +103,7 @@ export const ordersResponse = {
     "code": "GHN-TEST-100",
     "tripCode": "18414164VNDP8",
     "type": "PICK",
-    "status": "PICKING",
+    "status": "PICKED",
     "isUpdatedStatus": false,
     "isCancel": false,
     "isScanImport": false,
@@ -348,7 +348,7 @@ export const orderHistoryResponse = {
     {
     "code":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
     historyType: 'CREATE_TRIP', 
-    createdById: 1006, 
+    createdById: 1006,
     createdByName: 'Nguyen Khanh Tuong',
     "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
     },

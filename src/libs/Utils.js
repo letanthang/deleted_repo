@@ -319,7 +319,7 @@ class Utils {
     return history.reduce((accum, item) => {
       const { date, createdByName, createdById, historyType, data } = item;
       let newLine = '';
-      if (data.length > 50) {
+      if (data && data.length > 50) {
         const { action, failNote, nextRedoTime } = JSON.parse(data);
         const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
         newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action];

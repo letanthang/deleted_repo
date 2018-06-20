@@ -39,6 +39,7 @@ class PickOrderScreen extends Component {
       this.props.fetchOrderDetail(code, 'PICK');
     }
     this.props.getOrderHistory(code);
+    console.log('PickOrderScreen mount ', order);
   }
   componentDidMount() {
     if (!this.props.configuration) this.props.getConfiguration();
@@ -167,13 +168,13 @@ class PickOrderScreen extends Component {
     } 
     const history = this.props.orderHistory[code];
     const historyString = Utils.getHistoryString(history);
+    
     const { 
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
       moneyCollect, weight, length, serviceCost,
       receiverAddress, clientExtraNote
     } = order;
-
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>

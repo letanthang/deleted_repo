@@ -18,7 +18,7 @@ import Label from './Label2';
 class OrderLabelsScreen extends Component {
   constructor() {
     super();
-    this.state = { index: 0 };
+    this.state = { index: 0, printEnable: true };
   }
   componentWillMount() {
     this.senderHubId = this.props.navigation.state.params.senderHubId;    
@@ -33,31 +33,62 @@ class OrderLabelsScreen extends Component {
     this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkPickSuccess(o.status));
   }
   nextOrder() {
-    if (this.state.index < this.orders.length - 1) {
-      this.setState({ index: (this.state.index + 1) % this.orders.length })
+    console.log('nextOrder');
+    this.setState({ index: (this.state.index + 1) % this.orders.length });
+  }
+
+  nextOrderForPrint() {
+    const noImageNum = this.orders.filter(o => !o.imageUri).length;
+    console.log('nextOrderForPrint ' + noImageNum);
+    if (noImageNum > 0) {
+      this.setState({ index: (this.state.index + 1) % this.orders.length });
     }
   }
 
   async printOrder(order) {
     try {
-      const { imageUri1, imageUri2 } = order;
-      let uri = imageUri1.substring(7);   
+      const { code, imageUri1, imageUri2, imageUri3 } = order;
+      this.props.setOrder(code, { printed: true });
+      let uri = imageUri1.substring(7);
       await BluetoothSerial.writeImage(uri);
-      uri = imageUri2.substring(7);   
+      uri = imageUri2.substring(7);
       await BluetoothSerial.writeImage(uri);
-      return BluetoothSerial.write('\n\n\n');
+      uri = imageUri3.substring(7);
+      await BluetoothSerial.writeImage(uri);
+      return BluetoothSerial.write('\n\n');
     } catch (error) {
       console.log(error);
-      this.props.navigation.navigate('BluetoothExample');
+      // this.props.navigation.navigate('BluetoothExample');
     }
   }
   async printAll() {
-    for (const order of this.orders) {
+    console.log('print all');
+    this.setState({ printEnable: false });
+    const orders = this.orders.filter(o => !o.printed).slice(0, 5);
+    if (orders.length === 0) {
+      console.log('Nothing to print');
+      return;
+    }
+    for (const order of orders) {
       await this.printOrder(order);
     }
   }
 
+  resetPrint() {
+    const orders = this.orders.filter(o => o.printed);
+    orders.forEach(o => this.props.setOrder(o.code, { printed: false }));
+  }
+  deleteImages() {
+    this.orders.forEach(o => this.props.setOrder(o.code, { imageUri: null }));
+  }
+
   render() {
+    if (this.orders.length === 0) {
+      return (
+        <Text>Chưa có đơn đã lấy để in</Text>
+      );
+    }
+
     const order = this.orders[this.state.index];
     const { code } = order;
     const { goBack, navigate } = this.props.navigation;
@@ -95,19 +126,36 @@ class OrderLabelsScreen extends Component {
             style={{ padding: 8, backgroundColor: '#000044', justifyContent: 'center' }}
             onPress={this.nextOrder.bind(this)}
           >
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Next</Text>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Xem tiếp</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ padding: 8, backgroundColor: '#004400', justifyContent: 'center' }}
-            onPress={() => this.printAll()}
+            onPress={() => this.printAll().then(() => this.setState({ printEnable: true }))}
+            disabled={!this.state.printEnable}
           >
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Print All</Text>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>In lượt 5 đơn</Text>
           </TouchableOpacity>
           <Label
             order={order}
             setOrder={this.props.setOrder}
-            nextOrder={this.nextOrder.bind(this)}
+            nextOrder={this.nextOrderForPrint.bind(this)}
           />
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 8 }}
+          >
+            <TouchableOpacity
+              style={{ padding: 8, justifyContent: 'center', flex: 0.3 }}
+              onPress={() => this.resetPrint()}
+            >
+              <Text style={{ color: '#000044', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>In lại</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ padding: 8, justifyContent: 'center', flex: 0.4 }}
+              onPress={() => this.deleteImages()}
+            >
+              <Text style={{ color: '#000044', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Xoá hình</Text>
+            </TouchableOpacity>
+          </View>
         </Content>
       </Container>
     );

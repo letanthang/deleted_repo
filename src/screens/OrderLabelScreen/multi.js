@@ -32,6 +32,7 @@ class OrderLabelsScreen extends Component {
     const pickGroup = nextProps.PickItems.find(g => g.senderHubId === this.senderHubId);
     this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkPickSuccess(o.status));
   }
+
   nextOrder() {
     console.log('nextOrder');
     this.setState({ index: (this.state.index + 1) % this.orders.length });
@@ -47,7 +48,11 @@ class OrderLabelsScreen extends Component {
 
   async printOrder(order) {
     try {
-      const { code, imageUri1, imageUri2, imageUri3 } = order;
+      const { code, imageUri, imageUri1, imageUri2, imageUri3 } = order;
+      if (!imageUri) {
+        Utils.showToast('Đơn chưa tạo nhãn!', 'danger');
+        return;
+      }
       this.props.setOrder(code, { printed: true });
       let uri = imageUri1.substring(7);
       await BluetoothSerial.writeImage(uri);
@@ -58,6 +63,7 @@ class OrderLabelsScreen extends Component {
       return BluetoothSerial.write('\n\n');
     } catch (error) {
       console.log(error);
+      Utils.showToast('Đã có lỗi. Vui lòng xem lại kết nối máy in.', 'danger');
       // this.props.navigation.navigate('BluetoothExample');
     }
   }
@@ -121,7 +127,12 @@ class OrderLabelsScreen extends Component {
           keyboardShouldPersistTaps='handled'
           style={{ paddingTop: 20 }}
         >
-          <Text>STT: {this.state.index + 1} / {this.orders.length}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text>Đã in : {this.orders.filter(o => o.printed).length} / {this.orders.length}</Text>
+            <Text>STT: {this.state.index + 1} / {this.orders.length}</Text>
+            <Text>Có nhãn : {this.orders.filter(o => o.imageUri).length} / {this.orders.length}</Text>
+          </View>
+          
           <TouchableOpacity
             style={{ padding: 8, backgroundColor: '#000044', justifyContent: 'center' }}
             onPress={this.nextOrder.bind(this)}
@@ -133,7 +144,7 @@ class OrderLabelsScreen extends Component {
             onPress={() => this.printAll().then(() => this.setState({ printEnable: true }))}
             disabled={!this.state.printEnable}
           >
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>In lượt 5 đơn</Text>
+            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Bắt đầu in</Text>
           </TouchableOpacity>
           <Label
             order={order}

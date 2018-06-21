@@ -12,7 +12,7 @@ class Label3 extends Component {
   state = { bcUri: null, fullUri: null }
   componentWillMount() {
     const { imageUri, hasDetail, label, code } = this.props.order;
-    console.log('Label3: mount', hasDetail, label, code);
+    console.log('Label3: mount', hasDetail, label, code, imageUri);
     if (!hasDetail) {
       console.log('Label3: fetchDetail');
       this.props.fetchOrderDetail(code, 'PICK');
@@ -29,17 +29,20 @@ class Label3 extends Component {
   }
   isCapturing = false
   componentDidMount() {
+    console.log('did mount'); 
     const { imageUri, hasDetail, label, code } = this.props.order;
-    if (imageUri == null && hasDetail && label && this.isCapturing) {
+    if (imageUri == null && hasDetail && label && !this.isCapturing) {
+      this.isCapturing = true;
       console.log('did mount & begin capture')
-      // setTimeout(this.onCaptureAll.bind(this), 70);
+      setTimeout(this.onCaptureAll.bind(this), 70);
     }
   }
   componentDidUpdate() {
     const { imageUri, hasDetail, label } = this.props.order;
     if (imageUri == null && hasDetail && label && !this.isCapturing) {
+      this.isCapturing = true;
       console.log('did update & begin capture')
-      // setTimeout(this.onCaptureAll.bind(this), 70);
+      setTimeout(this.onCaptureAll.bind(this), 70);
     }
   }
 
@@ -60,14 +63,14 @@ class Label3 extends Component {
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
           (u) => {
             this.props.setOrder(code, { imageUri2: u })
-            // setTimeout(this.props.nextOrder, 20)
+            
           }, 
           error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 20 } }, 
           (u) => {
             this.props.setOrder(code, { imageUri3: u })
-            // setTimeout(this.props.nextOrder, 20)
+            setTimeout(this.props.nextOrder, 28)
           }, 
           error => console.log(error));
         
@@ -117,7 +120,7 @@ class Label3 extends Component {
           <View
             style={{
               width: 362,
-              height: 395,
+              height: 397,
               paddingLeft: 8,
               paddingRight: 8,
               alignSelf: 'center',
@@ -125,8 +128,8 @@ class Label3 extends Component {
             }}
           >
             <View style={{ flexDirection: 'row' }}>
-              <View style={{ width: 200, height: 77 }}>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={3} >{toDistrictName ? toDistrictName.toUpperCase() : ''}</Text>
+              <View style={{ width: 200, height: 70 }}>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{toDistrictName ? toDistrictName.toUpperCase() : ''}</Text>
               </View>
               
               <View style={{ paddingLeft: 10, flex: 1 }}>
@@ -134,7 +137,7 @@ class Label3 extends Component {
               </View>
             </View>
             
-            <View style={{ width: 260 }} >
+            <View style={{ width: 362 }} >
               <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }}>{receiverName.toUpperCase()}</Text>
               <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}>{receiverPhone.toUpperCase()}</Text>
             </View>
@@ -152,15 +155,15 @@ class Label3 extends Component {
             </View>
             
             <View style={{ flexDirection: 'row', borderTopWidth: 3, borderBottomWidth: 3  }}>
-              <Text style={{ fontWeight: 'bold', fontSize: 41, marginLeft: 8, marginRight: 8, color: 'black'  }}>{label1}</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 40, marginLeft: 4, marginRight: 6, color: 'black'  }}>{label1}</Text>
               <View style={{ width: 0, borderWidth: 2, marginLeft: 2, marginRight: 2}} />
-              <Text style={{ fontWeight: 'bold', fontSize: 41, marginLeft: 8, color: 'black' }}>{label2}</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 40, marginLeft: 6, color: 'black' }}>{label2}</Text>
               <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black', width: 60, marginTop: 3, marginLeft: 10 }} numberOfLines={2}>{pickWarehouseId === deliverWarehouseId ? 'CÙNG KHO' : 'KHÁC KHO'}</Text>
             </View>
             
           </View>
                 
-          <View style={{ height: 125, marginTop: 4, flex: 1, alignItems: 'center' }}>
+          <View style={{ height: 123, marginTop: 4, flex: 1, alignItems: 'center' }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{code}</Text>
             <Barcode
               value={code}

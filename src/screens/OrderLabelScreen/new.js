@@ -14,7 +14,7 @@ import { Styles } from '../../Styles';
 import { setProps, setOrder } from '../../actions';
 import { getOrders } from '../../selectors';
 import Utils from '../../libs/Utils';
-import Label from './Label2';
+import Label from './Label3';
 
 
 class OrderLabelScreen extends Component {

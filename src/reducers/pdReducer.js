@@ -376,6 +376,7 @@ export default (state = nameInitialState, action) => {
       const orderDetail = data.orderDetail;
       delete orderDetail.senderHubId;
       delete orderDetail.clientId;
+      delete orderDetail.status;
       const key = getKey(code, type);
       return {
         ...state,

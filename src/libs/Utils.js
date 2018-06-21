@@ -286,6 +286,8 @@ class Utils {
     let number = phone;
     if (phone.startsWith('84')) {
       number = `0${phone.substr(2)}`;
+    } else if (!phone.startsWith('0')) {
+      number = `0${phone}`;
     }
     return number;
   }

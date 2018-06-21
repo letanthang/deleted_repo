@@ -12,7 +12,7 @@ class Label3 extends Component {
   state = { bcUri: null, fullUri: null }
   componentWillMount() {
     const { imageUri, hasDetail, label, code } = this.props.order;
-    console.log('Label3: mount', hasDetail, label, code, imageUri);
+    // console.log('Label3: mount', hasDetail, label, code, imageUri);
     if (!hasDetail) {
       console.log('Label3: fetchDetail');
       this.props.fetchOrderDetail(code, 'PICK');
@@ -21,7 +21,7 @@ class Label3 extends Component {
   
   componentWillReceiveProps(nextProps) {
     const { imageUri, hasDetail, label, code } = nextProps.order;
-    console.log('Label3: props', hasDetail, label, code);
+    // console.log('Label3: props', hasDetail, label, code);
     if (!hasDetail) {
       console.log('Label3: fetchDetail');
       this.props.fetchOrderDetail(code, 'PICK');
@@ -29,11 +29,10 @@ class Label3 extends Component {
   }
   isCapturing = false
   componentDidMount() {
-    console.log('did mount'); 
     const { imageUri, hasDetail, label, code } = this.props.order;
     if (imageUri == null && hasDetail && label && !this.isCapturing) {
       this.isCapturing = true;
-      console.log('did mount & begin capture')
+      // console.log('did mount & begin capture')
       setTimeout(this.onCaptureAll.bind(this), 70);
     }
   }
@@ -41,7 +40,7 @@ class Label3 extends Component {
     const { imageUri, hasDetail, label } = this.props.order;
     if (imageUri == null && hasDetail && label && !this.isCapturing) {
       this.isCapturing = true;
-      console.log('did update & begin capture')
+      // console.log('did update & begin capture')
       setTimeout(this.onCaptureAll.bind(this), 70);
     }
   }

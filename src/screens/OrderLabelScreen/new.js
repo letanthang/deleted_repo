@@ -5,7 +5,7 @@ import Barcode from 'react-native-barcode-builder';
 import ViewShot from 'react-native-view-shot';
 import { 
   Container, Header, Left, Body, Title,
-  Content, Text, Button, Icon
+  Content, Text, Button, Icon, Right
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import BluetoothSerial from 'react-native-bluetooth-serial';
@@ -49,7 +49,7 @@ class OrderLabelScreen extends Component {
     return (
       <Container>
         <Header>
-          <Left>
+          <Left style={{ flex: 0.2 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Button
               transparent
@@ -60,8 +60,16 @@ class OrderLabelScreen extends Component {
             </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{code}</Title>
+            <Title>In đơn {code}</Title>
           </Body>
+          <Right style={{ flex: 0.2 }}>
+            <Button
+              transparent
+              onPress={() => navigate('BluetoothExample', { code })}
+            >
+              <IC name="bluetooth-connect" size={28} color="white" />
+            </Button>
+          </Right>
         </Header>
         <Content
           keyboardShouldPersistTaps='handled'

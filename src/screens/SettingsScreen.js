@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
 import { pdListClearTrip } from '../actions';
+import { appVersionName } from '../apis/MPDS';
 
 class SettingsScreen extends Component {
   state = { clickNum: 0, password: '', verified: false }
@@ -40,7 +41,7 @@ class SettingsScreen extends Component {
                   </View>
                 </View>
                 <View style={HomeStyles.cardItemRight}>
-                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>14/06</Text>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>{appVersionName}</Text>
                 </View>
               </CardItem>
             </Card>

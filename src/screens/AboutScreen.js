@@ -10,6 +10,7 @@ import moment from 'moment';
 import md5 from 'md5';
 import { pdListFetch } from '../actions';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
+import { appVersionName } from '../apis/MPDS';
 
 class AboutScreen extends Component {
   componentDidMount() {
@@ -51,7 +52,7 @@ class AboutScreen extends Component {
                   </View>
                 </View>
                 <View style={HomeStyles.cardItemRight}>
-                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>14/06 6pm</Text>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>{appVersionName}</Text>
                 </View>
               </CardItem>
               <CardItem style={{ backgroundColor: Colors.row }}>

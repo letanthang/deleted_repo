@@ -14,6 +14,7 @@ import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, l
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Colors, Styles } from '../../Styles';
 import ShareVariables from '../../libs/ShareVariables';
+import { appVersionName } from '../../apis/MPDS';
 
 
 //create comp
@@ -93,6 +94,7 @@ class LoginScreen extends Component {
               <Text style={{ color: '#4CAF50', fontSize: 24, fontWeight: 'bold' }}>
                 Tài xế GHN
               </Text>
+              <Text style={{ color: '#dd0000', fontSize: 24, fontWeight: 'bold' }}>{appVersionName}</Text>
             </Body>
             <View style={{ paddingLeft: 10, paddingTop: 32 }}>
               <View style={{ marginRight: 20, marginBottom: 14, paddingBottom: 14, flexDirection: 'row', alignItems: 'center', borderBottomColor: '#E9E7EB', borderBottomWidth: 1 }}>

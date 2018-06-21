@@ -101,7 +101,7 @@ class OrderLabelsScreen extends Component {
     return (
       <Container>
         <Header>
-          <Left>
+          <Left style={{ flex: 0.2 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Button
                 transparent
@@ -112,9 +112,9 @@ class OrderLabelsScreen extends Component {
             </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>TEST MULTI PRINT {code}</Title>
+            <Title>In đơn shop</Title>
           </Body>
-          <Right>
+          <Right  style={{ flex: 0.2 }}>
             <Button
               transparent
               onPress={() => navigate('BluetoothExample', { code })}

@@ -8,7 +8,7 @@ import {
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
   PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, PD_ADD_ORDER_SUCCESS,
-  PD_SET_ORDER_PROPS,
+  PD_SET_ORDER_PROPS, PD_FETCH_LABEL_SUCCESS, PD_FETCH_LABEL_FAIL,
  } from '../actions/types';
 import Utils from '../libs/Utils';
 
@@ -395,6 +395,37 @@ export default (state = nameInitialState, action) => {
       return {
         ...state,
         detailLoading: false,
+        error: action.payload.error
+      };
+    case PD_FETCH_LABEL_SUCCESS: {
+      const { data, code } = action.payload;
+
+      if (data.orderCode !== code) {
+        return state;
+      }
+      const key = getKey(code, 'PICK');
+      const arr = data.label.split('/');
+      const label = data.label;
+      const label1 = arr[0];
+      const label2 = arr[1]; 
+      return {
+        ...state,
+        detailLoading: false,
+        pdsItems: {
+          ...state.pdsItems,
+          [key]: {
+            ...state.pdsItems[key],
+            label,
+            label1,
+            label2
+          }
+        },
+        error: ''
+      };
+    }
+    case PD_FETCH_LABEL_FAIL:
+      return {
+        ...state,
         error: action.payload.error
       };
     case PD_SET_ORDER_PROPS: {

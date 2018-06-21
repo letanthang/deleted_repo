@@ -10,10 +10,10 @@ import {
 // import BluetoothSerial from 'react-native-bluetooth-serial';
 import { connect } from 'react-redux';
 import { Styles } from '../../Styles';
-import { setOrder } from '../../actions';
+import { setOrder, fetchOrderDetail } from '../../actions';
 import { getOrders, get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
-import Label from './Label2';
+import Label from './Label3';
 
 class OrderLabelsScreen extends Component {
   constructor() {
@@ -138,6 +138,7 @@ class OrderLabelsScreen extends Component {
           <Label
             order={order}
             setOrder={this.props.setOrder}
+            fetchOrderDetail={this.props.fetchOrderDetail}
             nextOrder={this.nextOrderForPrint.bind(this)}
           />
           <View
@@ -167,4 +168,4 @@ const mapStateToProps = (state) => {
   return { db, PickItems };
 };
 
-export default connect(mapStateToProps, { setOrder })(OrderLabelsScreen);
+export default connect(mapStateToProps, { setOrder, fetchOrderDetail })(OrderLabelsScreen);

@@ -15,7 +15,7 @@ export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677
 
 const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
 const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
-
+const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1'
 
 // const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
 // const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
@@ -240,6 +240,22 @@ export const GetOrderDetailInfo = (code, type, tripCode) => {
 
 export const getOrderDetail = (code, type, tripCode) => {
   return fromPromise(GetOrderDetailInfo(code, type, tripCode));
+};
+
+export const GetOrderLabel = (code) => {
+  const URL = `${INSIDE_URL}/label/${code}`;
+  const config = {
+  };
+
+  if (mockOn) {
+    mock.onGet(URL, config).reply(200, configResponse);
+  }
+  
+  return axios.get(URL, config);
+};
+
+export const getOrderLabel = (code) => {
+  return fromPromise(GetOrderLabel(code));
 };
 
 // {

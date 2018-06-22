@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity } from 'react-native';
+import { View, Alert, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
@@ -199,13 +199,14 @@ class PickOrderScreen extends Component {
             >
               <Icon name="create" />
             </Button> */}
-
+            {Platform.OS == 'android' ?
             <Button
               transparent
               onPress={() => navigate('OrderLabelNew', { code })}
             >
               <IC name="printer" size={28} color="white" />
             </Button>
+            : null}
           </Right>
           
         </Header>
@@ -300,7 +301,7 @@ class PickOrderScreen extends Component {
         <ActionModal
           visible={this.state.modalShow}
           onChooseDate={this.onChooseDate.bind(this)}
-          onCancelDate={this.onCancelDate.bind(this)} 
+          onCancelDate={this.onCancelDate.bind(this)}
         />
       </Container>
     );

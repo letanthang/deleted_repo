@@ -3,7 +3,7 @@ import codePush from 'react-native-code-push';
 import { View, TouchableOpacity, TextInput, Button as Btn, Clipboard } from 'react-native';
 import { 
   Container, Header, Left, Body, Card, Title,
-  Content, Text, Button, Icon, CardItem 
+  Content, Text, Button, Icon, CardItem, Right 
 } from 'native-base';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -26,7 +26,7 @@ class AboutScreen extends Component {
     return (
       <Container>
         <Header>
-          <Left>
+          <Left style={{ flex: 0.2 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Button
               transparent
@@ -36,9 +36,10 @@ class AboutScreen extends Component {
             </Button>
             </View>
           </Left>
-          <Body>
+          <Body style={{ flex: 0.6 }}>
             <Title>Thông tin ứng dụng</Title>
           </Body>
+          <Right style={{ flex: 0.2 }}/>
         </Header>
         <Content
           keyboardShouldPersistTaps='handled'

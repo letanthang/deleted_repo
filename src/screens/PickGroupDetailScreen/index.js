@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Dimensions, TextInput } from 'react-native';
+import { View, TouchableOpacity, Dimensions, TextInput, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -140,13 +140,14 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" />
           </Button>
+          {Platform.OS == 'android' ?
           <Button
             transparent
             onPress={() => navigate('OrderLabels', { senderHubId: this.senderHubId})}
           >
             <Icon name="print" />
           </Button>
-
+          : null}
         </Right>
       </Header>
     );

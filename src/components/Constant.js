@@ -24,7 +24,7 @@ export const ReturnErrors = {
   'GHN-RC8KA1': 'KHÁCH KHÔNG NGHE MÁY',
   // 'GHN-RC8C8E': 'KHÁCH TỪ CHỐI NHẬN HÀNG',
   'GHN-RC4A54': 'KHÔNG LIÊN LẠC ĐƯỢC VỚI KHÁCH',
-  'R_ANOTHERDATE': 'NGƯỜI HẸN LẠI NGÀY TRẢ',
+  'R_ANOTHERDATE': 'NGƯỜI GỬI HẸN LẠI NGÀY TRẢ',
   // 'GHN-RCB9DA': 'SAI THÔNG TIN NGƯỜI NHẬN HÀNG',
   // 'GHN-RC9E91': 'GIAO LẠI NHIỀU LẦN KHÔNG THÀNH CÔNG',
   // 'GHN-RCBC9F': 'SAI LỆCH TIỀN THU HỘ (COD)',

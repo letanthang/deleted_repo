@@ -1,17 +1,21 @@
 
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { LOGIN_USER, LOGIN_USERT62, LOGOUT_USER, LOGIN_USER_SUCCESS } from '../actions/types';
+import { LOGIN_USER, LOGIN_USERT62, LOGOUT_USER, LOGIN_USER_SUCCESS, AUTO_LOGIN_SUCCESS } from '../actions/types';
 import { loginUserSucess, loginUserFail, logoutUser, pdListFetch } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
+import { Observable } from 'rxjs';
 
 const loginUserEpic = action$ =>
   action$.ofType(LOGIN_USER)
@@ -65,10 +69,25 @@ const autoReloadEpic = (action$, store) =>
       const reset = store.getState().auth.userId !== store.getState().pd.userId;
       return of(pdListFetch({ all: reset, reset }));
     });
-  
+
+const autoReloadIntervalEpic = action$ =>
+  action$.ofType('FE_CRON')
+    .mergeMap(() => {
+      return of(pdListFetch({}));
+    });
+
+const cronEpic = action$ =>
+  action$.ofType(LOGIN_USER_SUCCESS, AUTO_LOGIN_SUCCESS)
+    .switchMap(() =>
+      Observable.interval(1000 * 60 * 15)
+        .takeUntil(action$.ofType(LOGOUT_USER))
+        .mapTo({ type: 'FE_CRON' }));
+
 export default combineEpics(
   loginUserEpic,
   loginUserT62Epic,
   logoutUserAlertEpic,
   autoReloadEpic,
+  autoReloadIntervalEpic,
+  cronEpic,
 );

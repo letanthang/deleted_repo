@@ -10,7 +10,7 @@ import { NavigationActions } from 'react-navigation';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser } from '../../actions';
+import { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser, autoLoginSuccess } from '../../actions';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Colors, Styles } from '../../Styles';
 import ShareVariables from '../../libs/ShareVariables';
@@ -55,6 +55,8 @@ class LoginScreen extends Component {
   }
 
   goToHome() {
+    this.props.autoLoginSuccess();
+
     const { dispatch } = this.props.navigation;
     const resetAction = NavigationActions.reset({
       index: 0,
@@ -191,5 +193,5 @@ const mapStateToProps = ({ auth }) => {
 //make it available
 export default connect(
   mapStateToProps, 
-  { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser }
+  { userIDChanged, passwordChanged, rememberMeChanged, loadSavedUserPass, loadSavedSession, loginUser, logoutUser, autoLoginSuccess }
 )(LoginScreen);

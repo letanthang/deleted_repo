@@ -10,7 +10,8 @@ import { authenUri } from '../../apis/MPDS';
 class HrWebView extends Component {
   state = {
     cookies    : {},
-    webViewUrl : ''
+    webViewUrl : '',
+    logined: false
   }
   componentWillMount() {
     console.log('HrWebview mount');
@@ -36,7 +37,9 @@ class HrWebView extends Component {
         if (pos > 0) {
           const t62 = webViewUrl.substr(pos + 5, 1000);
           console.log('Dang nhap voi t62=' + t62);
-          this.props.loginSuccess(t62)
+          
+          if (!this.state.logined) this.props.loginSuccess(t62)
+          this.setState({ logined: true });
         }
         // if (cookies['f2354167']) {}
     }

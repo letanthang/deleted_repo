@@ -16,7 +16,6 @@ class ShareVariables {
   LoginHeader = {
     'X-Auth': null,
     'X-HubId': '',
-    'X-WarehouseId': 0
   }
 
   setLoginInfo( 

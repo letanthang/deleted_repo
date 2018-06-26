@@ -1,6 +1,7 @@
 import {
   USERID_CHANGED, PASSWORD_CHANGED, REMEMBER_ME_CHANGED, LOGIN_USER,
-  LOGOUT_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS, LOGIN_USERT62
+  LOGOUT_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS, LOGIN_USERT62,
+  AUTO_LOGIN_SUCCESS,
 } from './types';
 
 export const userIDChanged = (text) => {
@@ -37,6 +38,10 @@ export const loginUserSucess = (response, rememberMe) => {
     type: LOGIN_USER_SUCCESS,
     payload: { userInfo, session, rememberMe },
   };
+};
+
+export const autoLoginSuccess = () => {
+  return { type: AUTO_LOGIN_SUCCESS };
 };
 
 export const loginUserFail = (error) => {

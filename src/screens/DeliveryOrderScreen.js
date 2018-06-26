@@ -155,7 +155,8 @@ class DeliveryOrderScreen extends Component {
     // remove displayOrder
     const { 
       receiverName, receiverPhone, receiverAddress, moneyCollect,
-      clientName, senderPhone, clientRequiredNote, clientExtraNote
+      clientName, senderPhone, clientRequiredNote, clientExtraNote,
+      displayOrder,
     } = order;
 
     const historyString = Utils.getHistoryString(this.props.orderHistory[code]);
@@ -176,7 +177,7 @@ class DeliveryOrderScreen extends Component {
             
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{code}</Title>
+            <Title>[{displayOrder}] {code}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
           </Right>

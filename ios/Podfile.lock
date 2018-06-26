@@ -31,10 +31,16 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - Protobuf (3.4.0)
+  - React (0.11.0):
+    - React/Core (= 0.11.0)
+  - React/Core (0.11.0)
+  - RNBackgroundFetch (2.0.8):
+    - React
 
 DEPENDENCIES:
   - Firebase/Core
   - Firebase/Messaging
+  - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -46,6 +52,11 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - nanopb
     - Protobuf
+    - React
+
+EXTERNAL SOURCES:
+  RNBackgroundFetch:
+    :path: "../node_modules/react-native-background-fetch"
 
 SPEC CHECKSUMS:
   Firebase: d83d287bdb6b1c78320561482706d1fcfc8ddfc1
@@ -56,7 +67,9 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
+  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
+  RNBackgroundFetch: 8c4f77f83c398c659bce82af2f0a885079417b9e
 
-PODFILE CHECKSUM: ed09601257ccd89a90eb72d623ad61dd16db57fa
+PODFILE CHECKSUM: caa23e890ba247038b28567d9e8aaec36b2b8178
 
 COCOAPODS: 1.5.3

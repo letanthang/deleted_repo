@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -76,6 +75,8 @@
 		EDA36C80631A49B7B3DB39E7 /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2373A510867C4511A0C47FA8 /* libRNViewShot.a */; };
 		FA74C2B5DC9349B5B5FDB69F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92E2A17BF12E4B9F815D5531 /* Ionicons.ttf */; };
 		FD1D7A40ED6740E89F3FB386 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 719E9797706D4DB0B523DE4E /* libCodePush.a */; };
+		D5F32042DF4240159FD44B89 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94C94638C1545B18BC00154 /* TSBackgroundFetch.framework */; };
+		8BECAD84298A48B3A6C8CD42 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB2D0C9FF4D419790E2ADFC /* RNBackgroundFetch+AppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -521,6 +522,8 @@
 		F650203C10FA41F48E8E98C3 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FB3C0F967F63E2432F3D37CA /* Pods-mpds_new-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_new-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_new-tvOS/Pods-mpds_new-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		FDD8752FBFD8A1C25FAC3023 /* libPods-mpds_new-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mpds_new-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C94C94638C1545B18BC00154 /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; name = "TSBackgroundFetch.framework"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		8DB2D0C9FF4D419790E2ADFC /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -561,6 +564,7 @@
 				AC7CBBAE19264D92A128079D /* libRCTBluetoothSerial.a in Frameworks */,
 				EDA36C80631A49B7B3DB39E7 /* libRNViewShot.a in Frameworks */,
 				53F2849A3DD34C0C88483FA1 /* libRNCookieManagerIOS.a in Frameworks */,
+				D5F32042DF4240159FD44B89 /* TSBackgroundFetch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,6 +686,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				8DB2D0C9FF4D419790E2ADFC /* RNBackgroundFetch+AppDelegate.m */,
 			);
 			name = mpds_new;
 			sourceTree = "<group>";
@@ -855,6 +860,7 @@
 				0C88B991606B522517CCA82F /* libPods-mpds_new-tvOSTests.a */,
 				DE69644916954D1DBAA12D66 /* libPods-mpds_newTests.a */,
 				71C22711964D4A8CB2A3B557 /* libz.tbd */,
+				C94C94638C1545B18BC00154 /* TSBackgroundFetch.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1056,7 +1062,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = true;
 							};
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -1713,6 +1719,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				8BECAD84298A48B3A6C8CD42 /* RNBackgroundFetch+AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1805,6 +1812,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mpds_new.app/mpds_new";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1849,6 +1859,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mpds_new.app/mpds_new";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 			};
 			name = Release;
 		};
@@ -1887,6 +1900,9 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1924,6 +1940,9 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 			};
 			name = Release;
 		};
@@ -1973,6 +1992,9 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 			};
 			name = Debug;
 		};
@@ -2022,6 +2044,9 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 			};
 			name = Release;
 		};

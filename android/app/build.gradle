@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-background-task')
     compile project(':react-native-cookies')
     compile project(':react-native-view-shot')
     compile project(':react-native-code-push')

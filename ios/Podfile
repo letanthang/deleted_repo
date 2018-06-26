@@ -9,8 +9,6 @@ target 'mpds_new' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
 
-  pod 'RNBackgroundFetch', :path => '../node_modules/react-native-background-fetch'
-
   target 'mpds_newTests' do
     inherit! :search_paths
     # Pods for testing

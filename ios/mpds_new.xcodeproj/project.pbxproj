@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -38,6 +39,8 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* mpds_newTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mpds_newTests.m */; };
 		3CB412DD4CC74730A05E2EED /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED1D1FB30412495AA00A88A2 /* FontAwesome.ttf */; };
+		3D47176F20E20A080045CFB4 /* libRNBackgroundFetch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D47176920E209740045CFB4 /* libRNBackgroundFetch.a */; };
+		3D47177120E20C230045CFB4 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D47177020E20C230045CFB4 /* RNBackgroundFetch+AppDelegate.m */; };
 		3DD899441F384D5D00F7A4F4 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD899231F384D4900F7A4F4 /* libART.a */; };
 		3DF63E771FA088B5003D5417 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DF63E501FA088B5003D5417 /* GoogleService-Info.plist */; };
 		3E5BEEEC5F3E46EBAE3E0A1E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C22711964D4A8CB2A3B557 /* libz.tbd */; };
@@ -75,8 +78,6 @@
 		EDA36C80631A49B7B3DB39E7 /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2373A510867C4511A0C47FA8 /* libRNViewShot.a */; };
 		FA74C2B5DC9349B5B5FDB69F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92E2A17BF12E4B9F815D5531 /* Ionicons.ttf */; };
 		FD1D7A40ED6740E89F3FB386 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 719E9797706D4DB0B523DE4E /* libCodePush.a */; };
-		D5F32042DF4240159FD44B89 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94C94638C1545B18BC00154 /* TSBackgroundFetch.framework */; };
-		8BECAD84298A48B3A6C8CD42 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DB2D0C9FF4D419790E2ADFC /* RNBackgroundFetch+AppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +185,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
+		};
+		3D47176820E209740045CFB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D47173720E209740045CFB4 /* RNBackgroundFetch.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 835318541D52293F005738CD;
+			remoteInfo = RNBackgroundFetch;
 		};
 		3D50D4502080726A00B9DA7B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -470,6 +478,8 @@
 		2D02E4901E0B4A5D006451C7 /* mpds_new-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mpds_new-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30BE4B1DF8714B02946D1D78 /* RNViewShot.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNViewShot.xcodeproj; path = "../node_modules/react-native-view-shot/ios/RNViewShot.xcodeproj"; sourceTree = "<group>"; };
 		3ADE64750E72768DE345AF57 /* Pods-mpds_newTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_newTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_newTests/Pods-mpds_newTests.release.xcconfig"; sourceTree = "<group>"; };
+		3D47173720E209740045CFB4 /* RNBackgroundFetch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundFetch.xcodeproj; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch.xcodeproj"; sourceTree = "<group>"; };
+		3D47177020E20C230045CFB4 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
 		3DD8991D1F384D4900F7A4F4 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		3DE030281FE8FBB600E366BA /* mpds_new.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mpds_new.entitlements; path = mpds_new/mpds_new.entitlements; sourceTree = "<group>"; };
 		3DF63E501FA088B5003D5417 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "mpds_new/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -522,8 +532,6 @@
 		F650203C10FA41F48E8E98C3 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FB3C0F967F63E2432F3D37CA /* Pods-mpds_new-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mpds_new-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mpds_new-tvOS/Pods-mpds_new-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		FDD8752FBFD8A1C25FAC3023 /* libPods-mpds_new-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mpds_new-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C94C94638C1545B18BC00154 /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; name = "TSBackgroundFetch.framework"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
-		8DB2D0C9FF4D419790E2ADFC /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -540,6 +548,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D47176F20E20A080045CFB4 /* libRNBackgroundFetch.a in Frameworks */,
 				3DD899441F384D5D00F7A4F4 /* libART.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -564,7 +573,6 @@
 				AC7CBBAE19264D92A128079D /* libRCTBluetoothSerial.a in Frameworks */,
 				EDA36C80631A49B7B3DB39E7 /* libRNViewShot.a in Frameworks */,
 				53F2849A3DD34C0C88483FA1 /* libRNCookieManagerIOS.a in Frameworks */,
-				D5F32042DF4240159FD44B89 /* TSBackgroundFetch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,11 +690,11 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				3D47177020E20C230045CFB4 /* RNBackgroundFetch+AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				8DB2D0C9FF4D419790E2ADFC /* RNBackgroundFetch+AppDelegate.m */,
 			);
 			name = mpds_new;
 			sourceTree = "<group>";
@@ -718,6 +726,14 @@
 			isa = PBXGroup;
 			children = (
 				3D197A181F332B5300932918 /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3D47173820E209740045CFB4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3D47176920E209740045CFB4 /* libRNBackgroundFetch.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -860,7 +876,6 @@
 				0C88B991606B522517CCA82F /* libPods-mpds_new-tvOSTests.a */,
 				DE69644916954D1DBAA12D66 /* libPods-mpds_newTests.a */,
 				71C22711964D4A8CB2A3B557 /* libz.tbd */,
-				C94C94638C1545B18BC00154 /* TSBackgroundFetch.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -868,6 +883,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3D47173720E209740045CFB4 /* RNBackgroundFetch.xcodeproj */,
 				3DD8991D1F384D4900F7A4F4 /* ART.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -1062,7 +1078,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = true;
+								enabled = 1;
 							};
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -1165,6 +1181,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 3D47173820E209740045CFB4 /* Products */;
+					ProjectRef = 3D47173720E209740045CFB4 /* RNBackgroundFetch.xcodeproj */;
 				},
 				{
 					ProductGroup = C745C77820D8E26A00CF444B /* Products */;
@@ -1287,6 +1307,13 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 3D197A171F332B5300932918 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D47176920E209740045CFB4 /* libRNBackgroundFetch.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBackgroundFetch.a;
+			remoteRef = 3D47176820E209740045CFB4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3D50D4512080726A00B9DA7B /* libjsinspector.a */ = {
@@ -1717,9 +1744,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D47177120E20C230045CFB4 /* RNBackgroundFetch+AppDelegate.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				8BECAD84298A48B3A6C8CD42 /* RNBackgroundFetch+AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1812,9 +1839,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mpds_new.app/mpds_new";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
-				);
 			};
 			name = Debug;
 		};
@@ -1859,9 +1883,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mpds_new.app/mpds_new";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
-				);
 			};
 			name = Release;
 		};
@@ -1900,9 +1921,6 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
-				);
 			};
 			name = Debug;
 		};
@@ -1940,9 +1958,6 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
-				);
 			};
 			name = Release;
 		};
@@ -1992,9 +2007,6 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
-				);
 			};
 			name = Debug;
 		};
@@ -2044,9 +2056,6 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
-				);
 			};
 			name = Release;
 		};
@@ -2132,6 +2141,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2174,6 +2187,10 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

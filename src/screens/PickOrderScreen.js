@@ -173,7 +173,7 @@ class PickOrderScreen extends Component {
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
       moneyCollect, weight, length, serviceCost,
-      receiverAddress, clientExtraNote
+      receiverAddress, clientExtraNote, done,
     } = order;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -193,12 +193,14 @@ class PickOrderScreen extends Component {
             <Title>{code}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            {/* <Button
+            { !done ?
+            <Button
               transparent
               onPress={() => navigate('POUpdateWeightSize', { code, clientId, senderHubId })}
             >
               <Icon name="create" />
-            </Button> */}
+            </Button>
+            : null }
             {Platform.OS == 'android' ?
             <Button
               transparent
@@ -235,10 +237,10 @@ class PickOrderScreen extends Component {
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
                 <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
               </View>
-              <View style={Styles.rowLastStyle}>
+              {/* <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>
                   <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{serviceCost} đ</Text>
-              </View>
+              </View> */}
 
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>

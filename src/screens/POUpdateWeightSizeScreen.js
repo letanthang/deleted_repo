@@ -11,7 +11,7 @@ import accounting from 'accounting';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { calculateServiceFee, updateWeightSize } from '../actions';
+import { updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
 
 let senderHubId = null;
@@ -73,11 +73,13 @@ class POUpdateWeightSizeScreen extends Component {
     const { length, weight, width, height } = this.state;
     const { tripCode, ServiceFee } = this.props;
     const params = {
-      length, 
-      width,
-      height,
-      weight,
+      length: parseInt(length), 
+      width: parseInt(width),
+      height: parseInt(height),
+      weight: parseInt(weight),
+      tripCode,
       orderCode: code,
+      reason: 'Hang to bat thuong'
     };
     console.log('onSaveWeightSize');
     this.props.updateWeightSize(params);
@@ -113,12 +115,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   renderFee(ServiceFee) {
-    if (ServiceFee == '0') {
-      return (
-        <Text style={{ color: 'red' }}>Chưa tính</Text>
-      );
-    } 
-
+    
     return (
       <Text style={{ color: 'red' }}>{accounting.formatNumber(ServiceFee)} đ</Text>
     );
@@ -127,16 +124,16 @@ class POUpdateWeightSizeScreen extends Component {
   render() {
     const order = Utils.getOrder(this.props.db, code, 'PICK');
     const { moneyCollect, weight, length, width, height } = order;
+    // console.log(moneyCollect, weight, length, width, height);
+    // return null;
     
     if (this.state.weight === null) {
-      this.state.weight = weight;
-      this.state.height = height;
-      this.state.length = length;
-      this.state.width = width; 
+      this.state.weight = weight || 0;
+      this.state.height = height || 0;
+      this.state.length = length || 0;
+      this.state.width = width || 0; 
       this.state.CalculateWeight = length * width * height * 0.2;
     }
-
-    const ServiceFee = this.props.ServiceFee || moneyCollect;
 
     const { goBack } = this.props.navigation;
     return (
@@ -201,17 +198,10 @@ class POUpdateWeightSizeScreen extends Component {
             <Text>Khối lượng quy đổi: </Text><Text style={{ color: 'blue' }}>{this.state.CalculateWeight} g</Text>
           </View>
           <View style={styles.rowStyle}>
-            <Text>Phí vận chuyển: </Text>
-            {this.renderFee(ServiceFee)}
+            <Text>Phí phải thu: </Text>
+            {this.renderFee(moneyCollect)}
           </View>
           <View style={styles.rowStyle}>
-            <Button 
-              onPress={this.onCalculateFeePress.bind(this, order)}
-              block 
-              style={{ flex: 0.5, margin: 2 }}
-            >
-              <Text>Tính Phí</Text>
-            </Button>
             <Button 
               onPress={this.onSaveWeightSizePress.bind(this, order)}
               block 
@@ -250,5 +240,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, 
-  { calculateServiceFee, updateWeightSize }
+  { updateWeightSize }
 )(POUpdateWeightSizeScreen);

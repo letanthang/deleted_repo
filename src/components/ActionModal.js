@@ -6,7 +6,7 @@ class ActionModal extends Component {
   state = { date: new Date(), androidDPShow: false, pmSwitch: false }
   onChooseDate() {
     const date = new Date(this.state.date);
-    if (this.state.pmSwitch) {
+    if (this.state.pmSwitch || date.getDay() == new Date().getDay()) {
       date.setHours(14);
       date.setMinutes(0);
     } else {
@@ -54,6 +54,7 @@ class ActionModal extends Component {
                   }}
               />
             </View>
+            {new Date(this.state.date).getDay() != new Date().getDay() ?
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10 }}>
               <TouchableOpacity onPress={() => this.setState({ pmSwitch: false })}><Text>Sáng</Text></TouchableOpacity>
               <Switch
@@ -62,6 +63,7 @@ class ActionModal extends Component {
               />
               <TouchableOpacity onPress={() => this.setState({ pmSwitch: true })}><Text>Chiều</Text></TouchableOpacity>
             </View>
+            : <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10 }}><Text>Chiều</Text></View>}
             <View
                 style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
             >

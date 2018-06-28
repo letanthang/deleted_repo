@@ -10,15 +10,15 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 // ---------turn on mock data----------
 const mockOn = false;
 const timeout = 9500;
-export const appVersionName = '26/06';
+export const appVersionName = '27/06';
 export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
-// const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
+const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
+const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
 const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
 
-const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
 // export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://staging.lastmile.ghn.vn/sso-login';
 
 const Share = new ShareVariables();
@@ -114,7 +114,8 @@ export const UpdateOrderWeightRDC = (params) => {
   // const { length, width, height, weight, orderCode, tripCode, reason } = params;
   const URL = `${PDS_URL}/order/dimension`;
   const { LoginHeader } = Share;
-  const config = { headers: { ...LoginHeader, 'x-hubid': 'PhoYenTN', 'x-warehouseid': 1323 }, timeout };
+  // { ...LoginHeader, 'x-hubid': 'PhoYenTN', 'x-warehouseid': 1323 }
+  const config = { headers: LoginHeader, timeout };
   return axios.put(URL, params, config);
 };
 

@@ -193,14 +193,14 @@ class PickOrderScreen extends Component {
             <Title>{code}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            { !done ?
+            {/* { !done ?
             <Button
               transparent
               onPress={() => navigate('POUpdateWeightSize', { code, clientId, senderHubId })}
             >
               <Icon name="create" />
             </Button>
-            : null }
+            : null } */}
             {Platform.OS == 'android' ?
             <Button
               transparent

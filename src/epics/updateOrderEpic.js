@@ -83,7 +83,7 @@ const alertSuccessEpic = (action$, store) =>
 const alertFailEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS_FAIL)
     .map(action => action.payload)
-    .do(({ error }) => Utils.showToast(`Không thể chuyển TH đơn ${error}`, 'danger'))
+    .do(({ error }) => Utils.showToast(`Không thể chuyển trạng thái ĐH ${error}`, 'danger'))
     .ignoreElements();
 
 export default combineEpics(

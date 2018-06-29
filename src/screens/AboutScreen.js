@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { Component } from 'react';
 import codePush from 'react-native-code-push';
 import { View, TouchableOpacity, TextInput, Button as Btn, Clipboard } from 'react-native';
@@ -21,8 +22,15 @@ class AboutScreen extends Component {
   render() {
     const { navigate, goBack } = this.props.navigation;
     const { tripCode, userId, pdsItems, lastUpdatedTime, isTripDone } = this.props;
+    let { allDate, resetDate } = this.props;
+    allDate = allDate ? moment(allDate).format('LT DD/MM ') : '';
+    resetDate = resetDate ? moment(resetDate).format('LT DD/MM ') : '';
     const showTime = lastUpdatedTime ? moment(lastUpdatedTime).format('LT DD/MM ') : '';
     const ordersNum = pdsItems ? Object.keys(pdsItems).length : 0;
+    const pickNum = pdsItems ? _.filter(pdsItems, o => o.type == 'PICK').length : 0;
+    const returnNum = pdsItems ? _.filter(pdsItems, o => o.type == 'RETURN').length : 0;
+    const deliverNum = pdsItems ? _.filter(pdsItems, o => o.type == 'DELIVER').length : 0;
+
     return (
       <Container>
         <Header>
@@ -91,12 +99,12 @@ class AboutScreen extends Component {
               <CardItem style={{ backgroundColor: Colors.row }}>
                 <View style={HomeStyles.cardItemLeft}>
                   <View>
-                    <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>Số lượng đơn</Text>
+                    <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>Số ĐH </Text>
                   </View>
                 </View>
 
                 <View style={HomeStyles.cardItemRight}>
-                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>{ordersNum}</Text>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>{ordersNum} (Lấy: {pickNum} Giao: {deliverNum} Trả: {returnNum})</Text>
                 </View>
               </CardItem>
               <CardItem style={{ backgroundColor: Colors.row }}>
@@ -110,12 +118,51 @@ class AboutScreen extends Component {
                   <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>{showTime}</Text>
                 </View>
               </CardItem>
+              <CardItem style={{ backgroundColor: Colors.row }}>
+                <View style={HomeStyles.cardItemLeft}>
+                  <View>
+                    <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>Full date</Text>
+                  </View>
+                </View>
+
+                <View style={HomeStyles.cardItemRight}>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>{allDate}</Text>
+                </View>
+              </CardItem>
+              <CardItem style={{ backgroundColor: Colors.row }}>
+                <View style={HomeStyles.cardItemLeft}>
+                  <View>
+                    <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>Reset date</Text>
+                  </View>
+                </View>
+
+                <View style={HomeStyles.cardItemRight}>
+                  <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}>{resetDate}</Text>
+                </View>
+              </CardItem>
             </Card>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => Clipboard.setString(tripCode + '' + userId)}
             >
             <Text>*Nhấn để copy</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <View style={{ flexDirection: 'row', marginTop: 8 }}>
+              <TouchableOpacity
+                style={{ flex: 1, backgroundColor: '#00b0ff', padding: 4, borderRadius: 4, margin: 1 }}
+                onPress={() => this.props.pdListFetch({ all: true })}
+              >
+                <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Cập nhật dữ liệu</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: 'row', marginTop: 8 }}>
+              <TouchableOpacity
+                style={{ flex: 1, backgroundColor: '#00b0ff', padding: 4, borderRadius: 4, margin: 1 }}
+                onPress={() => this.props.pdListFetch({ reset: true, all: true })}
+              >
+                <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Reset & Cập nhật dữ liệu</Text>
+              </TouchableOpacity>
+            </View>
+            
           
           <TouchableOpacity
             onPress={() => this.setState({ clickNum: this.state.clickNum + 1 })}
@@ -130,8 +177,8 @@ class AboutScreen extends Component {
 }
 const mapStateToProps = ({ auth, pd }) => {
   const { userId } = auth;
-  const { tripCode, pdsItems, isTripDone, lastUpdatedTime } = pd;
-  return { userId, tripCode, pdsItems, isTripDone, lastUpdatedTime };
+  const { tripCode, pdsItems, isTripDone, lastUpdatedTime, allDate, resetDate } = pd;
+  return { userId, tripCode, pdsItems, isTripDone, lastUpdatedTime, allDate, resetDate };
 };
 
 export default connect(mapStateToProps, {pdListFetch})(AboutScreen);

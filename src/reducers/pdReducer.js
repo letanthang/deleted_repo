@@ -32,13 +32,16 @@ const nameInitialState = {
   },
   shopPGroup: {},
   requireReload: false,
+  resetDate: null,
+  allDate: null,
   error: ''
 };
 
 export default (state = nameInitialState, action) => {
   switch (action.type) {
     case PDLIST_FETCH: {
-      const data = action.payload.reset !== true ? {} : nameInitialState;
+      let data = action.payload.reset !== true ? {} : { ...nameInitialState, resetDate: Date() };
+      data = action.payload.all !== true ? data : { ...data, allDate: Date() };
       // turn on spinner
       return { ...state, ...data, loading: true, requireReload: false, error: '' };
     }

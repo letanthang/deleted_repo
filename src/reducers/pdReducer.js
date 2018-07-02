@@ -40,7 +40,7 @@ const nameInitialState = {
 export default (state = nameInitialState, action) => {
   switch (action.type) {
     case PDLIST_FETCH: {
-      let data = action.payload.reset !== true ? {} : { ...nameInitialState, resetDate: Date() };
+      let data = action.payload.reset !== true ? {} : { ...nameInitialState, resetDate: Date(), tripCode: state.tripCode, Infos: state.Infos, userId: state.userId };
       data = action.payload.all !== true ? data : { ...data, allDate: Date() };
       // turn on spinner
       return { ...state, ...data, loading: true, requireReload: false, error: '' };

@@ -354,12 +354,10 @@ class Utils {
           if (now.getHours() < 14) {
             console.log('sang');
             now.setHours(14);
-            now.setMinutes(0);
-            console.log(now);
           } else {
-            now.setHours(25);
-            console.log(now);
+            now.setHours(26);
           }
+          now.setMinutes(0);
           return now;
         }
         default:

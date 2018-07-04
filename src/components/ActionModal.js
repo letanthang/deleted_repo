@@ -1,17 +1,37 @@
 import React, { Component } from 'react';
 import { View, Text, Modal, Button, TouchableOpacity, Switch } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import DatePicker from './DatePicker';
+import moment from 'moment';
 
 class ActionModal extends Component {
   state = { date: new Date(), androidDPShow: false, pmSwitch: false }
-  onChooseDate() {
+  componentWillMount() {
+  }
+  componentWillReceiveProps() {
+    const date = new Date();
+    if (date.getHours() >= 14) {
+      date.setDate(date.getDate() + 1);
+      this.setState({ date });
+    }
+  }
+  getNextDate() {
     const date = new Date(this.state.date);
     if (this.state.pmSwitch || date.getDay() == new Date().getDay()) {
       date.setHours(14);
-      date.setMinutes(0);
     } else {
-      date.setHours(1);
+      date.setHours(2);
     }
+    date.setMinutes(0);
+    return date;
+  }
+  getDisplayDateString() {
+    const date = this.getNextDate()
+    date.setHours(date.getHours() - 2);
+    return moment(date).format('DD/MM H:mm')
+  }
+  onChooseDate() {
+    const date = this.getNextDate();
     // console.log(date);
     this.props.onChooseDate(date);
     this.setState({ buttonIndex: null, androidDPShow: false, pmSwitch: false });
@@ -44,7 +64,7 @@ class ActionModal extends Component {
             >
               Chọn ngày
             </Text>
-            <View style={{ padding: 10 }}>
+            <View style={{ padding: 8 }}>
               <DatePicker
                 date={this.state.date}
                 androidDPShow={this.state.androidDPShow}
@@ -55,15 +75,33 @@ class ActionModal extends Component {
               />
             </View>
             {new Date(this.state.date).getDay() != new Date().getDay() ?
-            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10 }}>
-              <TouchableOpacity onPress={() => this.setState({ pmSwitch: false })}><Text>Sáng</Text></TouchableOpacity>
-              <Switch
-                value={this.state.pmSwitch} 
-                onValueChange={value => this.setState({ pmSwitch: value })} 
-              />
-              <TouchableOpacity onPress={() => this.setState({ pmSwitch: true })}><Text>Chiều</Text></TouchableOpacity>
+            <View style={{ alignItems: 'center', padding: 2 }}>
+              <View style={{ borderWidth: 1, borderRadius: 2, borderColor: '#ededed' }}>
+                <CheckBox
+                  containerStyle={{ backgroundColor: 'white', borderWidth: 0 }}
+                  center
+                  title='Sáng'
+                  checkedIcon='dot-circle-o'
+                  uncheckedIcon='circle-o'
+                  checked={!this.state.pmSwitch}
+                  onPress={() => this.setState({ pmSwitch: false })}
+                />
+                <CheckBox
+                  containerStyle={{ backgroundColor: 'white', borderWidth: 0 }}
+                  center
+                  title='Chiều'
+                  checkedIcon='dot-circle-o'
+                  uncheckedIcon='circle-o'
+                  checked={this.state.pmSwitch}
+                  onPress={() => this.setState({ pmSwitch: true })}
+                />
+              </View>
+              
             </View>
-            : <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', padding: 10 }}><Text>Chiều</Text></View>}
+            : <View style={{ alignItems: 'center' }}><View style={{ padding: 10, borderWidth: 1, borderRadius: 2, borderColor: '#ededed' }}><Text style={{ fontWeight: 'bold' }}>Chiều</Text></View></View>}
+            <View style={{alignItems: 'center', padding: 10 }}>
+              <Text style={{ color: '#FF7F9C', fontWeight: 'bold' }}>Đơn hàng sẽ lên lại vào {this.getDisplayDateString()} </Text>
+            </View>
             <View
                 style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
             >

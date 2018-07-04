@@ -66,7 +66,7 @@ export const ordersResponse = {
     "code": "GHN-TEST-102",
     "tripCode": "18414164VNDP8",
     "type": "PICK",
-    "status": "PICKED",
+    "status": "PICKING",
     "isUpdatedStatus": false,
     "isCancel": false,
     "isScanImport": false,

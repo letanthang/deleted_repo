@@ -59,3 +59,12 @@ export const HistoryStatus = {
   'DELIVER_FAIL': 'giao thất bại',
   'DELIVER_SUCCESS': 'giao thành công',
 };
+
+export const ActionLogCode = {
+  TAB_PICK: 10001,
+  TAB_DELIVER: 10002,
+  TAB_RETURN: 10003,
+  ICON_PICK: 10004,
+  ICON_DELIVER: 10005,
+  ICON_RETURN: 10006,
+};

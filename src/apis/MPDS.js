@@ -7,6 +7,7 @@ import 'rxjs/add/observable/dom/ajax';
 import ShareVariables from '../libs/ShareVariables';
 import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse } from './mock';
 
+
 // ---------turn on mock data----------
 const mockOn = false;
 const timeout = 9500;
@@ -168,7 +169,7 @@ export const loginT62 = (t62) => {
 
 export const GetUserPerformance = (UserID, from = null, to = null) => {
   const URL = `${PDS_URL}/performance/${UserID}`;
-  const LoginHeader = Share.LoginHeader;
+  const { LoginHeader } = Share;
   const config = {
     headers: LoginHeader,
     timeout,
@@ -185,7 +186,7 @@ export const GetUserPerformance = (UserID, from = null, to = null) => {
 
 export const GetConfiguration = (configKey = null) => {
   const URL = `${PDS_URL}/pdaconfig`;
-  const LoginHeader = Share.LoginHeader;
+  const { LoginHeader } = Share;
   const config = {
     headers: LoginHeader,
     params: { configKey },
@@ -291,4 +292,20 @@ export const GetOrderHistory = (code) => {
     mock.onGet(URL, config).reply(200, orderHistoryResponse);
   }
   return axios.get(URL, config);
+};
+
+export const SendLogs = (datas) => {
+  // const URL = `${ACC_URL}/pdaLogin`;
+  // const params = {
+  //   userid,
+  //   password,
+  // };
+  // if (mockOn) {
+  //   mock.onPost(URL, params).reply(200, loginResponse);
+  // }
+
+  // return axios.post(URL, params);
+  return new Promise((resolve, reject) => {
+    resolve(true);
+  });
 };

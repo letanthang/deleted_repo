@@ -19,10 +19,13 @@ import DataEmptyCheck from '../../components/DataEmptyCheck';
 import ProgressBar from '../../components/ProgressBar';
 import TripItem from './TripItem';
 import { DeliverGroupStyles, Colors } from '../../Styles';
+// import { ActionLogCode } from '../../components/Constant';
+// import ActionLog from '../../libs/ActionLog';
 
 class TripListScreen extends Component {
   state = { done: false, showSearch: false, keyword: '' };
   componentWillMount() {
+    // ActionLog.log(ActionLogCode.TAB_PICK , 123, 123);
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
   shouldComponentUpdate({ pickOrderComplete, loading, progress, layoutMode }, nextState) {

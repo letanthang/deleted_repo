@@ -1,14 +1,20 @@
 import LogAbstract from './LogAbstract';
 
 class ActionLog extends LogAbstract {
+  constructor() {
+    super();
+    this.queue = [];
+  }
   push(data) {
+    this.queue.push(data);
   }
 
   getAll() {
-    return null;
+    return this.queue;
   }
 
   clearAll() {
+    this.queue = [];
   }
 }
 

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { Footer, FooterTab } from 'native-base';
 import FooterButton from './FooterButton';
+import { ActionLogCode } from './Constant';
+import ActionLog from '../libs/ActionLog';
 
 const pickIcon = require('../../resources/pick.png');
 const pickIconActive = require('../../resources/pick_active.png');
@@ -33,8 +35,26 @@ class AppFooter extends Component {
     }
     return true;
   }
+  goPick() {
+    ActionLog.log(ActionLogCode.TAB_PICK , 123, 123);
+    const { dispatch } = this.props.navigation;
+    navigate(dispatch, 'TripList');
+  }
+  goDeliver() {
+    ActionLog.log(ActionLogCode.TAB_DELIVER , 123, 123);
+    const { dispatch } = this.props.navigation;
+    navigate(dispatch, 'DeliveryList');
+  }
+  goReturn() {
+    ActionLog.log(ActionLogCode.TAB_RETURN , 123, 123);
+    const { dispatch } = this.props.navigation;
+    navigate(dispatch, 'ReturnList');
+  }
+  goAll() {
+    const { dispatch } = this.props.navigation;
+    navigate(dispatch, 'OrderList');
+  }
   render() {
-    const dispatch = this.props.navigation.dispatch;
     const currentRoute = this.props.navigation.state.routeName;
     return (
       <Footer>
@@ -53,7 +73,7 @@ class AppFooter extends Component {
             normalIcon='package-variant'
             activeIcon='package-variant'
             active={currentRoute === 'TripList'}
-            onPress={() => navigate(dispatch, 'TripList')}
+            onPress={() => this.goPick()}
           />
           <FooterButton
             text='Giao'
@@ -62,7 +82,7 @@ class AppFooter extends Component {
             normalIcon='truck-delivery'
             activeIcon='truck-delivery'
             active={currentRoute === 'DeliveryList'}
-            onPress={() => navigate(dispatch, 'DeliveryList')}
+            onPress={() => this.goDeliver()}
           />
           
           <FooterButton
@@ -73,7 +93,7 @@ class AppFooter extends Component {
             activeIcon='truck-delivery'
             flip
             active={currentRoute === 'ReturnList'}
-            onPress={() => navigate(dispatch, 'ReturnList')}
+            onPress={() => this.goReturn()}
           />
           <FooterButton
             text='Tất cả'
@@ -83,7 +103,7 @@ class AppFooter extends Component {
             activeIcon='all-inclusive'
             flip
             active={currentRoute === 'OrderList'}
-            onPress={() => navigate(dispatch, 'OrderList')}
+            onPress={() => this.goAll()}
           />
           <FooterButton
             text='Tôi'

@@ -20,6 +20,8 @@ import { HomeStyles, Colors, Theme } from '../../Styles';
 import { navigateOnce } from '../../libs/Common';
 import AppFooter from '../../components/AppFooter';
 import Utils from '../../libs/Utils';
+import { ActionLogCode } from '../../components/Constant';
+import ActionLog from '../../libs/ActionLog';
 // import MyMenu from '../components/MyMenu';
 // import LogoButton from '../components/LogoButton';
 import BarcodeReader from '../../components/BarcodeReader';
@@ -30,7 +32,7 @@ class HomeScreen extends Component {
   state = { showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
     const { pdsItems, loading } = this.props;
-    console.log(this.props.stats);
+    // console.log(this.props.stats);
     if (loading) {
       //this.props.stopLoading();
     }
@@ -55,20 +57,20 @@ class HomeScreen extends Component {
   }
   onTripListPress() {
     if (this.props.pickTotal === 0) return;
-    
+
+    ActionLog.log(ActionLogCode.ICON_PICK , 123, 123);
     navigateOnce(this, 'TripList');
-  }
-  onPickPress() {
-    if (this.props.pickTotal === 0) return;
-    
-    navigateOnce(this, 'PickList');
   }
   onReturnPress() {
     if (this.props.returnTotal === 0) return;
+
+    ActionLog.log(ActionLogCode.ICON_RETURN , 123, 123);
     navigateOnce(this, 'ReturnList');
   }
   onDeliveryPress() {
     if (this.props.deliveryTotal === 0) return;
+
+    ActionLog.log(ActionLogCode.ICON_DELIVER , 123, 123);
     navigateOnce(this, 'DeliveryList');
   }
   onUpdateDataPress() {

@@ -17,13 +17,13 @@ class LogAbstract {
   sendLogs() {
     console.log('sendLogs ' + this.noSendNum);
     const datas = this.getAll();
-    if (datas) {
+    if (datas && datas.length > 0) {
       SendLogs(datas);
       this.clearAll();
       this.noSendNum = 0;
     } else {
       this.noSendNum += 1;
-      if (this.noSendNum === 10) {
+      if (this.noSendNum === 5) {
         this.stopTimer();
       }
     }
@@ -39,7 +39,7 @@ class LogAbstract {
     if (!this.timer) {
       this.timer = setInterval(() => {
         this.sendLogs();
-      }, 1000);
+      }, 2000);
     }
   }
    

@@ -6,9 +6,10 @@ import {
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL,
   PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS, PD_FETCH_TRIP_INFO_FAIL,
   PD_FETCH_DETAIL, PD_FETCH_DETAIL_FAIL, PD_FETCH_DETAIL_SUCCESS,
-  PD_ADD_ORDER, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
-  PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
-  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_SET_PROPS, 
+  PD_ADD_ORDER, PD_ADD_ORDERS, PD_ADD_ORDER_FAIL, PD_GET_NEW_ORDERS,
+  PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS, PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP,
+  PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
+  PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_SET_PROPS,
   PD_SET_ORDER_PROPS, PD_FETCH_LABEL_SUCCESS, PD_FETCH_LABEL_FAIL,
 } from './types';
 import { writeLog } from '../libs/Log';
@@ -119,7 +120,7 @@ export const updateWeightSize = (params) => {
 export const updateOrderGroup = (updateList) => {
   return {
     type: PD_UPDATE_GROUP,
-    payload: updateList
+    payload: updateList,
   };
 };
 
@@ -127,10 +128,24 @@ export const addOneOrder = (code, type, senderHubId) => {
   return { type: PD_ADD_ORDER, payload: { order: { code, type }, senderHubId } };
 };
 
+
+export const getNewOrdersForAdd = (senderHubId) => {
+  return { type: PD_GET_NEW_ORDERS, payload: { senderHubId } };
+};
+
+
+// const orders = [ {code, type} ]
+export const addMultiOrders = (response, senderHubId) => {
+  const orders = response.data.map((o) => {
+    return { code: o.orderCode, type: 'PICK' };
+  });
+  return { type: PD_ADD_ORDERS, payload: { orders, senderHubId } };
+};
+
 export const updateOrderInfo = (code, type, info) => {
   return {
     type: PD_UPDATE_ORDER_INFO,
-    payload: { code, type, info }
+    payload: { code, type, info },
   };
 };
 
@@ -138,38 +153,38 @@ export const updateOrderInfo = (code, type, info) => {
 export const updateOrderInfos = (OrderInfos) => {
   return {
     type: PD_UPDATE_ORDER_INFOS,
-    payload: { OrderInfos }
+    payload: { OrderInfos },
   };
 };
 
 export const toggleGroupActive = (groupIndex) => {
   return {
     type: PD_TOGGLE_GROUP_ACTIVE,
-    payload: { groupIndex }
+    payload: { groupIndex },
   };
 };
 
 export const toggleOrderGroup = (code) => {
   return {
     type: PD_TOGGLE_ORDER_GROUP,
-    payload: { code }
+    payload: { code },
   };
 };
 export const updateOrders = (orders) => {
   return {
     type: PD_UPDATE_ORDERS,
-    payload: { orders }
+    payload: { orders },
   };
 };
 export const createGroup = (groupName) => {
   return {
     type: PD_CREATE_GROUP,
-    payload: { groupName }
+    payload: { groupName },
   };
 };
 export const resetGroup = () => {
   return {
-    type: PD_RESET_GROUP
+    type: PD_RESET_GROUP,
   };
 };
 export const createPGroup = (groupName) => {

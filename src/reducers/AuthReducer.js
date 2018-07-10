@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   error: '',
   user: null,
   sessionToken: null,
+  warehouseIds: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -38,6 +39,7 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_USER_SUCCESS: {
       const { session, userInfo, rememberMe } = action.payload;
       new ShareVariables().LoginHeader['X-Auth'] = session;
+      const { warehouseIds } = userInfo;
       const user = userInfo;
       user.UserID = user.ssoId;
       user.FullName = user.fullname;
@@ -49,6 +51,7 @@ export default (state = INITIAL_STATE, action) => {
         error: '',
         sessionToken: action.payload.session,
         user,
+        warehouseIds,
       };
     }
     case LOGIN_USER_FAIL:

@@ -9,7 +9,7 @@ import {
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
-import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch } from '../../actions';
+import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd } from '../../actions';
 import { get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
@@ -17,7 +17,6 @@ import PickGroupDetail from './PickGroupDetail';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
 import LogoButton from '../../components/LogoButton';
-
 
 class PickGroupDetailScreen extends Component {
   state = { showSearch: false };
@@ -140,6 +139,12 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="search" />
           </Button>
+          <Button
+            transparent
+            onPress={() => this.props.getNewOrdersForAdd(this.senderHubId) }
+          >
+            <Icon name="add" />
+          </Button>
           {Platform.OS == 'android' ?
           <Button
             transparent
@@ -220,4 +225,4 @@ const mapStateToProps = (state) => {
   return { PickItems, ReturnItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch })(PickGroupDetailScreen);
+export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd })(PickGroupDetailScreen);

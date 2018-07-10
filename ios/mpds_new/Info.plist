@@ -30,7 +30,14 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>103.20.148.181:8099</key>
+			<key>api.staging.ops.ghn.vn</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>api.ops.ghn.vn</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>

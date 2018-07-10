@@ -5,7 +5,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse } from './mock';
+import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse } from './mock';
 
 
 // ---------turn on mock data----------
@@ -16,10 +16,12 @@ export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677
 
 // const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
 // const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
+// const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
 const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
 
 const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
 const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
 // export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://staging.lastmile.ghn.vn/sso-login';
 
 const Share = new ShareVariables();
@@ -309,4 +311,31 @@ export const SendLogs = (datas) => {
   return new Promise((resolve, reject) => {
     resolve(true);
   });
+};
+
+export const GetNewOrders = (hubId, senderHubId) => {
+  console.log(hubId, senderHubId);
+  const URL = `${OSS_URL}/order`;
+  const headers = { 'API-KEY': '9697efabe8aaafff6d468ac5c22501fe', 'API-SECRET': 'FJiumKDQgx0u9315G7500d8Rylpi0FGboGKjH5aFuhcI0Ds2' };
+  const config = {
+    headers,
+    params: {
+      hubId,
+      offset: 0,
+      limit: 100,
+      q: {
+        target: 'PICK', groupCode: senderHubId, groupType: 'CLIENT_HUB', phase: 'NEED_TO_ACT', status: 'READY_TO_PICK',
+      },
+    },
+    timeout,
+  };
+
+  if (mockOn) {
+    mock.onGet(URL, config).reply(200, newOrdersResponse);
+  }
+  return axios.get(URL, config);
+};
+
+export const getNewOrders = (hubId, senderHubId) => {
+  return fromPromise(GetNewOrders(hubId, senderHubId));
 };

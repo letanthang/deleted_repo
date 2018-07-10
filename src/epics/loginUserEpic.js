@@ -44,7 +44,7 @@ const loginUserT62Epic = action$ =>
       API.loginT62(t62)
         .map(({ data }) => {
           const response = data;
-          //console.log(response);
+          console.log(response);
           switch (response.status) {
             case 'OK':
               return loginUserSucess(response);

@@ -343,22 +343,149 @@ export const updateStatusResponse = {
 }
 
 export const orderHistoryResponse = {
-"status":"OK",
-"data":[
-    {
-    "code":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
-    historyType: 'CREATE_TRIP', 
-    createdById: 1006,
-    createdByName: 'Nguyen Khanh Tuong',
-    "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
-    },
-    {
-    "code":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
-    historyType: 'ADD_TO_TRIP', 
-    createdById: 210030, 
-    createdByName: 'Le Tan Thang',
-    "date":"2018-03-23T04:20:11.608Z","id":"5ab4807be8347c2a1c000004","createdTime":"2018-03-23T04:20:11.610Z","lastUpdatedTime":"2018-03-23T04:20:11.610Z"
-    }
-],
-"message":""
+    "status":"OK",
+    "data":[
+        {
+        "code":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
+        historyType: 'CREATE_TRIP', 
+        createdById: 1006,
+        createdByName: 'Nguyen Khanh Tuong',
+        "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
+        },
+        {
+        "code":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
+        historyType: 'ADD_TO_TRIP', 
+        createdById: 210030, 
+        createdByName: 'Le Tan Thang',
+        "date":"2018-03-23T04:20:11.608Z","id":"5ab4807be8347c2a1c000004","createdTime":"2018-03-23T04:20:11.610Z","lastUpdatedTime":"2018-03-23T04:20:11.610Z"
+        }
+    ],
+    "message":""
 };
+
+export const newOrdersResponse = {
+    "status": "OK",
+    "data": [
+        {
+            "hubId": "1323",
+            "orderCode": "3G7LXQ51",
+            "status": "READY_TO_PICK",
+            "target": "PICK",
+            "isReady": false,
+            "actionDate": "2018-07-05T03:00:21.278Z",
+            "expectedDate": "2018-07-05T03:00:21.278Z",
+            "groups": [
+                "1323/PICK/DISTRICT/0215",
+                "1323/PICK/WARD/0215-UNDEFINED",
+                "1323/PICK/CLIENT_HUB/348897"
+            ],
+            "id": "5b3d89c56d0d850ed491e542",
+            "createdTime": "2018-07-05T03:00:21.541Z",
+            "lastUpdatedTime": "2018-07-05T03:00:21.554Z"
+        },
+        {
+            "hubId": "1323",
+            "orderCode": "3G64XQRN",
+            "status": "READY_TO_PICK",
+            "target": "PICK",
+            "isReady": false,
+            "actionDate": "2018-07-05T03:07:37.221Z",
+            "expectedDate": "2018-07-05T03:07:37.221Z",
+            "groups": [
+                "1323/PICK/DISTRICT/0215",
+                "1323/PICK/WARD/0215-UNDEFINED",
+                "1323/PICK/CLIENT_HUB/348897"
+            ],
+            "id": "5b3d8b796d0d850ed491e54b",
+            "createdTime": "2018-07-05T03:07:37.401Z",
+            "lastUpdatedTime": "2018-07-05T03:07:37.532Z"
+        },
+        {
+            "hubId": "1323",
+            "orderCode": "3GUSFQK4",
+            "status": "READY_TO_PICK",
+            "target": "PICK",
+            "isReady": false,
+            "actionDate": "2018-07-06T06:50:02.246Z",
+            "expectedDate": "2018-07-06T06:50:02.246Z",
+            "groups": [
+                "1323/PICK/DISTRICT/0215",
+                "1323/PICK/WARD/0215-UNDEFINED",
+                "1323/PICK/CLIENT_HUB/348897"
+            ],
+            "id": "5b3f111a6d0d850ed491ec84",
+            "createdTime": "2018-07-06T06:50:02.943Z",
+            "lastUpdatedTime": "2018-07-06T07:02:21.127Z"
+        },
+        {
+            "hubId": "1323",
+            "orderCode": "3G54F9HK",
+            "status": "READY_TO_PICK",
+            "target": "PICK",
+            "isReady": false,
+            "actionDate": "2018-07-06T08:01:47.032Z",
+            "expectedDate": "2018-07-06T08:01:47.032Z",
+            "groups": [
+                "1323/PICK/DISTRICT/0215",
+                "1323/PICK/WARD/0215-UNDEFINED",
+                "1323/PICK/CLIENT_HUB/348897"
+            ],
+            "id": "5b3f21eb6d0d850ed491edbe",
+            "createdTime": "2018-07-06T08:01:47.252Z",
+            "lastUpdatedTime": "2018-07-09T07:06:00.502Z"
+        },
+        {
+            "hubId": "1323",
+            "orderCode": "3GY69A4X",
+            "status": "READY_TO_PICK",
+            "target": "PICK",
+            "isReady": false,
+            "actionDate": "2018-07-06T08:08:16.518Z",
+            "expectedDate": "2018-07-06T08:08:16.518Z",
+            "groups": [
+                "1323/PICK/DISTRICT/0215",
+                "1323/PICK/WARD/0215-UNDEFINED",
+                "1323/PICK/CLIENT_HUB/348897"
+            ],
+            "id": "5b3f23706d0d850ed491ee13",
+            "createdTime": "2018-07-06T08:08:16.777Z",
+            "lastUpdatedTime": "2018-07-06T08:08:16.860Z"
+        },
+        {
+            "hubId": "1323",
+            "orderCode": "3G4UXQY9",
+            "status": "READY_TO_PICK",
+            "target": "PICK",
+            "isReady": false,
+            "actionDate": "2018-07-06T08:12:31.254Z",
+            "expectedDate": "2018-07-06T08:12:31.254Z",
+            "groups": [
+                "1323/PICK/DISTRICT/0215",
+                "1323/PICK/WARD/0215-UNDEFINED",
+                "1323/PICK/CLIENT_HUB/348897"
+            ],
+            "id": "5b3f246f6d0d850ed491ee34",
+            "createdTime": "2018-07-06T08:12:31.475Z",
+            "lastUpdatedTime": "2018-07-06T08:12:31.482Z"
+        },
+        {
+            "hubId": "1323",
+            "orderCode": "3GSHFQLL",
+            "status": "READY_TO_PICK",
+            "target": "PICK",
+            "isReady": false,
+            "actionDate": "2018-07-06T08:42:36.340Z",
+            "expectedDate": "2018-07-06T08:42:36.340Z",
+            "groups": [
+                "1323/PICK/DISTRICT/0215",
+                "1323/PICK/WARD/0215-UNDEFINED",
+                "1323/PICK/CLIENT_HUB/348897"
+            ],
+            "id": "5b3f2b7c6d0d850ed491ee82",
+            "createdTime": "2018-07-06T08:42:36.855Z",
+            "lastUpdatedTime": "2018-07-07T03:40:18.054Z"
+        }
+    ],
+    "total": 7,
+    "message": "Query OrderItem successfully."
+}

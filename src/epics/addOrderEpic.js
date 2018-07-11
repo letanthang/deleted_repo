@@ -8,7 +8,7 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { PD_ADD_ORDER, PD_ADD_ORDER_SUCCESS, PD_ADD_ORDER_FAIL, PD_GET_NEW_ORDERS, PD_ADD_ORDERS } from '../actions/types';
+import { PD_ADD_ORDER, PD_ADD_ORDER_SUCCESS, PD_ADD_ORDER_FAIL, PD_GET_NEW_ORDERS, PD_GET_NEW_ORDERS_SUCCESS, PD_GET_NEW_ORDERS_FAIL, PD_ADD_ORDERS } from '../actions/types';
 import { pdListFetch, addMultiOrders } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
@@ -33,13 +33,19 @@ const addOrderEpic = (action$, store) =>
               return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
           }
         })
-        .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } }))
-    );
+        .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } })));
 
 const reloadEpic = action$ =>
   action$.ofType(PD_ADD_ORDER_SUCCESS)
     .map(action => action.payload)
-    .do(({ order }) => Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success'))
+    .filter(({ order, orders }) => order || orders.length <= limit)
+    .do(({ order }) => {
+      if (order) {
+        Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success');
+      } else {
+        Utils.showToast(`Thêm đơn hàng mới thành công`, 'success');
+      }
+    })
     .delay(500)
     .mergeMap(() => of(pdListFetch({})));
 
@@ -57,16 +63,28 @@ const getNewOrdersForAddEpic = (action$, store) =>
         .map(({ data }) => {
           const response = data;
           switch (response.status) {
-            case 'OK':
-              return addMultiOrders(response, senderHubId);
+            case 'OK': {
+              if (response.data.length > 0) {
+                // return addMultiOrders(response, senderHubId);
+                return { type: PD_GET_NEW_ORDERS_SUCCESS, payload: { response, senderHubId } };
+              }
+              return { type: PD_GET_NEW_ORDERS_FAIL, payload: { error: 'Shop chưa lên đơn mới' } };
+            }
             default:
-              return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
+              return { type: PD_GET_NEW_ORDERS_FAIL, payload: { error: response.message || 'Không thể thêm đơn mới' } };
           }
         })
         .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } })));
 
+const hasNewOrdersEpic = action$ =>
+  action$.ofType(PD_GET_NEW_ORDERS_SUCCESS)
+    .map(action => action.payload)
+    .do(({ response }) => Utils.showToast(`Shop có ${response.data.length} đơn mới sẽ được thêm vào chuyến đi`, 'success'))
+    .delay(350)
+    .mergeMap(({ response, senderHubId }) => of(addMultiOrders(response, senderHubId)));
+
 const addMultiOrdersEpic = (action$, store) =>
-  action$.ofType(PD_ADD_ORDER)
+  action$.ofType(PD_ADD_ORDERS)
     .map(action => action.payload)
     .mergeMap(({ orders, senderHubId }) =>
       API.addOrders(orders.slice(0, limit), store.getState().pd.tripCode)
@@ -76,7 +94,7 @@ const addMultiOrdersEpic = (action$, store) =>
             case 'OK':
               return {
                 type: PD_ADD_ORDER_SUCCESS,
-                payload: { orders: orders.slice(0, limit), senderHubId },
+                payload: { orders, senderHubId },
               };
             default:
               return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
@@ -89,7 +107,7 @@ const addOrdersMoreEpic = action$ =>
     .map(action => action.payload)
     .filter(({ orders }) => orders.length > limit)
     .delay(delayTime)
-    .mergeMap(({ orders, senderHubId }) => ({
+    .mergeMap(({ orders, senderHubId }) => of({
       type: 'PD_ADD_ORDERS',
       payload: { orders: orders.slice(limit, 10000), senderHubId },
     }));
@@ -98,6 +116,7 @@ export default combineEpics(
   reloadEpic,
   failEpic,
   getNewOrdersForAddEpic,
+  hasNewOrdersEpic,
   addMultiOrdersEpic,
   addOrdersMoreEpic,
 );

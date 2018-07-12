@@ -36,17 +36,17 @@ class AppFooter extends Component {
     return true;
   }
   goPick() {
-    ActionLog.log(ActionLogCode.TAB_PICK , 123, 123);
+    ActionLog.log(ActionLogCode.TAB_PICK, this.props.navigation);
     const { dispatch } = this.props.navigation;
     navigate(dispatch, 'TripList');
   }
   goDeliver() {
-    ActionLog.log(ActionLogCode.TAB_DELIVER , 123, 123);
+    ActionLog.log(ActionLogCode.TAB_DELIVER, this.props.navigation);
     const { dispatch } = this.props.navigation;
     navigate(dispatch, 'DeliveryList');
   }
   goReturn() {
-    ActionLog.log(ActionLogCode.TAB_RETURN , 123, 123);
+    ActionLog.log(ActionLogCode.TAB_RETURN, this.props.navigation);
     const { dispatch } = this.props.navigation;
     navigate(dispatch, 'ReturnList');
   }

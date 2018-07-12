@@ -1,16 +1,31 @@
-import { ActionLogCode } from '../../components/Constant';
 import { SendLogs } from '../../apis/MPDS';
-
+import { ActionLogCode, ScreenCode, ScreenGroup } from '../../components/Constant';
 class LogAbstract {
   constructor() {
     this.timer = null;
     this.noSendNum = 0;
+    this.userId = null;
+    this.tripCode = null;
   }
 
-  log(actionCode, tripCode, userId) {
-    console.log('log');
+  log(actionCode, navigation) {
+    const screenName = navigation.state.routeName;
+    const { userId, tripCode } = this;
+    const screenId = ScreenCode[screenName];
+    const featureId = ScreenGroup[screenId];
+    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'LASTMILE', featureId };
+    console.log('log', data);
+    this.sendLog(data);
+  }
+
+  logs(actionCode, navigation) {
+    const screenName = navigation.state.routeName;
     this.startTimer();
-    const data = { actionCode, tripCode, userId };
+    const { userId, tripCode } = this;
+    const screenId = ScreenCode[screenName];
+    const featureId = ScreenGroup[screenId];
+    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'LASTMILE', featureId };
+    console.log('log', data);
     this.push(data);
   }
 
@@ -27,6 +42,11 @@ class LogAbstract {
         this.stopTimer();
       }
     }
+  }
+
+  async sendLog(data) {
+    await SendLogs(data);
+    console.log('Xong');
   }
 
   stopTimer() {

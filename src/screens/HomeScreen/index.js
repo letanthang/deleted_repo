@@ -31,7 +31,9 @@ const efficiencyIcon = require('../../../resources/ic_summary.png');
 class HomeScreen extends Component {
   state = { showSearch: false, keyword: '', showScanner: false }
   componentWillMount() {
-    const { pdsItems, loading } = this.props;
+    const { pdsItems, loading, tripCode, userId } = this.props;
+    ActionLog.tripCode = tripCode;
+    ActionLog.userId = userId;
     // console.log(this.props.stats);
     if (loading) {
       //this.props.stopLoading();
@@ -58,19 +60,19 @@ class HomeScreen extends Component {
   onTripListPress() {
     if (this.props.pickTotal === 0) return;
 
-    ActionLog.log(ActionLogCode.ICON_PICK , 123, 123);
+    ActionLog.log(ActionLogCode.ICON_PICK , this.props.navigation);
     navigateOnce(this, 'TripList');
   }
   onReturnPress() {
     if (this.props.returnTotal === 0) return;
 
-    ActionLog.log(ActionLogCode.ICON_RETURN , 123, 123);
+    ActionLog.log(ActionLogCode.ICON_RETURN , this.props.navigation);
     navigateOnce(this, 'ReturnList');
   }
   onDeliveryPress() {
     if (this.props.deliveryTotal === 0) return;
 
-    ActionLog.log(ActionLogCode.ICON_DELIVER , 123, 123);
+    ActionLog.log(ActionLogCode.ICON_DELIVER , this.props.navigation);
     navigateOnce(this, 'DeliveryList');
   }
   onUpdateDataPress() {
@@ -369,12 +371,12 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { error, pdsItems, lastUpdatedTime, isTripDone } = state.pd;
+  const { error, pdsItems, lastUpdatedTime, isTripDone, tripCode, userId } = state.pd;
   const { loaded, progress, loading } = state.other;
   const { user } = state.auth;
   
   const stats = getNumbers(state); //pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete
-  return { loading, loaded, error, user, stats, pdsItems, progress, lastUpdatedTime, isTripDone };
+  return { loading, loaded, error, user, stats, pdsItems, progress, lastUpdatedTime, isTripDone, tripCode, userId };
 };
 
 export default connect(mapStateToProps, { pdListFetch, setLoaded, stopLoading })(HomeScreen);

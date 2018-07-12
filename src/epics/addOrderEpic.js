@@ -8,7 +8,7 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { PD_ADD_ORDER, PD_ADD_ORDER_SUCCESS, PD_ADD_ORDER_FAIL, PD_GET_NEW_ORDERS, PD_GET_NEW_ORDERS_SUCCESS, PD_GET_NEW_ORDERS_FAIL, PD_ADD_ORDERS } from '../actions/types';
+import { PD_ADD_ORDER, PD_ADD_ORDER_SUCCESS, PD_ADD_ORDER_FAIL, PD_GET_NEW_ORDERS, PD_GET_NEW_ORDERS_SUCCESS, PD_GET_NEW_ORDERS_FAIL, PD_GET_NEW_ORDERS_EMPTY, PD_ADD_ORDERS } from '../actions/types';
 import { pdListFetch, addMultiOrders } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
@@ -50,10 +50,16 @@ const reloadEpic = action$ =>
     .mergeMap(() => of(pdListFetch({})));
 
 const failEpic = action$ =>
-  action$.ofType(PD_ADD_ORDER_FAIL)
+  action$.ofType(PD_ADD_ORDER_FAIL, PD_GET_NEW_ORDERS_FAIL)
     .map(action => action.payload)
     .do(({ error }) => Utils.showToast(`Không thể thêm đơn ${error}`, 'danger'))
     .ignoreElements();
+
+const warnEpic = action$ =>
+  action$.ofType(PD_GET_NEW_ORDERS_EMPTY)
+    .map(action => action.payload)
+    .do(({ error }) => Utils.showToast(`Không thể thêm đơn ${error}`, 'warning'))
+    .ignoreElements();    
 
 const getNewOrdersForAddEpic = (action$, store) =>
   action$.ofType(PD_GET_NEW_ORDERS)
@@ -68,10 +74,12 @@ const getNewOrdersForAddEpic = (action$, store) =>
                 // return addMultiOrders(response, senderHubId);
                 return { type: PD_GET_NEW_ORDERS_SUCCESS, payload: { response, senderHubId } };
               }
-              return { type: PD_GET_NEW_ORDERS_FAIL, payload: { error: 'Shop chưa lên đơn mới' } };
+              return { type: PD_GET_NEW_ORDERS_EMPTY, payload: { error: 'Shop chưa lên đơn mới' } };
             }
+            case 'NOT_FOUND':
+              return { type: PD_GET_NEW_ORDERS_EMPTY, payload: { error: 'Shop chưa lên đơn mới' } };
             default:
-              return { type: PD_GET_NEW_ORDERS_FAIL, payload: { error: response.message || 'Không thể thêm đơn mới' } };
+              return { type: PD_GET_NEW_ORDERS_FAIL, payload: { error: response.message || 'Không thể lấy đơn mới' } };
           }
         })
         .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } })));
@@ -115,6 +123,7 @@ export default combineEpics(
   addOrderEpic,
   reloadEpic,
   failEpic,
+  warnEpic,
   getNewOrdersForAddEpic,
   hasNewOrdersEpic,
   addMultiOrdersEpic,

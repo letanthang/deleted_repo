@@ -33,7 +33,7 @@ export const loginUserT62 = (t62) => {
 };
 
 export const loginUserSucess = (response, rememberMe) => {
-  const { userInfo, session } = response.data;
+  const { userInfo, session } = response.data[0];
   return {
     type: LOGIN_USER_SUCCESS,
     payload: { userInfo, session, rememberMe },

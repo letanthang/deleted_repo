@@ -37,9 +37,11 @@ export default (state = INITIAL_STATE, action) => {
         rememberMe: action.payload.rememberMe,
       };
     case LOGIN_USER_SUCCESS: {
+      console.log(action.payload);
       const { session, userInfo, rememberMe } = action.payload;
       new ShareVariables().LoginHeader['X-Auth'] = session;
       const { warehouseIds } = userInfo;
+      // new ShareVariables().LoginHeader['X-HubId'] = warehouseIds[0];
       const user = userInfo;
       user.UserID = user.ssoId;
       user.FullName = user.fullname;

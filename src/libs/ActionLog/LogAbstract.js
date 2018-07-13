@@ -13,7 +13,7 @@ class LogAbstract {
     const { userId, tripCode } = this;
     const screenId = ScreenCode[screenName];
     const featureId = ScreenGroup[screenId];
-    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'LASTMILE', featureId };
+    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
     console.log('log', data);
     this.sendLog(data);
   }
@@ -24,7 +24,7 @@ class LogAbstract {
     const { userId, tripCode } = this;
     const screenId = ScreenCode[screenName];
     const featureId = ScreenGroup[screenId];
-    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'LASTMILE', featureId };
+    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
     console.log('log', data);
     this.push(data);
   }

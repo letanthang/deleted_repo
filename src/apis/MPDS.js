@@ -12,20 +12,20 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 const mockOn = false;
 const timeout = 9500;
 export const appVersionName = '11/07';
-export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
-const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
-const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
-const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
-const LOG_URL = 'http://api.ops.ghn.vn/als/v1';
-const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
-
-// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
-// const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
-// const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+// const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
+// const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
+// const LOG_URL = 'http://api.ops.ghn.vn/als/v1';
 // const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
-// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://staging.lastmile.ghn.vn/sso-login';
+// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
+
+const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+const ACC_URL = 'http://api.staging.lastmile.ghn.vn/account/v1';
+const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;

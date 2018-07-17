@@ -36,21 +36,22 @@ class AppFooter extends Component {
     return true;
   }
   goPick() {
-    ActionLog.log(ActionLogCode.TAB_PICK, this.props.navigation);
+    ActionLog.log(ActionLogCode.ICON_PICK, this.props.navigation);
     const { dispatch } = this.props.navigation;
     navigate(dispatch, 'TripList');
   }
   goDeliver() {
-    ActionLog.log(ActionLogCode.TAB_DELIVER, this.props.navigation);
+    ActionLog.log(ActionLogCode.ICON_DELIVER, this.props.navigation);
     const { dispatch } = this.props.navigation;
     navigate(dispatch, 'DeliveryList');
   }
   goReturn() {
-    ActionLog.log(ActionLogCode.TAB_RETURN, this.props.navigation);
+    ActionLog.log(ActionLogCode.ICON_RETURN, this.props.navigation);
     const { dispatch } = this.props.navigation;
     navigate(dispatch, 'ReturnList');
   }
   goAll() {
+    ActionLog.log(ActionLogCode.ICON_ALL, this.props.navigation);
     const { dispatch } = this.props.navigation;
     navigate(dispatch, 'OrderList');
   }

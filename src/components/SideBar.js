@@ -9,6 +9,8 @@ import {
   Text, Icon, Left, Body, Right,
 } from 'native-base';
 import { logoutUser, pdListFetch } from '../actions';
+import { ActionLogCode } from '../components/Constant';
+import ActionLog from '../libs/ActionLog';
 import Utils from '../libs/Utils';
 
 //create cmp
@@ -27,7 +29,7 @@ class SideBar extends Component {
       return false;
     }
     return true;
-  }  
+  }
   
   onLogoutPress() {
     this.props.logoutUser();
@@ -36,6 +38,10 @@ class SideBar extends Component {
   onUpdateDataPress() {
     this.props.navigation.navigate('DrawerClose');
     this.props.pdListFetch({ all: true });
+  }
+
+  componentWillUnmount() {
+    ActionLog.log(ActionLogCode.MENU_CLOSE, this.props.navigation);
   }
 
   render() {
@@ -75,7 +81,7 @@ class SideBar extends Component {
                 <Text>{createdByPhone}</Text>
               </Body>
               <Right>
-                <IC name='phone' color='#FF9504' size={20} />
+                <IC name='phone' color='# ' size={20} />
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>

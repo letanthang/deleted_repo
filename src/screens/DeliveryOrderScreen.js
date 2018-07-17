@@ -17,7 +17,10 @@ import FormButton from '../components/FormButton';
 import LogoButton from '../components/LogoButton';
 import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
-import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2 } from './Helper';
+import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2, CODES } from './Helper';
+import { ActionLogCode, ErrorToLogCode } from '../components/Constant';
+import ActionLog from '../libs/ActionLog';
+
 
 let order = null;
 let code = null;
@@ -60,6 +63,7 @@ class DeliveryOrderScreen extends Component {
   }
 
   confirmUpdateOrder() {
+    ActionLog.log(ActionLogCode.ORDER_DELIVER_TRUE, this.props.navigation);
     const message = 'Bạn có chắc chắn muốn cập nhật đơn hàng trên: Đã giao ?';
     const title = 'Cập nhật đơn hàng ?';
   
@@ -94,8 +98,17 @@ class DeliveryOrderScreen extends Component {
     );
   }
   updateOrderToFailWithReason() {
+    ActionLog.log(ActionLogCode.ORDER_DELIVER_FALSE, this.props.navigation);
+
     updateOrderToFailWithReason2(order.receiverPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
+
+      const errCode = CODES[buttonIndex];
+          const logCode = ErrorToLogCode[errCode];
+          if (logCode) {
+            ActionLog.log(logCode, this.props.navigation);
+          }
+
       if (error === null) {
         this.confirmUpdateOrderFail(buttonIndex);
       } else if (error === 'cancel') {

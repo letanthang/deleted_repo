@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import FormButton from '../../components/FormButton';
 import { Colors } from '../../Styles';
 import { updateOrderInfo } from '../../actions';
-import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from '../../components/Helpers';
-import { ActionLogCode } from '../../components/Constant';
+import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone, codes } from '../../components/Helpers';
+import { ActionLogCode, ErrorToLogCode } from '../../components/Constant';
 import ActionLog from '../../libs/ActionLog';
 
 class ActionButtons extends Component {
@@ -35,17 +35,24 @@ class ActionButtons extends Component {
       ActionLog.log(ActionLogCode.SHOP_PICK_FALSE, this.props.navigation);
       info.success = nextStatus;
       updateOrderToFailWithReason2(senderPhone, this.props.configuration, code)
-      .then(({ error, buttonIndex }) => {
-        if (error === null) {
-          if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
-          const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfo(code, type, moreInfo);
-        } else if (error === 'moreCall') {
-          // more call
-        } else if (error === 'chooseDate') {
-          this.props.onSelectDateCase(buttonIndex);
-        }
-      });
+        .then(({ error, buttonIndex }) => {
+          
+          const errCode = codes[buttonIndex];
+          const logCode = ErrorToLogCode[errCode];
+          if (logCode) {
+            ActionLog.log(logCode, this.props.navigation);
+          }
+
+          if (error === null) {
+            if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
+            const moreInfo = getUpdateOrderInfo(order, buttonIndex);
+            this.props.updateOrderInfo(code, type, moreInfo);
+          } else if (error === 'moreCall') {
+            // more call
+          } else if (error === 'chooseDate') {
+            this.props.onSelectDateCase(buttonIndex);
+          }
+        });
     }
   }
   render() {

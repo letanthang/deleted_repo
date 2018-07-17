@@ -60,19 +60,19 @@ class HomeScreen extends Component {
   onTripListPress() {
     if (this.props.pickTotal === 0) return;
 
-    ActionLog.log(ActionLogCode.TAB_PICK , this.props.navigation);
+    ActionLog.log(ActionLogCode.TAB_PICK, this.props.navigation);
     navigateOnce(this, 'TripList');
   }
   onReturnPress() {
     if (this.props.returnTotal === 0) return;
 
-    ActionLog.log(ActionLogCode.TAB_RETURN , this.props.navigation);
+    ActionLog.log(ActionLogCode.TAB_RETURN, this.props.navigation);
     navigateOnce(this, 'ReturnList');
   }
   onDeliveryPress() {
     if (this.props.deliveryTotal === 0) return;
 
-    ActionLog.log(ActionLogCode.TAB_DELIVER , this.props.navigation);
+    ActionLog.log(ActionLogCode.TAB_DELIVER, this.props.navigation);
     navigateOnce(this, 'DeliveryList');
   }
   onUpdateDataPress() {
@@ -94,7 +94,7 @@ class HomeScreen extends Component {
     this.setState({ showSearch: !this.state.showSearch });
   }
   reloadData() {
-    ActionLog.log(ActionLogCode.PULL_TO_UPDATE , this.props.navigation);
+    ActionLog.log(ActionLogCode.PULL_TO_UPDATE, this.props.navigation);
     this.props.pdListFetch({});
   }
 
@@ -157,7 +157,7 @@ class HomeScreen extends Component {
             transparent
             style={{ paddingRight: 12 }}
             onPress={() => {
-              ActionLog.log(ActionLogCode.MENU_OPEN , this.props.navigation);
+              ActionLog.log(ActionLogCode.MENU_OPEN, this.props.navigation);
               navigate('DrawerOpen');
             }}
           >          

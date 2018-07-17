@@ -6,7 +6,7 @@ import Utils from '../libs/Utils';
 
 const BUTTONS = Object.values(DeliveryErrors);
 BUTTONS.push('Cancel');
-const CODES = Object.keys(DeliveryErrors);
+export const CODES = Object.keys(DeliveryErrors);
 const DESTRUCTIVE_INDEX = -1;
 const CHANGE_DATE_INDEX = BUTTONS.length - 3;
 const CUSTOMER_CHANGE_DATE_INDEX = 3;

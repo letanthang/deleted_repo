@@ -60,6 +60,7 @@ export const HistoryStatus = {
   'DELIVER_SUCCESS': 'giao thành công',
 };
 
+
 export const ActionLogCode = {
   TAB_PICK: 10001,
   TAB_DELIVER: 10002,
@@ -101,6 +102,25 @@ export const ActionLogCode = {
   DELIVER_REASON_NOT_PICK_CALL: 12004,
   DELIVER_REASON_REDATE: 12005,
 
+};
+
+export const ErrorToLogCode = {
+  'GHN-PC952A': ActionLogCode.PICK_REASON_REDATE,
+  'GHN-PC8D3E': ActionLogCode.PICK_REASON_FAIL_CONTACT,
+  'GHN-PC8KA0': ActionLogCode.PICK_REASON_FAIL_CALL,
+  'GHN-PC8KA1': ActionLogCode.PICK_REASON_NOT_PICK_CALL,
+  'GHN-PCA940': ActionLogCode.PICK_REASON_ME_LATE,
+  'GHN-PCC9T0': ActionLogCode.PICK_REASON_SEND_STATION,
+  'GHN-SCHO11': ActionLogCode.PICK_REASON_HAND_OVER,
+
+  'GHN-SC77A9': ActionLogCode.DELIVER_REASON_FAIL_CONTACT,
+  'GHN-SC8KA0': ActionLogCode.DELIVER_REASON_FAIL_CONTACT,
+  'GHN-SC8KA1': ActionLogCode.DELIVER_REASON_NOT_PICK_CALL,
+  'GHN-SC181B': ActionLogCode.DELIVER_REASON_REDATE,
+  'GHN-SC9649': ActionLogCode.DELIVER_REASON_FAIL_CONTACT,
+  'GHN-SCA4EB': ActionLogCode.DELIVER_REASON_FAIL_CONTACT,
+  'GHN-SCB45E': ActionLogCode.DELIVER_REASON_FAIL_CONTACT,
+  'GHN-SCB78E': ActionLogCode.DELIVER_REASON_FAIL_CONTACT,
 
 };
 
@@ -131,7 +151,7 @@ export const ScreenCode = {
 };
 
 export const ScreenGroup = {
-  'A000': 'MAIN_PAGE',
+  A000: 'MAIN_PAGE',
   A001: 'PRIVATE',
   A002: 'PRIVATE',
   A003: 'PRIVATE',

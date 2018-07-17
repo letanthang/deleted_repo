@@ -6,7 +6,7 @@ import { PickErrors, ReturnErrors } from './Constant';
 
 const buttons = Object.values(PickErrors);
 buttons.push('Cancel');
-const codes = Object.keys(PickErrors);
+export const codes = Object.keys(PickErrors);
 const cancelIndex = buttons.length - 1;
 const destructiveIndex = -1;
 const changeDateIndex = 0;

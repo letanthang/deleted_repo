@@ -21,7 +21,9 @@ import LogoButton from '../components/LogoButton';
 import FormButton from '../components/FormButton';
 import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
-import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/Helpers';
+import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2, codes } from '../components/Helpers';
+import { ActionLogCode, ErrorToLogCode } from '../components/Constant';
+import ActionLog from '../libs/ActionLog';
 
 let clientId = null;
 let senderHubId = null;
@@ -75,6 +77,7 @@ class PickOrderScreen extends Component {
   }
 
   confirmUpdateOrderToDone() {
+    ActionLog.log(ActionLogCode.ORDER_PICK_TRUE, this.props.navigation);
     const message = 'Bạn có chắc chắn muốn cập nhật đơn hàng trên sang đã lấy?';
     const title = 'Cập nhật đơn hàng thành đã lấy ?';
     Alert.alert(
@@ -99,8 +102,16 @@ class PickOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
+    ActionLog.log(ActionLogCode.ORDER_PICK_FALSE, this.props.navigation);
     updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.code)
     .then(({ error, buttonIndex }) => {
+
+      const code = codes[buttonIndex];
+      const logCode = ErrorToLogCode[code];
+      if (logCode) {
+        ActionLog.log(logCode, this.props.navigation);
+      }
+
       if (error === null) {
         this.updateOrderToFail(buttonIndex);
       } else if (error === 'cancel') {

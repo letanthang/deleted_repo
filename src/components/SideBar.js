@@ -32,10 +32,12 @@ class SideBar extends Component {
   }
   
   onLogoutPress() {
+    ActionLog.log(ActionLogCode.MENU_LOGOUT, this.props.navigation);
     this.props.logoutUser();
   }
 
   onUpdateDataPress() {
+    ActionLog.log(ActionLogCode.MENU_UPDATE, this.props.navigation);
     this.props.navigation.navigate('DrawerClose');
     this.props.pdListFetch({ all: true });
   }
@@ -72,7 +74,10 @@ class SideBar extends Component {
             </ListItem>
             <ListItem
               icon
-              onPress={() => Utils.phoneCall(createdByPhone, true)}
+              onPress={() => {
+                ActionLog.log(ActionLogCode.MENU_CALL_SUP, this.props.navigation);
+                Utils.phoneCall(createdByPhone, true);
+              }}
             >
               <Left>
                 <IC name="cellphone" size={20} color='#FF9504' />
@@ -81,7 +86,7 @@ class SideBar extends Component {
                 <Text>{createdByPhone}</Text>
               </Body>
               <Right>
-                <IC name='phone' color='# ' size={20} />
+                <IC name='phone' color='#FF9504' size={20} />
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
@@ -101,6 +106,7 @@ class SideBar extends Component {
             </ListItem>
             <ListItem
               onPress={() => {
+                ActionLog.log(ActionLogCode.MENU_INFO, this.props.navigation);
                 this.props.navigation.navigate('About');
               }}
               icon
@@ -115,8 +121,9 @@ class SideBar extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            <ListItem 
+            <ListItem
               onPress={() => {
+                ActionLog.log(ActionLogCode.MENU_SETTINGS, this.props.navigation);
                 this.props.navigation.navigate('Settings');
               }}
               icon

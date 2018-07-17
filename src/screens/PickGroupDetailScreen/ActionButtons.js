@@ -6,12 +6,15 @@ import FormButton from '../../components/FormButton';
 import { Colors } from '../../Styles';
 import { updateOrderInfo } from '../../actions';
 import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from '../../components/Helpers';
+import { ActionLogCode } from '../../components/Constant';
+import ActionLog from '../../libs/ActionLog';
 
 class ActionButtons extends Component {
   componentWillMount() {
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
   changeInfo(nextStatus) {
+
     this.props.resetAllButton();
     const { order, animated } = this.props;
     const { code, type, senderPhone } = this.props.order;
@@ -21,12 +24,15 @@ class ActionButtons extends Component {
       info = { success: undefined, nextStatus: undefined };
       this.props.updateOrderInfo(code, type, info);
     } else if (nextStatus) {
+      //picked
+      ActionLog.log(ActionLogCode.SHOP_PICK_TRUE, this.props.navigation);
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
       this.props.updateOrderInfo(code, type, info);
     } else {
       //failed to pick
+      ActionLog.log(ActionLogCode.SHOP_PICK_FALSE, this.props.navigation);
       info.success = nextStatus;
       updateOrderToFailWithReason2(senderPhone, this.props.configuration, code)
       .then(({ error, buttonIndex }) => {

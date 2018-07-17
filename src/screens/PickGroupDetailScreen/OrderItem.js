@@ -21,7 +21,7 @@ class OrderItem extends Component {
 
   render() {
     // console.log('OrderItem render!');
-    const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase, resetAllButton } = this.props;
+    const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase, resetAllButton, navigation } = this.props;
     const { 
       code, receiverName, receiverPhone,
       height, width, weight, length, status,
@@ -81,6 +81,7 @@ class OrderItem extends Component {
             done={realDone}
             info={order}
             order={order}
+            navigation={navigation}
             onSelectDateCase={(buttonIndex) => {
               onSelectDateCase(buttonIndex, order);
             }}

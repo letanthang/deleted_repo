@@ -150,6 +150,7 @@ class PickGroupDetail extends Component {
         style={{ backgroundColor: Colors.background }}
       >
         <ActionAllButtons
+          navigation={this.props.navigation}
           done={hidden}
           orders={orders}
           notify={this.state.notify}
@@ -174,6 +175,7 @@ class PickGroupDetail extends Component {
               const isDelivering = this.checkDelivering(item);
               return (
                 <OrderItem 
+                  navigation={this.props.navigation}
                   order={item}
                   animated={animated}
                   acceptDeliverPress={this.acceptDeliverPress.bind(this)}

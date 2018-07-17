@@ -8,10 +8,13 @@ import {
 import { addOneOrder } from '../actions';
 import { Styles } from '../Styles';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { ActionLogCode } from '../components/Constant';
+import ActionLog from '../libs/ActionLog';
 
 class AddOrderScreen extends Component {
   state = { code: '' }
   addOrder() {
+    ActionLog.log(ActionLogCode.ADD_ONE_ORDER, this.props.navigation);
     Keyboard.dismiss();
     this.props.addOneOrder(this.state.code, 'PICK');
   }

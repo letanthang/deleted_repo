@@ -7,6 +7,8 @@ import FormButton from '../../components/FormButton';
 import { Colors, Styles } from '../../Styles';
 import { updateOrderInfos } from '../../actions';
 import { updateOrderToFailWithReason2, getUpdateOrderInfo, getUpdateOrderInfoForDone } from '../../components/Helpers';
+import { ActionLogCode } from '../../components/Constant';
+import ActionLog from '../../libs/ActionLog';
 
 class ActionAllButtons extends Component {
   state = { status: undefined }
@@ -26,10 +28,14 @@ class ActionAllButtons extends Component {
       this.props.updateOrderInfos(OrderInfos);
       this.setState({ status: undefined });
     } else if (nextStatus) {
+      //picked
+      ActionLog.log(ActionLogCode.SHOP_PICK_ALL_TRUE, this.props.navigation);
       const OrderInfos = _.map(orders, order => getUpdateOrderInfoForDone(order)); 
       this.props.updateOrderInfos(OrderInfos);
       this.setState({ status: nextStatus });
     } else {
+      //failed to pick
+      ActionLog.log(ActionLogCode.SHOP_PICK_ALL_FALSE, this.props.navigation);
       updateOrderToFailWithReason2(senderPhone, this.props.configuration)
       .then(({ error, buttonIndex }) => {
         if (error === null) {

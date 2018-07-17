@@ -283,7 +283,10 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity> */}
         <TouchableOpacity
-          onPress={() => navigate('AddOrder')}
+          onPress={() => {
+            ActionLog.log(ActionLogCode.TAP_ADD_ONE_ORDER, this.props.navigation);
+            navigate('AddOrder');
+          }}
         >
           <Card>
             <CardItem style={{ backgroundColor: Colors.row }}>

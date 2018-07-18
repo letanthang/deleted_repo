@@ -29,7 +29,11 @@ import BarcodeReader from '../../components/BarcodeReader';
 const efficiencyIcon = require('../../../resources/ic_summary.png');
 
 class HomeScreen extends Component {
-  state = { showSearch: false, keyword: '', showScanner: false }
+  constructor() {
+    super();
+    this.state = { showSearch: false, keyword: '', showScanner: false };
+  }
+
   componentWillMount() {
     const { pdsItems, loading, tripCode, userId } = this.props;
     ActionLog.tripCode = tripCode;

@@ -17,7 +17,7 @@ import Utils from '../libs/Utils';
 import { printerStyles as styles } from '../Styles';
 
 global.Buffer = Buffer
-const iconv = require('iconv-lite')
+// const iconv = require('iconv-lite')
 const connectIcon = require('../../resources/ic_phone.png');
 
 const Button = ({ title, onPress, style, textStyle }) => (

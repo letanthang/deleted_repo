@@ -88,7 +88,7 @@ const hasNewOrdersEpic = action$ =>
   action$.ofType(PD_GET_NEW_ORDERS_SUCCESS)
     .map(action => action.payload)
     .do(({ response }) => Utils.showToast(`Shop có ${response.data.length} đơn mới sẽ được thêm vào chuyến đi`, 'success'))
-    .delay(350)
+    .delay(580)
     .mergeMap(({ response, senderHubId }) => of(addMultiOrders(response, senderHubId)));
 
 const addMultiOrdersEpic = (action$, store) =>

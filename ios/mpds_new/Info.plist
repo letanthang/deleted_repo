@@ -58,6 +58,13 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>api.dev.lastmile.ghn.vn</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>lastmile.ghn.vn</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

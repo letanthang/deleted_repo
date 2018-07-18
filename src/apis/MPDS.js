@@ -20,8 +20,15 @@ export const appVersionName = '11/07';
 // const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
 // export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
-const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
+// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
+// const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+// const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+// const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
+
+const PDS_URL = 'http://api.dev.lastmile.ghn.vn/lastmile/v1';
+const ACC_URL = 'http://api.dev.lastmile.ghn.vn/acc/v1';
 const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
 const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
 const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
@@ -161,11 +168,18 @@ export const loginUser = (userid, password ) => {
 
 export const LoginT62 = (t62) => {
   const URL = `${ACC_URL}/login-t62?t62=${t62}`;
+  const config = {
+    headers: {
+      'X-ApiKey': 'TEST@APIKEY',
+      'X-ApiSecret': 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47'
+    },
+    timeout,
+  };
   if (mockOn) {
-    mock.onGet(URL).reply(200, loginResponse);
+    mock.onGet(URL, config).reply(200, loginResponse);
   }
 
-  return axios.get(URL);
+  return axios.get(URL, config);
 };
 
 export const loginT62 = (t62) => {

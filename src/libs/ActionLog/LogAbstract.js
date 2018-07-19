@@ -1,3 +1,5 @@
+import * as DeviceInfo from 'react-native-device-info';
+
 import { SendLogs } from '../../apis/MPDS';
 import { ActionLogCode, ScreenCode, ScreenGroup } from '../../components/Constant';
 class LogAbstract {
@@ -5,15 +7,22 @@ class LogAbstract {
     this.timer = null;
     this.noSendNum = 0;
     this.userId = null;
+    this.userName = null;
     this.tripCode = null;
+    // console.log(DeviceInfo);
+  }
+
+  getUserAgent() {
+    // DeviceInfo.get
+    return DeviceInfo.getUserAgent();
   }
 
   log(actionCode, navigation) {
     const screenName = navigation.state.routeName;
-    const { userId, tripCode } = this;
+    const { userId, userName, tripCode } = this;
     const screenId = ScreenCode[screenName];
     const featureId = ScreenGroup[screenId];
-    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
+    const data = { actionCode, tripCode, userId, userName, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
     console.log('log', data);
     this.sendLog(data);
   }
@@ -21,10 +30,10 @@ class LogAbstract {
   logs(actionCode, navigation) {
     const screenName = navigation.state.routeName;
     this.startTimer();
-    const { userId, tripCode } = this;
+    const { userId, tripCode, userName } = this;
     const screenId = ScreenCode[screenName];
     const featureId = ScreenGroup[screenId];
-    const data = { actionCode, tripCode, userId, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
+    const data = { actionCode, tripCode, userId, userName, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
     console.log('log', data);
     this.push(data);
   }

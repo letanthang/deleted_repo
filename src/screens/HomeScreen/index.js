@@ -35,9 +35,10 @@ class HomeScreen extends Component {
   }
 
   componentWillMount() {
-    const { pdsItems, loading, tripCode, userId } = this.props;
+    const { pdsItems, loading, tripCode, userId, user } = this.props;
     ActionLog.tripCode = tripCode;
     ActionLog.userId = userId;
+    ActionLog.userName = user.FullName;
     // console.log(this.props.stats);
     if (loading) {
       //this.props.stopLoading();

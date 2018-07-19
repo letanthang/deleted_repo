@@ -9,6 +9,8 @@ target 'mpds_new' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
 
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
   target 'mpds_newTests' do
     inherit! :search_paths
     # Pods for testing

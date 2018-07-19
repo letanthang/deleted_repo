@@ -157,7 +157,7 @@ class AboutScreen extends Component {
           <View style={{ flexDirection: 'row', marginTop: 8 }}>
             <TouchableOpacity
               style={{ flex: 1, backgroundColor: '#00b0ff', padding: 4, borderRadius: 4, margin: 1 }}
-              onPress={() => this.props.pdListFetch({ reset: true, all: true })}
+              onPress={() => this.props.pdListFetch({ softReset: true, all: true })}
             >
               <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Reset & Cập nhật dữ liệu</Text>
             </TouchableOpacity>

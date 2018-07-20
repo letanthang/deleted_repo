@@ -19,7 +19,12 @@ import ProgressBar from '../../components/ProgressBar';
 import LogoButton from '../../components/LogoButton';
 
 class PickGroupDetailScreen extends Component {
-  state = { showSearch: false };
+  constructor() {
+    super();
+    this.state = { showSearch: false, keyword: '' };
+    this.searchDebounce = _.debounce(this.searchKeyword, 500, { leading: false, trailing: true });
+  }
+  
 
   componentWillMount() {
     const { senderHubId, type } = this.props.navigation.state.params;
@@ -69,6 +74,15 @@ class PickGroupDetailScreen extends Component {
     }
   }
 
+  searchKeyword(text) {
+    this.props.changeKeyword(text);
+  }
+
+  onKeywordChange(text) {
+    this.setState({ keyword: text });
+    this.searchDebounce(text);
+  }
+
   renderHeader(pickGroup) {
     const { goBack, navigate } = this.props.navigation;
     if (this.state.showSearch) {
@@ -81,17 +95,18 @@ class PickGroupDetailScreen extends Component {
             <TextInput
               style={{ flex: 1, fontSize: 16 }}
               underlineColorAndroid='transparent'
-              placeholder="Tìm đơn hàng ..." value={this.props.keyword} 
-              onChangeText={(text) => { 
-                  this.props.changeKeyword(text);
-              }}
+              placeholder="Tìm đơn hàng ..." value={this.state.keyword} 
+              onChangeText={this.onKeywordChange.bind(this)}
               autoFocus
               selectTextOnFocus
               autoCorrect={false}
               ref={input => this.myInput = input}
             />
             <TouchableOpacity
-              onPress={() => this.props.changeKeyword('')}
+              onPress={() => {
+                this.setState({ keyword: '' });
+                this.props.changeKeyword('');
+              }}
               style={{ padding: 8 }}
             >
               <IC 
@@ -105,7 +120,7 @@ class PickGroupDetailScreen extends Component {
               transparent
               style={{ marginLeft: 0 }}
               onPress={() => {
-                this.setState({ showSearch: !this.state.showSearch });
+                this.setState({ showSearch: !this.state.showSearch, keyword: '' });
                 this.props.changeKeyword('');
               }}
             >

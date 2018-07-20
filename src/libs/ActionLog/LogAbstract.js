@@ -1,4 +1,3 @@
-import * as DeviceInfo from 'react-native-device-info';
 
 import { SendLogs } from '../../apis/MPDS';
 import { ActionLogCode, ScreenCode, ScreenGroup } from '../../components/Constant';
@@ -12,10 +11,10 @@ class LogAbstract {
     // console.log(DeviceInfo);
   }
 
-  getUserAgent() {
-    // DeviceInfo.get
-    return DeviceInfo.getUserAgent();
-  }
+  // getUserAgent() {
+  //   // DeviceInfo.get
+  //   return DeviceInfo.getUserAgent();
+  // }
 
   log(actionCode, navigation) {
     const screenName = navigation.state.routeName;

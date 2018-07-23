@@ -20,7 +20,7 @@ class DeliveryByGroup extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { keyword } = nextProps;
-    console.log(keyword);
+    // console.log(keyword);
     this.setState({ keyword });
   }
 
@@ -37,9 +37,11 @@ class DeliveryByGroup extends Component {
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
   }
-  checkKeywork({ clientName, senderName, receiverAddress, senderPhone, receiverPhone }) {
+  checkKeywork({ code, clientName, senderName, receiverAddress, senderPhone, receiverPhone }) {
+    // console.log(clientName, senderName, receiverAddress, senderPhone, receiverPhone);
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
+      || code.toUpperCase().includes(keyword)
       || (clientName && clientName.toUpperCase().includes(keyword))
       || (senderPhone && senderPhone.toUpperCase().includes(keyword))
       || (receiverPhone && receiverPhone.toUpperCase().includes(keyword))

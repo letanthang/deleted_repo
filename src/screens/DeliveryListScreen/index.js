@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { 
@@ -18,7 +19,11 @@ import { get3Type, getNumbers } from '../../selectors';
 import { Colors, Styles } from '../../Styles';
 
 class DeliveryListScreen extends Component {
-  state = { showSearch: false, keyword: '' };
+  constructor() {
+    super();
+    this.state = { showSearch: false, keyword: '', realKeyword: '' };
+    this.setRealKeywordDebounce = _.debounce(this.setRealKeyword, 500, { leading: false, trailing: true });
+  }
   componentWillMount() {
     
   }
@@ -43,6 +48,10 @@ class DeliveryListScreen extends Component {
     // dispatch(resetAction);
   }
 
+  setRealKeyword(text) {
+    this.setState({ realKeyword: text });
+  }
+
   renderHeader() {
     const { navigate, goBack } = this.props.navigation;
     const { deliveryComplete, deliveryTotal } = this.props.stats;
@@ -58,6 +67,7 @@ class DeliveryListScreen extends Component {
               onChangeText={(keyword) => { 
                 if (keyword !== undefined) {
                   this.setState({ keyword: keyword.trim() });
+                  this.setRealKeywordDebounce(keyword.trim());
                 }
               }}
               autoFocus
@@ -66,7 +76,7 @@ class DeliveryListScreen extends Component {
             <Button
               transparent
               small
-              onPress={() => this.setState({ keyword: '' })}
+              onPress={() => this.setState({ keyword: '', realKeyword: '' })}
             >
               <IconFA 
                 name="times-circle" size={14} 
@@ -78,7 +88,7 @@ class DeliveryListScreen extends Component {
             <Button
               transparent
               style={{ marginLeft: 8 }}
-              onPress={() => this.setState({ showSearch: !this.state.showSearch })}
+              onPress={() => this.setState({ showSearch: !this.state.showSearch, keyword: '', realKeyword: '' })}
             >
               <Text>Huỷ</Text>
             </Button>
@@ -150,7 +160,7 @@ class DeliveryListScreen extends Component {
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader()}
-        <DeliveryByGroup navigation={this.props.navigation} keyword={this.state.keyword} />
+        <DeliveryByGroup navigation={this.props.navigation} keyword={this.state.realKeyword} />
         <ProgressBar
           progress={this.props.progress}
           loading={this.props.loading}

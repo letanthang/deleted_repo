@@ -11,11 +11,11 @@ import moment from 'moment';
 import md5 from 'md5';
 import { pdListFetch } from '../actions';
 import { HomeStyles, Styles, Colors, Theme } from '../Styles';
-import { appVersionName } from '../apis/MPDS';
+import { live, appVersionName } from '../apis/MPDS';
 
 class AboutScreen extends Component {
   componentDidMount() {
-    codePush.sync({ updateDialog: false, installMode: codePush.InstallMode.IMMEDIATE });
+    if (live) codePush.sync({ updateDialog: false, installMode: codePush.InstallMode.IMMEDIATE });
     this.props.pdListFetch({});
   }
   state = { clickNum: 0, password: '', verified: false }

@@ -32,6 +32,7 @@ import OrderLabelsScreen from './screens/OrderLabelScreen/multi';
 import getTheme from '../native-base-theme/components';
 // import material from '../native-base-theme/variables/material';
 import platform from '../native-base-theme/variables/platform';
+import { live } from './apis/MPDS';
 
 if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
   // disable console. log in production
@@ -67,7 +68,7 @@ function backPress() {
 //export const store = configureStore();
 class App extends Component {
   componentDidMount() {
-    // codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+    if (live) codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
     BackHandler.addEventListener('hardwareBackPress', backPress);
   }
 
@@ -127,5 +128,5 @@ class App extends Component {
 //   store,
 //   persistor
 // };
-const codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
+const codePushOptions = { checkFrequency: (live ? codePush.CheckFrequency.ON_APP_RESUME : codePush.CheckFrequency.MANUAL) };
 export default codePush(codePushOptions)(App);

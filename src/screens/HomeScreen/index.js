@@ -80,6 +80,11 @@ class HomeScreen extends Component {
     ActionLog.log(ActionLogCode.TAB_DELIVER, this.props.navigation);
     navigateOnce(this, 'DeliveryList');
   }
+  onCvsPress() {
+    if (this.props.pickTotal === 0) return;
+
+    navigateOnce(this, 'CvsList');
+  }
   onUpdateDataPress() {
     const dispatch = this.props.navigation.dispatch;
     const resetAction = NavigationActions.reset({
@@ -101,6 +106,12 @@ class HomeScreen extends Component {
   reloadData() {
     ActionLog.log(ActionLogCode.PULL_TO_UPDATE, this.props.navigation);
     this.props.pdListFetch({});
+  }
+
+  autoFocusInput() {
+    if (this.myInput) {
+      this.myInput.focus();
+    }
   }
 
   renderHeader() {
@@ -192,12 +203,6 @@ class HomeScreen extends Component {
     );
   }
 
-  autoFocusInput() {
-    if (this.myInput) {
-      this.myInput.focus();
-    }
-  }
-
   renderContent() {
     if (this.state.showSearch) {
       return (
@@ -287,6 +292,26 @@ class HomeScreen extends Component {
             </CardItem>
           </Card>
         </TouchableOpacity> */}
+
+        <TouchableOpacity
+          onPress={this.onCvsPress.bind(this)}
+        >
+          <Card>
+            <CardItem style={{ backgroundColor: Colors.row }}>
+              <View style={HomeStyles.cardItemLeft}>
+                <View>
+                  <Text style={{ fontWeight: 'bold', color: Colors.theme }}>
+                    CĐ CVS
+                  </Text>
+                </View>
+              </View>
+              <View style={HomeStyles.cardItemRight}>
+                <IC name='store-24-hour' size={30} style={{ marginRight: 16 }} />
+              </View>
+            </CardItem>
+          </Card>
+        </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => {
             ActionLog.log(ActionLogCode.TAP_ADD_ONE_ORDER, this.props.navigation);

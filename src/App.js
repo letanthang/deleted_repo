@@ -19,6 +19,7 @@ import DeliveryGroupCreateScreen from './screens/DeliveryGroupCreateScreen';
 import ReturnListScreen from './screens/ReturnListScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import TripListScreen from './screens/TripListScreen';
+import CvsListScreen from './screens/CvsListScreen';
 import AddOrderScreen from './screens/AddOrderScreen';
 import PickConfirmScreen from './screens/PickConfirmScreen';
 import SignatureScreen from './screens/SignatureScreen';
@@ -82,6 +83,7 @@ class App extends Component {
         DeliveryList: { screen: DeliveryListScreen },
         DeliveryGroupCreate: { screen: DeliveryGroupCreateScreen },
         TripList: { screen: TripListScreen },
+        CvsList: { screen: CvsListScreen },
         PickGroupDetail: { screen: PickGroupDetailScreen },
         ReturnGroupDetail: { screen: ReturnGroupDetailScreen },
         PickOrder: { screen: PickOrderScreen },

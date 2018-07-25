@@ -75,27 +75,12 @@ class AppHeader extends Component {
           >
             <Icon name="search" />
           </Button>
-          { layoutMode === false ?
+       
           <Button
             transparent
             onPress={() => onChange({ done: !done })}
           >
             <IC name="playlist-check" size={24} color={done ? Colors.headerActive : Colors.headerNormal} />
-          </Button>
-          : null}
-          { layoutMode ?
-          <Button 
-            transparent
-            onPress={() => onGroup()}
-          >
-            <IC name="group" size={22} color={Colors.headerNormal} />
-          </Button>
-          : null}
-          <Button 
-            transparent
-            onPress={onToggleLayoutPress.bind(this)}
-          >
-            <IC name="apple-keyboard-option" size={22} color={Colors.headerNormal} />
           </Button>
         </Right>
       </Header>

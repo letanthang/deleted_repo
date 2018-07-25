@@ -35,7 +35,7 @@ class TripItem extends Component {
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
   onTripPress({ type, senderHubId }) {
-    this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
+    this.props.navigation.navigate('CvsDetail', { type, senderHubId });
   }
 
   renderCheckedIcon(orderNum, completedNum) {
@@ -65,33 +65,18 @@ class TripItem extends Component {
             >
               {senderName}
             </Text>
-            {this.renderCheckedIcon(ordersNum, completedNum)}
-          </View>
-          <View style={styles.rowStyle}>
-            <Text
-              style={[Styles.weakColorStyle]}
-            >
-              {senderAddress}
-            </Text>
+            <Text>{completedNum}/{ordersNum}</Text>
           </View>
           
-          <View style={[Styles.item2Style, { paddingTop: 5 }]}>
-            <Text style={[Styles.weakColorStyle]}>
-              Đơn hàng: {completedNum}/{ordersNum}
+          <View style={Styles.item2Style}>
+            <Text style={[Styles.weakColorStyle, { flex: 0.9}]}>
+              {senderAddress}
             </Text>
-            <Text style={[Styles.normalColorStyle]}>
-            {accounting.formatNumber(estimateTotalServiceCost)} đ
-            </Text>
-          </View>
-          <View style={[Styles.item2Style]}>
-            <View>
-            </View>
             <TouchableOpacity
               onPress={() => Utils.phoneCall(senderPhone, true)}
               style={{ flexDirection: 'row', alignItems: 'center' }}
             >
               <ICO name='ios-call-outline' size={25} color='#006FFF' />
-              <Text style={{ color: '#00b0ff', fontSize: 13, fontWeight: '600', marginLeft: 8 }}>SHOP</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -108,6 +108,7 @@ export default (state = nameInitialState, action) => {
 
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.code, info.type);
+        order.oldStatus = order.status;
         order.status = 'Progress';
       });
       
@@ -124,19 +125,21 @@ export default (state = nameInitialState, action) => {
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.code, info.type);
-        switch (info.type) {
-          case 'PICK':
-            order.status = 'PICKING';
-            break;
-          case 'DELIVER':
-            order.status = 'DELIVERING';
-            break;
-          case 'RETURN':
-            order.status = 'RETURNING';
-            break;
-          default:
-            break;
-        }
+        order.status = order.oldStatus;
+        order.oldStatus = undefined;
+        // switch (info.type) {
+        //   case 'PICK':
+        //     order.status = 'PICKING';
+        //     break;
+        //   case 'DELIVER':
+        //     order.status = 'DELIVERING';
+        //     break;
+        //   case 'RETURN':
+        //     order.status = 'RETURNING';
+        //     break;
+        //   default:
+        //     break;
+        // }
       });
 
       return {
@@ -172,21 +175,24 @@ export default (state = nameInitialState, action) => {
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.code, info.type);
         if (ids.length > 0 && ids.includes(info.code)) {
-          switch (info.type) {
-            case 'PICK':
-              order.status = 'PICKING';
-              break;
-            case 'DELIVER':
-              order.status = 'DELIVERING';
-              break;
-            case 'RETURN':
-              order.status = 'RETURNING';
-              break;
-            default:
-              break;
-          }
+          order.status = order.oldStatus;
+          order.oldState = undefined;
+          // switch (info.type) {
+          //   case 'PICK':
+          //     order.status = 'PICKING';
+          //     break;
+          //   case 'DELIVER':
+          //     order.status = 'DELIVERING';
+          //     break;
+          //   case 'RETURN':
+          //     order.status = 'RETURNING';
+          //     break;
+          //   default:
+          //     break;
+          // }
         } else {
           order.status = info.nextStatus;
+          order.oldState = undefined;
           order.nextStatus = undefined;
           order.success = undefined;
         }

@@ -226,8 +226,9 @@ class CvsListScreen extends Component {
 const mapStateToProps = (state) => {
   const { timeServer } = state.pd;
   const { loading, progress } = state.other;
-  const { layoutMode } = state.config;
+  // const { layoutMode } = state.config;
   // const { PickItems } = get3Type(state);
+  const layoutMode = false;
   const stats = getNumbers(state);
   const { pickOrderComplete } = stats;
   return { layoutMode, pickOrderComplete, loading, progress, timeServer };

@@ -23,7 +23,7 @@ let order = {};
 class ReturnOrderScreen extends Component {
   state = { modalShow: false } 
   componentWillMount() {
-    code = this.props.navigation.state.params.code;
+    code = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, code, 'RETURN');
     this.props.getOrderHistory(code);
   }
@@ -74,7 +74,7 @@ class ReturnOrderScreen extends Component {
   }
 
   updateOrderToFailWithReason() {
-    updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.code)
+    updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
       if (error === null) {
         this.updateOrderToFail(buttonIndex);

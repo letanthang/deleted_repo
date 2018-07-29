@@ -9,7 +9,7 @@ class DeliveryItem extends Component {
   shouldComponentUpdate({ order }) {
     const old = this.props.order;
     const { code, status, nextStatus } = order;
-    if (code === old.code && status === old.status && nextStatus === old.nextStatus ) {
+    if (code === old.orderCode && status === old.status && nextStatus === old.nextStatus ) {
       return false;
     }
     return true;

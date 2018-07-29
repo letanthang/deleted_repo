@@ -82,10 +82,10 @@ class OrderLabelsScreen extends Component {
 
   resetPrint() {
     const orders = this.orders.filter(o => o.printed);
-    orders.forEach(o => this.props.setOrder(o.code, { printed: false }));
+    orders.forEach(o => this.props.setOrder(o.orderCode, { printed: false }));
   }
   deleteImages() {
-    this.orders.forEach(o => this.props.setOrder(o.code, { imageUri: null }));
+    this.orders.forEach(o => this.props.setOrder(o.orderCode, { imageUri: null }));
   }
 
   render() {

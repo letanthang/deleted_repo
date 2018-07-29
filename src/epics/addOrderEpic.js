@@ -41,7 +41,7 @@ const reloadEpic = action$ =>
     .filter(({ order, orders }) => order || orders.length <= limit)
     .do(({ order }) => {
       if (order) {
-        Utils.showToast(`Thêm đơn hàng ${order.code} thành công`, 'success');
+        Utils.showToast(`Thêm đơn hàng ${order.orderCode} thành công`, 'success');
       } else {
         Utils.showToast(`Thêm đơn hàng mới thành công`, 'success');
       }

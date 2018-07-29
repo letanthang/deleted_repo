@@ -35,7 +35,7 @@ class PickOrderScreen extends Component {
   componentWillMount() {
     clientId = this.props.navigation.state.params.clientId;
     senderHubId = this.props.navigation.state.params.senderHubId;
-    code = this.props.navigation.state.params.code;
+    code = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, code, 'PICK');
     if (order.hasDetail !== true) {
       this.props.fetchOrderDetail(code, 'PICK');
@@ -93,17 +93,17 @@ class PickOrderScreen extends Component {
   
   updateOrderToDone() {
     const OrderInfos = getUpdateOrderInfoForDone(order);
-    this.props.updateOrderInfo(order.code, order.type, OrderInfos);
+    this.props.updateOrderInfo(order.orderCode, order.type, OrderInfos);
   }
 
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getUpdateOrderInfo(order, buttonIndex, NewDate);
-    this.props.updateOrderInfo(order.code, order.type, OrderInfos);
+    this.props.updateOrderInfo(order.orderCode, order.type, OrderInfos);
   }
 
   updateOrderToFailWithReason() {
     ActionLog.log(ActionLogCode.ORDER_PICK_FALSE, this.props.navigation);
-    updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.code)
+    updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
 
       const code = codes[buttonIndex];

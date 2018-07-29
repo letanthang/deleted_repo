@@ -26,7 +26,7 @@ class DeliveryGroupCreate extends Component {
     const list = items.filter(o => o.groupChecked === true);
     const orders = {};
     list.forEach(o => {
-      const key = Utils.getKey(o.code, 'DELIVER');
+      const key = Utils.getKey(o.orderCode, 'DELIVER');
       orders[key] = _.clone(o);
       orders[key].group = this.state.groupName;
     });
@@ -75,7 +75,7 @@ class DeliveryGroupCreate extends Component {
         
           <FlatList
             data={items}
-            keyExtractor={(item, index) => item.code}
+            keyExtractor={(item, index) => item.orderCode}
             renderItem={({ item }) => {
               const order = item;
               const { receiverAddress, code, groupChecked } = order;

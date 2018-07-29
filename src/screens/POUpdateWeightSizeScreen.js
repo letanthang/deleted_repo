@@ -23,7 +23,7 @@ class POUpdateWeightSizeScreen extends Component {
   state = { weight: null, height: null, length: null, width: null, CalculateWeight: null }
 
   componentWillMount() {
-    code = this.props.navigation.state.params.code;
+    code = this.props.navigation.state.params.orderCode;
     senderHubId = this.props.navigation.state.params.senderHubId;
     clientId = this.props.navigation.state.params.clientId;
   }

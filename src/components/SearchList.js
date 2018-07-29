@@ -128,7 +128,7 @@ class OrderListScreen extends Component {
             <FlatList
               keyboardShouldPersistTaps='handled'
               data={items}
-              keyExtractor={(item, index) =>  item.code + index}
+              keyExtractor={(item, index) =>  item.orderCode + index}
               renderItem={({ item }) =>
               <TouchableOpacity
               onPress={this.onDeliveryOrderPress.bind(this, item)}
@@ -137,7 +137,7 @@ class OrderListScreen extends Component {
                   <View style={[DeliverGroupStyles.col1Style]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 150 }}>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        {item.code}
+                        {item.orderCode}
                       </Text>
                       {this.renderStatusText(item)}
                     </View>

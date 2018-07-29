@@ -57,9 +57,9 @@ export default (state = nameInitialState, action) => {
     case PD_FETCH_TRIP_INFO_SUCCESS: {
       // console.log(action.payload);
       const { info, userId } = action.payload;
-      const { driverName, createdByName, createdByPhone, code } = info;
+      const { driverName, createdByName, createdByPhone, tripCode } = info;
       
-      const data = state.tripCode === code ? {} : {
+      const data = state.tripCode === tripCode ? {} : {
         pdsItems: null,
         groups: nameInitialState.groups,
       };
@@ -67,7 +67,7 @@ export default (state = nameInitialState, action) => {
       return {
         ...state,
         Infos: { driverName, createdByName, createdByPhone },
-        tripCode: code,
+        tripCode,
         isTripDone: false,
         userId,
         ...data,
@@ -107,7 +107,7 @@ export default (state = nameInitialState, action) => {
       const pdsItems = _.cloneDeep(state.pdsItems);
 
       _.each(OrderInfos, (info) => {
-        const order = Utils.getOrder(pdsItems, info.code, info.type);
+        const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
         order.oldStatus = order.status;
         order.status = 'Progress';
       });
@@ -124,22 +124,9 @@ export default (state = nameInitialState, action) => {
 
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, (info) => {
-        const order = Utils.getOrder(pdsItems, info.code, info.type);
+        const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
         order.status = order.oldStatus;
         order.oldStatus = undefined;
-        // switch (info.type) {
-        //   case 'PICK':
-        //     order.status = 'PICKING';
-        //     break;
-        //   case 'DELIVER':
-        //     order.status = 'DELIVERING';
-        //     break;
-        //   case 'RETURN':
-        //     order.status = 'RETURNING';
-        //     break;
-        //   default:
-        //     break;
-        // }
       });
 
       return {
@@ -168,28 +155,15 @@ export default (state = nameInitialState, action) => {
       const { OrderInfos, FailedOrders, requireReload } = action.payload;
       let ids = [];
       if (FailedOrders instanceof Array && FailedOrders.length > 0) {
-        ids = FailedOrders.map(o => o.code);
+        ids = FailedOrders.map(o => o.orderCode);
       }
 
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, (info) => {
-        const order = Utils.getOrder(pdsItems, info.code, info.type);
-        if (ids.length > 0 && ids.includes(info.code)) {
+        const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
+        if (ids.length > 0 && ids.includes(info.orderCode)) {
           order.status = order.oldStatus;
           order.oldState = undefined;
-          // switch (info.type) {
-          //   case 'PICK':
-          //     order.status = 'PICKING';
-          //     break;
-          //   case 'DELIVER':
-          //     order.status = 'DELIVERING';
-          //     break;
-          //   case 'RETURN':
-          //     order.status = 'RETURNING';
-          //     break;
-          //   default:
-          //     break;
-          // }
         } else {
           order.status = info.nextStatus;
           order.oldState = undefined;
@@ -226,7 +200,7 @@ export default (state = nameInitialState, action) => {
     case PD_ADD_ORDER_SUCCESS: {
       // const order = action.payload.order;
       // const pdsItems = _.cloneDeep(state.pdsItems);
-      // pdsItems[getKey(order.code, order.type)] = order;
+      // pdsItems[getKey(order.orderCode, order.type)] = order;
       return {
         ...state,
         // pdsItems,
@@ -262,7 +236,7 @@ export default (state = nameInitialState, action) => {
       const orders = pds.DeliveryItems;
       const orderGroup = action.payload;
       orders.forEach((order, index) => {
-        const group = orderGroup[order.code];
+        const group = orderGroup[order.orderCode];
         if (group !== undefined) {
           orders[index].Group = group;
         } 
@@ -386,7 +360,7 @@ export default (state = nameInitialState, action) => {
     case PD_FETCH_DETAIL_SUCCESS: {
       const { data, code, type } = action.payload;
 
-      if (data.code !== code || data.type !== type) {
+      if (data.orderCode !== code || data.type !== type) {
         return state;
       }
 
@@ -488,7 +462,7 @@ const getKey = (orderID, type) => `${orderID}-${type}`;
 const transformPDS = (pdsItems) => {
   const temp = {};
   pdsItems.forEach((item) => {
-    const key = getKey(item.code, item.type);
+    const key = getKey(item.orderCode, item.type);
     temp[key] = { ...item, ...item.extraInfo };
     temp[key].address = temp[key].type === 'DELIVER' ? temp[key].receiverAddress : temp[key].senderAddress;
     if (temp[key].isCancel === true) {
@@ -509,12 +483,12 @@ const transformPDS = (pdsItems) => {
 
 const addGroup = (pds, orderGroup) => {
   pds.DeliveryItems.forEach((order, index) => {
-    pds.DeliveryItems[index].Group = orderGroup[order.code] || null;
+    pds.DeliveryItems[index].Group = orderGroup[order.orderCode] || null;
   });
 
   //add 'key' for order
   pds.pdsItems.forEach((order, index) => {
-    pds.pdsItems[index].key = order.code;
+    pds.pdsItems[index].key = order.orderCode;
   });
 };
 

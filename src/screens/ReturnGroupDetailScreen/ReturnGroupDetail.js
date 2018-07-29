@@ -109,7 +109,7 @@ class PickGroupDetail extends Component {
           <View>
           <FlatList 
             data={orders}
-            keyExtractor={(item, index) => item.code}
+            keyExtractor={(item, index) => item.orderCode}
             renderItem={({ item }) => {
               const order = item;
               const { 

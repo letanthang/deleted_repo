@@ -27,7 +27,7 @@ let code = null;
 class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
-    code = this.props.navigation.state.params.code;
+    code = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, code, 'DELIVER');
     if (order.hasDetail !== true) {
       this.props.fetchOrderDetail(code, 'DELIVER');
@@ -100,7 +100,7 @@ class DeliveryOrderScreen extends Component {
   updateOrderToFailWithReason() {
     ActionLog.log(ActionLogCode.ORDER_DELIVER_FALSE, this.props.navigation);
 
-    updateOrderToFailWithReason2(order.receiverPhone, this.props.configuration, order.code)
+    updateOrderToFailWithReason2(order.receiverPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
 
       const errCode = CODES[buttonIndex];

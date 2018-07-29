@@ -79,7 +79,7 @@ class DeliveryByGroup extends Component {
       >
       <SectionList
         sections={sections}
-        keyExtractor={(item, index) => item.code }
+        keyExtractor={(item, index) => item.orderCode }
         renderItem={({ item, index, section }) => {
           if (!section.activeSection) return null;
           return (

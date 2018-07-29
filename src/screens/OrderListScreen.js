@@ -177,7 +177,7 @@ class OrderListScreen extends Component {
         {this.renderHeader()}
         {/* <FlatList
           data={pds.pdsItems}
-          renderItem={({ item }) => <View><Text>{item.code}</Text></View>}
+          renderItem={({ item }) => <View><Text>{item.orderCode}</Text></View>}
         /> */}
         <Content>
         <DataEmptyCheck
@@ -217,7 +217,7 @@ class OrderListScreen extends Component {
               </View>
             )}
             sections={sections}
-            keyExtractor={(item, index) => `${item.code}_${item.type}`}
+            keyExtractor={(item, index) => `${item.orderCode}_${item.type}`}
           /> 
         </DataEmptyCheck>
         </Content>

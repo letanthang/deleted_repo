@@ -16,7 +16,7 @@ class AddOrderScreen extends Component {
   addOrder() {
     ActionLog.log(ActionLogCode.ADD_ONE_ORDER, this.props.navigation);
     Keyboard.dismiss();
-    this.props.addOneOrder(this.state.code, 'PICK');
+    this.props.addOneOrder(this.state.orderCode, 'PICK');
   }
   render() {
     const { goBack } = this.props.navigation;

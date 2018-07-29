@@ -118,7 +118,7 @@ class PickGroupDetail extends Component {
   }
 
   checkDelivering(order) {
-    if (Utils.getOrder(this.props.db, order.code, 'DELIVER')) return true;
+    if (Utils.getOrder(this.props.db, order.orderCode, 'DELIVER')) return true;
     return false;
   }
 
@@ -170,7 +170,7 @@ class PickGroupDetail extends Component {
           <SectionList
             keyboardShouldPersistTaps='handled'
             sections={sections}
-            keyExtractor={(item, index) => item.code}
+            keyExtractor={(item, index) => item.orderCode}
             renderItem={({ item }) => {
               const isDelivering = this.checkDelivering(item);
               return (

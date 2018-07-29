@@ -21,25 +21,25 @@ export const appVersionName = '24/07';
 // const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
 // export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
-const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
-const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
-const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
-const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
-const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
-export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
-
-// const PDS_URL = 'http://api.dev.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.dev.lastmile.ghn.vn/acc/v1';
+// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/lastmile/v1';
+// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
 // const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
 // const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
 // const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
 // export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
+const PDS_URL = 'http://api.dev.lastmile.ghn.vn/trip/v2';
+const ACC_URL = 'http://api.dev.lastmile.ghn.vn/acc/v1';
+const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
+
 const Share = new ShareVariables();
 const mock = mockOn ? new MockAdapter(axios) : null;
 
 export const GetUserActivePdsInfo = (tripUserId) => {
-  const URL = `${PDS_URL}/trip/search`;
+  const URL = `${PDS_URL}/trip`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
@@ -71,7 +71,7 @@ export const fetchTripInfo = (tripUserId) => {
 };  
 
 export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime, senderHubId) => {
-  const URL = `${PDS_URL}/order/pda-search`;
+  const URL = `${PDS_URL}/mpds/order`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {

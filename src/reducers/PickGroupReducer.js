@@ -26,7 +26,7 @@ export default (state = nameInitialState, action) => {
       let OrderInfos = {};
       if (action.payload instanceof Array) {
         _.each(action.payload, info => {
-          OrderInfos[info.code] = info;
+          OrderInfos[info.orderCode] = info;
         });
       } else {
         OrderInfos = action.payload;

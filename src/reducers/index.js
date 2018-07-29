@@ -13,7 +13,6 @@ const appReducer = {
   other: OtherReducer,
   pickGroup: PickGroupReducer,
   returnGroup: ReturnGroupReducer,
-  // orderAdd: OrderAddReducer,
   config: ConfigReducer
 };
 

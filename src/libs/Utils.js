@@ -210,8 +210,8 @@ class Utils {
     return false;
   }
   static getKey = (orderID, type) => `${orderID}-${type}`;
-  static getOrder(items, code, type) {
-    return items[Utils.getKey(code, type)];
+  static getOrder(items, orderCode, type) {
+    return items[Utils.getKey(orderCode, type)];
   }
 
   static getReturnGroup(ReturnItems, senderHubId) {

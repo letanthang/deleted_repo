@@ -353,7 +353,7 @@ class BluetoothSerialExample extends Component {
 
   async printOrder() {
     // if (order) {
-    //   const { code, receiverAddress, receiverName } = order;
+    //   const { orderCode, receiverAddress, receiverName } = order;
     //   }
     // BluetoothSerial.write('+++hihi \n');
     // BluetoothSerial.writeImage('/storage/emulated/0/Pictures/Skype/arrow_up_20180307_145909.jpg');
@@ -373,7 +373,7 @@ class BluetoothSerialExample extends Component {
     // await BluetoothSerial.write('\n');
     // console.log(uri);
 
-    // this.write(`Order: ${code} \n`);
+    // this.write(`Order: ${orderCode} \n`);
     // this.write(`Fullname: ${receiverName} \n`);
     // this.write(`Address:  ${receiverAddress} \n`);
   }

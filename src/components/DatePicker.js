@@ -38,7 +38,7 @@ class DatePicker extends Component {
         const newDate = new Date(year, month, day);
         onDateChange(newDate);
       }
-    } catch ({ code, message }) {
+    } catch ({ orderCode, message }) {
       console.warn('Cannot open date picker', message);
     }
   }

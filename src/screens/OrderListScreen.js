@@ -29,17 +29,17 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { code, senderHubId, clientId, type } = order;
+    const { orderCode, senderHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
     switch (type) {
       case 1:
-        navigate('PickOrder', { code, order, clientId, senderHubId });
+        navigate('PickOrder', { orderCode, order, clientId, senderHubId });
         break;
       case 2:
-        navigate('DeliveryOrder', { code });
+        navigate('DeliveryOrder', { orderCode });
         break;
       case 3:
-        navigate('ReturnOrder', { code, order, clientId, senderHubId });
+        navigate('ReturnOrder', { orderCode, order, clientId, senderHubId });
         break;
       default:
         break;
@@ -135,10 +135,10 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ code, externalCode }) {
+  checkKeywork({ orderCode, externalCode }) {
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
-      || code.toUpperCase().includes(keyword)
+      || orderCode.toUpperCase().includes(keyword)
       || (externalCode && externalCode.toUpperCase().includes(keyword));
   }
   renderNullData() {
@@ -186,7 +186,7 @@ class OrderListScreen extends Component {
         >
           <SectionList
             renderItem={({ item, index }) => { 
-              const { address, code, serviceName, status, TotalCollectedAmount, displayOrder } = item;
+              const { address, orderCode, serviceName, status, TotalCollectedAmount, displayOrder } = item;
               const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
               return (
                 <View style={DeliverGroupStyles.content}>
@@ -196,7 +196,7 @@ class OrderListScreen extends Component {
                     <View style={wrapperStyle}>
                       <View style={Styles.item2Style}>
                         <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                          {this.getDO(displayOrder)}{code}
+                          {this.getDO(displayOrder)}{orderCode}
                         </Text>
                         <Badge>
                           <Text>{serviceName}</Text>

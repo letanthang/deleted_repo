@@ -48,12 +48,12 @@ class OrderLabelsScreen extends Component {
 
   async printOrder(order) {
     try {
-      const { code, imageUri, imageUri1, imageUri2, imageUri3 } = order;
+      const { orderCode, imageUri, imageUri1, imageUri2, imageUri3 } = order;
       if (!imageUri) {
         Utils.showToast('Đơn chưa tạo nhãn!', 'danger');
         return;
       }
-      this.props.setOrder(code, { printed: true });
+      this.props.setOrder(orderCode, { printed: true });
       let uri = imageUri1.substring(7);
       await BluetoothSerial.writeImage(uri);
       uri = imageUri2.substring(7);
@@ -96,7 +96,7 @@ class OrderLabelsScreen extends Component {
     }
 
     const order = this.orders[this.state.index];
-    const { code } = order;
+    const { orderCode } = order;
     const { goBack, navigate } = this.props.navigation;
     return (
       <Container>
@@ -117,7 +117,7 @@ class OrderLabelsScreen extends Component {
           <Right  style={{ flex: 0.2 }}>
             <Button
               transparent
-              onPress={() => navigate('BluetoothExample', { code })}
+              onPress={() => navigate('BluetoothExample', { orderCode })}
             >
               <IC name="bluetooth-connect" size={28} color="white" />
             </Button>

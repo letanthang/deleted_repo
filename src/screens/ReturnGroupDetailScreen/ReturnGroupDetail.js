@@ -48,20 +48,20 @@ class PickGroupDetail extends Component {
     return false;
   }
 
-  checkKeywork({ code, externalCode }) {
+  checkKeywork({ orderCode, externalCode }) {
     const keyword = this.props.keyword.toUpperCase(); 
     return this.props.keyword === '' 
-      || code.toUpperCase().includes(keyword)
+      || orderCode.toUpperCase().includes(keyword)
       || (externalCode && externalCode.toUpperCase().includes(keyword));
   }
   onOrderPress(order) {
-    const { code } = order;
+    const { orderCode } = order;
     const { clientId, senderHubId } = this.pickGroup;
     
     if (this.type === 'PICK') {
-      navigateOnce(this, 'PickOrder', { code, order, clientId, senderHubId });
+      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId });
     } else if (this.type === 'RETURN') {
-      navigateOnce(this, 'ReturnOrder', { code, order, senderHubId });
+      navigateOnce(this, 'ReturnOrder', { orderCode, order, senderHubId });
     }
   }
 
@@ -72,8 +72,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { code, type } = this.order;
-      this.props.updateOrderInfo(code, type, moreInfo);
+      const { orderCode, type } = this.order;
+      this.props.updateOrderInfo(orderCode, type, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -113,7 +113,7 @@ class PickGroupDetail extends Component {
             renderItem={({ item }) => {
               const order = item;
               const { 
-                code, receiverName, receiverPhone,
+                orderCode, receiverName, receiverPhone,
                 externalCode, moneyCollect, success, note, newDate
               } = item;
               const fullNote = Utils.getFullNote(note, newDate);
@@ -124,7 +124,7 @@ class PickGroupDetail extends Component {
                   <View style={[Styles.orderWrapperStyle]}>
                     <View style={Styles.item2Style}>
                       <View style={{ flexDirection: 'row' }}>
-                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{code}</Text>
+                        <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>
                         <OrderStatusText 
                           order={order}
                           style={{ marginLeft: 10 }}

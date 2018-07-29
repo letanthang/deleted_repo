@@ -69,7 +69,7 @@ export const fetchTripInfoFail = (error) => {
   // [
   //   {  
   //     PDSDetailID,
-  //     code,
+  //     orderCode,
   //     PDSType,
   //     nextStatus,
   //     senderHubId,
@@ -124,8 +124,8 @@ export const updateOrderGroup = (updateList) => {
   };
 };
 
-export const addOneOrder = (code, type, senderHubId) => {
-  return { type: PD_ADD_ORDER, payload: { order: { code, type }, senderHubId } };
+export const addOneOrder = (orderCode, type, senderHubId) => {
+  return { type: PD_ADD_ORDER, payload: { order: { orderCode, type }, senderHubId } };
 };
 
 
@@ -134,18 +134,18 @@ export const getNewOrdersForAdd = (senderHubId) => {
 };
 
 
-// const orders = [ {code, type} ]
+// const orders = [ {orderCode, type} ]
 export const addMultiOrders = (response, senderHubId) => {
   const orders = response.data.map((o) => {
-    return { code: o.orderCode, type: 'PICK' };
+    return { orderCode: o.orderCode, type: 'PICK' };
   });
   return { type: PD_ADD_ORDERS, payload: { orders, senderHubId } };
 };
 
-export const updateOrderInfo = (code, type, info) => {
+export const updateOrderInfo = (orderCode, type, info) => {
   return {
     type: PD_UPDATE_ORDER_INFO,
-    payload: { code, type, info },
+    payload: { orderCode, type, info },
   };
 };
 
@@ -164,10 +164,10 @@ export const toggleGroupActive = (groupIndex) => {
   };
 };
 
-export const toggleOrderGroup = (code) => {
+export const toggleOrderGroup = (orderCode) => {
   return {
     type: PD_TOGGLE_ORDER_GROUP,
-    payload: { code },
+    payload: { orderCode },
   };
 };
 export const updateOrders = (orders) => {
@@ -210,29 +210,29 @@ export const stopLoading = () => {
   };
 };
 
-export const fetchOrderDetail = (code, type) => {
-  return { type: PD_FETCH_DETAIL, payload: { code, type } };
+export const fetchOrderDetail = (orderCode, type) => {
+  return { type: PD_FETCH_DETAIL, payload: { orderCode, type } };
 };
 
 export const fetchOrderDetailFail = (error) => {
   return { type: PD_FETCH_DETAIL_FAIL, payload: { error } };
 };
 
-export const fetchOrderDetailSuccess = (response, code, type) => {
-  return { type: PD_FETCH_DETAIL_SUCCESS, payload: { data: response.data[0], code, type } };
+export const fetchOrderDetailSuccess = (response, orderCode, type) => {
+  return { type: PD_FETCH_DETAIL_SUCCESS, payload: { data: response.data[0], orderCode, type } };
 };
 
 export const fetchOrderLabelFail = (error) => {
   return { type: PD_FETCH_LABEL_FAIL, payload: { error } };
 };
 
-export const fetchOrderLabelSuccess = (response, code, type) => {
-  return { type: PD_FETCH_LABEL_SUCCESS, payload: { data: response.data[0], code, type } };
+export const fetchOrderLabelSuccess = (response, orderCode, type) => {
+  return { type: PD_FETCH_LABEL_SUCCESS, payload: { data: response.data[0], orderCode, type } };
 };
 
-export const setOrder = (code, props) => {
+export const setOrder = (orderCode, props) => {
   return {
     type: PD_SET_ORDER_PROPS,
-    payload: { code, props },
+    payload: { orderCode, props },
   };
 };

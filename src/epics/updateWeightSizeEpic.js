@@ -25,7 +25,7 @@ const updateWeightSizeEpic = action$ =>
             case 'OK':
               return {
                 type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-                payload: { code: orderCode, length, width, height, weight, tripCode, reason }
+                payload: { orderCode: orderCode, length, width, height, weight, tripCode, reason }
               };
             default:
               return { type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: response.message } };

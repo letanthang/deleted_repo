@@ -41,9 +41,9 @@ const updateOrderEpic = (action$, store) =>
       // filter
       // transform OrderInfos
       const filterInfos = OrderInfos.map((info) => {
-        const { code, nextDate, noteId, note, action } = info;
+        const { orderCode, nextDate, noteId, note, action } = info;
         const nextRedoTime = Utils.getDateForNote(noteId, nextDate);
-        return { code, tripCode, nextRedoTime, failCode: noteId, failNote: note, action };
+        return { orderCode, tripCode, nextRedoTime, failCode: noteId, failNote: note, action };
       });
       return API.updateOrderStatus(filterInfos.slice(0, limit))
         .map(({ data }) => {

@@ -15,7 +15,7 @@ import { updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
 
 let senderHubId = null;
-let code = null;
+let orderCode = null;
 let clientId = null;
 let waitToSave = false;
 let calculated = false;
@@ -23,7 +23,7 @@ class POUpdateWeightSizeScreen extends Component {
   state = { weight: null, height: null, length: null, width: null, CalculateWeight: null }
 
   componentWillMount() {
-    code = this.props.navigation.state.params.orderCode;
+    orderCode = this.props.navigation.state.params.orderCode;
     senderHubId = this.props.navigation.state.params.senderHubId;
     clientId = this.props.navigation.state.params.clientId;
   }
@@ -78,7 +78,7 @@ class POUpdateWeightSizeScreen extends Component {
       height: parseInt(height),
       weight: parseInt(weight),
       tripCode,
-      orderCode: code,
+      orderCode: orderCode,
       reason: 'Hang to bat thuong'
     };
     console.log('onSaveWeightSize');
@@ -89,7 +89,7 @@ class POUpdateWeightSizeScreen extends Component {
 
     const { length, weight, width, height } = this.state;
     const { serviceId, fromDistrictId, toDistrictId } = order;
-    const params = {  weight, length, width, height, code, clientId, serviceId, fromDistrictId, toDistrictId };
+    const params = {  weight, length, width, height, orderCode, clientId, serviceId, fromDistrictId, toDistrictId };
     calculated = true;
     this.props.calculateServiceFee(params);
   }
@@ -122,7 +122,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
-    const order = Utils.getOrder(this.props.db, code, 'PICK');
+    const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     const { moneyCollect, weight, length, width, height } = order;
     // console.log(moneyCollect, weight, length, width, height);
     // return null;
@@ -148,7 +148,7 @@ class POUpdateWeightSizeScreen extends Component {
             </Button>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{code}</Title>
+            <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle} />
         </Header>

@@ -12,14 +12,14 @@ import { combineEpics } from 'redux-observable';
 const fetchOrderDetailEpic = (action$, store) =>
   action$.ofType(PD_FETCH_DETAIL)
     .map(action => action.payload)
-    .mergeMap(({ code, type }) =>
-      API.getOrderDetail(code, type, store.getState().pd.tripCode)
+    .mergeMap(({ orderCode, type }) =>
+      API.getOrderDetail(orderCode, type, store.getState().pd.tripCode)
         .map(({ data }) => {
           const response = data;
           //console.log(response);
           switch (response.status) {
             case 'OK':
-              return fetchOrderDetailSuccess(response, code, type);
+              return fetchOrderDetailSuccess(response, orderCode, type);
             case 'NOT_FOUND': {
               return fetchOrderDetailFail('SERVICE NOT FOUND');
             }
@@ -34,14 +34,14 @@ const fetchOrderDetailEpic = (action$, store) =>
     action$.ofType(PD_FETCH_DETAIL)
       .filter(action => action.payload.type === 'PICK')
       .map(action => action.payload)
-      .mergeMap(({ code, type }) =>
-        API.getOrderLabel(code)
+      .mergeMap(({ orderCode, type }) =>
+        API.getOrderLabel(orderCode)
           .map(({ data }) => {
             const response = data;
             //console.log(response);
             switch (response.status) {
               case 'OK':
-                return fetchOrderLabelSuccess(response, code, type);
+                return fetchOrderLabelSuccess(response, orderCode, type);
               case 'NOT_FOUND': {
                 return fetchOrderLabelFail('SERVICE NOT FOUND');
               }

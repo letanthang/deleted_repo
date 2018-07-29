@@ -39,8 +39,8 @@ class OrderLabelScreen extends Component {
 }
 
   render() {
-    const code = this.props.navigation.state.params.orderCode;
-    const order = Utils.getOrder(this.props.db, code, 'PICK');
+    const orderCode = this.props.navigation.state.params.orderCode;
+    const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     // console.log('OrderLabel render');
     const { navigate, goBack } = this.props.navigation;
     const { receiverName, receiverAddress, receiverPhone } = order;
@@ -60,12 +60,12 @@ class OrderLabelScreen extends Component {
             </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>In đơn {code}</Title>
+            <Title>In đơn {orderCode}</Title>
           </Body>
           <Right style={{ flex: 0.2 }}>
             <Button
               transparent
-              onPress={() => navigate('BluetoothExample', { code })}
+              onPress={() => navigate('BluetoothExample', { orderCode })}
             >
               <IC name="bluetooth-connect" size={28} color="white" />
             </Button>

@@ -27,23 +27,23 @@ class Label2 extends Component {
     this.refs.viewShot.capture()
       .then(uri => {
         console.log(uri)
-        const { code } = this.props.order;
-        this.props.setOrder(code, { imageUri: uri });
+        const { orderCode } = this.props.order;
+        this.props.setOrder(orderCode, { imageUri: uri });
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 0 }, size: { width: 362, height: 250 } },
-          u => { this.props.setOrder(code, { imageUri1: u }); console.log(u); },
+          u => { this.props.setOrder(orderCode, { imageUri1: u }); console.log(u); },
           error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
           (u) => {
-            this.props.setOrder(code, { imageUri2: u })
+            this.props.setOrder(orderCode, { imageUri2: u })
             setTimeout(this.props.nextOrder, 20)
           }, 
           error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 20 } }, 
           (u) => {
-            this.props.setOrder(code, { imageUri3: u })
+            this.props.setOrder(orderCode, { imageUri3: u })
             // setTimeout(this.props.nextOrder, 20)
           }, 
           error => console.log(error));
@@ -73,7 +73,7 @@ class Label2 extends Component {
 }
 
   render() {
-    const { receiverName, receiverAddress, receiverPhone, imageUri, code, senderAddress, clientRequiredNote, externalCode } = this.props.order;
+    const { receiverName, receiverAddress, receiverPhone, imageUri, orderCode, senderAddress, clientRequiredNote, externalCode } = this.props.order;
     // console.log(order);
     
     return (
@@ -136,15 +136,15 @@ class Label2 extends Component {
           </View>
                 
           <View style={{ height: 125, marginTop: 4, flex: 1, alignItems: 'center' }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{code}</Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{orderCode}</Text>
             <Barcode
-              value={code}
+              value={orderCode}
               format="CODE128"
               height={70}
               width={2}
               color='black'
             />
-            {/* <Text style={{ marginTop: -100, backgroundColor: 'white' }}>{code}</Text> */}
+            {/* <Text style={{ marginTop: -100, backgroundColor: 'white' }}>{orderCode}</Text> */}
           </View>
         </ViewShot>
         : 

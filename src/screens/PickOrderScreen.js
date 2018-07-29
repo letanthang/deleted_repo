@@ -27,7 +27,7 @@ import ActionLog from '../libs/ActionLog';
 
 let clientId = null;
 let senderHubId = null;
-let code = null;
+let orderCode = null;
 let order = {};
 class PickOrderScreen extends Component {
   state = { modalShow: false }
@@ -35,12 +35,12 @@ class PickOrderScreen extends Component {
   componentWillMount() {
     clientId = this.props.navigation.state.params.clientId;
     senderHubId = this.props.navigation.state.params.senderHubId;
-    code = this.props.navigation.state.params.orderCode;
-    order = Utils.getOrder(this.props.db, code, 'PICK');
+    orderCode = this.props.navigation.state.params.orderCode;
+    order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     if (order.hasDetail !== true) {
-      this.props.fetchOrderDetail(code, 'PICK');
+      this.props.fetchOrderDetail(orderCode, 'PICK');
     }
-    this.props.getOrderHistory(code);
+    this.props.getOrderHistory(orderCode);
     console.log('PickOrderScreen mount ', order);
   }
   componentDidMount() {
@@ -49,7 +49,7 @@ class PickOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, code, 'PICK');
+    const newOrder = Utils.getOrder(db, orderCode, 'PICK');
     if (order.status !== newOrder.status) {
       this.goBack()
     }
@@ -106,8 +106,8 @@ class PickOrderScreen extends Component {
     updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
 
-      const code = codes[buttonIndex];
-      const logCode = ErrorToLogCode[code];
+      const orderCode = codes[buttonIndex];
+      const logCode = ErrorToLogCode[orderCode];
       if (logCode) {
         ActionLog.log(logCode, this.props.navigation);
       }
@@ -177,7 +177,7 @@ class PickOrderScreen extends Component {
       this.goBack();
       return this.renderNullData();
     } 
-    const history = this.props.orderHistory[code];
+    const history = this.props.orderHistory[orderCode];
     const historyString = Utils.getHistoryString(history);
     
     const { 
@@ -201,13 +201,13 @@ class PickOrderScreen extends Component {
           </View>
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>{code}</Title>
+            <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             {/* { !done ?
             <Button
               transparent
-              onPress={() => navigate('POUpdateWeightSize', { code, clientId, senderHubId })}
+              onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, senderHubId })}
             >
               <Icon name="create" />
             </Button>
@@ -215,7 +215,7 @@ class PickOrderScreen extends Component {
             {Platform.OS == 'android' ?
             <Button
               transparent
-              onPress={() => navigate('OrderLabelNew', { code })}
+              onPress={() => navigate('OrderLabelNew', { orderCode })}
             >
               <IC name="printer" size={28} color="white" />
             </Button>

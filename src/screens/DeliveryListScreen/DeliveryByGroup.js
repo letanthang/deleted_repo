@@ -26,8 +26,8 @@ class DeliveryByGroup extends Component {
 
   onDeliveryOrderPressOnce = _.debounce(this.onDeliveryOrderPress, 300, { leading: true, trailing: false });
 
-  onDeliveryOrderPress(code) {
-    this.props.navigation.navigate('DeliveryOrder', { code });
+  onDeliveryOrderPress(orderCode) {
+    this.props.navigation.navigate('DeliveryOrder', { orderCode });
   }
 
   renderStatusText(order) {
@@ -37,11 +37,11 @@ class DeliveryByGroup extends Component {
       <StatusText text={DisplayStatus} colorTheme={StatusColor} />
     );
   }
-  checkKeywork({ code, clientName, senderName, receiverAddress, senderPhone, receiverPhone }) {
+  checkKeywork({ orderCode, clientName, senderName, receiverAddress, senderPhone, receiverPhone }) {
     // console.log(clientName, senderName, receiverAddress, senderPhone, receiverPhone);
     const keyword = this.state.keyword.toUpperCase();
     return this.state.keyword === '' 
-      || code.toUpperCase().includes(keyword)
+      || orderCode.toUpperCase().includes(keyword)
       || (clientName && clientName.toUpperCase().includes(keyword))
       || (senderPhone && senderPhone.toUpperCase().includes(keyword))
       || (receiverPhone && receiverPhone.toUpperCase().includes(keyword))

@@ -18,19 +18,19 @@ import ActionModal from '../components/ActionModal';
 import FormButton from '../components/FormButton';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/ReturnHelpers';
 
-let code = null;
+let orderCode = null;
 let order = {};
 class ReturnOrderScreen extends Component {
   state = { modalShow: false } 
   componentWillMount() {
-    code = this.props.navigation.state.params.orderCode;
-    order = Utils.getOrder(this.props.db, code, 'RETURN');
-    this.props.getOrderHistory(code);
+    orderCode = this.props.navigation.state.params.orderCode;
+    order = Utils.getOrder(this.props.db, orderCode, 'RETURN');
+    this.props.getOrderHistory(orderCode);
   }
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, code, 'RETURN');
+    const newOrder = Utils.getOrder(db, orderCode, 'RETURN');
     if (order.status !== newOrder.status) {
       this.props.navigation.goBack();
     }
@@ -132,7 +132,7 @@ class ReturnOrderScreen extends Component {
       clientExtraNote, clientRequiredNote
     } = order;
 
-    const historyString = Utils.getHistoryString(this.props.orderHistory[code]);
+    const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -147,7 +147,7 @@ class ReturnOrderScreen extends Component {
           </Left>
           
           <Body style={Styles.bodyStyle}>
-            <Title>{code}</Title>
+            <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
             <Button

@@ -8,8 +8,8 @@ import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 class DeliveryItem extends Component {
   shouldComponentUpdate({ order }) {
     const old = this.props.order;
-    const { code, status, nextStatus } = order;
-    if (code === old.orderCode && status === old.status && nextStatus === old.nextStatus ) {
+    const { orderCode, status, nextStatus } = order;
+    if (orderCode === old.orderCode && status === old.status && nextStatus === old.nextStatus ) {
       return false;
     }
     return true;
@@ -17,17 +17,17 @@ class DeliveryItem extends Component {
   render() {
     // console.log('Render DeliveryItem');
     const { order, index, onDeliveryOrderPressOnce, renderStatusText } = this.props;
-    const { receiverAddress, code, displayOrder, serviceName } = order;
+    const { receiverAddress, orderCode, displayOrder, serviceName } = order;
     const wrapperStyle = index === 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
     
     return (
       <TouchableOpacity
-        onPress={onDeliveryOrderPressOnce.bind(this, code)}
+        onPress={onDeliveryOrderPressOnce.bind(this, orderCode)}
       >
         <View style={wrapperStyle}>
           <View style={Styles.item2Style}>
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-              [{displayOrder}] {code}
+              [{displayOrder}] {orderCode}
             </Text>
             {serviceName ?
               <Badge>

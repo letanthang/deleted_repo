@@ -19,8 +19,8 @@ class DeliveryGroupCreate extends Component {
     this.setState({ groupName: `Nhóm ${groupLength}` });
   }
   
-  onOrderChecked(code) {
-    this.props.toggleOrderGroup(code);
+  onOrderChecked(orderCode) {
+    this.props.toggleOrderGroup(orderCode);
   }
   onCreateGroup(items) {
     const list = items.filter(o => o.groupChecked === true);
@@ -78,15 +78,15 @@ class DeliveryGroupCreate extends Component {
             keyExtractor={(item, index) => item.orderCode}
             renderItem={({ item }) => {
               const order = item;
-              const { receiverAddress, code, groupChecked } = order;
+              const { receiverAddress, orderCode, groupChecked } = order;
               return (
                 <TouchableOpacity
-                  onPress={this.onOrderChecked.bind(this, code)}
+                  onPress={this.onOrderChecked.bind(this, orderCode)}
                 >
                   <View style={Styles.rowStyle}>
                     <View style={[DeliverGroupStyles.col1Style]}>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                        {code}
+                        {orderCode}
                       </Text>
                       <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
                         {receiverAddress}
@@ -97,7 +97,7 @@ class DeliveryGroupCreate extends Component {
                     >
                       <CheckBox 
                         style={{ backgroundColor: '#fff' }}
-                        onPress={this.onOrderChecked.bind(this, code)}
+                        onPress={this.onOrderChecked.bind(this, orderCode)}
                         checked={groupChecked}
                       />
                     </View>

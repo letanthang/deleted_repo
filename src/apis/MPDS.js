@@ -227,13 +227,13 @@ export const GetConfiguration = (configKey = null) => {
 //   return axios.post(URL, params, config);
 // };
 
-export const GetOrderDetailInfo = (code, type, tripCode) => {
+export const GetOrderDetailInfo = (orderCode, type, tripCode) => {
   const URL = `${PDS_URL}/order/multi`;
   const LoginHeader = Share.LoginHeader;
 
   const params = {
     orders: [{
-      code, tripCode, type, objectType: ['ORDER_DETAIL'],
+      orderCode, tripCode, type, objectType: ['ORDER_DETAIL'],
     }],
   };
   const config = {
@@ -248,12 +248,12 @@ export const GetOrderDetailInfo = (code, type, tripCode) => {
   return axios.post(URL, params, config);
 };
 
-export const getOrderDetail = (code, type, tripCode) => {
-  return fromPromise(GetOrderDetailInfo(code, type, tripCode));
+export const getOrderDetail = (orderCode, type, tripCode) => {
+  return fromPromise(GetOrderDetailInfo(orderCode, type, tripCode));
 };
 
-export const GetOrderLabel = (code) => {
-  const URL = `${INSIDE_URL}/label/${code}`;
+export const GetOrderLabel = (orderCode) => {
+  const URL = `${INSIDE_URL}/label/${orderCode}`;
   const config = {
   };
 
@@ -264,14 +264,14 @@ export const GetOrderLabel = (code) => {
   return axios.get(URL, config);
 };
 
-export const getOrderLabel = (code) => {
-  return fromPromise(GetOrderLabel(code));
+export const getOrderLabel = (orderCode) => {
+  return fromPromise(GetOrderLabel(orderCode));
 };
 
 // {
 // 	"orders": [
 // 		{
-// 			"code": "3DANFHXU",
+// 			"orderCode": "3DANFHXU",
 // 			"type": "PICK"
 // 		}
 // 	]
@@ -298,14 +298,14 @@ export const addOrders = (orders, tripCode) => {
   return fromPromise(AddOrders(orders, tripCode));
 };
 
-export const GetOrderHistory = (code) => {
+export const GetOrderHistory = (orderCode) => {
   const URL = `${PDS_URL}/order-history/search`;
   const LoginHeader = Share.LoginHeader;
 
   const config = {
     headers: LoginHeader,
     timeout,
-    params: { offset: 0, limit: 200, q: { code, historyType: 'UPDATE_TRIP_ACTION' } },
+    params: { offset: 0, limit: 200, q: { orderCode, historyType: 'UPDATE_TRIP_ACTION' } },
   };
 
   if (mockOn) {

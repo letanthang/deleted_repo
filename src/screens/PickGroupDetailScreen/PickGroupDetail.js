@@ -67,22 +67,22 @@ class PickGroupDetail extends Component {
     }
   }
 
-  checkKeywork({ code, externalCode }) {
+  checkKeywork({ orderCode, externalCode }) {
     const keyword = this.props.keyword.toUpperCase()
     return this.props.keyword === '' 
-      || code.toUpperCase().includes(keyword)
+      || orderCode.toUpperCase().includes(keyword)
       || (externalCode && externalCode.toUpperCase().includes(keyword));
   }
 
   onOrderPress(order) {
   
-    const { code } = order;
+    const { orderCode } = order;
     const { clientId, senderHubId } = this.pickGroup;
     Keyboard.dismiss();
     if (this.type === 'PICK') {
-      navigateOnce(this, 'PickOrder', { code, order, clientId, senderHubId, refresh: this.props.refresh });
+      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh });
     } else if (this.type === 'RETURN') {
-      navigateOnce(this, 'ReturnOrder', { code, order, senderHubId, refresh: this.props.refresh });
+      navigateOnce(this, 'ReturnOrder', { orderCode, order, senderHubId, refresh: this.props.refresh });
     }
   }
 
@@ -93,8 +93,8 @@ class PickGroupDetail extends Component {
       this.props.updateOrderInfos(OrderInfos);
     } else {
       const moreInfo = getUpdateOrderInfo(this.order, this.buttonIndex, timestamp);
-      const { code, type } = this.order;
-      this.props.updateOrderInfo(code, type, moreInfo);
+      const { orderCode, type } = this.order;
+      this.props.updateOrderInfo(orderCode, type, moreInfo);
     }
     this.setState({ modalShow: !this.state.modalShow });
   }
@@ -113,8 +113,8 @@ class PickGroupDetail extends Component {
     newOrder.type = 'DELIVER';
     newOrder.status = 'DELIVERING';
     newOrder.Group = null;
-    const { code, type, senderHubId } = newOrder;
-    this.props.addOneOrder(code, type, senderHubId);
+    const { orderCode, type, senderHubId } = newOrder;
+    this.props.addOneOrder(orderCode, type, senderHubId);
   }
 
   checkDelivering(order) {

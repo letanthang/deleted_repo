@@ -2,7 +2,7 @@ export const infoResponse = {
     "status": "OK",
     "data": [
       {
-        "code": "184122056HC7B",
+        "orderCode": "184122056HC7B",
         "status": "NEW",
         "hubId": "1220",
         "createdById": "1006",
@@ -24,7 +24,7 @@ export const orderDetailResponse = {
 "data": [
     {
     "tripCode": "1841416KQPRP2",
-    "code": "321ABC123A",
+    "orderCode": "321ABC123A",
     "type": "PICK",
     "orderDetail": {
         "externalCode": "",
@@ -142,7 +142,7 @@ export const ordersResponse = {
         "lastUpdatedTime": "2018-07-28T23:59:45.008Z"
     },
     {
-    "code": "GHN-TEST-102",
+    "orderCode": "GHN-TEST-102",
     "tripCode": "18414164VNDP8",
     "type": "PICK",
     "status": "PICKING",
@@ -179,7 +179,7 @@ export const ordersResponse = {
     }
     },
     {
-    "code": "GHN-TEST-100",
+    "orderCode": "GHN-TEST-100",
     "tripCode": "18414164VNDP8",
     "type": "PICK",
     "status": "PICKED",
@@ -216,7 +216,7 @@ export const ordersResponse = {
     }
     },
     {
-    "code": "GHN-TEST-101",
+    "orderCode": "GHN-TEST-101",
     "tripCode": "18414164VNDP8",
     "type": "DELIVER",
     "status": "DELIVERING",
@@ -278,7 +278,7 @@ export const configResponse = {
             "numberOfRecord": 20,
             "endTimeTracking": 1045,
             "startTimeTracking": 500,
-            "code": 0,
+            "orderCode": 0,
             // "minDurationCallLogNoAnswer": "20000",
             // "minDurationCallLogUnconnected": "5000",
             // "repeatCallNoAnswer": "3",
@@ -411,7 +411,7 @@ export const updateStatusResponse = {
     "listSuccess": [],
     "listFail": [
         {
-            "code": "3DKX99HK",
+            "orderCode": "3DKX99HK",
             "type": "DELIVER",
             "message": "Order is not valid"
         }
@@ -425,14 +425,14 @@ export const orderHistoryResponse = {
     "status":"OK",
     "data":[
         {
-        "code":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
+        "orderCode":"3C5DFSAK","actionCode":"ADD_TO_PDS","userId":"210030","userName":"Lê Tấn Thắng",
         historyType: 'CREATE_TRIP', 
         createdById: 1006,
         createdByName: 'Nguyen Khanh Tuong',
         "date":"2018-03-16T04:39:42.330Z","id":"5aab4a8ee81ce73bda00004f","createdTime":"2018-03-16T04:39:42.331Z","lastUpdatedTime":"2018-03-16T04:39:42.331Z"
         },
         {
-        "code":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
+        "orderCode":"3C5DFSAK","actionCode":"UPDATE_STATUS","userId":"206353","userName":"Nguyễn Trương Quý",
         historyType: 'ADD_TO_TRIP', 
         createdById: 210030, 
         createdByName: 'Le Tan Thang',
@@ -583,7 +583,7 @@ export const cvsData = [
       "type":"PICK",
       "ShopOrders":[  
         {  
-          "code":"3GY6LFQL",
+          "orderCode":"3GY6LFQL",
           "tripCode":"1871323RDVDRF",
           "type":"PICK",
           "status":"PICKING",
@@ -624,7 +624,7 @@ export const cvsData = [
           "done":false
         },
         {  
-          "code":"3G54YRXD",
+          "orderCode":"3G54YRXD",
           "tripCode":"1871323RDVDRF",
           "type":"PICK",
           "status":"PICKING",
@@ -665,7 +665,7 @@ export const cvsData = [
           "done":false
         },
         {  
-          "code":"3GLFUYFH",
+          "orderCode":"3GLFUYFH",
           "tripCode":"1871323RDVDRF",
           "type":"PICK",
           "status":"PICKING",
@@ -706,7 +706,7 @@ export const cvsData = [
           "done":false
         },
         {  
-          "code":"3GY6LX65",
+          "orderCode":"3GY6LX65",
           "tripCode":"1871323RDVDRF",
           "type":"PICK",
           "status":"PICKING",
@@ -767,7 +767,7 @@ export const cvsData = [
       "type":"PICK",
       "ShopOrders":[  
         {  
-          "code":"3GUSYAR4",
+          "orderCode":"3GUSYAR4",
           "tripCode":"1871323RDVDRF",
           "type":"PICK",
           "status":"PICKING",
@@ -809,7 +809,7 @@ export const cvsData = [
           "done":false
         },
         {  
-          "code":"3GXN9AX6",
+          "orderCode":"3GXN9AX6",
           "tripCode":"1871323RDVDRF",
           "type":"PICK",
           "status":"PICKING",
@@ -851,7 +851,7 @@ export const cvsData = [
           "done":false
         },
         {  
-          "code":"3G4UF4RR",
+          "orderCode":"3G4UF4RR",
           "tripCode":"1871323RDVDRF",
           "type":"PICK",
           "status":"PICKING",

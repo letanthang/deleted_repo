@@ -25,7 +25,7 @@ class OrderItem extends Component {
     // console.log('OrderItem render!');
     const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase, resetAllButton, navigation } = this.props;
     const { 
-      code, receiverName, receiverPhone,
+      orderCode, receiverName, receiverPhone,
       height, width, weight, length, status,
       externalCode, moneyCollect, success, note, newDate, pickWarehouseId,
       deliverWarehouseId, done,
@@ -46,7 +46,7 @@ class OrderItem extends Component {
         <View style={[Styles.orderWrapperStyle, { backgroundColor }]}>
           <View style={Styles.item2Style}>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{code}</Text>
+              <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>
               <OrderStatusText
                 order={order}
                 style={{ marginLeft: 10 }}

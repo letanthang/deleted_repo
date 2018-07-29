@@ -17,25 +17,25 @@ class ActionButtons extends Component {
 
     this.props.resetAllButton();
     const { order, animated } = this.props;
-    const { code, type, senderPhone } = this.props.order;
+    const { orderCode, type, senderPhone } = this.props.order;
     let info = {};
     if (nextStatus === undefined) {
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
       info = { success: undefined, nextStatus: undefined };
-      this.props.updateOrderInfo(code, type, info);
+      this.props.updateOrderInfo(orderCode, type, info);
     } else if (nextStatus) {
       //picked
       ActionLog.log(ActionLogCode.SHOP_PICK_TRUE, this.props.navigation);
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
-      this.props.updateOrderInfo(code, type, info);
+      this.props.updateOrderInfo(orderCode, type, info);
     } else {
       //failed to pick
       ActionLog.log(ActionLogCode.SHOP_PICK_FALSE, this.props.navigation);
       info.success = nextStatus;
       const moreInfo = getUpdateOrderInfo(order);
-      this.props.updateOrderInfo(code, type, moreInfo);
+      this.props.updateOrderInfo(orderCode, type, moreInfo);
     }
   }
   render() {

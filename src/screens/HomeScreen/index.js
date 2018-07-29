@@ -354,8 +354,8 @@ class HomeScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            const { code } = _.find(this.props.pdsItems, o => o.type === 'PICK')
-            navigate('OrderLabelNew', { code })}
+            const { orderCode } = _.find(this.props.pdsItems, o => o.type === 'PICK')
+            navigate('OrderLabelNew', { orderCode })}
           }
         >
           <Card>

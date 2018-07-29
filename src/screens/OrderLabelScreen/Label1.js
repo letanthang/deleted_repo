@@ -27,15 +27,15 @@ class Label1 extends Component {
     this.refs.viewShot.capture()
       .then(uri => {
         console.log(uri)
-        const { code } = this.props.order;
-        this.props.setOrder(code, { imageUri: uri });
+        const { orderCode } = this.props.order;
+        this.props.setOrder(orderCode, { imageUri: uri });
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 0 }, size: { width: 362, height: 250 } }
-          , u => { this.props.setOrder(code, { imageUri1: u }); console.log(u); }
+          , u => { this.props.setOrder(orderCode, { imageUri1: u }); console.log(u); }
           , error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 120 } }, 
-          u => this.props.setOrder(code, { imageUri2: u }), error => console.log(error));
+          u => this.props.setOrder(orderCode, { imageUri2: u }), error => console.log(error));
         
         // CameraRoll.saveToCameraRoll(uri, 'photo')
         //   .then(u => {
@@ -60,7 +60,7 @@ class Label1 extends Component {
 }
 
   render() {
-    const { receiverName, receiverAddress, receiverPhone, imageUri, code } = this.props.order;
+    const { receiverName, receiverAddress, receiverPhone, imageUri, orderCode } = this.props.order;
     // console.log(order);
     
     return (
@@ -114,7 +114,7 @@ class Label1 extends Component {
           </View>
           <View style={{ marginTop: 6, height: 100, alignItems: 'center' }}>
             <Barcode
-              value={code}
+              value={orderCode}
               format="CODE128"
               height={80}
               width={2}

@@ -12,7 +12,7 @@ import { ActionLogCode } from '../components/Constant';
 import ActionLog from '../libs/ActionLog';
 
 class AddOrderScreen extends Component {
-  state = { code: '' }
+  state = { orderCode: '' }
   addOrder() {
     ActionLog.log(ActionLogCode.ADD_ONE_ORDER, this.props.navigation);
     Keyboard.dismiss();
@@ -21,8 +21,8 @@ class AddOrderScreen extends Component {
   render() {
     const { goBack } = this.props.navigation;
     const { pdsItems } = this.props;
-    const { code } = this.state;
-    const disabled = code.length < 7;
+    const { orderCode } = this.state;
+    const disabled = orderCode.length < 7;
     const style = disabled ? Styles.addButtonDisableStyle : Styles.addButtonStyle;
     console.log(disabled);
     return (
@@ -50,8 +50,8 @@ class AddOrderScreen extends Component {
             <View style={{ paddingTop: 16 }}>
               <TextInput 
                 placeholder='XXXXXXXX'
-                value={code}
-                onChangeText={(text) => this.setState({ code: text.toUpperCase() })}
+                value={orderCode}
+                onChangeText={(text) => this.setState({ orderCode: text.toUpperCase() })}
                 autoCorrect={false}
                 autoCapitalize='characters'
               />

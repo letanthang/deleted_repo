@@ -16,9 +16,9 @@ const nameInitialState = {
 export default (state = nameInitialState, action) => {
   switch (action.type) {
     case PICKGROUP_UPDATE_ORDER_INFO: {
-      const { code, info } = action.payload;
+      const { orderCode, info } = action.payload;
       const OrderInfos = _.clone(state.OrderInfos);
-      OrderInfos[code] = info;
+      OrderInfos[orderCode] = info;
       return { ...state, OrderInfos, allStatus: undefined };
     }
 

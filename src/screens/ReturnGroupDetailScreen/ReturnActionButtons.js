@@ -13,26 +13,26 @@ class ReturnActionButtons extends Component {
   }
   changeInfo(nextStatus) {
     const order = this.props.order;
-    const { code, type, senderPhone } = this.props.order;
+    const { orderCode, type, senderPhone } = this.props.order;
     let info = {};
     if (nextStatus === undefined) { 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
       info = { success: undefined, nextStatus: undefined };
-      this.props.updateOrderInfo(code, type, info);
+      this.props.updateOrderInfo(orderCode, type, info);
     } else if (nextStatus) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
       info.success = nextStatus;
-      this.props.updateOrderInfo(code, type, info);
+      this.props.updateOrderInfo(orderCode, type, info);
     } else {
       //failed to pick
       info.success = nextStatus;
-      updateOrderToFailWithReason2(senderPhone, this.props.configuration, code)
+      updateOrderToFailWithReason2(senderPhone, this.props.configuration, orderCode)
       .then(({ error, buttonIndex }) => {
         if (error === null) {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
           const moreInfo = getUpdateOrderInfo(order, buttonIndex);
-          this.props.updateOrderInfo(code, type, moreInfo);
+          this.props.updateOrderInfo(orderCode, type, moreInfo);
         } else if (error === 'moreCall') {
           // more call
         } else if (error === 'chooseDate') {

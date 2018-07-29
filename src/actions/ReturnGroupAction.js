@@ -7,11 +7,11 @@ import {
   RETURNGROUP_CHANGE_KEYWORD
 } from './types';
 
-export const updateOrderInfoReturn = (code, info) => {
+export const updateOrderInfoReturn = (orderCode, info) => {
   return (dispatch, getState) => {
     dispatch({
       type: RETURNGROUP_UPDATE_ORDER_INFO,
-      payload: { code, info }
+      payload: { orderCode, info }
     });
   };
 };

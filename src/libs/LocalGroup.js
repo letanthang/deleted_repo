@@ -76,9 +76,9 @@ class LocalGroup {
       // log error
     }
   }
-  static async setOrderGroup({ code, group }) {
+  static async setOrderGroup({ orderCode, group }) {
     try {
-      this.db.orderGroup[code] = group;
+      this.db.orderGroup[orderCode] = group;
       await this.saveDB();
     } catch (error) {
       //log error

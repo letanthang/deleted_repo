@@ -11,25 +11,25 @@ const logo = require('../../../resources/ghn_label_logo.jpg');
 class Label3 extends Component {
   state = { bcUri: null, fullUri: null }
   componentWillMount() {
-    const { imageUri, hasDetail, label, code } = this.props.order;
-    // console.log('Label3: mount', hasDetail, label, code, imageUri);
+    const { imageUri, hasDetail, label, orderCode } = this.props.order;
+    // console.log('Label3: mount', hasDetail, label, orderCode, imageUri);
     if (!hasDetail) {
       console.log('Label3: fetchDetail');
-      this.props.fetchOrderDetail(code, 'PICK');
+      this.props.fetchOrderDetail(orderCode, 'PICK');
     }
   }
   
   componentWillReceiveProps(nextProps) {
-    const { imageUri, hasDetail, label, code } = nextProps.order;
-    // console.log('Label3: props', hasDetail, label, code);
+    const { imageUri, hasDetail, label, orderCode } = nextProps.order;
+    // console.log('Label3: props', hasDetail, label, orderCode);
     if (!hasDetail) {
       console.log('Label3: fetchDetail');
-      this.props.fetchOrderDetail(code, 'PICK');
+      this.props.fetchOrderDetail(orderCode, 'PICK');
     }
   }
   isCapturing = false
   componentDidMount() {
-    const { imageUri, hasDetail, label, code } = this.props.order;
+    const { imageUri, hasDetail, label, orderCode } = this.props.order;
     if (imageUri == null && hasDetail && label && !this.isCapturing) {
       this.isCapturing = true;
       // console.log('did mount & begin capture')
@@ -49,26 +49,26 @@ class Label3 extends Component {
     this.refs.viewShot.capture()
       .then(uri => {
         console.log(uri)
-        const { code } = this.props.order;
-        this.props.setOrder(code, { imageUri: uri });
+        const { orderCode } = this.props.order;
+        this.props.setOrder(orderCode, { imageUri: uri });
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 0 }, size: { width: 362, height: 250 } },
           u => { 
-            this.props.setOrder(code, { imageUri1: u });
+            this.props.setOrder(orderCode, { imageUri1: u });
             this.isCapturing = false;
           },
           error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
           (u) => {
-            this.props.setOrder(code, { imageUri2: u })
+            this.props.setOrder(orderCode, { imageUri2: u })
             
           }, 
           error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 20 } }, 
           (u) => {
-            this.props.setOrder(code, { imageUri3: u })
+            this.props.setOrder(orderCode, { imageUri3: u })
             setTimeout(this.props.nextOrder, 28)
           }, 
           error => console.log(error));
@@ -99,7 +99,7 @@ class Label3 extends Component {
 
   render() {
     const { receiverName, receiverAddress, receiverPhone, imageUri, 
-      code, clientRequiredNote, externalCode, label1, label2, 
+      orderCode, clientRequiredNote, externalCode, label1, label2, 
       toDistrictName, pickWarehouseId, deliverWarehouseId } = this.props.order;
     // console.log(order);
     
@@ -163,15 +163,15 @@ class Label3 extends Component {
           </View>
                 
           <View style={{ height: 123, marginTop: 4, flex: 1, alignItems: 'center' }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{code}</Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{orderCode}</Text>
             <Barcode
-              value={code}
+              value={orderCode}
               format="CODE128"
               height={70}
               width={2}
               color='black'
             />
-            {/* <Text style={{ marginTop: -100, backgroundColor: 'white' }}>{code}</Text> */}
+            {/* <Text style={{ marginTop: -100, backgroundColor: 'white' }}>{orderCode}</Text> */}
           </View>
         </ViewShot>
         : 

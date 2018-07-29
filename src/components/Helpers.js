@@ -28,10 +28,10 @@ function alertMissOfCall(phoneNumber) {
   );
 }
 
-export function updateOrderToFailWithReason2(phone, configuration, code = null) {
+export function updateOrderToFailWithReason2(phone, configuration, orderCode = null) {
   return new Promise((resolve, reject) => {
     const senderPhone = phone;
-    const title = code ? `Chọn lý do lỗi cho đơn ${code}` : `Chọn lý do lỗi cho tất cả các đơn này`;
+    const title = orderCode ? `Chọn lý do lỗi cho đơn ${orderCode}` : `Chọn lý do lỗi cho tất cả các đơn này`;
     ActionSheet.show(
       {
         options: buttons,
@@ -78,7 +78,7 @@ export function updateOrderToFailWithReason2(phone, configuration, code = null) 
   // [
   //   {  
   //     PDSDetailID,
-  //     code,
+  //     orderCode,
   //     PDSType,
   //     nextStatus,
   //     senderHubId,
@@ -89,23 +89,23 @@ export function updateOrderToFailWithReason2(phone, configuration, code = null) 
   //     NoteCode,
   //   },
 export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
-  const { code, type } = order;
+  const { orderCode, type } = order;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
   const nextStatus = 'READY_TO_PICK';
   const action = 'PICK_FAIL';
   const success = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { code, nextDate, newDate, noteId, note, action, nextStatus, type, success };
+  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, type, success };
 }
 
 export function getUpdateOrderInfoForDone(order, newDate = null) {
-  const { code, type } = order;
+  const { orderCode, type } = order;
   const noteId = 'Storing'; 
   const note = '';
   const nextStatus = 'PICKED';
   const action = 'PICK_SUCCESS';
   const success = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { code, nextDate, newDate, noteId, note, action, nextStatus, type, success };
+  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, type, success };
 }

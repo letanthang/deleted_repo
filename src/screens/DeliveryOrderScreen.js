@@ -23,16 +23,16 @@ import ActionLog from '../libs/ActionLog';
 
 
 let order = null;
-let code = null;
+let orderCode = null;
 class DeliveryOrderScreen extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false }
   componentWillMount() {
-    code = this.props.navigation.state.params.orderCode;
-    order = Utils.getOrder(this.props.db, code, 'DELIVER');
+    orderCode = this.props.navigation.state.params.orderCode;
+    order = Utils.getOrder(this.props.db, orderCode, 'DELIVER');
     if (order.hasDetail !== true) {
-      this.props.fetchOrderDetail(code, 'DELIVER');
+      this.props.fetchOrderDetail(orderCode, 'DELIVER');
     }
-    this.props.getOrderHistory(code);
+    this.props.getOrderHistory(orderCode);
   }
 
   componentDidMount() {
@@ -41,7 +41,7 @@ class DeliveryOrderScreen extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.db != nextProps.db) {
-      const newOrder = Utils.getOrder(nextProps.db, code, 'DELIVER');
+      const newOrder = Utils.getOrder(nextProps.db, orderCode, 'DELIVER');
       if (order.status !== newOrder.status) {
         this.props.navigation.goBack();
       }
@@ -172,7 +172,7 @@ class DeliveryOrderScreen extends Component {
       displayOrder,
     } = order;
 
-    const historyString = Utils.getHistoryString(this.props.orderHistory[code]);
+    const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
 
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -190,7 +190,7 @@ class DeliveryOrderScreen extends Component {
             
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>[{displayOrder}] {code}</Title>
+            <Title>[{displayOrder}] {orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
           </Right>

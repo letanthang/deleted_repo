@@ -27,18 +27,18 @@ class OrderListScreen extends Component {
   }
 
   onDeliveryOrderPress(order) {
-    const { code, senderHubId, clientId, type } = order;
+    const { orderCode, senderHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
     Keyboard.dismiss();
     switch (type) {
       case 'PICK':
-        navigate('PickOrder', { code, order, clientId, senderHubId, refresh: this.props.refresh });
+        navigate('PickOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh });
         break;
       case 'DELIVER':
-        navigate('DeliveryOrder', { code, refresh: this.props.refresh });
+        navigate('DeliveryOrder', { orderCode, refresh: this.props.refresh });
         break;
       case 'RETURN':
-        navigate('ReturnOrder', { code, order, clientId, senderHubId, refresh: this.props.refresh });
+        navigate('ReturnOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh });
         break;
       default:
         break;
@@ -70,10 +70,10 @@ class OrderListScreen extends Component {
     );
   }
   
-  checkKeywork({ code, externalCode, clientName, senderName, receiverName, address, senderPhone, receiverPhone }) {
+  checkKeywork({ orderCode, externalCode, clientName, senderName, receiverName, address, senderPhone, receiverPhone }) {
     const keyword = this.props.keyword.toUpperCase();
     return !this.props.keyword || this.props.keyword === '' 
-    || code.toUpperCase().includes(keyword)
+    || orderCode.toUpperCase().includes(keyword)
     || (externalCode && externalCode.toUpperCase().includes(keyword))
     || (clientName && clientName.toUpperCase().includes(keyword))
     || (senderPhone && senderPhone.toUpperCase().includes(keyword))

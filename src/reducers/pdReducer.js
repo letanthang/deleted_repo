@@ -140,7 +140,7 @@ export default (state = nameInitialState, action) => {
   // [
   //   {  
   //     PDSDetailID,
-  //     code,
+  //     orderCode,
   //     PDSType,
   //     nextStatus,
   //     senderHubId,
@@ -217,8 +217,8 @@ export default (state = nameInitialState, action) => {
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const { code, serviceCost, length, width, height, weight } = action.payload;
-      const order = Utils.getOrder(pdsItems, code, 'PICK');
+      const { orderCode, serviceCost, length, width, height, weight } = action.payload;
+      const order = Utils.getOrder(pdsItems, orderCode, 'PICK');
       if (order.moneyCollect != 0) {
         order.moneyCollect = serviceCost;
       }
@@ -245,9 +245,9 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_UPDATE_ORDER_INFO: {
-      const { code, type, info } = action.payload;
+      const { orderCode, type, info } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const item = pdsItems[getKey(code, type)];
+      const item = pdsItems[getKey(orderCode, type)];
       const statusChangeDate = info.success === undefined ? undefined : Date.now();
       const dateInfo = (item.success !== undefined && info.success !== undefined) ? {} : { statusChangeDate };
       Object.assign(item, dateInfo, info);
@@ -258,9 +258,9 @@ export default (state = nameInitialState, action) => {
       const { OrderInfos } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, (info) => {
-        const { code, type } = info;
+        const { orderCode, type } = info;
         const statusChangeDate = info.success === undefined ? undefined : Date.now();
-        Object.assign(pdsItems[getKey(code, type)], { statusChangeDate }, info);
+        Object.assign(pdsItems[getKey(orderCode, type)], { statusChangeDate }, info);
       });
       
       return { ...state, pdsItems };
@@ -280,9 +280,9 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_TOGGLE_ORDER_GROUP: {
-      const { code } = action.payload;
+      const { orderCode } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const order = pdsItems[getKey(code, 'DELIVER')];
+      const order = pdsItems[getKey(orderCode, 'DELIVER')];
       order.groupChecked = !order.groupChecked;
       return { ...state, pdsItems };
     }
@@ -358,9 +358,9 @@ export default (state = nameInitialState, action) => {
         detailLoading: true
       };
     case PD_FETCH_DETAIL_SUCCESS: {
-      const { data, code, type } = action.payload;
+      const { data, orderCode, type } = action.payload;
 
-      if (data.orderCode !== code || data.type !== type) {
+      if (data.orderCode !== orderCode || data.type !== type) {
         return state;
       }
 
@@ -368,7 +368,7 @@ export default (state = nameInitialState, action) => {
       delete orderDetail.senderHubId;
       delete orderDetail.clientId;
       delete orderDetail.status;
-      const key = getKey(code, type);
+      const key = getKey(orderCode, type);
       return {
         ...state,
         detailLoading: false,
@@ -390,12 +390,12 @@ export default (state = nameInitialState, action) => {
         error: action.payload.error
       };
     case PD_FETCH_LABEL_SUCCESS: {
-      const { data, code } = action.payload;
+      const { data, orderCode } = action.payload;
 
-      if (data.orderCode !== code) {
+      if (data.orderCode !== orderCode) {
         return state;
       }
-      const key = getKey(code, 'PICK');
+      const key = getKey(orderCode, 'PICK');
       const arr = data.label.split('/');
       const label = data.label;
       const label1 = arr[0];
@@ -421,8 +421,8 @@ export default (state = nameInitialState, action) => {
         error: action.payload.error
       };
     case PD_SET_ORDER_PROPS: {
-      const { code, props } = action.payload;
-      const key = getKey(code, 'PICK');
+      const { orderCode, props } = action.payload;
+      const key = getKey(orderCode, 'PICK');
       return {
         ...state,
         pdsItems: {

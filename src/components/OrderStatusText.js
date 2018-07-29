@@ -3,7 +3,9 @@ import StatusText from './StatusText';
 import Utils from '../libs/Utils';
 
 const OrderStatusText = ({ order, style }) => {
-  const { displayStatus, alert } = Utils.getStatus(order);
+  const displayStatus = Utils.getDisplayStatus(order);
+  const { isUpdated, willSucceeded } = order;
+  const alert = !isUpdated && willSucceeded !== undefined
   const StatusColor = Utils.getDisplayStatusColor(order);
   return (
     <StatusText text={displayStatus} colorTheme={StatusColor} style={style} alert={alert} />

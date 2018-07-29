@@ -59,7 +59,7 @@ class PickGroupDetail extends Component {
     const { PickItems, ReturnItems } = props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
-    const orders = pickGroup.ShopOrders.filter(o => Utils.checkPickCompleteForUnsync(o) === true);
+    const orders = pickGroup.ShopOrders.filter(o => Utils.checkCompleteForUnsync(o) === true);
     if (orders.length === 0) {
       this.done = true;
     } else {
@@ -132,6 +132,7 @@ class PickGroupDetail extends Component {
   render() {
     const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
+    console.log('PickItems', Items);
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && !o.done) || [];
     const ordersDone = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && o.done) || [];

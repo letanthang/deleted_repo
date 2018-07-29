@@ -11,8 +11,9 @@ import Utils from '../../libs/Utils';
 class OrderItem extends Component {
   shouldComponentUpdate({ order, isDelivering }) {
     const old = this.props.order;
-    if (order.status === old.status
-      && order.nextStatus === old.nextStatus
+    if (order.isUpdated === old.isUpdated
+      && order.isSucceeded === old.isSucceeded
+      && order.willSucceeded === old.willSucceeded
       && order.note === old.note 
       && isDelivering === this.props.isDelivering) {
       return false;
@@ -32,9 +33,9 @@ class OrderItem extends Component {
     } = order;
 
     const realDone = done;
-    const nearDone = Utils.checkPickCompleteForUnsync(order);
+    const nearDone = Utils.checkCompleteForUnsync(order);
     const backgroundColor = nearDone ? '#DFDFEF' : Colors.row;
-    const pickSuccess = Utils.checkPickSuccess(status)
+    const pickSuccess = Utils.checkSuccess(order)
     const deliverable = realDone && pickWarehouseId === deliverWarehouseId && pickSuccess;
     const pickFail = realDone && !pickSuccess;
     const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';

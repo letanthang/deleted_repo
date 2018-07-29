@@ -46,7 +46,7 @@ class PickConfirmScreen extends Component {
   }
 
   checkCompleteForUnsync(o) {
-    return this.type === 'RETURN' ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkPickCompleteForUnsync(o);
+    return this.type === 'RETURN' ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkCompleteForUnsync(o);
   }
   checkComplete(o) {
     return o.done;

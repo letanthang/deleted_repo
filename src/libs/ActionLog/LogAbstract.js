@@ -22,8 +22,8 @@ class LogAbstract {
     const screenId = ScreenCode[screenName];
     const featureId = ScreenGroup[screenId];
     const data = { actionCode, tripCode, userId, userName, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
-    console.log('log', data);
-    this.sendLog(data);
+    // console.log('log', data);
+    // this.sendLog(data);
   }
 
   logs(actionCode, navigation) {

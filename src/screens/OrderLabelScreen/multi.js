@@ -23,14 +23,14 @@ class OrderLabelsScreen extends Component {
   componentWillMount() {
     this.senderHubId = this.props.navigation.state.params.senderHubId;    
     const pickGroup = this.props.PickItems.find(g => g.senderHubId === this.senderHubId);
-    this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkPickSuccess(o.status));
+    this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkSuccess(o));
     if (this.orders.length === 0) {
       this.props.navigation.goBack();
     }
   }
   componentWillReceiveProps(nextProps) {
     const pickGroup = nextProps.PickItems.find(g => g.senderHubId === this.senderHubId);
-    this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkPickSuccess(o.status));
+    this.orders = pickGroup.ShopOrders.filter(o => o.done && Utils.checkSuccess(o));
   }
 
   nextOrder() {

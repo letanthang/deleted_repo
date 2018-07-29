@@ -57,7 +57,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   hasUnsynced(pickGroup) {
-    const found = pickGroup.ShopOrders.find(o => Utils.isReturnCompletedUnsynced(o));
+    const found = pickGroup.ShopOrders.find(o => Utils.isCompletedUnsynced(o));
     if (found) return true;
     return false;
   }

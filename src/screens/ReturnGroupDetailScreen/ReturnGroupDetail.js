@@ -114,7 +114,7 @@ class PickGroupDetail extends Component {
               const order = item;
               const { 
                 orderCode, receiverName, receiverPhone,
-                externalCode, moneyCollect, success, note, newDate
+                externalCode, moneyCollect, willSucceeded, note, newDate
               } = item;
               const fullNote = Utils.getFullNote(note, newDate);
               return (
@@ -132,7 +132,7 @@ class PickGroupDetail extends Component {
                       </View>
                       <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
                     </View>
-                    {success === false ?
+                    {willSucceeded === false ?
                     <View style={Styles.itemStyle}>
                       <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
                     </View>

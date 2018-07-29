@@ -5,13 +5,7 @@ import Utils from '../libs/Utils';
 export const getOrders = ({ pd }) => {
   const items = pd.pdsItems === null ? null : pd.pdsItems;
   _.forEach(items, (order) => {
-    if (order.type === 'PICK') {
-      order.done = Utils.checkPickComplete(order.status);
-    } else if (order.type === 'DELIVER') {
-      order.done = Utils.checkDeliveryComplete(order.status);
-    } else if (order.type === 'RETURN') {
-      order.done = Utils.checkReturnComplete(order.status);
-    }
+      order.done = Utils.checkComplete(order);
   });
   return items;
 };
@@ -47,7 +41,7 @@ export const get3Type = createSelector(
       group.shopGroupKey = group.done ? 'Đã xong' : shopGroup;
       group.shopGroupName = group.done ? 'Đã xong' : pgroups[shopGroup].groupName;
       group.position = pgroups[group.shopGroupKey].position;
-      const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isPickSuccessedUnsynced(o));
+      const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isSuccessedUnsynced(o));
       group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
       const failUnsyncedOrders = group.ShopOrders.filter(o => Utils.isFailedUnsynced(o));
       group.failUnsyncedNum = failUnsyncedOrders.length;
@@ -66,14 +60,14 @@ export const get3Type = createSelector(
 
       const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
       group.ShopOrders = orders;
-      group.ShopOrders.sort((a, b) => {
-        const x = a.statusChangeDate ? a.statusChangeDate : 0;
-        const y = b.statusChangeDate ? b.statusChangeDate : 0;
-        return x - y;
-      });
-      const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isReturnSuccessedUnsynced(o));
+      // group.ShopOrders.sort((a, b) => {
+      //   const x = a.statusChangeDate ? a.statusChangeDate : 0;
+      //   const y = b.statusChangeDate ? b.statusChangeDate : 0;
+      //   return x - y;
+      // });
+      const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isSuccessedUnsynced(o));
       group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
-      const failUnsyncedOrders = group.ShopOrders.filter(o => Utils.isReturnFailedUnsynced(o));
+      const failUnsyncedOrders = group.ShopOrders.filter(o => Utils.isFailedUnsynced(o));
       group.failUnsyncedNum = failUnsyncedOrders.length;
       group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.moneyCollect, 0);
       group.estimateTotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.moneyCollect, 0);

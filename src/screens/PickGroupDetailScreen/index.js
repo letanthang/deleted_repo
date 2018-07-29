@@ -41,7 +41,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   checkComplete(order) {
-    return Utils.checkPickCompleteForUnsync(order);
+    return Utils.checkCompleteForUnsync(order);
   }
 
   checkRealDone() {
@@ -63,7 +63,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   hasUnsynced(pickGroup) {
-    const found = pickGroup.ShopOrders.find(o => Utils.isPickCompletedUnsynced(o));
+    const found = pickGroup.ShopOrders.find(o => Utils.isCompletedUnsynced(o));
     if (found) return true;
     return false;
   }

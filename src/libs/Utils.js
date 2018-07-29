@@ -6,209 +6,66 @@ import moment from 'moment';
 
 import { HistoryActions, HistoryStatus } from '../components/Constant';
 
-const pickStatus = { STORING: 'Đã lấy', PICKED: 'Đã lấy', COMPLETED: 'Lấy lỗi', READY_TO_PICK: 'Lấy lỗi', PICKING: 'Đang lấy', Progress: 'Đang xử lý' };
-const pickCompleteStatus = ['PICKED', 'COMPLETED', 'READY_TO_PICK', 'STORING', 'Progress'];
-const pickSuccessStatus = ['PICKED', 'STORING'];
-const pickFailStatus = ['READY_TO_PICK', 'COMPLETED'];
-
-const returnStatus = { RETURNED: 'Đã trả', RETURNING: 'Đang trả', FAIL_TO_RETURN: 'Trả lỗi', STORING: 'Trả lỗi', Progress: 'Đang xử lý' };
-const returnCompleteStatus = ['RETURNED', 'STORING', 'FAIL_TO_RETURN', 'Progress'];
-const returnSuccessStatus = ['RETURNED'];
-const returnFailStatus = ['FAIL_TO_RETURN', 'STORING'];
-
-const deliverStatus = { DELIVERING: 'Đang giao', DELIVERED: 'Đã giao', COMPLETED: 'Đã giao', FAIL_TO_DELIVER: 'Giao lỗi', STORING: 'Giao lỗi' };
-const deliverCompleteStatus = ['DELIVERED', 'STORING', 'FAIL_TO_DELIVER', 'COMPLETED', 'Progress'];
+const mapStatus1 = { PICK: 'lấy', DELIVER: 'giao', RETURN: 'trả' };
+const mapStatus2 = { PICK: 'Lấy', DELIVER: 'Giao', RETURN: 'Trả' };
 
 class Utils {
-  static getDisplayStatus({ status, nextStatus, type }) {
+  static getDisplayStatus({ isUpdated, isSucceeded, willSucceeded, isProgressing, type }) {
+    const type1 = mapStatus1[type];
+    const type2 = mapStatus2[type];
     let displayStatus = '';
-    if (type === 'PICK') {
-      if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
-        displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
-        displayStatus = `*${displayStatus}*`;
-      } else {
-        displayStatus = pickStatus[status] ? pickStatus[status] : status;
-      }
-    } else if (type === 'DELIVER') {
-      if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
-        displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
-        displayStatus = `*${displayStatus}*`;
-      } else {
-        displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
-      }
-    } else if (type === 'RETURN') {
-      if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
-        displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
-        displayStatus = `*${displayStatus}*`;
-      } else {
-        displayStatus = returnStatus[status] ? returnStatus[status] : status;
-      }
+
+    if (isUpdated === true) {
+      displayStatus = isSucceeded ? `Đã ${type1}` : `${type2} lỗi`;
+    } else if (isProgressing) {
+      displayStatus = 'Đang xử lý';
+    } else if (willSucceeded !== undefined) {
+      displayStatus = willSucceeded ? `*Đã ${type1}*` : `*${type2} lỗi*`;
+    } else {
+      displayStatus = `Đang ${type1}`;
     }
+
     return displayStatus;
   }
 
-  static getStatus({ status, nextStatus, type }) {
-    let displayStatus = '';
-    let alert = false;
-    if (type === 'PICK') {
-      if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
-        displayStatus = pickStatus[nextStatus] ? pickStatus[nextStatus] : nextStatus;
-        //displayStatus = `*${displayStatus}*`;
-        alert = true;
-      } else {
-        displayStatus = pickStatus[status] ? pickStatus[status] : status;
-      }
-    } else if (type === 'DELIVER') {
-      if (!deliverCompleteStatus.includes(status) && deliverCompleteStatus.includes(nextStatus)) {
-        displayStatus = deliverStatus[nextStatus] ? deliverStatus[nextStatus] : nextStatus;
-        // displayStatus = `*${displayStatus}*`;
-        alert = true;
-      } else {
-        displayStatus = deliverStatus[status] ? deliverStatus[status] : status;
-      }
-    } else if (type === 'RETURN') {
-      if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
-        displayStatus = returnStatus[nextStatus] ? returnStatus[nextStatus] : nextStatus;
-        // displayStatus = `*${displayStatus}*`;
-        alert = true;
-      } else {
-        displayStatus = returnStatus[status] ? returnStatus[status] : status;
-      }
+  static getDisplayStatusColor({ isUpdated, isSucceeded, willSucceeded, isProgressing }) {
+    if (isUpdated === true) {
+      return isSucceeded ? 'green' : 'red';
+    } else if (isProgressing) {
+      return 'black'
+    } else if (willSucceeded !== undefined) {
+      return willSucceeded ? 'green' : 'red';
+    } else {
+      return 'yellow';
     }
-    
-    return { displayStatus, alert };
-  }
-
-  static getDisplayStatusColor({ status, nextStatus, type }) {
-    const DisplayStatus = this.getDisplayStatus({ status, nextStatus, type });
-    switch (DisplayStatus) {
-      case 'Giao lỗi':
-      case '*Giao lỗi*':
-        return 'red';
-      case 'Lấy lỗi':
-      case '*Lấy lỗi*':
-        return 'red';
-      case 'Trả lỗi':
-      case '*Trả lỗi*':
-        return 'red';
-      case 'Đã giao':
-      case '*Đã giao*':
-        return 'green';
-      case 'Đã lấy':
-      case '*Đã lấy*':
-        return 'green';
-      case 'Đã trả':
-      case '*Đã trả*':
-        return 'green';
-      case 'Đang xử lý':
-        return 'black';
-      default:
-        return 'yellow';
-    }
-  }
-  static checkDeliveryComplete(status) {
-    // const completeList = ['Delivered', 'WaitingToFinish', 'Finish', 'Storing'];
-    // if (completeList.includes(status)) {
-    //   return true;
-    // }
-    // return false;
-    const unCompleteStatus = 'DELIVERING';
-    if (status === unCompleteStatus) {
-      return false;
-    }
-    return true;
-  }
-
-
-  static checkPickComplete(status) {
-    const unCompleteStatus = ['PICKING', 'Progress'];
-    if (unCompleteStatus.includes(status)) {
-      return false;
-    }
-    return true;
-    // const unCompleteStatus = 'PICKING';
-    // if (status === unCompleteStatus) {
-    //   return false;
-    // }
-    // return true;
-  }
-
-  static checkPickSuccess(status) {
-    if (pickSuccessStatus.includes(status)) {
-      return true;
-    }
-    return false;
-  }
-
-  static isPickSuccessedUnsynced({ nextStatus, status }) {
-    if (!pickCompleteStatus.includes(status) && pickSuccessStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
   }
   
-  static isFailedUnsynced({ nextStatus, status }) {
-    if (!pickCompleteStatus.includes(status) && pickFailStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
+
+
+  static checkComplete({ isUpdated, isProgressing }) {
+    return isUpdated || isProgressing === true;
   }
 
-  static isPickCompletedUnsynced({ nextStatus, status }) {
-    if (!pickCompleteStatus.includes(status) && pickCompleteStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
+  static checkSuccess({ isUpdated, isSucceeded }) {
+    return isUpdated && isSucceeded;
   }
 
-  static checkPickCompleteForUnsync({ nextStatus, status }) {
-    if (pickCompleteStatus.includes(status) || pickCompleteStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
+  static isSuccessedUnsynced({ isUpdated, willSucceeded }) {
+    return !isUpdated && willSucceeded === true;
+  }
+  
+  static isFailedUnsynced({ isUpdated, willSucceeded }) {
+    return !isUpdated && willSucceeded === false;
   }
 
-  static isReturnSuccessedUnsynced({ nextStatus, status }) {
-    if (!returnCompleteStatus.includes(status) && returnSuccessStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
+  static isCompletedUnsynced({ isUpdated, willSucceeded }) {
+    return !isUpdated && willSucceeded !== undefined;
   }
 
-  static isReturnFailedUnsynced({ nextStatus, status }) {
-    if (!returnCompleteStatus.includes(status) && returnFailStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
+  static checkCompleteForUnsync({ isSucceeded, willSucceeded }) {
+    return isSucceeded || willSucceeded !== undefined; 
   }
 
-  static isReturnCompletedUnsynced({ nextStatus, status }) {
-    if (!returnCompleteStatus.includes(status) && returnCompleteStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
-  }
-
-  static checkReturnComplete(status) {
-    if (returnCompleteStatus.includes(status)) {
-      return true;
-    }
-    return false;
-  }
-  static checkReturnCompleteForUnsync({ nextStatus, status }) {
-    if (returnCompleteStatus.includes(status) || returnCompleteStatus.includes(nextStatus)) {
-      return true;
-    }
-    return false;
-  }
-
-  static checkReturnFail(status) {
-    const completeList = ['Return', 'NotReturn'];
-    if (completeList.includes(status)) {
-      return true;
-    }
-    return false;
-  }
   static getKey = (orderID, type) => `${orderID}-${type}`;
   static getOrder(items, orderCode, type) {
     return items[Utils.getKey(orderCode, type)];

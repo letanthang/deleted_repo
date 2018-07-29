@@ -108,8 +108,7 @@ export default (state = nameInitialState, action) => {
 
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
-        order.oldStatus = order.status;
-        order.status = 'Progress';
+        order.isProgressing = true;
       });
       
 
@@ -125,8 +124,7 @@ export default (state = nameInitialState, action) => {
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
-        order.status = order.oldStatus;
-        order.oldStatus = undefined;
+        order.isProgressing = false;
       });
 
       return {
@@ -162,12 +160,11 @@ export default (state = nameInitialState, action) => {
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
         if (ids.length > 0 && ids.includes(info.orderCode)) {
-          order.status = order.oldStatus;
-          order.oldState = undefined;
+          order.isProgressing = false
         } else {
-          order.status = info.nextStatus;
-          order.oldState = undefined;
-          order.nextStatus = undefined;
+          order.isUpdated = true;
+          order.isSucceeded = order.willSucceeded;
+          order.isProgressing = false;
           order.success = undefined;
         }
       });
@@ -464,18 +461,14 @@ const transformPDS = (pdsItems) => {
   pdsItems.forEach((item) => {
     const key = getKey(item.orderCode, item.type);
     temp[key] = { ...item, ...item.extraInfo };
-    temp[key].address = temp[key].type === 'DELIVER' ? temp[key].receiverAddress : temp[key].senderAddress;
-    if (temp[key].isCancel === true) {
-      switch (temp[key].status) {
-        case 'PICKING':
-          temp[key].status = 'COMPLETED';
-          break;
-        default:
-          break;
-      }
-    }
-    
-    delete temp[key].nextStatus;
+    temp[key].address = temp[key].type === 'DELIVER' ? temp[key].deliverInfo.address : temp[key].pickInfo.address;
+    temp[key].senderHubId = temp[key].pickInfo.contactId;
+    temp[key].senderName = temp[key].pickInfo.contactName;
+    temp[key].senderAddress = temp[key].pickInfo.address;
+    temp[key].senderPhone = temp[key].pickInfo.contactPhone
+    temp[key].receiverName = temp[key].deliverInfo.contactName;
+    temp[key].receiverAddress = temp[key].deliverInfo.address;
+    temp[key].receiverPhone = temp[key].deliverInfo.contactPhone;
     delete temp[key].extraInfo;
   });
   return temp;

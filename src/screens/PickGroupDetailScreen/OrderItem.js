@@ -10,8 +10,9 @@ import Utils from '../../libs/Utils';
 class OrderItem extends Component {
   shouldComponentUpdate({ order, isDelivering }) {
     const old = this.props.order;
-    if (order.status === old.status
-      && order.nextStatus === old.nextStatus
+    if (order.isUpdated == old.isUpdated
+      && order.isSucceeded === old.isSucceeded
+      && order.willSucceeded === old.willSucceeded
       && order.note === old.note 
       && isDelivering === this.props.isDelivering) {
       return false;
@@ -25,16 +26,16 @@ class OrderItem extends Component {
     const { 
       orderCode, receiverName, receiverPhone,
       height, width, weight, length, status,
-      externalCode, moneyCollect, success, note, newDate, pickWarehouseId,
-      deliverWarehouseId, done,
+      externalCode, moneyCollect, willSucceeded, note, newDate, pickWarehouseId,
+      deliverWarehouseId, done
     } = order;
 
-    const realDone = done;
-    const nearDone = Utils.checkPickCompleteForUnsync(order);
+    const nearDone = Utils.checkCompleteForUnsync(order);
     const backgroundColor = nearDone ? '#DFDFEF' : Colors.row;
-    const deliverable = realDone && pickWarehouseId === deliverWarehouseId && Utils.checkPickSuccess(status);
+    const deliverable = done && pickWarehouseId === deliverWarehouseId && Utils.checkSuccess(order);
     const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
     const fullNote = Utils.getFullNote(note, newDate);
+    console.log('OrderItem render!', fullNote, willSucceeded, done);
     return (
       <TouchableOpacity
         onPress={onOrderPress.bind(this, order)}
@@ -50,7 +51,7 @@ class OrderItem extends Component {
             </View>
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
           </View>
-          {success === false && realDone === false ?
+          {willSucceeded === false && done === false ?
             <View style={Styles.itemStyle}>
               <Text style={[Styles.weakColorStyle, { color: '#FF7F9C' }]}>{fullNote}</Text>
             </View>
@@ -78,7 +79,7 @@ class OrderItem extends Component {
           </View>
           <ActionButtons
             animated={animated}
-            done={realDone}
+            done={done}
             info={order}
             order={order}
             navigation={navigation}

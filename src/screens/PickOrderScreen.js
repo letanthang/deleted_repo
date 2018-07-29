@@ -9,7 +9,7 @@ import {
   List, Footer 
 } from 'native-base';
 
-import { updateOrderInfo, getConfiguration, getOrderHistory, fetchOrderDetail } from '../actions';
+import { updateOrderInfo, getConfiguration, getOrderHistory } from '../actions';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import ICO from 'react-native-vector-icons/Ionicons';
 import Utils from '../libs/Utils';
@@ -37,9 +37,6 @@ class PickOrderScreen extends Component {
     senderHubId = this.props.navigation.state.params.senderHubId;
     orderCode = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, orderCode, 'PICK');
-    if (order.hasDetail !== true) {
-      this.props.fetchOrderDetail(orderCode, 'PICK');
-    }
     this.props.getOrderHistory(orderCode);
     console.log('PickOrderScreen mount ', order);
   }
@@ -135,7 +132,7 @@ class PickOrderScreen extends Component {
   }
 
   renderButtons() {
-    const done = Utils.checkPickCompleteForUnsync(order);
+    const done = Utils.checkCompleteForUnsync(order);
     if (done) {
       return (
         <View
@@ -333,5 +330,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, 
-  { updateOrderInfo, getConfiguration, getOrderHistory, fetchOrderDetail }
+  { updateOrderInfo, getConfiguration, getOrderHistory }
 )(PickOrderScreen);

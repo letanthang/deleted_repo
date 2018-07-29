@@ -105,7 +105,7 @@ export const fetchTrip = (tripCode, offset, limit, lastUpdatedTime, senderHubId)
 };
 
 export const DoAction = (OrderInfos) => {
-  const URL = `${PDS_URL}/order/action`;
+  const URL = `${PDS_URL}/item`;
   const params = {
     orders: OrderInfos,
   };

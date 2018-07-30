@@ -104,12 +104,13 @@ export const fetchTrip = (tripCode, offset, limit, lastUpdatedTime, senderHubId)
   return fromPromise(GetUserActivePds(tripCode, offset, limit, lastUpdatedTime, senderHubId));
 };
 
-export const DoAction = (OrderInfos) => {
+export const DoAction = (tripCode, OrderInfos) => {
   const URL = `${PDS_URL}/item`;
   const params = {
+    tripCode,
     orders: OrderInfos,
   };
-  const LoginHeader = Share.LoginHeader;
+  const { LoginHeader } = Share;
   const config = { headers: LoginHeader, timeout };
 
   if (mockOn) {
@@ -120,8 +121,8 @@ export const DoAction = (OrderInfos) => {
 };
 
 
-export const updateOrderStatus = (OrderInfos) => {
-  return fromPromise(DoAction(OrderInfos));
+export const updateOrderStatus = (tripCode, OrderInfos) => {
+  return fromPromise(DoAction(tripCode, OrderInfos));
 };
 
 export const UpdateOrderWeightRDC = (params) => {  
@@ -300,7 +301,7 @@ export const addOrders = (orders, tripCode) => {
 
 export const GetOrderHistory = (orderCode) => {
   const URL = `${PDS_URL}/order-history/search`;
-  const LoginHeader = Share.LoginHeader;
+  const { LoginHeader } = Share;
 
   const config = {
     headers: LoginHeader,

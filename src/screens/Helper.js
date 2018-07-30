@@ -31,22 +31,20 @@ export function getDeliveryFailOrderInfo(order, buttonIndex, newDate = null) {
   const { orderCode, type } = order;
   const noteId = CODES[buttonIndex]; 
   const note = BUTTONS[buttonIndex];
-  const action = 'DELIVER_FAIL';
   const success = false;
   const willSucceeded = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, type, success, willSucceeded };
+  return { orderCode, nextDate, newDate, noteId, note, type, success, willSucceeded };
 }
 
 export function getDeliveryDoneOrderInfo(order, newDate = null) {
   const { orderCode, type } = order;
   const noteId = 'POD'; 
   const note = '';
-  const action = 'DELIVER_SUCCESS';
   const success = true;
   const willSucceeded = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, type, success, willSucceeded };
+  return { orderCode, nextDate, newDate, noteId, note, type, success, willSucceeded };
 }
 
 export function updateOrderToFailWithReason2(phone, configuration, orderCode = null) {

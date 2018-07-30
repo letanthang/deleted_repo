@@ -91,20 +91,16 @@ export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
   const { orderCode, type } = order;
   const noteId = codes[buttonIndex]; 
   const note = buttons[buttonIndex];
-  const action = 'RETURN_FAIL';
-  const success = false;
   const willSucceeded = false;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, type, success, willSucceeded };
+  return { orderCode, nextDate, newDate, noteId, note, type, willSucceeded };
 }
 
 export function getUpdateOrderInfoForDone(order, newDate = null) {
   const { orderCode, type } = order;
   const noteId = 'Returned';
   const note = '';
-  const action = 'RETURN_SUCCESS';
-  const success = true;
   const willSucceeded = true;
   const nextDate = newDate === null ? null : moment(newDate).format();
-  return { orderCode, nextDate, newDate, noteId, note, action, nextStatus, type, success, willSucceeded };
+  return { orderCode, nextDate, newDate, noteId, note, type, willSucceeded };
 }

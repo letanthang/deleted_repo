@@ -37,18 +37,29 @@ export const ReturnErrors = {
   // 'GHN-RC5B4F': 'NGƯỜI GỬI YÊU CẦU TRẢ HÀNG',
 };
 
+
+        
+        
+     
+        
+
 export const HistoryActions = {
-  'CREATE_TRIP': 'tạo chuyến đi',
-  'ADD_TO_TRIP': 'thêm đơn vào chuyến đi',
-  'REMOVE_FROM_TRIP': 'xóa đơn ra khỏi chuyến đi',
-  'UPDATE_TRIP_ACTION': 'cập nhật',
-  'AUDITED': 'bắn kiểm',
-  'OUTSTOCK': 'xuất kho',
-  'CANCEL_TRIP': 'hủy chuyến đi',
-  'ASSIGN_DRIVER': 'thay đổi thông tin tài xế',
-  'START_TRIP': 'bắt đầu chuyến đi',
-  'COMPLETE_TRIP': 'hoàn thành chuyến đi',
-  'COLLECT_MONEY': 'thu tiền'
+  CREATE_TRIP: 'tạo chuyến đi',
+  ADD_TO_TRIP: 'thêm đơn vào chuyến đi',
+  REMOVE_FROM_TRIP: 'xóa đơn ra khỏi chuyến đi',
+  UPDATE_TRIP: 'cập nhật',
+  RECEIVE_AT_WAREHOUSE: 'nhân hàng ở kho',
+  INPUT: 'bắn kiểm',
+  OUTPUT: 'xuất kho',
+  CANCEL_TRIP: 'hủy chuyến đi',
+  ASSIGN_DRIVER: 'thay đổi thông tin tài xế',
+  START_TRIP: 'bắt đầu chuyến đi',
+  COMPLETE_TRIP: 'hoàn thành chuyến đi',
+  COLLECT_MONEY: 'thu tiền',
+  UPDATE_ORDER_ADDRESS: 'cập nhật địa chỉ đơn hàng',
+  UPDATE_DIMENSION: 'cập nhật kích thước đơn hàng',
+  SELECT_PARTNER: 'chọn đối tác',
+  SELECT_SERVICE: 'chọn dịch vụ',
 };
 
 export const HistoryStatus = {

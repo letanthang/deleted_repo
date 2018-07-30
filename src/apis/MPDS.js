@@ -300,13 +300,13 @@ export const addOrders = (orders, tripCode) => {
 };
 
 export const GetOrderHistory = (orderCode) => {
-  const URL = `${PDS_URL}/order-history/search`;
+  const URL = `${PDS_URL}/history/order/${orderCode}`;
   const { LoginHeader } = Share;
 
   const config = {
     headers: LoginHeader,
     timeout,
-    params: { offset: 0, limit: 200, q: { orderCode, historyType: 'UPDATE_TRIP_ACTION' } },
+    params: { offset: 0, limit: 200, q: { historyType: 'UPDATE_TRIP_ACTION' } },
   };
 
   if (mockOn) {

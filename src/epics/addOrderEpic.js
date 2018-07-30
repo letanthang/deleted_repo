@@ -19,15 +19,15 @@ const delayTime = 740;
 const addOrderEpic = (action$, store) =>
   action$.ofType(PD_ADD_ORDER)
     .map(action => action.payload)
-    .mergeMap(({ order, senderHubId }) =>
-      API.addOrders([order], store.getState().pd.tripCode)
+    .mergeMap(({ orderCode, senderHubId }) =>
+      API.addOrders([orderCode], store.getState().pd.tripCode)
         .map(({ data }) => {
           const response = data;
           switch (response.status) {
             case 'OK':
               return {
                 type: PD_ADD_ORDER_SUCCESS,
-                payload: { order, senderHubId },
+                payload: { orderCode, senderHubId },
               };
             default:
               return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
@@ -38,10 +38,10 @@ const addOrderEpic = (action$, store) =>
 const reloadEpic = action$ =>
   action$.ofType(PD_ADD_ORDER_SUCCESS)
     .map(action => action.payload)
-    .filter(({ order, orders }) => order || orders.length <= limit)
-    .do(({ order }) => {
-      if (order) {
-        Utils.showToast(`Thêm đơn hàng ${order.orderCode} thành công`, 'success');
+    .filter(({ orderCode, orderCodes }) => orderCode || orderCodes.length <= limit)
+    .do(({ orderCode }) => {
+      if (orderCode) {
+        Utils.showToast(`Thêm đơn hàng ${orderCode} thành công`, 'success');
       } else {
         Utils.showToast(`Thêm đơn hàng mới thành công`, 'success');
       }
@@ -94,15 +94,15 @@ const hasNewOrdersEpic = action$ =>
 const addMultiOrdersEpic = (action$, store) =>
   action$.ofType(PD_ADD_ORDERS)
     .map(action => action.payload)
-    .mergeMap(({ orders, senderHubId }) =>
-      API.addOrders(orders.slice(0, limit), store.getState().pd.tripCode)
+    .mergeMap(({ orderCodes, senderHubId }) =>
+      API.addOrders(orderCodes.slice(0, limit), store.getState().pd.tripCode)
         .map(({ data }) => {
           const response = data;
           switch (response.status) {
             case 'OK':
               return {
                 type: PD_ADD_ORDER_SUCCESS,
-                payload: { orders, senderHubId },
+                payload: { orderCodes, senderHubId },
               };
             default:
               return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
@@ -113,11 +113,11 @@ const addMultiOrdersEpic = (action$, store) =>
 const addOrdersMoreEpic = action$ =>
   action$.ofType(PD_ADD_ORDERS)
     .map(action => action.payload)
-    .filter(({ orders }) => orders.length > limit)
+    .filter(({ orderCodes }) => orderCodes.length > limit)
     .delay(delayTime)
-    .mergeMap(({ orders, senderHubId }) => of({
+    .mergeMap(({ orderCodes, senderHubId }) => of({
       type: 'PD_ADD_ORDERS',
-      payload: { orders: orders.slice(limit, 10000), senderHubId },
+      payload: { orderCodes: orderCodes.slice(limit, 10000), senderHubId },
     }));
 export default combineEpics(
   addOrderEpic,

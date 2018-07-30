@@ -465,10 +465,12 @@ const transformPDS = (pdsItems) => {
     temp[key].senderHubId = temp[key].pickInfo.contactId;
     temp[key].senderName = temp[key].pickInfo.contactName;
     temp[key].senderAddress = temp[key].pickInfo.address;
-    temp[key].senderPhone = temp[key].pickInfo.contactPhone
+    temp[key].senderPhone = temp[key].pickInfo.contactPhone;
     temp[key].receiverName = temp[key].deliverInfo.contactName;
     temp[key].receiverAddress = temp[key].deliverInfo.address;
     temp[key].receiverPhone = temp[key].deliverInfo.contactPhone;
+    temp[key].clientId = temp[key].pickInfo.clientId || temp[key].senderHubId;
+    temp[key].clientName = temp[key].pickInfo.clientName || temp[key].senderName;
     delete temp[key].extraInfo;
   });
   return temp;

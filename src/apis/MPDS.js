@@ -270,23 +270,21 @@ export const getOrderLabel = (orderCode) => {
 };
 
 // {
-// 	"orders": [
-// 		{
-// 			"orderCode": "3DANFHXU",
-// 			"type": "PICK"
-// 		}
-// 	]
+// 	"orderCodes": [ "3DANFHXU" ]
 // }
-export const AddOrders = (orders, tripCode) => {
-  const URL = `${PDS_URL}/trip/${tripCode}/order`;
-  const LoginHeader = Share.LoginHeader;
+export const AddOrders = (orderCodes, tripCode) => {
+  const URL = `${PDS_URL}/item`;
+  const { LoginHeader } = Share;
 
   const config = {
     headers: LoginHeader,
     timeout,
   };
   const params = {
-    orders,
+    tripCode,
+    type: 'PICK',
+    orderCodes,
+    verifyOnly: false,
   };
   if (mockOn) {
     mock.onPost(URL, params, config).reply(200, addOrdersResponse);
@@ -295,8 +293,8 @@ export const AddOrders = (orders, tripCode) => {
   return axios.post(URL, params, config);
 };
 
-export const addOrders = (orders, tripCode) => {
-  return fromPromise(AddOrders(orders, tripCode));
+export const addOrders = (orderCodes, tripCode) => {
+  return fromPromise(AddOrders(orderCodes, tripCode));
 };
 
 export const GetOrderHistory = (orderCode) => {

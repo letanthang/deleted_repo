@@ -125,7 +125,7 @@ export const updateOrderGroup = (updateList) => {
 };
 
 export const addOneOrder = (orderCode, type, senderHubId) => {
-  return { type: PD_ADD_ORDER, payload: { order: { orderCode, type }, senderHubId } };
+  return { type: PD_ADD_ORDER, payload: { orderCode, senderHubId } };
 };
 
 
@@ -134,12 +134,12 @@ export const getNewOrdersForAdd = (senderHubId) => {
 };
 
 
-// const orders = [ {orderCode, type} ]
+// const orders = [ "HKJYH123", "HKJYH123" ]
 export const addMultiOrders = (response, senderHubId) => {
-  const orders = response.data.map((o) => {
-    return { orderCode: o.orderCode, type: 'PICK' };
+  const orderCodes = response.data.map((o) => {
+    return o.orderCode;
   });
-  return { type: PD_ADD_ORDERS, payload: { orders, senderHubId } };
+  return { type: PD_ADD_ORDERS, payload: { orderCodes, senderHubId } };
 };
 
 export const updateOrderInfo = (orderCode, type, info) => {

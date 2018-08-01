@@ -41,8 +41,8 @@ class PickGroupDetail extends Component {
   }
 
   checkRealDone() {
-    const { PickItems, ReturnItems } = this.props;
-    const Items = this.type === 'PICK' ? PickItems : ReturnItems;
+    const { CvsItems } = this.props;
+    const Items = CvsItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     if (pickGroup == null) {
       this.props.navigation.popToTop();
@@ -56,8 +56,8 @@ class PickGroupDetail extends Component {
   }
 
   checkDone(props) {
-    const { PickItems, ReturnItems } = props;
-    const Items = this.type === 'PICK' ? PickItems : ReturnItems;
+    const { CvsItems } = props;
+    const Items = CvsItems
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     const orders = pickGroup.ShopOrders.filter(o => Utils.checkCompleteForUnsync(o) === true);
     if (orders.length === 0) {
@@ -126,8 +126,8 @@ class PickGroupDetail extends Component {
   }
 
   render() {
-    const { PickItems, ReturnItems, keyword } = this.props;
-    const Items = this.type === 'PICK' ? PickItems : ReturnItems;
+    const { CvsItems, keyword } = this.props;
+    const Items = CvsItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && !o.done) || [];
     const ordersDone = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && o.done) || [];
@@ -213,9 +213,9 @@ const mapStateToProps = (state) => {
   const { loading } = other;
   const { configuration } = config;
   const { keyword } = pickGroup;
-  const { PickItems, ReturnItems } = get3Type(state);
+  const { CvsItems } = get3Type(state);
   const db = getOrders(state);
-  return { db, PickItems, ReturnItems, sessionToken, tripCode, loading, configuration, keyword, timeServer };
+  return { db, CvsItems, sessionToken, tripCode, loading, configuration, keyword, timeServer };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder, pdListFetch })(PickGroupDetail);

@@ -17,7 +17,6 @@ import PickGroupDetail from './PickGroupDetail';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
 import LogoButton from '../../components/LogoButton';
-import { cvsData } from '../../apis/mock';
 
 class CvsDetailScreen extends Component {
   constructor() {
@@ -168,10 +167,10 @@ class CvsDetailScreen extends Component {
 
   render() {
     console.log('PickGroupDetailScreen render');
-    const { addOrderLoading, PickItems, ReturnItems } = this.props;
+    const { addOrderLoading, CvsItems } = this.props;
     const { width } = Dimensions.get('window');
     const type = this.type;
-    const Items = type === 'PICK' ? PickItems : ReturnItems;
+    const Items = CvsItems;
     const pickGroup = Items.find(trip => trip.senderHubId === this.senderHubId);
     if (pickGroup == null) {
       this.props.navigation.popToTop();
@@ -229,9 +228,8 @@ const mapStateToProps = (state) => {
   const { sessionToken } = auth;
   const { tripCode, addOrderLoading } = pd;
   const { OrderInfos, done, keyword } = pickGroup;
-  const { PickItems, ReturnItems } = get3Type(state);
-  // PickItems = ReturnItems = cvsData;
-  return { PickItems, ReturnItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
+  const { PickItems, ReturnItems, CvsItems } = get3Type(state);
+  return { PickItems, ReturnItems, CvsItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd })(CvsDetailScreen);

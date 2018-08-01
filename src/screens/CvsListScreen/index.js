@@ -19,7 +19,6 @@ import DataEmptyCheck from '../../components/DataEmptyCheck';
 import ProgressBar from '../../components/ProgressBar';
 import TripItem from './TripItem';
 import { DeliverGroupStyles, Colors } from '../../Styles';
-import { cvsData } from '../../apis/mock';
 
 class CvsListScreen extends Component {
   constructor() {
@@ -102,9 +101,9 @@ class CvsListScreen extends Component {
   
 
   groupData() {
-    // const { PickItems } = this.props;
+    const { CvsItems } = this.props;
     // console.log(JSON.stringify(PickItems));
-    const PickItems = cvsData;
+    const PickItems = CvsItems;
     if (!PickItems) return this.renderNullData();
 
     const key = this.props.layoutMode ? 'shopGroupName' : 'clientId';
@@ -226,12 +225,11 @@ class CvsListScreen extends Component {
 const mapStateToProps = (state) => {
   const { timeServer } = state.pd;
   const { loading, progress } = state.other;
-  // const { layoutMode } = state.config;
-  // const { PickItems } = get3Type(state);
+  const { CvsItems } = get3Type(state);
   const layoutMode = false;
   const stats = getNumbers(state);
   const { pickOrderComplete } = stats;
-  return { layoutMode, pickOrderComplete, loading, progress, timeServer };
+  return { layoutMode, CvsItems, pickOrderComplete, loading, progress, timeServer };
 };
 
 export default connect(mapStateToProps, { toggleLayout, pdListFetch })(CvsListScreen);

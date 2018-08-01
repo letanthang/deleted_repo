@@ -74,7 +74,37 @@ export const get3Type = createSelector(
       ReturnItems.push(group);
     });
 
-    return { PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders };
+
+
+    // TRANSIT_IN
+    items = _.filter(pdsItems, o => o.type === 'TRANSIT_IN');
+    // const CvsOrders = items;
+    groups = _.groupBy(items, 'senderHubId');
+    const CvsItems = [];
+    _.forEach(groups, (orders, key) => {
+      const order = orders[0];
+      const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type } = order;
+
+      const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, displayOrder, Lat, Lng, type };
+      group.ShopOrders = orders;
+      
+      group.done = checkTripDone(group);
+      const shopGroup = shopPGroup[senderHubId];
+      group.shopGroup = shopGroup;
+      group.shopGroupKey = group.done ? 'Đã xong' : shopGroup;
+      group.shopGroupName = group.done ? 'Đã xong' : pgroups[shopGroup].groupName;
+      group.position = pgroups[group.shopGroupKey].position;
+      const sucessUnsyncedOrders = group.ShopOrders.filter(o => Utils.isSuccessedUnsynced(o));
+      group.sucessUnsyncedNum = sucessUnsyncedOrders.length;
+      const failUnsyncedOrders = group.ShopOrders.filter(o => Utils.isFailedUnsynced(o));
+      group.failUnsyncedNum = failUnsyncedOrders.length;
+      group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.moneyCollect, 0);
+      group.estimateTotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.moneyCollect, 0);
+      CvsItems.push(group);
+    });
+
+
+    return { PickItems, DeliveryItems, ReturnItems, CvsItems, PickOrders, ReturnOrders };
   }
 );
 

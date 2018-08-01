@@ -21,8 +21,8 @@ class PickConfirmScreen extends Component {
     // clientId = this.props.navigation.state.params.clientId;
     this.senderHubId = this.props.navigation.state.params.senderHubId;
     this.type = this.props.navigation.state.params.type;
-    const { PickItems, ReturnItems } = this.props;
-    const Items = this.type === 'RETURN' ? ReturnItems : PickItems;
+    const { PickItems, ReturnItems, CvsItems } = this.props;
+    const Items = this.type === 'RETURN' ? ReturnItems : (this.type === 'PICK' ? PickItems : CvsItems);
     this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     // if (!this.checkDone() || this.checkRealDone()) {
     //   Alert.alert(
@@ -175,8 +175,8 @@ const mapStateToProps = (state) => {
   const { pd, auth } = state;
   const { sessionToken } = auth;
   const { tripCode } = pd;
-  const { PickItems, ReturnItems } = get3Type(state);
-  return { PickItems, ReturnItems, tripCode, sessionToken };
+  const { PickItems, ReturnItems, CvsItems } = get3Type(state);
+  return { PickItems, ReturnItems, CvsItems, tripCode, sessionToken };
 };
 
 

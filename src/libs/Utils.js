@@ -6,8 +6,8 @@ import moment from 'moment';
 
 import { HistoryActions, HistoryStatus } from '../components/Constant';
 
-const mapStatus1 = { PICK: 'lấy', DELIVER: 'giao', RETURN: 'trả' };
-const mapStatus2 = { PICK: 'Lấy', DELIVER: 'Giao', RETURN: 'Trả' };
+const mapStatus1 = { PICK: 'lấy', DELIVER: 'giao', RETURN: 'trả', TRANSIT_IN: 'lấy' };
+const mapStatus2 = { PICK: 'Lấy', DELIVER: 'Giao', RETURN: 'Trả', TRANSIT_IN: 'Lấy' };
 
 class Utils {
   static getDisplayStatus({ isUpdated, isSucceeded, willSucceeded, isProgressing, type }) {

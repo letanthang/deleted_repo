@@ -8,8 +8,8 @@ import { Styles, DeliverGroupStyles, Colors } from '../../Styles';
 class DeliveryItem extends Component {
   shouldComponentUpdate({ order }) {
     const old = this.props.order;
-    const { orderCode, status, nextStatus } = order;
-    if (orderCode === old.orderCode && status === old.status && nextStatus === old.nextStatus ) {
+    const { orderCode, isUpdated, willSucceeded } = order;
+    if (orderCode === old.orderCode && isUpdated === old.isUpdated && willSucceeded === old.willSucceeded ) {
       return false;
     }
     return true;

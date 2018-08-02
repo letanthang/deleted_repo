@@ -8,8 +8,8 @@ import { getUpdateOrderInfoForDone } from '../../components/Helpers';
 class PickButton extends Component {
   shouldComponentUpdate({ order }) {
     const old = this.props.order;
-    if (order.status === old.status
-      && order.nextStatus === old.nextStatus
+    if (order.isUpdated === old.isUpdated
+      && order.willSucceeded === old.willSucceeded
       && order.note === old.note) {
       return false;
     }

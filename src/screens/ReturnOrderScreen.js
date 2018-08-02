@@ -31,9 +31,6 @@ class ReturnOrderScreen extends Component {
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
     const newOrder = Utils.getOrder(db, orderCode, 'RETURN');
-    if (order.status !== newOrder.status) {
-      this.props.navigation.goBack();
-    }
     order = newOrder;
   }
 

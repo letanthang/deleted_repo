@@ -80,7 +80,7 @@ class PickGroupDetail extends Component {
     const { clientId, senderHubId } = this.pickGroup;
     Keyboard.dismiss();
     if (this.type === 'PICK' || this.type === 'TRANSIT_IN') {
-      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh, type: this.get3Type });
+      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh, type: this.type });
     } else if (this.type === 'RETURN') {
       navigateOnce(this, 'ReturnOrder', { orderCode, order, senderHubId, refresh: this.props.refresh, type: this.type });
     }
@@ -108,13 +108,8 @@ class PickGroupDetail extends Component {
   }
 
   acceptDeliverPress(order) {
-    const newOrder = _.clone(order);
-    newOrder.hasDetail = false;
-    newOrder.type = 'DELIVER';
-    newOrder.status = 'DELIVERING';
-    newOrder.Group = null;
-    const { orderCode, type, senderHubId } = newOrder;
-    this.props.addOneOrder(orderCode, type, senderHubId);
+    const { orderCode, senderHubId } = order;
+    this.props.addOneOrder(orderCode, 'DELIVER', senderHubId);
   }
 
   checkDelivering(order) {

@@ -46,9 +46,6 @@ class PickOrderScreen extends Component {
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
     const newOrder = Utils.getOrder(db, orderCode, type);
-    if (order.status !== newOrder.status) {
-      this.goBack()
-    }
     order = newOrder;
   }
   goBack() {

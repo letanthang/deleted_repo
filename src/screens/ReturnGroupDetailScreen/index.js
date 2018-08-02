@@ -37,7 +37,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   checkComplete(order) {
-    return Utils.checkReturnCompleteForUnsync(order);
+    return Utils.checkCompleteForUnsync(order);
   }
 
   checkRealDone() {

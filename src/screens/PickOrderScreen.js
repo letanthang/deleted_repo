@@ -28,6 +28,7 @@ import ActionLog from '../libs/ActionLog';
 let clientId = null;
 let senderHubId = null;
 let orderCode = null;
+let type = null
 let order = {};
 class PickOrderScreen extends Component {
   state = { modalShow: false }
@@ -36,14 +37,15 @@ class PickOrderScreen extends Component {
     clientId = this.props.navigation.state.params.clientId;
     senderHubId = this.props.navigation.state.params.senderHubId;
     orderCode = this.props.navigation.state.params.orderCode;
-    order = Utils.getOrder(this.props.db, orderCode, 'PICK');
+    type = this.props.navigation.state.params.type;
+    order = Utils.getOrder(this.props.db, orderCode, type);
     this.props.getOrderHistory(orderCode);
     console.log('PickOrderScreen mount ', order);
   }
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, orderCode, 'PICK');
+    const newOrder = Utils.getOrder(db, orderCode, type);
     if (order.status !== newOrder.status) {
       this.goBack()
     }

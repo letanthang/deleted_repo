@@ -58,10 +58,10 @@ class PickGroupDetail extends Component {
     const { orderCode } = order;
     const { clientId, senderHubId } = this.pickGroup;
     
-    if (this.type === 'PICK') {
-      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId });
+    if (this.type === 'PICK' || this.type === 'TRANSIT_IN') {
+      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId, type: this.type });
     } else if (this.type === 'RETURN') {
-      navigateOnce(this, 'ReturnOrder', { orderCode, order, senderHubId });
+      navigateOnce(this, 'ReturnOrder', { orderCode, order, senderHubId, type: this.type });
     }
   }
 

@@ -79,10 +79,10 @@ class PickGroupDetail extends Component {
     const { orderCode } = order;
     const { clientId, senderHubId } = this.pickGroup;
     Keyboard.dismiss();
-    if (this.type === 'PICK') {
-      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh });
+    if (this.type === 'PICK' || this.type === 'TRANSIT_IN') {
+      navigateOnce(this, 'PickOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh, type: this.get3Type });
     } else if (this.type === 'RETURN') {
-      navigateOnce(this, 'ReturnOrder', { orderCode, order, senderHubId, refresh: this.props.refresh });
+      navigateOnce(this, 'ReturnOrder', { orderCode, order, senderHubId, refresh: this.props.refresh, type: this.type });
     }
   }
 

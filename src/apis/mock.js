@@ -223,7 +223,6 @@ export const ordersResponse = {
       },
 
       {
-        "status": "TRANSIT_IN",
         "extraInfo": {
           "orderCode": "3GUSRAAB",
           "orderId": "456334",
@@ -286,7 +285,7 @@ export const ordersResponse = {
         },
         "inTripIndex": 3,
         "orderCode": "3GUSRAAB",
-        "type": "PICK",
+        "type": "TRANSIT_IN",
         "tripCode": "1871323EADQCF",
         "isUpdated": false,
         "isSucceeded": false,
@@ -303,7 +302,6 @@ export const ordersResponse = {
       },
 
       {
-        "status": "TRANSIT_IN",
         "extraInfo": {
           "orderCode": "3GUSRAAC",
           "orderId": "456334",
@@ -366,7 +364,7 @@ export const ordersResponse = {
         },
         "inTripIndex": 3,
         "orderCode": "3GUSRAAC",
-        "type": "PICK",
+        "type": "TRANSIT_IN",
         "tripCode": "1871323EADQCF",
         "isUpdated": false,
         "isSucceeded": false,
@@ -382,7 +380,7 @@ export const ordersResponse = {
             "lastUpdatedTime": "2018-07-28T23:59:45.008Z"
       },
   ],
-  total: 3,
+  total: 4,
   "message": ""
 }
 

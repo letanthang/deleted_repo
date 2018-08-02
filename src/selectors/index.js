@@ -78,7 +78,7 @@ export const get3Type = createSelector(
 
     // TRANSIT_IN
     items = _.filter(pdsItems, o => o.type === 'TRANSIT_IN');
-    // const CvsOrders = items;
+    const CvsOrders = items;
     groups = _.groupBy(items, 'senderHubId');
     const CvsItems = [];
     _.forEach(groups, (orders, key) => {
@@ -104,19 +104,19 @@ export const get3Type = createSelector(
     });
 
 
-    return { PickItems, DeliveryItems, ReturnItems, CvsItems, PickOrders, ReturnOrders };
+    return { PickItems, DeliveryItems, ReturnItems, CvsItems, PickOrders, ReturnOrders, CvsOrders };
   }
 );
 
 export const getNumbers = createSelector(
   [get3Type],
-  ({ PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders }) => {
-    return calculateStatNumbers({ PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders });
+  ({ PickItems, DeliveryItems, ReturnItems, CvsItems, PickOrders, ReturnOrders, CvsOrders }) => {
+    return calculateStatNumbers({ PickItems, DeliveryItems, ReturnItems, CvsItems, PickOrders, ReturnOrders, CvsOrders });
   }
 );
 
 
-const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems, PickOrders, ReturnOrders }) => {
+const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems, CvsItems, PickOrders, ReturnOrders, CvsOrders }) => {
   // pick
       const pickGroupList = PickItems;
       const pickTotal = pickGroupList.length;
@@ -149,7 +149,21 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems, PickOrder
       const returnOrderTotal = ReturnOrders.length;
       const returnOrderComplete = ReturnOrders.filter(o => o.done).length;
 
-  return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete, pickOrderTotal, pickOrderComplete, returnOrderTotal, returnOrderComplete };
+      // cvs
+      const cvsGroupList = CvsItems;
+      const cvsTotal = cvsGroupList.length;
+      const cvsComplete = cvsTotal === 0 ? 0 : cvsGroupList.filter(pg => {
+        let isComplete = true;
+        pg.ShopOrders.forEach(o => {
+          isComplete = isComplete && o.done;
+        });
+        return isComplete;
+      }).length;
+
+      const cvsOrderTotal = CvsOrders.length;
+      const cvsOrderComplete = CvsOrders.filter(o => o.done).length;
+
+  return { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete, cvsTotal, cvsComplete, pickOrderTotal, pickOrderComplete, returnOrderTotal, returnOrderComplete, cvsOrderTotal, cvsOrderComplete };
 };
 
 const checkTripDone = trip => {

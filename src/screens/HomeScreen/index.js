@@ -215,7 +215,7 @@ class HomeScreen extends Component {
       );
     }
     const { navigate } = this.props.navigation;
-    const { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete } = this.props.stats;
+    const { pickTotal, pickComplete, deliveryTotal, deliveryComplete, returnTotal, returnComplete, cvsTotal, cvsComplete, pickOrderTotal, pickOrderComplete, returnOrderTotal, returnOrderComplete, cvsOrderTotal, cvsOrderComplete } = this.props.stats;
     const marginLeft = Platform.OS === 'ios' ? 0 : 10;
     const marginRight = Platform.OS === 'ios' ? 0 : -10;
     const paddingTop = Platform.OS === 'ios' ? 4 : 8;
@@ -255,6 +255,8 @@ class HomeScreen extends Component {
           onPress={this.onTripListPress.bind(this)}
           upNumber={pickComplete}
           downNumber={pickTotal}
+          upNumber2={pickOrderComplete}
+          downNumber2={pickOrderTotal}
           color='#12cd72'
           delay={false}
         />
@@ -263,6 +265,8 @@ class HomeScreen extends Component {
           onPress={this.onDeliveryPress.bind(this)}
           upNumber={deliveryComplete}
           downNumber={deliveryTotal}
+          upNumber2={deliveryComplete}
+          downNumber2={deliveryTotal}
           color='#ff6e40'
           delay={false}
         />
@@ -271,7 +275,18 @@ class HomeScreen extends Component {
           onPress={this.onReturnPress.bind(this)}
           upNumber={returnComplete}
           downNumber={returnTotal}
+          upNumber2={returnOrderComplete}
+          downNumber2={returnOrderTotal}
           color='#606060'
+          delay={false}
+        />
+        <PDCard
+          type='cvs'
+          onPress={this.onCvsPress.bind(this)}
+          upNumber={cvsComplete}
+          downNumber={cvsTotal}
+          upNumber2={cvsOrderComplete}
+          downNumber2={cvsOrderTotal}
           delay={false}
         />
         {/* <TouchableOpacity
@@ -293,7 +308,7 @@ class HomeScreen extends Component {
           </Card>
         </TouchableOpacity> */}
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={this.onCvsPress.bind(this)}
         >
           <Card>
@@ -310,7 +325,7 @@ class HomeScreen extends Component {
               </View>
             </CardItem>
           </Card>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           onPress={() => {

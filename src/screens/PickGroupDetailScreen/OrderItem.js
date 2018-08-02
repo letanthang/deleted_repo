@@ -35,7 +35,7 @@ class OrderItem extends Component {
     const deliverable = done && pickWarehouseId === deliverWarehouseId && Utils.checkSuccess(order);
     const deliverStatus = isDelivering ? 'Đã nhận giao' : 'Nhận đi giao';
     const fullNote = Utils.getFullNote(note, newDate);
-    console.log('OrderItem render!', fullNote, willSucceeded, done);
+    // console.log('OrderItem render!', fullNote, willSucceeded, done);
     return (
       <TouchableOpacity
         onPress={onOrderPress.bind(this, order)}

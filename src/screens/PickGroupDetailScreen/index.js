@@ -59,7 +59,7 @@ class PickGroupDetailScreen extends Component {
   confirmUpdateOrder() {
     // this.props.pdListFetch({})
     //   .then(() => this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId }));
-    this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId });
+    this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId, type: 'PICK' });
   }
 
   hasUnsynced(pickGroup) {

@@ -41,12 +41,13 @@ class PickConfirmScreen extends Component {
   }
  
 
-  componentWillReceiveProps({ PickItems }) {
-    this.pickGroup = PickItems.find(g => g.senderHubId === this.senderHubId);
+  componentWillReceiveProps({ PickItems, ReturnItems, CvsItems }) {
+    const Items = this.type === 'RETURN' ? ReturnItems : (this.type === 'PICK' ? PickItems : CvsItems);
+    this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
   }
 
   checkCompleteForUnsync(o) {
-    return this.type === 'RETURN' ? Utils.checkReturnCompleteForUnsync(o) : Utils.checkCompleteForUnsync(o);
+    return Utils.checkCompleteForUnsync(o);
   }
   checkComplete(o) {
     return o.done;

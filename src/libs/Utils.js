@@ -10,12 +10,14 @@ const mapStatus1 = { PICK: 'lấy', DELIVER: 'giao', RETURN: 'trả', TRANSIT_IN
 const mapStatus2 = { PICK: 'Lấy', DELIVER: 'Giao', RETURN: 'Trả', TRANSIT_IN: 'Lấy' };
 
 class Utils {
-  static getDisplayStatus({ isUpdated, isSucceeded, willSucceeded, isProgressing, type }) {
+  static getDisplayStatus({ isUpdated, isSucceeded, isCancel, willSucceeded, isProgressing, type }) {
     const type1 = mapStatus1[type];
     const type2 = mapStatus2[type];
     let displayStatus = '';
 
-    if (isUpdated === true) {
+    if (isCancel === true) {
+      displayStatus = 'Đã huỷ';
+    } else if (isUpdated === true) {
       displayStatus = isSucceeded ? `Đã ${type1}` : `${type2} lỗi`;
     } else if (isProgressing) {
       displayStatus = 'Đang xử lý';
@@ -28,8 +30,10 @@ class Utils {
     return displayStatus;
   }
 
-  static getDisplayStatusColor({ isUpdated, isSucceeded, willSucceeded, isProgressing }) {
-    if (isUpdated === true) {
+  static getDisplayStatusColor({ isUpdated, isSucceeded, isCancel, willSucceeded, isProgressing }) {
+    if (isCancel === true) {
+      return 'black'
+    } else if (isUpdated === true) {
       return isSucceeded ? 'green' : 'red';
     } else if (isProgressing) {
       return 'black'
@@ -42,8 +46,8 @@ class Utils {
   
 
 
-  static checkComplete({ isUpdated, isProgressing }) {
-    return isUpdated || isProgressing === true;
+  static checkComplete({ isUpdated, isProgressing, isCancel }) {
+    return isUpdated || isCancel || isProgressing === true;
   }
 
   static checkSuccess({ isUpdated, isSucceeded }) {

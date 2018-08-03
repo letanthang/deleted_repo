@@ -3,7 +3,7 @@ import {
   PDLIST_FETCH, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, PDLIST_NO_TRIP, PDLIST_CLEAR_TRIP,
   UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL,
   PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-  PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS,
+  PD_UPDATE_GROUP, PD_FETCH_TRIP_INFO_SUCCESS, UPDATE_ORDER_STATUS_FIX,
   PD_FETCH_DETAIL, PD_FETCH_DETAIL_FAIL, PD_FETCH_DETAIL_SUCCESS,
   PD_ADD_ORDER, PD_ADD_ORDER_START, PD_ADD_ORDER_FAIL, PD_UPDATE_ORDER_INFO, PD_UPDATE_ORDER_INFOS,
   PD_TOGGLE_GROUP_ACTIVE, PD_TOGGLE_ORDER_GROUP, PD_CREATE_GROUP, PD_RESET_GROUP, PD_UPDATE_ORDERS,
@@ -106,11 +106,34 @@ export default (state = nameInitialState, action) => {
       const { OrderInfos } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
 
+      const progressTime = Date.now();
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
         order.isProgressing = true;
+        order.progressTime = progressTime;
       });
       
+
+      return {
+        ...state,
+        pdsItems,
+      };
+    }
+
+    case UPDATE_ORDER_STATUS_FIX: {
+    
+      const pdsItems = _.cloneDeep(state.pdsItems);
+      const nowTime = Date.now();
+      const expireOrders = _.filter(pdsItems, o => o.progressTime && (nowTime - o.progressTime > 1000 * 60 * 2));
+      if (expireOrders.length === 0) {
+        return state;
+      }
+
+      _.each(expireOrders, (order) => {
+        order.isProgressing = false;
+        order.progressTime = undefined;
+      });
+
 
       return {
         ...state,
@@ -125,6 +148,7 @@ export default (state = nameInitialState, action) => {
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
         order.isProgressing = false;
+        order.progressTime = undefined;
       });
 
       return {
@@ -160,11 +184,13 @@ export default (state = nameInitialState, action) => {
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
         if (ids.length > 0 && ids.includes(info.orderCode)) {
-          order.isProgressing = false
+          order.isProgressing = false;
+          order.progressTime = undefined;
         } else {
           order.isUpdated = true;
           order.isSucceeded = order.willSucceeded;
           order.isProgressing = false;
+          order.progressTime = undefined;
           order.success = undefined;
         }
       });

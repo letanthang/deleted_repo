@@ -8,7 +8,7 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 
-import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL } from '../actions/types';
+import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUCCESS, UPDATE_ORDER_STATUS_FAIL, UPDATE_ORDER_STATUS_FIX } from '../actions/types';
 import { updateOrderStatusSuccess, updateOrderStatusFail, pdListFetch, logoutUser } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
@@ -22,6 +22,12 @@ const updateOrderStartEpic = action$ =>
       type: 'UPDATE_ORDER_STATUS',
       payload: { OrderInfos },
     }));
+
+const fixProgressStatus = action$ =>
+  action$.ofType(UPDATE_ORDER_STATUS_START)
+    .map(action => action.payload)
+    .delay(1000 * 60 * 3)
+    .mergeMap(() => of({ type: UPDATE_ORDER_STATUS_FIX }));
 
 const updateOrderMoreEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS)
@@ -88,6 +94,7 @@ const alertFailEpic = action$ =>
 
 export default combineEpics(
   updateOrderStartEpic,
+  fixProgressStatus,
   updateOrderMoreEpic,
   updateOrderEpic,
   reloadEpic,

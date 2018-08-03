@@ -134,7 +134,7 @@ export const ordersResponse = {
       "isExported": false,
       "isScanned": false,
       "isReturn": false,
-      "isCancel": false,
+      "isCancel": true,
       "date": "2018-07-28T23:59:28.977Z",
       "id": "5b5d0364d231f0711c894b4f",
       "createdTime": "2018-07-28T23:59:32.403Z",

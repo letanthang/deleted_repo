@@ -222,12 +222,12 @@ export const fetchOrderDetailSuccess = (response, orderCode, type) => {
   return { type: PD_FETCH_DETAIL_SUCCESS, payload: { data: response.data[0], orderCode, type } };
 };
 
-export const fetchOrderLabelFail = (error) => {
+export const fetchSortingCodeFail = (error) => {
   return { type: PD_FETCH_LABEL_FAIL, payload: { error } };
 };
 
-export const fetchOrderLabelSuccess = (response, orderCode, type) => {
-  return { type: PD_FETCH_LABEL_SUCCESS, payload: { data: response.data[0], orderCode, type } };
+export const fetchSortingCodeSuccess = (response, orderCodes) => {
+  return { type: PD_FETCH_LABEL_SUCCESS, payload: { data: response.data, orderCodes } };
 };
 
 export const setOrder = (orderCode, props) => {

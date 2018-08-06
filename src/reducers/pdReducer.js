@@ -413,35 +413,30 @@ export default (state = nameInitialState, action) => {
         error: action.payload.error
       };
     case PD_FETCH_LABEL_SUCCESS: {
-      const { data, orderCode } = action.payload;
+      const { data } = action.payload;
 
-      if (data.orderCode !== orderCode) {
-        return state;
-      }
-      const key = getKey(orderCode, 'PICK');
-      const arr = data.label.split('/');
-      const label = data.label;
-      const label1 = arr[0];
-      const label2 = arr[1]; 
+      const pdsItems = _.clone(state.pdsItems);
+
+      data.forEach((sortingInfo) => {
+        const { orderCode, label } = sortingInfo;
+        const key = getKey(orderCode, 'PICK');
+        const arr = label.split('/');
+        pdsItems[key].label = label;
+        pdsItems[key].label1 = arr[0];
+        pdsItems[key].label2 = arr[1];
+      });
+
       return {
         ...state,
         detailLoading: false,
-        pdsItems: {
-          ...state.pdsItems,
-          [key]: {
-            ...state.pdsItems[key],
-            label,
-            label1,
-            label2
-          }
-        },
-        error: ''
+        pdsItems,
+        error: '',
       };
     }
     case PD_FETCH_LABEL_FAIL:
       return {
         ...state,
-        error: action.payload.error
+        error: action.payload.error,
       };
     case PD_SET_ORDER_PROPS: {
       const { orderCode, props } = action.payload;

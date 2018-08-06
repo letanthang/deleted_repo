@@ -30,29 +30,7 @@ const fetchOrderDetailEpic = (action$, store) =>
         .catch(error => of(fetchOrderDetailFail(error.message)))
     );
 
-  const fetchOrderLabelEpic = (action$, store) =>
-    action$.ofType(PD_FETCH_DETAIL)
-      .filter(action => action.payload.type === 'PICK')
-      .map(action => action.payload)
-      .mergeMap(({ orderCode, type }) =>
-        API.getOrderLabel(orderCode)
-          .map(({ data }) => {
-            const response = data;
-            //console.log(response);
-            switch (response.status) {
-              case 'OK':
-                return fetchOrderLabelSuccess(response, orderCode, type);
-              case 'NOT_FOUND': {
-                return fetchOrderLabelFail('SERVICE NOT FOUND');
-              }
-              default:
-                return fetchOrderLabellFail(response.message);
-            }
-          })
-          .catch(error => of(fetchOrderLabelFail(error.message)))
-      );
+  
 export default combineEpics(
   fetchOrderDetailEpic,
-  fetchOrderLabelEpic,
 );
-

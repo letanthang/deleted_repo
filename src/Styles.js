@@ -191,6 +191,12 @@ export const Styles = {
   rightStyle: {
     flex: 0.25
   },
+  bodyStyleAndroid: {
+    flex: 0.51
+  },
+  rightStyleAndroid: {
+    flex: 0.38
+  },
   updateButtonStyle: {
     margin: 1,
     justifyContent: 'center', 

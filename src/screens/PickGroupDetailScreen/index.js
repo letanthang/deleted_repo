@@ -85,6 +85,9 @@ class PickGroupDetailScreen extends Component {
 
   renderHeader(pickGroup) {
     const { goBack, navigate } = this.props.navigation;
+    const bodyStyle = Platform.OS === 'android' ? Styles.bodyStyleAndroid : Styles.bodyStyle;
+    const rightStyle = Platform.OS === 'android' ? Styles.rightStyleAndroid : Styles.rightStyle;
+
     if (this.state.showSearch) {
       return (
         <Header searchBar>
@@ -144,10 +147,10 @@ class PickGroupDetailScreen extends Component {
           <LogoButton dispatch={this.props.navigation.dispatch} />
         </View>
         </Left>
-        <Body style={Styles.bodyStyle}>
+        <Body style={bodyStyle}>
           <Title>{pickGroup.clientName} - {pickGroup.senderName}</Title>
         </Body>
-        <Right style={Styles.rightStyle}>
+        <Right style={rightStyle}>
           <Button
             transparent
             onPress={() => this.setState({ showSearch: !this.state.showSearch })}

@@ -25,7 +25,7 @@ const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
 const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
 const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
 const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
-const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
 export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/sso-login';
 
 // const PDS_URL = 'http://api.dev.lastmile.ghn.vn/trip/v2';
@@ -253,8 +253,9 @@ export const getOrderDetail = (orderCode, type, tripCode) => {
   return fromPromise(GetOrderDetailInfo(orderCode, type, tripCode));
 };
 
-export const GetOrderLabel = (orderCode) => {
-  const URL = `${INSIDE_URL}/label/${orderCode}`;
+export const GetOrderSortingCode = (orderCodes) => {
+  const codeString = orderCodes.join();
+  const URL = `${INSIDE_URL}/label/${codeString}`;
   const config = {
   };
 
@@ -265,8 +266,8 @@ export const GetOrderLabel = (orderCode) => {
   return axios.get(URL, config);
 };
 
-export const getOrderLabel = (orderCode) => {
-  return fromPromise(GetOrderLabel(orderCode));
+export const getOrderSortingCode = (orderCodes) => {
+  return fromPromise(GetOrderSortingCode(orderCodes));
 };
 
 // {

@@ -13,19 +13,19 @@ class Label3 extends Component {
   componentWillMount() {
     const { imageUri, hasDetail, label, orderCode } = this.props.order;
     // console.log('Label3: mount', hasDetail, label, orderCode, imageUri);
-    if (!hasDetail) {
-      console.log('Label3: fetchDetail');
-      this.props.fetchOrderDetail(orderCode, 'PICK');
-    }
+    // if (!hasDetail) {
+    //   console.log('Label3: fetchDetail');
+    //   this.props.fetchOrderDetail(orderCode, 'PICK');
+    // }
   }
   
   componentWillReceiveProps(nextProps) {
     const { imageUri, hasDetail, label, orderCode } = nextProps.order;
     // console.log('Label3: props', hasDetail, label, orderCode);
-    if (!hasDetail) {
-      console.log('Label3: fetchDetail');
-      this.props.fetchOrderDetail(orderCode, 'PICK');
-    }
+    // if (!hasDetail) {
+    //   console.log('Label3: fetchDetail');
+    //   this.props.fetchOrderDetail(orderCode, 'PICK');
+    // }
   }
   isCapturing = false
   componentDidMount() {

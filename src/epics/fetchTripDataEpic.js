@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -9,7 +10,7 @@ import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
 import { PD_FETCH_TRIP_INFO_SUCCESS, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, OTHER_SET_PROPS, PDLIST_NO_TRIP, PD_FETCH_TRIP_INFO_FAIL } from '../actions/types';
-import { fetchTripDataSuccess, fetchTripDataFail, updateProgress } from '../actions';
+import { fetchTripDataSuccess, fetchTripDataFail, updateProgress, fetchSortingCodeSuccess, fetchSortingCodeFail } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 
@@ -74,6 +75,32 @@ const fetchTripsMoreEpic = (action$, store) =>
         .catch(error => of(fetchTripDataFail(error.message)));
     });
 
+
+const fetchOrderSortingCode = (action$, store) =>
+  action$.ofType(PDLIST_FETCH_SUCCESS)
+    .mergeMap(() => {
+      const sortingOrders = _.filter(store.getState().pd.pdsItems, o => o.type === 'PICK' && !o.label);
+      if (sortingOrders.length === 0) {
+        return of(fetchSortingCodeFail('Đã có mã sorting'));
+      }
+
+      const orderCodes = sortingOrders.map(o => o.orderCode);
+
+      return API.getOrderSortingCode(orderCodes)
+        .map(({ data }) => {
+          const response = data;
+          switch (response.status) {
+            case 'OK':
+              return fetchSortingCodeSuccess(response, orderCodes);
+            case 'NOT_FOUND':
+              return fetchSortingCodeFail('SERVICE NOT FOUND');
+            default:
+              return fetchSortingCodeFail(response.message);
+          }
+        })
+        .catch(error => of(fetchSortingCodeFail(error.message)));
+    });
+
 const fetchProgressEpic = action$ =>
   action$.ofType(PDLIST_FETCH_SUCCESS)
     .map(action => action.payload)
@@ -104,6 +131,7 @@ const fetchAlertFailEpic = action$ =>
 export default combineEpics(
   fetchTripsEpic,
   fetchTripsMoreEpic,
+  fetchOrderSortingCode,
   fetchProgressEpic,
   fetchProgressResetEpic,
   fetchAlertEpic,

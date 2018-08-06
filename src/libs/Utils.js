@@ -178,21 +178,26 @@ class Utils {
     }
   }
   static getHistoryString(history) {
-    if (!history) return '';
-    return history.reduce((accum, item) => {
-      const { date, createdByName, createdById, historyType, data } = item;
-      let newLine = '';
-      if (data && data.length > 50) {
-        const { action, failNote, nextRedoTime } = JSON.parse(data);
-        const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
-        newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action];
-        newLine += failNote ? ' - ' + failNote : '';
-        newLine += nextDate ? ' - ' + nextDate : '';
-      } else {
-        newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[data];
-      }
-      return accum + '\n' + newLine;
-    }, '');
+    try {
+      if (!history) return '';
+      return history.reduce((accum, item) => {
+        const { date, createdByName, createdById, historyType, data } = item;
+        let newLine = '';
+        if (data && data.length > 50) {
+          const { action, failNote, nextRedoTime } = JSON.parse(data);
+          const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
+          newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action];
+          newLine += failNote ? ' - ' + failNote : '';
+          newLine += nextDate ? ' - ' + nextDate : '';
+        } else {
+          newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[data];
+        }
+        return accum + '\n' + newLine;
+      }, '');  
+    } catch (error) {
+      console.log('Util.getHistoryString', error.message)
+      return '';
+    }
   }
   static getFullNote(note, newDate) {
     if (newDate == null || newDate == 0) { return note; }

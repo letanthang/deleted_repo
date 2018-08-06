@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import FormButton from '../../components/FormButton';
-import { updateOrderStatus } from '../../actions';
+import { updateOrderStatus, updateOrderInfo } from '../../actions';
 import { getUpdateOrderInfoForDone } from '../../components/Helpers';
 
 class PickButton extends Component {
@@ -34,6 +34,8 @@ class PickButton extends Component {
 
   updateOrderToDone(order) {
     const OrderInfos = getUpdateOrderInfoForDone(order);
+    const { orderCode, type } = order;
+    this.props.updateOrderInfo(orderCode, type, OrderInfos);
     this.props.updateOrderStatus({ OrderInfos });
   }
 
@@ -55,4 +57,4 @@ const mapStateToProps = () => {
   return {};
 };
   
-export default connect(mapStateToProps, { updateOrderStatus })(PickButton);
+export default connect(mapStateToProps, { updateOrderStatus, updateOrderInfo })(PickButton);

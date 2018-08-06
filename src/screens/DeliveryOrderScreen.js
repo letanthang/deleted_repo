@@ -8,7 +8,7 @@ import {
   Header, Button, Left, Right, Body,
   List, ActionSheet, Footer
 } from 'native-base';
-import { updateOrderStatus, getConfiguration, getOrderHistory, fetchOrderDetail } from '../actions';
+import { updateOrderStatus, getConfiguration, getOrderHistory, fetchOrderDetail, updateOrderInfo } from '../actions';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -77,6 +77,7 @@ class DeliveryOrderScreen extends Component {
 
   updateOrderToDone() {
     const OrderInfos = getDeliveryDoneOrderInfo(order);
+    this.props.updateOrderInfo(orderCode, 'DELIVER', OrderInfos);
     this.props.updateOrderStatus({ OrderInfos });
   }
 
@@ -118,6 +119,7 @@ class DeliveryOrderScreen extends Component {
   }
   updateOrderToFail(buttonIndex, NewDate = 0) {
     const OrderInfos = getDeliveryFailOrderInfo(order, buttonIndex, NewDate);
+    this.props.updateOrderInfo(orderCode, 'DELIVER', OrderInfos);
     this.props.updateOrderStatus({ OrderInfos });
     if (this.state.modalShow) this.setState({ modalShow: false });
   }
@@ -280,5 +282,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, 
-  { updateOrderStatus, getConfiguration, getOrderHistory, fetchOrderDetail }
+  { updateOrderStatus, getConfiguration, getOrderHistory, fetchOrderDetail, updateOrderInfo }
 )(DeliveryOrderScreen);

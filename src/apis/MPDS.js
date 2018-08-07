@@ -14,8 +14,8 @@ const timeout = 9500;
 export const live = false;
 export const appVersionName = '02/08';
 
-// const PDS_URL = 'http://api.lastmile.ghn.vn/lastmile/v1';
-// const ACC_URL = 'http://api.lastmile.ghn.vn/account/v1';
+// const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
+// const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
 // const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
 // const LOG_URL = 'http://api.ops.ghn.vn/als/v1';
 // const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';

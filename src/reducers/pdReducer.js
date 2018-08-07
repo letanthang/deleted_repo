@@ -242,8 +242,8 @@ export default (state = nameInitialState, action) => {
       const pdsItems = _.cloneDeep(state.pdsItems);
       const { orderCode, serviceCost, length, width, height, weight } = action.payload;
       const order = Utils.getOrder(pdsItems, orderCode, 'PICK');
-      if (order.moneyCollect != 0) {
-        order.moneyCollect = serviceCost;
+      if (order.collectAmount != 0) {
+        order.collectAmount = serviceCost;
       }
       
       order.length = length;

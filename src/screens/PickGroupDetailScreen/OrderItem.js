@@ -26,7 +26,7 @@ class OrderItem extends Component {
     const { 
       orderCode, receiverName, receiverPhone,
       height, width, weight, length, status,
-      externalCode, moneyCollect, willSucceeded, note, newDate, pickWarehouseId,
+      externalCode, collectAmount, willSucceeded, note, newDate, pickWarehouseId,
       deliverWarehouseId, done
     } = order;
 
@@ -49,7 +49,7 @@ class OrderItem extends Component {
                 style={{ marginLeft: 10 }}
               />
             </View>
-            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
+            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(collectAmount)} đ</Text>
           </View>
           {willSucceeded === false && done === false ?
             <View style={Styles.itemStyle}>

@@ -123,8 +123,8 @@ class POUpdateWeightSizeScreen extends Component {
 
   render() {
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
-    const { moneyCollect, weight, length, width, height } = order;
-    // console.log(moneyCollect, weight, length, width, height);
+    const { collectAmount, weight, length, width, height } = order;
+    // console.log(collectAmount, weight, length, width, height);
     // return null;
     
     if (this.state.weight === null) {
@@ -199,7 +199,7 @@ class POUpdateWeightSizeScreen extends Component {
           </View>
           <View style={styles.rowStyle}>
             <Text>Phí phải thu: </Text>
-            {this.renderFee(moneyCollect)}
+            {this.renderFee(collectAmount)}
           </View>
           <View style={styles.rowStyle}>
             <Button 

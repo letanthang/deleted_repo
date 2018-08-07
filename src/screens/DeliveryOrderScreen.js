@@ -29,9 +29,6 @@ class DeliveryOrderScreen extends Component {
   componentWillMount() {
     orderCode = this.props.navigation.state.params.orderCode;
     order = Utils.getOrder(this.props.db, orderCode, 'DELIVER');
-    if (order.hasDetail !== true) {
-      this.props.fetchOrderDetail(orderCode, 'DELIVER');
-    }
     this.props.getOrderHistory(orderCode);
   }
 
@@ -166,7 +163,7 @@ class DeliveryOrderScreen extends Component {
     const { goBack } = this.props.navigation;
     // remove displayOrder
     const { 
-      receiverName, receiverPhone, receiverAddress, moneyCollect,
+      receiverName, receiverPhone, receiverAddress, collectAmount,
       clientName, senderPhone, clientRequiredNote, clientExtraNote,
       displayOrder,
     } = order;
@@ -223,7 +220,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(moneyCollect)} đ</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(collectAmount)} đ</Text>
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Nhà cung cấp</Text>

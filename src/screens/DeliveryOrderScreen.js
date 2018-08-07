@@ -161,11 +161,11 @@ class DeliveryOrderScreen extends Component {
   render() {
 
     const { goBack } = this.props.navigation;
-    // remove displayOrder
+    // remove inTripIndex
     const { 
       receiverName, receiverPhone, receiverAddress, collectAmount,
       clientName, senderPhone, clientRequiredNote, clientExtraNote,
-      displayOrder,
+      inTripIndex,
     } = order;
 
     const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
@@ -186,7 +186,7 @@ class DeliveryOrderScreen extends Component {
             
           </Left>
           <Body style={Styles.bodyStyle}>
-            <Title>[{displayOrder}] {orderCode}</Title>
+            <Title>[{inTripIndex}] {orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
           </Right>

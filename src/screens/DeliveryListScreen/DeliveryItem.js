@@ -17,7 +17,7 @@ class DeliveryItem extends Component {
   render() {
     // console.log('Render DeliveryItem');
     const { order, index, onDeliveryOrderPressOnce, renderStatusText } = this.props;
-    const { receiverAddress, orderCode, displayOrder, serviceName } = order;
+    const { receiverAddress, orderCode, inTripIndex, serviceName } = order;
     const wrapperStyle = index === 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
     
     return (
@@ -27,7 +27,7 @@ class DeliveryItem extends Component {
         <View style={wrapperStyle}>
           <View style={Styles.item2Style}>
             <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-              [{displayOrder}] {orderCode}
+              [{inTripIndex}] {orderCode}
             </Text>
             {serviceName ?
               <Badge>

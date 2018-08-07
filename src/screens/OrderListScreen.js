@@ -186,7 +186,7 @@ class OrderListScreen extends Component {
         >
           <SectionList
             renderItem={({ item, index }) => { 
-              const { address, orderCode, serviceName, status, TotalCollectedAmount, displayOrder } = item;
+              const { address, orderCode, serviceName, status, TotalCollectedAmount, inTripIndex } = item;
               const wrapperStyle = index == 0 ? DeliverGroupStyles.orderWrapperFirstStyle : DeliverGroupStyles.orderWrapperStyle;
               return (
                 <View style={DeliverGroupStyles.content}>
@@ -196,7 +196,7 @@ class OrderListScreen extends Component {
                     <View style={wrapperStyle}>
                       <View style={Styles.item2Style}>
                         <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
-                          {this.getDO(displayOrder)}{orderCode}
+                          {this.getDO(inTripIndex)}{orderCode}
                         </Text>
                         <Badge>
                           <Text>{serviceName}</Text>
@@ -225,9 +225,9 @@ class OrderListScreen extends Component {
       </Container>
     );
   }
-  getDO(displayOrder) {
-    if (displayOrder) {
-      return `[${displayOrder}] `;
+  getDO(inTripIndex) {
+    if (inTripIndex) {
+      return `[${inTripIndex}] `;
     }
     return '';
   }

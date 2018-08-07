@@ -75,10 +75,12 @@ class PickGroupDetailScreen extends Component {
   }
 
   searchKeyword(text) {
+    console.log('start search');
     this.props.changeKeyword(text);
   }
 
   onKeywordChange(text) {
+    console.log('key press');
     this.setState({ keyword: text });
     this.searchDebounce(text);
   }
@@ -199,7 +201,7 @@ class PickGroupDetailScreen extends Component {
           loading={this.props.loading}
         />
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} refresh={this.refresh.bind(this)} />
+        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} refresh={this.refresh.bind(this)} stateKeyword={this.state.keyword} />
         <LoadingSpinner loading={addOrderLoading} />
         
         

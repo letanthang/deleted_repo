@@ -25,6 +25,16 @@ class PickGroupDetail extends Component {
   type = null;
   order = {};
   done = false;
+
+  shouldComponentUpdate(nextProps) {
+    // console.log('shouldComponentUpdate');
+    // console.log('old temp keyword', this.props.stateKeyword);
+    // console.log('new temp keyword', nextProps.stateKeyword);
+    // console.log('ignore update', this.props.stateKeyword !== nextProps.stateKeyword)
+    if (this.props.keyword !== nextProps.keyword) return true;
+    if (this.props.stateKeyword !== nextProps.stateKeyword) return false;
+    return true;
+  }
   
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
@@ -125,9 +135,9 @@ class PickGroupDetail extends Component {
   }
 
   render() {
+    console.log('PickGroupDetail render');
     const { PickItems, ReturnItems, keyword } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
-    console.log('PickItems', Items);
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && !o.done) || [];
     const ordersDone = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && o.done) || [];

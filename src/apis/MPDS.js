@@ -12,7 +12,7 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 const mockOn = false;
 const timeout = 9500;
 export const live = false;
-export const appVersionName = '07/08';
+export const appVersionName = '08/08';
 
 // const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
 // const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
@@ -305,7 +305,7 @@ export const GetOrderHistory = (orderCode) => {
   const config = {
     headers: LoginHeader,
     timeout,
-    params: { offset: 0, limit: 200, type: 'UPDATE_TRIP_ACTION' },
+    params: { offset: 0, limit: 200, type: 'UPDATE_ITEM' },
   };
 
   if (mockOn) {

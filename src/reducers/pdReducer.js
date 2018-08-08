@@ -191,7 +191,7 @@ export default (state = nameInitialState, action) => {
           order.isSucceeded = order.willSucceeded;
           order.isProgressing = false;
           order.progressTime = undefined;
-          order.success = undefined;
+          order.willSucceeded = undefined;
         }
       });
       
@@ -271,8 +271,8 @@ export default (state = nameInitialState, action) => {
       const { orderCode, type, info } = action.payload;
       const pdsItems = _.cloneDeep(state.pdsItems);
       const item = pdsItems[getKey(orderCode, type)];
-      const statusChangeDate = info.success === undefined ? undefined : Date.now();
-      const dateInfo = (item.success !== undefined && info.success !== undefined) ? {} : { statusChangeDate };
+      const statusChangeDate = info.willSucceeded === undefined ? undefined : Date.now();
+      const dateInfo = (item.willSucceeded !== undefined && info.willSucceeded !== undefined) ? {} : { statusChangeDate };
       Object.assign(item, dateInfo, info);
       return { ...state, pdsItems };
     }
@@ -282,7 +282,7 @@ export default (state = nameInitialState, action) => {
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, (info) => {
         const { orderCode, type } = info;
-        const statusChangeDate = info.success === undefined ? undefined : Date.now();
+        const statusChangeDate = info.willSucceeded === undefined ? undefined : Date.now();
         Object.assign(pdsItems[getKey(orderCode, type)], { statusChangeDate }, info);
       });
       

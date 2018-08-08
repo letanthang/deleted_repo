@@ -33,6 +33,7 @@ class PickConfirmScreen extends Component {
     //     ]
     //   );
     // }
+    console.log(this.pickGroup)
   }
   
   componentDidMount() {
@@ -44,6 +45,7 @@ class PickConfirmScreen extends Component {
   componentWillReceiveProps({ PickItems, ReturnItems, CvsItems }) {
     const Items = this.type === 'RETURN' ? ReturnItems : (this.type === 'PICK' ? PickItems : CvsItems);
     this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
+    console.log(this.pickGroup)
   }
 
   checkCompleteForUnsync(o) {
@@ -62,7 +64,7 @@ class PickConfirmScreen extends Component {
   }
 
   updateOrder() {
-    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined && !o.done);
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.willSucceeded !== undefined && !o.done);
     this.props.updateOrderStatus({ OrderInfos });
     this.setState({ disabled: true })
     this.props.navigation.goBack();
@@ -74,8 +76,9 @@ class PickConfirmScreen extends Component {
     //   return;
     // }
 
-    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.willSucceeded !== undefined);
     const OrderNum = OrderInfos.length;
+    console.log(this.pickGroup)
     if (OrderNum === 0) return;
 
     this.updateOrder();

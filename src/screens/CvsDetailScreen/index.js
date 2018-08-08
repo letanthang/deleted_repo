@@ -50,7 +50,7 @@ class CvsDetailScreen extends Component {
   }
 
   updateOrder() {
-    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.success !== undefined);
+    const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.willSucceeded !== undefined);
     this.props.updateOrderStatus({ OrderInfos });
   }
 

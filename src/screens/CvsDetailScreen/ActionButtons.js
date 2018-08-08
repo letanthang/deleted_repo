@@ -21,19 +21,19 @@ class ActionButtons extends Component {
     let info = {};
     if (nextStatus === undefined) {
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); // animation
-      info = { success: undefined, nextStatus: undefined };
+      info = { willSucceeded: undefined };
       this.props.updateOrderInfo(orderCode, type, info);
     } else if (nextStatus) {
       //picked
       ActionLog.log(ActionLogCode.SHOP_PICK_TRUE, this.props.navigation);
       if (animated) LayoutAnimation.configureNext(LayoutAnimation.Presets.linear); // animation
       info = getUpdateOrderInfoForDone(this.props.order);
-      info.success = nextStatus;
+      info.willSucceeded = nextStatus;
       this.props.updateOrderInfo(orderCode, type, info);
     } else {
       //failed to pick
       ActionLog.log(ActionLogCode.SHOP_PICK_FALSE, this.props.navigation);
-      info.success = nextStatus;
+      info.willSucceeded = nextStatus;
       const moreInfo = getUpdateOrderInfo(order);
       this.props.updateOrderInfo(orderCode, type, moreInfo);
     }
@@ -42,7 +42,7 @@ class ActionButtons extends Component {
     const { info, done, rightText = 'Lấy' } = this.props;
     if (done) return null;
 
-    const status = info.success;
+    const status = info.willSucceeded;
     return (
       <View style={{ flexDirection: 'row', flex: 1, margin: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flex: 0.5, padding: 0, margin: 0 }}>

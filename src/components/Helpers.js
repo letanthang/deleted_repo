@@ -94,7 +94,7 @@ export function getUpdateOrderInfo(order, buttonIndex, newDate = null) {
   const note = buttons[buttonIndex];
   const success = false;
   const willSucceeded = false;
-  const nextDate = newDate === null ? null : moment(newDate).format();
+  const nextDate = (newDate == null || newDate == 0) ? null : moment(newDate).format();
   return { orderCode, nextDate, newDate, noteId, note, type, success, willSucceeded };
 }
 
@@ -104,6 +104,6 @@ export function getUpdateOrderInfoForDone(order, newDate = null) {
   const note = '';
   const success = true;
   const willSucceeded = true;
-  const nextDate = newDate === null ? null : moment(newDate).format();
+  const nextDate = (newDate == null || newDate == 0) ? null : moment(newDate).format();
   return { orderCode, nextDate, newDate, noteId, note, type, success, willSucceeded };
 }

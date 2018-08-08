@@ -222,8 +222,11 @@ class Utils {
   static getDateForNote(noteId, newDate) {
     if (!newDate) {
       switch (noteId) {
+        //KHÔNG LẤY HÀNG KỊP
         case 'GHN-PCA940':
           return new Date();
+
+        // 'KHÁCH KHÔNG NGHE MÁY'
         case 'GHN-PC8D3E':
         case 'GHN-PC8KA0': 
         case 'GHN-PC8KA1': {

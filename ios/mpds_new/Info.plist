@@ -51,6 +51,13 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>api.uat.lastmile.ghn.vn</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>api.staging.lastmile.ghn.vn</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

@@ -35,7 +35,7 @@ class HrWebView extends Component {
     }
     const { cookies, webViewUrl } = this.state;
     console.log(webViewUrl);
-    if (webViewUrl.includes('lastmile.ghn.vn/sso-login')) {
+    if (webViewUrl.includes('/sso-login')) {
         const pos = webViewUrl.indexOf('?t62=')
         if (pos > 0) {
           const t62 = webViewUrl.substr(pos + 5, 1000);

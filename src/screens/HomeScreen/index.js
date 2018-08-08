@@ -280,15 +280,17 @@ class HomeScreen extends Component {
           color='#606060'
           delay={false}
         />
-        <PDCard
-          type='cvs'
-          onPress={this.onCvsPress.bind(this)}
-          upNumber={cvsComplete}
-          downNumber={cvsTotal}
-          upNumber2={cvsOrderComplete}
-          downNumber2={cvsOrderTotal}
-          delay={false}
-        />
+        { this.props.stats.cvsTotal > 0 ?
+          <PDCard
+            type='cvs'
+            onPress={this.onCvsPress.bind(this)}
+            upNumber={cvsComplete}
+            downNumber={cvsTotal}
+            upNumber2={cvsOrderComplete}
+            downNumber2={cvsOrderTotal}
+            delay={false}
+          />
+        : null }
         {/* <TouchableOpacity
           onPress={() => navigate('Performance')}
         >

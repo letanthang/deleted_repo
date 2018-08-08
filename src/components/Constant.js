@@ -48,6 +48,7 @@ export const HistoryActions = {
   ADD_TO_TRIP: 'thêm đơn vào chuyến đi',
   REMOVE_FROM_TRIP: 'xóa đơn ra khỏi chuyến đi',
   UPDATE_TRIP: 'cập nhật',
+  UPDATE_ITEM: 'cập nhật',
   RECEIVE_AT_WAREHOUSE: 'nhân hàng ở kho',
   INPUT: 'bắn kiểm',
   OUTPUT: 'xuất kho',

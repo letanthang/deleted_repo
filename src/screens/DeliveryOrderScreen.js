@@ -39,6 +39,9 @@ class DeliveryOrderScreen extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.db != nextProps.db) {
       const newOrder = Utils.getOrder(nextProps.db, orderCode, 'DELIVER');
+      if (order.isUpdated !== newOrder.isUpdated) {
+        this.props.navigation.goBack();
+      }
       order = newOrder;
     }
   }

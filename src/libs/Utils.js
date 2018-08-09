@@ -185,23 +185,23 @@ class Utils {
         if (historyType !== 'UPDATE_ITEM') return accum;
 
         let newLine = '';
-        // if (data && data.length > 50) {
-        //   const { action, failNote, nextRedoTime } = JSON.parse(data);
-        //   const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
-        //   newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action];
-        //   newLine += failNote ? ' - ' + failNote : '';
-        //   newLine += nextDate ? ' - ' + nextDate : '';
-        // } else {
-        //   newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[data];
-        // }
-        const arr = data.split(' - ');
-        if (arr.length > 1) {
-          const temp = arr[0].split(' ');
-          const action = temp[0];
-          newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action] + ' ' + arr[1];
+        if (data && data.length > 50) {
+          const { action, failNote, nextRedoTime } = JSON.parse(data);
+          const nextDate = nextRedoTime ? moment(nextRedoTime).format('DD/MM H:mm') : '';
+          newLine = moment(date).format('DD/MM H:mm') + ' ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action];
+          newLine += failNote ? ' - ' + failNote : '';
+          newLine += nextDate ? ' - ' + nextDate : '';
         } else {
-          newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + data;
-        }   
+          newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[data];
+        }
+        // const arr = data.split(' - ');
+        // if (arr.length > 1) {
+        //   const temp = arr[0].split(' ');
+        //   const action = temp[0];
+        //   newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + HistoryStatus[action] + ' ' + arr[1];
+        // } else {
+        //   newLine = moment(date).format('DD/MM H:mm') + '   NV: ' + createdByName + ' ' + createdById + ' ' + data;
+        // }   
         
         return accum + '\n' + newLine;
       }, '');  

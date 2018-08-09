@@ -419,11 +419,13 @@ export default (state = nameInitialState, action) => {
 
       data.forEach((sortingInfo) => {
         const { orderCode, label } = sortingInfo;
-        const key = getKey(orderCode, 'PICK');
-        const arr = label.split('/');
-        pdsItems[key].label = label;
-        pdsItems[key].label1 = arr[0];
-        pdsItems[key].label2 = arr[1];
+        if (label) {
+          const key = getKey(orderCode, 'PICK');
+          const arr = label.split('/');
+          pdsItems[key].label = label;
+          pdsItems[key].label1 = arr[0];
+          pdsItems[key].label2 = arr[1];
+        }
       });
 
       return {

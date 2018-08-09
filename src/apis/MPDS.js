@@ -191,7 +191,7 @@ export const LoginT62 = (t62) => {
   const config = {
     headers: {
       'X-ApiKey': ApiKey,
-      'X-ApiSecret': ApiSecret
+      'X-ApiSecret': ApiSecret,
     },
     timeout,
   };
@@ -356,7 +356,10 @@ export const SendLogs = (datas) => {
 export const GetNewOrders = (hubId, senderHubId) => {
   console.log(hubId, senderHubId);
   const URL = `${OSS_URL}/order`;
-  const headers = { 'API-KEY': '9697efabe8aaafff6d468ac5c22501fe', 'API-SECRET': 'FJiumKDQgx0u9315G7500d8Rylpi0FGboGKjH5aFuhcI0Ds2' };
+  const headers = {
+    'X-ApiKey': '9697efabe8aaafff6d468ac5c22501fe',
+    'X-ApiSecret': 'FJiumKDQgx0u9315G7500d8Rylpi0FGboGKjH5aFuhcI0Ds2',
+  };
   const config = {
     headers,
     params: {

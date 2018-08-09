@@ -29,6 +29,9 @@ class LoginScreen extends Component {
   componentWillMount() {
     Orientation.lockToPortrait();
     new ShareVariables().LoginHeader['X-Auth'] = this.props.sessionToken;
+    if (this.props.warehouseIds && Array.isArray(this.props.warehouseIds)) {
+      new ShareVariables().LoginHeader['X-WarehouseId'] = this.props.warehouseIds[0];
+    }
     firebase.messaging().requestPermissions();
     console.log('Login begin')
     // console.log(this.props.user);
@@ -124,8 +127,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ auth }) => {
-  const { userId, password, rememberMe, user, error, loading, sessionToken } = auth;
-  return { userId, password, rememberMe, user, error, loading, sessionToken };
+  const { userId, password, rememberMe, user, error, loading, sessionToken, warehouseIds } = auth;
+  return { userId, password, rememberMe, user, error, loading, sessionToken, warehouseIds };
 };
 
 //make it available

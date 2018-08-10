@@ -11,34 +11,28 @@ const logo = require('../../../resources/ghn_label_logo.jpg');
 class Label3 extends Component {
   state = { bcUri: null, fullUri: null }
   componentWillMount() {
-    const { imageUri, hasDetail, label, orderCode } = this.props.order;
-    // console.log('Label3: mount', hasDetail, label, orderCode, imageUri);
-    // if (!hasDetail) {
-    //   console.log('Label3: fetchDetail');
-    //   this.props.fetchOrderDetail(orderCode, 'PICK');
-    // }
+    const { imageUri, label, orderCode } = this.props.order;
+    // console.log('Label3: mount', label, orderCode, imageUri);
+    
   }
   
   componentWillReceiveProps(nextProps) {
-    const { imageUri, hasDetail, label, orderCode } = nextProps.order;
-    // console.log('Label3: props', hasDetail, label, orderCode);
-    // if (!hasDetail) {
-    //   console.log('Label3: fetchDetail');
-    //   this.props.fetchOrderDetail(orderCode, 'PICK');
-    // }
+    const { imageUri, label, orderCode } = nextProps.order;
+    // console.log('Label3: props', label, orderCode);
+    
   }
   isCapturing = false
   componentDidMount() {
-    const { imageUri, hasDetail, label, orderCode } = this.props.order;
-    if (imageUri == null && hasDetail && label && !this.isCapturing) {
+    const { imageUri, label, orderCode } = this.props.order;
+    if (imageUri == null && label && !this.isCapturing) {
       this.isCapturing = true;
       // console.log('did mount & begin capture')
       setTimeout(this.onCaptureAll.bind(this), 70);
     }
   }
   componentDidUpdate() {
-    const { imageUri, hasDetail, label } = this.props.order;
-    if (imageUri == null && hasDetail && label && !this.isCapturing) {
+    const { imageUri, label } = this.props.order;
+    if (imageUri == null && label && !this.isCapturing) {
       this.isCapturing = true;
       // console.log('did update & begin capture')
       setTimeout(this.onCaptureAll.bind(this), 70);
@@ -95,14 +89,19 @@ class Label3 extends Component {
       console.log(error);
       // this.props.navigation.navigate('BluetoothExample');
     }
-}
+  }
+  deleteOrderImage() {
+    this.props.setOrder(this.props.order.orderCode, { imageUri: null, printed: false });
+  }
 
   render() {
     const { receiverName, receiverAddress, receiverPhone, imageUri, 
       orderCode, clientRequiredNote, externalCode, label1, label2, 
-      toDistrictName, pickWarehouseId, deliverWarehouseId } = this.props.order;
+      toDistrictName, pickWarehouseId, deliverWarehouseId, printed } = this.props.order;
     // console.log(order);
     
+    const checkBoxIconName = printed ? 'checkbox-marked-circle-outline' : 'checkbox-blank-circle-outline';
+
     return (
       <View>
         { imageUri == null ?
@@ -181,26 +180,33 @@ class Label3 extends Component {
             height: 440,
             alignSelf: 'center',
             alignItems: 'center',
+            paddingTop: 8
           }}
         >
-          <TouchableOpacity 
-            style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}
-            onPress={this.printOrder.bind(this)}
-          >
-            <IC name="printer" size={32} color='#006FFF' />
-            <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}> Print</Text>
-          </TouchableOpacity>
           <Image 
             style={{ width: 362, height: 362, resizeMode: 'contain' }}
             source={{ uri: imageUri }}
           />
-          <TouchableOpacity 
-            style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}
-            onPress={this.printOrder.bind(this)}
-          >
-            <IC name="printer" size={32} color='#006FFF' />
-            <Text style={{ fontWeight: 'bold', color: '#00b0ff' }}> Print</Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ alignItems: 'center', marginTop: 8, marginRight: 4 }}>
+              <IC name={checkBoxIconName} size={32} color='#006FFF' /> 
+            </View>
+            <TouchableOpacity 
+              style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8, marginLeft: 4, marginRight: 4 }}
+              onPress={this.printOrder.bind(this)}
+            >
+              <IC name="printer" size={32} color='#006FFF' />
+              
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8, marginLeft: 4 }}
+              onPress={this.deleteOrderImage.bind(this)}
+            >
+              <IC name="delete" size={32} color='#006FFF' />
+              
+            </TouchableOpacity>
+          </View>
         </View>
         }
       </View>

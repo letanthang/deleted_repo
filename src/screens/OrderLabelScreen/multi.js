@@ -67,10 +67,10 @@ class OrderLabelsScreen extends Component {
       // this.props.navigation.navigate('BluetoothExample');
     }
   }
-  async printAll() {
+  async printAll(num) {
     console.log('print all');
     this.setState({ printEnable: false });
-    const orders = this.orders.filter(o => !o.printed).slice(0, 5);
+    const orders = this.orders.filter(o => !o.printed).slice(0, num);
     if (orders.length === 0) {
       console.log('Nothing to print');
       return;
@@ -125,7 +125,7 @@ class OrderLabelsScreen extends Component {
         </Header>
         <Content
           keyboardShouldPersistTaps='handled'
-          style={{ paddingTop: 20 }}
+          style={{ paddingTop: 8 }}
         >
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text>Đã in : {this.orders.filter(o => o.printed).length} / {this.orders.length}</Text>
@@ -134,18 +134,30 @@ class OrderLabelsScreen extends Component {
           </View>
           
           <TouchableOpacity
-            style={{ padding: 8, backgroundColor: '#000044', justifyContent: 'center' }}
+            style={{ padding: 4, backgroundColor: '#000044', justifyContent: 'center', margin: 1 }}
             onPress={this.nextOrder.bind(this)}
           >
             <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Xem tiếp</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={{ padding: 8, backgroundColor: '#004400', justifyContent: 'center' }}
-            onPress={() => this.printAll().then(() => this.setState({ printEnable: true }))}
-            disabled={!this.state.printEnable}
-          >
-            <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Bắt đầu in</Text>
-          </TouchableOpacity>
+          
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <TouchableOpacity
+              style={{ padding: 4, backgroundColor: '#004400', justifyContent: 'center', flex: 0.5, margin: 1 }}
+              onPress={() => this.printAll(3).then(() => this.setState({ printEnable: true }))}
+              disabled={!this.state.printEnable}
+            >
+              <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>In 3 đơn</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ padding: 4, backgroundColor: '#004400', justifyContent: 'center', flex: 0.5, margin: 1 }}
+              onPress={() => this.printAll(5).then(() => this.setState({ printEnable: true }))}
+              disabled={!this.state.printEnable}
+            >
+              <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>In 5 đơn</Text>
+            </TouchableOpacity>
+          </View>
+          
           <Label
             order={order}
             setOrder={this.props.setOrder}

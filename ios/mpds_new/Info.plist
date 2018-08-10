@@ -91,6 +91,13 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>api.insidev2.ghn.vn</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>api.staging.insidev2.ghn.vn</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

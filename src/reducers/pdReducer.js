@@ -78,10 +78,10 @@ export default (state = nameInitialState, action) => {
 
       let data = {};
       if (more === false) {
-        const { serverTime } = action.payload.pdsItems[0].extraInfo;
+        const { currentServerTime } = action.payload.pdsItems[0];
         const nowTime = new Date();
         nowTime.setMinutes(nowTime.getMinutes() - 1);
-        const lastUpdatedTime = serverTime || nowTime.toISOString();
+        const lastUpdatedTime = currentServerTime || nowTime.toISOString();
         data = { lastUpdatedTime };
       }
 

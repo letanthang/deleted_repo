@@ -114,7 +114,8 @@ class TripListScreen extends Component {
     let first = true;
     const sections = _.map(datas, (item) => {
       const clientId = item[0][key];
-      const title = item.length === 1 ? item[0].ShopOrders[0].senderContact.contactName : `${this.props.layoutMode ? item[0].shopGroupName : item[0].clientName} (${item.length})`;
+      let title = `${this.props.layoutMode ? item[0].shopGroupName : item[0].clientName}`;
+      title = item.length === 1 ? title : `${title} (${item.length})`;
       const activeSection = first && this.state[clientId] === undefined ? true : this.state[clientId];
       const position = item[0].position;
       first = false;

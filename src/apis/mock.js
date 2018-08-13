@@ -220,6 +220,84 @@ export const ordersResponse = {
       },
 
       {
+        "orderCode": "3GUSRBAA",
+        "extraInfo": {
+          "orderId": "456334",
+          "externalCode": "R-R44421-11",
+          "senderContact": {
+            "contactId": "349091",
+            "contactName": "HUB HCM Tân Bình HCM",
+            "contactPhone": "028.38113.789",
+            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
+            "cityCode": "8",
+            "cityName": "Hồ Chí Minh",
+            "districtCode": "0214",
+            "districtName": "Quận Tân Bình",
+            "haveToCollectAmount": 13200
+          },
+          "receiverContact": {
+            "contactId": "0945891357",
+            "contactName": "Lộc Y Tế",
+            "contactPhone": "0945891357",
+            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
+            "cityCode": "8",
+            "cityName": "Hồ Chí Minh",
+            "districtCode": "0214",
+            "districtName": "Quận Tân Bình",
+            "haveToCollectAmount": 0
+          },
+          "pickInfo": {
+            "contactId": "349091",
+            "contactName": "HUB HCM Tân Bình HCM",
+            "contactPhone": "028.38113.789",
+            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
+            "cityCode": "8",
+            "cityName": "Hồ Chí Minh",
+            "districtCode": "0214",
+            "districtName": "Quận Tân Bình",
+            "haveToCollectAmount": 13200
+          },
+          "deliverInfo": {
+            "contactId": "0945891357",
+            "contactName": "Lộc Y Tế",
+            "contactPhone": "0945891357",
+            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
+            "cityCode": "8",
+            "cityName": "Hồ Chí Minh",
+            "districtCode": "0214",
+            "districtName": "Quận Tân Bình",
+            "haveToCollectAmount": 0
+          },
+          "paymentTypeId": 1,
+          "width": 10,
+          "length": 10,
+          "height": 10,
+          "weight": 477,
+          "clientExtraNote": " x Apple iPad Pro 10.5 WiFi + 4G 256GB - MPHH2 - Bạc - Model 2017 (Nhập khẩu chính Hãng)",
+          "clientRequiredNote": "",
+          "date": "2018-07-28T23:59:32.220Z",
+          "id": "5b5d036400000004e0000005",
+          "createdTime": "2018-07-28T23:59:32.221Z",
+          "lastUpdatedTime": "2018-07-28T23:59:32.221Z"
+        },
+        "inTripIndex": 3,
+        "type": "PICK",
+        "tripCode": "1871323EADQCF",
+        "isUpdated": false,
+        "isSucceeded": false,
+        "isCollected": false,
+        "collectAmount": 13200,
+        "isExported": false,
+        "isScanned": false,
+        "isReturn": false,
+        "isCancel": false,
+        "date": "2018-07-28T23:59:28.977Z",
+        "id": "5b5d0364d231f0711c894b4f",
+        "createdTime": "2018-07-28T23:59:32.403Z",
+            "lastUpdatedTime": "2018-07-28T23:59:45.008Z"
+      },
+
+      {
         "orderCode": "3GUSRAAB",
         "extraInfo": {
           "orderId": "456334",

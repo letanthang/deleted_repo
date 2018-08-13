@@ -201,7 +201,7 @@ class PickGroupDetailScreen extends Component {
           loading={this.props.loading}
         />
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} refresh={this.refresh.bind(this)} stateKeyword={this.state.keyword} />
+        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} refresh={this.refresh.bind(this)} stateKeyword={this.state.keyword} showSearch={this.state.showSearch} />
         <LoadingSpinner loading={addOrderLoading} />
         
         

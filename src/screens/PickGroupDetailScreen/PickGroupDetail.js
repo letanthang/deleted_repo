@@ -136,11 +136,17 @@ class PickGroupDetail extends Component {
 
   render() {
     console.log('PickGroupDetail render');
-    const { PickItems, ReturnItems, keyword } = this.props;
+    const { PickItems, ReturnItems, keyword, showSearch } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && !o.done) || [];
-    const ordersDone = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && o.done) || [];
+    let orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && !o.done) || [];
+    let ordersDone = pickGroup.ShopOrders.filter(o => this.checkKeywork(o) && o.done) || [];
+
+    if (showSearch) {
+      orders = orders.slice(0, 5);
+      ordersDone = ordersDone.slice(0, 5);
+    }
+
     const sections = [{ data: orders, title: 'Đơn đang chạy', index: 0 }, { data: ordersDone, title: 'Đơn đã xong', index: 1 }];
     const animated = true; //const animated = orders.length < 10;
     const hidden = orders.length === 0 || (keyword !== '') || this.checkRealDone();

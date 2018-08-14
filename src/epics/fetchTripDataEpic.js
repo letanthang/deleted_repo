@@ -9,7 +9,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
-import { PD_FETCH_TRIP_INFO_SUCCESS, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, OTHER_SET_PROPS, PDLIST_NO_TRIP, PD_FETCH_TRIP_INFO_FAIL } from '../actions/types';
+import { PD_FETCH_TRIP_INFO_SUCCESS, PDLIST_FETCH_SUCCESS, PDLIST_FETCH_FAIL, OTHER_SET_PROPS, PDLIST_NO_TRIP, PD_FETCH_TRIP_INFO_FAIL, PD_FETCH_LABEL_SUCCESS } from '../actions/types';
 import { fetchTripDataSuccess, fetchTripDataFail, updateProgress, fetchSortingCodeSuccess, fetchSortingCodeFail } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
@@ -77,9 +77,16 @@ const fetchTripsMoreEpic = (action$, store) =>
 
 
 const fetchOrderSortingCode = (action$, store) =>
-  action$.ofType(PDLIST_FETCH_SUCCESS)
+  action$.ofType(PDLIST_FETCH_SUCCESS, PDLIST_NO_TRIP, PD_FETCH_LABEL_SUCCESS)
+    .filter(action => (action.type === PDLIST_FETCH_SUCCESS && action.payload.more === false) || (action.type === PD_FETCH_LABEL_SUCCESS) || (action.type === PDLIST_NO_TRIP))
     .mergeMap(() => {
-      const sortingOrders = _.filter(store.getState().pd.pdsItems, o => o.type === 'PICK' && !o.label);
+      // console.log(action.type, action.payload.more);
+      if (!store.getState().pd.pdsItems) {
+        return of(fetchSortingCodeFail('Không có đơn'));  
+      }
+
+      let sortingOrders = _.filter(store.getState().pd.pdsItems, o => o.type === 'PICK' && !o.label);
+      sortingOrders = sortingOrders.slice(0, 100);
       if (sortingOrders.length === 0) {
         return of(fetchSortingCodeFail('Đã có mã sorting'));
       }

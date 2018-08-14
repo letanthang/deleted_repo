@@ -79,10 +79,14 @@ const fetchTripsMoreEpic = (action$, store) =>
 const fetchOrderSortingCode = (action$, store) =>
   action$.ofType(PDLIST_FETCH_SUCCESS, PDLIST_NO_TRIP, PD_FETCH_LABEL_SUCCESS)
     .filter(action => (action.type === PDLIST_FETCH_SUCCESS && action.payload.more === false) || (action.type === PD_FETCH_LABEL_SUCCESS) || (action.type === PDLIST_NO_TRIP))
-    .mergeMap(() => {
+    .mergeMap((action) => {
       // console.log(action.type, action.payload.more);
+      const callNum = action.payload.callNum || 0;
+      if (callNum > 9) {
+        return of(fetchSortingCodeFail('Vươt quá số lần gọi cho phép'));
+      }
       if (!store.getState().pd.pdsItems) {
-        return of(fetchSortingCodeFail('Không có đơn'));  
+        return of(fetchSortingCodeFail('Không có đơn'));
       }
 
       let sortingOrders = _.filter(store.getState().pd.pdsItems, o => o.type === 'PICK' && !o.label);
@@ -98,7 +102,7 @@ const fetchOrderSortingCode = (action$, store) =>
           const response = data;
           switch (response.status) {
             case 'OK':
-              return fetchSortingCodeSuccess(response, orderCodes);
+              return fetchSortingCodeSuccess(response, orderCodes, callNum + 1);
             case 'NOT_FOUND':
               return fetchSortingCodeFail('SERVICE NOT FOUND');
             default:

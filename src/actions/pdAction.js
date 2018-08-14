@@ -226,8 +226,8 @@ export const fetchSortingCodeFail = (error) => {
   return { type: PD_FETCH_LABEL_FAIL, payload: { error } };
 };
 
-export const fetchSortingCodeSuccess = (response, orderCodes) => {
-  return { type: PD_FETCH_LABEL_SUCCESS, payload: { data: response.data, orderCodes } };
+export const fetchSortingCodeSuccess = (response, orderCodes, callNum) => {
+  return { type: PD_FETCH_LABEL_SUCCESS, payload: { data: response.data, orderCodes, callNum } };
 };
 
 export const setOrder = (orderCode, props) => {

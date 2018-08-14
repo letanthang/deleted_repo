@@ -483,18 +483,24 @@ const transformPDS = (pdsItems) => {
   const temp = {};
   pdsItems.forEach((item) => {
     const key = getKey(item.orderCode, item.type);
-    temp[key] = { ...item, ...item.extraInfo };
-    temp[key].address = temp[key].type === 'DELIVER' ? temp[key].deliverInfo.address : temp[key].pickInfo.address;
-    temp[key].senderHubId = temp[key].senderContact.contactId;
-    temp[key].senderName = temp[key].senderContact.contactName;
-    temp[key].senderAddress = temp[key].pickInfo.address;
-    temp[key].senderPhone = temp[key].pickInfo.contactPhone;
-    temp[key].receiverName = temp[key].deliverInfo.contactName;
-    temp[key].receiverAddress = temp[key].deliverInfo.address;
-    temp[key].receiverPhone = temp[key].deliverInfo.contactPhone;
-    temp[key].clientId = temp[key].clientId || temp[key].pickInfo.clientId || temp[key].senderHubId;
-    temp[key].clientName = temp[key].clientName || temp[key].clientId || temp[key].senderName;
-    delete temp[key].extraInfo;
+    if (item.extraInfo && item.extraInfo.pickInfo && item.extraInfo.senderContact && item.extraInfo.deliverInfo) {
+      temp[key] = { ...item, ...item.extraInfo };
+      temp[key].address = temp[key].type === 'DELIVER' ? temp[key].deliverInfo.address : temp[key].pickInfo.address;
+      temp[key].senderHubId = temp[key].senderContact.contactId;
+      temp[key].senderName = temp[key].senderContact.contactName;
+      temp[key].senderAddress = temp[key].pickInfo.address;
+      temp[key].senderPhone = temp[key].pickInfo.contactPhone;
+      temp[key].receiverName = temp[key].deliverInfo.contactName;
+      temp[key].receiverAddress = temp[key].deliverInfo.address;
+      temp[key].receiverPhone = temp[key].deliverInfo.contactPhone;
+      temp[key].clientId = temp[key].clientId || temp[key].pickInfo.clientId || temp[key].senderHubId;
+      temp[key].clientName = temp[key].clientName || temp[key].clientId || temp[key].senderName;
+      delete temp[key].extraInfo;
+      delete temp[key].pickInfo;
+      delete temp[key].senderContact;
+      delete temp[key].deliverInfo;
+    }
+    
   });
   return temp;
 };

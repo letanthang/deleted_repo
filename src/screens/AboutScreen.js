@@ -146,7 +146,7 @@ class AboutScreen extends Component {
           >
           <Text>*Nhấn để copy</Text>
           </TouchableOpacity> */}
-          <View style={{ flexDirection: 'row', marginTop: 8 }}>
+          {/* <View style={{ flexDirection: 'row', marginTop: 8 }}>
             <TouchableOpacity
               style={{ flex: 1, backgroundColor: '#00b0ff', padding: 4, borderRadius: 4, margin: 1 }}
               onPress={() => this.props.pdListFetch({ all: true })}
@@ -161,7 +161,7 @@ class AboutScreen extends Component {
             >
               <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Reset & Cập nhật dữ liệu</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
             
           
           <TouchableOpacity

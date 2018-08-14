@@ -176,8 +176,8 @@ class PickOrderScreen extends Component {
     const { 
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
-      collectAmount, weight, length, serviceCost,
-      receiverAddress, clientExtraNote, done,
+      collectAmount, weight, length,
+      receiverAddress, clientRequiredNote, done,
     } = order;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -241,10 +241,6 @@ class PickOrderScreen extends Component {
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
                 <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(collectAmount)} đ</Text>
               </View>
-              {/* <View style={Styles.rowLastStyle}>
-                  <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Phí vận chuyển</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{serviceCost} đ</Text>
-              </View> */}
 
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>
@@ -288,7 +284,7 @@ class PickOrderScreen extends Component {
               </View>
               <View style={[Styles.rowStyle]}>
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú khách hàng</Text>
-                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientExtraNote}</Text>
+                <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
               </View>
               <View style={Styles.rowLastStyle}>
                 <View>

@@ -17,6 +17,7 @@ import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
 import FormButton from '../components/FormButton';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2 } from '../components/ReturnHelpers';
+import { RequireNotes } from '../components/Constant';
 
 let orderCode = null;
 let order = {};
@@ -126,8 +127,9 @@ class ReturnOrderScreen extends Component {
     const { goBack } = this.props.navigation;
     const { 
       receiverName, receiverPhone, receiverAddress,
-      clientExtraNote, clientRequiredNote
+      requiredCode, clientRequiredNote
     } = order;
+    const requiredNote = RequireNotes[requiredCode] || requiredCode;
 
     const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
 
@@ -179,12 +181,12 @@ class ReturnOrderScreen extends Component {
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{receiverAddress}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú đơn hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientExtraNote}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú khách hàng</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
-              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú xem hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
+              <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú bắt buộc</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{requiredNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>

@@ -37,12 +37,6 @@ export const ReturnErrors = {
   // 'GHN-RC5B4F': 'NGƯỜI GỬI YÊU CẦU TRẢ HÀNG',
 };
 
-
-        
-        
-     
-        
-
 export const HistoryActions = {
   CREATE_TRIP: 'tạo chuyến đi',
   ADD_TO_TRIP: 'thêm đơn vào chuyến đi',
@@ -72,6 +66,13 @@ export const HistoryStatus = {
   'DELIVER_SUCCESS': 'giao thành công',
 };
 
+export const RequireNotes = {
+  CHOXEMHANGKHONGTHU: 'CHO XEM HÀNG, KHÔNG CHO THỬ',
+  CHOTHUHANG: 'CHO THỬ HÀNG',
+  KHONGCHOXEMHANG: 'KHÔNG CHO XEM HÀNG',
+  XEMGHICHUKHACHHANG: 'XEM GHI CHÚ KHÁCH HÀNG',
+  'GHN-NOTECODE-NONE': 'CHỌN GHI CHÚ BẮT BUỘC',
+};
 
 export const ActionLogCode = {
   TAB_PICK: 10001,

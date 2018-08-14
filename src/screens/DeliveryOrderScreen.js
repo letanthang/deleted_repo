@@ -18,7 +18,7 @@ import LogoButton from '../components/LogoButton';
 import OrderStatusText from '../components/OrderStatusText';
 import ActionModal from '../components/ActionModal';
 import { getDeliveryDoneOrderInfo, getDeliveryFailOrderInfo, updateOrderToFailWithReason2, CODES } from './Helper';
-import { ActionLogCode, ErrorToLogCode } from '../components/Constant';
+import { ActionLogCode, ErrorToLogCode, RequireNotes } from '../components/Constant';
 import ActionLog from '../libs/ActionLog';
 
 
@@ -167,9 +167,11 @@ class DeliveryOrderScreen extends Component {
     // remove inTripIndex
     const { 
       receiverName, receiverPhone, receiverAddress, collectAmount,
-      clientName, senderPhone, clientRequiredNote, clientExtraNote,
+      clientName, senderPhone, clientRequiredNote, requiredCode,
       inTripIndex,
     } = order;
+
+    const requiredNote = RequireNotes[requiredCode] || requiredCode;
 
     const historyString = Utils.getHistoryString(this.props.orderHistory[orderCode]);
 
@@ -241,7 +243,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú khách hàng</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientExtraNote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
             </View>
             <View style={Styles.rowStyle}>
               <View>
@@ -251,7 +253,7 @@ class DeliveryOrderScreen extends Component {
             </View>
             <View style={Styles.rowLastStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Ghi chú bắt buộc</Text>
-              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{clientRequiredNote}</Text>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{requiredNote}</Text>
             </View>
           </List>
           <ActionModal

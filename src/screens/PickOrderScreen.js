@@ -303,7 +303,7 @@ class PickOrderScreen extends Component {
         <Footer style={{ backgroundColor: 'transparent', borderTopWidth: 0, alignItems: 'center' }}>
           {this.renderButtons()}
         </Footer>
-        <LoadingSpinner loading={this.props.loading} />
+        {/* <LoadingSpinner loading={this.props.loading} /> */}
         <ActionModal
           visible={this.state.modalShow}
           onChooseDate={this.onChooseDate.bind(this)}

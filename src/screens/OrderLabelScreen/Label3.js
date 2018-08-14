@@ -7,6 +7,7 @@ import BluetoothSerial from 'react-native-bluetooth-serial';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import Utils from '../../libs/Utils';
 const logo = require('../../../resources/ghn_label_logo.jpg');
+import { RequireNotes } from '../../components/Constant';
 
 class Label3 extends Component {
   state = { bcUri: null, fullUri: null }
@@ -96,8 +97,10 @@ class Label3 extends Component {
 
   render() {
     const { receiverName, receiverAddress, receiverPhone, imageUri, 
-      orderCode, clientRequiredNote, externalCode, label1, label2, 
+      orderCode, requiredCode, externalCode, label1, label2, 
       toDistrictName, pickWarehouseId, deliverWarehouseId, printed } = this.props.order;
+
+    const requiredNote = RequireNotes[requiredCode] || requiredCode;
     // console.log(order);
     
     const checkBoxIconName = printed ? 'checkbox-marked-circle-outline' : 'checkbox-blank-circle-outline';
@@ -144,7 +147,7 @@ class Label3 extends Component {
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
             <View style={{ flexDirection: 'row', height: 68 }}>
-              <Text style={{ fontSize: 17, fontWeight: '500', color: 'black' }}  numberOfLines={3}>{clientRequiredNote ? clientRequiredNote.toUpperCase() : ''}</Text>
+              <Text style={{ fontSize: 17, fontWeight: '500', color: 'black' }}  numberOfLines={3}>{requiredNote ? requiredNote.toUpperCase() : ''}</Text>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
             <View style={{ flexDirection: 'row', paddingLeft: 4, marginBottom: 2 }}>

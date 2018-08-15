@@ -64,6 +64,7 @@ export const HistoryStatus = {
   'RETURN_SUCCESS': 'trả thành công',
   'DELIVER_FAIL': 'giao thất bại',
   'DELIVER_SUCCESS': 'giao thành công',
+  PICK_FAIL_CANCEL: 'huỷ đơn',
 };
 
 export const RequireNotes = {

@@ -37,9 +37,9 @@ export function updateOrderToFailWithReason2(phone, configuration, orderCode = n
         options: buttons,
         cancelButtonIndex: cancelIndex,
         destructiveButtonIndex: destructiveIndex,
-        title
+        title,
       },
-      buttonIndex => {
+      (buttonIndex) => {
   
         if (buttonIndex == cancelIndex || buttonIndex == destructiveIndex) {
           return resolve({ error: 'cancel', buttonIndex });

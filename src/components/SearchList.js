@@ -32,13 +32,13 @@ class OrderListScreen extends Component {
     Keyboard.dismiss();
     switch (type) {
       case 'PICK':
-        navigate('PickOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh });
+        navigate('PickOrder', { orderCode, type, order, clientId, senderHubId, refresh: this.props.refresh });
         break;
       case 'DELIVER':
         navigate('DeliveryOrder', { orderCode, refresh: this.props.refresh });
         break;
       case 'RETURN':
-        navigate('ReturnOrder', { orderCode, order, clientId, senderHubId, refresh: this.props.refresh });
+        navigate('ReturnOrder', { orderCode, type, order, clientId, senderHubId, refresh: this.props.refresh });
         break;
       default:
         break;

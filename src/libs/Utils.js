@@ -66,8 +66,8 @@ class Utils {
     return !isUpdated && willSucceeded !== undefined;
   }
 
-  static checkCompleteForUnsync({ isUpdated, willSucceeded }) {
-    return isUpdated || willSucceeded !== undefined; 
+  static checkCompleteForUnsync({ isUpdated, willSucceeded, isCancel }) {
+    return isUpdated || isCancel || willSucceeded !== undefined; 
   }
 
   static getKey = (orderID, type) => `${orderID}-${type}`;

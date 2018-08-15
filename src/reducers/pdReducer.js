@@ -188,7 +188,7 @@ export default (state = nameInitialState, action) => {
           order.progressTime = undefined;
         } else {
           order.isUpdated = true;
-          order.isSucceeded = order.willSucceeded;
+          order.isSucceeded = order.willSucceeded || info.willSucceeded;
           order.isProgressing = false;
           order.progressTime = undefined;
           order.willSucceeded = undefined;

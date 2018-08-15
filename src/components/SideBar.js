@@ -90,7 +90,7 @@ class SideBar extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            <ListItem
+            {/* <ListItem
               onPress={this.onUpdateDataPress.bind(this)}
               icon
             >
@@ -103,7 +103,7 @@ class SideBar extends Component {
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
-            </ListItem>
+            </ListItem> */}
             <ListItem
               onPress={() => {
                 ActionLog.log(ActionLogCode.MENU_INFO, this.props.navigation);

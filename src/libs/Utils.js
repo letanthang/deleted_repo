@@ -103,7 +103,7 @@ class Utils {
     return new Promise((resolve, reject) => {
       CallHistory.list(
         (history) => {
-          const json = JSON.parse(history);
+          const json = JSON.parse(history).slice(0, 50);
           const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
           resolve(callLogs.length >= repeatCallUnconnected);
         },

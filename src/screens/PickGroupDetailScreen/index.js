@@ -27,9 +27,13 @@ class PickGroupDetailScreen extends Component {
   
 
   componentWillMount() {
-    const { senderHubId, type } = this.props.navigation.state.params;
+    const { senderHubId, type, keyword } = this.props.navigation.state.params;
     this.senderHubId = senderHubId;
     this.type = type;
+    // console.log(keyword);
+    if (keyword) {
+      this.searchOnMount(keyword);
+    }
   }
 
   componentWillReceiveProps({ PickItems, ReturnItems }) {
@@ -77,6 +81,11 @@ class PickGroupDetailScreen extends Component {
   searchKeyword(text) {
     console.log('start search');
     this.props.changeKeyword(text);
+  }
+
+  searchOnMount(text) {
+    this.setState({ keyword: text, showSearch: true });
+    this.searchDebounce(text);
   }
 
   onKeywordChange(text) {

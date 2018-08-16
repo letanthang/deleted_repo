@@ -22,9 +22,19 @@ class PickGroupDetailScreen extends Component {
   state = { showSearch: false };
 
   componentWillMount() {
-    this.pickGroup = this.props.navigation.state.params.pickGroup;
-    this.senderHubId = this.pickGroup.senderHubId;
-    this.type = this.pickGroup.type;
+    const { senderHubId, type, keyword } = this.props.navigation.state.params;
+    this.senderHubId = senderHubId;
+    this.type = type;
+
+    const { PickItems, ReturnItems } = this.props;
+    const Items = this.type === 'PICK' ? PickItems : ReturnItems;
+    this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
+
+    if (keyword) {
+      this.setState({ showSearch : true });
+      this.props.changeKeyword1(keyword);
+    }
+
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
   }
@@ -141,13 +151,15 @@ class PickGroupDetailScreen extends Component {
     const { width } = Dimensions.get('window');
     const { type } = this.pickGroup;
     const Items = type === 'PICK' ? PickItems : ReturnItems;
-    const pickGroup = Items.find(trip => trip.senderHubId === this.senderHubId); 
+
+    this.pickGroup = Items.find(trip => trip.senderHubId === this.senderHubId); 
+    pickGroup = this.pickGroup;
     return (
       
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <ReturnGroupDetail navigation={navigation} />
+        <ReturnGroupDetail pickGroup={pickGroup} navigation={navigation} showSearch={this.state.showSearch}/>
         <LoadingSpinner loading={false} />
         <View style={{ flexDirection: 'row', paddingTop: 2, paddingBottom: 2, height: 13 }}>
           <Bar 

@@ -12,7 +12,7 @@ import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import StatusText from '../components/StatusText';
 import DataEmptyCheck from '../components/DataEmptyCheck';
-import { Styles, DeliverGroupStyles, Colors } from '../Styles';
+import { Styles, HomeSearchStyles, Colors } from '../Styles';
 
 class OrderListScreen extends Component {
   state = { showSearch: false, keyword: '' };
@@ -26,7 +26,7 @@ class OrderListScreen extends Component {
     
   }
 
-  onDeliveryOrderPress(order) {
+  onOrderPress(order) {
     const { orderCode, senderHubId, clientId, type } = order;
     const navigate = this.props.navigation.navigate;
     Keyboard.dismiss();
@@ -39,6 +39,32 @@ class OrderListScreen extends Component {
         break;
       case 'RETURN':
         navigate('ReturnOrder', { orderCode, type, order, clientId, senderHubId, refresh: this.props.refresh });
+        break;
+      default:
+        break;
+    }
+    //this.props.cancelSearch();
+  }
+
+  onShopPressOnce = _.debounce(this.onShopPress, 300, { leading: true, trailing: false });
+
+
+  onShopPress(order) {
+    const { keyword } = this.props;
+    const { orderCode, senderHubId, clientId, type } = order;
+    const navigate = this.props.navigation.navigate;
+    Keyboard.dismiss();
+    switch (type) {
+      case 'PICK':
+        this.props.navigation.navigate('PickGroupDetail', { type, senderHubId, keyword });
+        break;
+      case 'DELIVER':
+        break;
+      case 'RETURN':
+        this.props.navigation.navigate('ReturnGroupDetail', { type, senderHubId, keyword });
+        break;
+      case 'TRANSIT_IN':
+        this.props.navigation.navigate('CvsDetail', { type, senderHubId, keyword });
         break;
       default:
         break;
@@ -130,31 +156,43 @@ class OrderListScreen extends Component {
               data={items}
               keyExtractor={(item, index) =>  item.orderCode + index}
               renderItem={({ item }) =>
-              <TouchableOpacity
-              onPress={this.onDeliveryOrderPress.bind(this, item)}
-              >
+              <View>
                 <View style={Styles.rowStyle}>
-                  <View style={[DeliverGroupStyles.col1Style]}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 150 }}>
-                      <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>
+                  <TouchableOpacity 
+                    style={[HomeSearchStyles.col1Style]}
+                    onPress={this.onOrderPress.bind(this, item)}
+                  >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 40 }}>
+                      <Text style={[HomeSearchStyles.bigTextStyle, Styles.normalColorStyle]}>
                         {item.orderCode}
                       </Text>
                       {this.renderStatusText(item)}
                     </View>
-                    <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                      {item.clientName} - {item.senderName} - {item.receiverName} 
+                    <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]} numberOfLines={2}>
+                      {item.senderName} - {item.receiverName} 
                     </Text>
-                    <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
+                    <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]} numberOfLines={2}>
                       {item.address}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                   <View
-                    style={DeliverGroupStyles.col2Style}
+                    style={HomeSearchStyles.col2Style}
                   >
-                    <Icon name="arrow-forward" size={20} color='#8F8E93' />
+                    {item.type !== 'DELIVER' ?
+                    <TouchableOpacity
+                      onPress={this.onShopPressOnce.bind(this, item)}
+                    >
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Icon name="arrow-forward" size={20} color='#8F8E93' />
+                        <Text style={[HomeSearchStyles.bigTextStyle, { color: '#00b0ff' }]}>
+                          Shop: {item.senderName}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    : null}  
                   </View>
                 </View>
-              </TouchableOpacity> 
+              </View> 
               }
             /> 
           </DataEmptyCheck>

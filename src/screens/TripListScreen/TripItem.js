@@ -46,7 +46,8 @@ class TripItem extends Component {
   }
   goToReturnGroup(returnGroup) {
     if (returnGroup) {
-      navigateOnce(this, 'ReturnGroupDetail', { pickGroup: returnGroup });
+      const { senderHubId } = returnGroup;
+      navigateOnce(this, 'ReturnGroupDetail', { type: 'RETURN', senderHubId });
     }
   }
   renderHasReturnWarning({ type, senderHubId }) {

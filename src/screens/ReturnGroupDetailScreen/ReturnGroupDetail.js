@@ -20,7 +20,7 @@ import { getUpdateOrderInfo } from '../../components/ReturnHelpers';
 import { get3Type } from '../../selectors/index';
 
 
-class PickGroupDetail extends Component {
+class ReturnGroupDetail extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false };
   
   pickGroup = null;
@@ -30,7 +30,7 @@ class PickGroupDetail extends Component {
   
   componentWillMount() {
     //state = { pickGroup: this.props.navigation.state.params.pickGroup };
-    this.pickGroup = this.props.navigation.state.params.pickGroup;
+    this.pickGroup = this.props.pickGroup;
     this.senderHubId = this.pickGroup.senderHubId;
     this.type = this.pickGroup.type;
   }
@@ -83,10 +83,11 @@ class PickGroupDetail extends Component {
 
   render() {
     console.log('ReturnGroupDetail render!');
-    const { PickItems, ReturnItems, keyword } = this.props;
+    const { PickItems, ReturnItems, keyword, showSearch } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
-    const orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
+    let orders = pickGroup.ShopOrders.filter(o => this.checkKeywork(o));
+    if (showSearch) orders = orders.slice(0, 5);
     const hidden = orders.length === 0 || keyword !== '' || this.checkRealDone();
 
     return (
@@ -184,4 +185,4 @@ const mapStateToProps = (state) => {
   return { sessionToken, PickItems, ReturnItems, tripCode, loading, configuration, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderInfo, updateOrderInfos, getConfiguration, changeDone1, changeKeyword1 })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderInfo, updateOrderInfos, getConfiguration, changeDone1, changeKeyword1 })(ReturnGroupDetail);

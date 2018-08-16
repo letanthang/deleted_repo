@@ -40,8 +40,8 @@ class TripListScreen extends Component {
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
 
-  onTripPress(trip) {
-    this.props.navigation.navigate('ReturnGroupDetail', { pickGroup: trip });
+  onTripPress({ senderHubId }) {
+    this.props.navigation.navigate('ReturnGroupDetail', { type: 'RETURN', senderHubId });
   }
 
   goBack() {

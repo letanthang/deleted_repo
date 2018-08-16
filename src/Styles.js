@@ -316,6 +316,21 @@ export const DeliverGroupStyles = {
   },
 };
 
+export const HomeSearchStyles = {
+  col1Style: {
+    flex: 0.6,
+    alignSelf: 'center',
+  },
+  col2Style: {
+    flex: 0.4,
+    justifyContent: 'center',
+  },
+  bigTextStyle: {
+    fontSize: 15,
+    fontWeight: '600'
+  },
+};
+
 export const printerStyles = {
   container: {
     flex: 0.9,

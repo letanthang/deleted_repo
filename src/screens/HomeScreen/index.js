@@ -237,7 +237,7 @@ class HomeScreen extends Component {
         }
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 4, paddingTop }} >
-          <View style={{ }}>
+          <View>
             <Text style={{ fontWeight: 'bold' }}>
               Tổng số đơn {ordersNum}
             </Text>
@@ -249,7 +249,10 @@ class HomeScreen extends Component {
             <IC name='update' size={16} />
           </View>
         </View>
-        
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingBottom: 4 }} >
+          <Text style={{ fontWeight: '400', fontSize: 16 }}>{this.props.tripCode} </Text>
+        </View>
+
         <PDCard
           type='pick'
           onPress={this.onTripListPress.bind(this)}

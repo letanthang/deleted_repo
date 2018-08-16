@@ -47,20 +47,20 @@ class SideBar extends Component {
   }
 
   render() {
-    let createdByName = '';
-    let createdByPhone = '';
-    if (this.props.pdsItems) {
-      createdByName = this.props.Infos.createdByName;
-      createdByPhone = this.props.Infos.createdByPhone;
-    }
+    const { Infos, user, pdsItems } = this.props;
+    const createdByName = pdsItems ? Infos.createdByName : '';
+    const createdByPhone = pdsItems ? Infos.createdByPhone : '';
+
+    const { fullname } = user.profile;
+    const userId = user.ssoId;
     
-    const { UserID, FullName } = this.props.user;
     return (
       <Container>
         <Content>
           <View style={{ justifyContent: 'space-between', paddingBottom: 16, paddingTop: 16, paddingLeft: 16, height: 170, backgroundColor: '#56B85A' }}>
             <IC name="account-circle" size={70} color='white' />
-            <Text style={{ color: 'white', fontWeight: 'bold' }}>{FullName}</Text>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>{fullname}</Text>
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>MSNV: {userId}</Text>
           </View>
 
           <List>

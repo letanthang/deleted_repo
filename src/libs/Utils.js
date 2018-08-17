@@ -104,7 +104,7 @@ class Utils {
       CallHistory.list(
         (history) => {
           const json = JSON.parse(history).slice(0, 50);
-          const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
+          const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
           resolve(callLogs.length >= repeatCallUnconnected);
         },
         (error) => {
@@ -133,7 +133,7 @@ class Utils {
       CallHistory.list(
         (history) => {
           const json = JSON.parse(history).slice(0, 50);
-          const callLogs = json.filter(item => item.phoneNumber == phoneNumber && item.callType == 'OUTGOING_TYPE');
+          const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
           resolve(callLogs.length >= repeatCallUnconnected);
         },
         (error) => {

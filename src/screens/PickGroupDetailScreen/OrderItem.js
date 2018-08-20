@@ -43,7 +43,7 @@ class OrderItem extends Component {
         <View style={[Styles.orderWrapperStyle, { backgroundColor }]}>
           <View style={Styles.item2Style}>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text>
+              <View><Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{orderCode}</Text></View>
               <OrderStatusText
                 order={order}
                 style={{ marginLeft: 10 }}

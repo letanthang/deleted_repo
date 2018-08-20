@@ -168,9 +168,7 @@ class OrderListScreen extends Component {
                       </Text>
                       {this.renderStatusText(item)}
                     </View>
-                    <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]} numberOfLines={2}>
-                      {item.senderName} - {item.receiverName} 
-                    </Text>
+                    
                     <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]} numberOfLines={2}>
                       {item.address}
                     </Text>

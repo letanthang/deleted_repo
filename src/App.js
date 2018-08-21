@@ -70,7 +70,7 @@ function backPress() {
 //export const store = configureStore();
 class App extends Component {
   componentDidMount() {
-    if (live) codePush.sync({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE });
+    if (live) codePush.sync({ updateDialog: false, installMode: codePush.InstallMode.IMMEDIATE });
     BackHandler.addEventListener('hardwareBackPress', backPress);
   }
 

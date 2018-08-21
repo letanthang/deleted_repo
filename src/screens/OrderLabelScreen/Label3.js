@@ -95,10 +95,15 @@ class Label3 extends Component {
     this.props.setOrder(this.props.order.orderCode, { imageUri: null, printed: false });
   }
 
+  getDistrictWard(district, ward) {
+    const result = ward ? `${district}, ${ward}` : district;
+    return result.toUpperCase();
+  }
+
   render() {
     const { receiverName, receiverAddress, receiverPhone, imageUri, 
       orderCode, requiredCode, externalCode, label1, label2, 
-      toDistrictName, pickWarehouseId, deliverWarehouseId, printed } = this.props.order;
+      pickWarehouseId, deliverWarehouseId, printed, receiverDistrict, receiverWard } = this.props.order;
 
     const requiredNote = RequireNotes[requiredCode] || requiredCode;
     // console.log(order);
@@ -130,7 +135,7 @@ class Label3 extends Component {
           >
             <View style={{ flexDirection: 'row' }}>
               <View style={{ width: 200, height: 70 }}>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{toDistrictName ? toDistrictName.toUpperCase() : ''}</Text>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getDistrictWard(receiverDistrict, receiverWard)}</Text>
               </View>
               
               <View style={{ paddingLeft: 10, flex: 1 }}>

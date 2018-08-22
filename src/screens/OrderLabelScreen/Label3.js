@@ -170,7 +170,7 @@ class Label3 extends Component {
           </View>
                 
           <View style={{ height: 123, marginTop: 4, flex: 1, alignItems: 'center' }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{orderCode}</Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black', paddingLeft: 4, paddingRight: 4 }}>{orderCode}</Text>
             <Barcode
               value={orderCode}
               format="CODE128"

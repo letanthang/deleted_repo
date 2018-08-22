@@ -16,6 +16,18 @@ import Utils from '../libs/Utils';
 const limit = 14;
 const delayTime = 740;
 
+const getErrorVi = ({ message, data }) => {
+  if (message.startsWith('EXISTED')) {
+    if (!data || !data[0] || !data[0].tripCode) {
+      return message;
+    }
+
+    const { tripCode } = data[0];
+    return `Đơn hàng trên đã được thêm vào chuyến đi khác ${tripCode}`;
+  }
+  return message;
+};
+
 const addOrderEpic = (action$, store) =>
   action$.ofType(PD_ADD_ORDER)
     .map(action => action.payload)
@@ -30,7 +42,7 @@ const addOrderEpic = (action$, store) =>
                 payload: { orderCode, senderHubId },
               };
             default:
-              return { type: PD_ADD_ORDER_FAIL, payload: { error: response.message || 'Đơn không hợp lệ' } };
+              return { type: PD_ADD_ORDER_FAIL, payload: { error: getErrorVi(response) || 'Đơn không hợp lệ' } };
           }
         })
         .catch(error => of({ type: PD_ADD_ORDER_FAIL, payload: { error: error.message } })));

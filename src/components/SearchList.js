@@ -162,7 +162,7 @@ class OrderListScreen extends Component {
                     style={[HomeSearchStyles.col1Style]}
                     onPress={this.onOrderPress.bind(this, item)}
                   >
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 40 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 16 }}>
                       <Text style={[HomeSearchStyles.bigTextStyle, Styles.normalColorStyle]}>
                         {item.orderCode}
                       </Text>

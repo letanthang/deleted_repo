@@ -23,7 +23,7 @@ const getErrorVi = ({ message, data }) => {
     }
 
     const { tripCode } = data[0];
-    return `Đơn hàng trên đã được thêm vào chuyến đi khác ${tripCode}`;
+    return `Đơn hàng trên đã được thêm vào chuyến đi ${tripCode}`;
   }
   return message;
 };
@@ -64,13 +64,13 @@ const reloadEpic = action$ =>
 const failEpic = action$ =>
   action$.ofType(PD_ADD_ORDER_FAIL, PD_GET_NEW_ORDERS_FAIL)
     .map(action => action.payload)
-    .do(({ error }) => Utils.showToast(`Không thể thêm đơn ${error}`, 'danger'))
+    .do(({ error }) => Utils.showToast(`Không thể thêm đơn : ${error}`, 'danger'))
     .ignoreElements();
 
 const warnEpic = action$ =>
   action$.ofType(PD_GET_NEW_ORDERS_EMPTY)
     .map(action => action.payload)
-    .do(({ error }) => Utils.showToast(`Không thể thêm đơn ${error}`, 'warning'))
+    .do(({ error }) => Utils.showToast(`Không thể thêm đơn : ${error}`, 'warning'))
     .ignoreElements();    
 
 const getNewOrdersForAddEpic = (action$, store) =>

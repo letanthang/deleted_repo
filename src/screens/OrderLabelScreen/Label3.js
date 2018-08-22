@@ -95,15 +95,21 @@ class Label3 extends Component {
     this.props.setOrder(this.props.order.orderCode, { imageUri: null, printed: false });
   }
 
-  getDistrictWard(district, ward) {
-    const result = ward ? `${district}, ${ward}` : district;
-    return result.toUpperCase();
+  getSortingAddress(p1, p2) {
+    const arr = [];
+    if (p1) arr.push(p1);
+    if (p2) arr.push(p2);
+    return arr.length > 0 ? arr.join().toUpperCase() : '' ;
+  }
+
+  getCity(city) {
+    return city ? city.toUpperCase() : '';
   }
 
   render() {
     const { receiverName, receiverAddress, receiverPhone, imageUri, 
       orderCode, requiredCode, externalCode, label1, label2, 
-      pickWarehouseId, deliverWarehouseId, printed, receiverDistrict, receiverWard } = this.props.order;
+      pickWarehouseId, deliverWarehouseId, printed, receiverDistrict, receiverWard, receiverCity } = this.props.order;
 
     const requiredNote = RequireNotes[requiredCode] || requiredCode;
     // console.log(order);
@@ -135,7 +141,8 @@ class Label3 extends Component {
           >
             <View style={{ flexDirection: 'row' }}>
               <View style={{ width: 200, height: 70 }}>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getDistrictWard(receiverDistrict, receiverWard)}</Text>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getSortingAddress(receiverWard, receiverDistrict)}</Text>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={1} >{this.getCity(receiverCity)}</Text>
               </View>
               
               <View style={{ paddingLeft: 10, flex: 1 }}>

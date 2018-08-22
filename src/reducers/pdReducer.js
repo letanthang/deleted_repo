@@ -494,6 +494,7 @@ const transformPDS = (pdsItems) => {
       temp[key].receiverAddress = temp[key].deliverInfo.address;
       temp[key].receiverDistrict = temp[key].deliverInfo.districtName;
       temp[key].receiverWard = temp[key].deliverInfo.wardName;
+      temp[key].receiverCity = temp[key].deliverInfo.cityName;
       temp[key].receiverPhone = temp[key].deliverInfo.contactPhone;
       temp[key].clientId = temp[key].clientId || temp[key].pickInfo.clientId || temp[key].senderHubId;
       temp[key].clientName = temp[key].clientName || temp[key].clientId || temp[key].senderName;

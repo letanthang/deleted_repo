@@ -109,13 +109,12 @@ class Label3 extends Component {
   render() {
     const { receiverName, receiverAddress, receiverPhone, imageUri, 
       orderCode, requiredCode, externalCode, label1, label2, 
-      pickWarehouseId, deliverWarehouseId, printed, receiverDistrict, receiverWard, receiverCity } = this.props.order;
+      printed, receiverDistrict, receiverWard, receiverCity } = this.props.order;
 
     const requiredNote = RequireNotes[requiredCode] || requiredCode;
-    // console.log(order);
-    
-    const checkBoxIconName = printed ? 'checkbox-marked-circle-outline' : 'checkbox-blank-circle-outline';
 
+    const checkBoxIconName = printed ? 'checkbox-marked-circle-outline' : 'checkbox-blank-circle-outline';
+    
     return (
       <View>
         { imageUri == null ?
@@ -171,7 +170,7 @@ class Label3 extends Component {
               <Text style={{ fontWeight: 'bold', fontSize: 40, marginLeft: 4, marginRight: 6, color: 'black'  }}>{label1}</Text>
               <View style={{ width: 0, borderWidth: 2, marginLeft: 2, marginRight: 2}} />
               <Text style={{ fontWeight: 'bold', fontSize: 40, marginLeft: 6, color: 'black' }}>{label2}</Text>
-              <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black', width: 60, marginTop: 3, marginLeft: 10 }} numberOfLines={2}>{pickWarehouseId === deliverWarehouseId ? 'CÙNG KHO' : 'KHÁC KHO'}</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black', width: 60, marginTop: 3, marginLeft: 10 }} numberOfLines={2}>{label1 === '00-00-00' ? 'CÙNG KHO' : 'KHÁC KHO'}</Text>
             </View>
             
           </View>

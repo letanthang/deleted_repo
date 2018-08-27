@@ -738,111 +738,38 @@ export const configResponse = {
 }
 
 export const loginResponse = {
-    "status": "OK",
-    "message": "Successfull",
-    "data": {
-        "session": "40cf13dc238677d0c3632a5c30276c61",
-        "expired": 1506671613820,
-        "userInfo": {
-            "fullname": "Lê Tấn Thắng",
-            "email": "thanglt@ghn.vn",
-            "phone": "0933932173",
-            "ssoId": "210030",
-            "roles": [
-                {
-                    "name": "PDA",
-                    "description": "Quyền cho PDA",
-                    "permissionList": [
-                        "PDAConfig_EDIT",
-                        "PDAConfig_VIEW",
-                        "PDA_EDIT",
-                        "PDA_VIEW"
-                    ],
-                    "orderNumber": 3,
-                    "id": "59c21fa4bae4ba6f3d33458e",
-                    "createdTime": "Sep 20, 2017 2:58:28 PM",
-                    "lastUpdatedTime": "Sep 20, 2017 4:47:05 PM"
-                }
-            ],
-            "hubIds": [
-                "SGN"
-            ],
-            "portIds": [
-                "5882d8830c28171270a6ebd6",
-                "5882e1060c28171270a6ebe6",
-                "5882e1550c28171270a6ebe8",
-                "5882e28f0c28171270a6ebea",
-                "58954a3f0c2817118cd21621",
-                "58954a5b0c2817118cd21622",
-                "58954a740c2817118cd21623",
-                "58954a8d0c2817118cd21624",
-                "58954ab50c2817118cd21625",
-                "58954ac70c2817118cd21626",
-                "58954ae30c2817118cd21627",
-                "58954afd0c2817118cd21628",
-                "58954b130c2817118cd21629",
-                "58954b390c2817118cd2162a",
-                "5950c47a0c28171d000cfcee"
-            ],
-            "secret": "ztSYIyaP59S0tA18Sd4xfPr00vds3Tq1Rplwoqi5ia3pjD3X0tO",
-            "status": "ACTIVE",
-            "isSupperUser": false,
-            "userType": 1
-        }
-    }
-}
-
-export const performanceResponse = {
-    "status": "OK",
-    "data": [
-        {
-            "driverId": "210030",
-            "performanceDate": "Oct 12, 2017 12:00:00 AM",
-            "pickSucceed": 0,
-            "pickTotal": 1,
-            "deliverSucceed": 0,
-            "deliverTotal": 0,
-            "returnSucceed": 0,
-            "returnTotal": 0,
-            "from": 0,
-            "to": 0,
-            "id": "59e5808fbae4ba33ce3c4e7c",
-            "createdTime": "Oct 17, 2017 11:01:19 AM",
-            "lastUpdatedTime": "Oct 17, 2017 11:01:19 AM"
-        },
-        {
-            "driverId": "210030",
-            "performanceDate": "Oct 16, 2017 12:00:00 AM",
-            "pickSucceed": 6,
-            "pickTotal": 10,
-            "deliverSucceed": 1,
-            "deliverTotal": 1,
-            "returnSucceed": 0,
-            "returnTotal": 0,
-            "from": 0,
-            "to": 0,
-            "id": "59e5808fbae4ba33ce3c4e7d",
-            "createdTime": "Oct 17, 2017 11:01:19 AM",
-            "lastUpdatedTime": "Oct 17, 2017 11:01:19 AM"
-        },
-        {
-            "driverId": "210030",
-            "performanceDate": "Oct 17, 2017 12:00:00 AM",
-            "pickSucceed": 0,
-            "pickTotal": 2,
-            "deliverSucceed": 0,
-            "deliverTotal": 0,
-            "returnSucceed": 0,
-            "returnTotal": 0,
-            "from": 0,
-            "to": 0,
-            "id": "59e6c288bae4ba32d1ef263b",
-            "createdTime": "Oct 18, 2017 9:55:04 AM",
-            "lastUpdatedTime": "Oct 18, 2017 9:55:04 AM"
-        }
-    ],
-    "total": 3,
-    "message": "Query performance successfully."
+	"status": "OK",
+	"data": [{
+		"session": "c33da2caf778066a60993ad3b1f27669",
+		"t62": "76l/fepbLk_TdWgzpIX5wFIBpkBuB1Oy7Fmy3J1nrA4_9z0AM/09g1k32v68_TbNK7bk6bO7bs73qCLw9ei4h004J7kx8kA4E_CceEjy1bM1BrAnd27M8NNDpSEIj2t2Boo3vBaqbNhJTGZxLVbaWG1xHuphxWX9QP_tv",
+		"expired": 1535957767010,
+		"userInfo": {
+			"id": "5b6b645a4536eb39a073b195",
+			"ssoId": "210030",
+			"profile": {
+				"email": "thanglt@ghn.vn",
+				"fullname": "Lê Tấn Thắng",
+				"phone": "0933932173"
+			},
+			"status": 2,
+			"isSupperUser": true,
+			"warehouseIds": [1323],
+			"roles": [{
+				"roleCode": "ROLE_DRIVER",
+				"name": "Tài xế",
+				"description": "TÀI XẾ",
+				"roles": [],
+				"permissionList": ["API_TRIP_V2_PROFILE", "API_TRIP_V2_GET_TRIP", "API_TRIP_V2_SEARCH", "API_TRIP_V2_ITEM_VIEW", "API_TRIP_V2_ORDER", "API_TRIP_V2_ORDER_INTERNAL", "API_TRIP_V2_HISTORY_TRIP", "API_TRIP_V2_HISTORY_ORDER", "API_TRIP_V2_ITEM_BY_ORDER", "API_TRIP_V2_ITEM_SEARCH", "API_TRIP_V2_HISTORY", "API_QUERY_TRIP", "API_TRIP_V2_ITEM_ADD", "API_TRIP_V2_ITEM_UPDATE", "API_MPDS_GET_ORDER_V2"],
+				"id": "5adf158ad231f00e3da35576",
+				"createdTime": "2018-04-24T11:31:22.447Z",
+				"lastUpdatedTime": "2018-08-09T02:32:45.786Z"
+			}],
+			"ref": {
+				"ports": "[]"
+			}
+		}
+	}],
+	"message": "Create Session successfully."
 }
 
 // export const updateResponse = {

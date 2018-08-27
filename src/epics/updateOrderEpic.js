@@ -13,7 +13,7 @@ import { updateOrderStatusSuccess, updateOrderStatusFail, pdListFetch, logoutUse
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
 // import Utils from '../libs/Utils';
-const limit = 14;
+export const limit = 14;
 const delayTime = 735;
 const updateOrderStartEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS_START)
@@ -56,7 +56,7 @@ const updateOrderEpic = (action$, store) =>
           const response = data;
           switch (response.status) {
             case 'OK':
-              return updateOrderStatusSuccess(OrderInfos, response.data[0].listFail);
+              return updateOrderStatusSuccess(OrderInfos, response.data || []);
             case 'FORBIDDEN':
             case 'UNAUTHORIZED':
               return logoutUser('Phiên làm việc hết hạn. Hãy đăng nhập lại. ');

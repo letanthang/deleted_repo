@@ -11,6 +11,7 @@ import {
   PD_SET_ORDER_PROPS, PD_FETCH_LABEL_SUCCESS, PD_FETCH_LABEL_FAIL,
  } from '../actions/types';
 import Utils from '../libs/Utils';
+import { limit } from '../epics/updateOrderEpic';
 
 const nameInitialState = {
   pdsItems: null,
@@ -174,16 +175,18 @@ export default (state = nameInitialState, action) => {
   // ]
 
     case UPDATE_ORDER_STATUS_SUCCESS: {
-      const { OrderInfos, FailedOrders, requireReload } = action.payload;
+      const { OrderInfos, okOrders } = action.payload;
+      let { requireReload } = action.payload;
+
       let ids = [];
-      if (FailedOrders instanceof Array && FailedOrders.length > 0) {
-        ids = FailedOrders.map(o => o.orderCode);
+      if (okOrders instanceof Array && okOrders.length > 0) {
+        ids = okOrders.map(o => o.orderCode);
       }
 
       const pdsItems = _.cloneDeep(state.pdsItems);
       _.each(OrderInfos, (info) => {
         const order = Utils.getOrder(pdsItems, info.orderCode, info.type);
-        if (ids.length > 0 && ids.includes(info.orderCode)) {
+        if (!ids.includes(info.orderCode)) {
           order.isProgressing = false;
           order.progressTime = undefined;
         } else {
@@ -195,7 +198,11 @@ export default (state = nameInitialState, action) => {
         }
       });
       
+      // compute require reload
       let data = {};
+      const allNum = OrderInfos.slice(0, limit).length;
+      const okNum = okOrders.length;
+      requireReload = requireReload || (allNum !== okNum);
       if (requireReload) {
         data = { requireReload };
       }

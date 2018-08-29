@@ -50,9 +50,10 @@ class OrderListScreen extends Component {
 
 
   onShopPress(order) {
-    const { keyword } = this.props;
-    const { orderCode, senderHubId, clientId, type } = order;
+    let { keyword } = this.props;
+    const { orderCode, senderHubId, clientId, type, senderName } = order;
     const navigate = this.props.navigation.navigate;
+    keyword = senderName.toUpperCase().includes(keyword.toUpperCase()) && !orderCode.toUpperCase().includes(keyword.toUpperCase()) ? null : keyword;
     Keyboard.dismiss();
     switch (type) {
       case 'PICK':

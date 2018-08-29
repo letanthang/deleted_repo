@@ -16,8 +16,10 @@ import Utils from '../libs/Utils';
 const limit = 14;
 const delayTime = 740;
 
-const getErrorVi = ({ message, data }) => {
-  if (message.startsWith('EXISTED')) {
+const getErrorVi = ({ status, message, data }) => {
+  if (status === 'NOT_FOUND' || message === 'Order not found.') {
+    return 'Mã đơn không tồn tại.';
+  } else if (message.startsWith('EXISTED')) {
     if (!data || !data[0] || !data[0].tripCode) {
       return message;
     }

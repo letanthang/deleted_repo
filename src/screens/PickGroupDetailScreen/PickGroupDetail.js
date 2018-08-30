@@ -189,6 +189,10 @@ class PickGroupDetail extends Component {
                 <OrderItem 
                   navigation={this.props.navigation}
                   order={item}
+                  weight={item.weight}
+                  length={item.length}
+                  width={item.width}
+                  height={item.height}
                   animated={animated}
                   acceptDeliverPress={this.acceptDeliverPress.bind(this)}
                   onOrderPress={this.onOrderPress.bind(this)}

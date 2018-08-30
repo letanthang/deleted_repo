@@ -5,14 +5,14 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse } from './mock';
+import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse } from './mock';
 
 
 // ---------turn on mock data----------
 const mockOn = false;
 const timeout = 9500;
 export const live = false;
-export const appVersionName = '23/08';
+export const appVersionName = '30/08';
 
 // const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
 // const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
@@ -36,6 +36,7 @@ export const appVersionName = '23/08';
 const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
 const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
 const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
 const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
 const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
 export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
@@ -381,4 +382,27 @@ export const GetNewOrders = (hubId, senderHubId) => {
 
 export const getNewOrders = (hubId, senderHubId) => {
   return fromPromise(GetNewOrders(hubId, senderHubId));
+};
+
+export const GetOrdersInfo = (orderIds = []) => {
+  // console.log(orderIds);
+  const idsString = orderIds.join(',');
+  const URL = `${OMS_URL}/order/${idsString}/operation`;
+  const headers = {
+    'X-ApiKey': '9697efabe8aaafff6d468ac5c22501fe',
+    'X-ApiSecret': 'FJiumKDQgx0u9315G7500d8Rylpi0FGboGKjH5aFuhcI0Ds2',
+  };
+  const config = {
+    headers,
+    timeout,
+  };
+
+  if (mockOn) {
+    mock.onGet(URL, config).reply(200, ordersInfoResponse);
+  }
+  return axios.get(URL, config);
+};
+
+export const getOrdersInfo = (orderIds = []) => {
+  return fromPromise(GetOrdersInfo(orderIds));
 };

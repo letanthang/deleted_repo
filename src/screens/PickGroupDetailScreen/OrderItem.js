@@ -8,12 +8,16 @@ import { Styles, Colors } from '../../Styles';
 import Utils from '../../libs/Utils';
 
 class OrderItem extends Component {
-  shouldComponentUpdate({ order, isDelivering }) {
+  shouldComponentUpdate({ order, isDelivering, weight, width, length, height }) {
     const old = this.props.order;
-    if (order.isUpdated == old.isUpdated
+    if (order.isUpdated === old.isUpdated
       && order.isSucceeded === old.isSucceeded
       && order.willSucceeded === old.willSucceeded
-      && order.note === old.note 
+      && order.note === old.note
+      && weight === this.props.weight
+      && width === this.props.width
+      && length === this.props.length
+      && height === this.props.height
       && isDelivering === this.props.isDelivering) {
       return false;
     }

@@ -17,6 +17,7 @@ export const PickErrors = {
   'GHN-PCA940': 'KHÔNG LẤY HÀNG KỊP',
   'GHN-PCC9T0': 'KHÁCH HÀNG MUỐN GỬI HÀNG TẠI ĐIỂM',
   'GHN-SCHO11': 'BÀN GIAO TÀI XẾ KHÁC',
+  'GHN-PCC9T9': 'THÔNG TIN ĐƠN HÀNG CHƯA ĐÚNG',
 };
 
 export const ReturnErrors = {

@@ -944,3 +944,32 @@ export const newOrdersResponse = {
     "total": 7,
     "message": "Query OrderItem successfully."
 }
+
+
+export const ordersInfoResponse = {
+  "status": "OK",
+  "data": [
+      {
+          "orderCode": "3GUSR6AD",
+          "partnerAction": "ReadyToPick",
+          "partnerStatus": "ReadyToPick",
+          "lastUpdateFromPartner": "2018-08-29T11:12:29.701Z",
+          "status": "PICKING",
+          "action": "PICK",
+          "isCancel": false,
+          "lost": false,
+          "tripId": "Unknown_Id",
+          "tripPartner": "Unknown_Partner",
+          "width": 10,
+          "length": 10,
+          "height": 10,
+          "weight": 111,
+          "date": "2018-08-29T11:12:29.639Z",
+          "id": "5b867f9d000000171a000002",
+          "createdTime": "2018-08-29T11:12:29.725Z",
+          "lastUpdatedTime": "2018-08-29T11:17:38.660Z"
+      }
+  ],
+  "total": 1,
+  "message": "Query OrderOpsInfo successfully."
+}

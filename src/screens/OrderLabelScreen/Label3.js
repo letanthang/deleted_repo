@@ -131,21 +131,21 @@ class Label3 extends Component {
           <View
             style={{
               width: 362,
-              height: 397,
+              height: 372,
               paddingLeft: 8,
               paddingRight: 8,
               alignSelf: 'center',
-              backgroundColor: 'white'
+              backgroundColor: 'white',
             }}
           >
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', paddingTop: 8 }}>
               <View style={{ width: 200, height: 70 }}>
                 <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getSortingAddress(receiverWard, receiverDistrict)}</Text>
                 <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={1} >{this.getCity(receiverCity)}</Text>
               </View>
               
-              <View style={{ paddingLeft: 10, flex: 1 }}>
-                <Image source={logo} style = {{ resizeMode: 'contain', height: 30 }} />
+              <View style={{ paddingLeft: 10, flex: 1, paddingTop: 12 }}>
+                <Image fadeDuration={0} source={logo} style = {{ resizeMode: 'contain', height: 30 }} />
               </View>
             </View>
             
@@ -153,12 +153,12 @@ class Label3 extends Component {
               <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }}>{receiverName.toUpperCase()}</Text>
               <Text style={{ fontSize: 18, fontWeight: '500', color: 'black' }}>{receiverPhone.toUpperCase()}</Text>
             </View>
-            <View style={{height: 77}}>
+            <View style={{height: 74}}>
               <Text style={{ fontSize: 17, fontWeight: '500', color: 'black' }} numberOfLines={3}>{receiverAddress.toUpperCase()}</Text>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
-            <View style={{ flexDirection: 'row', height: 68 }}>
-              <Text style={{ fontSize: 17, fontWeight: '500', color: 'black' }}  numberOfLines={3}>{requiredNote ? requiredNote.toUpperCase() : ''}</Text>
+            <View style={{ flexDirection: 'row', height: 30 }}>
+              <Text style={{ fontSize: 17, fontWeight: '500', color: 'black' }}  numberOfLines={1}>{requiredNote ? requiredNote.toUpperCase() : ''}</Text>
             </View>
             <View style={{ height: 0, borderStyle: 'dashed', borderWidth: 1, borderRadius: 1, marginTop: 6, marginBottom: 6 }} />
             <View style={{ flexDirection: 'row', paddingLeft: 4, marginBottom: 2 }}>

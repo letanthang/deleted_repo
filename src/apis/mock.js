@@ -152,7 +152,7 @@ export const ordersResponse = {
             "contactId": "349091",
             "contactName": "HUB HCM Tân Bình HCM",
             "contactPhone": "028.38113.789",
-            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
+            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh, Rivera Park lầu 3, cty Scormmerce",
             "cityCode": "8",
             "cityName": "Hồ Chí Minh",
             "districtCode": "0214",
@@ -185,7 +185,7 @@ export const ordersResponse = {
             "contactId": "0945891357",
             "contactName": "Lộc Y Tế",
             "contactPhone": "0945891357",
-            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
+            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh, Rivera Park lầu 3, công ty Scormmerce",
             "cityCode": "8",
             "cityName": "Hồ Chí Minh",
             "districtCode": "0214",
@@ -781,20 +781,14 @@ export const loginResponse = {
 // }
 
 export const updateStatusResponse = {
-"status": "OK",
-"data": [
-    { 
-    "listSuccess": [],
-    "listFail": [
-        {
-            "orderCode": "3DKX99HK",
-            "type": "DELIVER",
-            "message": "Order is not valid"
-        }
-    ]
+  "status": "OK",
+  "data": [
+    {
+        "orderCode": "3GUSRAAA",
+        "type": "PICK",
     }
-],
-"message": "Successfull"
+  ],
+  "message": "Successfull"
 }
 
 export const orderHistoryResponse = {
@@ -972,4 +966,14 @@ export const ordersInfoResponse = {
   ],
   "total": 1,
   "message": "Query OrderOpsInfo successfully."
+}
+
+export const sortingResponse = {
+  "status": "OK",
+  "data": [
+      {
+          "orderCode": "3GUSRAAA",
+          "label": "01-03-02/22/Giao"
+      }
+  ]
 }

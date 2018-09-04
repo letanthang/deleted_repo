@@ -5,14 +5,14 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse } from './mock';
+import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse } from './mock';
 
 
 // ---------turn on mock data----------
 const mockOn = false;
 const timeout = 9500;
-export const live = true;
-export const appVersionName = '30/08';
+export const live = false;
+export const appVersionName = '05/09';
 
 const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
 const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
@@ -282,7 +282,7 @@ export const GetOrderSortingCode = (orderCodes) => {
   };
 
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, configResponse);
+    mock.onGet(URL, config).reply(200, sortingResponse);
   }
   
   return axios.get(URL, config);

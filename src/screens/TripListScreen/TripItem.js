@@ -35,7 +35,11 @@ class TripItem extends Component {
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
   onTripPress({ type, senderHubId }) {
-    this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
+    if (type === 'PICK') {
+      this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
+    } else if (type === 'TRANSIT_IN') {
+      this.props.navigation.navigate('CvsDetail', { type, senderHubId });
+    } 
   }
 
   renderCheckedIcon(orderNum, completedNum) {

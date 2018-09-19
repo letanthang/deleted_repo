@@ -19,7 +19,7 @@ export const get3Type = createSelector(
     // console.log('Get3Type');
     const DeliveryItems = _.filter(pdsItems, o => o.type === 'DELIVER');
     
-    let items = _.filter(pdsItems, o => o.type === 'PICK');
+    let items = _.filter(pdsItems, o => o.type === 'PICK' || o.type === 'TRANSIT_IN');
     const PickOrders = items;
     let groups = _.groupBy(items, 'senderHubId');
     const PickItems = [];
@@ -77,7 +77,7 @@ export const get3Type = createSelector(
 
 
     // TRANSIT_IN
-    items = _.filter(pdsItems, o => o.type === 'TRANSIT_IN');
+    items = _.filter(pdsItems, o => o.type === 'TRANSIT_IN123');
     const CvsOrders = items;
     groups = _.groupBy(items, 'senderHubId');
     const CvsItems = [];

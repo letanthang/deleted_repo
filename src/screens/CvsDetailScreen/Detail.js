@@ -17,7 +17,7 @@ import ActionModal from '../../components/ActionModal';
 import { getUpdateOrderInfo } from '../../components/Helpers';
 import OrderItem from './OrderItem';
 
-class PickGroupDetail extends Component {
+class Detail extends Component {
   state = { modalShow: false, date: new Date(), buttonIndex: null, androidDPShow: false, notify: 0 };
   
   pickGroup = null;
@@ -213,9 +213,9 @@ const mapStateToProps = (state) => {
   const { loading } = other;
   const { configuration } = config;
   const { keyword } = pickGroup;
-  const { CvsItems } = get3Type(state);
+  const { PickItems } = get3Type(state);
   const db = getOrders(state);
-  return { db, CvsItems, sessionToken, tripCode, loading, configuration, keyword, timeServer };
+  return { db, CvsItems: PickItems, sessionToken, tripCode, loading, configuration, keyword, timeServer };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder, pdListFetch })(PickGroupDetail);
+export default connect(mapStateToProps, { updateOrderStatus, getConfiguration, updateOrderInfos, updateOrderInfo, setAllStatus, changeDone, addOneOrder, pdListFetch })(Detail);

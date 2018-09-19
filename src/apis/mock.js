@@ -329,7 +329,7 @@ export const ordersResponse = {
             "haveToCollectAmount": 0
           },
           "pickInfo": {
-            "contactId": "349091",
+            "contactId": "349092",
             "contactName": "HUB HCM Tân Bình HCM",
             "contactPhone": "028.38113.789",
             "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
@@ -407,7 +407,7 @@ export const ordersResponse = {
             "haveToCollectAmount": 0
           },
           "pickInfo": {
-            "contactId": "349091",
+            "contactId": "349092",
             "contactName": "HUB HCM Tân Bình HCM",
             "contactPhone": "028.38113.789",
             "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",

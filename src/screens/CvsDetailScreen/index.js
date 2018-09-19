@@ -13,7 +13,7 @@ import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFet
 import { get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
-import PickGroupDetail from './PickGroupDetail';
+import Detail from './Detail';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
 import LogoButton from '../../components/LogoButton';
@@ -166,7 +166,7 @@ class CvsDetailScreen extends Component {
   }
 
   render() {
-    console.log('PickGroupDetailScreen render');
+    console.log('DetailScreen render');
     const { addOrderLoading, CvsItems } = this.props;
     const { width } = Dimensions.get('window');
     const type = this.type;
@@ -188,7 +188,7 @@ class CvsDetailScreen extends Component {
           loading={this.props.loading}
         />
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
-        <PickGroupDetail navigation={this.props.navigation} pickGroup={pickGroup} refresh={this.refresh.bind(this)} />
+        <Detail navigation={this.props.navigation} pickGroup={pickGroup} refresh={this.refresh.bind(this)} />
         <LoadingSpinner loading={addOrderLoading} />
         
         
@@ -228,8 +228,9 @@ const mapStateToProps = (state) => {
   const { sessionToken } = auth;
   const { tripCode, addOrderLoading } = pd;
   const { OrderInfos, done, keyword } = pickGroup;
-  const { PickItems, ReturnItems, CvsItems } = get3Type(state);
-  return { PickItems, ReturnItems, CvsItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
+  const { PickItems, ReturnItems } = get3Type(state);
+
+  return { PickItems, ReturnItems, CvsItems: PickItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd })(CvsDetailScreen);

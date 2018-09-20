@@ -12,9 +12,7 @@ class BarcodeReader extends Component {
   state = { data: null };
   render() {
     return (
-      <View
-        style={styles.wrapper}
-      >
+      
         <View style={styles.container}>
           <Camera
             ref={(cam) => {
@@ -33,7 +31,6 @@ class BarcodeReader extends Component {
             </View> : null}
           </Camera>
         </View>
-      </View>
       
     );
   }

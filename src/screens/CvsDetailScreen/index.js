@@ -17,11 +17,12 @@ import Detail from './Detail';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
 import LogoButton from '../../components/LogoButton';
+import BarcodeReader from '../../components/BarcodeReader';
 
 class CvsDetailScreen extends Component {
   constructor() {
     super();
-    this.state = { showSearch: false, keyword: '' };
+    this.state = { showSearch: false, keyword: '', showScan: true };
     this.searchDebounce = _.debounce(this.searchKeyword, 500, { leading: false, trailing: true });
   }
   
@@ -81,6 +82,35 @@ class CvsDetailScreen extends Component {
   onKeywordChange(text) {
     this.setState({ keyword: text });
     this.searchDebounce(text);
+  }
+
+  renderScannerHeader() {
+    return (
+    <Header style={{ backgroundColor: 'black' }}>
+      <Left style={Styles.leftStyle}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Button
+          transparent
+          onPress={() => goBack()}
+        >
+          <Icon name="arrow-back" color='white' />
+        </Button>
+        <LogoButton dispatch={this.props.navigation.dispatch} />
+      </View>
+      </Left>
+      <Body style={Styles.bodyStyle}>
+        <Title style={{ color: 'white' }}>Scanner</Title>
+      </Body>
+      <Right style={Styles.rightStyle}>
+        <Button
+          transparent
+          onPress={() => this.setState({ showSearch: !this.state.showSearch })}
+        >
+          <Icon name="search" />
+        </Button>
+      </Right>
+    </Header>
+    );
   }
 
   renderHeader(pickGroup) {
@@ -165,8 +195,21 @@ class CvsDetailScreen extends Component {
     );
   }
 
+  renderScanner() {
+    return (
+      <Container style={{ backgroundColor: 'black' }}>
+        {this.renderScannerHeader()}
+        <BarcodeReader onBarCodeRead={(data) => console.log(data)}  />
+      </Container>
+    );
+  }
+
   render() {
     console.log('DetailScreen render');
+
+    if (this.state.showScan) {
+      return this.renderScanner();
+    }
     const { addOrderLoading, CvsItems } = this.props;
     const { width } = Dimensions.get('window');
     const type = this.type;
@@ -180,7 +223,6 @@ class CvsDetailScreen extends Component {
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
     return (
-      
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
         <ProgressBar

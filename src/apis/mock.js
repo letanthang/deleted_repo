@@ -780,6 +780,30 @@ export const loginResponse = {
 //   "message": "Successfull"
 // }
 
+export const getFeeResponse = {
+  "status": "OK",
+  "data": [
+    {
+        "orderCode": "3GUSRAAA",
+        "type": "PICK",
+        "moneyUpdated": 12345
+    }
+  ],
+  "message": "Successfull"
+}
+
+export const updateRDCResponse = {
+  "status": "OK",
+  "data": [
+    {
+        "orderCode": "3GUSRAAA",
+        "type": "PICK",
+        "moneyUpdated": 12345
+    }
+  ],
+  "message": "Successfull"
+}
+
 export const updateStatusResponse = {
   "status": "OK",
   "data": [

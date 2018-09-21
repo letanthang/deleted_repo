@@ -5,13 +5,13 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse } from './mock';
+import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse, updateRDCResponse } from './mock';
 
 
 // ---------turn on mock data----------
-const mockOn = false;
+const mockOn = true;
 const timeout = 9500;
-export const live = true;
+export const live = false;
 export const appVersionName = '05/09';
 
 const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
@@ -153,6 +153,10 @@ export const UpdateOrderWeightRDC = (params) => {
   const { LoginHeader } = Share;
   // { ...LoginHeader, 'x-hubid': 'PhoYenTN', 'x-warehouseid': 1323 }
   const config = { headers: LoginHeader, timeout };
+  if (mockOn) {
+    mock.onPut(URL, params, config).reply(200, updateRDCResponse);
+  }
+
   return axios.put(URL, params, config);
 };
 

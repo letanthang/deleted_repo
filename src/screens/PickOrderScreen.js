@@ -245,6 +245,11 @@ class PickOrderScreen extends Component {
 
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>
+                <TouchableOpacity
+                  onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, senderHubId })}
+                >
+                  <Icon name="create" />
+                </TouchableOpacity>
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng</Text>

@@ -144,6 +144,14 @@ export const Styles = {
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
+  rowHeaderStyle2: {
+    backgroundColor: Colors.rowHeader,
+    padding: 4,
+    paddingLeft: 16,
+    paddingRight: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   rowHeaderConfirm: {
     backgroundColor: Colors.rowHeader,
     padding: 4,

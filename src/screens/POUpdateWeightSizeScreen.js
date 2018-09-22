@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
-  Header, Button, Input, Item, Left,
-  Body, Right
+  Header, Left, Body, Right, Button
 } from 'native-base';
 import accounting from 'accounting';
+import PopupDialog, { DialogButton, DialogTitle } from 'react-native-popup-dialog';
 
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
@@ -47,10 +47,6 @@ class POUpdateWeightSizeScreen extends Component {
       { cancelable: false }
     );
   }
-
-// 
-// 
-// 
 // 
   onInputChange(prop, value) {
     this.state[prop] = value;
@@ -62,6 +58,7 @@ class POUpdateWeightSizeScreen extends Component {
   onSaveWeightSizePress(order) {
     if (!this.isInfoChanged(order)) return;
     this.onSaveWeightSize();
+    
     // if (calculated) {
     //   this.showSaveDialog();
     // } else {
@@ -86,12 +83,14 @@ class POUpdateWeightSizeScreen extends Component {
   } 
   onCalculateFeePress(order) {
     if (!this.isInfoChanged(order)) return;
+    this.popupDialog.show();
+  
 
-    const { length, weight, width, height } = this.state;
-    const { serviceId, fromDistrictId, toDistrictId } = order;
-    const params = {  weight, length, width, height, orderCode, clientId, serviceId, fromDistrictId, toDistrictId };
-    calculated = true;
-    this.props.calculateServiceFee(params);
+    // const { length, weight, width, height } = this.state;
+    // const { serviceId, fromDistrictId, toDistrictId } = order;
+    // const params = {  weight, length, width, height, orderCode, clientId, serviceId, fromDistrictId, toDistrictId };
+    // calculated = true;
+    // this.props.calculateServiceFee(params);
   }
   
   isInfoChanged(order) {
@@ -111,7 +110,28 @@ class POUpdateWeightSizeScreen extends Component {
       );  
       return false;
     }
-    return true;
+    return this.isInfoValidated();
+  }
+  isInfoValidated() {
+    // DxRxC (cm): 10x10x10 - 50x30x50
+    const { length, weight, width, height } = this.state;
+    if (length >= 10 && length <=50
+      && width >= 10 && width <=30
+      && height >=10 && width <=50
+      && weight >=1 && weight <= 50000) {
+        return true;
+    }
+
+    Alert.alert(
+      'Thông báo',
+      'Thông tin kích thước khối lượng vượt quá mức cho phép. Vui lòng kiểm tra lại.',
+      [
+        
+        { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    );  
+    return false;
   }
 
   renderFee(ServiceFee) {
@@ -122,6 +142,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
+    orderCode = this.props.navigation.state.params.orderCode;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     const { collectAmount, weight, length, width, height } = order;
     // console.log(collectAmount, weight, length, width, height);
@@ -157,23 +178,22 @@ class POUpdateWeightSizeScreen extends Component {
           keyboardShouldPersistTaps='handled' 
         >
           <View style={styles.rowStyle}>
-            <Text>Khối lượng </Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Khối lượng (g)</Text> 
+          </View>
+          <View style={styles.rowStyle}>
             <TextInput 
               style={{ flex: 1, borderColor: 'gray' }}
               value={this.state.weight.toString()}
               onChangeText={value => this.onInputChange('weight', value)}
               keyboardType='numeric'
             />
-            <Text> g</Text>
-          </View>
-          
-          <View style={styles.rowStyle}>
-            <Text>Kích thước </Text>  
           </View>
           <View style={styles.rowStyle}>
-          
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Kích thước DxRxC (cm)</Text>  
+          </View>
+          <View style={styles.rowStyle}>
             <TextInput 
-              style={{ flex: 1, borderColor: 'gray' }}
+              style={[{ flex: 1, borderColor: 'gray' }, Styles.weakColorStyle]}
               value={this.state.length.toString()}
               onChangeText={value => this.onInputChange('length', value)}
               keyboardType='numeric'
@@ -192,24 +212,49 @@ class POUpdateWeightSizeScreen extends Component {
               onChangeText={value => this.onInputChange('height', value)}
               keyboardType='numeric'
             />
-            <Text> cm3</Text>
           </View>
           <View style={styles.rowStyle}>
-            <Text>Khối lượng quy đổi: </Text><Text style={{ color: 'blue' }}>{this.state.CalculateWeight} g</Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Khối lượng quy đổi: </Text><Text style={{ color: 'blue' }}>{this.state.CalculateWeight} g</Text>
           </View>
           <View style={styles.rowStyle}>
-            <Text>Phí phải thu: </Text>
+            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Phí phải thu: </Text>
             {this.renderFee(collectAmount)}
           </View>
           <View style={styles.rowStyle}>
             <Button 
-              onPress={this.onSaveWeightSizePress.bind(this, order)}
+              onPress={this.onCalculateFeePress.bind(this, order)}
               block 
               style={{ flex: 0.5, margin: 2 }}
             >
               <Text>Lưu</Text>
             </Button>
           </View>
+          <PopupDialog
+            ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            width={0.94}
+            dialogTitle={<DialogTitle title="Xác nhận" />}
+            actions={[<DialogButton text="Huỷ" align="center" onPress={() => this.popupDialog.dismiss()}/>, <DialogButton text="Cập nhật" align="center" onPress={() => this.popupDialog.dismiss()}/>]}
+          >
+            <View style={{ padding: 8 }}>
+              <Text style={{ color: 'red' }}>Bấm xác nhận nếu khách hàng đồng ý cước phí mới</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 200 }}>Cước phí mới</Text>
+                <Text> 100.000 VNĐ</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 200 }}>Phải thu</Text>
+                <Text> 100.000 VNĐ</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 200 }}>Khối lượng</Text>
+                <Text> 100.000 (gr)</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 200 }}>Kích thước (DxRxC)</Text>
+                <Text> 100.000 (cm)</Text>
+              </View>
+            </View>
+          </PopupDialog>
         </Content>
         <LoadingSpinner loading={false && this.props.loading} />
       </Container>

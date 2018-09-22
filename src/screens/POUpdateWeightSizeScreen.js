@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, TouchableOpacity, Button as RNButton } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Content, Text, Title, Icon,
@@ -178,6 +178,9 @@ class POUpdateWeightSizeScreen extends Component {
           keyboardShouldPersistTaps='handled' 
         >
           <View style={styles.rowStyle}>
+            <Text style={[Styles.midTextStyle, { color: 'red' }]}>Chỉ có thể cập nhật 1 lần, kiểm tra kĩ thông tin trước khi bấm cập nhật</Text>
+          </View>
+          <View style={styles.rowStyle}>
             <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Khối lượng (g)</Text> 
           </View>
           <View style={styles.rowStyle}>
@@ -232,8 +235,14 @@ class POUpdateWeightSizeScreen extends Component {
           <PopupDialog
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
             width={0.94}
+            height={250}
             dialogTitle={<DialogTitle title="Xác nhận" />}
-            actions={[<DialogButton text="Huỷ" align="center" onPress={() => this.popupDialog.dismiss()}/>, <DialogButton text="Cập nhật" align="center" onPress={() => this.popupDialog.dismiss()}/>]}
+            // actions={[
+            //   <View style={{ flexDirection: 'row', borderWidth: 1 }}>
+            //     <DialogButton text="Huỷ" align="left" onPress={() => this.popupDialog.dismiss()}/>
+            //     <DialogButton text="Cập nhật" align="right" onPress={() => this.popupDialog.dismiss()}/>
+            //   </View>
+            // ]}
           >
             <View style={{ padding: 8 }}>
               <Text style={{ color: 'red' }}>Bấm xác nhận nếu khách hàng đồng ý cước phí mới</Text>
@@ -253,6 +262,24 @@ class POUpdateWeightSizeScreen extends Component {
                 <Text style={{ width: 200 }}>Kích thước (DxRxC)</Text>
                 <Text> 100.000 (cm)</Text>
               </View>
+              <View
+                style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+            >
+                <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
+                  <RNButton
+                    onPress={() => this.popupDialog.dismiss()}
+                    title='HUỶ'
+                    color='#057AFF'
+                  />
+                </View>
+                <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
+                  <RNButton
+                    onPress={() => this.popupDialog.dismiss()}
+                    title='ĐỒNG Ý'
+                    color='#057AFF'
+                  />
+                </View>
+            </View>
             </View>
           </PopupDialog>
         </Content>

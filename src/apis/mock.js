@@ -780,7 +780,7 @@ export const loginResponse = {
 //   "message": "Successfull"
 // }
 
-export const getFeeResponse = {
+export const feeResponse = {
   "status": "OK",
   "data": [
     {

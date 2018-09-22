@@ -5,24 +5,24 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse, updateRDCResponse } from './mock';
+import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse, updateRDCResponse, feeResponse } from './mock';
 
 
 // ---------turn on mock data----------
-const mockOn = true;
+const mockOn = false;
 const timeout = 9500;
 export const live = false;
 export const appVersionName = '05/09';
 
-const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
-const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
-const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
-const OMS_URL = 'http://api.ops.ghn.vn/oms/v1';
-const LOG_URL = 'http://api.ops.ghn.vn/als/v1';
-const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
-export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
-const ApiKey = 'TEST@APIKEY';
-const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
+// const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
+// const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
+// const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
+// const OMS_URL = 'http://api.ops.ghn.vn/oms/v1';
+// const LOG_URL = 'http://api.ops.ghn.vn/als/v1';
+// const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+// const ApiKey = 'TEST@APIKEY';
+// const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
 
 
 // const PDS_URL = 'http://api.uat.lastmile.ghn.vn/trip/v2';
@@ -35,15 +35,15 @@ const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
 // const ApiKey = 'TEST@APIKEY';
 // const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
 
-// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
-// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
-// const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
-// const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
-// const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
-// const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
-// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
-// const ApiKey = 'TEST@APIKEY';
-// const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
+const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
+const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
+const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
+const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
+export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+const ApiKey = 'TEST@APIKEY';
+const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
 
 
 // const PDS_URL = 'http://api.dev.lastmile.ghn.vn/trip/v2';
@@ -147,9 +147,19 @@ export const updateOrderStatus = (tripCode, OrderInfos) => {
   return fromPromise(DoAction(tripCode, OrderInfos));
 };
 
+export const CalculateServiceFee = (params) => {
+  const URL = `${PDS_URL}/item/calcDimension`;
+  const LoginHeader = Share.LoginHeader;
+  const config = { headers: LoginHeader, timeout };
+  if (mockOn) {
+    mock.onGet(URL, params, config).reply(200, feeResponse);
+  }
+  return axios.get(URL, params, config);
+};
+
 export const UpdateOrderWeightRDC = (params) => {  
   // const { length, width, height, weight, orderCode, tripCode, reason } = params;
-  const URL = `${PDS_URL}/order/dimension`;
+  const URL = `${PDS_URL}/item/updateDimension`;
   const { LoginHeader } = Share;
   // { ...LoginHeader, 'x-hubid': 'PhoYenTN', 'x-warehouseid': 1323 }
   const config = { headers: LoginHeader, timeout };
@@ -246,13 +256,6 @@ export const GetConfiguration = (configKey = null) => {
   
   return axios.get(URL, config);
 };
-  
-// export const CalculateServiceFee = (params) => {
-//   const URL = `${PDS_URL}/fee`;
-//   const LoginHeader = Share.LoginHeader;
-//   const config = { headers: LoginHeader, timeout };
-//   return axios.post(URL, params, config);
-// };
 
 export const GetOrderDetailInfo = (orderCode, type, tripCode) => {
   const URL = `${PDS_URL}/order/multi`;

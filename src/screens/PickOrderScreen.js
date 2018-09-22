@@ -180,6 +180,8 @@ class PickOrderScreen extends Component {
       collectAmount, weight, length,
       receiverAddress, clientRequiredNote, done,
     } = order;
+
+    const editSizeBgColor = done ? 'grey' : Colors.theme;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -246,9 +248,11 @@ class PickOrderScreen extends Component {
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>
                 <TouchableOpacity
+                  disabled={done}
+                  style={{ backgroundColor: editSizeBgColor, borderRadius: 2 }}
                   onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, senderHubId })}
                 >
-                  <Icon name="create" />
+                  <IC name="pencil" size={20} color='white' />
                 </TouchableOpacity>
               </View>
               <View style={Styles.rowStyle}>

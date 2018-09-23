@@ -21,7 +21,7 @@ let clientId = null;
 let waitToSave = false;
 let calculated = false;
 class POUpdateWeightSizeScreen extends Component {
-  state = { weight: null, height: null, length: null, width: null, CalculateWeight: null, moneyUpdated: 0 }
+  state = { weight: null, height: null, length: null, width: null, CalculateWeight: null, newCollectAmount: 0, newServiceFee: 0 }
 
   componentWillMount() {
     orderCode = this.props.navigation.state.params.orderCode;
@@ -97,7 +97,8 @@ class POUpdateWeightSizeScreen extends Component {
 
       const json = response.data;
       if (json.status === 'OK') {
-        this.setState({ moneyUpdated: json.data[0].moneyUpdated });;
+        const { newCollectAmount, newServiceFee } = json.data[0];
+        this.setState({ newCollectAmount, newServiceFee });
         this.popupDialog.show();
       } else {
         Alert.alert(
@@ -254,28 +255,35 @@ class POUpdateWeightSizeScreen extends Component {
             <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Phí phải thu: </Text>
             {this.renderFee(collectAmount)}
           </View>
-          <View style={styles.rowStyle}>
-            <Button 
-              onPress={() => this.props.navigation.goBack()}
-              block 
-              style={{ flex: 0.5, margin: 2 }}
-            >
-              <Text>Huỷ</Text>
-            </Button>
-            <Button 
-              onPress={this.onCalculateFeePress.bind(this, order)}
-              block 
-              style={{ flex: 0.5, margin: 2 }}
-            >
-              <Text>Cập nhật</Text>
-            </Button>
+          <View
+            style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginTop: 32 }}
+          >
+            <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
+              <RNButton
+                title="Huỷ"
+                onPress={() => this.props.navigation.goBack()}
+                color='#057AFF'
+                style={{ flex: 0.5, margin: 2 }}
+              />
+            </View>
+            <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
+              <RNButton
+                title="Cập nhật"
+                onPress={this.onCalculateFeePress.bind(this, order)}
+                color='#057AFF'
+                style={{ flex: 0.5, margin: 2 }}
+              />
+            </View>
+          
             
           </View>
-          
-          <PopupDialog
+        </Content>
+        <LoadingSpinner loading={false && this.props.loading} />
+        <PopupDialog
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            containerStyle={{ zIndex: 10, elevation: 10 }}
             width={0.94}
-            height={258}
+            height={264}
             dialogTitle={<DialogTitle title="Xác nhận" />}
             // actions={[
             //   <View style={{ flexDirection: 'row', borderWidth: 1 }}>
@@ -284,31 +292,34 @@ class POUpdateWeightSizeScreen extends Component {
             //   </View>
             // ]}
           >
-            <View style={{ padding: 16 }}>
-              <Text style={{ color: 'red' }}>Bấm xác nhận nếu khách hàng đồng ý cước phí mới</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Cước phí mới</Text>
-                <Text>{accounting.formatNumber(this.state.moneyUpdated)} VNĐ</Text>
+            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+              <View style={{ padding: 16 }}>
+                <Text style={{ color: 'red' }}>Bấm xác nhận nếu khách hàng đồng ý cước phí mới</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ width: 150 }}>Cước phí mới</Text>
+                  <Text>{accounting.formatNumber(this.state.newServiceFee)} VNĐ</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ width: 150 }}>Phải thu</Text>
+                  <Text>{accounting.formatNumber(this.state.newCollectAmount)} VNĐ</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ width: 150 }}>Khối lượng</Text>
+                  <Text>{accounting.formatNumber(this.state.weight)} (gr)</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ width: 150 }}>Kích thước (DxRxC)</Text>
+                  <Text>{this.state.length}x{this.state.width}x{this.state.height} (cm3)</Text>
+                </View>
               </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Phải thu</Text>
-                <Text>{accounting.formatNumber(this.state.moneyUpdated)} VNĐ</Text>
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Khối lượng</Text>
-                <Text>{accounting.formatNumber(this.state.weight)} (gr)</Text>
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Kích thước (DxRxC)</Text>
-                <Text>{this.state.length}x{this.state.width}x{this.state.height} (cm3)</Text>
-              </View>
+              
               <View
-                style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginTop: 16 }}
+                style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginBottom: 2 }}
               >
                 <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
                   <RNButton
                     onPress={() => this.popupDialog.dismiss()}
-                    title='HUỶ'
+                    title='Huỷ'
                     color='#057AFF'
                   />
                 </View>
@@ -322,8 +333,6 @@ class POUpdateWeightSizeScreen extends Component {
               </View>
             </View>
           </PopupDialog>
-        </Content>
-        <LoadingSpinner loading={false && this.props.loading} />
       </Container>
     );
   }

@@ -258,6 +258,7 @@ export default (state = nameInitialState, action) => {
       order.weight = weight;
       order.height = height;
       order.width = width;
+      order.dimemsionUpdated = true;
       return { ...state, pdsItems, loading: false };
     }
 

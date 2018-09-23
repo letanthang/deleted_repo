@@ -164,6 +164,37 @@ class PickOrderScreen extends Component {
       </View>
     );
   }
+
+  updateDimension(orderCode, done, dimemsionUpdated) {
+    if (done) {
+      Alert.alert(
+        'Thông báo',
+        'Không thể cập nhật kích thước. Đơn đã hoàn thành.',
+        [
+          
+          { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
+        ],
+        { cancelable: false }
+      )
+      return;
+    }
+
+    if (dimemsionUpdated) {
+      Alert.alert(
+        'Thông báo',
+        'Không thể cập nhật. Đơn hàng đã cập nhật thông tin kích thước khối lượng.',
+        [
+          
+          { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
+        ],
+        { cancelable: false }
+      )
+      return;
+    }
+    this.props.navigation.navigate('POUpdateWeightSize', { orderCode, clientId, senderHubId })
+  }
+
+  
   
   render() {
     const { navigate } = this.props.navigation;
@@ -178,10 +209,10 @@ class PickOrderScreen extends Component {
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
       collectAmount, weight, length,
-      receiverAddress, clientRequiredNote, done,
+      receiverAddress, clientRequiredNote, done, dimemsionUpdated,
     } = order;
 
-    const editSizeBgColor = done ? 'grey' : Colors.theme;
+    const editSizeBgColor = (done || dimemsionUpdated) ? 'grey' : Colors.theme;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -248,9 +279,8 @@ class PickOrderScreen extends Component {
               <View style={Styles.rowHeaderStyle}>
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>
                 <TouchableOpacity
-                  disabled={done}
                   style={{ backgroundColor: editSizeBgColor, borderRadius: 2 }}
-                  onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, senderHubId })}
+                  onPress={this.updateDimension.bind(this, orderCode, done, dimemsionUpdated)}
                 >
                   <IC name="pencil" size={20} color='white' />
                 </TouchableOpacity>

@@ -7,6 +7,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/ignoreElements';
 
 import { combineEpics } from 'redux-observable';
+import { Alert } from 'react-native';
 import { pdListFetch, getOrdersInfoSuccess } from '../actions';
 import { PD_UPDATE_WEIGHT_SIZE, PD_UPDATE_WEIGHT_SIZE_SUCCESS, PD_UPDATE_WEIGHT_SIZE_FAIL, PD_GET_ORDERS_INFO, PD_GET_ORDERS_INFO_FAIL, PD_GET_ORDERS_INFO_SUCCESS } from '../actions/types';
 import { } from '../actions';
@@ -42,7 +43,7 @@ const updateWeightSizeEpic = action$ =>
             case 'OK':
               return {
                 type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-                payload: { serviceCost: response.data[0].moneyUpdated, orderCode, length, width, height, weight, tripCode, reason }
+                payload: { serviceCost: response.data[0].newCollectAmount, orderCode, length, width, height, weight, tripCode, reason }
               };
             default:
               return { type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: response.message } };

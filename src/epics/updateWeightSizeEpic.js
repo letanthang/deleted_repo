@@ -42,7 +42,7 @@ const updateWeightSizeEpic = action$ =>
             case 'OK':
               return {
                 type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-                payload: { orderCode: orderCode, length, width, height, weight, tripCode, reason }
+                payload: { serviceCost: response.data[0].moneyUpdated, orderCode, length, width, height, weight, tripCode, reason }
               };
             default:
               return { type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: response.message } };
@@ -54,7 +54,15 @@ const updateWeightSizeEpic = action$ =>
 const failEpic = action$ =>
   action$.ofType(PD_UPDATE_WEIGHT_SIZE_FAIL)
     .map(action => action.payload)
-    .do(({ error }) => Utils.showToast(`Không thể cập nhật kích thước. ${error}`, 'danger'))
+    .do(({ error }) => Alert.alert(
+      'Thông báo',
+      'Không thể cập nhật kích thước mới. ' + error,
+      [
+        
+        { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
+      ],
+      { cancelable: false }
+    ))
     .ignoreElements();
 
 const successEpic = action$ =>
@@ -62,7 +70,7 @@ const successEpic = action$ =>
     .map(action => action.payload)
     .do(() => Utils.showToast('Cập nhật kích thước thành công', 'success'))
     .delay(300)
-    .mergeMap((() => of(pdListFetch({ }))));
+    .mergeMap((() => of(pdListFetch({ off: true }))));
 
 export default combineEpics(
   getOrdersInfoEpic,

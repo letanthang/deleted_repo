@@ -103,7 +103,7 @@ class Utils {
     return new Promise((resolve, reject) => {
       CallHistory.list(
         (history) => {
-          const json = JSON.parse(history).slice(0, 50);
+          const json = JSON.parse(history).slice(0, 500);
           const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
           resolve(callLogs.length >= repeatCallUnconnected);
         },
@@ -132,7 +132,7 @@ class Utils {
     return new Promise((resolve, reject) => {
       CallHistory.list(
         (history) => {
-          const json = JSON.parse(history).slice(0, 50);
+          const json = JSON.parse(history).slice(0, 500);
           const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
           resolve(callLogs.length >= repeatCallUnconnected);
         },

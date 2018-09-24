@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity, Platform } from 'react-native';
+import { View, Alert, TouchableOpacity, Platform, Button as RNButton } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
@@ -12,6 +12,7 @@ import {
 import { updateOrderInfo, getOrderHistory, getOrdersInfo } from '../actions';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import ICO from 'react-native-vector-icons/Ionicons';
+import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -24,30 +25,28 @@ import ActionModal from '../components/ActionModal';
 import { getUpdateOrderInfo, getUpdateOrderInfoForDone, updateOrderToFailWithReason2, codes } from '../components/Helpers';
 import { ActionLogCode, ErrorToLogCode } from '../components/Constant';
 import ActionLog from '../libs/ActionLog';
+import OrderDimension from './OrderDimension';
 
-let clientId = null;
-let senderHubId = null;
-let orderCode = null;
-let type = null
-let order = {};
+
 class PickOrderScreen extends Component {
   state = { modalShow: false }
 
   componentWillMount() {
     clientId = this.props.navigation.state.params.clientId;
     senderHubId = this.props.navigation.state.params.senderHubId;
-    orderCode = this.props.navigation.state.params.orderCode;
-    type = this.props.navigation.state.params.type;
-    order = Utils.getOrder(this.props.db, orderCode, type);
-    if (type === 'PICK') this.props.getOrdersInfo([orderCode]);
-    this.props.getOrderHistory(orderCode);
-    console.log('PickOrderScreen mount ', order);
+    this.orderCode = this.props.navigation.state.params.orderCode;
+
+    this.type = this.props.navigation.state.params.type;
+    this.order = Utils.getOrder(this.props.db, this.orderCode, this.type);
+    if (this.type === 'PICK') this.props.getOrdersInfo([this.orderCode]);
+    this.props.getOrderHistory(this.orderCode);
+    console.log('PickOrderScreen mount ', this.order);
   }
 
   componentWillReceiveProps(nextProps) {
     const { db } = nextProps;
-    const newOrder = Utils.getOrder(db, orderCode, type);
-    order = newOrder;
+    const newOrder = Utils.getOrder(db, this.orderCode, this.type);
+    this.order = newOrder;
   }
   goBack() {
     this.props.navigation.goBack();
@@ -86,17 +85,18 @@ class PickOrderScreen extends Component {
   }
   
   updateOrderToDone() {
-    const OrderInfos = getUpdateOrderInfoForDone(order);
-    this.props.updateOrderInfo(order.orderCode, order.type, OrderInfos);
+    const OrderInfos = getUpdateOrderInfoForDone(this.order);
+    this.props.updateOrderInfo(this.orderCode, this.type, OrderInfos);
   }
 
   updateOrderToFail(buttonIndex, NewDate = 0) {
-    const OrderInfos = getUpdateOrderInfo(order, buttonIndex, NewDate);
-    this.props.updateOrderInfo(order.orderCode, order.type, OrderInfos);
+    const OrderInfos = getUpdateOrderInfo(this.order, buttonIndex, NewDate);
+    this.props.updateOrderInfo(this.orderCode, this.type, OrderInfos);
   }
 
   updateOrderToFailWithReason() {
     ActionLog.log(ActionLogCode.ORDER_PICK_FALSE, this.props.navigation);
+    const order = this.order;
     updateOrderToFailWithReason2(order.senderPhone, this.props.configuration, order.orderCode)
     .then(({ error, buttonIndex }) => {
 
@@ -129,6 +129,7 @@ class PickOrderScreen extends Component {
   }
 
   renderButtons() {
+    const order = this.order;
     const done = Utils.checkCompleteForUnsync(order);
     if (done) {
       return (
@@ -191,17 +192,19 @@ class PickOrderScreen extends Component {
       )
       return;
     }
-    this.props.navigation.navigate('POUpdateWeightSize', { orderCode, clientId, senderHubId })
+    this.popupDialogOut.show();
   }
 
   
   
   render() {
     const { navigate } = this.props.navigation;
+    const order = this.order;
     if (!order) {
       this.goBack();
       return this.renderNullData();
-    } 
+    }
+    const orderCode = this.orderCode;
     const history = this.props.orderHistory[orderCode];
     const historyString = Utils.getHistoryString(history);
     
@@ -231,14 +234,6 @@ class PickOrderScreen extends Component {
             <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            {/* { !done ?
-            <Button
-              transparent
-              onPress={() => navigate('POUpdateWeightSize', { orderCode, clientId, senderHubId })}
-            >
-              <Icon name="create" />
-            </Button>
-            : null } */}
             {Platform.OS == 'android' ?
             <Button
               transparent
@@ -345,6 +340,70 @@ class PickOrderScreen extends Component {
           onChooseDate={this.onChooseDate.bind(this)}
           onCancelDate={this.onCancelDate.bind(this)}
         />
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogIn = popupDialog; }}
+          containerStyle={{ zIndex: 10, elevation: 10 }}
+          width={0.94}
+          height={264}
+          dialogTitle={<DialogTitle title="Xác nhận" />}
+        >
+          <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+            <View style={{ padding: 16 }}>
+              <Text style={{ color: 'red' }}>Bấm xác nhận nếu khách hàng đồng ý cước phí mới</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 150 }}>Cước phí mới</Text>
+                <Text>{accounting.formatNumber(this.state.newServiceFee)} VNĐ</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 150 }}>Phải thu</Text>
+                <Text>{accounting.formatNumber(this.state.newCollectAmount)} VNĐ</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 150 }}>Khối lượng</Text>
+                <Text>{accounting.formatNumber(this.state.weight)} (gr)</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ width: 150 }}>Kích thước (DxRxC)</Text>
+                <Text>{this.state.length}x{this.state.width}x{this.state.height} (cm3)</Text>
+              </View>
+            </View>
+            
+            <View
+              style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginBottom: 2 }}
+            >
+              <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
+                <RNButton
+                  onPress={() => this.popupDialogIn.dismiss()}
+                  title='Huỷ'
+                  color='#057AFF'
+                />
+              </View>
+              <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
+                <RNButton
+                  onPress={() => this.od.onSaveWeightSize()}
+                  title='Xác nhận'
+                  color='#057AFF'
+                />
+              </View>
+            </View>
+          </View>
+        </PopupDialog>
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogOut = popupDialog; }}
+          containerStyle={{ zIndex: 10, elevation: 10 }}
+          width={0.94}
+          height={336}
+          dialogTitle={<DialogTitle title="Cập nhật thông tin" />}
+          
+        >
+          <OrderDimension 
+            myFunc={(ref) => { this.od = ref }} 
+            popupDialogIn={this.popupDialogIn} 
+            parent={this} 
+            popupDialogOut={this.popupDialogOut} 
+            orderCode={orderCode} />
+        </PopupDialog>
+          
       </Container>
     );
   }

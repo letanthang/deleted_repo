@@ -289,7 +289,7 @@ class PickOrderScreen extends Component {
                   <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length}cm x {width}cm x {height}cm</Text>
               </View>
               <View style={Styles.rowLastStyle}>
-                  <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng qui đổi</Text>
+                  <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng quy đổi</Text>
                   <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length * width * height * 0.2} g</Text>
               </View>
 

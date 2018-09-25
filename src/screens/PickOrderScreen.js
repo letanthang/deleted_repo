@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity, Platform, Button as RNButton } from 'react-native';
+import { View, Alert, TouchableOpacity, Platform, KeyboardAvoidingView, Button as RNButton } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
@@ -388,11 +388,13 @@ class PickOrderScreen extends Component {
             </View>
           </View>
         </PopupDialog>
+        
         <PopupDialog
           ref={(popupDialog) => { this.popupDialogOut = popupDialog; }}
           containerStyle={{ zIndex: 10, elevation: 10 }}
+          dialogStyle={{ top: - 24 }}
           width={0.94}
-          height={336}
+          height={340}
           dialogTitle={<DialogTitle title="Cập nhật thông tin" />}
           
         >
@@ -403,7 +405,6 @@ class PickOrderScreen extends Component {
             popupDialogOut={this.popupDialogOut} 
             orderCode={orderCode} />
         </PopupDialog>
-          
       </Container>
     );
   }

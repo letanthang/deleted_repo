@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput, Alert, TouchableOpacity, Button as RNButton } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert, Platform, Button as RNButton } from 'react-native';
 import { connect } from 'react-redux';
-import { 
-  Container, Content, Text, Title, Icon,
-  Header, Left, Body, Right, Button
-} from 'native-base';
 import accounting from 'accounting';
-import PopupDialog, { DialogButton, DialogTitle } from 'react-native-popup-dialog';
-
 import Utils from '../libs/Utils';
 import { getOrders } from '../selectors';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
 import { CalculateServiceFee } from '../apis/MPDS';
@@ -107,7 +100,7 @@ class OrderDimension extends Component {
     } catch (error) {
       Alert.alert(
         'Thông báo',
-        'Đã có lỗi không thể tín toán phí mới ' + error.message,
+        'Đã có lỗi không thể tính toán phí mới ' + error.message,
         [
           
           { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
@@ -172,6 +165,8 @@ class OrderDimension extends Component {
     const { collectAmount, weight, length, width, height } = order;
     // console.log(collectAmount, weight, length, width, height);
     // return null;
+
+    const textStyle = Platform.OS === 'ios' ? styles.textStyleiOS : styles.textStyle;
     
     if (this.state.weight === null) {
       this.state.weight = weight || 0;
@@ -182,7 +177,8 @@ class OrderDimension extends Component {
     }
 
     return (
-      <View>
+      <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+        <View>
           <View style={styles.rowStyle}>
             <Text style={[Styles.midTextStyle, { color: 'red' }]}>Chỉ có thể cập nhật 1 lần, kiểm tra kĩ thông tin trước khi bấm cập nhật</Text>
           </View>
@@ -191,7 +187,7 @@ class OrderDimension extends Component {
           </View>
           <View style={styles.rowStyle}>
             <TextInput 
-              style={{ flex: 1, borderColor: 'gray' }}
+              style={[textStyle, Styles.weakColorStyle]}
               value={this.state.weight.toString()}
               onChangeText={value => this.onInputChange('weight', value)}
               keyboardType='numeric'
@@ -202,48 +198,48 @@ class OrderDimension extends Component {
           </View>
           <View style={styles.rowStyle}>
             <TextInput 
-              style={[{ flex: 1, borderColor: 'gray' }, Styles.weakColorStyle]}
+              style={[textStyle, Styles.weakColorStyle]}
               value={this.state.length.toString()}
               onChangeText={value => this.onInputChange('length', value)}
               keyboardType='numeric'
             />
             <Text> x </Text>
             <TextInput 
-              style={{ flex: 1, borderColor: 'gray' }}
+              style={[textStyle, Styles.weakColorStyle]}
               value={this.state.width.toString()}
               onChangeText={value => this.onInputChange('width', value)}
               keyboardType='numeric'
             />
             <Text> x </Text>
             <TextInput 
-              style={{ flex: 1, borderColor: 'gray' }}
+              style={[textStyle, Styles.weakColorStyle]}
               value={this.state.height.toString()}
               onChangeText={value => this.onInputChange('height', value)}
               keyboardType='numeric'
             />
           </View>
-          <View
-            style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginTop: 16 }}
-          >
-            <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
-              <RNButton
-                title="Huỷ"
-                onPress={() => this.props.popupDialogOut.dismiss()}
-                color='#057AFF'
-                style={{ flex: 0.5, margin: 2 }}
-              />
-            </View>
-            <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
-              <RNButton
-                title="Cập nhật"
-                onPress={this.onCalculateFeePress.bind(this, order)}
-                color='#057AFF'
-                style={{ flex: 0.5, margin: 2 }}
-              />
-            </View>
+
+        </View>
+        <View
+          style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+        >
+          <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
+            <RNButton
+              title="Huỷ"
+              onPress={() => this.props.popupDialogOut.dismiss()}
+              color='#057AFF'
+              style={{ flex: 0.5, margin: 2 }}
+            />
           </View>
-       
-        <LoadingSpinner loading={false && this.props.loading} />
+          <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
+            <RNButton
+              title="Cập nhật"
+              onPress={this.onCalculateFeePress.bind(this, order)}
+              color='#057AFF'
+              style={{ flex: 0.5, margin: 2 }}
+            />
+          </View>
+        </View>
       </View>
     );
   }
@@ -251,12 +247,23 @@ class OrderDimension extends Component {
 
 const styles = StyleSheet.create({
   rowStyle: {
-    paddingTop: 20,
+    paddingTop: 10,
     paddingLeft: 16,
     paddingRight: 16,
     flexDirection: 'row',
     //justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  textStyle: {
+    flex: 1,
+    borderBottomColor: 'gray',
+  },
+  textStyleiOS: {
+    flex: 1,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
   }
 });
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Alert, Platform, Button as RNButton } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert, Platform, Keyboard, Button as RNButton } from 'react-native';
 import { connect } from 'react-redux';
 import accounting from 'accounting';
 import Utils from '../libs/Utils';
@@ -69,6 +69,7 @@ class OrderDimension extends Component {
     this.props.popupDialogIn.dismiss();
   } 
   async onCalculateFeePress(order) {
+    Keyboard.dismiss();
     if (!this.isInfoChanged(order)) return;
     
   
@@ -226,7 +227,10 @@ class OrderDimension extends Component {
           <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
             <RNButton
               title="Huỷ"
-              onPress={() => this.props.popupDialogOut.dismiss()}
+              onPress={() => {
+                Keyboard.dismiss();
+                this.props.popupDialogOut.dismiss()
+              }}
               color='#057AFF'
               style={{ flex: 0.5, margin: 2 }}
             />

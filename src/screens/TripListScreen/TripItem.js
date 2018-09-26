@@ -38,7 +38,7 @@ class TripItem extends Component {
     if (type === 'PICK') {
       this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
     } else if (type === 'TRANSIT_IN') {
-      this.props.navigation.navigate('CvsDetail', { type, senderHubId });
+      this.props.navigation.navigate('CvsPrepare', { type, senderHubId });
     } 
   }
 

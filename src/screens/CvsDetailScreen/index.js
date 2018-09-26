@@ -84,34 +84,6 @@ class CvsDetailScreen extends Component {
     this.searchDebounce(text);
   }
 
-  renderScannerHeader() {
-    return (
-    <Header style={{ backgroundColor: 'black' }}>
-      <Left style={Styles.leftStyle}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Button
-          transparent
-          onPress={() => goBack()}
-        >
-          <Icon name="arrow-back" color='white' />
-        </Button>
-        <LogoButton dispatch={this.props.navigation.dispatch} />
-      </View>
-      </Left>
-      <Body style={Styles.bodyStyle}>
-        <Title style={{ color: 'white' }}>Scanner</Title>
-      </Body>
-      <Right style={Styles.rightStyle}>
-        <Button
-          transparent
-          onPress={() => this.setState({ showSearch: !this.state.showSearch })}
-        >
-          <Icon name="search" />
-        </Button>
-      </Right>
-    </Header>
-    );
-  }
 
   renderHeader(pickGroup) {
     const { goBack, navigate } = this.props.navigation;
@@ -195,21 +167,9 @@ class CvsDetailScreen extends Component {
     );
   }
 
-  renderScanner() {
-    return (
-      <Container style={{ backgroundColor: 'black' }}>
-        {this.renderScannerHeader()}
-        <BarcodeReader onBarCodeRead={(data) => console.log(data)}  />
-      </Container>
-    );
-  }
-
   render() {
     console.log('DetailScreen render');
-
-    if (this.state.showScan) {
-      return this.renderScanner();
-    }
+    
     const { addOrderLoading, CvsItems } = this.props;
     const { width } = Dimensions.get('window');
     const type = this.type;

@@ -207,9 +207,9 @@ export const Styles = {
   },
   updateButtonStyle: {
     margin: 1,
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    flex: 1, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
     backgroundColor: '#2ECC71',
     borderColor: '#2ECC71',
     borderWidth: 1,

@@ -21,6 +21,7 @@ import OrderListScreen from './screens/OrderListScreen';
 import TripListScreen from './screens/TripListScreen';
 import CvsListScreen from './screens/CvsListScreen';
 import CvsDetailScreen from './screens/CvsDetailScreen';
+import CvsPrepareScreen from './screens/CvsDetailScreen/CvsPrepareScreen';
 import AddOrderScreen from './screens/AddOrderScreen';
 import PickConfirmScreen from './screens/PickConfirmScreen';
 import SignatureScreen from './screens/SignatureScreen';
@@ -87,6 +88,7 @@ class App extends Component {
         PickGroupDetail: { screen: PickGroupDetailScreen },
         CvsList: { screen: CvsListScreen },
         CvsDetail: { screen: CvsDetailScreen },
+        CvsPrepare: { screen: CvsPrepareScreen },
         ReturnGroupDetail: { screen: ReturnGroupDetailScreen },
         PickOrder: { screen: PickOrderScreen },
         POUpdateWeightSize: { screen: POUpdateWeightSizeScreen },

@@ -364,11 +364,11 @@ class PickOrderScreen extends Component {
               <Text style={{ color: 'red' }}>Chỉ bấm xác nhận khi KH đồng ý cước phí thay đổi</Text>
               <View style={{ flexDirection: 'row', paddingTop: 8 }}>
                 <Text style={{ width: 158 }}>Khối lượng</Text>
-                <Text>{accounting.formatNumber(this.state.weight)} (gr)</Text>
+                <Text>{accounting.formatNumber(this.state.weight)} gr</Text>
               </View>
               <View style={{ flexDirection: 'row', paddingTop: 8 }}>
                 <Text style={{ width: 158 }}>Kích thước (DxRxC)</Text>
-                <Text>{this.state.length}x{this.state.width}x{this.state.height} (cm3)</Text>
+                <Text>{this.state.length}x{this.state.width}x{this.state.height} cm3</Text>
               </View>
               <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }}>
               </View>

@@ -111,7 +111,7 @@ class OrderDimension extends Component {
     if (length >= 10 && length <= 200
       && width >= 10 && width <= 200
       && height >= 10 && width <= 200
-      && weight >= 1 && weight <= 50000) {
+      && weight >= 1 && weight <= 100000) {
         return true;
     }
 

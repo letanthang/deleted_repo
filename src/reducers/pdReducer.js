@@ -241,10 +241,10 @@ export default (state = nameInitialState, action) => {
     }
 
     case PD_UPDATE_WEIGHT_SIZE:
-      return { ...state, loading: true };
+      return { ...state, loading: true, dimensionError: null };
 
     case PD_UPDATE_WEIGHT_SIZE_FAIL:
-      return { ...state, loading: false };
+      return { ...state, loading: false, dimensionError: action.payload.error };
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
       const pdsItems = _.cloneDeep(state.pdsItems);

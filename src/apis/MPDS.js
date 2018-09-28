@@ -9,10 +9,10 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 
 
 // ---------turn on mock data----------
-const mockOn = true;
+const mockOn = false;
 const timeout = 9500;
 export const live = false;
-export const appVersionName = '25/09';
+export const appVersionName = '27/09';
 
 // const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
 // const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';

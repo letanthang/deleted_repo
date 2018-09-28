@@ -44,8 +44,17 @@ class PickOrderScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { db } = nextProps;
+    const { db, dimensionError } = nextProps;
+
+    if (dimensionError && dimensionError !== this.props.dimensionError) {
+      this.setState({ dimensionError })
+    }
+
     const newOrder = Utils.getOrder(db, this.orderCode, this.type);
+    if (this.order.dimemsionUpdated !== newOrder.dimemsionUpdated) {
+      this.popupDialogIn.dismiss();
+      this.popupDialogLast.show();
+    }
     this.order = newOrder;
   }
   goBack() {
@@ -215,6 +224,9 @@ class PickOrderScreen extends Component {
       receiverAddress, clientRequiredNote, done, dimemsionUpdated,
     } = order;
 
+
+    const diffFee = this.state.newServiceFee - this.state.oldServiceFee;
+
     const editSizeBgColor = (done || dimemsionUpdated) ? 'grey' : Colors.theme;
     return (
       <Container style={{ backgroundColor: Colors.background }}>
@@ -344,28 +356,35 @@ class PickOrderScreen extends Component {
           ref={(popupDialog) => { this.popupDialogIn = popupDialog; }}
           containerStyle={{ zIndex: 10, elevation: 10 }}
           width={0.94}
-          height={264}
+          height={388}
           dialogTitle={<DialogTitle title="Xác nhận" />}
         >
-          <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
             <View style={{ padding: 16 }}>
-              <Text style={{ color: 'red' }}>Bấm xác nhận nếu khách hàng đồng ý cước phí mới</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Cước phí mới</Text>
-                <Text>{accounting.formatNumber(this.state.newServiceFee)} VNĐ</Text>
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Phải thu</Text>
-                <Text>{accounting.formatNumber(this.state.newCollectAmount)} VNĐ</Text>
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Khối lượng</Text>
+              <Text style={{ color: 'red' }}>Chỉ bấm xác nhận khi KH đồng ý cước phí thay đổi</Text>
+              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                <Text style={{ width: 158 }}>Khối lượng</Text>
                 <Text>{accounting.formatNumber(this.state.weight)} (gr)</Text>
               </View>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ width: 150 }}>Kích thước (DxRxC)</Text>
+              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                <Text style={{ width: 158 }}>Kích thước (DxRxC)</Text>
                 <Text>{this.state.length}x{this.state.width}x{this.state.height} (cm3)</Text>
               </View>
+              <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }}>
+              </View>
+              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                <Text style={{ width: 158 }}>Cước phí cũ</Text>
+                <Text>{accounting.formatNumber(this.state.oldServiceFee)} VNĐ</Text>
+              </View>
+              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                <Text style={{ width: 158 }}>Cước phí mới</Text>
+                <Text>{accounting.formatNumber(this.state.newServiceFee)} VNĐ</Text>
+              </View>              
+              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                <Text style={{ width: 158 }}>Chênh lệch</Text>
+                <Text style={{ color: diffFee > 0 ? Colors.theme : '#f6411d' }}>{accounting.formatNumber(diffFee)} VNĐ</Text>
+              </View>
+              <Text style={{ color: 'red', paddingTop: 8 }}>{this.state.dimensionError}</Text>
             </View>
             
             <View
@@ -388,13 +407,44 @@ class PickOrderScreen extends Component {
             </View>
           </View>
         </PopupDialog>
+
+        <PopupDialog
+          ref={(popupDialog) => { this.popupDialogLast = popupDialog; }}
+          containerStyle={{ zIndex: 10, elevation: 10 }}
+          width={0.94}
+          height={220}
+          dialogTitle={<DialogTitle title="Phải thu người gởi" />}
+        >
+          <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
+            <View style={{ padding: 16, alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row', paddingTop: 8, alignItems: 'baseline' }}>
+                <Text style={{ color: collectAmount > 0 ? '#25a837' : '#f6411d', fontSize: 32 }}>{accounting.formatNumber(collectAmount)}</Text>
+                <Text style={{ textAlignVertical: 'center' }}> VNĐ</Text>
+              </View>           
+              {collectAmount <= 0 ?
+              <Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví của Khách hàng.</Text>
+              :null}
+            </View>
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginBottom: 2 }}
+            >
+              <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
+                <RNButton
+                  onPress={() => this.popupDialogLast.dismiss()}
+                  title='Đóng'
+                  color='#057AFF'
+                />
+              </View>
+            </View>
+          </View>
+        </PopupDialog>
         
         <PopupDialog
           ref={(popupDialog) => { this.popupDialogOut = popupDialog; }}
           containerStyle={{ zIndex: 10, elevation: 10 }}
           dialogStyle={{ top: - 24 }}
           width={0.94}
-          height={340}
+          height={388}
           dialogTitle={<DialogTitle title="Cập nhật thông tin" />}
           
         >
@@ -413,10 +463,10 @@ class PickOrderScreen extends Component {
 const mapStateToProps = (state) => {
   const { pd, auth, other } = state;
   const { sessionToken } = auth;
-  const { tripCode, loading } = pd;
+  const { tripCode, loading, dimensionError } = pd;
   const { orderHistory } = other;
   const db = getOrders(state);
-  return { db, tripCode, sessionToken, loading, orderHistory };
+  return { db, tripCode, sessionToken, loading, orderHistory, dimensionError };
 };
 
 

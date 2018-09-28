@@ -52,19 +52,19 @@ const updateWeightSizeEpic = action$ =>
         .catch(error => of({ type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: error.message } }))
     });
 
-const failEpic = action$ =>
-  action$.ofType(PD_UPDATE_WEIGHT_SIZE_FAIL)
-    .map(action => action.payload)
-    .do(({ error }) => Alert.alert(
-      'Thông báo',
-      'Không thể cập nhật kích thước mới. ' + error,
-      [
+// const failEpic = action$ =>
+//   action$.ofType(PD_UPDATE_WEIGHT_SIZE_FAIL)
+//     .map(action => action.payload)
+//     .do(({ error }) => Alert.alert(
+//       'Thông báo',
+//       'Không thể cập nhật kích thước mới. ' + error,
+//       [
         
-        { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
-      ],
-      { cancelable: false }
-    ))
-    .ignoreElements();
+//         { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
+//       ],
+//       { cancelable: false }
+//     ))
+//     .ignoreElements();
 
 const successEpic = action$ =>
   action$.ofType(PD_UPDATE_WEIGHT_SIZE_SUCCESS)
@@ -76,6 +76,6 @@ const successEpic = action$ =>
 export default combineEpics(
   getOrdersInfoEpic,
   updateWeightSizeEpic,
-  failEpic,
+  // failEpic,
   successEpic,
 );

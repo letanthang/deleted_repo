@@ -786,8 +786,8 @@ export const feeResponse = {
     {
         "orderCode": "3GUSRAAA",
         "type": "PICK",
-        "newCollectAmount": 12345,
-        newServiceFee: 1234567
+        oldServiceFee: 125456,
+        newServiceFee: 123456,
     }
   ],
   "message": "Successfull"
@@ -799,7 +799,7 @@ export const updateRDCResponse = {
     {
         "orderCode": "3GUSRAAA",
         "type": "PICK",
-        "newCollectAmount": 12345
+        "newCollectAmount": 0
     }
   ],
   "message": "Successfull"
@@ -1002,3 +1002,42 @@ export const sortingResponse = {
       }
   ]
 }
+
+export const scanResponse = {"hash_id":"35c43e281210c374299287d57495a001","post_id":195,"token":"35c43e281210c374299287d57495a001","random":0.3916305180133064};
+
+export const cvsResponse = {
+  "list_code": [
+    {
+        "external_code": "33LF63KK"
+    },
+    {
+        "external_code": "3364Q1HU"
+    },
+    {
+        "external_code": "33SHQ1FU"
+    },
+    {
+        "external_code": "33SHQ1FD"
+    },
+    {
+        "external_code": "33R7Q1F7"
+    },
+    {
+        "external_code": "335491FX"
+    },
+    {
+        "external_code": "33349796"
+    },
+    {
+        "external_code": "337LQ1YL"
+    },
+    {
+        "external_code": "33FQS13R"
+    },
+    {
+        "external_code": "33NF713A"
+    },
+  ],
+  "status": "ok",
+  "message": "",
+};

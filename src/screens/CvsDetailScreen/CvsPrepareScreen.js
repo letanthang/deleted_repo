@@ -25,8 +25,6 @@ class CvsPrepareScreen extends Component {
     this.state = { showScan: false };
   }
   
-
-
   renderScannerHeader() {
     return (
     <Header style={{ backgroundColor: 'black' }}>
@@ -160,8 +158,7 @@ const styles = {
     borderWidth: 1,
     borderRadius: 5,
   },
-
-}
+};
 
 const mapStateToProps = (state) => {
   const { auth, pd, pickGroup, other } = state;

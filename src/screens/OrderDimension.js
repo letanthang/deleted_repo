@@ -66,14 +66,12 @@ class OrderDimension extends Component {
     };
     console.log('onSaveWeightSize');
     this.props.updateWeightSize(params);
-    this.props.popupDialogIn.dismiss();
+    // this.props.popupDialogIn.dismiss();
   } 
   async onCalculateFeePress(order) {
     Keyboard.dismiss();
     if (!this.isInfoChanged(order)) return;
-    
-  
-
+    this.setState({ error: null });
     const { length, weight, width, height } = this.state;
     const { orderCode, type } = order;
     const { tripCode } = this.props;
@@ -83,31 +81,15 @@ class OrderDimension extends Component {
 
       const json = response.data;
       if (json.status === 'OK') {
-        const { newCollectAmount, newServiceFee } = json.data[0];
-        this.props.parent.setState({ newCollectAmount, newServiceFee, length, weight, width, height });
+        const { oldServiceFee, newServiceFee } = json.data[0];
+        this.props.parent.setState({ oldServiceFee, newServiceFee, length, weight, width, height });
         this.props.popupDialogOut.dismiss();
         this.props.popupDialogIn.show();
       } else {
-        Alert.alert(
-          'Thông báo',
-          'Đã có lỗi không thể tín toán phí mới ' + json.message,
-          [
-            
-            { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
-          ],
-          { cancelable: false }
-        );  
+        this.setState({ error: 'Đã có lỗi: ' + json.message });
       }
     } catch (error) {
-      Alert.alert(
-        'Thông báo',
-        'Đã có lỗi không thể tính toán phí mới ' + error.message,
-        [
-          
-          { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
-        ],
-        { cancelable: false }
-      );
+      this.setState({ error: 'Đã có lỗi: ' + error.message });
     }
     
   }
@@ -118,15 +100,7 @@ class OrderDimension extends Component {
       && order.weight == weight 
       && order.height == height 
       && order.width == width) {
-      Alert.alert(
-        'Thông báo',
-        'Các giá trị khối lượng hoặc kích thước không thay đổi. Vui lòng kiểm tra và thử lại.',
-        [
-          
-          { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
-        ],
-        { cancelable: false }
-      );  
+      this.setState({ error: 'Các giá trị khối lượng hoặc kích thước không thay đổi. Vui lòng kiểm tra lại.' });
       return false;
     }
     return this.isInfoValidated();
@@ -134,22 +108,14 @@ class OrderDimension extends Component {
   isInfoValidated() {
     // DxRxC (cm): 10x10x10 - 50x30x50
     const { length, weight, width, height } = this.state;
-    if (length >= 10 && length <=50
-      && width >= 10 && width <=30
-      && height >=10 && width <=50
-      && weight >=1 && weight <= 50000) {
+    if (length >= 10 && length <= 200
+      && width >= 10 && width <= 200
+      && height >= 10 && width <= 200
+      && weight >= 1 && weight <= 50000) {
         return true;
     }
 
-    Alert.alert(
-      'Thông báo',
-      'Thông tin kích thước khối lượng vượt quá mức cho phép. Vui lòng kiểm tra lại.',
-      [
-        
-        { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
-      ],
-      { cancelable: false }
-    );  
+    this.setState({ error: 'Thông tin kích thước khối lượng vượt quá mức cho phép. Vui lòng kiểm tra lại.' });
     return false;
   }
 
@@ -219,7 +185,9 @@ class OrderDimension extends Component {
               keyboardType='numeric'
             />
           </View>
-
+          <View style={styles.rowStyle}>
+            <Text style={[Styles.midTextStyle, { color: 'red' }]}>{this.state.error}</Text>
+          </View>
         </View>
         <View
           style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}

@@ -362,27 +362,28 @@ class PickOrderScreen extends Component {
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
             <View style={{ padding: 16 }}>
               <Text style={{ color: 'red' }}>Chỉ bấm xác nhận khi KH đồng ý cước phí thay đổi</Text>
+              <View style={{ paddingTop: 12, paddingBottom: 4 }}>
+                <Text style={{ width: 158, fontWeight: 'bold' }}>KHỐI LƯỢNG CŨ</Text>
+              </View>
               <View style={{ flexDirection: 'row', paddingTop: 8 }}>
                 <Text style={{ width: 158 }}>Khối lượng</Text>
-                <Text>{accounting.formatNumber(this.state.weight)} gr</Text>
+                <Text><Text style={{ fontWeight: 'bold' }}>{accounting.formatNumber(weight)}</Text> gr</Text>
               </View>
               <View style={{ flexDirection: 'row', paddingTop: 8 }}>
                 <Text style={{ width: 158 }}>Kích thước (DxRxC)</Text>
-                <Text>{this.state.length}x{this.state.width}x{this.state.height} cm3</Text>
+                <Text><Text style={{ fontWeight: 'bold' }}>{length}</Text>x<Text style={{ fontWeight: 'bold' }}>{width}</Text>x<Text style={{ fontWeight: 'bold' }}>{height}</Text> cm3</Text>
               </View>
-              <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }}>
-              </View>
-              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-                <Text style={{ width: 158 }}>Cước phí cũ</Text>
-                <Text>{accounting.formatNumber(this.state.oldServiceFee)} VNĐ</Text>
+              <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }} />
+              <View style={{ paddingTop: 12, paddingBottom: 4 }}>
+                <Text style={{ width: 158, fontWeight: 'bold' }}>KHỐI LƯỢNG MỚI</Text>
               </View>
               <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-                <Text style={{ width: 158 }}>Cước phí mới</Text>
-                <Text>{accounting.formatNumber(this.state.newServiceFee)} VNĐ</Text>
-              </View>              
+                <Text style={{ width: 158 }}>Khối lượng</Text>
+                <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{accounting.formatNumber(this.state.weight)}</Text> gr</Text>
+              </View>
               <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-                <Text style={{ width: 158 }}>Chênh lệch</Text>
-                <Text style={{ color: diffFee > 0 ? Colors.theme : '#f6411d' }}>{accounting.formatNumber(diffFee)} VNĐ</Text>
+                <Text style={{ width: 158 }}>Kích thước (DxRxC)</Text>
+                <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.length}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.width}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.height}</Text> cm3</Text>
               </View>
               <Text style={{ color: 'red', paddingTop: 8 }}>{this.state.dimensionError}</Text>
             </View>
@@ -422,7 +423,7 @@ class PickOrderScreen extends Component {
                 <Text style={{ textAlignVertical: 'center' }}> VNĐ</Text>
               </View>           
               {collectAmount <= 0 ?
-              <Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví của Khách hàng.</Text>
+              <Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví / Công nợ của Khách hàng.</Text>
               :null}
             </View>
             <View

@@ -76,21 +76,26 @@ class OrderDimension extends Component {
     const { orderCode, type } = order;
     const { tripCode } = this.props;
     const params = {  length, width, height, weight, orderCode, type, tripCode, reason: 'Hang to bat thuong' };
-    try {
-      const response = await CalculateServiceFee(params)
+    
+    this.props.parent.setState({ length, weight, width, height });
+    this.props.popupDialogOut.dismiss();
+    this.props.popupDialogIn.show();
 
-      const json = response.data;
-      if (json.status === 'OK') {
-        const { oldServiceFee, newServiceFee } = json.data[0];
-        this.props.parent.setState({ oldServiceFee, newServiceFee, length, weight, width, height });
-        this.props.popupDialogOut.dismiss();
-        this.props.popupDialogIn.show();
-      } else {
-        this.setState({ error: 'Đã có lỗi: ' + json.message });
-      }
-    } catch (error) {
-      this.setState({ error: 'Đã có lỗi: ' + error.message });
-    }
+    // try {
+    //   const response = await CalculateServiceFee(params)
+
+    //   const json = response.data;
+    //   if (json.status === 'OK') {
+    //     const { oldServiceFee, newServiceFee } = json.data[0];
+    //     this.props.parent.setState({ oldServiceFee, newServiceFee, length, weight, width, height });
+    //     this.props.popupDialogOut.dismiss();
+    //     this.props.popupDialogIn.show();
+    //   } else {
+    //     this.setState({ error: 'Đã có lỗi: ' + json.message });
+    //   }
+    // } catch (error) {
+    //   this.setState({ error: 'Đã có lỗi: ' + error.message });
+    // }
     
   }
   

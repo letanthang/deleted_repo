@@ -414,7 +414,7 @@ class PickOrderScreen extends Component {
           ref={(popupDialog) => { this.popupDialogLast = popupDialog; }}
           containerStyle={{ zIndex: 10, elevation: 10 }}
           width={0.94}
-          height={220}
+          height={230}
           dialogTitle={<DialogTitle title="Phải thu người gởi" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>

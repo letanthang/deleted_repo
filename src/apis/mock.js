@@ -1003,7 +1003,12 @@ export const sortingResponse = {
   ]
 }
 
-export const scanResponse = {"hash_id":"35c43e281210c374299287d57495a001","post_id":195,"token":"35c43e281210c374299287d57495a001","random":0.3916305180133064};
+export const scanResponse = {
+  "hash_id":"35c43e281210c374299287d57495a001",
+  "post_id":195,
+  "token":"35c43e281210c374299287d57495a001",
+  "random":0.3916305180133064
+};
 
 export const cvsResponse = {
   "list_code": [

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Alert, Platform, Keyboard, Button as RNButton } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert, Platform, Keyboard, Button as RNButton, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import accounting from 'accounting';
 import Utils from '../libs/Utils';
@@ -149,75 +149,82 @@ class OrderDimension extends Component {
     }
 
     return (
-      <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
-        <View>
-          <View style={styles.rowStyle}>
-            <Text style={[Styles.midTextStyle, { color: 'red' }]}>Chỉ có thể cập nhật 1 lần, kiểm tra kĩ thông tin trước khi bấm cập nhật</Text>
-          </View>
-          <View style={styles.rowStyle}>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Khối lượng (g)</Text> 
-          </View>
-          <View style={styles.rowStyle}>
-            <TextInput 
-              style={[textStyle, Styles.weakColorStyle]}
-              value={this.state.weight.toString()}
-              onChangeText={value => this.onInputChange('weight', value)}
-              keyboardType='numeric'
-            />
-          </View>
-          <View style={styles.rowStyle}>
-            <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Kích thước DxRxC (cm)</Text>  
-          </View>
-          <View style={styles.rowStyle}>
-            <TextInput 
-              style={[textStyle, Styles.weakColorStyle]}
-              value={this.state.length.toString()}
-              onChangeText={value => this.onInputChange('length', value)}
-              keyboardType='numeric'
-            />
-            <Text> x </Text>
-            <TextInput 
-              style={[textStyle, Styles.weakColorStyle]}
-              value={this.state.width.toString()}
-              onChangeText={value => this.onInputChange('width', value)}
-              keyboardType='numeric'
-            />
-            <Text> x </Text>
-            <TextInput 
-              style={[textStyle, Styles.weakColorStyle]}
-              value={this.state.height.toString()}
-              onChangeText={value => this.onInputChange('height', value)}
-              keyboardType='numeric'
-            />
-          </View>
-          <View style={styles.rowStyle}>
-            <Text style={[Styles.midTextStyle, { color: 'red' }]}>{this.state.error}</Text>
-          </View>
-        </View>
+      <TouchableWithoutFeedback
+        onPress={()=> Keyboard.dismiss()}
+      >
         <View
-          style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+          style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}
         >
-          <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
-            <RNButton
-              title="Huỷ"
-              onPress={() => {
-                Keyboard.dismiss();
-                this.props.popupDialogOut.dismiss()
-              }}
-              color='#057AFF'
-              style={{ flex: 0.5, margin: 2 }}
-            />
+          <View>
+            <View style={styles.rowStyle}>
+              <Text style={[Styles.midTextStyle, { color: 'red' }]}>Chỉ có thể cập nhật 1 lần, kiểm tra kĩ thông tin trước khi bấm cập nhật</Text>
+            </View>
+            <View style={styles.rowStyle}>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Khối lượng (g)</Text> 
+            </View>
+            <View style={styles.rowStyle}>
+              <TextInput 
+                style={[textStyle, Styles.weakColorStyle]}
+                value={this.state.weight.toString()}
+                onChangeText={value => this.onInputChange('weight', value)}
+                keyboardType='numeric'
+              />
+            </View>
+            <View style={styles.rowStyle}>
+              <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>Kích thước DxRxC (cm)</Text>  
+            </View>
+            <View style={styles.rowStyle}>
+              <TextInput 
+                style={[textStyle, Styles.weakColorStyle]}
+                value={this.state.length.toString()}
+                onChangeText={value => this.onInputChange('length', value)}
+                keyboardType='numeric'
+              />
+              <Text> x </Text>
+              <TextInput 
+                style={[textStyle, Styles.weakColorStyle]}
+                value={this.state.width.toString()}
+                onChangeText={value => this.onInputChange('width', value)}
+                keyboardType='numeric'
+              />
+              <Text> x </Text>
+              <TextInput 
+                style={[textStyle, Styles.weakColorStyle]}
+                value={this.state.height.toString()}
+                onChangeText={value => this.onInputChange('height', value)}
+                keyboardType='numeric'
+              />
+            </View>
+            <View style={styles.rowStyle}>
+              <Text style={[Styles.midTextStyle, { color: 'red' }]}>{this.state.error}</Text>
+            </View>
           </View>
-          <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
-            <RNButton
-              title="Cập nhật"
-              onPress={this.onCalculateFeePress.bind(this, order)}
-              color='#057AFF'
-              style={{ flex: 0.5, margin: 2 }}
-            />
+          <View
+            style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1 }}
+          >
+            <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30, borderRightWidth: 1, borderRightColor: '#E7E8E9' }}>
+              <RNButton
+                title="Huỷ"
+                onPress={() => {
+                  Keyboard.dismiss();
+                  this.props.popupDialogOut.dismiss()
+                }}
+                color='#057AFF'
+                style={{ flex: 0.5, margin: 2 }}
+              />
+            </View>
+            <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
+              <RNButton
+                title="Cập nhật"
+                onPress={this.onCalculateFeePress.bind(this, order)}
+                color='#057AFF'
+                style={{ flex: 0.5, margin: 2 }}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
+      
     );
   }
 }

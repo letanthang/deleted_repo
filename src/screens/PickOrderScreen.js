@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity, Platform, KeyboardAvoidingView, Button as RNButton } from 'react-native';
+import { View, Alert, TouchableOpacity, Platform, Button as RNButton } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
@@ -355,13 +355,14 @@ class PickOrderScreen extends Component {
         <PopupDialog
           ref={(popupDialog) => { this.popupDialogIn = popupDialog; }}
           containerStyle={{ zIndex: 10, elevation: 10 }}
+          dialogStyle={{ top: - 32 }}
           width={0.94}
-          height={388}
+          height={420}
           dialogTitle={<DialogTitle title="Xác nhận" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
             <View style={{ padding: 16 }}>
-              <Text style={{ color: 'red' }}>Chỉ bấm xác nhận khi KH đồng ý cước phí thay đổi</Text>
+              <Text style={{ color: 'red' }}>Chỉ bấm xác nhận khi KH đồng ý thông tin thay đổi này đã đúng với hàng thực tế</Text>
               <View style={{ paddingTop: 12, paddingBottom: 4 }}>
                 <Text style={{ width: 158, fontWeight: 'bold' }}>KHỐI LƯỢNG CŨ</Text>
               </View>
@@ -443,7 +444,7 @@ class PickOrderScreen extends Component {
         <PopupDialog
           ref={(popupDialog) => { this.popupDialogOut = popupDialog; }}
           containerStyle={{ zIndex: 10, elevation: 10 }}
-          dialogStyle={{ top: - 24 }}
+          dialogStyle={{ top: - 32 }}
           width={0.94}
           height={388}
           dialogTitle={<DialogTitle title="Cập nhật thông tin" />}

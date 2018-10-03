@@ -12,6 +12,7 @@ import {
   PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_SET_PROPS,
   PD_SET_ORDER_PROPS, PD_FETCH_LABEL_SUCCESS, PD_FETCH_LABEL_FAIL,
   PD_GET_ORDERS_INFO, PD_GET_ORDERS_INFO_SUCCESS, PD_GET_ORDERS_INFO_FAIL,
+  PD_START_CVS_SESSION,
 } from './types';
 import { writeLog } from '../libs/Log';
 
@@ -249,3 +250,8 @@ export const getOrdersInfo = (orderCodes) => {
 export const getOrdersInfoSuccess = (response) => {
   return { type: PD_GET_ORDERS_INFO_SUCCESS, payload: { data: response.data } };
 };
+
+export const startCvsSession = (qrData, tripCode) => {
+  return { type: PD_START_CVS_SESSION, payload: { hashId: qrData.hash_id, postId: qrData.postId, peId: qrData.peId, tripCode } };
+};
+

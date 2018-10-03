@@ -9,7 +9,7 @@ import {
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
-import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd } from '../../actions';
+import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd, startCvsSession } from '../../actions';
 import { get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
@@ -85,17 +85,28 @@ class CvsPrepareScreen extends Component {
     );
   }
 
+  onBarCodeReadOnce = _.debounce(this.onBarCodeRead, 300, { leading: true, trailing: false });
+
+  onBarCodeRead(data) {
+    console.log(data)
+    if (data !== this.state.data) {
+      this.setState(data);
+      this.props.startCvsSession(data);
+    }    
+  }
+
+
   renderScanner() {
     return (
       <Container style={{ backgroundColor: 'black' }}>
         {this.renderScannerHeader()}
-        <BarcodeReader onBarCodeRead={(data) => console.log(data)}  />
+        <BarcodeReader onBarCodeRead={this.onBarCodeReadOnce.bind(this, data)}  />
       </Container>
     );
   }
 
   render() {
-    console.log('DetailScreen render');
+    console.log('CvsPrepareScreen render');
 
     if (this.state.showScan) {
       return this.renderScanner();
@@ -170,4 +181,4 @@ const mapStateToProps = (state) => {
   return { PickItems, ReturnItems, CvsItems: PickItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd })(CvsPrepareScreen);
+export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd, startCvsSession })(CvsPrepareScreen);

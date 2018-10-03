@@ -34,11 +34,16 @@ class TripItem extends Component {
   }
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
-  onTripPress({ type, senderHubId }) {
+  onTripPress({ type, senderHubId, ordersNum }) {
+    console.log(type, senderHubId);
     if (type === 'PICK') {
       this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
     } else if (type === 'TRANSIT_IN') {
-      this.props.navigation.navigate('CvsPrepare', { type, senderHubId });
+      if (ordersNum === 0) {
+        this.props.navigation.navigate('CvsPrepare', { type, senderHubId });
+      } else {
+        this.props.navigation.navigate('CvsDetail', { type, senderHubId });
+      }
     } 
   }
 
@@ -80,7 +85,7 @@ class TripItem extends Component {
     
     return (
       <TouchableOpacity
-        onPress={this.onTripPressOnce.bind(this, { type, senderHubId })}
+        onPress={this.onTripPressOnce.bind(this, { type, senderHubId, ordersNum })}
         style={DeliverGroupStyles.content}
       >
         <View style={wrapperStyle}>

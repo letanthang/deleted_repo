@@ -11,25 +11,41 @@ export const getOrders = ({ pd }) => {
 };
 export const getShopPGroup = ({ pd }) => pd.shopPGroup;
 export const getPgroups = ({ pd }) => pd.pgroups;
-
+export const getStopPoints = ({ pd }) => pd.stopPoints;
 
 export const get3Type = createSelector(
-  [getOrders, getShopPGroup, getPgroups],
-  (pdsItems, shopPGroup, pgroups) => {
+  [getOrders, getShopPGroup, getPgroups, getStopPoints],
+  (pdsItems, shopPGroup, pgroups, stopPoints) => {
     // console.log('Get3Type');
     const DeliveryItems = _.filter(pdsItems, o => o.type === 'DELIVER');
     
     let items = _.filter(pdsItems, o => o.type === 'PICK' || o.type === 'TRANSIT_IN');
     const PickOrders = items;
     let groups = _.groupBy(items, 'senderHubId');
+
+    //**** Thang add 03102018 add stop points *****/
+
+    _.forEach(stopPoints, (p) => {
+      if (groups[p.contact.contactId] === undefined) {
+        groups[p.contact.contactId] = p.contact;
+      }
+    });
+
+
     const PickItems = [];
     _.forEach(groups, (orders, key) => {
-      const order = orders[0];
+      let order = null;
+      if (Array.isArray(orders)) {
+        order = orders[0];
+      } else {
+        order = { senderAddress: orders.address, senderHubId: orders.contactId, clientId: orders.contactId, clientName: orders.contactName, senderName: orders.contactName, senderPhone: orders.contactPhone, type: 'TRANSIT_IN' };
+      }
+      
       const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type } = order;
       
       // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
       const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type };
-      group.ShopOrders = orders;
+      group.ShopOrders = Array.isArray(orders) ? orders : [];
       // group.ShopOrders.sort((a, b) => {
       //   const x = a.statusChangeDate ? a.statusChangeDate : 0;
       //   const y = b.statusChangeDate ? b.statusChangeDate : 0;
@@ -168,6 +184,8 @@ const calculateStatNumbers = ({ PickItems, DeliveryItems, ReturnItems, CvsItems,
 
 const checkTripDone = trip => {
   const ordersNum = trip.ShopOrders.length;
+  if (ordersNum === 0) return false;
+
   const completedNum = trip.ShopOrders.filter(o => o.done).length;
   return (ordersNum === completedNum);
 };

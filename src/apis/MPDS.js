@@ -9,7 +9,7 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 
 
 // ---------turn on mock data----------
-const mockOn = false;
+const mockOn = true;
 const timeout = 9500;
 export const live = false;
 export const appVersionName = '02/10 6pm';
@@ -105,7 +105,8 @@ export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime, sende
   };
 
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, ordersResponse);
+    // mock.onGet(URL, config).reply(200, ordersResponse);
+    mock.onGet(URL, config).reply(200, startSessionResponse);
   }
   return axios.get(URL, config);
 };
@@ -450,6 +451,6 @@ export const StartSession = (hashId, postId, peId, tripCode) => {
   return axios.post(URL, params);
 };
 
-export const startSession = (userid, password ) => {
-  return fromPromise(Authenticate(userid, password))
+export const startSession = (hashId, postId, peId, tripCode) => {
+  return fromPromise(StartSession(hashId, postId, peId, tripCode))
 };

@@ -5,7 +5,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse, updateRDCResponse, feeResponse } from './mock';
+import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse, updateRDCResponse, feeResponse, startSessionResponse, updateSessionResponse } from './mock';
 
 
 // ---------turn on mock data----------
@@ -145,6 +145,26 @@ export const DoAction = (tripCode, OrderInfos) => {
 
 export const updateOrderStatus = (tripCode, OrderInfos) => {
   return fromPromise(DoAction(tripCode, OrderInfos));
+};
+
+export const UpdateSession = (tripCode, OrderInfos) => {
+  const URL = `${PDS_URL}/item`;
+  const params = {
+    tripCode,
+    orders: OrderInfos,
+  };
+  const { LoginHeader } = Share;
+  const config = { headers: LoginHeader, timeout };
+
+  if (mockOn) {
+    mock.onPut(URL, params, config).reply(200, updateSessionResponse);
+  }
+
+  return axios.put(URL, params, config);
+};
+
+export const updateSession = (tripCode, OrderInfos) => {
+  return fromPromise(FinishSession(tripCode, OrderInfos));
 };
 
 export const CalculateServiceFee = (params) => {
@@ -415,4 +435,21 @@ export const GetOrdersInfo = (orderIds = []) => {
 
 export const getOrdersInfo = (orderIds = []) => {
   return fromPromise(GetOrdersInfo(orderIds));
+};
+
+
+export const StartSession = (hashId, postId, peId, tripCode) => {
+  const URL = `${ACC_URL}/pdaLogin`;
+  const params = {
+    hashId, postId, peId, tripCode,
+  };
+  if (mockOn) {
+    mock.onPost(URL, params).reply(200, startSessionResponse);
+  }
+
+  return axios.post(URL, params);
+};
+
+export const startSession = (userid, password ) => {
+  return fromPromise(Authenticate(userid, password))
 };

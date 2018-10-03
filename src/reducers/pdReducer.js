@@ -81,9 +81,9 @@ export default (state = nameInitialState, action) => {
       let data = {};
       if (more === false) {
         const { currentServerTime } = action.payload.pdsItems[0];
-        const nowTime = new Date();
+        const nowTime = currentServerTime ? new Date(currentServerTime) : new Date();
         nowTime.setMinutes(nowTime.getMinutes() - 1);
-        const lastUpdatedTime = currentServerTime || nowTime.toISOString();
+        const lastUpdatedTime = nowTime.toISOString();
         data = { lastUpdatedTime };
       }
 

@@ -14,7 +14,34 @@ export const infoResponse = {
         "date": "2018-04-20T07:48:00.653Z",
         "id": "5ad99b30e893788f8f000003",
         "createdTime": "2018-04-20T07:48:00.653Z",
-        "lastUpdatedTime": "2018-04-20T07:48:00.653Z"
+        "lastUpdatedTime": "2018-04-20T07:48:00.653Z",
+        "stopPoints": [{
+          "pointId": "123",
+          "type" : "PICK",
+          "tripCode": "184122056HC7B",
+          "sessionId": "928403432",
+          "isUpdated": false,
+          "isSucceeded": true,
+          "updateUserId": "1006",
+          "updateUserName": "Nguyễn Trịnh Khánh Tường",
+          "contact" : {
+            "contactId": "1234", 
+            "contactName": "CircleK Thành Thái",
+            "contactPhone": "0948645315",
+            "address": "123 Thành Thái",
+          "addressRemoveAccent" : "123 Thanh Thai",
+          "cityCode": "084",
+          "cityName": "Hồ Chí Minh",
+          "districtCode": "456",
+          "districtName": "Quận 10",
+          "wardCode": "689",
+          "wardName": "Phường 7",
+          "lat": 5223212545,
+          "lng": 1254656556
+          },
+          "pe_id": 5546215,
+          orderCodes: ["A123456","B123456"]
+          }],          
       }
     ]
   };
@@ -286,162 +313,6 @@ export const ordersResponse = {
         },
         "inTripIndex": 3,
         "type": "PICK",
-        "tripCode": "1871323EADQCF",
-        "isUpdated": false,
-        "isSucceeded": false,
-        "isCollected": false,
-        "collectAmount": 13200,
-        "isExported": false,
-        "isScanned": false,
-        "isReturn": false,
-        "isCancel": false,
-        "date": "2018-07-28T23:59:28.977Z",
-        "id": "5b5d0364d231f0711c894b4f",
-        "createdTime": "2018-07-28T23:59:32.403Z",
-            "lastUpdatedTime": "2018-07-28T23:59:45.008Z"
-      },
-
-      {
-        "orderCode": "3GUSRAAB",
-        "extraInfo": {
-          "orderId": "456334",
-          "externalCode": "R-R44421-11",
-          "senderContact": {
-            "contactId": "349091",
-            "contactName": "HUB HCM Tân Bình HCM",
-            "contactPhone": "028.38113.789",
-            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 13200
-          },
-          "receiverContact": {
-            "contactId": "0945891357",
-            "contactName": "Lộc Y Tế",
-            "contactPhone": "0945891357",
-            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 0
-          },
-          "pickInfo": {
-            "contactId": "349092",
-            "contactName": "HUB HCM Tân Bình HCM",
-            "contactPhone": "028.38113.789",
-            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 13200
-          },
-          "deliverInfo": {
-            "contactId": "0945891357",
-            "contactName": "Lộc Y Tế",
-            "contactPhone": "0945891357",
-            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 0
-          },
-          "paymentTypeId": 1,
-          "width": 10,
-          "length": 10,
-          "height": 10,
-          "weight": 477,
-          "clientExtraNote": " x Apple iPad Pro 10.5 WiFi + 4G 256GB - MPHH2 - Bạc - Model 2017 (Nhập khẩu chính Hãng)",
-          "clientRequiredNote": "",
-          "date": "2018-07-28T23:59:32.220Z",
-          "id": "5b5d036400000004e0000005",
-          "createdTime": "2018-07-28T23:59:32.221Z",
-          "lastUpdatedTime": "2018-07-28T23:59:32.221Z"
-        },
-        "inTripIndex": 3,
-        "type": "TRANSIT_IN",
-        "tripCode": "1871323EADQCF",
-        "isUpdated": false,
-        "isSucceeded": false,
-        "isCollected": false,
-        "collectAmount": 13200,
-        "isExported": false,
-        "isScanned": false,
-        "isReturn": false,
-        "isCancel": false,
-        "date": "2018-07-28T23:59:28.977Z",
-        "id": "5b5d0364d231f0711c894b4f",
-        "createdTime": "2018-07-28T23:59:32.403Z",
-            "lastUpdatedTime": "2018-07-28T23:59:45.008Z"
-      },
-
-      {
-        "orderCode": "3GUSRAAC",
-        "extraInfo": {
-          "orderId": "456334",
-          "externalCode": "R-R44421-11",
-          "senderContact": {
-            "contactId": "349091",
-            "contactName": "HUB HCM Tân Bình HCM",
-            "contactPhone": "028.38113.789",
-            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 13200
-          },
-          "receiverContact": {
-            "contactId": "0945891357",
-            "contactName": "Lộc Y Tế",
-            "contactPhone": "0945891357",
-            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 0
-          },
-          "pickInfo": {
-            "contactId": "349092",
-            "contactName": "HUB HCM Tân Bình HCM",
-            "contactPhone": "028.38113.789",
-            "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 13200
-          },
-          "deliverInfo": {
-            "contactId": "0945891357",
-            "contactName": "Lộc Y Tế",
-            "contactPhone": "0945891357",
-            "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
-            "cityCode": "8",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "0214",
-            "districtName": "Quận Tân Bình",
-            "haveToCollectAmount": 0
-          },
-          "paymentTypeId": 1,
-          "width": 10,
-          "length": 10,
-          "height": 10,
-          "weight": 477,
-          "clientExtraNote": " x Apple iPad Pro 10.5 WiFi + 4G 256GB - MPHH2 - Bạc - Model 2017 (Nhập khẩu chính Hãng)",
-          "clientRequiredNote": "",
-          "date": "2018-07-28T23:59:32.220Z",
-          "id": "5b5d036400000004e0000005",
-          "createdTime": "2018-07-28T23:59:32.221Z",
-          "lastUpdatedTime": "2018-07-28T23:59:32.221Z"
-        },
-        "inTripIndex": 3,
-        "type": "TRANSIT_IN",
         "tripCode": "1871323EADQCF",
         "isUpdated": false,
         "isSucceeded": false,
@@ -815,6 +686,151 @@ export const updateStatusResponse = {
   ],
   "message": "Successfull"
 }
+
+export const updateSessionResponse = {
+  "status": "OK",
+  "data": [
+    {
+        "orderCode": "A123456",
+        "type": "TRANSIT_IN",
+    },
+    {
+      "orderCode": "B123456",
+      "type": "TRANSIT_IN",
+    }
+  ],
+  "message": "Successfull"
+}
+
+
+export const startSessionResponse = {
+  "status": "OK",
+  "data": [
+    {
+      "orderCode": "A123456",
+      "extraInfo": {
+        "orderId": "456334",
+        "externalCode": "R-R44421-11",
+        "pickInfo": {
+          "contactId": "349092",
+          "contactName": "HUB HCM Tân Bình HCM",
+          "contactPhone": "028.38113.789",
+          "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
+          "cityCode": "8",
+          "cityName": "Hồ Chí Minh",
+          "districtCode": "0214",
+          "districtName": "Quận Tân Bình",
+          "haveToCollectAmount": 13200
+        },
+        "deliverInfo": {
+          "contactId": "0945891357",
+          "contactName": "Lộc Y Tế",
+          "contactPhone": "0945891357",
+          "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
+          "cityCode": "8",
+          "cityName": "Hồ Chí Minh",
+          "districtCode": "0214",
+          "districtName": "Quận Tân Bình",
+          "haveToCollectAmount": 0
+        },
+        "paymentTypeId": 1,
+        "width": 10,
+        "length": 10,
+        "height": 10,
+        "weight": 477,
+        "clientExtraNote": " x Apple iPad Pro 10.5 WiFi + 4G 256GB - MPHH2 - Bạc - Model 2017 (Nhập khẩu chính Hãng)",
+        "clientRequiredNote": "",
+        "date": "2018-07-28T23:59:32.220Z",
+        "id": "5b5d036400000004e0000005",
+        "createdTime": "2018-07-28T23:59:32.221Z",
+        "lastUpdatedTime": "2018-07-28T23:59:32.221Z"
+      },
+      "inTripIndex": 3,
+      "type": "TRANSIT_IN",
+      "tripCode": "1871323EADQCF",
+      "isUpdated": false,
+      "isSucceeded": false,
+      "isCollected": false,
+      "collectAmount": 13200,
+      "isExported": false,
+      "isScanned": false,
+      "isReturn": false,
+      "isCancel": false,
+      "date": "2018-07-28T23:59:28.977Z",
+      "id": "5b5d0364d231f0711c894b4f",
+      "createdTime": "2018-07-28T23:59:32.403Z",
+          "lastUpdatedTime": "2018-07-28T23:59:45.008Z"
+    },
+
+    {
+      "orderCode": "B123456",
+      "extraInfo": {
+        "orderId": "456334",
+        "externalCode": "R-R44421-11",
+        "pickInfo": {
+          "contactId": "349092",
+          "contactName": "HUB HCM Tân Bình HCM",
+          "contactPhone": "028.38113.789",
+          "address": "HUB Quận Tân Bình 38 Nguyễn Bá Tuyển, Phường 12, Tân Bình, Hồ Chí Minh",
+          "cityCode": "8",
+          "cityName": "Hồ Chí Minh",
+          "districtCode": "0214",
+          "districtName": "Quận Tân Bình",
+          "haveToCollectAmount": 13200
+        },
+        "deliverInfo": {
+          "contactId": "0945891357",
+          "contactName": "Lộc Y Tế",
+          "contactPhone": "0945891357",
+          "address": "373/192 Lý Thường Kiệt, Phường 08, Tân Bình, Hồ Chí Minh",
+          "cityCode": "8",
+          "cityName": "Hồ Chí Minh",
+          "districtCode": "0214",
+          "districtName": "Quận Tân Bình",
+          "haveToCollectAmount": 0
+        },
+        "paymentTypeId": 1,
+        "width": 10,
+        "length": 10,
+        "height": 10,
+        "weight": 477,
+        "clientExtraNote": " x Apple iPad Pro 10.5 WiFi + 4G 256GB - MPHH2 - Bạc - Model 2017 (Nhập khẩu chính Hãng)",
+        "clientRequiredNote": "",
+        "date": "2018-07-28T23:59:32.220Z",
+        "id": "5b5d036400000004e0000005",
+        "createdTime": "2018-07-28T23:59:32.221Z",
+        "lastUpdatedTime": "2018-07-28T23:59:32.221Z"
+      },
+      "inTripIndex": 3,
+      "type": "TRANSIT_IN",
+      "tripCode": "1871323EADQCF",
+      "isUpdated": false,
+      "isSucceeded": false,
+      "isCollected": false,
+      "collectAmount": 13200,
+      "isExported": false,
+      "isScanned": false,
+      "isReturn": false,
+      "isCancel": false,
+      "date": "2018-07-28T23:59:28.977Z",
+      "id": "5b5d0364d231f0711c894b4f",
+      "createdTime": "2018-07-28T23:59:32.403Z",
+          "lastUpdatedTime": "2018-07-28T23:59:45.008Z"
+    },
+
+    {
+        "orderCode": "A123456",
+        "type": "TRANSIT_IN",
+    },
+    {
+      "orderCode": "B123456",
+      "type": "TRANSIT_IN",
+    }
+  ],
+  "message": "Successfull"
+}
+
+
 
 export const orderHistoryResponse = {
     "status":"OK",

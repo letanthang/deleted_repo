@@ -77,7 +77,7 @@ class OrderDimension extends Component {
     const { tripCode } = this.props;
     const params = {  length, width, height, weight, orderCode, type, tripCode, reason: 'Hang to bat thuong' };
     
-    this.props.parent.setState({ length, weight, width, height });
+    this.props.parent.setState({ length, weight, width, height, dimensionError: null });
     this.props.popupDialogOut.dismiss();
     this.props.popupDialogIn.show();
 

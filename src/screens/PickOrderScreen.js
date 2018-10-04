@@ -357,7 +357,7 @@ class PickOrderScreen extends Component {
           containerStyle={{ zIndex: 10, elevation: 10 }}
           dialogStyle={{ top: - 32 }}
           width={0.94}
-          height={420}
+          height={484}
           dialogTitle={<DialogTitle title="Xác nhận" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
@@ -374,7 +374,7 @@ class PickOrderScreen extends Component {
                 <Text style={{ width: 158 }}>Kích thước (DxRxC)</Text>
                 <Text><Text style={{ fontWeight: 'bold' }}>{length}</Text>x<Text style={{ fontWeight: 'bold' }}>{width}</Text>x<Text style={{ fontWeight: 'bold' }}>{height}</Text> cm3</Text>
               </View>
-              <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }} />
+              
               <View style={{ paddingTop: 12, paddingBottom: 4 }}>
                 <Text style={{ width: 158, fontWeight: 'bold' }}>KHỐI LƯỢNG MỚI</Text>
               </View>
@@ -386,6 +386,23 @@ class PickOrderScreen extends Component {
                 <Text style={{ width: 158 }}>Kích thước (DxRxC)</Text>
                 <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.length}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.width}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.height}</Text> cm3</Text>
               </View>
+              <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }} />
+              
+
+              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                <Text style={{ width: 158 }}>Cước phí cũ</Text>
+                <Text><Text style={{ fontWeight: 'bold' }}>{accounting.formatNumber(this.state.oldServiceFee)}</Text> vnđ</Text>
+              </View>
+              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                <Text style={{ width: 158 }}>Cước phí mới</Text>
+                <Text><Text style={{ fontWeight: 'bold' }}>{accounting.formatNumber(this.state.newServiceFee)}</Text> vnđ</Text>
+              </View>
+
+              <View style={{ flexDirection: 'row', paddingTop: 12 }}>
+                <Text style={{ width: 158 }}>Chênh lệch</Text>
+                <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{accounting.formatNumber(this.state.newServiceFee - this.state.oldServiceFee)}</Text> vnđ</Text>
+              </View>
+
               <Text style={{ color: 'red', paddingTop: 8 }}>{this.state.dimensionError}</Text>
             </View>
             

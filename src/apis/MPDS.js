@@ -105,8 +105,8 @@ export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime, sende
   };
 
   if (mockOn) {
-    // mock.onGet(URL, config).reply(200, ordersResponse);
-    mock.onGet(URL, config).reply(200, startSessionResponse);
+    mock.onGet(URL, config).reply(200, ordersResponse);
+    // mock.onGet(URL, config).reply(200, startSessionResponse);
   }
   return axios.get(URL, config);
 };

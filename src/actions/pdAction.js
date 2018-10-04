@@ -252,6 +252,6 @@ export const getOrdersInfoSuccess = (response) => {
 };
 
 export const startCvsSession = (qrData, tripCode) => {
-  return { type: PD_START_CVS_SESSION, payload: { hashId: qrData.hash_id, postId: qrData.postId, peId: qrData.peId, tripCode } };
+  return { type: PD_START_CVS_SESSION, payload: { hashId: qrData.hash_id, postId: qrData.postId, peId: qrData.peId, token: qrData.token, tripCode } };
 };
 

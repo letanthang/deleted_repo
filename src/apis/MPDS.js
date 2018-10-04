@@ -439,10 +439,10 @@ export const getOrdersInfo = (orderIds = []) => {
 };
 
 
-export const StartSession = (hashId, postId, peId, tripCode) => {
+export const StartSession = (hashId, postId, peId, token, tripCode) => {
   const URL = `${ACC_URL}/pdaLogin`;
   const params = {
-    hashId, postId, peId, tripCode,
+    hashId, postId, peId, tripCode, token,
   };
   if (mockOn) {
     mock.onPost(URL, params).reply(200, startSessionResponse);

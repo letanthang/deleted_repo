@@ -6,6 +6,7 @@ import addOrderEpic from './addOrderEpic';
 import fetchOrderDetailEpic from './fetchOrderDetailEpic';
 import updateOrderEpic from './updateOrderEpic';
 import updateWeightSizeEpic from './updateWeightSizeEpic';
+import cvsEpic from './cvsEpic';
 
 export default combineEpics(
   loginUserEpic,
@@ -15,4 +16,5 @@ export default combineEpics(
   fetchOrderDetailEpic,
   updateOrderEpic,
   updateWeightSizeEpic,
+  cvsEpic,
 );

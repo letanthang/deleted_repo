@@ -388,7 +388,7 @@ class PickOrderScreen extends Component {
                 <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.length}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.width}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.height}</Text> cm3</Text>
               </View>
               
-              { isFeeDisplay ?
+              { isFeeDisplay === true || isFeeDisplay === undefined ?
               <View>
                 <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }} />
                 <View style={{ flexDirection: 'row', paddingTop: 8 }}>

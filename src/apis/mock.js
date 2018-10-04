@@ -655,7 +655,8 @@ export const feeResponse = {
         "orderCode": "3GUSRAAA",
         "type": "PICK",
         oldServiceFee: 125456,
-        newServiceFee: 123456,
+        newServiceFee: 128456,
+        isFeeDisplay: false,
     }
   ],
   "message": "Successfull"

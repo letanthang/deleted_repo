@@ -86,8 +86,8 @@ class OrderDimension extends Component {
 
       const json = response.data;
       if (json.status === 'OK') {
-        const { oldServiceFee, newServiceFee } = json.data[0];
-        this.props.parent.setState({ oldServiceFee, newServiceFee, length, weight, width, height, dimensionError: null });
+        const { oldServiceFee, newServiceFee, isFeeDisplay } = json.data[0];
+        this.props.parent.setState({ oldServiceFee, newServiceFee, length, weight, width, height, isFeeDisplay, dimensionError: null });
         this.props.popupDialogOut.dismiss();
         this.props.popupDialogIn.show();
       } else {

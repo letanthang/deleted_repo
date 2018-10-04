@@ -221,9 +221,10 @@ class PickOrderScreen extends Component {
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
       collectAmount, weight, length,
-      receiverAddress, clientRequiredNote, done, dimemsionUpdated,
+      receiverAddress, clientRequiredNote, done, dimemsionUpdated
     } = order;
 
+    const { isFeeDisplay, oldServiceFee, newServiceFee } = this.state
 
     const diffFee = this.state.newServiceFee - this.state.oldServiceFee;
 
@@ -357,7 +358,7 @@ class PickOrderScreen extends Component {
           containerStyle={{ zIndex: 10, elevation: 10 }}
           dialogStyle={{ top: - 32 }}
           width={0.94}
-          height={484}
+          height={486}
           dialogTitle={<DialogTitle title="Xác nhận" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
@@ -386,23 +387,25 @@ class PickOrderScreen extends Component {
                 <Text style={{ width: 158 }}>Kích thước (DxRxC)</Text>
                 <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.length}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.width}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.height}</Text> cm3</Text>
               </View>
-              <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }} />
               
+              { isFeeDisplay ?
+              <View>
+                <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }} />
+                <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                  <Text style={{ width: 158 }}>Cước phí cũ</Text>
+                  <Text><Text style={{ fontWeight: 'bold' }}>{accounting.formatNumber(oldServiceFee)}</Text> vnđ</Text>
+                </View>
+                <View style={{ flexDirection: 'row', paddingTop: 8 }}>
+                  <Text style={{ width: 158 }}>Cước phí mới</Text>
+                  <Text><Text style={{ fontWeight: 'bold' }}>{accounting.formatNumber(newServiceFee)}</Text> vnđ</Text>
+                </View>
 
-              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-                <Text style={{ width: 158 }}>Cước phí cũ</Text>
-                <Text><Text style={{ fontWeight: 'bold' }}>{accounting.formatNumber(this.state.oldServiceFee)}</Text> vnđ</Text>
+                <View style={{ flexDirection: 'row', paddingTop: 12 }}>
+                  <Text style={{ width: 158 }}>Chênh lệch</Text>
+                  <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{accounting.formatNumber(newServiceFee - oldServiceFee)}</Text> vnđ</Text>
+                </View>
               </View>
-              <View style={{ flexDirection: 'row', paddingTop: 8 }}>
-                <Text style={{ width: 158 }}>Cước phí mới</Text>
-                <Text><Text style={{ fontWeight: 'bold' }}>{accounting.formatNumber(this.state.newServiceFee)}</Text> vnđ</Text>
-              </View>
-
-              <View style={{ flexDirection: 'row', paddingTop: 12 }}>
-                <Text style={{ width: 158 }}>Chênh lệch</Text>
-                <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{accounting.formatNumber(this.state.newServiceFee - this.state.oldServiceFee)}</Text> vnđ</Text>
-              </View>
-
+              : null}
               <Text style={{ color: 'red', paddingTop: 8 }}>{this.state.dimensionError}</Text>
             </View>
             
@@ -438,7 +441,7 @@ class PickOrderScreen extends Component {
             <View style={{ padding: 16, alignItems: 'center'}}>
               <View style={{ flexDirection: 'row', paddingTop: 8, alignItems: 'baseline' }}>
                 <Text style={{ color: collectAmount > 0 ? '#25a837' : '#f6411d', fontSize: 32 }}>{accounting.formatNumber(collectAmount)}</Text>
-                <Text style={{ textAlignVertical: 'center' }}> VNĐ</Text>
+                <Text style={{ textAlignVertical: 'center' }}> vnđ</Text>
               </View>           
               {collectAmount <= 0 ?
               <Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví / Công nợ của Khách hàng.</Text>

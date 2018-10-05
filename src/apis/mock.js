@@ -656,7 +656,7 @@ export const feeResponse = {
         "type": "PICK",
         oldServiceFee: 125456,
         newServiceFee: 128456,
-        isFeeDisplay: false,
+        isFeeVisible: false,
     }
   ],
   "message": "Successfull"

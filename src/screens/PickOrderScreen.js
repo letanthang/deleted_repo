@@ -224,9 +224,9 @@ class PickOrderScreen extends Component {
       receiverAddress, clientRequiredNote, done, dimemsionUpdated
     } = order;
 
-    const { isFeeDisplay, oldServiceFee, newServiceFee } = this.state
+    const { isFeeVisible, oldServiceFee, newServiceFee } = this.state
 
-    const diffFee = this.state.newServiceFee - this.state.oldServiceFee;
+    const diffFee = newServiceFee - oldServiceFee;
 
     const editSizeBgColor = (done || dimemsionUpdated) ? 'grey' : Colors.theme;
     return (
@@ -280,7 +280,7 @@ class PickOrderScreen extends Component {
                 <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{serviceName}</Text>
               </View>
               <View style={Styles.rowStyle}>
-                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gởi</Text>
+                <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Tổng thu người gửi</Text>
                 <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(collectAmount)} đ</Text>
               </View>
 
@@ -359,7 +359,7 @@ class PickOrderScreen extends Component {
           dialogStyle={{ top: - 32 }}
           width={0.94}
           height={486}
-          dialogTitle={<DialogTitle title="Xác nhận" />}
+          dialogTitle={<DialogTitle title="Xác nhận thông tin" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
             <View style={{ padding: 16 }}>
@@ -388,7 +388,7 @@ class PickOrderScreen extends Component {
                 <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.length}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.width}</Text>x<Text style={{ fontWeight: 'bold', color: '#25a837' }}>{this.state.height}</Text> cm3</Text>
               </View>
               
-              { isFeeDisplay === true || isFeeDisplay === undefined ?
+              { isFeeVisible === true || isFeeVisible === undefined ?
               <View>
                 <View style={{ flexDirection: 'row', paddingTop: 8, borderBottomWidth: 1, borderBottomColor: '#E7E8E9' }} />
                 <View style={{ flexDirection: 'row', paddingTop: 8 }}>
@@ -402,7 +402,7 @@ class PickOrderScreen extends Component {
 
                 <View style={{ flexDirection: 'row', paddingTop: 12 }}>
                   <Text style={{ width: 158 }}>Chênh lệch</Text>
-                  <Text><Text style={{ fontWeight: 'bold', color: '#25a837' }}>{accounting.formatNumber(newServiceFee - oldServiceFee)}</Text> vnđ</Text>
+                  <Text><Text style={{ fontWeight: 'bold', color: diffFee > 0 ? '#25a837' : '#f6411d' }}>{accounting.formatNumber(diffFee)}</Text> vnđ</Text>
                 </View>
               </View>
               : null}

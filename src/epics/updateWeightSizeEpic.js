@@ -40,11 +40,13 @@ const updateWeightSizeEpic = action$ =>
         .map(({ data }) => {
           const response = data;
           switch (response.status) {
-            case 'OK':
+            case 'OK': {
+              const { newCollectAmount, receiverPayAmount } = response.data[0];
               return {
                 type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-                payload: { serviceCost: response.data[0].newCollectAmount, orderCode, length, width, height, weight, tripCode, reason }
+                payload: { serviceCost: newCollectAmount, receiverPayAmount, orderCode, length, width, height, weight, tripCode, reason }
               };
+            }
             default:
               return { type: PD_UPDATE_WEIGHT_SIZE_FAIL, payload: { error: response.message } };
           }

@@ -207,7 +207,7 @@ class PickOrderScreen extends Component {
   renderNotice(collectAmount, receiverPayAmount) {
     if (collectAmount > 0) return null;
 
-    if (receiverPayAmount > 0) {
+    if (receiverPayAmount === undefined || receiverPayAmount > 0) {
       return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã tính vào tổng thu người nhận</Text>);
     }
       
@@ -229,11 +229,11 @@ class PickOrderScreen extends Component {
     const { 
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
-      collectAmount, weight, length,
+      collectAmount, weight, length, receiverPayAmount,
       receiverAddress, clientRequiredNote, done, dimemsionUpdated
     } = order;
 
-    const { isFeeVisible, oldServiceFee, newServiceFee, receiverPayAmount } = this.state
+    const { isFeeVisible, oldServiceFee, newServiceFee } = this.state
 
     const diffFee = newServiceFee - oldServiceFee;
 
@@ -367,7 +367,7 @@ class PickOrderScreen extends Component {
           containerStyle={{ zIndex: 10, elevation: 10 }}
           dialogStyle={{ top: - 32 }}
           width={0.94}
-          height={486}
+          height={500}
           dialogTitle={<DialogTitle title="Xác nhận thông tin" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>

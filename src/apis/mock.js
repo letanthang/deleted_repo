@@ -656,7 +656,6 @@ export const feeResponse = {
         "type": "PICK",
         oldServiceFee: 125456,
         newServiceFee: 128456,
-        receiverPayAmount: 123,
         isFeeVisible: false,
     }
   ],
@@ -669,7 +668,8 @@ export const updateRDCResponse = {
     {
         "orderCode": "3GUSRAAA",
         "type": "PICK",
-        "newCollectAmount": 0
+        "newCollectAmount": 0,
+        receiverPayAmount: 123,
     }
   ],
   "message": "Successfull"

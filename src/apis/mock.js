@@ -656,6 +656,7 @@ export const feeResponse = {
         "type": "PICK",
         oldServiceFee: 125456,
         newServiceFee: 128456,
+        receiverPayAmount: 123,
         isFeeVisible: false,
     }
   ],
@@ -1073,6 +1074,7 @@ export const sortingResponse = {
 export const scanResponse = {
   "hash_id":"35c43e281210c374299287d57495a001",
   "post_id":195,
+  "pe_id":888888,
   "token":"35c43e281210c374299287d57495a001",
   "random":0.3916305180133064
 };

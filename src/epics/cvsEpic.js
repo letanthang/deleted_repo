@@ -17,10 +17,12 @@ import Utils from '../libs/Utils';
 const startSessionEpic = action$ =>
   action$.ofType(PD_START_CVS_SESSION)
     .map(action => action.payload)
-    .mergeMap(({ orderCodes }) => {
-      return API.getOrdersInfo(orderCodes)
+    .mergeMap(({ tripCode, postId, hashId, peId, token, pointId  }) => {
+      return API.startSession(hashId, postId, peId, token, pointId, tripCode)
         .map(({ data }) => {
+          
           const response = data;
+          console.log('kaka', response)
           switch (response.status) {
             case 'OK':
               return { type: PD_START_CVS_SESSION_SUCCESS };
@@ -36,7 +38,7 @@ const failEpic = action$ =>
     .map(action => action.payload)
     .do(({ error }) => Alert.alert(
       'Thông báo',
-      'Không thể cập nhật kích thước mới. ' + error,
+      'Không thể nhận bàn giao. ' + error,
       [
         
         { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
@@ -48,9 +50,9 @@ const failEpic = action$ =>
 const successEpic = action$ =>
   action$.ofType(PD_START_CVS_SESSION_SUCCESS)
     .map(action => action.payload)
-    .do(() => Utils.showToast('Cập nhật kích thước thành công', 'success'))
+    .do(() => Utils.showToast('Nhận bàn giao thành công', 'success'))
     .delay(300)
-    .mergeMap((() => of(pdListFetch({ off: true }))));
+    .mergeMap((() => of(pdListFetch({ off: false }))));
 
 export default combineEpics(
   startSessionEpic,

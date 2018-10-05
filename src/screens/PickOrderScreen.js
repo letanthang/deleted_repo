@@ -204,6 +204,15 @@ class PickOrderScreen extends Component {
     this.popupDialogOut.show();
   }
 
+  renderNotice(collectAmount, receiverPayAmount) {
+    if (collectAmount > 0) return null;
+
+    if (receiverPayAmount > 0) {
+      return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã tính vào tổng thu người nhận</Text>);
+    }
+      
+    return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví / Công nợ của Khách hàng.</Text>);
+  }
   
   
   render() {
@@ -224,7 +233,7 @@ class PickOrderScreen extends Component {
       receiverAddress, clientRequiredNote, done, dimemsionUpdated
     } = order;
 
-    const { isFeeVisible, oldServiceFee, newServiceFee } = this.state
+    const { isFeeVisible, oldServiceFee, newServiceFee, receiverPayAmount } = this.state
 
     const diffFee = newServiceFee - oldServiceFee;
 
@@ -443,9 +452,7 @@ class PickOrderScreen extends Component {
                 <Text style={{ color: collectAmount > 0 ? '#25a837' : '#f6411d', fontSize: 32 }}>{accounting.formatNumber(collectAmount)}</Text>
                 <Text style={{ textAlignVertical: 'center' }}> vnđ</Text>
               </View>           
-              {collectAmount <= 0 ?
-              <Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví / Công nợ của Khách hàng.</Text>
-              :null}
+              {this.renderNotice(collectAmount, receiverPayAmount)}
             </View>
             <View
               style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginBottom: 2 }}

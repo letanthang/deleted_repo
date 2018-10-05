@@ -34,15 +34,15 @@ class TripItem extends Component {
   }
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
-  onTripPress({ type, senderHubId, ordersNum }) {
+  onTripPress({ type, senderHubId, ordersNum, pointId }) {
     console.log(type, senderHubId);
     if (type === 'PICK') {
       this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
     } else if (type === 'TRANSIT_IN') {
       if (ordersNum === 0) {
-        this.props.navigation.navigate('CvsPrepare', { type, senderHubId });
+        this.props.navigation.navigate('CvsPrepare', { type, senderHubId, pointId });
       } else {
-        this.props.navigation.navigate('CvsDetail', { type, senderHubId });
+        this.props.navigation.navigate('CvsDetail', { type, senderHubId, pointId });
       }
     } 
   }
@@ -77,7 +77,7 @@ class TripItem extends Component {
     );
   }
   render() {
-    const { index, activeSection, senderAddress, senderName, senderPhone, estimateTotalServiceCost, ordersNum, completedNum, type, senderHubId } = this.props;
+    const { index, activeSection, senderAddress, senderName, senderPhone, estimateTotalServiceCost, ordersNum, pointId, completedNum, type, senderHubId } = this.props;
     if (!activeSection) {
       return null;
     } 
@@ -85,7 +85,7 @@ class TripItem extends Component {
     
     return (
       <TouchableOpacity
-        onPress={this.onTripPressOnce.bind(this, { type, senderHubId, ordersNum })}
+        onPress={this.onTripPressOnce.bind(this, { type, senderHubId, ordersNum, pointId })}
         style={DeliverGroupStyles.content}
       >
         <View style={wrapperStyle}>

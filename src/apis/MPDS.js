@@ -12,7 +12,7 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 const mockOn = false;
 const timeout = 9500;
 export const live = false;
-export const appVersionName = '02/10 6pm';
+export const appVersionName = '05/10';
 
 // const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
 // const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
@@ -105,8 +105,8 @@ export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime, sende
   };
 
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, ordersResponse);
-    // mock.onGet(URL, config).reply(200, startSessionResponse);
+    // mock.onGet(URL, config).reply(200, ordersResponse);
+    mock.onGet(URL, config).reply(200, startSessionResponse);
   }
   return axios.get(URL, config);
 };
@@ -165,7 +165,7 @@ export const UpdateSession = (tripCode, OrderInfos) => {
 };
 
 export const updateSession = (tripCode, OrderInfos) => {
-  return fromPromise(FinishSession(tripCode, OrderInfos));
+  return fromPromise(UpdateSession(tripCode, OrderInfos));
 };
 
 export const CalculateServiceFee = (params) => {
@@ -439,18 +439,29 @@ export const getOrdersInfo = (orderIds = []) => {
 };
 
 
-export const StartSession = (hashId, postId, peId, token, tripCode) => {
-  const URL = `${ACC_URL}/pdaLogin`;
+export const StartSession = (hashId, postId, peId, token, pointId, tripCode) => {
+
+  console.log('lele', hashId, postId, peId, token, pointId, tripCode);
+
+  const URL = `${PDS_URL}/startSession`;
+
+  const { LoginHeader } = Share;
+  const config = {
+    headers: LoginHeader,
+    timeout,
+  };
+
   const params = {
-    hashId, postId, peId, tripCode, token,
+    hashId, postId, peId, tripCode, token, pointId,
   };
   if (mockOn) {
-    mock.onPost(URL, params).reply(200, startSessionResponse);
+    mock.onPost(URL, params, config).reply(200, startSessionResponse);
   }
 
-  return axios.post(URL, params);
+  return axios.post(URL, params, config);
 };
 
-export const startSession = (hashId, postId, peId, tripCode) => {
-  return fromPromise(StartSession(hashId, postId, peId, tripCode))
+export const startSession = (hashId, postId, peId, token, pointId, tripCode) => {
+  console.log('yeye', hashId, postId, peId, token, pointId, tripCode);
+  return fromPromise(StartSession(hashId, postId, peId, token, pointId, tripCode));
 };

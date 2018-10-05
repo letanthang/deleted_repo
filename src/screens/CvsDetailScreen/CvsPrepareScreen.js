@@ -9,10 +9,12 @@ import {
 } from 'native-base';
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
+import { NavigationActions } from 'react-navigation';
 import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd, startCvsSession } from '../../actions';
 import { get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
+import { scanResponse } from '../../apis/mock';
 import Detail from './Detail';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
@@ -22,7 +24,23 @@ import BarcodeReader from '../../components/BarcodeReader';
 class CvsPrepareScreen extends Component {
   constructor() {
     super();
-    this.state = { showScan: false };
+    this.state = { showScan: false, isSimulator: true };
+  }
+
+  componentWillReceiveProps({ CvsItems }) {
+    
+    
+    const { type, senderHubId } = this.props.navigation.state.params;
+    const Items = CvsItems;
+    const pickGroup = Items.find(trip => trip.senderHubId === senderHubId);
+    if (pickGroup == null) {
+      return null;
+    }
+    const totalNum = pickGroup.ShopOrders.length;
+    if (totalNum > 0) {
+      this.goToDetail();
+    }
+
   }
   
   renderScannerHeader() {
@@ -87,11 +105,31 @@ class CvsPrepareScreen extends Component {
 
   onBarCodeReadOnce = _.debounce(this.onBarCodeRead, 300, { leading: true, trailing: false });
 
+  goToDetail() {
+    
+    const dispatch = this.props.navigation.dispatch;
+    const { type, senderHubId, pointId } = this.props.navigation.state.params;
+
+    const resetAction = NavigationActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ 
+          routeName: 'CvsDetail', 
+          params: { type, senderHubId, pointId },
+          // action: NavigationActions.navigate({ routeName: 'Home' }) 
+        })
+      ]
+    });
+    dispatch(resetAction);
+  }
+
   onBarCodeRead(data) {
     console.log(data)
     if (data !== this.state.data) {
       this.setState(data);
-      this.props.startCvsSession(data);
+      const { pointId } = this.props.navigation.state.params;
+      const { tripCode } = this.props;
+      this.props.startCvsSession(data, pointId, tripCode);
     }    
   }
 
@@ -103,6 +141,15 @@ class CvsPrepareScreen extends Component {
         <BarcodeReader onBarCodeRead={this.onBarCodeReadOnce.bind(this, data)}  />
       </Container>
     );
+  }
+
+  onScanTapped(senderHubId, type) {
+    if (this.state.isSimulator) {
+      this.onBarCodeRead(scanResponse);
+    } else {
+      navigate('CvsDetail', { type, senderHubId })
+    }
+    
   }
 
   render() {
@@ -132,9 +179,7 @@ class CvsPrepareScreen extends Component {
         </View>
         <TouchableOpacity
           style={styles.buttonStyle1}
-          onPress={() => {
-            navigate('CvsDetail', { type, senderHubId })
-          }}
+          onPress={this.onScanTapped.bind(this, senderHubId, type)}
         >
           <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Quét mã QR</Text>
         </TouchableOpacity>

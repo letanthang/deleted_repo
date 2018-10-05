@@ -135,7 +135,7 @@ class TripListScreen extends Component {
     console.log('TripListScreen render');
     const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
     const sections = this.groupData();
-    // console.log(sections);
+    console.log('hihi', sections);
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <AppHeader
@@ -170,12 +170,13 @@ class TripListScreen extends Component {
               onPressItem
               renderItem={({ item, index, section }) => {
                 const { activeSection } = section;
-                const { senderAddress, senderName, senderPhone, estimateTotalServiceCost, type, senderHubId } = item;
+                const { senderAddress, senderName, senderPhone, estimateTotalServiceCost, type, senderHubId, pointId } = item;
                 const ordersNum = item.ShopOrders.length;
                 const completedNum = item.ShopOrders.filter(o => o.done).length;
                 return (
                   <TripItem 
                     index={index}
+                    pointId={pointId}
                     activeSection={activeSection}
                     senderAddress={senderAddress}
                     senderName={senderName}

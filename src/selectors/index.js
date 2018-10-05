@@ -28,6 +28,7 @@ export const get3Type = createSelector(
     _.forEach(stopPoints, (p) => {
       if (groups[p.contact.contactId] === undefined) {
         groups[p.contact.contactId] = p.contact;
+        groups[p.contact.contactId].pointId = p.pointId;
       }
     });
 
@@ -38,13 +39,14 @@ export const get3Type = createSelector(
       if (Array.isArray(orders)) {
         order = orders[0];
       } else {
-        order = { senderAddress: orders.address, senderHubId: orders.contactId, clientId: orders.contactId, clientName: orders.contactName, senderName: orders.contactName, senderPhone: orders.contactPhone, type: 'TRANSIT_IN' };
+        order = { senderAddress: orders.address, senderHubId: orders.contactId, clientId: orders.contactId, clientName: orders.contactName, senderName: orders.contactName, senderPhone: orders.contactPhone, type: 'TRANSIT_IN', pointId: orders.pointId };
+        console.log('hehe', order);
       }
       
-      const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type } = order;
+      const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type, pointId } = order;
       
       // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
-      const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type };
+      const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type, pointId };
       group.ShopOrders = Array.isArray(orders) ? orders : [];
       // group.ShopOrders.sort((a, b) => {
       //   const x = a.statusChangeDate ? a.statusChangeDate : 0;

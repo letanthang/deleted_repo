@@ -251,7 +251,8 @@ export const getOrdersInfoSuccess = (response) => {
   return { type: PD_GET_ORDERS_INFO_SUCCESS, payload: { data: response.data } };
 };
 
-export const startCvsSession = (qrData, tripCode) => {
-  return { type: PD_START_CVS_SESSION, payload: { hashId: qrData.hash_id, postId: qrData.postId, peId: qrData.peId, token: qrData.token, tripCode } };
+export const startCvsSession = (qrData, pointId, tripCode) => {
+  console.log(qrData, pointId, tripCode);
+  return { type: PD_START_CVS_SESSION, payload: { hashId: qrData.hash_id, postId: qrData.post_id, peId: qrData.pe_id, token: qrData.token, pointId, tripCode } };
 };
 

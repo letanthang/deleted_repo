@@ -656,14 +656,14 @@ export const feeResponse = {
         "type": "PICK",
         oldServiceFee: 125456,
         newServiceFee: 128456,
-        isFeeVisible: false,
+        isFeeVisible: true,
     }
   ],
-  "message": "Successfull"
+  "message": "Successfull error Successfull error Successfull error Successfull errorSuccessfull error Successfull error Successfull error Successfull error"
 }
 
 export const updateRDCResponse = {
-  "status": "OK",
+  "status": "ERROR",
   "data": [
     {
         "orderCode": "3GUSRAAA",
@@ -672,7 +672,7 @@ export const updateRDCResponse = {
         receiverPayAmount: 123,
     }
   ],
-  "message": "Successfull"
+  "message": "Successfull error Successfull error Successfull error Successfull errorSuccessfull error Successfull error Successfull error Successfull error"
 }
 
 export const updateStatusResponse = {

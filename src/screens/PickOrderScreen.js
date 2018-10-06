@@ -365,13 +365,13 @@ class PickOrderScreen extends Component {
         <PopupDialog
           ref={(popupDialog) => { this.popupDialogIn = popupDialog; }}
           containerStyle={{ zIndex: 10, elevation: 10 }}
-          dialogStyle={{ top: - 32 }}
+          dialogStyle={{ top: - 44 }}
           width={0.94}
-          height={500}
+          height={520}
           dialogTitle={<DialogTitle title="Xác nhận thông tin" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
-            <View style={{ padding: 16 }}>
+            <View style={{ paddingTop: 16, paddingLeft: 16, paddingRight: 16 }}>
               <Text style={{ color: 'red' }}>Chỉ bấm xác nhận khi KH đồng ý thông tin thay đổi này đã đúng với hàng thực tế</Text>
               <View style={{ paddingTop: 12, paddingBottom: 4 }}>
                 <Text style={{ width: 158, fontWeight: 'bold' }}>KHỐI LƯỢNG CŨ</Text>
@@ -415,7 +415,7 @@ class PickOrderScreen extends Component {
                 </View>
               </View>
               : null}
-              <Text style={{ color: 'red', paddingTop: 8 }}>{this.state.dimensionError}</Text>
+              <Text numberOfLines={2} style={{ color: 'red', paddingTop: 8 }}>{this.state.dimensionError}</Text>
             </View>
             
             <View

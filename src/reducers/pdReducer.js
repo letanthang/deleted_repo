@@ -471,10 +471,12 @@ export default (state = nameInitialState, action) => {
         const { orderCode, width, length, height, weight } = orderInfo;
         if (width && length && height && weight) {
           const key = getKey(orderCode, 'PICK');
-          pdsItems[key].weight = weight;
-          pdsItems[key].width = width;
-          pdsItems[key].length = length;
-          pdsItems[key].height = height;
+          if (pdsItems[key]) {
+            pdsItems[key].weight = weight;
+            pdsItems[key].width = width;
+            pdsItems[key].length = length;
+            pdsItems[key].height = height;
+          }
         }
       });
 

@@ -196,7 +196,7 @@ class OrderDimension extends Component {
               />
             </View>
             <View style={styles.rowStyle}>
-              <Text style={[Styles.midTextStyle, { color: 'red' }]}>{this.state.error}</Text>
+              <Text numberOfLines={2} style={[Styles.midTextStyle, { color: 'red' }]}>{this.state.error}</Text>
             </View>
           </View>
           <View

@@ -204,14 +204,15 @@ class PickOrderScreen extends Component {
     this.popupDialogOut.show();
   }
 
-  renderNotice(collectAmount, receiverPayAmount) {
-    if (collectAmount > 0) return null;
+  renderNotice(collectAmount, paymentTypeId, isFeeVisible) {
+    if (collectAmount > 0 || isFeeVisible == false) return null;
 
-    if (receiverPayAmount === undefined || receiverPayAmount > 0) {
+    if (paymentTypeId == 2 ) {
       return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã tính vào tổng thu người nhận</Text>);
+    } else if (paymentTypeId == 4 || paymentTypeId == 5) {
+      return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví / Công nợ của Khách hàng.</Text>);
     }
-      
-    return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã được tính vào Ví / Công nợ của Khách hàng.</Text>);
+    return null;
   }
   
   
@@ -229,7 +230,7 @@ class PickOrderScreen extends Component {
     const { 
       receiverName, receiverPhone, externalCode,
       serviceName, width, height,
-      collectAmount, weight, length, receiverPayAmount,
+      collectAmount, weight, length, paymentTypeId,
       receiverAddress, clientRequiredNote, done, dimemsionUpdated
     } = order;
 
@@ -452,7 +453,7 @@ class PickOrderScreen extends Component {
                 <Text style={{ color: collectAmount > 0 ? '#25a837' : '#f6411d', fontSize: 32 }}>{accounting.formatNumber(collectAmount)}</Text>
                 <Text style={{ textAlignVertical: 'center' }}> vnđ</Text>
               </View>           
-              {this.renderNotice(collectAmount, receiverPayAmount)}
+              {this.renderNotice(collectAmount, paymentTypeId, isFeeVisible)}
             </View>
             <View
               style={{ flexDirection: 'row', justifyContent: 'center', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginBottom: 2 }}

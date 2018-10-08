@@ -663,13 +663,13 @@ export const feeResponse = {
 }
 
 export const updateRDCResponse = {
-  "status": "ERROR",
+  "status": "OK",
   "data": [
     {
         "orderCode": "3GUSRAAA",
         "type": "PICK",
         "newCollectAmount": 0,
-        receiverPayAmount: 123,
+        paymentTypeId: 2,
     }
   ],
   "message": "Successfull error Successfull error Successfull error Successfull errorSuccessfull error Successfull error Successfull error Successfull error"

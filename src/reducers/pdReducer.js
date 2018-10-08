@@ -249,7 +249,7 @@ export default (state = nameInitialState, action) => {
 
     case PD_UPDATE_WEIGHT_SIZE_SUCCESS: {
       const pdsItems = _.cloneDeep(state.pdsItems);
-      const { orderCode, serviceCost, length, width, height, weight, receiverPayAmount } = action.payload;
+      const { orderCode, serviceCost, length, width, height, weight, receiverPayAmount, paymentTypeId } = action.payload;
       const order = Utils.getOrder(pdsItems, orderCode, 'PICK');
       
       order.collectAmount = serviceCost;
@@ -259,6 +259,7 @@ export default (state = nameInitialState, action) => {
       order.width = width;
       order.dimemsionUpdated = true;
       order.receiverPayAmount = receiverPayAmount;
+      order.paymentTypeId = paymentTypeId;
       return { ...state, pdsItems, loading: false };
     }
 

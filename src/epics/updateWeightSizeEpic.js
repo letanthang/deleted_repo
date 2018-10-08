@@ -41,10 +41,10 @@ const updateWeightSizeEpic = action$ =>
           const response = data;
           switch (response.status) {
             case 'OK': {
-              const { newCollectAmount, receiverPayAmount } = response.data[0];
+              const { newCollectAmount, paymentTypeId } = response.data[0];
               return {
                 type: PD_UPDATE_WEIGHT_SIZE_SUCCESS,
-                payload: { serviceCost: newCollectAmount, receiverPayAmount, orderCode, length, width, height, weight, tripCode, reason }
+                payload: { serviceCost: newCollectAmount, paymentTypeId, orderCode, length, width, height, weight, tripCode, reason }
               };
             }
             default:

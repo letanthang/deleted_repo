@@ -368,7 +368,7 @@ class PickOrderScreen extends Component {
           containerStyle={{ zIndex: 10, elevation: 10 }}
           dialogStyle={{ top: - 44 }}
           width={0.94}
-          height={520}
+          height={isFeeVisible ? 520 : 400}
           dialogTitle={<DialogTitle title="Xác nhận thông tin" />}
         >
           <View style={{ flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>

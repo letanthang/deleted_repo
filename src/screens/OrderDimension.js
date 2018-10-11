@@ -10,7 +10,7 @@ import { CalculateServiceFee } from '../apis/MPDS';
 
 let waitToSave = false;
 class OrderDimension extends Component {
-  state = { weight: null, height: null, length: null, width: null, CalculateWeight: null, newCollectAmount: 0, newServiceFee: 0 }
+  state = { weight: null, height: null, length: null, width: null, CalculateWeight: null, newCollectAmount: 0, newServiceFee: 0, actionEnabled: false }
 
   componentWillMount() {
   }
@@ -18,13 +18,6 @@ class OrderDimension extends Component {
   componentDidMount() {
     // this.props.ref(this);
     this.props.myFunc(this);
-  }
-
-  componentDidUpdate() {
-    if (waitToSave) {
-      this.showSaveDialog();
-      waitToSave = false;
-    }
   }
 
   showSaveDialog() {
@@ -43,12 +36,14 @@ class OrderDimension extends Component {
   onInputChange(prop, value) {
     this.state[prop] = value;
 
-    const CW = this.state.length * this.state.width * this.state.height * 0.2;
-    calculated = false;
-    this.setState({ [prop]: value, CalculateWeight: CW });
+    const { orderCode } = this.props;
+    const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
+    this.checkInfoChanged(order);
+
+    this.setState({ [prop]: value0 });
   }
   onSaveWeightSizePress(order) {
-    if (!this.isInfoChanged(order)) return;
+    if (!this.isInfoReady(order)) return;
     this.onSaveWeightSize();
 
   }
@@ -70,7 +65,7 @@ class OrderDimension extends Component {
   } 
   async onCalculateFeePress(order) {
     Keyboard.dismiss();
-    if (!this.isInfoChanged(order)) return;
+    if (!this.isInfoReady(order)) return;
     this.setState({ error: null });
     const { length, weight, width, height } = this.state;
     const { orderCode, type } = order;
@@ -98,16 +93,29 @@ class OrderDimension extends Component {
     }
     
   }
-  
-  isInfoChanged(order) {
+
+  checkInfoChanged(order) {
     const { length, weight, width, height } = this.state;
     if (order.length == length 
       && order.weight == weight 
       && order.height == height 
       && order.width == width) {
-      this.setState({ error: 'Các giá trị khối lượng hoặc kích thước không thay đổi. Vui lòng kiểm tra lại.' });
+      this.setState({ actionEnabled: false})
+      // this.setState({ error: 'Các giá trị khối lượng hoặc kích thước không thay đổi. Vui lòng kiểm tra lại.' });
       return false;
+    } 
+    
+    if (!this.state.actionEnabled) {
+      this.setState({ actionEnabled: true})
     }
+    return true; 
+  }
+  
+  isInfoReady(order) {
+    
+    const result = this.checkInfoChanged(order);
+    if (result === false) return false;
+    
     return this.isInfoValidated();
   }
   isInfoValidated() {
@@ -215,9 +223,10 @@ class OrderDimension extends Component {
             </View>
             <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
               <RNButton
+                actionEnabled={this.state.actionEnabled}
                 title="Cập nhật"
                 onPress={this.onCalculateFeePress.bind(this, order)}
-                color='#057AFF'
+                color={this.state.actionEnabled ? '#057AFF' :'grey'}
                 style={{ flex: 0.5, margin: 2 }}
               />
             </View>

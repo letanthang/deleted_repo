@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Alert, Platform, Keyboard, Button as RNButton, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert, Platform, Keyboard, Button as RNButton, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import accounting from 'accounting';
 import Utils from '../libs/Utils';
@@ -8,10 +8,12 @@ import { updateWeightSize } from '../actions';
 import { Colors, Styles } from '../Styles';
 import { CalculateServiceFee } from '../apis/MPDS';
 
-let waitToSave = false;
-class OrderDimension extends Component {
-  state = { weight: null, height: null, length: null, width: null, CalculateWeight: null, newCollectAmount: 0, newServiceFee: 0, actionEnabled: false }
 
+class OrderDimension extends Component {
+  constructor() {
+    super();
+    this.state = { weight: null, height: null, length: null, width: null, CalculateWeight: null, newCollectAmount: 0, newServiceFee: 0, actionEnabled: false, loading: false };
+  }
   componentWillMount() {
   }
 
@@ -40,7 +42,7 @@ class OrderDimension extends Component {
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     this.checkInfoChanged(order);
 
-    this.setState({ [prop]: value0 });
+    this.setState({ [prop]: value });
   }
   onSaveWeightSizePress(order) {
     if (!this.isInfoReady(order)) return;
@@ -66,49 +68,44 @@ class OrderDimension extends Component {
   async onCalculateFeePress(order) {
     Keyboard.dismiss();
     if (!this.isInfoReady(order)) return;
-    this.setState({ error: null });
+    this.setState({ error: null, loading: true });
     const { length, weight, width, height } = this.state;
     const { orderCode, type } = order;
     const { tripCode } = this.props;
-    const params = {  length, width, height, weight, orderCode, type, tripCode, reason: 'Hang to bat thuong' };
-    
-    // this.props.parent.setState({ length, weight, width, height, dimensionError: null });
-    // this.props.popupDialogOut.dismiss();
-    // this.props.popupDialogIn.show();
+    const params = { length, width, height, weight, orderCode, type, tripCode, reason: 'Hang to bat thuong' };
 
     try {
-      const response = await CalculateServiceFee(params)
-
+      const response = await CalculateServiceFee(params);
       const json = response.data;
       if (json.status === 'OK') {
         const { oldServiceFee, newServiceFee, isFeeVisible } = json.data[0];
         this.props.parent.setState({ oldServiceFee, newServiceFee, length, weight, width, height, isFeeVisible, dimensionError: null });
         this.props.popupDialogOut.dismiss();
         this.props.popupDialogIn.show();
+        this.setState({ loading: false });
       } else {
-        this.setState({ error: 'Đã có lỗi: ' + json.message });
+        this.setState({ error: 'Đã có lỗi: ' + json.message, loading: false });
       }
     } catch (error) {
-      this.setState({ error: 'Đã có lỗi: ' + error.message });
+      this.setState({ error: 'Đã có lỗi: ' + error.message, loading: false });
     }
-    
   }
 
   checkInfoChanged(order) {
     const { length, weight, width, height } = this.state;
-    if (order.length == length 
-      && order.weight == weight 
-      && order.height == height 
+    if (order.length == length
+      && order.weight == weight
+      && order.height == height
       && order.width == width) {
-      this.setState({ actionEnabled: false})
+      this.setState({ actionEnabled: false });
       // this.setState({ error: 'Các giá trị khối lượng hoặc kích thước không thay đổi. Vui lòng kiểm tra lại.' });
       return false;
-    } 
+    }
     
     if (!this.state.actionEnabled) {
-      this.setState({ actionEnabled: true})
+      this.setState({ actionEnabled: true });
     }
-    return true; 
+    return true;
   }
   
   isInfoReady(order) {
@@ -133,7 +130,6 @@ class OrderDimension extends Component {
   }
 
   renderFee(ServiceFee) {
-    
     return (
       <Text style={{ color: 'red' }}>{accounting.formatNumber(ServiceFee)} đ</Text>
     );
@@ -222,13 +218,17 @@ class OrderDimension extends Component {
               />
             </View>
             <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
-              <RNButton
-                actionEnabled={this.state.actionEnabled}
-                title="Cập nhật"
-                onPress={this.onCalculateFeePress.bind(this, order)}
-                color={this.state.actionEnabled ? '#057AFF' :'grey'}
-                style={{ flex: 0.5, margin: 2 }}
-              />
+              { this.state.loading ?
+                <ActivityIndicator size="small" />
+              :
+                <RNButton
+                  actionEnabled={this.state.actionEnabled && !this.state.loading}
+                  title="Cập nhật"
+                  onPress={this.onCalculateFeePress.bind(this, order)}
+                  color={this.state.actionEnabled ? '#057AFF' :'grey'}
+                  style={{ flex: 0.5, margin: 2 }}
+                />
+              }
             </View>
           </View>
         </View>

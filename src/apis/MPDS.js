@@ -9,7 +9,7 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 
 
 // ---------turn on mock data----------
-const mockOn = true;
+const mockOn = false;
 const timeout = 9500;
 export const live = false;
 export const appVersionName = '08/10';

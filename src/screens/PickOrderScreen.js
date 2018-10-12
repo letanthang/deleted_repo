@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, TouchableOpacity, Platform, Button as RNButton } from 'react-native';
+import { View, Alert, TouchableOpacity, Platform, Button as RNButton, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { accounting } from 'accounting';
 import { 
@@ -29,7 +29,7 @@ import OrderDimension from './OrderDimension';
 
 
 class PickOrderScreen extends Component {
-  state = { modalShow: false }
+  state = { modalShow: false, loading: false }
 
   componentWillMount() {
     clientId = this.props.navigation.state.params.clientId;
@@ -47,13 +47,14 @@ class PickOrderScreen extends Component {
     const { db, dimensionError } = nextProps;
 
     if (dimensionError && dimensionError !== this.props.dimensionError) {
-      this.setState({ dimensionError })
+      this.setState({ dimensionError, loading: false })
     }
 
     const newOrder = Utils.getOrder(db, this.orderCode, this.type);
     if (this.order.dimemsionUpdated !== newOrder.dimemsionUpdated) {
       this.popupDialogIn.dismiss();
       this.popupDialogLast.show();
+      this.setState({ loading: false });
     }
     this.order = newOrder;
   }
@@ -430,11 +431,19 @@ class PickOrderScreen extends Component {
                 />
               </View>
               <View style={{ flex: 0.5, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30 }}>
+              { this.state.loading ?
+                <ActivityIndicator size="small" />
+              :
                 <RNButton
-                  onPress={() => this.od.onSaveWeightSize()}
+                  actionEnabled={!this.state.loading}
+                  onPress={() => {
+                    this.od.onSaveWeightSize()
+                    this.setState({ loading: true })
+                  }}
                   title='Xác nhận'
                   color='#057AFF'
                 />
+              }
               </View>
             </View>
           </View>

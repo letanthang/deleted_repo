@@ -35,26 +35,26 @@ export const appVersionName = '12/10';
 // const ApiKey = 'TEST@APIKEY';
 // const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
 
-// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
-// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
-// const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
-// const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
-// const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
-// const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
-// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
-// const ApiKey = 'TEST@APIKEY';
-// const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
-
-
-const PDS_URL = 'http://api.dev.lastmile.ghn.vn/trip/v2';
-const ACC_URL = 'http://api.dev.lastmile.ghn.vn/acc/v1';
+const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
+const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
 const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
 const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
 const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
-const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
-export const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
+// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
 const ApiKey = 'TEST@APIKEY';
 const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
+
+
+// const PDS_URL = 'http://api.dev.lastmile.ghn.vn/trip/v2';
+// const ACC_URL = 'http://api.dev.lastmile.ghn.vn/acc/v1';
+// const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+// const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
+// const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+// const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+export const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+// const ApiKey = 'TEST@APIKEY';
+// const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
 
 
 const Share = new ShareVariables();

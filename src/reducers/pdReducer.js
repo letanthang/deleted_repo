@@ -531,6 +531,10 @@ const transformPDS = (pdsItems) => {
       temp[key].receiverPhone = temp[key].deliverInfo.contactPhone;
       temp[key].clientId = temp[key].clientId || temp[key].pickInfo.clientId || temp[key].senderHubId;
       temp[key].clientName = temp[key].clientName || temp[key].clientId || temp[key].senderName;
+      
+      temp[key].districtEncode= temp[key].extraInfo.districtEncode || null;
+      temp[key].wardEncode = temp[key].extraInfo.wardEncode || null;
+
       delete temp[key].extraInfo;
       delete temp[key].pickInfo;
       delete temp[key].deliverInfo;

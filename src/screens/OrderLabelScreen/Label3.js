@@ -107,9 +107,10 @@ class Label3 extends Component {
   }
 
   render() {
+    console.log("render label 3 ==> ",this.props.order)
     const { receiverName, receiverAddress, receiverPhone, imageUri, 
       orderCode, requiredCode, externalCode, label1, label2, 
-      printed, receiverDistrict, receiverWard, receiverCity } = this.props.order;
+      printed, receiverDistrict, receiverWard, receiverCity , districtEncode , wardEncode } = this.props.order;
 
     const requiredNote = RequireNotes[requiredCode] || requiredCode;
 

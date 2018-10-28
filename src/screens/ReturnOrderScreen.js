@@ -127,7 +127,7 @@ class ReturnOrderScreen extends Component {
     const { goBack } = this.props.navigation;
     const { 
       receiverName, receiverPhone, receiverAddress,
-      requiredCode, clientRequiredNote
+      requiredCode, clientRequiredNote , width ,height, length , weight
     } = order;
     const requiredNote = RequireNotes[requiredCode] || requiredCode;
 
@@ -159,6 +159,24 @@ class ReturnOrderScreen extends Component {
         </Header>
         <Content style={{ backgroundColor: Colors.row }}>
           <List>
+
+                {/* start kt -kt  */}
+
+       <View style={Styles.rowHeaderStyle}>
+                <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>
+              </View>
+              <View style={Styles.rowStyle}>
+                  <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{weight} g</Text>
+              </View>
+              <View style={Styles.rowStyle}>
+                  <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Kích thước</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length}cm x {width}cm x {height}cm</Text>
+              </View>
+             
+
+{/* end kt-kt */}
+
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>
             </View>

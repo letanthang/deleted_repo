@@ -168,7 +168,7 @@ class DeliveryOrderScreen extends Component {
     const { 
       receiverName, receiverPhone, receiverAddress, collectAmount,
       clientName, senderPhone, clientRequiredNote, requiredCode,
-      inTripIndex,
+      inTripIndex, weight , length , width, height
     } = order;
 
     const requiredNote = RequireNotes[requiredCode] || requiredCode;
@@ -220,6 +220,27 @@ class DeliveryOrderScreen extends Component {
                 <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Địa chỉ</Text>
                 <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{receiverAddress}</Text>
             </View>
+
+            {/* eng thong tin kh */}
+
+            {/* start kt -kt  */}
+
+       <View style={Styles.rowHeaderStyle}>
+                <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>
+              </View>
+              <View style={Styles.rowStyle}>
+                  <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{weight} g</Text>
+              </View>
+              <View style={Styles.rowStyle}>
+                  <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Kích thước</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length}cm x {width}cm x {height}cm</Text>
+              </View>
+             
+
+{/* end kt-kt */}
+
+            {/* stảrt thong tin dh  */}
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin đơn hàng</Text>
             </View>

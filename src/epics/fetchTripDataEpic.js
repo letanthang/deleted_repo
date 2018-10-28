@@ -78,8 +78,8 @@ const fetchTripsMoreEpic = (action$, store) =>
 
 const fetchOrderSortingCode = (action$, store) =>
   action$.ofType(PDLIST_FETCH_SUCCESS, PDLIST_NO_TRIP, PD_FETCH_LABEL_SUCCESS)
-    .filter(() => false)
-    //.filter(action => (action.type === PDLIST_FETCH_SUCCESS && action.payload.more === false) || (action.type === PD_FETCH_LABEL_SUCCESS) || (action.type === PDLIST_NO_TRIP))
+    // .filter(() => false)
+    .filter(action => (action.type === PDLIST_FETCH_SUCCESS && action.payload.more === false) || (action.type === PD_FETCH_LABEL_SUCCESS) || (action.type === PDLIST_NO_TRIP))
     .mergeMap((action) => {
       // console.log(action.type, action.payload.more);
       const callNum = action.payload.callNum || 0;

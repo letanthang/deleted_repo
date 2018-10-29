@@ -95,11 +95,30 @@ class Label3 extends Component {
     this.props.setOrder(this.props.order.orderCode, { imageUri: null, printed: false });
   }
 
-  getSortingAddress(p1, p2) {
+  getSortingAddress(p1,wardEncode,p2, districtEncode) {
     const arr = [];
-    if (p1) arr.push(p1);
-    if (p2) arr.push(p2);
+    if(wardEncode && wardEncode.length > 0){
+      arr.push(wardEncode);
+    }else{
+      if (p1) arr.push(p1);
+    }
+
+    if(districtEncode && districtEncode.length > 0){
+      arr.push(districtEncode);
+    }else{
+      if (p2) arr.push(p2);
+    }
     return arr.length > 0 ? arr.join().toUpperCase() : '' ;
+  }
+
+  getEncode(p1,p2){
+      if(p2 && p2.length > 0 ){
+        return p2;
+      }
+      if(p1 && p1.length > 0){
+        return p1;
+      }
+      return "";
   }
 
   getCity(city) {
@@ -141,8 +160,8 @@ class Label3 extends Component {
           >
             <View style={{ flexDirection: 'row', paddingTop: 8 }}>
               <View style={{ width: 200, height: 70 }}>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getSortingAddress(receiverWard, receiverDistrict)}</Text>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={1} >{this.getCity(receiverCity)}</Text>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getEncode(receiverWard,wardEncode)}</Text>
+                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={1} >{this.getEncode(receiverDistrict , districtEncode)}</Text>
               </View>
               
               <View style={{ paddingLeft: 10, flex: 1, paddingTop: 12 }}>

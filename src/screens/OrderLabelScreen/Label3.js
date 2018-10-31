@@ -112,6 +112,7 @@ class Label3 extends Component {
   }
 
   getEncode(p1,p2){
+    console.log(p1,p2)
       if(p2 && p2.length > 0 ){
         return p2;
       }
@@ -161,7 +162,9 @@ class Label3 extends Component {
             <View style={{ flexDirection: 'row', paddingTop: 8 }}>
               <View style={{ width: 200, height: 70 }}>
                 <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getEncode(receiverWard,wardEncode)}</Text>
-                <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={1} >{this.getEncode(receiverDistrict , districtEncode)}</Text>
+                <View style={{ alignSelf: 'flex-start'}}>
+                <Text style={{ paddingTop:5, paddingLeft :5 , paddingBottom:5 , paddingRight:5, fontSize: 19, fontWeight: 'bold', color: 'black' , borderType : 'solid', borderWidth : 5}} numberOfLines={1} >{this.getEncode(receiverDistrict , districtEncode)}</Text>
+                </View>
               </View>
               
               <View style={{ paddingLeft: 10, flex: 1, paddingTop: 12 }}>

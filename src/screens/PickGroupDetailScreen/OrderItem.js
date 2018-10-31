@@ -26,6 +26,8 @@ class OrderItem extends Component {
 
   render() {
     // console.log('OrderItem render!');
+    console.log("PickGroupDetailScreen => OrderItem => render");
+    
     const { order, animated, acceptDeliverPress, onOrderPress, isDelivering, onSelectDateCase, resetAllButton, navigation } = this.props;
     const { 
       orderCode, receiverName, receiverPhone,

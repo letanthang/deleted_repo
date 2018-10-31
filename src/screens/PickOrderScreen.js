@@ -213,7 +213,7 @@ class PickOrderScreen extends Component {
 
   renderNotice(collectAmount, paymentTypeId, isFeeVisible) {
     console.log("PickOrderScreen => renderNotice => ",collectAmount,paymentTypeId,isFeeVisible);
-      if(isFeeVisible ==  true  && paymentTypeId == 2){
+      if(isFeeVisible ==  false  && paymentTypeId == 2){
         return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã tính vào tổng thu người nhận</Text>);
       }
     if (collectAmount > 0 || isFeeVisible == false) return null;

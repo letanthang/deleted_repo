@@ -136,6 +136,7 @@ class PickGroupDetail extends Component {
 
   render() {
     console.log('PickGroupDetail render');
+    console.log("PickGroupDetailScreen => PickGroupDetail => render");
     const { PickItems, ReturnItems, keyword, showSearch } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);

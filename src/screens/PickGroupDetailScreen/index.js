@@ -189,6 +189,8 @@ class PickGroupDetailScreen extends Component {
 
   render() {
     console.log('PickGroupDetailScreen render');
+    console.log("PickGroupDetailScreen => index => render");
+    
     const { addOrderLoading, PickItems, ReturnItems } = this.props;
     const { width } = Dimensions.get('window');
     const type = this.type;

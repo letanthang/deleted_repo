@@ -52,6 +52,8 @@ class ActionAllButtons extends Component {
     }
   }
   render() {
+    console.log("PickGroupDetailScreen => ActionAllButton => render");
+    
     const { done, style, rightText = 'Lấy' } = this.props;
     if (done) return null;
 

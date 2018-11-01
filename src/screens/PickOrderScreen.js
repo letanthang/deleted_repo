@@ -269,14 +269,14 @@ class PickOrderScreen extends Component {
             <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            {Platform.OS == 'android' ?
+            {/* {Platform.OS == 'android' ? */}
             <Button
               transparent
               onPress={() => navigate('OrderLabelNew', { orderCode })}
             >
               <IC name="printer" size={28} color="white" />
             </Button>
-            : null}
+            {/* : null} */}
           </Right>
           
         </Header>

@@ -175,8 +175,6 @@ class ReturnOrderScreen extends Component {
               </View>
              
 
-{/* end kt-kt */}
-
             <View style={Styles.rowHeaderStyle}>
               <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Thông tin khách hàng</Text>
             </View>

@@ -98,16 +98,19 @@ const fetchOrderSortingCode = (action$, store) =>
     .mergeMap((action) => {
       // console.log(action.type, action.payload.more);
       const callNum = action.payload.callNum || 0;
-      if (callNum > 9) {
+      if (callNum > 20) {
+        console.log("fetchOrderSortingCode => vuot qua so lan goi cho phep")
         return of(fetchSortingCodeFail('Vươt quá số lần gọi cho phép'));
       }
       if (!store.getState().pd.pdsItems) {
+        console.log("fetchOrderSortingCode => khong co don")
         return of(fetchSortingCodeFail('Không có đơn'));
       }
 
       let sortingOrders = _.filter(store.getState().pd.pdsItems, o => o.type === 'PICK' && !o.label);
       sortingOrders = sortingOrders.slice(0, 100);
       if (sortingOrders.length === 0) {
+        console.log("fetchOrderSortingCode => da co ma sorting")
         return of(fetchSortingCodeFail('Đã có mã sorting'));
       }
 

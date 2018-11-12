@@ -152,6 +152,7 @@ class PickGroupDetailScreen extends Component {
     const { type } = this.pickGroup;
     const Items = type === 'PICK' ? PickItems : ReturnItems;
 
+    console.log("ReturnGroupDetailScreen >> render Func" ,this)
     this.pickGroup = Items.find(trip => trip.senderHubId === this.senderHubId); 
     pickGroup = this.pickGroup;
     return (

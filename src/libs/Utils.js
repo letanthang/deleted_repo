@@ -150,6 +150,51 @@ class Utils {
     } else if (!phone.startsWith('0')) {
       number = `0${phone}`;
     }
+    //change 11 so -> 10 so 
+    if(phone.startsWith('0120')){
+      number = `070${phone.substr(4)}`
+    }else if(phone.startsWith('0121')){
+      number = `079${phone.substr(4)}`  
+    }else if(phone.startsWith('0122')){
+      number = `077${phone.substr(4)}`  
+    }else if(phone.startsWith('0126')){
+      number = `076${phone.substr(4)}`  
+    }else if(phone.startsWith('0128')){
+      number = `078${phone.substr(4)}`  
+    }else if(phone.startsWith('0123')){
+      number = `083${phone.substr(4)}`  
+    }else if(phone.startsWith('0124')){
+      number = `084${phone.substr(4)}`  
+    }else if(phone.startsWith('0125')){
+      number = `085${phone.substr(4)}`  
+    }else if(phone.startsWith('0127')){
+      number = `081${phone.substr(4)}`  
+    }else if(phone.startsWith('0129')){
+      number = `082${phone.substr(4)}`  
+    }else if(phone.startsWith('0162')){
+      number = `032${phone.substr(4)}`  
+    }else if(phone.startsWith('0163')){
+      number = `033${phone.substr(4)}`  
+    }else if(phone.startsWith('0164')){
+      number = `034${phone.substr(4)}`  
+    }else if(phone.startsWith('0165')){
+      number = `035${phone.substr(4)}`  
+    }else if(phone.startsWith('0166')){
+      number = `036${phone.substr(4)}`  
+    }else if(phone.startsWith('0167')){
+      number = `037${phone.substr(4)}`  
+    }else if(phone.startsWith('0168')){
+      number = `038${phone.substr(4)}`  
+    }else if(phone.startsWith('0169')){
+      number = `039${phone.substr(4)}`  
+    }else if(phone.startsWith('0186')){
+      number = `056${phone.substr(4)}`  
+    }else if(phone.startsWith('0188')){
+      number = `058${phone.substr(4)}`  
+    }else if(phone.startsWith('0199')){
+      number = `059${phone.substr(4)}`  
+    }
+
     return number;
   }
 

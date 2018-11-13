@@ -98,7 +98,7 @@ const fetchOrderSortingCode = (action$, store) =>
     .mergeMap((action) => {
       // console.log(action.type, action.payload.more);
       const callNum = action.payload.callNum || 0;
-      if (callNum > 20) {
+      if (callNum > 50) {
         console.log("fetchOrderSortingCode => vuot qua so lan goi cho phep")
         return of(fetchSortingCodeFail('Vươt quá số lần gọi cho phép'));
       }

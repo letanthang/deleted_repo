@@ -304,6 +304,7 @@ export const getOrderDetail = (orderCode, type, tripCode) => {
 };
 
 export const GetOrderSortingCode = (orderCodes) => {
+  console.log("getOrderSortingCode => ",orderCodes);
   const codeString = orderCodes.join();
   const URL = `${INSIDE_URL}/label/${codeString}`;
   const config = {

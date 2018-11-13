@@ -154,6 +154,7 @@ class Utils {
     console.log("Utils >> fixPhoneNumber Func >>  84 >>",number);
     
     //change 11 so -> 10 so 
+    if(number.length >= 11){
     if(number.startsWith('0120')){
       number = `070${number.substr(4)}`
     }else if(number.startsWith('0121')){
@@ -197,6 +198,7 @@ class Utils {
     }else if(number.startsWith('0199')){
       number = `059${number.substr(4)}`  
     }
+  }
 
     return number;
   }

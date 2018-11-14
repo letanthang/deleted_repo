@@ -137,7 +137,7 @@ class CvsListScreen extends Component {
   }
 
   render() {
-    console.log('CvsListScreen render');
+    // console.log('CvsListScreen render');
     const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
     const sections = this.groupData();
 

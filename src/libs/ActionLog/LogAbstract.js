@@ -33,12 +33,12 @@ class LogAbstract {
     const screenId = ScreenCode[screenName];
     const featureId = ScreenGroup[screenId];
     const data = { actionCode, tripCode, userId, userName, screenId, status: 'OK', system: 'APP_DRIVER', featureId };
-    console.log('log', data);
+    // console.log('log', data);
     this.push(data);
   }
 
   sendLogs() {
-    console.log('sendLogs ' + this.noSendNum);
+    // console.log('sendLogs ' + this.noSendNum);
     const datas = this.getAll();
     if (datas && datas.length > 0) {
       SendLogs(datas);
@@ -54,7 +54,7 @@ class LogAbstract {
 
   async sendLog(data) {
     await SendLogs(data);
-    console.log('Xong');
+    // console.log('Xong');
   }
 
   stopTimer() {

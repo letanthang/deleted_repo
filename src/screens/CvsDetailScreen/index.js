@@ -168,7 +168,7 @@ class CvsDetailScreen extends Component {
   }
 
   render() {
-    console.log('CvsDetailScreen render');
+    // console.log('CvsDetailScreen render');
     
     const { addOrderLoading, CvsItems } = this.props;
     const { width } = Dimensions.get('window');

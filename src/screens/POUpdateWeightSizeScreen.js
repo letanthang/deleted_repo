@@ -79,7 +79,7 @@ class POUpdateWeightSizeScreen extends Component {
       orderCode: orderCode,
       reason: 'Hang to bat thuong'
     };
-    console.log('onSaveWeightSize');
+    // console.log('onSaveWeightSize');
     this.props.updateWeightSize(params);
     this.popupDialog.dismiss();
   } 

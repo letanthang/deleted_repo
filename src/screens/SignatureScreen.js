@@ -33,7 +33,7 @@ class SignatureScreen extends Component {
   }
 
   render() {
-    console.log('SignatureScreen render!');
+    // console.log('SignatureScreen render!');
     return (
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
         <SignatureCapture

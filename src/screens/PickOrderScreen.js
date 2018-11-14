@@ -212,7 +212,7 @@ class PickOrderScreen extends Component {
   // 5 -> qqua ví - chưa thanh toán 
 
   renderNotice(collectAmount, paymentTypeId, isFeeVisible) {
-    console.log("PickOrderScreen => renderNotice => ",collectAmount,paymentTypeId,isFeeVisible);
+    // console.log("PickOrderScreen => renderNotice => ",collectAmount,paymentTypeId,isFeeVisible);
       if(isFeeVisible ==  false  && paymentTypeId == 2){
         return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã tính vào tổng thu người nhận</Text>);
       }
@@ -234,7 +234,7 @@ class PickOrderScreen extends Component {
       this.goBack();
       return this.renderNullData();
     }
-    console.log("Pick order Screen => order => ",order);
+    // console.log("Pick order Screen => order => ",order);
     const orderCode = this.orderCode;
     const history = this.props.orderHistory[orderCode];
     const historyString = Utils.getHistoryString(history);

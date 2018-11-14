@@ -24,7 +24,7 @@ class AddOrderScreen extends Component {
     const { orderCode } = this.state;
     const disabled = orderCode.length < 7;
     const style = disabled ? Styles.addButtonDisableStyle : Styles.addButtonStyle;
-    console.log(disabled);
+    // console.log(disabled);
     return (
       <Container>
         <Header>

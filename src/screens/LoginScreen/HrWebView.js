@@ -14,14 +14,14 @@ class HrWebView extends Component {
     logined: false
   }
   componentWillMount() {
-    console.log('HrWebview mount');
+    // console.log('HrWebview mount');
     CookieManager.clearAll();
   }
 
 
   onNavigationStateChange = (webViewState) => {
     const { url } = webViewState;
-    console.log('onNavigationStateChange');
+    // console.log('onNavigationStateChange');
     // when WebView.onMessage called, there is not-http(s) url
     if(url.includes('http')) {
       // console.log(url);

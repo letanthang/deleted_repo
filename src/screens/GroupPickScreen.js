@@ -52,7 +52,7 @@ class GroupPickScreen extends Component {
   calNewGroup({ pgroups }) {
     const groupLength = Object.keys(pgroups).length - 1;
     this.setState({ groupName: `Nhóm ${groupLength}` });
-    console.log(groupLength);
+    // console.log(groupLength);
   }
 
   checkTripDone(trip) {

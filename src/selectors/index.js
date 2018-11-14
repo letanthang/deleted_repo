@@ -40,7 +40,7 @@ export const get3Type = createSelector(
         order = orders[0];
       } else {
         order = { senderAddress: orders.address, senderHubId: orders.contactId, clientId: orders.contactId, clientName: orders.contactName, senderName: orders.contactName, senderPhone: orders.contactPhone, type: 'TRANSIT_IN', pointId: orders.pointId };
-        console.log('hehe', order);
+        // console.log('hehe', order);
       }
       
       const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type, pointId } = order;

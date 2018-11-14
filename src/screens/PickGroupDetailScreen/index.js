@@ -79,7 +79,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   searchKeyword(text) {
-    console.log('start search');
+    // console.log('start search');
     this.props.changeKeyword(text);
   }
 
@@ -89,7 +89,7 @@ class PickGroupDetailScreen extends Component {
   }
 
   onKeywordChange(text) {
-    console.log('key press');
+    // console.log('key press');
     this.setState({ keyword: text });
     this.searchDebounce(text);
   }
@@ -188,8 +188,8 @@ class PickGroupDetailScreen extends Component {
   }
 
   render() {
-    console.log('PickGroupDetailScreen render');
-    console.log("PickGroupDetailScreen => index => render");
+    // console.log('PickGroupDetailScreen render');
+    // console.log("PickGroupDetailScreen => index => render");
     
     const { addOrderLoading, PickItems, ReturnItems } = this.props;
     const { width } = Dimensions.get('window');

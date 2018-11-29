@@ -11,7 +11,7 @@ import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, or
 const mockOn = false;
 const timeout = 9500;
 export const live = true;
-export const appVersionName = '28/11 2';
+export const appVersionName = '29/11';
 
 const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
 const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';

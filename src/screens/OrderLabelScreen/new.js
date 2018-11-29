@@ -20,7 +20,7 @@ import Label from './Label3';
 class OrderLabelScreen extends Component {
   state = { bcUri: null, fullUri: null }
   componentDidMount() {
-    console.log('new edit')
+    // console.log('new edit')
   }
   
   async printOrder() {

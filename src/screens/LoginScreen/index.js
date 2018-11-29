@@ -33,10 +33,10 @@ class LoginScreen extends Component {
       new ShareVariables().LoginHeader['X-WarehouseId'] = this.props.warehouseIds[0];
     }
     firebase.messaging().requestPermissions();
-    console.log('Login begin')
+    // console.log('Login begin')
     // console.log(this.props.user);
     if (this.props.user) {
-      console.log('navigate away2!');
+      // console.log('navigate away2!');
       this.goToHome();
     }
   }
@@ -44,13 +44,13 @@ class LoginScreen extends Component {
     const { user } = nextProps;
 
     if (user) {
-      console.log('navigate away!');
+      // console.log('navigate away!');
       this.goToHome();
     }
   }
   componentWillUpdate() {
     if (this.props.user) {
-      console.log('navigate away1!');
+      // console.log('navigate away1!');
       this.goToHome();
     }
   }

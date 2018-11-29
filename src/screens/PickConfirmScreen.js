@@ -23,7 +23,7 @@ class PickConfirmScreen extends Component {
     this.type = this.props.navigation.state.params.type;
 
     const isCvs = this.type === 'TRANSIT_IN' ? true: false;
-    console.log(this.type, isCvs);
+    // console.log(this.type, isCvs);
     const { PickItems, ReturnItems } = this.props;
     const Items = this.type === 'RETURN' ? ReturnItems : PickItems;
     this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
@@ -36,7 +36,7 @@ class PickConfirmScreen extends Component {
     //     ]
     //   );
     // }
-    console.log(this.pickGroup)
+    // console.log(this.pickGroup)
   }
   
   componentDidMount() {
@@ -48,7 +48,7 @@ class PickConfirmScreen extends Component {
   componentWillReceiveProps({ PickItems, ReturnItems, CvsItems }) {
     const Items = this.type === 'RETURN' ? ReturnItems : PickItems;
     this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
-    console.log(this.pickGroup)
+    // console.log(this.pickGroup)
   }
 
   checkCompleteForUnsync(o) {
@@ -70,7 +70,7 @@ class PickConfirmScreen extends Component {
     const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.willSucceeded !== undefined && !o.done);
     const isCvs = this.type === 'TRANSIT_IN' ? true: false;
     const scanInfo = this.props.navigation.state.params.scanInfo;
-    console.log(this.type, isCvs);
+    // console.log(this.type, isCvs);
 
     this.props.updateOrderStatus({ OrderInfos, pickNote: this.state.pickNote });
     this.setState({ disabled: true, pickNote: '' })
@@ -85,7 +85,7 @@ class PickConfirmScreen extends Component {
 
     const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.willSucceeded !== undefined);
     const OrderNum = OrderInfos.length;
-    console.log(this.pickGroup)
+    // console.log(this.pickGroup)
     if (OrderNum === 0) return;
 
     this.updateOrder();

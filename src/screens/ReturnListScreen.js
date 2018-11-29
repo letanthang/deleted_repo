@@ -195,7 +195,7 @@ class TripListScreen extends Component {
   }
   
   render() {
-    console.log('ReturnListScreen render');
+    // console.log('ReturnListScreen render');
     const { ReturnItems } = this.props;
     if (!ReturnItems) return this.renderNullData();
 

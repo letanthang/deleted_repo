@@ -410,7 +410,7 @@ class HomeScreen extends Component {
     );
   }
   render() {
-    console.log('HomeScreen render');
+    // console.log('HomeScreen render');
     return (
         <Container style={{ backgroundColor: Colors.background, position: 'relative' }}>
           <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />

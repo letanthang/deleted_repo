@@ -16,7 +16,7 @@ export const getStopPoints = ({ pd }) => pd.stopPoints;
 export const get3Type = createSelector(
   [getOrders, getShopPGroup, getPgroups, getStopPoints],
   (pdsItems, shopPGroup, pgroups, stopPoints) => {
-    console.log('Get3Type');
+    // console.log('Get3Type');
     const DeliveryItems = _.filter(pdsItems, o => o.type === 'DELIVER');
     
     let items = _.filter(pdsItems, o => o.type === 'PICK' || o.type === 'TRANSIT_IN');

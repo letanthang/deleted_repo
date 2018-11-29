@@ -90,8 +90,20 @@ class Utils {
   static async validatePermmission() {
     console.log("validate permisson ")
     if(Platform.OS == "ios"){
+      console.log("validate permisson >> ios return false")
+    
       return false;
     }
+    console.log("validate permisson platform version >> ",Platform.Version)
+    
+    if(Platform.Version < 23){
+      console.log("validate permisson platform version 23 >> return true")
+    
+      //android 5 ko ho tro check permission
+      return true;
+    }
+    console.log("validate permisson platform version 23 >> return request perrmision")
+    
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
       {

@@ -24,6 +24,7 @@ const nameInitialState = {
   timeServer: null,
   loading: false,
   addOrderLoading: false,
+  OrderErrors: null,
   groups: {
     'Đã xong': { groupName: 'Đã xong', isActive: false, position: 100 },
     undefined: { groupName: 'Mặc định', isActive: true, position: 0 },
@@ -204,6 +205,10 @@ export default (state = nameInitialState, action) => {
       let data = {};
       const allNum = OrderInfos.slice(0, limit).length;
       const okNum = okOrders.length;
+      let OrderErrors = [];
+      if(okOrders && okOrders.length > 0){
+         OrderErrors = okOrders.filter(order => order && order.status !== "OK");
+      }
       requireReload = requireReload || (allNum !== okNum);
       if (requireReload) {
         data = { requireReload };
@@ -214,6 +219,7 @@ export default (state = nameInitialState, action) => {
         loading: false,
         error: '',
         pdsItems,
+        OrderErrors,
         ...data,
       };
     }
@@ -431,10 +437,17 @@ export default (state = nameInitialState, action) => {
         const { orderCode, label } = sortingInfo;
         if (label) {
           const key = getKey(orderCode, 'PICK');
+          const key2 = getKey(orderCode, 'TRANSIT_IN');
           const arr = label.split('/');
-          pdsItems[key].label = label;
-          pdsItems[key].label1 = arr[0];
-          pdsItems[key].label2 = arr[1];
+          const order = pdsItems[key] || pdsItems[key2];
+          if (order) {
+            order.label = label;
+            order.label1 = arr[0];
+            order.label2 = arr[1];
+          } else {
+            // console.log('kakaka', orderCode);
+          }
+          
         }
       });
 
@@ -451,8 +464,9 @@ export default (state = nameInitialState, action) => {
         error: action.payload.error,
       };
     case PD_SET_ORDER_PROPS: {
-      const { orderCode, props } = action.payload;
-      const key = getKey(orderCode, 'PICK');
+      const { orderCode, type, props } = action.payload;
+      const key = getKey(orderCode, type || 'PICK');
+      // console.log("set order props >> ",key)
       return {
         ...state,
         pdsItems: {

@@ -35,7 +35,7 @@ class TripItem extends Component {
 
   onTripPressOnce = _.debounce(this.onTripPress, 300, { leading: true, trailing: false });
   onTripPress({ type, senderHubId, ordersNum, pointId }) {
-    console.log(type, senderHubId);
+    // console.log(type, senderHubId);
     if (type === 'PICK') {
       this.props.navigation.navigate('PickGroupDetail', { type, senderHubId });
     } else if (type === 'TRANSIT_IN') {
@@ -110,9 +110,11 @@ class TripItem extends Component {
             <Text style={[Styles.weakColorStyle]}>
               Đơn hàng: {completedNum}/{ordersNum}
             </Text>
+            { type === 'PICK' ?
             <Text style={[Styles.normalColorStyle]}>
             {accounting.formatNumber(estimateTotalServiceCost)} đ
             </Text>
+            : null}
           </View>
           <View style={[Styles.item2Style]}>
             <View>

@@ -44,26 +44,26 @@ class Label3 extends Component {
     this.refs.viewShot.capture()
       .then(uri => {
         console.log(uri)
-        const { orderCode } = this.props.order;
-        this.props.setOrder(orderCode, { imageUri: uri });
+        const { orderCode, type } = this.props.order;
+        this.props.setOrder(orderCode, type, { imageUri: uri });
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 0 }, size: { width: 362, height: 250 } },
           u => { 
-            this.props.setOrder(orderCode, { imageUri1: u });
+            this.props.setOrder(orderCode, type, { imageUri1: u });
             this.isCapturing = false;
           },
           error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
           (u) => {
-            this.props.setOrder(orderCode, { imageUri2: u })
+            this.props.setOrder(orderCode, type, { imageUri2: u })
             
           }, 
           error => console.log(error));
         
         ImageEditor.cropImage(uri, { offset: { x: 0, y: 500 }, size: { width: 362, height: 20 } }, 
           (u) => {
-            this.props.setOrder(orderCode, { imageUri3: u })
+            this.props.setOrder(orderCode, type, { imageUri3: u })
             setTimeout(this.props.nextOrder, 28)
           }, 
           error => console.log(error));
@@ -92,7 +92,7 @@ class Label3 extends Component {
     }
   }
   deleteOrderImage() {
-    this.props.setOrder(this.props.order.orderCode, { imageUri: null, printed: false });
+    this.props.setOrder(this.props.order.orderCode, this.props.order.type, { imageUri: null, printed: false });
   }
 
   getSortingAddress(p1,wardEncode,p2, districtEncode) {
@@ -163,7 +163,7 @@ class Label3 extends Component {
               <View style={{ width: 200, height: 70 }}>
                 <Text style={{ fontSize: 19, fontWeight: 'bold', color: 'black' }} numberOfLines={2} >{this.getEncode(receiverWard,wardEncode)}</Text>
                 <View style={{ alignSelf: 'flex-start'}}>
-                <Text style={{ paddingTop:5, paddingLeft :5 , paddingBottom:5 , paddingRight:5, fontSize: 19, fontWeight: 'bold', color: 'black' , borderType : 'solid', borderWidth : 5}} numberOfLines={1} >{this.getEncode(receiverDistrict , districtEncode)}</Text>
+                <Text style={{ paddingTop:5, paddingLeft :5 , paddingBottom:5 , paddingRight:5, fontSize: 19, fontWeight: 'bold', color: 'black' , borderWidth : 5}} numberOfLines={1} >{this.getEncode(receiverDistrict , districtEncode)}</Text>
                 </View>
               </View>
               

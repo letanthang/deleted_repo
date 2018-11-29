@@ -174,6 +174,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
+    console.log("POUpdate weight size screen >> render Func")
     orderCode = this.props.navigation.state.params.orderCode;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     const { collectAmount, weight, length, width, height } = order;

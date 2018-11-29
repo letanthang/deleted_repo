@@ -27,12 +27,12 @@ export const calculateServiceFee = (params) => {
           payload: json.data[0]
         });
       } else {
-        console.log('calculateServiceFee failed, response data=');
-        console.log(json);
+        // console.log('calculateServiceFee failed, response data=');
+        // console.log(json);
       }
     } catch (error) {
-      console.log('calculateServiceFee failed,error =');
-      console.log(error);
+      // console.log('calculateServiceFee failed,error =');
+      // console.log(error);
     }
   };
 };
@@ -125,7 +125,7 @@ export const getUserPerformance = (statType = 'yesterday') => {
     try {
       const UserID = getState().auth.userId;
       const { from, to } = getQuery(statType);
-      console.log({ from, to });
+      // console.log({ from, to });
       const response = await API.GetUserPerformance(UserID, from.valueOf(), to.valueOf());
       const json = response.data;
       // console.log(json);

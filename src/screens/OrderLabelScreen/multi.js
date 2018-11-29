@@ -48,12 +48,12 @@ class OrderLabelsScreen extends Component {
 
   async printOrder(order) {
     try {
-      const { orderCode, imageUri, imageUri1, imageUri2, imageUri3 } = order;
+      const { orderCode, imageUri, imageUri1, imageUri2, imageUri3, type } = order;
       if (!imageUri) {
         Utils.showToast('Đơn chưa tạo nhãn!', 'danger');
         return;
       }
-      this.props.setOrder(orderCode, { printed: true });
+      this.props.setOrder(orderCode, type, { printed: true });
       let uri = imageUri1.substring(7);
       await BluetoothSerial.writeImage(uri);
       uri = imageUri2.substring(7);
@@ -62,17 +62,17 @@ class OrderLabelsScreen extends Component {
       await BluetoothSerial.writeImage(uri);
       return BluetoothSerial.write('\n\n');
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       Utils.showToast('Đã có lỗi. Vui lòng xem lại kết nối máy in.', 'danger');
       // this.props.navigation.navigate('BluetoothExample');
     }
   }
   async printAll(num) {
-    console.log('print all');
+    // console.log('print all');
     this.setState({ printEnable: false });
     const orders = this.orders.filter(o => !o.printed).slice(0, num);
     if (orders.length === 0) {
-      console.log('Nothing to print');
+      // console.log('Nothing to print');
       return;
     }
     for (const order of orders) {
@@ -82,10 +82,11 @@ class OrderLabelsScreen extends Component {
 
   resetPrint() {
     const orders = this.orders.filter(o => o.printed);
-    orders.forEach(o => this.props.setOrder(o.orderCode, { printed: false }));
+    orders.forEach(o => this.props.setOrder(o.orderCode,o.type, { printed: false }));
   }
   deleteImages() {
-    this.orders.forEach(o => this.props.setOrder(o.orderCode, { imageUri: null }));
+    // console.log("delete images ")
+    this.orders.forEach(o => this.props.setOrder(o.orderCode,o.type, { imageUri: null }));
   }
 
   render() {

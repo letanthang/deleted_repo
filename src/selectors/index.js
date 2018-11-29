@@ -16,38 +16,57 @@ export const getStopPoints = ({ pd }) => pd.stopPoints;
 export const get3Type = createSelector(
   [getOrders, getShopPGroup, getPgroups, getStopPoints],
   (pdsItems, shopPGroup, pgroups, stopPoints) => {
-    // console.log('Get3Type');
+    console.log('Get3Type');
     const DeliveryItems = _.filter(pdsItems, o => o.type === 'DELIVER');
     
     let items = _.filter(pdsItems, o => o.type === 'PICK' || o.type === 'TRANSIT_IN');
     const PickOrders = items;
-    let groups = _.groupBy(items, 'senderHubId');
+    const temp = _.groupBy(items, 'senderHubId');
 
+    let groups = {};
     //**** Thang add 03102018 add stop points *****/
 
+    _.forEach(temp, (group, key) => {
+      groups[key] = { orders: group };
+      groups[key].info = {};
+    });
+
+    const stopPointInfo = {};
     _.forEach(stopPoints, (p) => {
-      if (groups[p.contact.contactId] === undefined) {
-        groups[p.contact.contactId] = p.contact;
-        groups[p.contact.contactId].pointId = p.pointId;
+      const key = p.contact.contactId;
+      if (p.isUpdated !== true || p.isSucceeded !== false) {
+        stopPointInfo[key] = p.contact;
+        stopPointInfo[key].pointId = p.pointId;
+        stopPointInfo[key].scanInfo = { pointId: p.pointId, hashId: p.sessionId, peId: p.peId, token: p.token, postId: key };
       }
     });
 
-
-    const PickItems = [];
-    _.forEach(groups, (orders, key) => {
-      let order = null;
-      if (Array.isArray(orders)) {
-        order = orders[0];
+    _.forEach(stopPointInfo, (v, k) => {
+      if (groups[k] === undefined) {
+        groups[k] = { orders: [] };
+        groups[k].info = v;
       } else {
-        order = { senderAddress: orders.address, senderHubId: orders.contactId, clientId: orders.contactId, clientName: orders.contactName, senderName: orders.contactName, senderPhone: orders.contactPhone, type: 'TRANSIT_IN', pointId: orders.pointId };
-        console.log('hehe', order);
+        groups[k].info = v;
       }
+    });
+
+    let PickItems = [];
+    const SpecialItems = [];
+    _.forEach(groups, (v, k) => {
       
-      const { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type, pointId } = order;
+      const firstOrder = v.orders.length > 0 ? v.orders[0] : {};
+      let { senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, type } = firstOrder;
+      const { contactId, address, contactName, pointId, scanInfo } = v.info;
+
+      senderHubId = senderHubId || contactId;
+      senderAddress = senderAddress || address;
+      clientId = clientId || contactId;
+      clientName = clientName || contactName;
+      senderName = senderName || contactName;
+      type = type || 'TRANSIT_IN';
       
-      // console.log(shopGroup); console.log(pgroups); console.log(shopGroupName);
-      const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, Lat, Lng, type, pointId };
-      group.ShopOrders = Array.isArray(orders) ? orders : [];
+      const group = { key: senderHubId, senderAddress, senderHubId, clientId, clientName, senderName, senderPhone, inTripIndex, type, pointId, scanInfo };
+      group.ShopOrders = v.orders;
       // group.ShopOrders.sort((a, b) => {
       //   const x = a.statusChangeDate ? a.statusChangeDate : 0;
       //   const y = b.statusChangeDate ? b.statusChangeDate : 0;
@@ -65,8 +84,16 @@ export const get3Type = createSelector(
       group.failUnsyncedNum = failUnsyncedOrders.length;
       group.totalServiceCost = _.reduce(sucessUnsyncedOrders, (sum, current) => sum + current.collectAmount, 0);
       group.estimateTotalServiceCost = _.reduce(group.ShopOrders, (sum, current) => sum + current.collectAmount, 0);
-      PickItems.push(group);
+      if (type === 'TRANSIT_IN') {
+        SpecialItems.push(group);
+      } else {
+        PickItems.push(group);
+      }
     });
+
+    PickItems = SpecialItems.concat(PickItems);
+
+
 
     items = _.filter(pdsItems, o => o.type === 'RETURN');
     const ReturnOrders = items;

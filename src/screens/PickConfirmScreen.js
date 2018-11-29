@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Alert, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Alert, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import Orientation from 'react-native-orientation';
 import { accounting } from 'accounting';
@@ -16,13 +16,16 @@ import { Styles, Colors } from '../Styles';
 import LogoButton from '../components/LogoButton';
 
 class PickConfirmScreen extends Component {
-  state = { modalShow: false, signature: null, disabled: false }
+  state = { modalShow: false, signature: null, disabled: false, pickNote: '' }
   componentWillMount() {
     // clientId = this.props.navigation.state.params.clientId;
     this.senderHubId = this.props.navigation.state.params.senderHubId;
     this.type = this.props.navigation.state.params.type;
-    const { PickItems, ReturnItems, CvsItems } = this.props;
-    const Items = this.type === 'RETURN' ? ReturnItems : (this.type === 'PICK' ? PickItems : CvsItems);
+
+    const isCvs = this.type === 'TRANSIT_IN' ? true: false;
+    console.log(this.type, isCvs);
+    const { PickItems, ReturnItems } = this.props;
+    const Items = this.type === 'RETURN' ? ReturnItems : PickItems;
     this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     // if (!this.checkDone() || this.checkRealDone()) {
     //   Alert.alert(
@@ -43,7 +46,7 @@ class PickConfirmScreen extends Component {
  
 
   componentWillReceiveProps({ PickItems, ReturnItems, CvsItems }) {
-    const Items = this.type === 'RETURN' ? ReturnItems : (this.type === 'PICK' ? PickItems : CvsItems);
+    const Items = this.type === 'RETURN' ? ReturnItems : PickItems;
     this.pickGroup = Items.find(g => g.senderHubId === this.senderHubId);
     console.log(this.pickGroup)
   }
@@ -65,8 +68,12 @@ class PickConfirmScreen extends Component {
 
   updateOrder() {
     const OrderInfos = this.pickGroup.ShopOrders.filter(o => o.willSucceeded !== undefined && !o.done);
-    this.props.updateOrderStatus({ OrderInfos });
-    this.setState({ disabled: true })
+    const isCvs = this.type === 'TRANSIT_IN' ? true: false;
+    const scanInfo = this.props.navigation.state.params.scanInfo;
+    console.log(this.type, isCvs);
+
+    this.props.updateOrderStatus({ OrderInfos, pickNote: this.state.pickNote });
+    this.setState({ disabled: true, pickNote: '' })
     this.props.navigation.goBack();
   }
 
@@ -137,10 +144,20 @@ class PickConfirmScreen extends Component {
               <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Số lượng đơn hàng</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{sucessUnsyncedNum} lấy / {failUnsyncedNum} lỗi / {this.pickGroup.ShopOrders.length} đơn</Text>
             </View>
+            {this.type !== 'TRANSIT_IN' ?
             <View style={Styles.rowStyle}>
               <Text style={[Styles.col1ConfirmStyle, Styles.weakColorStyle]}>Tổng thu người gửi</Text>
               <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(totalServiceCost)} đ</Text>
             </View>
+            : null}
+
+            {failUnsyncedNum > 0 && this.type === 'TRANSIT_IN' ?
+            <View style={{ padding: 16 }}>
+              <Text style={[{ marginBottom: 16  },Styles.weakColorStyle]}>Vui lòng nhập lý do lấy lỗi</Text>
+              <TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}} value={this.state.pickNote} onChangeText={(text)=>this.setState({ pickNote: text })} />
+            </View>
+            : null}
+
             {/* <View style={Styles.rowStyle}>
               <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Chữ kí xác nhận</Text>
             </View>
@@ -179,8 +196,8 @@ const mapStateToProps = (state) => {
   const { pd, auth } = state;
   const { sessionToken } = auth;
   const { tripCode } = pd;
-  const { PickItems, ReturnItems, CvsItems } = get3Type(state);
-  return { PickItems, ReturnItems, CvsItems, tripCode, sessionToken };
+  const { PickItems, ReturnItems } = get3Type(state);
+  return { PickItems, ReturnItems, tripCode, sessionToken };
 };
 
 

@@ -1,6 +1,6 @@
 import CallHistory from 'react-native-call-history';
 import { phonecall } from 'react-native-communications';
-import { Platform } from 'react-native';
+import { Platform, PermissionsAndroid } from 'react-native';
 import { Toast } from 'native-base';
 import moment from 'moment';
 
@@ -85,6 +85,28 @@ class Utils {
     if (returnGroup) return true;
     return false;
   }
+
+
+  static async validatePermmission() {
+    console.log("validate permisson ")
+    if(Platform.OS == "ios"){
+      return false;
+    }
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+      {
+        'title': 'Quyền truy cập thông tin SĐT',
+        'message': 'Ứng dụng tài xế cần thông tin Số Điện Thoại khách hàng'
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      return true;
+    }else{
+      console.log("LOG permission denied")
+      return false;
+    }
+  }
+
   static validateCallCannotContact(phone, config) {
     const configuration = config || {};
     const phoneNumber = Utils.fixPhoneNumber(phone);
@@ -100,17 +122,19 @@ class Utils {
       repeatCallUnconnected = 3;
     }
 
-    return new Promise((resolve, reject) => {
-      CallHistory.list(
-        (history) => {
-          const json = JSON.parse(history).slice(0, 500);
-          const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
-          resolve(callLogs.length >= repeatCallUnconnected);
-        },
-        (error) => {
-          reject(error);
-        }
-      );
+    return new Promise(async (resolve, reject) => {
+      if( await Utils.validatePermmission()){
+        CallHistory.list(
+          (history) => {
+            const json = JSON.parse(history).slice(0, 500);
+            const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
+            resolve(callLogs.length >= repeatCallUnconnected);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+      }
     });
   }
 
@@ -123,24 +147,28 @@ class Utils {
       });
     }
 
-    let { minDurationCallLogNoAnswer, repeatCallUnconnected } = configuration;
-    if (minDurationCallLogNoAnswer === undefined) {
-      minDurationCallLogNoAnswer = 5;
-      repeatCallUnconnected = 3;
-    }
-
-    return new Promise((resolve, reject) => {
-      CallHistory.list(
-        (history) => {
-          const json = JSON.parse(history).slice(0, 500);
-          const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
-          resolve(callLogs.length >= repeatCallUnconnected);
-        },
-        (error) => {
-          reject(error);
+      let { minDurationCallLogNoAnswer, repeatCallUnconnected } = configuration;
+      if (minDurationCallLogNoAnswer === undefined) {
+        minDurationCallLogNoAnswer = 5;
+        repeatCallUnconnected = 3;
+      }
+  
+      return new Promise(async  (resolve, reject) => {
+        if( await Utils.validatePermmission()){
+        CallHistory.list(
+          (history) => {
+            const json = JSON.parse(history).slice(0, 500);
+            const callLogs = json.filter(item => item.phoneNumber.replace(/\s/g,'') == phoneNumber.replace(/\s/g,'') && item.callType == 'OUTGOING_TYPE');
+            resolve(callLogs.length >= repeatCallUnconnected);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
         }
-      );
-    });
+      });
+    
+
   }
 
   static fixPhoneNumber(phone) {
@@ -216,7 +244,7 @@ class Utils {
     phonecall(number, prompt);
   }
   // type?: "danger" | "success" | "warning";
-  static showToast(text, type = 'success') {
+  static showToast(text, type = 'success', duration  =1500 ) {
     //ToastAndroid.show(nextProps.error, ToastAndroid.SHORT);
     try {
       //console.log('Toast is called');
@@ -224,7 +252,7 @@ class Utils {
         text,
         position: 'bottom',
         type,
-        duration: 1500
+        duration: duration 
       });
     } catch (error) {
       console.log(error);

@@ -174,14 +174,14 @@ class PickGroupDetailScreen extends Component {
           >
             <Icon name="add" />
           </Button>
-          {/* {Platform.OS == 'android' ? */}
+          {Platform.OS == 'android' ?
           <Button
             transparent
             onPress={() => navigate('OrderLabels', { senderHubId: this.senderHubId})}
           >
             <Icon name="print" />
           </Button>
-          {/* : null} */}
+          : null}
         </Right>
       </Header>
     );

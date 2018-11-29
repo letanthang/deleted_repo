@@ -15,30 +15,7 @@ export const infoResponse = {
         "id": "5ad99b30e893788f8f000003",
         "createdTime": "2018-04-20T07:48:00.653Z",
         "lastUpdatedTime": "2018-04-20T07:48:00.653Z",
-        "stopPoints": [{
-          "pointId": "123",
-          "type" : "PICK",
-          "tripCode": "184122056HC7B",
-          "sessionId": "928403432",
-          "isUpdated": false,
-          "isSucceeded": true,
-          "updateUserId": "1006",
-          "updateUserName": "Nguyễn Trịnh Khánh Tường",
-          "contact" : {
-            "contactId": "1234", 
-            "contactName": "CircleK Thành Thái",
-            "contactPhone": "0948645315",
-            "address": "123 Thành Thái",
-            "cityCode": "084",
-            "cityName": "Hồ Chí Minh",
-            "districtCode": "456",
-            "districtName": "Quận 10",
-            "wardCode": "689",
-            "wardName": "Phường 7",
-          },
-          "pe_id": 5546215,
-          orderCodes: ["A123456","B123456"]
-          }],          
+        "stopPoints": [],          
       }
     ]
   };
@@ -670,6 +647,7 @@ export const updateRDCResponse = {
         "type": "PICK",
         "newCollectAmount": 0,
         paymentTypeId: 2,
+        receiverPayAmount: 0,
     }
   ],
   "message": "Successfull error Successfull error Successfull error Successfull errorSuccessfull error Successfull error Successfull error Successfull error"
@@ -678,6 +656,10 @@ export const updateRDCResponse = {
 export const updateStatusResponse = {
   "status": "OK",
   "data": [
+    {
+      "orderCode": "A123456",
+      "type": "TRANSIT_IN",
+    },
     {
         "orderCode": "3GUSRAAA",
         "type": "PICK",
@@ -864,8 +846,8 @@ export const startSessionResponse = {
         "inTripIndex": 3,
         "type": "TRANSIT_IN",
         "tripCode": "1871323EADQCF",
-        "isUpdated": false,
-        "isSucceeded": false,
+        "isUpdated": true,
+        "isSucceeded": true,
         "isCollected": false,
         "collectAmount": 13200,
         "isExported": false,
@@ -1071,13 +1053,15 @@ export const sortingResponse = {
   ]
 }
 
-export const scanResponse = {
+export const scanResponse = JSON.stringify({
   "hash_id":"35c43e281210c374299287d57495a001",
   "post_id":195,
   "pe_id":888888,
   "token":"35c43e281210c374299287d57495a001",
   "random":0.3916305180133064
-};
+});
+
+export const scanResponse2 = JSON.stringify({"source":"https://developers.google.com/chart/infographics/docs/qr_codes","version":40,"hash_id":"f917e8dd76b74bf3409a372478ce5ed2","token":"0f21465c9cdfbb22a69b42aa62696044","post_id":195,"post_name":"CircleK HP","pe_id":200227,"expired_time":1539072111572,"random":0.4311408126779548})
 
 export const cvsResponse = {
   "list_code": [
@@ -1115,3 +1099,10 @@ export const cvsResponse = {
   "status": "ok",
   "message": "",
 };
+
+export const removeStoppointResponse = {
+  "status": "OK",
+  "data": [
+  ],
+  "message": "Error không thể remove stop point",
+}

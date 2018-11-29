@@ -5,25 +5,23 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import 'rxjs/add/observable/dom/ajax';
 
 import ShareVariables from '../libs/ShareVariables';
-import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse, updateRDCResponse, feeResponse, startSessionResponse, updateSessionResponse } from './mock';
-
+import { infoResponse, loginResponse, addOrdersResponse, orderDetailResponse, ordersResponse, configResponse, orderHistoryResponse, performanceResponse, updateStatusResponse, newOrdersResponse, ordersInfoResponse, sortingResponse, updateRDCResponse, feeResponse, startSessionResponse, updateSessionResponse, removeStoppointResponse } from './mock';
 
 // ---------turn on mock data----------
 const mockOn = false;
 const timeout = 9500;
-export const live = false;
-export const appVersionName = '12/10';
+export const live = true;
+export const appVersionName = '28/11 2';
 
-// const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
-// const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
-// const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
-// const OMS_URL = 'http://api.ops.ghn.vn/oms/v1';
-// const LOG_URL = 'http://api.ops.ghn.vn/als/v1';
-// const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
-// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
-// const ApiKey = 'TEST@APIKEY';
-// const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
-
+const PDS_URL = 'http://api.lastmile.ghn.vn/trip/v2';
+const ACC_URL = 'http://api.lastmile.ghn.vn/acc/v1';
+const OSS_URL = 'http://api.ops.ghn.vn/oss/v2';
+const OMS_URL = 'http://api.ops.ghn.vn/oms/v1';
+const LOG_URL = 'http://api.ops.ghn.vn/als/v1';
+const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+const ApiKey = 'TEST@APIKEY';
+const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
 
 // const PDS_URL = 'http://api.uat.lastmile.ghn.vn/trip/v2';
 // const ACC_URL = 'http://api.uat.lastmile.ghn.vn/acc/v1';
@@ -35,15 +33,25 @@ export const appVersionName = '12/10';
 // const ApiKey = 'TEST@APIKEY';
 // const ApiSecret = 'df6f564cGJRf9fGF6CPWJSqslvhaaaqqYafjfnQC3DfjQdbc47';
 
-const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
-const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
-const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
-const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
-const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
-const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
-// export const authenUri = 'https://hr.ghn.vn/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
-const ApiKey = 'TEST@APIKEY';
-const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
+// const PDS_URL = 'http://api.staging.lastmile.ghn.vn/trip/v2';
+// const ACC_URL = 'http://api.staging.lastmile.ghn.vn/acc/v1';
+// const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+// const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
+// const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+// const INSIDE_URL = 'http://api.staging.insidev2.ghn.vn/sorting/v1';
+// export const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+// const ApiKey = 'TEST@APIKEY';
+// const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
+
+// const PDS_URL = 'http://api.dev.lastmile.ghn.vn/trip/v2';
+// const ACC_URL = 'http://api.dev.lastmile.ghn.vn/acc/v1';
+// const OSS_URL = 'http://api.staging.ops.ghn.vn/oss/v2';
+// const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
+// const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
+// const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
+// export const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+// const ApiKey = 'TEST@APIKEY';
+// const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
 
 
 // const PDS_URL = 'http://api.dev.lastmile.ghn.vn/trip/v2';
@@ -52,7 +60,7 @@ const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
 // const OMS_URL = 'http://api.staging.ops.ghn.vn/oms/v1';
 // const LOG_URL = 'http://api.staging.ops.ghn.vn/als/v1';
 // const INSIDE_URL = 'http://api.insidev2.ghn.vn/sorting/v1';
-export const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
+// export const authenUri = 'http://103.20.148.181:8099/Home/Login?AppKey=BB17y1A9A0128b7677C940784CE11A28DE2B3&returnUrl=http://lastmile.ghn.vn/hms/static';
 // const ApiKey = 'TEST@APIKEY';
 // const ApiSecret = 'df6f564cGJRf9fGF6C9cLRyzjp8mpYafjfnQC3DfjQdbc47';
 
@@ -66,10 +74,10 @@ export const GetUserActivePdsInfo = (tripUserId) => {
 
   const config = {
     headers: LoginHeader,
-    params: { q: { driverId: tripUserId, status: 'ON_TRIP' } },
+    params: { q: { driverId: tripUserId, status: 'ON_TRIP' }, containStopPoint: true },
     timeout,
   };
-
+  // console.log("MPDS >> getUserActivePdsInfo >> config", config );
   if (mockOn) {
     mock.onGet(URL, config).reply(200, infoResponse);
   }
@@ -105,8 +113,8 @@ export const GetUserActivePds = (tripCode, offset, limit, lastUpdatedTime, sende
   };
 
   if (mockOn) {
-    mock.onGet(URL, config).reply(200, ordersResponse);
-    // mock.onGet(URL, config).reply(200, startSessionResponse);
+    // mock.onGet(URL, config).reply(200, ordersResponse);
+    mock.onGet(URL, config).reply(200, startSessionResponse);
   }
   return axios.get(URL, config);
 };
@@ -127,6 +135,27 @@ export const fetchTrip = (tripCode, offset, limit, lastUpdatedTime, senderHubId)
   return fromPromise(GetUserActivePds(tripCode, offset, limit, lastUpdatedTime, senderHubId));
 };
 
+export const UpdateSession = (tripCode, OrderInfos, scanInfo) => {
+  const URL = `${PDS_URL}/stoppoint/finishTransferSession`;
+  const params = {
+    ...scanInfo,
+    tripCode,
+    orders: OrderInfos,
+  };
+  const { LoginHeader } = Share;
+  const config = { headers: LoginHeader, timeout };
+
+  if (mockOn) {
+    mock.onPost(URL, params, config).reply(200, updateSessionResponse);
+  }
+
+  return axios.post(URL, params, config);
+};
+
+export const updateSession = (tripCode, OrderInfos) => {
+  return fromPromise(UpdateSession(tripCode, OrderInfos));
+};
+
 export const DoAction = (tripCode, OrderInfos) => {
   const URL = `${PDS_URL}/item`;
   const params = {
@@ -144,29 +173,13 @@ export const DoAction = (tripCode, OrderInfos) => {
 };
 
 
-export const updateOrderStatus = (tripCode, OrderInfos) => {
-  return fromPromise(DoAction(tripCode, OrderInfos));
-};
-
-export const UpdateSession = (tripCode, OrderInfos) => {
-  const URL = `${PDS_URL}/item`;
-  const params = {
-    tripCode,
-    orders: OrderInfos,
-  };
-  const { LoginHeader } = Share;
-  const config = { headers: LoginHeader, timeout };
-
-  if (mockOn) {
-    mock.onPut(URL, params, config).reply(200, updateSessionResponse);
+export const updateOrderStatus = (tripCode, OrderInfos, isCvs = false, scanInfo = null) => {
+  if (isCvs === false) {
+    return fromPromise(DoAction(tripCode, OrderInfos));
   }
-
-  return axios.put(URL, params, config);
+  return fromPromise(UpdateSession(tripCode, OrderInfos, scanInfo));
 };
 
-export const updateSession = (tripCode, OrderInfos) => {
-  return fromPromise(UpdateSession(tripCode, OrderInfos));
-};
 
 export const CalculateServiceFee = (params) => {
   const URL = `${PDS_URL}/item/calcDimension`;
@@ -304,7 +317,7 @@ export const getOrderDetail = (orderCode, type, tripCode) => {
 };
 
 export const GetOrderSortingCode = (orderCodes) => {
-  console.log("getOrderSortingCode => ",orderCodes);
+  // console.log("getOrderSortingCode => ",orderCodes);
   const codeString = orderCodes.join();
   const URL = `${INSIDE_URL}/label/${codeString}`;
   const config = {
@@ -324,7 +337,7 @@ export const getOrderSortingCode = (orderCodes) => {
 // {
 // 	"orderCodes": [ "3DANFHXU" ]
 // }
-export const AddOrders = (orderCodes, tripCode) => {
+export const AddOrders = (orderCodes, tripCode, pointId) => {
   const URL = `${PDS_URL}/item`;
   const { LoginHeader } = Share;
 
@@ -332,9 +345,13 @@ export const AddOrders = (orderCodes, tripCode) => {
     headers: LoginHeader,
     timeout,
   };
+
+  const type = pointId ? 'TRANSIT_IN' : 'PICK';
+
   const params = {
     tripCode,
-    type: 'PICK',
+    pointId,
+    type,
     orderCodes,
     verifyOnly: false,
   };
@@ -345,8 +362,8 @@ export const AddOrders = (orderCodes, tripCode) => {
   return axios.post(URL, params, config);
 };
 
-export const addOrders = (orderCodes, tripCode) => {
-  return fromPromise(AddOrders(orderCodes, tripCode));
+export const addOrders = (orderCodes, tripCode, pointId) => {
+  return fromPromise(AddOrders(orderCodes, tripCode, pointId));
 };
 
 export const GetOrderHistory = (orderCode) => {
@@ -387,7 +404,7 @@ export const SendLogs = (datas) => {
 };
 
 export const GetNewOrders = (hubId, senderHubId) => {
-  console.log(hubId, senderHubId);
+  // console.log(hubId, senderHubId);
   const URL = `${OSS_URL}/order`;
   const headers = {
     'X-ApiKey': '9697efabe8aaafff6d468ac5c22501fe',
@@ -441,10 +458,7 @@ export const getOrdersInfo = (orderIds = []) => {
 
 
 export const StartSession = (hashId, postId, peId, token, pointId, tripCode) => {
-
-  console.log('lele', hashId, postId, peId, token, pointId, tripCode);
-
-  const URL = `${PDS_URL}/startSession`;
+  const URL = `${PDS_URL}/stoppoint/startTransferSession`;
 
   const { LoginHeader } = Share;
   const config = {
@@ -463,6 +477,30 @@ export const StartSession = (hashId, postId, peId, token, pointId, tripCode) => 
 };
 
 export const startSession = (hashId, postId, peId, token, pointId, tripCode) => {
-  console.log('yeye', hashId, postId, peId, token, pointId, tripCode);
+  // console.log('yeye', hashId, postId, peId, token, pointId, tripCode);
   return fromPromise(StartSession(hashId, postId, peId, token, pointId, tripCode));
+};
+
+export const RemoveStoppoint = (tripCode, pointId) => {
+  const URL = `${PDS_URL}/stoppoint/refuse`;
+  const params = {
+    tripCode,
+    type: 'PICK',
+    pointIds: [pointId],
+  };
+  const { LoginHeader } = Share;
+
+  const config = {
+    headers: LoginHeader,
+    timeout,
+  };
+
+  if (mockOn) {
+    mock.onPut(URL, params, config).reply(200, removeStoppointResponse);
+  }
+  return axios.put(URL, params, config);
+};
+
+export const removeStoppoint = (tripCode, pointId) => {
+  return fromPromise(RemoveStoppoint(tripCode, pointId));
 };

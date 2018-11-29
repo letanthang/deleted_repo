@@ -41,6 +41,7 @@ class OrderDimension extends Component {
     const { orderCode } = this.props;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     this.checkInfoChanged(order);
+    console.log('check info change kkaka');
 
     this.setState({ [prop]: value });
   }
@@ -120,7 +121,7 @@ class OrderDimension extends Component {
     const { length, weight, width, height } = this.state;
     if (length >= 10 && length <= 200
       && width >= 10 && width <= 200
-      && height >= 10 && width <= 200
+      && height >= 10 && height <= 200
       && weight >= 1 && weight <= 100000) {
         return true;
     }
@@ -136,6 +137,7 @@ class OrderDimension extends Component {
   }
 
   render() {
+    console.log("OrderDimension >> render ")
     const { orderCode } = this.props;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     const { collectAmount, weight, length, width, height } = order;

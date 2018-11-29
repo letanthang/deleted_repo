@@ -12,15 +12,16 @@ import { UPDATE_ORDER_STATUS_START, UPDATE_ORDER_STATUS, UPDATE_ORDER_STATUS_SUC
 import { updateOrderStatusSuccess, updateOrderStatusFail, pdListFetch, logoutUser } from '../actions';
 import * as API from '../apis/MPDS';
 import Utils from '../libs/Utils';
+import { Toast } from 'native-base';
 // import Utils from '../libs/Utils';
 export const limit = 14;
 const delayTime = 735;
 const updateOrderStartEpic = action$ =>
   action$.ofType(UPDATE_ORDER_STATUS_START)
     .map(action => action.payload)
-    .mergeMap(({ OrderInfos }) => of({
+    .mergeMap(({ OrderInfos, pickNote, isCvs, scanInfo }) => of({
       type: 'UPDATE_ORDER_STATUS',
-      payload: { OrderInfos },
+      payload: { OrderInfos, pickNote, isCvs, scanInfo },
     }));
 
 const fixProgressStatus = action$ =>
@@ -34,26 +35,29 @@ const updateOrderMoreEpic = action$ =>
     .map(action => action.payload)
     .filter(({ OrderInfos }) => OrderInfos.length > limit)
     .delay(delayTime)
-    .mergeMap(({ OrderInfos }) => of({
+    .mergeMap(({ OrderInfos, isCvs, scanInfo }) => of({
       type: 'UPDATE_ORDER_STATUS',
-      payload: { OrderInfos: OrderInfos.slice(limit, 10000) },
+      payload: { OrderInfos: OrderInfos.slice(limit, 10000), isCvs, scanInfo },
     }));
 
 const updateOrderEpic = (action$, store) =>
   action$.ofType(UPDATE_ORDER_STATUS)
     .map(action => action.payload)
-    .mergeMap(({ OrderInfos }) => {
+    .mergeMap(({ OrderInfos, pickNote, isCvs, scanInfo }) => {
       const { tripCode } = store.getState().pd;
       // filter
       // transform OrderInfos
       const filterInfos = OrderInfos.map((info) => {
         const { orderCode, nextDate, noteId, note, type, willSucceeded } = info;
         const nextRedoTime = Utils.getDateForNote(noteId, nextDate);
-        return { orderCode, type, nextRedoTime, failCode: noteId, failNote: note, isSucceeded: willSucceeded };
+        const failNote = willSucceeded ? note : (note || pickNote);
+        return { orderCode, type, nextRedoTime, failCode: noteId, failNote, isSucceeded: willSucceeded };
       });
-      return API.updateOrderStatus(tripCode, filterInfos.slice(0, limit))
+      // console.log('yeahhhhhhh', filterInfos)
+      return API.updateOrderStatus(tripCode, filterInfos.slice(0, limit), isCvs, scanInfo)
         .map(({ data }) => {
           const response = data;
+          // console.log("epics >> updateOrderEpic >> updateOrderEpic Func >> response >> ",response);
           switch (response.status) {
             case 'OK':
               return updateOrderStatusSuccess(OrderInfos, response.data || []);
@@ -71,7 +75,7 @@ const updateOrderEpic = (action$, store) =>
         .catch(error => of(updateOrderStatusFail(error.message, OrderInfos)))
     });
 
-const reloadEpic = (action$, store) =>
+const reloadEpic = (action$, store) => 
   action$.ofType(UPDATE_ORDER_STATUS_SUCCESS)
     .map(action => action.payload)
     .filter(({ OrderInfos }) => (OrderInfos.length <= limit && store.getState().pd.requireReload))
@@ -83,7 +87,7 @@ const alertSuccessEpic = (action$, store) =>
   action$.ofType(UPDATE_ORDER_STATUS_SUCCESS)
     .map(action => action.payload)
     .filter(({ OrderInfos }) => (OrderInfos.length <= limit && store.getState().pd.requireReload === false))
-    .do(() => Utils.showToast('Thao tác hoàn tất thành công!', 'success'))
+    .do(() => Utils.showToast('Thao tác hoàn tất thành công!', 'success')) 
     .ignoreElements();
 
 const alertFailEpic = action$ =>

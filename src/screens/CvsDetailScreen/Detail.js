@@ -75,7 +75,7 @@ class Detail extends Component {
   }
 
   onOrderPress(order) {
-  
+  // console.log("CvsDetailScreen >> Detail >> onOrderPress Fnc");
     const { orderCode } = order;
     const { clientId, senderHubId } = this.pickGroup;
     Keyboard.dismiss();
@@ -126,6 +126,7 @@ class Detail extends Component {
   }
 
   render() {
+    // console.log("CvsDetailScreen >> Detail >> render Func")
     const { CvsItems, keyword } = this.props;
     const Items = CvsItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);

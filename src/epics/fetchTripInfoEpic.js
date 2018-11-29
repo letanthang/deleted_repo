@@ -16,7 +16,7 @@ const fetchTripInfoEpic = (action$, store) =>
       API.fetchTripInfo(store.getState().auth.userId)
         .map(({ data }) => {
           const response = data;
-          // console.log(response);
+          // console.log("fetchTriupInfoEpic >> fecthTripInfo >> répons ",response);
           switch (response.status) {
             case 'OK':
               if (response.total === 0) {

@@ -12,13 +12,13 @@ class Label1 extends Component {
   state = { bcUri: null, fullUri: null }
   componentDidMount() {
     if (this.props.order.imageUri == null) {
-      console.log(this.props.order.imageUri)
+      // console.log(this.props.order.imageUri)
       setTimeout(this.onCaptureAll.bind(this), 500);
     }
   }
   componentDidUpdate() {
     if (this.props.order.imageUri == null) {
-      console.log(this.props.order.imageUri)
+      // console.log(this.props.order.imageUri)
       setTimeout(this.onCaptureAll.bind(this), 500);
     }
   }
@@ -26,7 +26,7 @@ class Label1 extends Component {
   onCaptureAll() {
     this.refs.viewShot.capture()
       .then(uri => {
-        console.log(uri)
+        // console.log(uri)
         const { orderCode } = this.props.order;
         this.props.setOrder(orderCode, { imageUri: uri });
         

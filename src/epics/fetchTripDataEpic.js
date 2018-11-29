@@ -75,42 +75,25 @@ const fetchTripsMoreEpic = (action$, store) =>
         .catch(error => of(fetchTripDataFail(error.message)));
     });
 
-    const fetchOrderDistrictEncode =(action$, store)=>
-      action$.ofType(PDLIST_FETCH_SUCCESS,PDLIST_NO_TRIP)
-      .fitler(action => (action.type == PDLIST_FETCH_SUCCESS && action.payload.more === false) || (action.type == PDLIST_NO_TRIP))
-      .mergeMap( action=> {
-        if (!store.getState().pd.pdsItems) {
-          return of(fetchSortingCodeFail('Không có đơn'));
-        }
-        let orderPicked =  _filter(store.getState.pd.pdsItems, o=> o.type === 'PICK' && o.status === 'Picked' && o.isSuccess && o.receiverDistrictCode && o.receiverDistrictCode.length >0 );
-        if(orderPicked.length == 0){
-          return of(fetchOrderDistrictEncodeFail('Không có đơn'));
-        }
-        // let orderGetDistricts =
-        return API.get
-      })
-    
-
 const fetchOrderSortingCode = (action$, store) =>
   action$.ofType(PDLIST_FETCH_SUCCESS, PDLIST_NO_TRIP, PD_FETCH_LABEL_SUCCESS)
-    // .filter(() => false)
     .filter(action => (action.type === PDLIST_FETCH_SUCCESS && action.payload.more === false) || (action.type === PD_FETCH_LABEL_SUCCESS) || (action.type === PDLIST_NO_TRIP))
     .mergeMap((action) => {
-      // console.log(action.type, action.payload.more);
       const callNum = action.payload.callNum || 0;
-      if (callNum > 50) {
-        console.log("fetchOrderSortingCode => vuot qua so lan goi cho phep")
+      if (callNum > 10) {
+        // console.log("fetchOrderSortingCode => vuot qua so lan goi cho phep")
         return of(fetchSortingCodeFail('Vươt quá số lần gọi cho phép'));
       }
+      
       if (!store.getState().pd.pdsItems) {
-        console.log("fetchOrderSortingCode => khong co don")
+        // console.log("fetchOrderSortingCode => khong co don")
         return of(fetchSortingCodeFail('Không có đơn'));
       }
 
-      let sortingOrders = _.filter(store.getState().pd.pdsItems, o => o.type === 'PICK' && !o.label);
+      let sortingOrders = _.filter(store.getState().pd.pdsItems, o => (o.type === 'PICK' || o.type === 'TRANSIT_IN') && !o.label);
       sortingOrders = sortingOrders.slice(0, 100);
       if (sortingOrders.length === 0) {
-        console.log("fetchOrderSortingCode => da co ma sorting")
+        // console.log("fetchOrderSortingCode => da co ma sorting")
         return of(fetchSortingCodeFail('Đã có mã sorting'));
       }
 

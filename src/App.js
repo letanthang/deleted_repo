@@ -37,7 +37,7 @@ import getTheme from '../native-base-theme/components';
 import platform from '../native-base-theme/variables/platform';
 import { live } from './apis/MPDS';
 
-if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
+if (true || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
   // disable console. log in production
   console.log = function () {};
   console.info = function () {};
@@ -61,7 +61,7 @@ function getActiveRouteName(navigationState) {
   return route.routeName;
 }
 function backPress() {
-  console.log(currentScreen);
+  // console.log(currentScreen);
   if (currentScreen === 'Home') {
     return true;
   }

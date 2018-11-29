@@ -222,7 +222,7 @@ class HomeScreen extends Component {
     const { pdsItems, lastUpdatedTime, isTripDone } = this.props;
     const showTime = lastUpdatedTime ? moment(lastUpdatedTime).format('LT DD/MM ') : '';
     const ordersNum = pdsItems ? Object.keys(pdsItems).length : 0;
-    console.log(lastUpdatedTime);
+    // console.log(lastUpdatedTime);
     // const progressTitle = `Đã tải ${this.props.progress}% Vui lòng chờ!`;
     return (
       <Content

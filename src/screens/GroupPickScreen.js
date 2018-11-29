@@ -52,7 +52,7 @@ class GroupPickScreen extends Component {
   calNewGroup({ pgroups }) {
     const groupLength = Object.keys(pgroups).length - 1;
     this.setState({ groupName: `Nhóm ${groupLength}` });
-    console.log(groupLength);
+    // console.log(groupLength);
   }
 
   checkTripDone(trip) {
@@ -116,7 +116,9 @@ class GroupPickScreen extends Component {
             keyExtractor={(item, index) => item.senderHubId}
             renderItem={({ item }) => {
               const order = item;
-              const { address, senderHubId, senderName } = order;
+              // console.log("GroupPickScreen >> order ",order)
+              const { senderAddress, senderHubId, senderName } = order;
+
               const groupChecked = this.state.groupCheck[senderHubId];
               return (
                 <TouchableOpacity
@@ -128,7 +130,7 @@ class GroupPickScreen extends Component {
                         {senderName}
                       </Text>
                       <Text style={[Styles.smallTextStyle, Styles.weakColorStyle]}>
-                        {address}
+                        {senderAddress}
                       </Text>
                     </View>
                     <View

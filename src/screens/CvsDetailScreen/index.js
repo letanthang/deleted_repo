@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Dimensions, TextInput, Platform } from 'react-native';
+import { View, TouchableOpacity, Dimensions, TextInput, Platform,Button as RNButton , ScrollView,TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -14,11 +14,25 @@ import { get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
 import Detail from './Detail';
+import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
 import LogoButton from '../../components/LogoButton';
 import BarcodeReader from '../../components/BarcodeReader';
 
+
+const ErrorList = ({orderErros})=>{
+  // orderErros.push(orderErros[0])
+  return (<ScrollView style={Styles.container} >
+  <Text selectable={true} style={{paddingLeft:10}}>
+    {orderErros.map((order, i) => {
+      return (
+                <Text><Text style={{ fontWeight: 'bold' }}>{order.orderCode} </Text> {` ${order.message}`} {"\n"}</Text>
+      )
+    })}
+  </Text>
+</ScrollView>)
+};
 class CvsDetailScreen extends Component {
   constructor() {
     super();
@@ -33,8 +47,16 @@ class CvsDetailScreen extends Component {
     this.type = type;
   }
 
-  componentWillReceiveProps({ PickItems, ReturnItems }) {
-    
+  componentWillReceiveProps(nextProps) {
+    // console.log("CvsDetailScreen >> componentWillReceiveOProps Func >> netx Props ",nextProps);
+    const {OrderErrors} = nextProps; 
+    if(OrderErrors && OrderErrors.length > 0){
+      if(this.props.OrderErrors && this.props.OrderErrors.length > 0 && this.props.OrderErrors.map(order => order.orderCode).join(" ") == OrderErrors.map(order => order.orderCode).join(" ") ){
+      }else{
+      this.popupDialog.dismiss();
+      this.popupDialog.show();
+      }
+    } 
   }
 
   componentWillUnmount() {
@@ -55,12 +77,17 @@ class CvsDetailScreen extends Component {
     this.props.updateOrderStatus({ OrderInfos });
   }
 
+  addOrder(senderHubId) {
+    // console.log("CvsDetailScreen >> index >> addOrder Func >> ",senderHubId)
+    this.props.navigation.navigate('AddOrder', { senderHubId, isCvs:true });
+  }
+
   confirmUpdateOrderOnce = _.debounce(this.confirmUpdateOrder, 400, { leading: true, trailing: false });
 
   confirmUpdateOrder() {
     // this.props.pdListFetch({})
     //   .then(() => this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId }));
-    this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId, type: 'TRANSIT_IN' });
+    this.props.navigation.navigate('PickConfirm', { senderHubId: this.senderHubId, type: 'TRANSIT_IN', scanInfo: this.scanInfo });
   }
 
   hasUnsynced(pickGroup) {
@@ -156,21 +183,32 @@ class CvsDetailScreen extends Component {
           >
             <Icon name="search" />
           </Button>
-          {/* <Button
+          <Button
             transparent
-            onPress={() => this.props.getNewOrdersForAdd(this.senderHubId) }
+            onPress={() => this.addOrder(this.senderHubId) }
           >
             <Icon name="add" />
-          </Button> */}
+          </Button>
+          {Platform.OS === 'android' ?
+          <Button
+            transparent
+            onPress={() => navigate('OrderLabels', { senderHubId: this.senderHubId})}
+          >
+            <Icon name="print" />
+          </Button>
+          : null}
         </Right>
       </Header>
     );
   }
 
+  
+
   render() {
-    console.log('CvsDetailScreen render');
+    // console.log('CvsDetailScreen render');
+    // console.log("CvsDetailScreen >> index >> render Func >> this",this);
     
-    const { addOrderLoading, CvsItems } = this.props;
+    const { addOrderLoading, CvsItems, OrderErrors } = this.props;
     const { width } = Dimensions.get('window');
     const type = this.type;
     const Items = CvsItems;
@@ -182,6 +220,8 @@ class CvsDetailScreen extends Component {
     this.pickGroup = pickGroup;
     this.totalNum = this.pickGroup.ShopOrders.length;
     this.doneNum = this.pickGroup.ShopOrders.filter(o => this.checkComplete(o)).length;
+    this.scanInfo = this.pickGroup.scanInfo;
+
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         {this.renderHeader(pickGroup)}
@@ -218,6 +258,43 @@ class CvsDetailScreen extends Component {
         </FooterTab>
         </Footer>
         : null}
+
+           <PopupDialog
+            ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            containerStyle={{ zIndex: 10, elevation: 20 }}
+            width={0.94}
+            height={364}
+            dialogTitle={<DialogTitle title="Thông báo" titleTextStyle={{fontWeight: 'bold',fontSize: 20}} />}
+          >
+          { OrderErrors ? 
+          <ScrollView>
+            <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+              <View style={{ padding: 10 }}>
+                <Text>Có <Text style={{ color: 'red', fontSize: 20,fontWeight: 'bold'}}>{OrderErrors.length}</Text> đơn hàng <Text style={{ color: 'red',fontWeight: 'bold'}}>không thể</Text> cập nhập đã lấy</Text>
+              </View>
+                <ErrorList
+                  selectable={true}
+                  orderErros={OrderErrors}
+                />
+            </View>
+            </ScrollView> 
+            : null}
+            <View style={{ padding: 10 }}>
+                <Text >Hệ thống đã tự động cập nhập <Text style={{fontWeight: 'bold'}}>Lấy thất bại</Text> các đơn trên.</Text>
+              </View>
+            <View
+                style={{ flexDirection: 'row', borderTopColor: '#E7E8E9', borderTopWidth: 1, marginBottom: 2,alignItems:'center' }}
+              >
+                <View style={{flex:1, paddingTop: 10, paddingBottom: 10, paddingLeft: 30, paddingRight: 30,alignItems:'center'}}>
+                  <RNButton
+                    onPress={() => this.popupDialog.dismiss()}
+                    title='Đóng'
+                    // color='#057AFF'
+                    style={{ flex: 1, margin: 2 }}
+                  />
+                </View>
+              </View>
+          </PopupDialog>
       </Container>
       
     );
@@ -225,14 +302,15 @@ class CvsDetailScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, pd, pickGroup, other } = state;
+  // console.log("CvsDetailScreen >> mapStateToProps Func >> ")
+  const { auth, pd, pickGroup, other} = state;
   const { progress, loading } = other;
   const { sessionToken } = auth;
-  const { tripCode, addOrderLoading } = pd;
+  const { tripCode, addOrderLoading , OrderErrors} = pd;
   const { OrderInfos, done, keyword } = pickGroup;
   const { PickItems, ReturnItems } = get3Type(state);
 
-  return { PickItems, ReturnItems, CvsItems: PickItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
+  return { OrderErrors , PickItems, ReturnItems, CvsItems: PickItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
 export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd })(CvsDetailScreen);

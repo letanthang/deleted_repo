@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Dimensions, TextInput, Platform } from 'react-native';
+import { View, TouchableOpacity, Dimensions, TextInput, Platform, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { 
   Container, Header, Body, Left, Right,
@@ -10,11 +10,11 @@ import {
 import IC from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Bar } from 'react-native-progress';
 import { NavigationActions } from 'react-navigation';
-import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd, startCvsSession } from '../../actions';
+import { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd, startCvsSession, removeStoppoint } from '../../actions';
 import { get3Type } from '../../selectors';
 import Utils from '../../libs/Utils';
 import { Styles, Colors } from '../../Styles';
-import { scanResponse } from '../../apis/mock';
+import { scanResponse, scanResponse2 } from '../../apis/mock';
 import Detail from './Detail';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
@@ -24,7 +24,7 @@ import BarcodeReader from '../../components/BarcodeReader';
 class CvsPrepareScreen extends Component {
   constructor() {
     super();
-    this.state = { showScan: false, isSimulator: true };
+    this.state = { showScan: false, isSimulator: false };
   }
 
   componentWillReceiveProps({ CvsItems }) {
@@ -103,34 +103,43 @@ class CvsPrepareScreen extends Component {
     );
   }
 
-  onBarCodeReadOnce = _.debounce(this.onBarCodeRead, 300, { leading: true, trailing: false });
+  onBarCodeReadOnce = _.debounce(this.onBarCodeRead, 1000, { leading: true, trailing: false });
 
   goToDetail() {
     
     const dispatch = this.props.navigation.dispatch;
     const { type, senderHubId, pointId } = this.props.navigation.state.params;
+    // console.log('Hehehihi', type, senderHubId, pointId);
+    // console.log(this.props.navigation);
 
     const resetAction = NavigationActions.reset({
-      index: 1,
+      index: 2,
       actions: [
+        NavigationActions.navigate({ routeName: 'Drawer' }),
+        NavigationActions.navigate({ routeName: 'TripList' }),
         NavigationActions.navigate({ 
           routeName: 'CvsDetail', 
-          params: { type, senderHubId, pointId },
-          // action: NavigationActions.navigate({ routeName: 'Home' }) 
+          params: { type, senderHubId, pointId },    
         })
       ]
     });
+    // action: NavigationActions.navigate({ routeName: 'Home' }) 
     dispatch(resetAction);
   }
 
-  onBarCodeRead(data) {
-    console.log(data)
-    if (data !== this.state.data) {
-      this.setState(data);
-      const { pointId } = this.props.navigation.state.params;
-      const { tripCode } = this.props;
-      this.props.startCvsSession(data, pointId, tripCode);
-    }    
+  onBarCodeRead(strData) {
+    try {
+      const data = JSON.parse(strData);
+      if (data !== this.state.data) {
+        this.setState({ data });
+        const { pointId } = this.props.navigation.state.params;
+        const { tripCode } = this.props;
+        this.props.startCvsSession(data, pointId, tripCode);
+      }  
+    } catch (error) {
+      alert("QRCode không đúng định dạng của CVS")
+    }
+        
   }
 
 
@@ -138,7 +147,7 @@ class CvsPrepareScreen extends Component {
     return (
       <Container style={{ backgroundColor: 'black' }}>
         {this.renderScannerHeader()}
-        <BarcodeReader onBarCodeRead={this.onBarCodeReadOnce.bind(this, data)}  />
+        <BarcodeReader onBarCodeRead={this.onBarCodeReadOnce.bind(this)}  />
       </Container>
     );
   }
@@ -147,8 +156,26 @@ class CvsPrepareScreen extends Component {
     if (this.state.isSimulator) {
       this.onBarCodeRead(scanResponse);
     } else {
-      navigate('CvsDetail', { type, senderHubId })
+      this.setState({ showScan: true });
+      // navigate('CvsDetail', { type, senderHubId })
     }
+    
+  }
+
+  mockAcion() {
+    this.onBarCodeRead(scanResponse2);
+  }
+
+  onRejectTapped() {
+    Alert.alert(
+      'Xác nhận',
+      'Bạn muốn từ chối lấy hàng tại điểm này?',
+      [
+        { text: 'Đúng', onPress: () => this.props.removeStoppoint(this.props.tripCode, this.scanInfo.pointId) },
+        { text: 'Không', onPress: () => {}, style: 'cancel' }
+      ],
+      { cancelable: false }
+    );
     
   }
 
@@ -169,9 +196,10 @@ class CvsPrepareScreen extends Component {
       popToTop();
       return null;
     }
+    this.scanInfo = pickGroup.scanInfo;
     
     return (
-      <Container style={{ backgroundColor: Colors.background }}>
+      <Container style={{ backgroundColor: 'white' }}>
         {this.renderHeader(pickGroup)}
         <ActionSheet ref={(c) => { ActionSheet.actionsheetInstance = c; }} />
         <View style={{ alignItems: 'center', marginTop: 50, marginBottom: 30 }}>
@@ -185,7 +213,7 @@ class CvsPrepareScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonStyle2}
-          onPress={() => {}}
+          onPress={this.onRejectTapped.bind(this)}
         >
           <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Từ chối lấy</Text>
         </TouchableOpacity>
@@ -197,22 +225,25 @@ class CvsPrepareScreen extends Component {
 
 const styles = {
   buttonStyle1: {
-    margin: 1,
+    margin: 4,
+    marginBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2ECC71',
     borderColor: '#2ECC71',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 3,
+    padding: 8,
   },
   buttonStyle2: {
-    margin: 1,
+    margin: 4,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'grey',
-    borderColor: '#2ECC71',
+    borderColor: 'grey',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 3,
+    padding: 8,
   },
 };
 
@@ -226,4 +257,4 @@ const mapStateToProps = (state) => {
   return { PickItems, ReturnItems, CvsItems: PickItems, sessionToken, tripCode, loading, progress, addOrderLoading, OrderInfos, done, keyword };
 };
 
-export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd, startCvsSession })(CvsPrepareScreen);
+export default connect(mapStateToProps, { updateOrderStatus, resetPickGroup, changeKeyword, changeDone, pdListFetch, getNewOrdersForAdd, startCvsSession, removeStoppoint })(CvsPrepareScreen);

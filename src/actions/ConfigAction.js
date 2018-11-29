@@ -20,12 +20,12 @@ export const getConfiguration = () => {
           payload: json.data[0]
         });
       } else {
-        console.log('getConfiguration failed, response data=');
-        console.log(json);
+        // console.log('getConfiguration failed, response data=');
+        // console.log(json);
       }
     } catch (error) {
-      console.log('Fail to getConfiguration with error =');
-      console.log(error);
+      // console.log('Fail to getConfiguration with error =');
+      // console.log(error);
     }
   };
 };

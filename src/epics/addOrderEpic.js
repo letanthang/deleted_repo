@@ -34,9 +34,10 @@ const addOrderEpic = (action$, store) =>
   action$.ofType(PD_ADD_ORDER)
     .map(action => action.payload)
     .mergeMap(({ orderCode, senderHubId }) =>
-      API.addOrders([orderCode], store.getState().pd.tripCode)
+      API.addOrders([orderCode], store.getState().pd.tripCode, senderHubId)
         .map(({ data }) => {
           const response = data;
+          // console.log("epics >> addOrderEpics >> addOrderEpic Func >> response ",response)
           switch (response.status) {
             case 'OK':
               return {

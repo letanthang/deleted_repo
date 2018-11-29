@@ -40,7 +40,7 @@ class PickOrderScreen extends Component {
     this.order = Utils.getOrder(this.props.db, this.orderCode, this.type);
     if (this.type === 'PICK') this.props.getOrdersInfo([this.orderCode]);
     this.props.getOrderHistory(this.orderCode);
-    console.log('PickOrderScreen mount ', this.order);
+    // console.log('PickOrderScreen mount ', this.order);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -176,7 +176,18 @@ class PickOrderScreen extends Component {
     );
   }
 
-  updateDimension(orderCode, done, dimemsionUpdated) {
+  updateDimension(orderCode, done, dimemsionUpdated,isOrderCvs) {
+    if(isOrderCvs){
+      Alert.alert(
+        'Thông báo',
+        'Không thể cập nhật kích thước. Đơn hàng lấy tại điểm.',
+        [
+          { text: 'Đóng', onPress: () => console.log('Đóng pressed'), style: 'cancel' }
+        ],
+        { cancelable: false }
+      )
+      return;
+    }
     if (done) {
       Alert.alert(
         'Thông báo',
@@ -212,7 +223,7 @@ class PickOrderScreen extends Component {
   // 5 -> qqua ví - chưa thanh toán 
 
   renderNotice(collectAmount, paymentTypeId, isFeeVisible) {
-    console.log("PickOrderScreen => renderNotice => ",collectAmount,paymentTypeId,isFeeVisible);
+    // console.log("PickOrderScreen => renderNotice => ",collectAmount,paymentTypeId,isFeeVisible);
       if(isFeeVisible ==  false  && paymentTypeId == 2){
         return (<Text style={{ fontWeight: 'bold' }}>Cước phí phát sinh đã tính vào tổng thu người nhận</Text>);
       }
@@ -234,7 +245,7 @@ class PickOrderScreen extends Component {
       this.goBack();
       return this.renderNullData();
     }
-    console.log("Pick order Screen => order => ",order);
+    // console.log("Pick order Screen => order => ",order);
     const orderCode = this.orderCode;
     const history = this.props.orderHistory[orderCode];
     const historyString = Utils.getHistoryString(history);
@@ -249,8 +260,13 @@ class PickOrderScreen extends Component {
     const { isFeeVisible, oldServiceFee, newServiceFee } = this.state
 
     const diffFee = newServiceFee - oldServiceFee;
+    const isOrderCvs = order.type == "TRANSIT_IN" || order.type == "TRANSIT_OUT" ? true : false;
+    // console.log("isOrderCvs => ",isOrderCvs)
+    const editSizeBgColor = (isOrderCvs || done || dimemsionUpdated) ? 'grey' : Colors.theme;
+    // console.log("editSizeBgColor => ",editSizeBgColor)
+    const isShowPopupUpdateDimension = isOrderCvs || done ? false : true;
 
-    const editSizeBgColor = (done || dimemsionUpdated) ? 'grey' : Colors.theme;
+    
     return (
       <Container style={{ backgroundColor: Colors.background }}>
         <Header>
@@ -269,14 +285,14 @@ class PickOrderScreen extends Component {
             <Title>{orderCode}</Title>
           </Body>
           <Right style={Styles.rightStyle}>
-            {/* {Platform.OS == 'android' ? */}
+            {Platform.OS == 'android' ?
             <Button
               transparent
               onPress={() => navigate('OrderLabelNew', { orderCode })}
             >
               <IC name="printer" size={28} color="white" />
             </Button>
-            {/* : null} */}
+            : null}
           </Right>
           
         </Header>
@@ -310,14 +326,14 @@ class PickOrderScreen extends Component {
                 <Text style={[Styles.normalColorStyle, Styles.midTextStyle]}>Khối lượng và kích thước</Text>
                 <TouchableOpacity
                   style={{ backgroundColor: editSizeBgColor, borderRadius: 2 }}
-                  onPress={this.updateDimension.bind(this, orderCode, done, dimemsionUpdated)}
+                  onPress={this.updateDimension.bind(this, orderCode, done, dimemsionUpdated,isOrderCvs)}
                 >
                   <IC name="pencil" size={20} color='white' />
                 </TouchableOpacity>
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{weight} g</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(weight)} g</Text>
               </View>
               <View style={Styles.rowStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Kích thước</Text>
@@ -325,7 +341,7 @@ class PickOrderScreen extends Component {
               </View>
               <View style={Styles.rowLastStyle}>
                   <Text style={[Styles.col1Style, Styles.weakColorStyle]}>Khối lượng quy đổi</Text>
-                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{length * width * height * 0.2} g</Text>
+                  <Text style={[Styles.midTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(length * width * height * 0.2)} g</Text>
               </View>
 
               <View style={Styles.rowHeaderStyle}>
@@ -498,12 +514,14 @@ class PickOrderScreen extends Component {
           dialogTitle={<DialogTitle title="Cập nhật thông tin" />}
           
         >
+        {isShowPopupUpdateDimension ?
           <OrderDimension 
             myFunc={(ref) => { this.od = ref }} 
             popupDialogIn={this.popupDialogIn} 
             parent={this} 
             popupDialogOut={this.popupDialogOut} 
             orderCode={orderCode} />
+            : null}
         </PopupDialog>
       </Container>
     );

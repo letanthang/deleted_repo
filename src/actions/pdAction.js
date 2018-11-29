@@ -12,7 +12,7 @@ import {
   PD_CREATE_PGROUP, PD_UPDATE_SHOP_PGROUP, PD_RESET_PGROUP, PD_STOP_LOADING, OTHER_SET_PROPS,
   PD_SET_ORDER_PROPS, PD_FETCH_LABEL_SUCCESS, PD_FETCH_LABEL_FAIL,
   PD_GET_ORDERS_INFO, PD_GET_ORDERS_INFO_SUCCESS, PD_GET_ORDERS_INFO_FAIL,
-  PD_START_CVS_SESSION,
+  PD_START_CVS_SESSION, PD_REMOVE_STOPPOINT
 } from './types';
 import { writeLog } from '../libs/Log';
 
@@ -85,16 +85,17 @@ export const fetchTripInfoFail = (error) => {
   //   ...
   // ]
 
-export const updateOrderStatus = (infos) => {
+export const updateOrderStatus = (infos, isCvs = false, scanInfo = null) => {
   
-  let OrderInfos = infos.OrderInfos;
+  let { OrderInfos } = infos;
+  const { pickNote } = infos;
   if (!(OrderInfos instanceof Array)) {
     OrderInfos = [OrderInfos];
   }
 
   return {
     type: UPDATE_ORDER_STATUS_START,
-    payload: { OrderInfos },
+    payload: { OrderInfos, isCvs, scanInfo, pickNote },
   };
 };
 
@@ -233,10 +234,10 @@ export const fetchSortingCodeSuccess = (response, orderCodes, callNum) => {
   return { type: PD_FETCH_LABEL_SUCCESS, payload: { data: response.data, orderCodes, callNum } };
 };
 
-export const setOrder = (orderCode, props) => {
+export const setOrder = (orderCode, type, props) => {
   return {
     type: PD_SET_ORDER_PROPS,
-    payload: { orderCode, props },
+    payload: { orderCode, type, props },
   };
 };
 
@@ -252,7 +253,11 @@ export const getOrdersInfoSuccess = (response) => {
 };
 
 export const startCvsSession = (qrData, pointId, tripCode) => {
-  console.log(qrData, pointId, tripCode);
-  return { type: PD_START_CVS_SESSION, payload: { hashId: qrData.hash_id, postId: qrData.post_id, peId: qrData.pe_id, token: qrData.token, pointId, tripCode } };
+  const payload = { hashId: qrData.hash_id, postId: qrData.post_id, peId: qrData.pe_id, token: qrData.token, pointId, tripCode };
+  return { type: PD_START_CVS_SESSION, payload };
 };
 
+export const removeStoppoint = (tripCode, pointId) => {
+  const payload = { pointId, tripCode };
+  return { type: PD_REMOVE_STOPPOINT, payload };
+};

@@ -22,13 +22,13 @@ class BarcodeReader extends Component {
             aspect={Camera.constants.Aspect.fill}
             onBarCodeRead={e => {
               this.setState({ data: e.data })
-              this.props.onBarCodeRead(e);
+              this.props.onBarCodeRead(e.data);
             }}
           >
-            {this.state.data ?
+            {/* {this.state.data ?
             <View style={{ height: 100, width: 200, backgroundColor: 'blue', alignSelf: 'center' }}>
               <Text style={styles.capture}>{this.state.data}</Text>
-            </View> : null}
+            </View> : null} */}
           </Camera>
         </View>
       

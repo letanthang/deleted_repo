@@ -42,8 +42,8 @@ class OrderItem extends Component {
     const fullNote = Utils.getFullNote(note, newDate);
     return (
       <TouchableOpacity
-        onPress={onOrderPress.bind(this, order)}
-      >
+      onPress={onOrderPress.bind(this, order)}
+    >
         <View style={[Styles.orderWrapperStyle, { backgroundColor }]}>
           <View style={Styles.item2Style}>
             <View style={{ flexDirection: 'row' }}>
@@ -53,7 +53,6 @@ class OrderItem extends Component {
                 style={{ marginLeft: 10 }}
               />
             </View>
-            <Text style={[Styles.bigTextStyle, Styles.normalColorStyle]}>{accounting.formatNumber(collectAmount)} đ</Text>
           </View>
           {success === false && realDone === false && fullNote ?
             <View style={Styles.itemStyle}>

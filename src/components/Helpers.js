@@ -1,4 +1,4 @@
-import { Alert } from 'react-native';
+import { Alert, PermissionsAndroid, Platform } from 'react-native';
 import { ActionSheet } from 'native-base';
 import moment from 'moment';
 import Utils from '../libs/Utils';
@@ -39,7 +39,7 @@ export function updateOrderToFailWithReason2(phone, configuration, orderCode = n
         destructiveButtonIndex: destructiveIndex,
         title,
       },
-      (buttonIndex) => {
+      async(buttonIndex) => {
   
         if (buttonIndex == cancelIndex || buttonIndex == destructiveIndex) {
           return resolve({ error: 'cancel', buttonIndex });
@@ -47,7 +47,8 @@ export function updateOrderToFailWithReason2(phone, configuration, orderCode = n
           return resolve({ error: 'chooseDate', buttonIndex });
         } else if (buttonIndex == cannotCallIndex || buttonIndex == cannotContactIndex) {
           //cannot contact
-          Utils.validateCallCannotContact(senderPhone, configuration)
+          if(Platform.OS == 'ios'){
+            Utils.validateCallCannotContact(senderPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
@@ -56,9 +57,36 @@ export function updateOrderToFailWithReason2(phone, configuration, orderCode = n
                 return resolve({ error: 'moreCall', buttonIndex });
               } 
             });
+          } else {
+            try{
+              const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+                {
+                  'title': 'Quyền truy cập thông tin SĐT',
+                  'message': 'Ứng dụng tài xế cần thông tin Số Điện Thoại khách hàng'
+                }
+              )
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                Utils.validateCallCannotContact(senderPhone, configuration)
+                .then((result) => {
+                  if (result) { 
+                    return resolve({ error: null, buttonIndex });
+                  } else {
+                    alertMissOfCall(senderPhone);
+                    return resolve({ error: 'moreCall', buttonIndex });
+                  } 
+                });
+              } else {
+                console.log("LOG permission denied")
+              }
+            } catch (err){
+
+            }
+          }
         } else if (buttonIndex == notHangUpIndex) {
           //cannot contact
-          Utils.validateCallNotHangUp(senderPhone, configuration)
+          if(Platform.OS == 'ios'){
+            Utils.validateCallNotHangUp(senderPhone, configuration)
             .then((result) => {
               if (result) { 
                 return resolve({ error: null, buttonIndex });
@@ -67,6 +95,32 @@ export function updateOrderToFailWithReason2(phone, configuration, orderCode = n
                 return resolve({ error: 'moreCall', buttonIndex });
               }
             });
+          } else {
+            try{
+              const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+                {
+                  'title': 'Quyền truy cập thông tin SĐT',
+                  'message': 'Ứng dụng tài xế cần thông tin Số Điện Thoại khách hàng'
+                }
+              )
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                Utils.validateCallNotHangUp(senderPhone, configuration)
+                .then((result) => {
+                  if (result) { 
+                    return resolve({ error: null, buttonIndex });
+                  } else {
+                    alertMissOfCall(senderPhone);
+                    return resolve({ error: 'moreCall', buttonIndex });
+                  }
+                });
+              } else {
+                console.log("LOG permission denied")
+              }
+            } catch (err){
+
+            }
+          }
         } else {
           return resolve({ error: null, buttonIndex });
         }

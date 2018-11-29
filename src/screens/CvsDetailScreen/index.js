@@ -18,6 +18,7 @@ import PopupDialog, { DialogTitle } from 'react-native-popup-dialog';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ProgressBar from '../../components/ProgressBar';
 import LogoButton from '../../components/LogoButton';
+import PopupErrorOnUpdateOrder from '../PopupErrorOnUpdateOrder';
 import BarcodeReader from '../../components/BarcodeReader';
 
 

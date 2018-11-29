@@ -1,6 +1,7 @@
 package com.mpds_new;
 
 import android.app.Application;
+import com.facebook.react.BuildConfig;
 
 import com.facebook.react.ReactApplication;
 import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
@@ -35,7 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
     
     @Override
     public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
+//      return BuildConfig.DEBUG;
+      return true;
     }
 
     @Override

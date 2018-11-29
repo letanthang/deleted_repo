@@ -95,15 +95,15 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 27
     /* buildToolsVersion "23.0.1" ignore in android studio 3 */
 
     defaultConfig {
         applicationId "com.mpds_new"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 15
-        versionName "2.4"
+        targetSdkVersion 26
+        versionCode 16
+        versionName "3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

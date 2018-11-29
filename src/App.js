@@ -37,7 +37,7 @@ import getTheme from '../native-base-theme/components';
 import platform from '../native-base-theme/variables/platform';
 import { live } from './apis/MPDS';
 
-if (false || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
+if (true || (process.env.NODE_ENV || '').toLowerCase() === 'production') {
   // disable console. log in production
   console.log = function () {};
   console.info = function () {};
@@ -76,7 +76,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('Root render');
+    // console.log('Root render');
     // const { store } = this.props;
     const AppNavigator = StackNavigator(
       {

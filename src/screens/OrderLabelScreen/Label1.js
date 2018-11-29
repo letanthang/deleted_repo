@@ -54,7 +54,7 @@ class Label1 extends Component {
       await BluetoothSerial.write('\n\n');
       
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       this.props.navigation.navigate('BluetoothExample');
     }
 }

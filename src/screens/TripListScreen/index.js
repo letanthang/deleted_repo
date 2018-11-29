@@ -132,7 +132,7 @@ class TripListScreen extends Component {
   }
 
   render() {
-    console.log('TripListScreen render');
+    // console.log('TripListScreen render');
     const emptyMessage = this.state.done ? 'Chưa có chuyến hoàn tất' : 'Tất cả chuyến đã hoàn tất';
     const sections = this.groupData();
     return (

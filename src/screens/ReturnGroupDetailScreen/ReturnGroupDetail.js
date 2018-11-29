@@ -82,7 +82,7 @@ class ReturnGroupDetail extends Component {
   }
 
   render() {
-    console.log('ReturnGroupDetail render!');
+    // console.log('ReturnGroupDetail render!');
     const { PickItems, ReturnItems, keyword, showSearch } = this.props;
     const Items = this.type === 'PICK' ? PickItems : ReturnItems;
     const pickGroup = Items.find(g => g.senderHubId === this.senderHubId);

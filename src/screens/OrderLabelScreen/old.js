@@ -28,7 +28,7 @@ class OrderLabelScreen extends Component {
     ImageEditor.cropImage(uri, { offset: { x: 0, y: 250 }, size: { width: 362, height: 250 } }, 
       u => this.props.setProps({ imageUri2: u }), error => console.log(error));
 
-    console.log('Image is save to', uri);
+    // console.log('Image is save to', uri);
   }
 
   onCaptureBarCode = uri => {
@@ -38,10 +38,10 @@ class OrderLabelScreen extends Component {
   render() {
     const orderCode = this.props.navigation.state.params.orderCode;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
-    console.log('OrderLabel render');
+    // console.log('OrderLabel render');
     const { navigate, goBack } = this.props.navigation;
     const { receiverName, receiverAddress, receiverPhone } = order;
-    console.log(order);
+    // console.log(order);
     
     return (
       <Container>

@@ -34,12 +34,12 @@ class HrWebView extends Component {
       return;
     }
     const { cookies, webViewUrl } = this.state;
-    console.log(webViewUrl);
+    // console.log(webViewUrl);
     if (webViewUrl.includes('/hms/static')) {
         const pos = webViewUrl.indexOf('?t62=')
         if (pos > 0) {
           const t62 = webViewUrl.substr(pos + 5, 1000);
-          console.log('Dang nhap voi t62=' + t62);
+          // console.log('Dang nhap voi t62=' + t62);
           
           this.props.loginSuccess(t62)
           this.setState({ logined: true });
@@ -49,7 +49,7 @@ class HrWebView extends Component {
   }
 
   _onMessage = (event) => {
-    console.log('onMessage')
+    // console.log('onMessage')
     const { data } = event.nativeEvent;
     const cookies  = data.split(';'); // `csrftoken=...; rur=...; mid=...; somethingelse=...`
 

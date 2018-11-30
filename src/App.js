@@ -76,7 +76,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('Root render');
+    // console.log('Root render');
     // const { store } = this.props;
     const AppNavigator = StackNavigator(
       {

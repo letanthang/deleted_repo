@@ -79,7 +79,7 @@ class POUpdateWeightSizeScreen extends Component {
       orderCode: orderCode,
       reason: 'Hang to bat thuong'
     };
-    console.log('onSaveWeightSize');
+    // console.log('onSaveWeightSize');
     this.props.updateWeightSize(params);
     this.popupDialog.dismiss();
   } 
@@ -174,7 +174,7 @@ class POUpdateWeightSizeScreen extends Component {
   }
 
   render() {
-    console.log("POUpdate weight size screen >> render Func")
+    // console.log("POUpdate weight size screen >> render Func")
     orderCode = this.props.navigation.state.params.orderCode;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     const { collectAmount, weight, length, width, height } = order;

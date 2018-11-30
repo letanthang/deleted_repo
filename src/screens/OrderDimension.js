@@ -41,7 +41,7 @@ class OrderDimension extends Component {
     const { orderCode } = this.props;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     this.checkInfoChanged(order);
-    console.log('check info change kkaka');
+    // console.log('check info change kkaka');
 
     this.setState({ [prop]: value });
   }
@@ -62,7 +62,7 @@ class OrderDimension extends Component {
       orderCode: this.props.orderCode,
       reason: 'Hang to bat thuong'
     };
-    console.log('onSaveWeightSize');
+    // console.log('onSaveWeightSize');
     this.props.updateWeightSize(params);
     // this.props.popupDialogIn.dismiss();
   } 
@@ -137,7 +137,7 @@ class OrderDimension extends Component {
   }
 
   render() {
-    console.log("OrderDimension >> render ")
+    // console.log("OrderDimension >> render ")
     const { orderCode } = this.props;
     const order = Utils.getOrder(this.props.db, orderCode, 'PICK');
     const { collectAmount, weight, length, width, height } = order;

@@ -34,13 +34,13 @@ class OrderLabelsScreen extends Component {
   }
 
   nextOrder() {
-    console.log('nextOrder');
+    // console.log('nextOrder');
     this.setState({ index: (this.state.index + 1) % this.orders.length });
   }
 
   nextOrderForPrint() {
     const noImageNum = this.orders.filter(o => !o.imageUri).length;
-    console.log('nextOrderForPrint ' + noImageNum);
+    // console.log('nextOrderForPrint ' + noImageNum);
     if (noImageNum > 0) {
       this.setState({ index: (this.state.index + 1) % this.orders.length });
     }
